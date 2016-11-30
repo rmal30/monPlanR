@@ -9,6 +9,7 @@ class Footer extends React.Component {
                     <p>A Monash University Course Planner, designed by Monash Students, for Monash Students.</p>
                     <p>This project is licensed under <strong>the MIT License</strong> by monPlan</p>
                     <p>Copyright &copy; monPlan 2016 | Copyright &copy; Monash University 2016</p>
+                    <img className="logo" src="../resources/img/monash.png" alt="logo" />
                 </div>
             </div>
         )
