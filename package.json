@@ -1,7 +1,7 @@
 {
-  "name": "react-boilerplate",
+  "name": "monPlanR",
   "version": "1.0.0",
-  "description": "Joshua-Xavier's spin on boilerplate for a basic vanilla react app",
+  "description": "A small attempt to implement monPlan with React to see if it is worth investing in fully.",
   "main": "./app/index.jsx",
   "dependencies": {
     "axios": "^0.14.0",
@@ -27,12 +27,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joshua-xavier/react-boilerplate.git"
+    "url": "git+https://github.com/MonashUnitPlanner/monPlanR.git"
   },
   "author": "Josh Nelsson-Smith",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joshua-xavier/react-boilerplate/issues"
+    "url": "https://github.com/MonashUnitPlanner/monPlanR/issues"
   },
-  "homepage": "https://github.com/joshua-xavier/react-boilerplate#readme"
+  "homepage": "https://github.com/MonashUnitPlanner/monPlanR#readme"
 }
