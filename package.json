@@ -5,10 +5,13 @@
   "main": "./app/index.jsx",
   "dependencies": {
     "axios": "^0.14.0",
+    "lodash": "^4.17.2",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-router": "^2.8.1"
+    "react-router": "^2.8.1",
+    "semantic-ui-css": "^2.2.4",
+    "semantic-ui-react": "^0.61.9"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
