@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
+import UnitSearch from './UnitSearch.jsx'
 
-class Header extends React.Component {
+class Header extends Component {
     render () {
         return (
             <div className="ui top attached inverted stackable menu">
@@ -8,15 +9,11 @@ class Header extends React.Component {
             <img className="logo" src="../resources/img/logo.png" alt="logo" />
             monPlan Alpha
         </a>
+
         <div id="unitSearch" className="item">
-            <div className="ui search">
-                <div className="ui icon input">
-                    <input className="prompt" type="text" placeholder="Add Unit" />
-                    <i className="search icon"></i>
-                </div>
-                <div className="results"></div>
-            </div>
+            <UnitSearch />
         </div>
+
         <div id="creditCounter" className="item">
             <div className="ui green large label">
                 Total Credits Earnt
