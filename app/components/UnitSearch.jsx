@@ -2,7 +2,8 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { Search, Grid, Header } from 'semantic-ui-react'
 
-const source = [
+
+const test = [
   {"title": "FIT2001",
    "description" : "Systems Development"
   },
@@ -19,6 +20,14 @@ const source = [
    "description" : "System Tools"
   },
 ]
+
+var request = new XMLHttpRequest();
+request.open("GET", "../data/units/simple.json", false);
+request.send(null);
+var source = JSON.parse(request.responseText);    
+console.log(JSON.stringify(source))
+
+
 
 export default class UnitSearch extends Component {
   constructor(props) {
@@ -50,8 +59,11 @@ export default class UnitSearch extends Component {
       if (this.state.value.length < 1) return this.resetComponent()
 
       const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-      const isMatch = (result) => re.test(result.title) || re.test(result.description)
+      const isMatch = (result) => re.test(result.UnitCode) || re.test(result.description)
 
+      if (this.results.length > 5) {
+        this.setS
+      }
       this.setState({
         isLoading: false,
         results: _.filter(source, isMatch),
