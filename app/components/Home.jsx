@@ -1,37 +1,51 @@
-import React from 'react'
+import React from "react";
+import {Button, Container, Icon, Form, Grid} from "semantic-ui-react";
 
+/**
+ * The home component
+ * @param props
+ **/
 function Home(props) {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    };
+    const startPlanning = (e) => {
+
+    };
+    const startPlanningEmpty = (e) => {
+
+    };
     return (
-        <div className="ui main text container">
-        <div id="welcome" className="ui container">
-            <h1>Welcome to monPlan!</h1>
-            <p>monPlan allows you to plan your course structure whilst you are at
-                Monash University. We know that choosing units isn't particularly easy, so we've
-                designed a web app that you can use to simplify tasks.</p>
+        <Container className="ui main text">
+            <div id="welcome" className="ui container">
+                <h1>Welcome to monPlan!</h1>
+                <p>monPlan allows you to plan your course structure whilst you are at
+                    Monash University. We know that choosing units isn't particularly easy, so we've
+                    designed a web app that you can use to simplify tasks.</p>
                 <p>Please enter your commencement and graduation year to get started.</p>
-                <div className="row">
-                    <form onSubmit="return false;" className="ui large form">
+                <Grid.Row>
+                    <Form onSubmit={handleSubmit} size="large">
                         <div className="ui raised segment">
-                            <div className="field">
+                            <Form.Field>
                                 <div className="ui labeled input">
                                     <div className="ui label">Commencement Year:</div>
-                                    <input id="startYr" type="text" placeholder="2016" />
+                                    <input id="startYr" name="startYr" type="text" placeholder="2016" />
                                 </div>
-                            </div>
-                            <div className="field">
+                            </Form.Field>
+                            <Form.Field>
                                 <div className="ui labeled input">
                                     <div className="ui label">Graduation Year:</div>
-                                    <input id="gradYr" type="text" placeholder="2018" />
+                                    <input id="gradYr" name="gradYr" type="text" placeholder="2018" />
                                 </div>
-                            </div>
-                            <button id="startPlanning" className="ui green button">Start Planning <i className="right arrow icon"></i></button>
-                            <button id="startPlanningEmpty" className="ui button">Start with empty template</button>
+                            </Form.Field>
+                            <Button onClick={startPlanning} color="green">Start Planning <Icon name="right arrow" /></Button>
+                            <Button onClick={startPlanningEmpty}>Start with empty template</Button>
                         </div>
-                    </form>
-                </div>
+                    </Form>
+                </Grid.Row>
             </div>
-        </div>
+        </Container>
     );
 }
 
-export default Home
+export default Home;

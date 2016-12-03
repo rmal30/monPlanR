@@ -1,6 +1,6 @@
-import _ from 'lodash'
-import React, { Component } from 'react'
-import { Search, Grid, Header } from 'semantic-ui-react'
+import _ from "lodash";
+import React, { Component } from "react";
+import { Search, Grid, Header } from "semantic-ui-react";
 
 const source = [
     {"title": "FIT2001",
@@ -18,7 +18,7 @@ const source = [
     {"title": "FIT3042",
         "description" : "System Tools"
     },
-]
+];
 
 export default class UnitSearch extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ export default class UnitSearch extends Component {
         this.state = {
             isLoading: false,
             results: [],
-            value: ''
+            value: ""
         };
 
         this.resetComponent = this.resetComponent.bind(this);
@@ -36,20 +36,22 @@ export default class UnitSearch extends Component {
     }
 
     resetComponent() {
-        this.setState({ isLoading: false, results: [], value: '' })
+        this.setState({ isLoading: false, results: [], value: ""});
     }
 
     handleChange(e, result) {
-        this.setState({ value: result.title })
+        this.setState({ value: result.title });
     }
 
     handleSearchChange(e, value) {
-        this.setState({ isLoading: true, value })
+        this.setState({ isLoading: true, value });
 
         setTimeout(() => {
-            if (this.state.value.length < 1) return this.resetComponent()
+            if(this.state.value.length < 1) {
+                return this.resetComponent();
+            }
 
-            const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
+            const re = new RegExp(_.escapeRegExp(this.state.value), "i");
             const isMatch = (result) => re.test(result.title) || re.test(result.description);
 
             this.setState({
@@ -60,7 +62,7 @@ export default class UnitSearch extends Component {
     }
 
     render() {
-        const { isLoading, value, results } = this.state
+        const { isLoading, value, results } = this.state;
 
         return (
             <Search
@@ -71,6 +73,6 @@ export default class UnitSearch extends Component {
                 value={value}
                 {...this.props}
                 />
-        )
+        );
     }
 }
