@@ -1,9 +1,10 @@
-import React from 'react'
-import { Route, IndexRoute } from 'react-router'
+import React from "react";
+import { Route, IndexRoute } from "react-router";
 
 /* Components import here */
-import Main from '../components/Main.jsx'
-import Home from '../components/Home.jsx'
+import Main from "../components/Main.jsx";
+import Home from "../components/Home.jsx";
+import Plan from "../components/Plan.jsx";
 
 /* Containers import here*/
 
@@ -11,5 +12,6 @@ import Home from '../components/Home.jsx'
 module.exports = (
   <Route path="/" component={Main}>
       <IndexRoute component={Home} />
+      <Route path="plan" component={Plan} />
   </Route>
-)
+);
