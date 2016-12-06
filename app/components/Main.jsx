@@ -1,15 +1,24 @@
 import React from "react";
-import Footer from "./Footer.jsx";
+
 import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
+
+/* These imports handle the smooth transitioning between app views */
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import '../resources/css/transitions.css'
 
 function Main(props) {
     return (
         <div className='main-container'>
             <Header />
-            {props.children}
+            <ReactCSSTransitionGroup
+                    transitionName="appear"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}>
+                    {React.cloneElement(props.children, {key: props.location.pathname})}
+            </ReactCSSTransitionGroup>
             <Footer />
         </div>
-
     );
 }
 

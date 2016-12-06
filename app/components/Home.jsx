@@ -1,5 +1,6 @@
 import React from "react";
 import {Button, Container, Icon, Form, Grid} from "semantic-ui-react";
+import { Link } from 'react-router'
 
 /**
  * The home component
@@ -38,7 +39,7 @@ function Home(props) {
                                     <input id="gradYr" name="gradYr" type="text" placeholder="2018" />
                                 </div>
                             </Form.Field>
-                            <Button onClick={startPlanning} color="green">Start Planning <Icon name="right arrow" /></Button>
+                            <Link to="/plan"><Button color="green">Start Planning <Icon name="right arrow" /></Button></Link>
                             <Button onClick={startPlanningEmpty}>Start with empty template</Button>
                         </div>
                     </Form>
