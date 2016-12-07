@@ -1,10 +1,13 @@
 import React, {Component} from "react";
 import {Button, Radio, Icon, Modal} from "semantic-ui-react";
+import updatePrefs from "../../usrConfig/preferences.js"
 
 class SettingsModal extends Component {
     constructor() {
         super();
-        this.state = {modalOpen: false};
+        this.state = {
+          modalOpen: false
+        };
     }
 
     handleOpen() {
@@ -16,6 +19,9 @@ class SettingsModal extends Component {
         this.setState({
             modalOpen: false
         });
+    }
+    handleSave(){
+
     }
     render() {
         return (
@@ -29,7 +35,11 @@ class SettingsModal extends Component {
                 <Modal.Content>
                     <Modal.Description>
                       <h3>General</h3>
-                      Tooltips <Radio toggle />
+                      Tooltips <Radio name="" toggle
+                          checked = {updatePrefs('tooltips')}
+
+                      >
+                    </Radio>
                     </Modal.Description>
                 </Modal.Content>
                 <Modal.Actions>
