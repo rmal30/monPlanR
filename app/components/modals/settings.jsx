@@ -1,13 +1,39 @@
 import React, {Component} from "react";
 import {Button, Radio, Icon, Modal} from "semantic-ui-react";
-import updatePrefs from "../../usrConfig/preferences.js"
 
 class SettingsModal extends Component {
+
     constructor() {
         super();
         this.state = {
-          modalOpen: false
+            modalOpen: false
         };
+        this.defaultPrefs = {
+            tooltips: true
+        };
+        //set up currentPrefences
+        this.prefs = $.extend(this.defaultPrefs);
+    }
+
+    //this function gets user prefences
+    getPrefs(){
+        var usrTooltips = localStorage.getItem('tooltips');
+
+
+        if(usrTooltips !== false){
+            this.prefs.tooltips = usrTooltips === "true";
+        }
+    }
+
+    //this function sets up prefences
+    setPrefs(){
+        localStorage.setItem("tooltips",this.prefs.tooltips);
+    }
+
+    updatePrefs(prefType){
+        if(prefType === "tooltips"){
+            return this.prefs.tooltips
+        }
     }
 
     handleOpen() {
@@ -36,7 +62,7 @@ class SettingsModal extends Component {
                     <Modal.Description>
                       <h3>General</h3>
                       Tooltips <Radio name="" toggle
-                          checked = {updatePrefs('tooltips')}
+                          checked = {this.updatePrefs("tooltips")}
 
                       >
                     </Radio>
