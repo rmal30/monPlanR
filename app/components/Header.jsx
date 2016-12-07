@@ -3,6 +3,7 @@ import {Search, Grid, Container, Icon, Menu, Label, Dropdown, Popup} from "seman
 import UnitSearch from "./UnitSearch.jsx";
 import ToSModal from "./modals/tos.jsx";
 import PrivacyModal from "./modals/privacy.jsx";
+import SettingsModal from "./modals/settings.jsx"
 
 class Header extends Component {
     static getToSModalTrigger(handleOpen) {
@@ -10,6 +11,9 @@ class Header extends Component {
     }
     static getPrivacyModalTrigger(handleOpen) {
         return <Dropdown.Item as="a" onClick={handleOpen}>Privacy Policy</Dropdown.Item>;
+    }
+    static getSettingsModalTrigger(handleOpen) {
+        return <Dropdown.Item as="a" onClick={handleOpen}>User Settings</Dropdown.Item>;
     }
     render() {
         return (
@@ -38,6 +42,7 @@ class Header extends Component {
                             <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
                             <ToSModal getTrigger={Header.getToSModalTrigger} />
                             <PrivacyModal getTrigger={Header.getPrivacyModalTrigger} />
+                            <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Menu>
