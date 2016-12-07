@@ -17,7 +17,7 @@ class SettingsModal extends Component {
 
     //this function gets user prefences
     getPrefs(){
-        var usrTooltips = localStorage.getItem('tooltips');
+        var usrTooltips = localStorage.getItem("tooltips");
 
 
         if(usrTooltips !== false){
@@ -25,15 +25,13 @@ class SettingsModal extends Component {
         }
     }
 
-    //this function sets up prefences
-    setPrefs(){
-        localStorage.setItem("tooltips",this.prefs.tooltips);
+    //this function temporartily saves prefences
+    handleChangeTooltips(type){
+        this.prefs.tooltips = type;
     }
 
     updatePrefs(prefType){
-        if(prefType === "tooltips"){
-            return this.prefs.tooltips
-        }
+        return (prefType === "tooltips" && this.prefs.tooltips); //return boolean value based on localStorage Type and Setting Value
     }
 
     handleOpen() {
@@ -47,7 +45,10 @@ class SettingsModal extends Component {
         });
     }
     handleSave(){
-
+        localStorage.setItem("tooltips", this.prefs.tooltips)
+    }
+    componentDidMount(){
+      this.getPrefs();
     }
     render() {
         return (
@@ -63,7 +64,7 @@ class SettingsModal extends Component {
                       <h3>General</h3>
                       Tooltips <Radio name="" toggle
                           checked = {this.updatePrefs("tooltips")}
-
+                          onChange = {this.handleChangeTooltips(this.value)}
                       >
                     </Radio>
                     </Modal.Description>
