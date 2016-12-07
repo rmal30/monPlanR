@@ -71,6 +71,7 @@ export default class UnitSearch extends Component {
                 onSearchChange={this.handleSearchChange}
                 results={results}
                 value={value}
+                placeholder="Add Unit"
                 {...this.props}
                 />
         );
