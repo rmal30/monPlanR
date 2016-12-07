@@ -11,7 +11,6 @@ const testData = {
     "Proh": "BUS2021, CPE2003, CSE1204, CSE1205, GCO1813, GCO2601, GCO2852, GCO2826, IMS1001, IMS1002, IMS1805, IMS2071, IMS9001",
     "usefulnessScore": 3,
     "likeScore": 3,
-
   }
 
 function UnitInfo(props) {

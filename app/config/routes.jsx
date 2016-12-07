@@ -5,15 +5,14 @@ import { Route, IndexRoute } from "react-router";
 import Main from "../components/Main.jsx";
 import Home from "../components/Home.jsx";
 import Plan from "../components/Plan.jsx";
-import UnitInfo from "../components/UnitInfo.jsx";
 
 /* Containers import here*/
-
+import UnitInfoContainer from "../containers/UnitInfoContainer.jsx";
 
 module.exports = (
   <Route path="/" component={Main}>
       <IndexRoute component={Home} />
       <Route path="plan" component={Plan} />
-      <Route path="unit" component={UnitInfo} />
+      <Route path="unit" component={UnitInfoContainer} />
   </Route>
 );
