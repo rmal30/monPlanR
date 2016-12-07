@@ -1,6 +1,5 @@
 import React from "react";
-
-import { Grid, Card, Rating, Icon, Button } from "semantic-ui-react"
+import { Rating, Icon } from "semantic-ui-react"
 
 function SetuRating(props) {
     return (

@@ -1,7 +1,5 @@
 import React from "react";
-
-import { Grid, Card, Rating, Icon, Button } from "semantic-ui-react"
-
+import { Grid, Icon, Button } from "semantic-ui-react"
 import SetuRating from "./SetuRating.jsx"
 
 const testData = {
@@ -15,34 +13,6 @@ const testData = {
     "likeScore": 3,
 
   }
-
-//The UnitInfoAlternate 
-function UnitInfoAlternate(props) {
-    return (
-        <div className="ui raised segment">
-            <Card>
-                <Card.Content>
-                    <Card.Header>FIT2001 - Systems development</Card.Header>
-                    <Card.Meta>Faculty of Information Technology</Card.Meta>
-                    <Card.Description>The unit introduces students to systems analysis and design as a problem solving activity, within the framework of a selected methodology. It will focus on contemporary industry practice; investigating understanding and documenting system requirements; a range of design and implementation activities; and professional skills required for systems development.</Card.Description>
-               </Card.Content>
-               <Card.Content>
-               Setu Rating - I learnt a lot<br />
-                    <Rating icon='star' defaultRating={3} maxRating={6} disabled/>
-               <br />
-               Setu Rating - I loved this unit
-                    <Rating icon='heart' defaultRating={3} maxRating={6} disabled/>
-               </Card.Content>
-               <Card.Content>
-                    <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + testData.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
-               </Card.Content>
-           </Card>
-           
-       </div>
-    );
-}
-
-
 
 function UnitInfo(props) {
     return (
