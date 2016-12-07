@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Dropdown, Table} from "semantic-ui-react";
+import {Button, Dropdown, Table} from "semantic-ui-react";
 import Unit from "./Unit.jsx";
 
 /**
@@ -12,6 +12,10 @@ import Unit from "./Unit.jsx";
  * @arg props
  */
 function TeachingPeriod(props) {
+    const handleDelete = () => {
+        props.deleteTeachingPeriod(props.index);
+    };
+
     const deleteUnit = unitIndex => {
         props.deleteUnit(props.index, unitIndex);
     };
@@ -34,11 +38,7 @@ function TeachingPeriod(props) {
         <Table.Row>
             <Table.Cell className="teachingPeriod cell">
                 {props.year}-{props.classification}
-                <Dropdown icon="setting">
-                    <Dropdown.Menu>
-                        <Dropdown.Item text="Remove" />
-                    </Dropdown.Menu>
-                </Dropdown>
+                <Button basic onClick={handleDelete} size="tiny" color="red" icon="close" />
             </Table.Cell>
             {unitsEle}
         </Table.Row>
