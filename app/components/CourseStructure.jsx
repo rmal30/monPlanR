@@ -7,6 +7,13 @@ class CourseStructure extends React.Component {
         super();
         this.state = {"teachingPeriods":[{"year":2016,"type":"S1-01","numberOfUnits":4,"units":["FIT1008","FIT1013","FIT1047","FIT1045"]},{"year":2016,"type":"S2-02","numberOfUnits":4,"units":["FIT1008","FIT2004","FIT1049","MTH1035"]},{"year":2017,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]},{"year":2017,"type":"S2-02","numberOfUnits":4,"units":["FIT1049",null,null,null]},{"year":2018,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]},{"year":2018,"type":"S2-02","numberOfUnits":4,"units":[null,null,null,null]},{"year":2019,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]},{"year":2019,"type":"S2-02","numberOfUnits":4,"units":[null,null,null,null]},{"year":2020,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]}]};
     }
+    deleteTeachingPeriod(teachingPeriodIndex) {
+        const updatedTeachingPeriods = this.state.teachingPeriods;
+        updatedTeachingPeriods.splice(teachingPeriodIndex, 1);
+        this.setState({
+            teachingPeriods: updatedTeachingPeriods
+        });
+    }
     deleteUnit(teachingPeriodIndex, unitIndex) {
         const updatedTeachingPeriods = this.state.teachingPeriods;
         updatedTeachingPeriods[teachingPeriodIndex].units[unitIndex] = undefined;
@@ -22,6 +29,7 @@ class CourseStructure extends React.Component {
                         year={teachingPeriod.year}
                         classification={teachingPeriod.type}
                         numberOfUnits={teachingPeriod.numberOfUnits}
+                        deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
                         deleteUnit={this.deleteUnit.bind(this)}
                         units={teachingPeriod.units} />
         });
