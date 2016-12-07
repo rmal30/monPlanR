@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, { Component } from "react";
 import {Table} from "semantic-ui-react";
 import TeachingPeriod from "./TeachingPeriod.jsx"
 
-class CourseStructure extends React.Component {
+class CourseStructure extends Component {
     render() {
         return (
             <Table celled fixed>
