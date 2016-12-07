@@ -42,7 +42,7 @@ class Header extends Component {
                             <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
                             <ToSModal getTrigger={Header.getToSModalTrigger} />
                             <PrivacyModal getTrigger={Header.getPrivacyModalTrigger} />
-                            <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
+                            <SettingsModal getTrigger={Header.getSettingsModalTrigger} icon="settings" />
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Menu>

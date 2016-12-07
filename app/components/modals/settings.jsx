@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Icon, Modal} from "semantic-ui-react";
+import {Button, Radio, Icon, Modal} from "semantic-ui-react";
 
 class SettingsModal extends Component {
     constructor() {
@@ -29,10 +29,11 @@ class SettingsModal extends Component {
                 <Modal.Content>
                     <Modal.Description>
                       <h3>General</h3>
+                      Tooltips <Radio toggle />
                     </Modal.Description>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button content="Save" color="green" icon="save inverted" labelPosition="right" />
+                    <Button content="Save" color="green" icon="save" labelPosition="right" />
                     <Button content="Close" color="grey" icon="close" labelPosition="right" onClick={this.handleClose.bind(this)} />
                 </Modal.Actions>
             </Modal>
