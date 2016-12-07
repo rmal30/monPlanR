@@ -19,12 +19,6 @@ class Header extends Component {
                     monPlan Alpha
                 </Menu.Header>
                 <UnitSearch className="item" />
-                <Menu.Item id="creditCounter">
-                    <Label color="green" size="large">
-                        Total Credits Earnt
-                        <Label.Detail id="credits">0</Label.Detail>
-                    </Label>
-                </Menu.Item>
                 <Menu.Menu position="right">
                     <Popup
                         id="displayMessage"
@@ -32,7 +26,7 @@ class Header extends Component {
                         header="Everything looks good"
                         content="As you add units, we will inform you of any conflicts, such as missing prerequisites."
                         />
-                    <Dropdown icon="info" className="item">
+                    <Dropdown floating icon="info" className="item">
                         <Dropdown.Menu>
                             <Dropdown.Header>Quick Links (for Devs)</Dropdown.Header>
                             <Dropdown.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Dropdown.Item>

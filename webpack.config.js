@@ -1,19 +1,21 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: __dirname + '/app/index.html',
-    filename: 'index.html',
-    inject: 'body'
-})
+    template: __dirname + "/app/index.html",
+    filename: "index.html",
+    inject: "body"
+});
 
 module.exports = {
     entry: [
-        './app/index.jsx'
+        "./app/index.jsx"
     ],
 
+    devtool: "eval-source-map",
+
     output: {
-        path: __dirname + '/dist',
-        filename: 'bundle.js'
+        path: __dirname + "/dist",
+        filename: "bundle.js"
     },
 
     module: {
@@ -25,4 +27,4 @@ module.exports = {
     },
 
     plugins: [HtmlWebpackPluginConfig]
-}
+};
