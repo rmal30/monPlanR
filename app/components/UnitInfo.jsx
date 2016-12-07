@@ -47,23 +47,31 @@ function UnitInfoAlternate(props) {
 function UnitInfo(props) {
     return (
         <div className="ui raised segment">
-            <Grid>
-                <Grid.Row>
-                    <Grid.Column width={12}>
-                        <h3>{testData.UnitCode + " - " + testData.UnitName}</h3>
-                        <hr />
-                        <p>{testData.Sypnosis}</p>
-                        <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + testData.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
-                    </Grid.Column>
-                    <Grid.Column width={4}>
-                        <Button floated='right' onClick={function(){
+            <Button floated="right" onClick={function(){
                             alert("it worked");
-                        }}><Icon name="close" /></Button>
-                        <SetuRating starRating={testData.usefulnessScore} heartRating={testData.likeScore} />
-            
-                        
-                    </Grid.Column>
+                        }}>Collapse <Icon name="chevron up" /></Button>
+            <Grid celled>
+                <Grid.Column width={12}>
+                    <Grid.Row>
+                            <h3>{testData.UnitCode + " - " + testData.UnitName}</h3>
+                            <hr />
+                            <p>{testData.Sypnosis}</p>
+                            <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + testData.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
+                    
+                    </Grid.Row>
+                </Grid.Column>
+
+                <Grid.Column width={4}>
+                <Grid.Row>
+                          
                 </Grid.Row>
+                <Grid.Row>
+                    <SetuRating starRating={testData.usefulnessScore} heartRating={testData.likeScore} />
+                </Grid.Row>
+                      
+                </Grid.Column>
+
+                
             </Grid>
             
        </div>
