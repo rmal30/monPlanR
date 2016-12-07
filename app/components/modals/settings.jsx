@@ -45,10 +45,10 @@ class SettingsModal extends Component {
         });
     }
     handleSave(){
-        localStorage.setItem("tooltips", this.prefs.tooltips)
+        localStorage.setItem("tooltips", this.prefs.tooltips);
     }
     componentDidMount(){
-      this.getPrefs();
+        this.getPrefs();
     }
     render() {
         return (
@@ -62,7 +62,8 @@ class SettingsModal extends Component {
                 <Modal.Content>
                     <Modal.Description>
                       <h3>General</h3>
-                      Tooltips <Radio name="" toggle
+                      Tooltips <Radio
+                          toggle
                           checked = {this.updatePrefs("tooltips")}
                           onChange = {this.handleChangeTooltips(this.value)}
                       >
