@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Grid, Icon, Button } from "semantic-ui-react"
+import { Grid, Icon, Button } from "semantic-ui-react";
 
 function CollapseButton(props){
     if(props.collapse){
@@ -13,7 +13,7 @@ function CollapseButton(props){
             <Button floated="right" onClick={props.onCollapseClick}>
                     Hide unit details <Icon name="chevron up" />
             </Button>
-        )
+        );
     }
 }
 
