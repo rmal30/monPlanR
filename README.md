@@ -9,7 +9,7 @@ sudo apt-get install npm
 ```
 Currently the system is using npm for the ES6 transpiling and run scripts. To start the project first install dependencies:
 ```
-cd ~\path\to\dir\monPlanR
+cd ~/path/to/dir/monPlanR
 npm install
 ```
 then to run development environment:
