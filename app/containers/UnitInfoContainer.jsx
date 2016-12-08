@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import UnitInfo from "../components/UnitInfo.jsx"
+import UnitInfo from "../components/Unit/UnitInfo.jsx"
 
 const testData = {
     "UnitCode": "FIT2001",

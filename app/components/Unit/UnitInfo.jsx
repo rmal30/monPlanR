@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { Grid, Icon, Button } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
-import CollapseButton from "./CollapseButton.jsx";
+import CollapseButton from "../CollapseButton.jsx";
 
 function UnitInfo(props) {
 
