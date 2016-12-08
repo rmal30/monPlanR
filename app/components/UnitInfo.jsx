@@ -1,28 +1,35 @@
 import React from "react";
 import { Grid, Icon, Button } from "semantic-ui-react"
 import SetuRating from "./SetuRating.jsx"
+import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx"
+import CollapseButton from "./CollapseButton.jsx"
 
 function UnitInfo(props) {
 
     if (props.collapse){
         return (
              <div className="ui raised segment">
-                <Button floated="right" onClick={props.onCollapseClick}>
-                    Show unit details <Icon name="chevron down" />
-                </Button>
+                <CollapseButton 
+                    collapse={props.collapse} 
+                    onCollapseClick={props.onCollapseClick} />
             </div>
         )
     } else {
         if (props.isLoading){
             return (
                 <div className="ui raised segment">
-                    <p>Loading...</p>
-                </div>
+                   <CollapseButton 
+                        collapse={props.collapse} 
+                        onCollapseClick={props.onCollapseClick} />
+                   <UnitInfoPlaceholder />
+            </div>
             )
         } else {
             return (
                 <div className="ui raised segment">
-                    <Button floated="right" onClick={props.onCollapseClick}>Collapse <Icon name="chevron up" /></Button>
+                   <CollapseButton 
+                        collapse={props.collapse} 
+                        onCollapseClick={props.onCollapseClick} />
                     <Grid celled>
                         <Grid.Column width={12}>
                             <Grid.Row>
