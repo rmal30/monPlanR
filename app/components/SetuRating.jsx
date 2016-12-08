@@ -4,11 +4,11 @@ import { Rating, Icon } from "semantic-ui-react"
 function SetuRating(props) {
     return (
         <div id="setu-rating">
-            <p>Setu Rating - I learnt a lot</p>
-            <Rating icon='star' defaultRating={props.starRating} maxRating={6} disabled/>
+            <p>I learnt a lot</p>
+            <Rating icon='star' defaultRating={props.starRating} maxRating={5} disabled/>
             <hr />
-            <p>Setu Rating - I loved this unit</p>
-            <Rating icon='heart' defaultRating={props.heartRating} maxRating={6} disabled/>
+            <p>I enjoyed the unit</p>
+            <Rating icon='heart' defaultRating={props.heartRating} maxRating={5} disabled/>
         </div>
         
             
