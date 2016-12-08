@@ -2,10 +2,10 @@ import React from "react";
 import { Route, IndexRoute } from "react-router";
 
 /* Components import here */
-import Main from "../components/Main.jsx";
-import Home from "../components/Home.jsx";
-import Plan from "../components/Plan.jsx";
-import MainLoading from "../components/MainLoading.jsx";
+import Main from "../components/base/Main.jsx";
+import Home from "../components/base/Home.jsx";
+import Plan from "../components/base/Plan.jsx";
+import MainLoading from "../components/base/MainLoading.jsx";
 import tooltips from "../components/multi/tooltips.jsx";
 /* Containers import here*/
 
