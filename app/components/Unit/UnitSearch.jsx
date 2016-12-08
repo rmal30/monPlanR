@@ -1,24 +1,17 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Search, Grid, Header } from "semantic-ui-react";
+import { Search, Grid, Header, Item } from "semantic-ui-react";
+import getUnitData from "../../utils/unitSearch";
+import axios from 'axios';
 
-const source = [
-    {"title": "FIT2001",
-        "description" : "Systems Development"
-    },
-    {"title": "FIT2024",
-        "description" : "Software Engineering Practice"
-    },
-    {"title": "FIT2069",
-        "description" : "Computer Architecture"
-    },
-    {"title": "FIT2070",
-        "description" : "Operating Systems"
-    },
-    {"title": "FIT3042",
-        "description" : "System Tools"
-    },
-];
+let source = {}
+const resultRenderer = ({UnitCode, UnitName}) => (
+    <div>
+        <h5>{UnitCode}</h5>
+        <p>{UnitName}</p>
+    </div>
+    
+)
 
 export default class UnitSearch extends Component {
     constructor(props) {
@@ -28,11 +21,25 @@ export default class UnitSearch extends Component {
             results: [],
             value: ""
         };
-
+        
         this.resetComponent = this.resetComponent.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleResultSelect = this.handleResultSelect.bind(this);
 
+    }
+
+    componentDidMount() {
+        axios.get("../../data/units/simple.json")
+            .then(function(response) {
+                source = response.data;
+                this.setState({
+                    isLoading: false
+                })
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
     }
 
     resetComponent() {
@@ -40,7 +47,9 @@ export default class UnitSearch extends Component {
     }
 
     handleChange(e, result) {
-        this.setState({ value: result.title });
+        this.setState({ 
+            value: result.UnitCode,
+        });
     }
 
     handleSearchChange(e, value) {
@@ -52,13 +61,24 @@ export default class UnitSearch extends Component {
             }
 
             const re = new RegExp(_.escapeRegExp(this.state.value), "i");
-            const isMatch = (result) => re.test(result.title) || re.test(result.description);
-
+            const isMatch = (result) => re.test(result.UnitCode) || re.test(result.UnitName);
+            let matches = _.filter(source, isMatch)
+            let reducedResults
+            if (matches.length > 5){
+                reducedResults = matches.slice(0,5)
+            } else {
+                reducedResults = matches
+            }
+            
             this.setState({
                 isLoading: false,
-                results: _.filter(source, isMatch),
+                results: reducedResults,
             });
         }, 500);
+    }
+
+    handleResultSelect(){
+        console.log("hello")
     }
 
     render() {
@@ -66,14 +86,16 @@ export default class UnitSearch extends Component {
 
         return (
             <Search
+                resultRenderer={resultRenderer}
                 loading={isLoading}
                 onChange={this.handleChange}
                 onSearchChange={this.handleSearchChange}
-                results={results}
+                results={this.state.results}
                 value={value}
                 placeholder="Add Unit"
+                noResultsMessage="No units found"
                 {...this.props}
-                />
+            />
         );
     }
 }
