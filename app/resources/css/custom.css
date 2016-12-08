@@ -1,5 +1,7 @@
 body {
     background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
 }
 
 .ui.menu .item img.logo {
@@ -14,22 +16,17 @@ body {
     margin-top: 2em;
 }
 
+.ui.segment{
+    height: 100%;
+    flex: 1;
+}
+
 .ui.footer.segment {
     margin: 5em 0em 0em;
     padding: 3em 0em;
     background-color: #005d95;
+    flex: 2
 }
-
-#Site {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-}
-
-#Site-Content {
-  flex: 2;
-}
-
 .display-none {
     display: none;
 }
@@ -44,4 +41,12 @@ body {
 
 .ui.inverted.menu {
   background-color: #005d95;
+}
+
+#app{
+  min-height: 100%
+}
+
+.main-container{
+  min-height: 100%;
 }

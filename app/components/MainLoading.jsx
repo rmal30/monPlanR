@@ -8,7 +8,7 @@ import "../resources/css/transitions.css";
 function MainLoading(props) {
     return (
 
-    <Segment>
+    <Segment height="100%">
       <Dimmer active>
         <Loader />
       </Dimmer>
