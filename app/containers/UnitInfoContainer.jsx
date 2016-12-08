@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import UnitInfo from "../components/Unit/UnitInfo.jsx"
+import UnitInfo from "../components/Unit/UnitInfo.jsx";
 
 const testData = {
     "UnitCode": "FIT2001",
@@ -10,7 +10,7 @@ const testData = {
     "Proh": "BUS2021, CPE2003, CSE1204, CSE1205, GCO1813, GCO2601, GCO2852, GCO2826, IMS1001, IMS1002, IMS1805, IMS2071, IMS9001",
     "usefulnessScore": 3,
     "likeScore": 3
-  }
+  };
 
 class UnitInfoContainer extends Component {
     constructor(props){
@@ -35,12 +35,12 @@ class UnitInfoContainer extends Component {
                 isLoading: false
             });
         }.bind(this)
-        ,1000)
+        ,1000);
     }
 
     render() {
         return (
-            <UnitInfo 
+            <UnitInfo
                 UnitCode={testData.UnitCode}
                 UnitName={testData.UnitName}
                 Synopsis={testData.Synopsis}
