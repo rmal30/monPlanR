@@ -16,13 +16,8 @@ class SettingsModal extends Component {
     }
 
     //this function gets user prefences
-    getPrefs(){
-        var usrTooltips = localStorage.getItem("tooltips");
-
-
-        if(usrTooltips !== false){
-            this.prefs.tooltips = usrTooltips === "true";
-        }
+    getTooltipsPrefs(){
+      return this.prefs.tooltips;
     }
 
     //this function temporartily saves prefences
@@ -48,7 +43,7 @@ class SettingsModal extends Component {
         localStorage.setItem("tooltips", this.prefs.tooltips);
     }
     componentDidMount(){
-        this.getPrefs();
+        this.getTooltipsPrefs();
     }
     render() {
         return (

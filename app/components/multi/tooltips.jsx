@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import {Popup, Button} from "semantic-ui-react";
+import SettingsModal from "../modals/settings.jsx";
 
 class Tooltips extends Component {
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
 
       this.title = "" ;
       this.message = "" ;
@@ -11,7 +12,7 @@ class Tooltips extends Component {
   }
 
   tooltips(title, message, target){
-      if(title !== "" && message !== ""){
+      if(title !== "" && message !== "" && prefs.getTooltipsPrefs()){
           return (
             <Popup
              header = {title}
@@ -19,6 +20,8 @@ class Tooltips extends Component {
              content = {message}
            />
           );
+      } else {
+        return null;
       }
   }
 
@@ -28,4 +31,4 @@ class Tooltips extends Component {
   }
 }
 
-export default Tooltips
+export default Tooltips;
