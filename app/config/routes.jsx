@@ -7,8 +7,9 @@ import Home from "../components/base/Home.jsx";
 import Plan from "../components/base/Plan.jsx";
 import MainLoading from "../components/base/MainLoading.jsx";
 import tooltips from "../components/multi/tooltips.jsx";
-/* Containers import here*/
 
+/* Containers import here*/
+import UnitInfoContainer from "../containers/UnitInfoContainer.jsx";
 
 module.exports = (
   <Route path="/" component={Main}>
@@ -16,5 +17,6 @@ module.exports = (
       <Route path="plan" component={Plan} />
       <Route path="tooltips" component={tooltips} />
       <Route path="MainLoading" component={MainLoading} />
+      <Route path="unit" component={UnitInfoContainer} />
   </Route>
 );
