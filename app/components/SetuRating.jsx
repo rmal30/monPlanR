@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { Rating, Icon } from "semantic-ui-react"
 
 function SetuRating(props) {
@@ -13,6 +13,11 @@ function SetuRating(props) {
         
             
     );
+}
+
+SetuRating.propTypes = {
+    starRating: PropTypes.number.isRequired,
+    heartRating: PropTypes.number.isRequired
 }
 
 export default SetuRating;
