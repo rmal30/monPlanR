@@ -13,7 +13,7 @@ class Header extends Component {
         return <Dropdown.Item as="a" onClick={handleOpen}>Privacy Policy</Dropdown.Item>;
     }
     static getSettingsModalTrigger(handleOpen) {
-        return <Dropdown.Item as="a" onClick={handleOpen}>User Settings</Dropdown.Item>;
+        return <Dropdown.Item as="a" onClick={handleOpen}><i className="settings icon"></i> User Settings</Dropdown.Item>;
     }
     render() {
         return (
@@ -32,6 +32,8 @@ class Header extends Component {
                         />
                     <Dropdown floating icon="info" className="item">
                         <Dropdown.Menu>
+                            <Dropdown.Header>App Settings</Dropdown.Header>
+                            <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
                             <Dropdown.Header>Quick Links (for Devs)</Dropdown.Header>
                             <Dropdown.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Dropdown.Item>
                             <Dropdown.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Dropdown.Item>
@@ -42,7 +44,6 @@ class Header extends Component {
                             <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
                             <ToSModal getTrigger={Header.getToSModalTrigger} />
                             <PrivacyModal getTrigger={Header.getPrivacyModalTrigger} />
-                            <SettingsModal getTrigger={Header.getSettingsModalTrigger} icon="settings" />
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Menu>
