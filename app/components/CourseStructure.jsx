@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Button, Container, Dropdown, Grid, Icon, Label, Table} from "semantic-ui-react";
-import TeachingPeriod from "./TeachingPeriod.jsx";
-import InsertTeachingPeriod from "./InsertTeachingPeriod.jsx";
+import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
+import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 
 class CourseStructure extends React.Component {
     constructor() {

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Container, Grid} from "semantic-ui-react";
 
-import CourseStructure from "./CourseStructure.jsx";
+import CourseStructure from "../CourseStructure.jsx";
 
 class Plan extends Component {
     render() {

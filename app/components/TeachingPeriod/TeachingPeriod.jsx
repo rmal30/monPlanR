@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Button, Dropdown, Table} from "semantic-ui-react";
-import Unit from "./Unit.jsx";
+import Unit from "../Unit/Unit.jsx";
 
 /**
  * TeachingPeriod component

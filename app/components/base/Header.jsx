@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {Search, Grid, Container, Icon, Menu, Label, Dropdown, Popup} from "semantic-ui-react";
-import UnitSearch from "./UnitSearch.jsx";
-import ToSModal from "./modals/tos.jsx";
-import PrivacyModal from "./modals/privacy.jsx";
-import SettingsModal from "./modals/settings.jsx";
+import UnitSearch from "../Unit/UnitSearch.jsx";
+import ToSModal from "../modals/tos.jsx";
+import PrivacyModal from "../modals/privacy.jsx";
+import SettingsModal from "../modals/settings.jsx";
 
 class Header extends Component {
     static getToSModalTrigger(handleOpen) {

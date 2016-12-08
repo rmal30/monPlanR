@@ -3,7 +3,7 @@ import {Segment, Dimmer, Loader} from "semantic-ui-react";
 
 /* These imports handle the smooth transitioning between app views */
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import "../resources/css/transitions.css";
+import "../../resources/css/transitions.css";
 
 function MainLoading(props) {
     return (
