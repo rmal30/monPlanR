@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { Grid, Icon, Button } from "semantic-ui-react"
 import SetuRating from "./SetuRating.jsx"
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx"
@@ -57,6 +57,17 @@ function UnitInfo(props) {
     }
     
     
+}
+
+
+UnitInfo.Proptypes = {
+    collapse: PropTypes.bool.isRequired,
+    onCollapseClick: PropTypes.func.isRequired,
+    UnitCode: PropTypes.string.isRequired,
+    UnitName: PropTypes.string.isRequired,
+    Synopsis: PropTypes.string.isRequired,
+    starRating: PropTypes.number,
+    heartRating: PropTypes.number
 }
 
 export default UnitInfo;
