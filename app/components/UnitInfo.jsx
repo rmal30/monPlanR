@@ -60,14 +60,14 @@ function UnitInfo(props) {
 }
 
 
-UnitInfo.Proptypes = {
+UnitInfo.propTypes = {
     collapse: PropTypes.bool.isRequired,
     onCollapseClick: PropTypes.func.isRequired,
     UnitCode: PropTypes.string.isRequired,
     UnitName: PropTypes.string.isRequired,
     Synopsis: PropTypes.string.isRequired,
-    starRating: PropTypes.number,
-    heartRating: PropTypes.number
-}
+    usefulnessScore: PropTypes.number.isRequired,
+    likeScore: PropTypes.number.isRequired
+};
 
 export default UnitInfo;
