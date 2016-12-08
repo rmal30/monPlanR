@@ -3,6 +3,7 @@ import {Search, Grid, Container, Icon, Menu, Label, Dropdown, Popup} from "seman
 import UnitSearch from "./UnitSearch.jsx";
 import ToSModal from "./modals/tos.jsx";
 import PrivacyModal from "./modals/privacy.jsx";
+import SettingsModal from "./modals/settings.jsx";
 
 class Header extends Component {
     static getToSModalTrigger(handleOpen) {
@@ -10,6 +11,9 @@ class Header extends Component {
     }
     static getPrivacyModalTrigger(handleOpen) {
         return <Dropdown.Item as="a" onClick={handleOpen}>Privacy Policy</Dropdown.Item>;
+    }
+    static getSettingsModalTrigger(handleOpen) {
+        return <Dropdown.Item as="a" onClick={handleOpen}><i className="settings icon"></i> User Settings</Dropdown.Item>;
     }
     render() {
         return (
@@ -28,6 +32,8 @@ class Header extends Component {
                         />
                     <Dropdown floating icon="info" className="item">
                         <Dropdown.Menu>
+                            <Dropdown.Header>App Settings</Dropdown.Header>
+                            <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
                             <Dropdown.Header>Quick Links (for Devs)</Dropdown.Header>
                             <Dropdown.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Dropdown.Item>
                             <Dropdown.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Dropdown.Item>

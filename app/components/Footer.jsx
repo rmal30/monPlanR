@@ -8,8 +8,9 @@ class Footer extends Component {
                 <Container textAlign="center">
                     <h4 className="ui inverted header">monPlan</h4>
                     <p>A Monash University Course Planner, designed by Monash Students, for Monash Students.</p>
-                    <p>Copyright &copy; Monash University 2016</p>
+                    <br></br>
                     <img className="logo" src="resources/img/monash.png" alt="logo" />
+                    <p>Copyright &copy; Monash University 2016</p>
                 </Container>
             </Segment>
         );

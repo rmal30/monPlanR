@@ -10,7 +10,7 @@
         "eqeqeq": "error",
         "indent": "warn",
         "curly": "warn",
-        "quotes": ["warn", "double"],
+        "quotes": ["error", "double"],
         "require-jsdoc": ["warn", {
             "require": {
                 "FunctionDeclaration": true,
@@ -19,7 +19,7 @@
                 "ArrowFunctionExpression": false
             }
         }],
-        "semi": "warn"
+        "semi": "error"
     },
     "env": {
         "es6": true
