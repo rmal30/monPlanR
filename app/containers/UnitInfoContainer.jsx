@@ -17,7 +17,7 @@ class UnitInfoContainer extends Component {
         super(props);
         this.state = {
             collapse: false,
-            isLoading: false
+            isLoading: true
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
     }
@@ -27,6 +27,15 @@ class UnitInfoContainer extends Component {
         this.setState({
             collapse: newState
         });
+    }
+
+    componentDidMount(){
+        setTimeout(function(){
+            this.setState({
+                isLoading: false
+            });
+        }.bind(this)
+        ,1000)
     }
 
     render() {
