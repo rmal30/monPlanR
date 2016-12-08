@@ -1,42 +1,73 @@
 import React from "react";
-import {Button, Dropdown, Table} from "semantic-ui-react";
+import {Button, Container, Dropdown, Table} from "semantic-ui-react";
 
 /**
  * Unit component
  *
- * @function Unit
+ * @class
  * @extends React.Component
  */
-function Unit(props) {
+class Unit extends React.Component {
+    /**
+     * State should only hold additional unit information.
+     * CourseStructure component stores only the unit code to reduce space
+     * usage.
+     *
+     * TODO: Find some way to make Unit stateless again.
+     */
+    constructor() {
+        super();
+        this.state = {
+            showUI: false
+        };
+    }
     /**
      * Shows unit details in a modal.
      */
-    const handleDetail = () => {
+    handleDetail() {
 
+    };
+
+    handleMouseEnter(e) {
+        if(!this.props.free) {
+            this.setState({
+                showUI: true
+            });
+        }
+    };
+
+    handleMouseLeave(e) {
+        if(!this.props.free) {
+            this.setState({
+                showUI: false
+            });
+        }
     };
 
     /**
      * Removes unit from the course structure.
      */
-    const handleDelete = () => {
-        if(props.free) {
+    handleDelete() {
+        if(this.props.free) {
             return;
         }
 
-        props.deleteUnit(props.index);
+        this.props.deleteUnit(this.props.index);
     };
 
-    return (
-        <Table.Cell>
-            {props.code}
-            {!props.free &&
-                <Button.Group size="tiny">
-                    <Button basic onClick={handleDetail} color="blue" icon="info" />
-                    <Button basic onClick={handleDelete} color="red" icon="close" />
-                </Button.Group>
-            }
-        </Table.Cell>
-    );
+    render() {
+        return (
+            <Table.Cell onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)}>
+                {this.props.code}
+                {!this.props.free && this.state.showUI &&
+                        <Button.Group size="mini" compact className="right floated">
+                            <Button basic floated="right" onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
+                            <Button basic floated="right" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                        </Button.Group>
+                }
+            </Table.Cell>
+        );
+    }
 }
 
 export default Unit;

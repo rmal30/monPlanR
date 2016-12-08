@@ -38,7 +38,7 @@ function TeachingPeriod(props) {
         <Table.Row>
             <Table.Cell className="teachingPeriod cell">
                 {props.year}-{props.classification}
-                <Button basic onClick={handleDelete} size="tiny" color="red" icon="close" />
+                <Button basic floated="right" onClick={handleDelete} size="tiny" color="red" icon="close" />
             </Table.Cell>
             {unitsEle}
         </Table.Row>
