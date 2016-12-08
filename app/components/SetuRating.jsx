@@ -11,7 +11,6 @@ function SetuRating(props) {
             <Rating icon='heart' defaultRating={props.heartRating} maxRating={5} disabled/>
         </div>
         
-            
     );
 }
 

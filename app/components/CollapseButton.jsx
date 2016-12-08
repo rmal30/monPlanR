@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { Grid, Icon, Button } from "semantic-ui-react"
 
 function CollapseButton(props){
@@ -16,5 +16,10 @@ function CollapseButton(props){
         )
     }
 }
+
+CollapseButton.propTypes = {
+    onCollapseClick: PropTypes.func.isRequired,
+    collapse: PropTypes.bool.isRequired
+};
 
 export default CollapseButton
