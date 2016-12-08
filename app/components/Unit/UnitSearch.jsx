@@ -4,11 +4,14 @@ import { Search, Grid, Header, Item } from "semantic-ui-react";
 import getUnitData from "../../utils/unitSearch";
 import axios from 'axios';
 
-let source = {}
+let source = [
+    { UnitCode: "FIT2001", UnitName: "Systems Development"}
+
+]
 const resultRenderer = ({UnitCode, UnitName}) => (
-    <div>
-        <h5>{UnitCode}</h5>
-        <p>{UnitName}</p>
+    <div className="content">
+        <div className="title">{UnitCode}</div>
+        <div className="description">{UnitName}</div>
     </div>
     
 )
@@ -30,6 +33,7 @@ export default class UnitSearch extends Component {
     }
 
     componentDidMount() {
+        /*
         axios.get("../../data/units/simple.json")
             .then(function(response) {
                 source = response.data;
@@ -40,6 +44,7 @@ export default class UnitSearch extends Component {
             .catch(function(error) {
                 console.log(error);
             })
+            */
     }
 
     resetComponent() {
@@ -78,7 +83,7 @@ export default class UnitSearch extends Component {
     }
 
     handleResultSelect(){
-        console.log("hello")
+        alert("hello")
     }
 
     render() {
@@ -90,10 +95,11 @@ export default class UnitSearch extends Component {
                 loading={isLoading}
                 onChange={this.handleChange}
                 onSearchChange={this.handleSearchChange}
-                results={this.state.results}
+                results={results}
                 value={value}
                 placeholder="Add Unit"
                 noResultsMessage="No units found"
+                onResultSelect={this.handleResultSelect}
                 {...this.props}
             />
         );
