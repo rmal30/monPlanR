@@ -50,3 +50,7 @@ body {
 .main-container{
   min-height: 100%;
 }
+
+.disclaimer{
+  font-size: 12px;
+}
