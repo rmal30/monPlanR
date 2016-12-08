@@ -10,7 +10,7 @@
         "eqeqeq": "error",
         "indent": "warn",
         "curly": "warn",
-        "quotes": ["warn", "double"],
+        "quotes": ["error", "double"],
         "require-jsdoc": ["warn", {
             "require": {
                 "FunctionDeclaration": true,

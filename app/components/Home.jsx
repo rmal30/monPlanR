@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Container, Icon, Form, Grid} from "semantic-ui-react";
-import { Link } from 'react-router'
+import { Link } from "react-router";
 
 /**
  * The home component

@@ -4,8 +4,8 @@ import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 
 /* These imports handle the smooth transitioning between app views */
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import '../resources/css/transitions.css'
+import ReactCSSTransitionGroup from "react-addons-css-transition-group"
+import "../resources/css/transitions.css"
 
 function Main(props) {
     return (
