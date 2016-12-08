@@ -3,15 +3,20 @@ Plan out your degree with **monPlan** _Previously known as Monash Unit Planner_.
 Built in the latest standards with _React_ and _Semantic-UI_ to deliver a clean and beautiful tool.
 
 ## Get started
+To begin, you'll need to install _npm_
+```
+sudo apt-get install npm
+```
 Currently the system is using npm for the ES6 transpiling and run scripts. To start the project first install dependencies:
 ```
+cd ~\path\to\dir\monPlanR
 npm install
 ```
 then to run development environment:
 ```
 npm run dev
 ```
-Optionally if you wish to build a production distrubution to test on a server or for whatever reason you can build a dist via:
+Optionally if you wish to build a production distribution to test on a server or for whatever reason you can build a distribution via:
 ```
 npm run production
 ```
@@ -21,10 +26,12 @@ To test the code for any syntaxical errors or warnings, as well as quality code 
 ```
 npm test
 ```
+
 # License
 MIT License
 
 Copyright (c) 2016 eSolutions (Monash University)
+Authors: Josh Nelsson-Smith, Saurabh Joshi and Eric Jiang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

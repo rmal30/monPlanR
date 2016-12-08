@@ -18,7 +18,10 @@ class Home extends Component {
         super(props);
     }
 
+    submitData(){
 
+    }
+    
     render() {
         return  (
             <Container className="ui main text">
