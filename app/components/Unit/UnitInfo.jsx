@@ -5,7 +5,6 @@ import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
 
 function UnitInfo(props) {
-
     if (props.collapse){
         return (
              <div className="ui raised segment">
