@@ -1,28 +1,35 @@
 import React, {Component} from "react";
-import {Button, Container, Icon, Form, Grid} from "semantic-ui-react";
+import {Button, Container, Icon, Form, Grid, Message} from "semantic-ui-react";
 import { Link } from "react-router";
-
-
-const handleSubmit = (e) => {
-    e.preventDefault();
-};
-const startPlanning = (e) => {
-
-};
-const startPlanningEmpty = (e) => {
-
-};
 
 class Home extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            startYear: 2016,
+            endYear: 2018
+        };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.changeEndYear = this.changeEndYear.bind(this);
+        this.changeStartYear = this.changeStartYear.bind(this);
     }
 
-    submitData(){
-
+    changeEndYear(e){
+        this.setState({
+            endYear: e.target.value
+        });
     }
-    
+    changeStartYear(e){
+        this.setState({
+            startYear: e.target.value
+        });
+    }
+
+    handleSubmit(){
+        console.log(this.state);
+    }
     render() {
+        const { formData, value } = this.state ;
         return  (
             <Container className="ui main text">
                 <div id="welcome" className="ui container">
@@ -38,19 +45,20 @@ class Home extends Component {
                                     <Form.Field>
                                         <div className="ui labeled input">
                                             <div className="ui label">Commencement Year:</div>
-                                            <input id="startYr" name="startYr" type="text" placeholder="2016" />
+                                            <input name="startYr" type="text" placeholder="2016" onChange={this.changeStartYear}/>
                                         </div>
                                     </Form.Field>
                                     <Form.Field>
                                         <div className="ui labeled input">
                                             <div className="ui label">Graduation Year:</div>
-                                            <input id="gradYr" name="gradYr" type="text" placeholder="2018" />
+                                            <input name="gradYr" type="text" placeholder="2018" onChange={this.changeEndYear}/>
                                         </div>
                                     </Form.Field>
                                     <Link to="/plan"><Button color="green">Start Planning <Icon name="right arrow" /></Button></Link>
-                                    <Button onClick={startPlanningEmpty}>Start with empty template</Button>
+                                    <Button disabled>Start with empty template</Button>
                                 </div>
                             </Form>
+                            <Button primary onClick={this.handleSubmit}>Submit</Button>
                         </Grid.Row>
                     <h4>Disclaimer</h4>
                     <p className="disclaimer">Our fundamental goal is to allow all Monash University students to add any units in any teaching period, for any year. Period.
