@@ -151,12 +151,6 @@ class CourseStructure extends React.Component {
             }
         }
 
-        let unitHeadersList = [];
-
-        for(let i = 0; i < this.state.numberOfUnits; i++) {
-            unitHeadersList.push(<Table.HeaderCell key={i}>Unit</Table.HeaderCell>);
-        }
-
         return (
             <Container>
                 <Grid stackable columns={2}>
@@ -191,9 +185,9 @@ class CourseStructure extends React.Component {
                 </Grid>
                 <Table celled fixed>
                     <Table.Header>
-                        <Table.Row>
+                        <Table.Row textAlign="center">
                             <Table.HeaderCell>Teaching Period</Table.HeaderCell>
-                            {unitHeadersList}
+                            <Table.HeaderCell colSpan={this.state.numberOfUnits}>Units</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
