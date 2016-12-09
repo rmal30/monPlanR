@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid, Icon, Button, Image, Loader, Rating } from "semantic-ui-react"
-import SetuRating from "./SetuRating.jsx"
-import CollapseButton from "../CollapseButton.jsx"
+import { Grid, Icon, Button, Image, Loader, Rating } from "semantic-ui-react";
+import SetuRating from "./SetuRating.jsx";
+import CollapseButton from "../CollapseButton.jsx";
 
 
 function UnitInfoPlaceholder(props) {
@@ -9,10 +9,10 @@ function UnitInfoPlaceholder(props) {
         <Grid celled>
             <Grid.Column width={12}>
                 <Grid.Row>
-                    <Image src='../resources/img/loaders/header.png' />  
+                    <Image src='../resources/img/loaders/header.png' />
                     <Loader active size="huge"></Loader>
                     <hr />
-                    <Image src='../resources/img/loaders/short-paragraph.png' />   
+                    <Image src='../resources/img/loaders/short-paragraph.png' />
                 </Grid.Row>
             </Grid.Column>
 
@@ -25,11 +25,10 @@ function UnitInfoPlaceholder(props) {
                     <Image src='../resources/img/loaders/smallText.png' />
                     <br />
                     <Rating icon='heart' defaultRating={0} maxRating={5} disabled/>
-                </Grid.Row>     
+                </Grid.Row>
             </Grid.Column>
         </Grid>
-    )
-    
+    );
 }
 
 export default UnitInfoPlaceholder;

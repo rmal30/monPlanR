@@ -14,7 +14,7 @@ import UnitInfoContainer from "../containers/UnitInfoContainer.jsx";
 module.exports = (
   <Route path="/" component={Main}>
       <IndexRoute component={Home} />
-      <Route path="plan" component={Plan} />
+      <Route path="plan(/?courseDetails)" component={Plan} handler={Home}/>
       <Route path="tooltips" component={tooltips} />
       <Route path="MainLoading" component={MainLoading} />
       <Route path="unit" component={UnitInfoContainer} />

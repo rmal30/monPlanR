@@ -16,7 +16,7 @@ class UnitInfoContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
-            collapse: false,
+            collapse: fis.prefs.tooltialse,
             isLoading: true
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
