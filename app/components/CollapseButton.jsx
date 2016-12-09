@@ -22,4 +22,4 @@ CollapseButton.propTypes = {
     collapse: PropTypes.bool.isRequired
 };
 
-export default CollapseButton
+export default CollapseButton;
