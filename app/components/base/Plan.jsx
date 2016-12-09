@@ -5,6 +5,7 @@ import CourseStructure from "../CourseStructure.jsx";
 
 class Plan extends Component {
     render() {
+        console.log(this.props);
         return (
             <Container className="main text">
                 <Grid>
