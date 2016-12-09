@@ -2,19 +2,18 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { Search, Grid, Header, Item } from "semantic-ui-react";
 import getUnitData from "../../utils/unitSearch";
+import UnitSearchResult from "./UnitSearchResult.jsx"
 import axios from 'axios';
 
-let source = [
-    { UnitCode: "FIT2001", UnitName: "Systems Development"}
+let source = {}
 
-]
 const resultRenderer = ({UnitCode, UnitName}) => (
-    <div className="content">
-        <div className="title">{UnitCode}</div>
-        <div className="description">{UnitName}</div>
-    </div>
-    
+    <UnitSearchResult 
+        UnitCode={UnitCode}
+        UnitName={UnitName}
+        onResultClick={function(){console.log(UnitCode)}} />
 )
+
 
 export default class UnitSearch extends Component {
     constructor(props) {
@@ -28,12 +27,11 @@ export default class UnitSearch extends Component {
         this.resetComponent = this.resetComponent.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.handleResultSelect = this.handleResultSelect.bind(this);
 
     }
 
     componentDidMount() {
-        /*
+        
         axios.get("../../data/units/simple.json")
             .then(function(response) {
                 source = response.data;
@@ -44,7 +42,7 @@ export default class UnitSearch extends Component {
             .catch(function(error) {
                 console.log(error);
             })
-            */
+            
     }
 
     resetComponent() {
@@ -82,26 +80,21 @@ export default class UnitSearch extends Component {
         }, 500);
     }
 
-    handleResultSelect(){
-        alert("hello")
-    }
-
     render() {
         const { isLoading, value, results } = this.state;
 
         return (
             <Search
-                resultRenderer={resultRenderer}
                 loading={isLoading}
-                onChange={this.handleChange}
                 onSearchChange={this.handleSearchChange}
                 results={results}
                 value={value}
-                placeholder="Add Unit"
-                noResultsMessage="No units found"
-                onResultSelect={this.handleResultSelect}
-                {...this.props}
-            />
+                placeholder={"Add Unit"}
+                noResultsMessage={"No units found"}
+                resultRenderer={resultRenderer}
+                onChange={this.handleChange}
+                {...this.props}>
+                </Search>
         );
     }
 }
