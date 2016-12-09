@@ -22,7 +22,6 @@ class Header extends Component {
                     <img className="logo" src="resources/img/logo.png" alt="logo" />
                     monPlan Alpha
                 </Menu.Header>
-                <UnitSearch className="item" />
                 <Menu.Menu position="right">
                     <Popup
                         id="displayMessage"
