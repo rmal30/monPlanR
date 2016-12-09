@@ -35,7 +35,8 @@
     "production": "webpack -p",
     "dev": "webpack-dev-server --inline --content-base app/ --history-api-fallback",
     "test": "eslint app/**/*.jsx && mocha --compilers babel-core/register tests/*.spec.jsx",
-    "fix": "eslint app/**/*.jsx --fix"
+    "fix": "eslint app/**/*.jsx --fix",
+    "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r"
   },
   "repository": {
     "type": "git",

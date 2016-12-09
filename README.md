@@ -21,6 +21,13 @@ To test the code for any syntaxical errors or warnings, as well as quality code 
 ```
 npm test
 ```
+
+# Build documentation
+To build technical documentation:
+```
+npm run jsdoc
+```
+
 # License
 MIT License
 
