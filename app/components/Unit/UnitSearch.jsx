@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { Search, Grid, Header, Item } from "semantic-ui-react";
-import getUnitData from "../../utils/unitSearch";
+import getUnitCodeAndUnitNames from "../../utils/unitSearch";
 import UnitSearchResult from "./UnitSearchResult.jsx"
 import axios from 'axios';
 
@@ -18,6 +18,7 @@ let resultRenderer = ({UnitCode, UnitName}) => (
 export default class UnitSearch extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             isLoading: false,
             results: [],
@@ -31,8 +32,7 @@ export default class UnitSearch extends Component {
     }
 
     componentDidMount() {
-        
-        axios.get("../../data/units/simple.json")
+        getUnitCodeAndUnitNames()
             .then(function(response) {
                 source = response.data;
                 this.setState({
@@ -42,7 +42,6 @@ export default class UnitSearch extends Component {
             .catch(function(error) {
                 console.log(error);
             })
-            
     }
 
     resetComponent() {
@@ -50,7 +49,8 @@ export default class UnitSearch extends Component {
     }
 
     handleChange(e, result) {
-        console.log(result.UnitCode)
+        this.props.onResult(result.UnitCode)
+        this.resetComponent()
     }
 
     handleSearchChange(e, value) {

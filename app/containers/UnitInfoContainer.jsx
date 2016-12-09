@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
+import UnitSearch from "../components/Unit/UnitSearch.jsx";
 
 const testData = {
     "UnitCode": "FIT2001",
@@ -17,9 +18,11 @@ class UnitInfoContainer extends Component {
         super(props);
         this.state = {
             collapse: false,
-            isLoading: true
+            isLoading: true,
+            unitCode: ""
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
+        this.unitSelected = this.unitSelected.bind(this);
     }
 
     handleCollapseClick() {
@@ -38,18 +41,26 @@ class UnitInfoContainer extends Component {
         ,1000);
     }
 
+    unitSelected(nUnitCode){
+        console.log(nUnitCode)
+        this.setState({unitCode: nUnitCode})
+    }
+
     render() {
         return (
-            <UnitInfo
-                UnitCode={testData.UnitCode}
-                UnitName={testData.UnitName}
-                Synopsis={testData.Synopsis}
-                usefulnessScore={testData.usefulnessScore}
-                likeScore={testData.likeScore}
-                collapse={this.state.collapse}
-                isLoading={this.state.isLoading}
-                onCollapseClick={this.handleCollapseClick}
-            />
+            <div>
+                <UnitSearch onResult={this.unitSelected} />
+                <UnitInfo
+                    UnitCode={this.state.unitCode}
+                    UnitName={testData.UnitName}
+                    Synopsis={testData.Synopsis}
+                    usefulnessScore={testData.usefulnessScore}
+                    likeScore={testData.likeScore}
+                    collapse={this.state.collapse}
+                    isLoading={this.state.isLoading}
+                    onCollapseClick={this.handleCollapseClick}
+                />
+            </div>
         );
     }
 }
