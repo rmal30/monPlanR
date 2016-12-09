@@ -7,11 +7,11 @@ import axios from 'axios';
 
 let source = {}
 
-const resultRenderer = ({UnitCode, UnitName}) => (
+let resultRenderer = ({UnitCode, UnitName}) => (
     <UnitSearchResult 
         UnitCode={UnitCode}
         UnitName={UnitName}
-        onResultClick={function(){console.log(UnitCode)}} />
+    />
 )
 
 
@@ -50,9 +50,7 @@ export default class UnitSearch extends Component {
     }
 
     handleChange(e, result) {
-        this.setState({ 
-            value: result.UnitCode,
-        });
+        console.log(result.UnitCode)
     }
 
     handleSearchChange(e, value) {
