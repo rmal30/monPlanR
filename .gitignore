@@ -2,3 +2,6 @@ node_modules
 .DS_Store
 dist
 npm-debug.log
+
+# For now, leave doc folder outside of the git repo
+doc

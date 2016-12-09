@@ -10,7 +10,10 @@
         "eqeqeq": "error",
         "indent": "warn",
         "curly": "warn",
-        "quotes": ["error", "double"],
+        "quotes": ["warn", "double"],
+        "array-bracket-spacing": ["warn", "never"],
+        "no-lonely-if": "warn",
+        "no-const-assign": "error",
         "require-jsdoc": ["warn", {
             "require": {
                 "FunctionDeclaration": true,
