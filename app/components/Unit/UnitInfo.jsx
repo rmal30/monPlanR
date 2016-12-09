@@ -5,7 +5,6 @@ import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
 
 function UnitInfo(props) {
-
     if (props.collapse){
         return (
              <div className="ui raised segment">
@@ -30,7 +29,7 @@ function UnitInfo(props) {
                    <CollapseButton
                         collapse={props.collapse}
                         onCollapseClick={props.onCollapseClick} />
-                    <Grid celled>
+                    <Grid celled stackable columns={2}>
                         <Grid.Column width={12}>
                             <Grid.Row>
                                     <h3>{props.UnitCode + " - " + props.UnitName}</h3>
