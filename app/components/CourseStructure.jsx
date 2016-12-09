@@ -3,16 +3,48 @@ import {Button, Container, Dropdown, Grid, Icon, Label, Table} from "semantic-ui
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 
+import Home from "./base/Home.jsx";
+import genCourse from "./GenerateCourseStructure.jsx";
+
 class CourseStructure extends React.Component {
-    constructor() {
-        super();
+
+    constructor(props) {
+        console.log(props);
+        super(props);
         this.state = {
             "numberOfUnits": 4,
             "showInsertTeachingPeriods": false,
-            "teachingPeriods":[{"year":2016,"type":"S1-01","numberOfUnits":4,"units":["FIT1008","FIT1013","FIT1047","FIT1045"]},{"year":2016,"type":"S2-02","numberOfUnits":4,"units":["FIT1008","FIT2004","FIT1049","MTH1035"]},{"year":2017,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]},{"year":2017,"type":"S2-02","numberOfUnits":4,"units":["FIT1049",null,null,null]},{"year":2018,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]},{"year":2018,"type":"S2-02","numberOfUnits":4,"units":[null,null,null,null]},{"year":2019,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]},{"year":2019,"type":"S2-02","numberOfUnits":4,"units":[null,null,null,null]},{"year":2020,"type":"S1-01","numberOfUnits":4,"units":[null,null,null,null]}]
+            "teachingPeriods": this.generateCourse(2012,2016)
         };
+        this.generateCourse = this.generateCourse.bind(this);
     }
 
+    generateCourse(startYear, endYear){
+        if(endYear - startYear > 12 || startYear === null || endYear === null){
+            startYear = 2016;
+            endYear = 2020;
+        }
+        if(startYear < endYear){
+            var arr = [];
+            for(var i = startYear; i <= endYear; i++) {
+                var object = {
+                    year: i,
+                    type: "S1-01",
+                    numberOfUnits: 4,
+                    units: [null,null,null,null]
+                };
+                var object2 = {
+                    year: i,
+                    type: "S2-02",
+                    numberOfUnits: 4,
+                    units: [null,null,null,null]
+                };
+                arr.push(object);
+                arr.push(object2);
+            }
+        }
+        return arr;
+    }
     /**
      * Displays add teaching period buttons in between the teaching period
      * table rows.
@@ -94,6 +126,7 @@ class CourseStructure extends React.Component {
      * TODO: Modularise into smaller components for course structure
      */
     render() {
+        console.log();
         const tableRows = [];
         if(this.state.showInsertTeachingPeriods) {
             tableRows.push(<InsertTeachingPeriod index={0}

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Button, Container, Icon, Form, Grid, Message} from "semantic-ui-react";
-import { Link } from "react-router";
+import {Link, Router, Route} from "react-router";
 
 class Home extends Component {
     constructor(props){
@@ -9,9 +9,10 @@ class Home extends Component {
             startYear: 2016,
             endYear: 2018
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.returnData = this.returnData.bind(this);
         this.changeEndYear = this.changeEndYear.bind(this);
         this.changeStartYear = this.changeStartYear.bind(this);
+        this.submitData = this.submitData.bind(this);
     }
 
     changeEndYear(e){
@@ -25,9 +26,26 @@ class Home extends Component {
         });
     }
 
-    handleSubmit(){
+    returnData(){
         console.log(this.state);
+        return this.state;
     }
+
+    submitData(event){
+        event.preventDefault();
+
+        var startYear = this.state.startYear;
+        var endYear = this.state.endYear;
+
+        this.context.router.push({
+            pathname: "/plan",
+            query: {
+                startYear: startYear,
+                endYear: startYear
+            }
+        });
+    }
+
     render() {
         const { formData, value } = this.state ;
         return  (
@@ -54,11 +72,10 @@ class Home extends Component {
                                             <input name="gradYr" type="text" placeholder="2018" onChange={this.changeEndYear}/>
                                         </div>
                                     </Form.Field>
-                                    <Link to="/plan"><Button color="green">Start Planning <Icon name="right arrow" /></Button></Link>
+                                    <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
                                     <Button disabled>Start with empty template</Button>
                                 </div>
                             </Form>
-                            <Button primary onClick={this.handleSubmit}>Submit</Button>
                         </Grid.Row>
                     <h4>Disclaimer</h4>
                     <p className="disclaimer">Our fundamental goal is to allow all Monash University students to add any units in any teaching period, for any year. Period.
@@ -73,5 +90,10 @@ class Home extends Component {
             </Container>);
     }
 }
+
+
+Home.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default Home;
