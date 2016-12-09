@@ -58,22 +58,20 @@ class UnitInfoContainer extends Component {
 
         UnitQuery.getExtendedUnitData(nUnitCode)
             .then(function(response) {
-                    let source = response.data
-                    const re = new RegExp(_.escapeRegExp(nUnitCode), "i");
-                    const isMatch = (result) => re.test(result.UnitCode);
-                    let match = _.filter(source, isMatch)[0]
-                    this.setState({
-                        isLoading: false,
-                        UnitCode: match.UnitCode,
-                        UnitName: match.UnitName,
-                        Synopsis: match.Sypnosis
-                    })
+                let source = response.data;
+                const re = new RegExp(_.escapeRegExp(nUnitCode), "i");
+                const isMatch = (result) => re.test(result.UnitCode);
+                let match = _.filter(source, isMatch)[0];
+                this.setState({
+                    isLoading: false,
+                    UnitCode: match.UnitCode,
+                    UnitName: match.UnitName,
+                    Synopsis: match.Sypnosis
+                });
             }.bind(this))
             .catch(function(error) {
                 console.log(error);
-          })
-
-            
+            });
     }
 
     render() {
