@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { Search, Grid, Header, Item } from "semantic-ui-react";
-import getUnitCodeAndUnitNames from "../../utils/unitSearch";
+import UnitQuery from "../../utils/UnitQuery";
 import UnitSearchResult from "./UnitSearchResult.jsx"
 import axios from 'axios';
 
@@ -32,7 +32,7 @@ export default class UnitSearch extends Component {
     }
 
     componentDidMount() {
-        getUnitCodeAndUnitNames()
+        UnitQuery.getUnitCodeAndUnitNames()
             .then(function(response) {
                 source = response.data;
                 this.setState({

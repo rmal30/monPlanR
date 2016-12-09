@@ -3,10 +3,8 @@ import { Grid, Icon, Button } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
-import getUnitData from "../../utils/unitSearch";
 
 function UnitInfo(props) {
-    getUnitData()
     if (props.collapse){
         return (
              <div className="ui raised segment">
