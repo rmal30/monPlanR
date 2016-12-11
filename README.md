@@ -1,27 +1,29 @@
-# monPlanR
-Plan out your degree with **monPlan** _Previously known as Monash Unit Planner_. monPlan is designed to help you to choose your units for the coming semesters. And takes account into prerequisites as well as prohibitions
-Built in the latest standards with _React_ and _Semantic-UI_ to deliver a clean and beautiful tool.
+# monPlan
+###### _Previously known as "monPlanR", and before that "Monash Unit Planner"_.
+
+**monPlan** is an interactive course planner tool, which is designed to help you choose units for future teaching periods up to several years.
+
+Built in the latest standards with _React_ and _Semantic-UI_, **monPlan** delivers a clean and beautiful tool that students can use to plan their courses.
 
 ## Get started
-Currently the system is using npm for the ES6 transpiling and run scripts. To start the project first install dependencies:
+We use npm for transpiling ES6 and running scripts. To start this project, first install dependencies:
 ```
 npm install
 ```
-then to run development environment:
+then to run the development environment (on `0.0.0.0:8080`):
 ```
 npm run dev
 ```
-Optionally if you wish to build a production distrubution to test on a server or for whatever reason you can build a dist via:
+Optionally if you wish to build a production distribution to test on a server or for whatever reason, you can build a dist via:
 ```
 npm run production
 ```
 
 ## Test
-To test the code for any syntaxical errors or warnings, as well as quality code testing:
+To test the code for any syntaxical or stylistic errors/warnings, as well as unit testing:
 ```
 npm test
 ```
-
 # Build documentation
 To build technical documentation:
 ```
