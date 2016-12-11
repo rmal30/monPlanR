@@ -21,14 +21,15 @@ class UnitInfoContainer extends Component {
         super(props);
         this.state = {
             collapse: true,
-            isLoading: true,
+            isLoading: false,
             UnitCode: "",
             UnitName: "",
-            Synopsis: ""
+            Faculty: "Faculty of IT",
+            Synopsis: "",
+            isFirstSearch: true
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
         this.unitSelected = this.unitSelected.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     handleCollapseClick() {
@@ -38,25 +39,16 @@ class UnitInfoContainer extends Component {
         });
     }
 
-    componentDidMount(){
-        
-        setTimeout(function(){
-            this.setState({
-                isLoading: false
-            });
-        }.bind(this)
-        ,1000);
-        
-    }
-
     unitSelected(nUnitCode){
         
         this.setState({
             isLoading: true,
-            collapse: false
+            collapse: false,
+            isFirstSearch: false
         });
 
-        UnitQuery.getExtendedUnitData(nUnitCode)
+        setTimeout(function(){
+            UnitQuery.getExtendedUnitData(nUnitCode)
             .then(function(response) {
                 let source = response.data;
                 const re = new RegExp(_.escapeRegExp(nUnitCode), "i");
@@ -66,12 +58,17 @@ class UnitInfoContainer extends Component {
                     isLoading: false,
                     UnitCode: match.UnitCode,
                     UnitName: match.UnitName,
+                    Faculty: match.Faculty,
                     Synopsis: match.Sypnosis
                 });
             }.bind(this))
             .catch(function(error) {
                 console.log(error);
             });
+        }.bind(this)
+        ,300);
+
+        
     }
 
     render() {
@@ -80,8 +77,10 @@ class UnitInfoContainer extends Component {
                 <br />
                 <UnitSearch onResult={this.unitSelected} />
                 <UnitInfo
+                    isDisabled={this.state.isFirstSearch}
                     UnitCode={this.state.UnitCode}
                     UnitName={this.state.UnitName}
+                    Faculty={this.state.Faculty}
                     Synopsis={this.state.Synopsis}
                     usefulnessScore={testData.usefulnessScore}
                     likeScore={testData.likeScore}
