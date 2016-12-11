@@ -4,12 +4,39 @@ import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
 
+/**     
+ * Description
+ * @author JXNS
+ * 
+ * @param {boolean} collapse - 
+ * @param {string} Faculty - 
+ * @param {number} likeScore - 
+ * @param {boolean} isDisabled -
+ * @param {function} onCollapseClick - 
+ * @param {string} Synopsis - 
+ * @param {string} UnitCode - 
+ * @param {string} UnitName - 
+ * @param {number} usefulnessScore - 
+ */
 function UnitInfo(props) {
+
+    UnitInfo.propTypes = {
+        collapse: PropTypes.bool.isRequired,
+        Faculty: PropTypes.string.isRequired,
+        likeScore: PropTypes.number.isRequired,
+        isDisabled: PropTypes.bool.isRequired,
+        onCollapseClick: PropTypes.func.isRequired,
+        Synopsis: PropTypes.string.isRequired,
+        UnitCode: PropTypes.string.isRequired,
+        UnitName: PropTypes.string.isRequired,
+        usefulnessScore: PropTypes.number.isRequired    
+    };
+
     if (props.collapse){
         return (
              <div className="ui raised segment">
                 <CollapseButton
-                    isDisabled={"hello"}
+                    isDisabled={props.isDisabled}
                     collapse={props.collapse}
                     onCollapseClick={props.onCollapseClick} />
             </div>
@@ -55,21 +82,6 @@ function UnitInfo(props) {
             );
         }
     }
-
-
 }
-
-
-UnitInfo.propTypes = {
-    collapse: PropTypes.bool.isRequired,
-    onCollapseClick: PropTypes.func.isRequired,
-    UnitCode: PropTypes.string.isRequired,
-    UnitName: PropTypes.string.isRequired,
-    Faculty: PropTypes.string.isRequired,
-    Synopsis: PropTypes.string.isRequired,
-    usefulnessScore: PropTypes.number.isRequired,
-    likeScore: PropTypes.number.isRequired,
-    isDisabled: PropTypes.bool.isRequired
-};
 
 export default UnitInfo;

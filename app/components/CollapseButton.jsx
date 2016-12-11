@@ -4,6 +4,7 @@ import { Grid, Icon, Button } from "semantic-ui-react";
 /**     
  * Represents the Collapsable button that the Unit detail view uses to hide/show content
  * @author JXNS
+ * 
  * @param {function} onCollapseClick - this is the function that should be called for the external container when the collapse button is pressed
  * @param {boolean} collapse - this represents the current state of the button, if collapse is true, it is in the 'collapsed' state
  * @param {boolean} isDisabled - this is only necessary for before the first search of a unit. Before a unit is selected the view should never be shown, 
