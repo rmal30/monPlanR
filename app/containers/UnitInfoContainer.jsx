@@ -25,7 +25,8 @@ class UnitInfoContainer extends Component {
             UnitCode: "",
             UnitName: "",
             Faculty: "Faculty of IT",
-            Synopsis: ""
+            Synopsis: "",
+            isFirstSearch: true
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
         this.unitSelected = this.unitSelected.bind(this);
@@ -54,7 +55,8 @@ class UnitInfoContainer extends Component {
         
         this.setState({
             isLoading: true,
-            collapse: false
+            collapse: false,
+            isFirstSearch: false
         });
 
         UnitQuery.getExtendedUnitData(nUnitCode)
@@ -82,6 +84,7 @@ class UnitInfoContainer extends Component {
                 <br />
                 <UnitSearch onResult={this.unitSelected} />
                 <UnitInfo
+                    isDisabled={this.state.isFirstSearch}
                     UnitCode={this.state.UnitCode}
                     UnitName={this.state.UnitName}
                     Faculty={this.state.Faculty}

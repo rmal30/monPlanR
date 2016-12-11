@@ -9,6 +9,7 @@ function UnitInfo(props) {
         return (
              <div className="ui raised segment">
                 <CollapseButton
+                    isDisabled={props.isDisabled}
                     collapse={props.collapse}
                     onCollapseClick={props.onCollapseClick} />
             </div>
@@ -18,6 +19,7 @@ function UnitInfo(props) {
             return (
                 <div className="ui raised segment">
                    <CollapseButton
+                        isDisabled={props.isDisabled}
                         collapse={props.collapse}
                         onCollapseClick={props.onCollapseClick} />
                    <UnitInfoPlaceholder />
@@ -27,6 +29,7 @@ function UnitInfo(props) {
             return (
                 <div className="ui raised segment">
                    <CollapseButton
+                        isDisabled={props.isDisabled}
                         collapse={props.collapse}
                         onCollapseClick={props.onCollapseClick} />
                     <Grid celled stackable columns={2}>
