@@ -21,7 +21,7 @@ class UnitInfoContainer extends Component {
         super(props);
         this.state = {
             collapse: true,
-            isLoading: true,
+            isLoading: false,
             UnitCode: "",
             UnitName: "",
             Faculty: "Faculty of IT",
@@ -30,7 +30,6 @@ class UnitInfoContainer extends Component {
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
         this.unitSelected = this.unitSelected.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     handleCollapseClick() {
@@ -38,17 +37,6 @@ class UnitInfoContainer extends Component {
         this.setState({
             collapse: newState
         });
-    }
-
-    componentDidMount(){
-        
-        setTimeout(function(){
-            this.setState({
-                isLoading: false
-            });
-        }.bind(this)
-        ,1000);
-        
     }
 
     unitSelected(nUnitCode){
