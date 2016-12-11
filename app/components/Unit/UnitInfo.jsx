@@ -65,6 +65,7 @@ UnitInfo.propTypes = {
     onCollapseClick: PropTypes.func.isRequired,
     UnitCode: PropTypes.string.isRequired,
     UnitName: PropTypes.string.isRequired,
+    Faculty: PropTypes.string.isRequired,
     Synopsis: PropTypes.string.isRequired,
     usefulnessScore: PropTypes.number.isRequired,
     likeScore: PropTypes.number.isRequired
