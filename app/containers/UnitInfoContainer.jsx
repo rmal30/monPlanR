@@ -4,7 +4,19 @@ import UnitSearch from "../components/Unit/UnitSearch.jsx";
 import UnitQuery from "../utils/UnitQuery";
 import _ from "lodash";
 
+/**     
+ * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates 
+ * the component.
+ * @author JXNS
+ */
 class UnitInfoContainer extends Component {
+    
+    /**     
+     * The constructor for the UnitInfoContainer component, sets the initial state of the component and binds the necessary functions.
+     * Collapse is initially set to true, isLoading set to false and isFirstsearch set to true. These initial values set up the 
+     * component for before the first search and are changed afterwards.
+     * @author JXNS
+     */
     constructor(props){
         super(props);
         this.state = {
@@ -20,6 +32,11 @@ class UnitInfoContainer extends Component {
         this.unitSelected = this.unitSelected.bind(this);
     }
 
+    /**     
+     * When the collapse button is clicked, the collapse bool must be changed from true to false, or false to true depending on whether 
+     * it was collapsed or not previously.
+     * @author JXNS
+     */
     handleCollapseClick() {
         let newState = !(this.state.collapse);
         this.setState({
@@ -27,6 +44,11 @@ class UnitInfoContainer extends Component {
         });
     }
 
+    /**     
+     * The unitSelected function is called whenever a new unit is selected.
+     * @author JXNS
+     * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
+     */
     unitSelected(nUnitCode){
         
         this.setState({
@@ -55,10 +77,12 @@ class UnitInfoContainer extends Component {
             });
         }.bind(this)
         ,300);
-
-        
     }
 
+    /**     
+     * The component currently returns both the unitsearch and unitInfo components with all the gathered state. 
+     * @author JXNS
+     */
     render() {
         return (
             <div>
