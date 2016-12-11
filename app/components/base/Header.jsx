@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import {Search, Grid, Container, Icon, Menu, Label, Dropdown, Popup} from "semantic-ui-react";
-var MediaQuery = require("react-responsive");
-
-import UnitSearch from "../Unit/UnitSearch.jsx";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
 import SettingsModal from "../modals/settings.jsx";
