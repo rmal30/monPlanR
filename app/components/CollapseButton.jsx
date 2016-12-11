@@ -19,7 +19,8 @@ function CollapseButton(props){
 
 CollapseButton.propTypes = {
     onCollapseClick: PropTypes.func.isRequired,
-    collapse: PropTypes.bool.isRequired
+    collapse: PropTypes.bool.isRequired,
+    isDisabled: PropTypes.bool.isRequired
 };
 
 export default CollapseButton;

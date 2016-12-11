@@ -68,7 +68,8 @@ UnitInfo.propTypes = {
     Faculty: PropTypes.string.isRequired,
     Synopsis: PropTypes.string.isRequired,
     usefulnessScore: PropTypes.number.isRequired,
-    likeScore: PropTypes.number.isRequired
+    likeScore: PropTypes.number.isRequired,
+    isDisabled: PropTypes.bool.isRequired
 };
 
 export default UnitInfo;
