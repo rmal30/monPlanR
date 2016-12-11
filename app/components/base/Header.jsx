@@ -10,15 +10,15 @@ class Header extends Component {
     }
     render() {
         return (
-            <Menu attached="top" inverted stackable>
+            <Menu attached="top" inverted>
                 <Menu.Header className="item">
                     <img className="logo" src="resources/img/logo.png" alt="logo" />
-                    monPlan Alpha
+                    <MediaQuery query="(min-device-width: 300px)">monPlan Alpha</MediaQuery>
                 </Menu.Header>
                 <Menu.Menu position="right">
                     <Popup
                         id="displayMessage"
-                        trigger={<Menu.Item>Status: <span id="statusTag">OK</span> <Icon name="checkmark" color="green" id="statusIcon" /></Menu.Item>}
+                        trigger={<Menu.Item><MediaQuery query="(min-device-width: 500px)">Status: <span id="statusTag">OK</span></MediaQuery><Icon name="checkmark" color="green" id="statusIcon" /></Menu.Item>}
                         header="Everything looks good"
                         content="As you add units, we will inform you of any conflicts, such as missing prerequisites."
                         />

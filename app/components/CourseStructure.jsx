@@ -1,49 +1,66 @@
-import * as React from "react";
+import React, {Component} from "react";
 import {Button, Container, Dropdown, Grid, Icon, Label, Table} from "semantic-ui-react";
+var MediaQuery = require("react-responsive");
+
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 
 import Home from "./base/Home.jsx";
 import genCourse from "./GenerateCourseStructure.jsx";
 
-class CourseStructure extends React.Component {
+class CourseStructure extends Component {
 
+    /**
+     * State: numberOfUnits, showInsertTeachingPeriods, teachingPeriods
+     */
     constructor(props) {
-        console.log(props);
         super(props);
+
+        const { startYear, endYear } = this.props;
+
         this.state = {
             "numberOfUnits": 4,
             "showInsertTeachingPeriods": false,
-            "teachingPeriods": this.generateCourse(2012,2016)
+            "teachingPeriods": this.generateCourse(parseInt(startYear), parseInt(endYear))
         };
+
         this.generateCourse = this.generateCourse.bind(this);
     }
 
-    generateCourse(startYear, endYear){
-        if(endYear - startYear > 12 || startYear === null || endYear === null){
-            startYear = 2016;
-            endYear = 2020;
+    /**
+     * Generates a course structure of semester one and semester two teaching
+     * periods, given start year and end year.
+     */
+    generateCourse(startYear, endYear) {
+        if(endYear - startYear > 12 || startYear === null || endYear === null) {
+            startYear = new Date().getFullYear();
+            endYear = startYear + 4;
         }
-        if(startYear < endYear){
-            var arr = [];
-            for(var i = startYear; i <= endYear; i++) {
-                var object = {
-                    year: i,
+
+        if(startYear <= endYear) {
+            const arr = [];
+            for(let year = startYear; year <= endYear; year++) {
+                const semesterOneTeachingPeriod = {
+                    year,
                     type: "S1-01",
                     numberOfUnits: 4,
-                    units: [null,null,null,null]
+                    units: [null, null, null, null]
                 };
-                var object2 = {
-                    year: i,
+                const semesterTwoTeachingPeriod = {
+                    year,
                     type: "S2-02",
                     numberOfUnits: 4,
-                    units: [null,null,null,null]
+                    units: [null, null, null, null]
                 };
-                arr.push(object);
-                arr.push(object2);
+
+                arr.push(semesterOneTeachingPeriod);
+                arr.push(semesterTwoTeachingPeriod);
             }
+
+            return arr;
         }
-        return arr;
+
+        return [];
     }
     /**
      * Displays add teaching period buttons in between the teaching period
@@ -67,6 +84,10 @@ class CourseStructure extends React.Component {
 
     /**
      * Inserts teaching period at a specified index.
+     *
+     * @param index - Which index in array to insert the teaching period
+     * @param year - Year of teaching period that was taken place
+     * @param type - Teaching period code that indicates what type it is.
      */
     insertTeachingPeriod(index, year, type) {
         const teachingPeriods = this.state.teachingPeriods;
@@ -85,10 +106,15 @@ class CourseStructure extends React.Component {
 
     /**
      * Deletes a teaching period at a specified index.
+     *
+     * @param index - Which teaching period in list to delete.
      */
-    deleteTeachingPeriod(teachingPeriodIndex) {
-        const updatedTeachingPeriods = this.state.teachingPeriods;
-        updatedTeachingPeriods.splice(teachingPeriodIndex, 1);
+    deleteTeachingPeriod(index) {
+        const updatedTeachingPeriods = [
+            ...this.state.teachingPeriods.slice(0, index),
+            ...this.state.teachingPeriods.slice(index + 1)
+        ];
+
         this.setState({
             teachingPeriods: updatedTeachingPeriods
         });
@@ -126,7 +152,6 @@ class CourseStructure extends React.Component {
      * TODO: Modularise into smaller components for course structure
      */
     render() {
-        console.log();
         const tableRows = [];
         if(this.state.showInsertTeachingPeriods) {
             tableRows.push(<InsertTeachingPeriod index={0}
@@ -184,12 +209,14 @@ class CourseStructure extends React.Component {
                     </Grid.Column>
                 </Grid>
                 <Table celled fixed>
-                    <Table.Header>
-                        <Table.Row textAlign="center">
-                            <Table.HeaderCell>Teaching Period</Table.HeaderCell>
-                            <Table.HeaderCell colSpan={this.state.numberOfUnits}>Units</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
+                    <MediaQuery query="(min-device-width: 768px)">
+                        <Table.Header>
+                            <Table.Row textAlign="center">
+                                <Table.HeaderCell>Teaching Period</Table.HeaderCell>
+                                <Table.HeaderCell colSpan={this.state.numberOfUnits}>Units</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                    </MediaQuery>
                     <Table.Body>
                         {tableRows}
                     </Table.Body>
