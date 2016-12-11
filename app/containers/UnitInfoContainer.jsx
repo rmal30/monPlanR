@@ -4,18 +4,6 @@ import UnitSearch from "../components/Unit/UnitSearch.jsx";
 import UnitQuery from "../utils/UnitQuery";
 import _ from "lodash";
 
-
-const testData = {
-    "UnitCode": "FIT2001",
-    "UnitName": "Systems development",
-    "Faculty": "it",
-    "Synopsis": "The unit introduces students to systems analysis and design as a problem solving activity, within the framework of a selected methodology. It will focus on contemporary industry practice; investigating understanding and documenting system requirements; a range of design and implementation activities; and professional skills required for systems development.",
-    "Preqs": "24 points of FIT units",
-    "Proh": "BUS2021, CPE2003, CSE1204, CSE1205, GCO1813, GCO2601, GCO2852, GCO2826, IMS1001, IMS1002, IMS1805, IMS2071, IMS9001",
-    "usefulnessScore": 3,
-    "likeScore": 3
-};
-
 class UnitInfoContainer extends Component {
     constructor(props){
         super(props);
@@ -82,8 +70,8 @@ class UnitInfoContainer extends Component {
                     UnitName={this.state.UnitName}
                     Faculty={this.state.Faculty}
                     Synopsis={this.state.Synopsis}
-                    usefulnessScore={testData.usefulnessScore}
-                    likeScore={testData.likeScore}
+                    usefulnessScore={5}
+                    likeScore={3}
                     collapse={this.state.collapse}
                     isLoading={this.state.isLoading}
                     onCollapseClick={this.handleCollapseClick}
