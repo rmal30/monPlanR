@@ -59,7 +59,8 @@ class UnitInfoContainer extends Component {
             isFirstSearch: false
         });
 
-        UnitQuery.getExtendedUnitData(nUnitCode)
+        setTimeout(function(){
+            UnitQuery.getExtendedUnitData(nUnitCode)
             .then(function(response) {
                 let source = response.data;
                 const re = new RegExp(_.escapeRegExp(nUnitCode), "i");
@@ -76,6 +77,10 @@ class UnitInfoContainer extends Component {
             .catch(function(error) {
                 console.log(error);
             });
+        }.bind(this)
+        ,300);
+
+        
     }
 
     render() {
