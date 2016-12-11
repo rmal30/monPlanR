@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {Button, Dropdown, Table} from "semantic-ui-react";
 var MediaQuery = require("react-responsive");
 
@@ -25,21 +25,33 @@ function TeachingPeriod(props) {
     const unitsEle = props.units.map((unit, index) => {
         if(!unit) {
             return <Unit
-                key={`${props.year}-${props.classification}-${index}`}
+                key={`${props.year}-${props.code}-${index}`}
                 index={index}
                 free={true} />;
         }
-        return <Unit key={`${props.year}-${props.classification}-${unit}`}
+        return <Unit key={`${props.year}-${props.code}-${unit}`}
                      index={index}
                      deleteUnit={deleteUnit}
                      free={false}
                      code={unit} />;
     });
 
+    const teachingPeriodData = props.data;
+    let teachingPeriodName = props.code;
+    if(props.data !== null) {
+        const teachingPeriod = props.data.find((element) =>
+            element.code === props.code
+        );
+
+        if(teachingPeriod !== undefined) {
+            teachingPeriodName = teachingPeriod.name;
+        }
+    }
+
     return (
         <Table.Row>
             <Table.Cell className="teachingPeriod cell">
-                {props.classification}, {props.year}
+                {teachingPeriodName}, {props.year}
                 <Button basic floated="right" onClick={handleDelete} size="tiny" color="red" icon="close" />
             </Table.Cell>
             {unitsEle}

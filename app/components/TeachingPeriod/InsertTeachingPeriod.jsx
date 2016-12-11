@@ -3,18 +3,18 @@ import {Button, Icon, Input, Grid, Popup, Table} from "semantic-ui-react";
 
 const InsertTeachingPeriod = (props) => {
     let year = props.year,
-        type = props.type;
+        code = props.code;
 
     const handleYearChange = (e) => {
         year = parseInt(e.target.value || props.year);
     };
 
-    const handleTypeChange = (e) => {
-        type = e.target.value || props.teachingPeriodCode;
+    const handleCodeChange = (e) => {
+        code = e.target.value || props.code;
     };
 
     const handleClick = (e) => {
-        props.insertTeachingPeriod(props.index, year, type);
+        props.insertTeachingPeriod(props.index, year, code);
     };
 
     const triggerButton = (
@@ -28,7 +28,7 @@ const InsertTeachingPeriod = (props) => {
             <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1}>
                 <Popup hoverable flowing trigger={triggerButton}>
                     <Input label="Year: " onChange={handleYearChange} placeholder={props.year} />
-                    <Input label="Type: " onChange={handleTypeChange} placeholder={props.teachingPeriodCode} />
+                    <Input label="Code: " onChange={handleCodeChange} placeholder={props.code} />
                 </Popup>
             </Table.Cell>
         </Table.Row>
