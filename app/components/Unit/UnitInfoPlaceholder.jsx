@@ -3,7 +3,11 @@ import { Grid, Icon, Button, Image, Loader, Rating } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import CollapseButton from "../CollapseButton.jsx";
 
-
+/**
+ * This is the placeholder component that is shown when unit information is loading (being fetched). It shows the same structure
+ * as a populated UnitInfo component, but replaces the data with grey bars.
+ * @author JXNS
+ */
 function UnitInfoPlaceholder(props) {
     return (
         <Grid celled stackable columns={2}>

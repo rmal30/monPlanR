@@ -2,60 +2,100 @@ import React, {Component} from "react";
 import {Button, Container, Icon, Form, Grid, Message} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 
+/**
+ * Home page that is shown to the user when they load the domain.
+ *
+ * @class
+ */
 class Home extends Component {
-    constructor(props){
+    /**
+     * Assumes that the student will plan a full time 4 year course next year.
+     *
+     * @constructor
+     */
+    constructor(props) {
         super(props);
+
+        this.startYearPlaceholder = new Date().getFullYear() + 1;
+        this.endYearPlaceholder = this.startYearPlaceholder + 3;
+
         this.state = {
-            startYear: 2016,
-            endYear: 2018
+            startYear: this.startYearPlaceholder,
+            endYear: this.endYearPlaceholder
         };
+
         this.returnData = this.returnData.bind(this);
         this.changeEndYear = this.changeEndYear.bind(this);
         this.changeStartYear = this.changeStartYear.bind(this);
         this.submitData = this.submitData.bind(this);
     }
 
-    changeEndYear(e){
+    /**
+     * Changes end year in the state.
+     *
+     * @method
+     * @param e - Event object
+     */
+    changeEndYear(e) {
         this.setState({
             endYear: e.target.value
         });
     }
-    changeStartYear(e){
+
+    /**
+     * Changes start year in the state.
+     *
+     * @method
+     * @param e - Event object
+     */
+    changeStartYear(e) {
         this.setState({
             startYear: e.target.value
         });
     }
 
-    returnData(){
-        console.log(this.state);
+    returnData() {
         return this.state;
     }
 
-    submitData(event){
+    /**
+     * Directs user to /plan where they can start planning their course.
+     *
+     * @method
+     * @param event
+     */
+    submitData(event) {
         event.preventDefault();
 
-        var startYear = this.state.startYear;
-        var endYear = this.state.endYear;
+        const { startYear, endYear } = this.state;
 
         this.context.router.push({
             pathname: "/plan",
             query: {
                 startYear: startYear,
-                endYear: startYear
+                endYear: endYear
             }
         });
     }
 
+    /**
+     * Renders the welcome page, with a form and a disclaimer.
+     *
+     * @method
+     */
     render() {
-        const { formData, value } = this.state ;
-        return  (
+        const { formData, value } = this.state;
+
+        return (
             <Container className="ui main text">
                 <div id="welcome" className="ui container">
                     <h1>Welcome to monPlan!</h1>
-                    <p>monPlan allows you to plan your course structure whilst you are at
-                        Monash University. We know that choosing units isn't particularly easy, so we've
-                        designed a web app that you can use to simplify tasks.</p>
-                        <h2>To Begin</h2>
+                        <p>
+                            monPlan allows you to plan your course structure whilst you are at
+                            Monash University. We know that choosing units isn't particularly easy, so we've
+                            designed a web app that you can use to simplify tasks.
+                        </p>
+                        <h2>To begin:</h2>
                         <p>Please enter your commencement and graduation year to get started.</p>
                         <Grid.Row>
                             <Form size="large">
@@ -63,13 +103,13 @@ class Home extends Component {
                                     <Form.Field>
                                         <div className="ui labeled input">
                                             <div className="ui label">Commencement Year:</div>
-                                            <input name="startYr" type="text" placeholder="2016" onChange={this.changeStartYear}/>
+                                            <input name="startYr" type="text" placeholder={this.startYearPlaceholder} onChange={this.changeStartYear}/>
                                         </div>
                                     </Form.Field>
                                     <Form.Field>
                                         <div className="ui labeled input">
                                             <div className="ui label">Graduation Year:</div>
-                                            <input name="gradYr" type="text" placeholder="2018" onChange={this.changeEndYear}/>
+                                            <input name="gradYr" type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear}/>
                                         </div>
                                     </Form.Field>
                                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
@@ -85,7 +125,8 @@ class Home extends Component {
                     <p className="disclaimer">Our promise is that we will never restrict you in adding your units to your course, and it is up to you and the course advisors to assist you with your plan.</p>
 
                 </div>
-            </Container>);
+            </Container>
+        );
     }
 }
 
