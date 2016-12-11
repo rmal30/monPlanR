@@ -2,13 +2,13 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { Search, Grid, Header, Item } from "semantic-ui-react";
 import UnitQuery from "../utils/UnitQuery";
-import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx"
-import axios from 'axios';
+import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
+import axios from "axios";
 
 /**
  * Source is initialised here, it is populated later with responses from API
  */
-let source = {}
+let source = {};
 
 /**
  * The result renderer function dictates what form results should be returned 
@@ -18,7 +18,7 @@ let resultRenderer = ({UnitCode, UnitName}) => (
         UnitCode={UnitCode}
         UnitName={UnitName}
     />
-)
+);
 
 /**     
  * This component searches through the available units for selection
@@ -55,11 +55,11 @@ export default class UnitSearch extends Component {
                 source = response.data;
                 this.setState({
                     isLoading: false
-                })
+                });
             })
             .catch(function(error) {
                 console.log(error);
-            })
+            });
     }
 
     /**     
@@ -75,8 +75,8 @@ export default class UnitSearch extends Component {
      * @author JXNS
      */
     handleChange(e, result) {
-        this.props.onResult(result.UnitCode)
-        this.resetComponent()
+        this.props.onResult(result.UnitCode);
+        this.resetComponent();
     }
 
     /**
@@ -93,12 +93,12 @@ export default class UnitSearch extends Component {
 
             const re = new RegExp(_.escapeRegExp(this.state.value), "i");
             const isMatch = (result) => re.test(result.UnitCode) || re.test(result.UnitName);
-            let matches = _.filter(source, isMatch)
-            let reducedResults
+            let matches = _.filter(source, isMatch);
+            let reducedResults;
             if (matches.length > 5){
-                reducedResults = matches.slice(0,5)
+                reducedResults = matches.slice(0,5);
             } else {
-                reducedResults = matches
+                reducedResults = matches;
             }
             
             this.setState({
