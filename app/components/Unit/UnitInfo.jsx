@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Grid, Icon, Button } from "semantic-ui-react";
+import { Divider, Grid, Icon, Button } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
@@ -14,49 +14,43 @@ function UnitInfo(props) {
                     onCollapseClick={props.onCollapseClick} />
             </div>
         );
+    } else if(props.isLoading) {
+        return (
+            <div className="ui raised segment">
+               <CollapseButton
+                    isDisabled={props.isDisabled}
+                    collapse={props.collapse}
+                    onCollapseClick={props.onCollapseClick} />
+               <UnitInfoPlaceholder />
+        </div>
+        );
     } else {
-        if (props.isLoading){
-            return (
-                <div className="ui raised segment">
-                   <CollapseButton
-                        isDisabled={props.isDisabled}
-                        collapse={props.collapse}
-                        onCollapseClick={props.onCollapseClick} />
-                   <UnitInfoPlaceholder />
-            </div>
-            );
-        } else {
-            return (
-                <div className="ui raised segment">
-                   <CollapseButton
-                        isDisabled={props.isDisabled}
-                        collapse={props.collapse}
-                        onCollapseClick={props.onCollapseClick} />
-                    <Grid celled stackable columns={2}>
-                        <Grid.Column width={12}>
-                            <Grid.Row>
-                                    <h3>{props.UnitCode + " - " + props.UnitName}</h3>
-                                    <p>{props.Faculty}</p>
-                                    <hr />
-                                    <p>{props.Synopsis}</p>
-                                    <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
+        return (
+            <div className="ui raised segment">
+               <CollapseButton
+                    isDisabled={props.isDisabled}
+                    collapse={props.collapse}
+                    onCollapseClick={props.onCollapseClick} />
+                <Grid celled stackable reversed="mobile vertically" columns={2}>
+                    <Grid.Column width={12}>
+                        <Grid.Row>
+                                <h3>{props.UnitCode + " - " + props.UnitName}</h3>
+                                <p>{props.Faculty}</p>
+                                <Divider />
+                                <p>{props.Synopsis}</p>
+                                <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
+                        </Grid.Row>
+                    </Grid.Column>
 
-                            </Grid.Row>
-                        </Grid.Column>
-
-                        <Grid.Column width={4}>
+                    <Grid.Column width={4}>
                         <Grid.Row>
                             <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} />
                         </Grid.Row>
-
-                        </Grid.Column>
-                    </Grid>
-                </div>
-            );
-        }
+                    </Grid.Column>
+                </Grid>
+            </div>
+        );
     }
-
-
 }
 
 
