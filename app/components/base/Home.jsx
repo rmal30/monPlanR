@@ -78,13 +78,11 @@ class Home extends Component {
                             </Form>
                         </Grid.Row>
                     <h4>Disclaimer</h4>
-                    <p className="disclaimer">Our fundamental goal is to allow all Monash University students to add any units in any teaching period, for any year. Period.
-                      We place trust in you as a student to plan your own course, rather than babysitting you by integrating rigid rules that tells you exactly what you can and cannot do.
-                      These rules are complicated to implement in our software, so we only implemented the basics.</p>
-                    <p className="disclaimer">For some quick guidance, we will inform you if there is anything that might be wrong with your course plan. However, our promise is that we will never restrict you in
-                      adding your units to your course, and it is up to you and the course advisors to assist you with your plan.</p>
                     <p className="disclaimer">monPlan is a tool designed to help students to design courses with ease. Our features are designed to assist you in planning your course, including recommending units based off past
-                      SETU results. Since it is a tool, we recommend you to see your faculty’s course advisor.</p>
+                      SETU results. Since it is only a tool, we recommend you to see your faculty’s course advisor.</p>
+                    <p className="disclaimer">Our fundamental goal is to allow all Monash University students to add any units in any teaching period, for any year. Period.
+                      We place trust in you as a student to plan your own course, and for some quick guidance, we will inform you if there is anything that might be wrong with your course plan.</p>
+                    <p className="disclaimer">Our promise is that we will never restrict you in adding your units to your course, and it is up to you and the course advisors to assist you with your plan.</p>
 
                 </div>
             </Container>);

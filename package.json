@@ -1,7 +1,7 @@
 {
   "name": "monPlanR",
-  "version": "1.0.0",
-  "description": "A small attempt to implement monPlan with React to see if it is worth investing in fully.",
+  "version": "0.0.5",
+  "description": "A course planning tool designed by Monash students for Monash students.",
   "main": "./app/index.jsx",
   "dependencies": {
     "axios": "^0.14.0",
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "production": "webpack -p",
-    "dev": "webpack-dev-server --inline --content-base app/ --history-api-fallback",
+    "dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
     "test": "eslint app/**/*.jsx && mocha --compilers babel-core/register tests/*.spec.jsx",
     "fix": "eslint app/**/*.jsx --fix",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r"
@@ -42,8 +42,8 @@
     "type": "git",
     "url": "git+https://github.com/MonashUnitPlanner/monPlanR.git"
   },
-  "author": "Josh Nelsson-Smith",
-  "license": "ISC",
+  "author": "eSolutions (Monash University)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MonashUnitPlanner/monPlanR/issues"
   },
