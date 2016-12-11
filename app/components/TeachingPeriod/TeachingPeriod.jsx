@@ -1,5 +1,7 @@
 import * as React from "react";
 import {Button, Dropdown, Table} from "semantic-ui-react";
+var MediaQuery = require("react-responsive");
+
 import Unit from "../Unit/Unit.jsx";
 
 /**
@@ -37,7 +39,7 @@ function TeachingPeriod(props) {
     return (
         <Table.Row>
             <Table.Cell className="teachingPeriod cell">
-                {props.year}-{props.classification}
+                {props.classification}, {props.year}
                 <Button basic floated="right" onClick={handleDelete} size="tiny" color="red" icon="close" />
             </Table.Cell>
             {unitsEle}
