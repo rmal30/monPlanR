@@ -9,7 +9,7 @@ function UnitInfo(props) {
         return (
              <div className="ui raised segment">
                 <CollapseButton
-                    isDisabled={props.isDisabled}
+                    isDisabled={"hello"}
                     collapse={props.collapse}
                     onCollapseClick={props.onCollapseClick} />
             </div>
