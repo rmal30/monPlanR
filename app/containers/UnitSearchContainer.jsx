@@ -1,8 +1,8 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { Search, Grid, Header, Item } from "semantic-ui-react";
-import UnitQuery from "../../utils/UnitQuery";
-import UnitSearchResult from "./UnitSearchResult.jsx"
+import UnitQuery from "../utils/UnitQuery";
+import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx"
 import axios from 'axios';
 
 /**
@@ -110,6 +110,7 @@ export default class UnitSearch extends Component {
 
     /**
      * The renderer simply returns a search component populated with the data necessary
+     * @author JXNS
      */
     render() {
         const { isLoading, value, results } = this.state;

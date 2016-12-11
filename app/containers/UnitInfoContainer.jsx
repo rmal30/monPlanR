@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
-import UnitSearch from "../components/Unit/UnitSearch.jsx";
+import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
 import _ from "lodash";
 
@@ -87,7 +87,7 @@ class UnitInfoContainer extends Component {
         return (
             <div>
                 <br />
-                <UnitSearch onResult={this.unitSelected} />
+                <UnitSearchContainer onResult={this.unitSelected} />
                 <UnitInfo
                     isDisabled={this.state.isFirstSearch}
                     UnitCode={this.state.UnitCode}
