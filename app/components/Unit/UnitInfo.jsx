@@ -43,9 +43,6 @@ function UnitInfo(props) {
 
                         <Grid.Column width={4}>
                         <Grid.Row>
-
-                        </Grid.Row>
-                        <Grid.Row>
                             <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} />
                         </Grid.Row>
 
