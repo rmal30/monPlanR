@@ -24,6 +24,7 @@ class UnitInfoContainer extends Component {
             isLoading: true,
             UnitCode: "",
             UnitName: "",
+            Faculty: "Faculty of IT",
             Synopsis: ""
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
@@ -66,6 +67,7 @@ class UnitInfoContainer extends Component {
                     isLoading: false,
                     UnitCode: match.UnitCode,
                     UnitName: match.UnitName,
+                    Faculty: match.Faculty,
                     Synopsis: match.Sypnosis
                 });
             }.bind(this))
@@ -82,6 +84,7 @@ class UnitInfoContainer extends Component {
                 <UnitInfo
                     UnitCode={this.state.UnitCode}
                     UnitName={this.state.UnitName}
+                    Faculty={this.state.Faculty}
                     Synopsis={this.state.Synopsis}
                     usefulnessScore={testData.usefulnessScore}
                     likeScore={testData.likeScore}

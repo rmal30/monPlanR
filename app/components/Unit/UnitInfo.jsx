@@ -33,6 +33,7 @@ function UnitInfo(props) {
                         <Grid.Column width={12}>
                             <Grid.Row>
                                     <h3>{props.UnitCode + " - " + props.UnitName}</h3>
+                                    <p>{props.Faculty}</p>
                                     <hr />
                                     <p>{props.Synopsis}</p>
                                     <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
