@@ -6,10 +6,12 @@ import CollapseButton from "../CollapseButton.jsx";
 
 function UnitInfoPlaceholder(props) {
     return (
-        <Grid celled>
+        <Grid celled stackable columns={2}>
             <Grid.Column width={12}>
                 <Grid.Row>
                     <Image src='../resources/img/loaders/header.png' />
+                    <br />
+                    <Image src='../resources/img/loaders/smallText.png' />
                     <Loader active size="huge"></Loader>
                     <hr />
                     <Image src='../resources/img/loaders/short-paragraph.png' />
