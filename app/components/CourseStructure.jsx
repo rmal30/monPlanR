@@ -269,14 +269,6 @@ class CourseStructure extends Component {
 
         return (
             <Container>
-                <Label color="green" size="large">
-                    Total Credits Earnt
-                    <Label.Detail id="credits">0</Label.Detail>
-                </Label>
-                <Label color="green" size="large">
-                    Total Expenses
-                    <Label.Detail id="expenses">$0</Label.Detail>
-                </Label>
                 <Table celled fixed striped compact>
                     <MediaQuery query="(min-device-width: 768px)">
                         <Table.Header>
