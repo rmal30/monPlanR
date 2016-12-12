@@ -16,7 +16,8 @@ import CollapseButton from "../CollapseButton.jsx";
  * @param {string} Synopsis - A short description of the unit.
  * @param {string} UnitCode - The unit's associated unit code.
  * @param {string} UnitName - The unit's associated unit name.
- * @param {number} usefulnessScore - A score between 0 and 5 representing how much students felt they learnt in the unit. 
+ * @param {number} usefulnessScore - A score between 0 and 5 representing how much students felt they learnt in the unit.
+ * @param {boolean} error - A value indicating whether an error has occured or not, if there is an error getting unit data, the component will display error message.
  */
 function UnitInfo(props) {
 
