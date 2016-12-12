@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import { Label, Grid } from "semantic-ui-react";
+import { Container, Label, Grid } from "semantic-ui-react";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
 import _ from "lodash";
 
-/**     
- * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates 
+/**
+ * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates
  * the component.
  * @author JXNS
  */
 class UnitInfoContainer extends Component {
-    
-    /**     
+
+    /**
      * The constructor for the UnitInfoContainer component, sets the initial state of the component and binds the necessary functions.
-     * Collapse is initially set to true, isLoading set to false and isFirstsearch set to true. These initial values set up the 
+     * Collapse is initially set to true, isLoading set to false and isFirstsearch set to true. These initial values set up the
      * component for before the first search and are changed afterwards.
      * @author JXNS
      */
@@ -34,8 +34,8 @@ class UnitInfoContainer extends Component {
         this.unitSelected = this.unitSelected.bind(this);
     }
 
-    /**     
-     * When the collapse button is clicked, the collapse bool must be changed from true to false, or false to true depending on whether 
+    /**
+     * When the collapse button is clicked, the collapse bool must be changed from true to false, or false to true depending on whether
      * it was collapsed or not previously.
      * @author JXNS
      */
@@ -46,13 +46,13 @@ class UnitInfoContainer extends Component {
         });
     }
 
-    /**     
+    /**
      * The unitSelected function is called whenever a new unit is selected.
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     unitSelected(nUnitCode){
-        
+
         if(this.state.isFirstSearch){
             this.setState({collapse: false});
         }
@@ -83,13 +83,13 @@ class UnitInfoContainer extends Component {
             }.bind(this));
     }
 
-    /**     
-     * The component currently returns both the unitsearch and unitInfo components with all the gathered state. 
+    /**
+     * The component currently returns both the unitsearch and unitInfo components with all the gathered state.
      * @author JXNS
      */
     render() {
         return (
-            <div>
+            <Container>
                 <br />
                 <Grid stackable>
                     <Grid.Row>
@@ -109,7 +109,6 @@ class UnitInfoContainer extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                
                 <UnitInfo
                     isDisabled={this.state.isFirstSearch}
                     UnitCode={this.state.UnitCode}
@@ -123,7 +122,7 @@ class UnitInfoContainer extends Component {
                     onCollapseClick={this.handleCollapseClick}
                     error={this.state.error}
                 />
-            </div>
+            </Container>
         );
     }
 }

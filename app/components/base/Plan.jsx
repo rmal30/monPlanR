@@ -16,15 +16,15 @@ class Plan extends Component {
         return (
             <div>
                 <UnitInfoContainer />
-            <Container className="main text">
-                <Grid>
-                    <Grid.Row>
-                        <CourseStructure startYear={parseInt(startYear)} endYear={parseInt(endYear)} />
-                    </Grid.Row>
-                </Grid>
-            </Container>
+                <Container className="main text">
+                    <Grid>
+                        <Grid.Row>
+                            <CourseStructure startYear={parseInt(startYear)} endYear={parseInt(endYear)} />
+                        </Grid.Row>
+                    </Grid>
+                </Container>
             </div>
-            
+
         );
     }
 }
