@@ -91,7 +91,7 @@ class UnitInfoContainer extends Component {
         return (
             <div>
                 <br />
-                <Grid>
+                <Grid stackable>
                     <Grid.Row>
                         <Grid.Column width={2}>
                             <UnitSearchContainer onResult={this.unitSelected} />
