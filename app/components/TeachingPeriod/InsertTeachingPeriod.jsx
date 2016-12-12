@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Input, Grid, Popup, Table} from "semantic-ui-react";
+import {Button, Icon, Input, Form, Grid, Popup, Table} from "semantic-ui-react";
 
 const InsertTeachingPeriod = (props) => {
     let year = props.year,
@@ -27,8 +27,16 @@ const InsertTeachingPeriod = (props) => {
         <Table.Row>
             <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1}>
                 <Popup hoverable flowing trigger={triggerButton}>
-                    <Input label="Year: " onChange={handleYearChange} placeholder={props.year} />
-                    <Input label="Code: " onChange={handleCodeChange} placeholder={props.code} />
+                    <Form onSubmit={e => e.preventDefault()}>
+                        <Form.Field>
+                            <label>Year: </label>
+                            <input onChange={handleYearChange} placeholder={props.year} />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Code: </label>
+                            <input onChange={handleCodeChange} placeholder={props.code} />
+                        </Form.Field>
+                    </Form>
                 </Popup>
             </Table.Cell>
         </Table.Row>
