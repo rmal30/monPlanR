@@ -24,7 +24,7 @@ let resultRenderer = ({UnitCode, UnitName}) => (
  * This component searches through the available units for selection
  * @author JXNS
  */
-export default class UnitSearch extends Component {
+export default class UnitSearchContainer extends Component {
 
     /**
      * The constructor initialises the state and binds the methods used
