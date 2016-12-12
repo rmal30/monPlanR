@@ -11,41 +11,41 @@ import axios from "axios";
 let source = {};
 
 /**
- * The result renderer function dictates what form results should be returned 
+ * The result renderer function dictates what form results should be returned
  */
 let resultRenderer = ({UnitCode, UnitName}) => (
-    <UnitSearchResult 
+    <UnitSearchResult
         UnitCode={UnitCode}
         UnitName={UnitName}
     />
 );
 
-/**     
+/**
  * This component searches through the available units for selection
  * @author JXNS
  */
 export default class UnitSearch extends Component {
-    
-    /**     
+
+    /**
      * The constructor initialises the state and binds the methods used
      * @author JXNS
      */
     constructor(props) {
         super(props);
-        
+
         this.state = {
             isLoading: false,
             results: [],
             value: ""
         };
-        
+
         this.resetComponent = this.resetComponent.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
 
     }
 
-    /**     
+    /**
      * Before the component mounts we query the database for the unit info.
      * @author JXNS
      */
@@ -62,7 +62,7 @@ export default class UnitSearch extends Component {
             });
     }
 
-    /**     
+    /**
      * Reset needs to be called after a unit is selected, when it is selected we change the entered value back to empty string (clears the searchbox).
      * @author JXNS
      */
@@ -100,7 +100,7 @@ export default class UnitSearch extends Component {
             } else {
                 reducedResults = matches;
             }
-            
+
             this.setState({
                 isLoading: false,
                 results: reducedResults,
@@ -121,7 +121,7 @@ export default class UnitSearch extends Component {
                 onSearchChange={this.handleSearchChange}
                 results={results}
                 value={value}
-                placeholder={"Add Unit"}
+                placeholder={"Search Unit"}
                 noResultsMessage={"No units found"}
                 resultRenderer={resultRenderer}
                 onChange={this.handleChange}
