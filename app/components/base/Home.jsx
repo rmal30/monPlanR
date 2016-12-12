@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Container, Icon, Form, Grid, Message} from "semantic-ui-react";
+import {Button, Container, Form, Grid, Icon, Message, Segment} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 
 /**
@@ -99,22 +99,18 @@ class Home extends Component {
                         <p>Please enter your commencement and graduation year to get started.</p>
                         <Grid.Row>
                             <Form size="large">
-                                <div className="ui raised segment">
+                                <Segment raised>
                                     <Form.Field>
-                                        <div className="ui labeled input">
-                                            <div className="ui label">Commencement Year:</div>
-                                            <input name="startYr" type="text" placeholder={this.startYearPlaceholder} onChange={this.changeStartYear}/>
-                                        </div>
+                                        <label>Commencement Year:</label>
+                                        <input type="text" placeholder={this.startYearPlaceholder} onChange={this.changeStartYear} />
                                     </Form.Field>
                                     <Form.Field>
-                                        <div className="ui labeled input">
-                                            <div className="ui label">Graduation Year:</div>
-                                            <input name="gradYr" type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear}/>
-                                        </div>
+                                        <label>Graduation Year:</label>
+                                        <input type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear} />
                                     </Form.Field>
                                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
                                     <Button disabled>Start with empty template</Button>
-                                </div>
+                                </Segment>
                             </Form>
                         </Grid.Row>
                     <h4>Disclaimer</h4>

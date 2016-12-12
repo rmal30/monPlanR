@@ -1,26 +1,28 @@
-import React, {Component} from "react";
+import React, { Component, PropTypes } from "react";
 import {Button, Container, Dropdown, Grid, Icon, Label, Table} from "semantic-ui-react";
 import axios from "axios";
 var MediaQuery = require("react-responsive");
 
+import Home from "./base/Home.jsx";
+
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
-
-import Home from "./base/Home.jsx";
-import genCourse from "./GenerateCourseStructure.jsx";
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
  * adding, moving and deleting units. It also holds action and status components
  * to give students feedback and ability to change the course structure.
  *
- * @class
  * @extends React.Component
+ * @param {number} startYear - The year the student commerces their course.
+ * @param {number} endYear - The expected graduation year.
  */
 class CourseStructure extends Component {
 
     /**
-     * State: numberOfUnits, showInsertTeachingPeriods, teachingPeriods
+     * Initialises state that holds a list of teachingPeriods.
+     *
+     * @param props - React props
      */
     constructor(props) {
         super(props);
@@ -28,12 +30,13 @@ class CourseStructure extends Component {
         const { startYear, endYear } = this.props;
 
         this.state = {
-            "numberOfUnits": 4,
-            "showInsertTeachingPeriods": false,
-            "teachingPeriods": this.generateCourse(parseInt(startYear), parseInt(endYear)),
-            "teachingPeriodsData": null
+            numberOfUnits: 4,
+            showInsertTeachingPeriods: false,
+            teachingPeriods: this.generateCourse(startYear, endYear),
+            teachingPeriodsData: null
         };
 
+        // Fetch common teaching periods to get names for each teaching period code.
         axios.get("/data/teachingPeriods/common.json")
              .then(response => {
                  this.setState({
@@ -47,11 +50,15 @@ class CourseStructure extends Component {
     /**
      * Generates a course structure of semester one and semester two teaching
      * periods, given start year and end year.
+     *
+     * @author Eric Jiang, Saurabh Joshi
+     * @param {number} startYear - When the student commerces their course.
+     * @param {number} endYear - When the student is expected to graduate.
      */
     generateCourse(startYear, endYear) {
         if(endYear - startYear > 12 || startYear === null || endYear === null) {
             startYear = new Date().getFullYear();
-            endYear = startYear + 4;
+            endYear = startYear + 3;
         }
 
         if(startYear <= endYear) {
@@ -63,6 +70,7 @@ class CourseStructure extends Component {
                     numberOfUnits: 4,
                     units: [null, null, null, null]
                 };
+
                 const semesterTwoTeachingPeriod = {
                     year,
                     code: "S2-01",
@@ -79,11 +87,14 @@ class CourseStructure extends Component {
 
         return [];
     }
+
     /**
      * Displays add teaching period buttons in between the teaching period
      * table rows.
+     *
+     * @author Saurabh Joshi
      */
-    showInsertTeachingPeriodsUI(teachingPeriodString) {
+    showInsertTeachingPeriodsUI() {
         this.setState({
             showInsertTeachingPeriods: true
         });
@@ -92,6 +103,8 @@ class CourseStructure extends Component {
     /**
      * Hides the add teaching period buttons in between the teaching period
      * table rows.
+     *
+     * @author Saurabh Joshi
      */
     hideInsertTeachingPeriodsUI() {
         this.setState({
@@ -102,18 +115,22 @@ class CourseStructure extends Component {
     /**
      * Inserts teaching period at a specified index.
      *
-     * @param index - Which index in array to insert the teaching period
-     * @param year - Year of teaching period that was taken place
-     * @param ccode - Teaching period code.
+     * @author Saurabh Joshi
+     * @param {number} index - Which index in array to insert the teaching period
+     * @param {number} year - Year of teaching period that was taken place
+     * @param {string} code - Teaching period code.
      */
     insertTeachingPeriod(index, year, code) {
-        const teachingPeriods = this.state.teachingPeriods;
-        teachingPeriods.splice(index, 0, {
-            code,
-            year,
-            numberOfUnits: 4,
-            units: [null, null, null, null]
-        });
+        const teachingPeriods = [
+            ...this.state.teachingPeriods.slice(0, index),
+            {
+                code,
+                year,
+                numberOfUnits: 4,
+                units: [null, null, null, null]
+            },
+            ...this.state.teachingPeriods.slice(index)
+        ];
 
         this.setState({
             showInsertTeachingPeriods: false,
@@ -124,7 +141,8 @@ class CourseStructure extends Component {
     /**
      * Deletes a teaching period at a specified index.
      *
-     * @param index - Which teaching period in list to delete.
+     * @author Saurabh Joshi
+     * @param {number} index - Which teaching period in list to delete.
      */
     deleteTeachingPeriod(index) {
         const teachingPeriods = [
@@ -132,26 +150,30 @@ class CourseStructure extends Component {
             ...this.state.teachingPeriods.slice(index + 1)
         ];
 
-        this.setState({
-            teachingPeriods
-        });
+        this.setState({ teachingPeriods });
     }
 
     /**
      * Deletes a unit at a specified teaching period index and specified unit
      * index. This is done by setting the array element to undefined.
+     *
+     * @author Saurabh Joshi
+     * @param {number} teachingPeriodIndex - Which teaching period are you referring to.
+     * @param {number} unitIndex - Which unit in teaching period to remove.
      */
     deleteUnit(teachingPeriodIndex, unitIndex) {
-        const updatedTeachingPeriods = this.state.teachingPeriods;
+        const { teachingPeriods } = this.state;
         updatedTeachingPeriods[teachingPeriodIndex].units[unitIndex] = undefined;
-        this.setState({
-            teachingPeriods: updatedTeachingPeriods
-        });
+        this.setState({ teachingPeriods });
     }
 
     /**
      * Returns a rendered teaching period component as a table row to be used in
      * a table.
+     *
+     * @author Saurabh Joshi
+     * @param {number} teachingPeriod - The teaching period object.
+     * @param {number} index - For bookkeeping which teaching period is which.
      */
     renderTeachingPeriod(teachingPeriod, index) {
         return <TeachingPeriod
@@ -167,7 +189,13 @@ class CourseStructure extends Component {
     }
 
     /**
-     * TODO: Modularise into smaller components for course structure
+     * Returns a table of teaching periods as table rows, and in teaching period
+     * holds a list of units represented as table cells. It also renders an add button
+     * as well as some status labels.
+     *
+     * TODO: Modularise into smaller components for course structure.
+     *
+     * @author Saurabh Joshi
      */
     render() {
         const tableRows = [];
@@ -241,37 +269,15 @@ class CourseStructure extends Component {
 
         return (
             <Container>
-                <Grid stackable columns={2}>
-                    <Grid.Column floated="left" width={5}>
-                        {!this.state.showInsertTeachingPeriods &&
-                        <Button.Group color="green">
-                            <Button onClick={this.showInsertTeachingPeriodsUI.bind(this, "Semester")}><Icon name="add square"/>Add Semester</Button>
-                            <Dropdown floating button className="icon">
-                                <Dropdown.Menu>
-                                    <Dropdown.Item>Add Summer Semester A</Dropdown.Item>
-                                    <Dropdown.Item>Add Summer Semester B</Dropdown.Item>
-                                    <Dropdown.Item>Add Winter Semester</Dropdown.Item>
-                                    <Dropdown.Item>Add Full Year</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </Button.Group>
-                        }
-                        {this.state.showInsertTeachingPeriods &&
-                        <Button onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
-                        }
-                    </Grid.Column>
-                    <Grid.Column floated="right" width={5}>
-                        <Label color="green" size="large">
-                            Total Credits Earnt
-                            <Label.Detail id="credits">0</Label.Detail>
-                        </Label>
-                        <Label color="green" size="large">
-                            Total Expenses
-                            <Label.Detail id="expenses">$0</Label.Detail>
-                        </Label>
-                    </Grid.Column>
-                </Grid>
-                <Table celled fixed>
+                <Label color="green" size="large">
+                    Total Credits Earnt
+                    <Label.Detail id="credits">0</Label.Detail>
+                </Label>
+                <Label color="green" size="large">
+                    Total Expenses
+                    <Label.Detail id="expenses">$0</Label.Detail>
+                </Label>
+                <Table celled fixed striped compact>
                     <MediaQuery query="(min-device-width: 768px)">
                         <Table.Header>
                             <Table.Row textAlign="center">
@@ -284,9 +290,30 @@ class CourseStructure extends Component {
                         {tableRows}
                     </Table.Body>
                 </Table>
+                {!this.state.showInsertTeachingPeriods &&
+                <Button.Group color="green" className="right floated">
+                    <Button onClick={this.showInsertTeachingPeriodsUI.bind(this, "Semester")}><Icon name="add square"/>Add Semester</Button>
+                    <Dropdown floating button className="icon">
+                        <Dropdown.Menu>
+                            <Dropdown.Item>Add Summer Semester A</Dropdown.Item>
+                            <Dropdown.Item>Add Summer Semester B</Dropdown.Item>
+                            <Dropdown.Item>Add Winter Semester</Dropdown.Item>
+                            <Dropdown.Item>Add Full Year</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Button.Group>
+                }
+                {this.state.showInsertTeachingPeriods &&
+                <Button floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
+                }
             </Container>
         );
     }
 }
+
+CourseStructure.propTypes = {
+    startYear: PropTypes.number,
+    endYear: PropTypes.number
+};
 
 export default CourseStructure;

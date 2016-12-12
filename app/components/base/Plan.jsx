@@ -15,7 +15,7 @@ class Plan extends Component {
             <Container className="main text">
                 <Grid>
                     <Grid.Row>
-                        <CourseStructure startYear={startYear} endYear={endYear} />
+                        <CourseStructure startYear={parseInt(startYear)} endYear={parseInt(endYear)} />
                     </Grid.Row>
                 </Grid>
             </Container>
