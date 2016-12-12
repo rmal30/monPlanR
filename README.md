@@ -29,7 +29,7 @@ To build technical documentation:
 ```
 npm run jsdoc
 ```
-
+Otherwise you can view it here: https://doclets.io/MonashUnitPlanner/monPlanR
 # License
 MIT License
 
