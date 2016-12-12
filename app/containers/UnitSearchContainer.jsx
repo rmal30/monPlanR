@@ -56,7 +56,7 @@ export default class UnitSearch extends Component {
                 this.setState({
                     isLoading: false
                 });
-            })
+            }.bind(this))
             .catch(function(error) {
                 console.log(error);
             });

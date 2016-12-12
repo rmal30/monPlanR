@@ -32,5 +32,9 @@ module.exports = {
         "react/lib/ReactContext": true,
     },
 
+    devServer: {
+        headers: { "Access-Control-Allow-Origin": "*"}
+    },
+
     plugins: [HtmlWebpackPluginConfig]
 };
