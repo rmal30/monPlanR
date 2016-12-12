@@ -84,8 +84,8 @@ class Home extends Component {
      * @method
      */
     render() {
-        const { formData, value } = this.state;
-
+        //const { formData, value } = this.state;
+        // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
         return (
             <Container className="ui main text">
                 <div id="welcome" className="ui container">
@@ -102,11 +102,11 @@ class Home extends Component {
                                 <Segment raised>
                                     <Form.Field>
                                         <label>Commencement Year:</label>
-                                        <input type="text" placeholder={this.startYearPlaceholder} onChange={this.changeStartYear} />
+                                        <input type="text" placeholder={this.startYearPlaceholder} onBlur={this.changeStartYear} />
                                     </Form.Field>
                                     <Form.Field>
                                         <label>Graduation Year:</label>
-                                        <input type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear} />
+                                        <input type="text" placeholder={this.endYearPlaceholder} onBlur={this.changeEndYear} />
                                     </Form.Field>
                                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
                                      <Link to="/plan"><Button color="blue" >Start with an empty template <Icon name="right arrow" /></Button></Link>
