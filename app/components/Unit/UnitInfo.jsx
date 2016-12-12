@@ -16,12 +16,14 @@ import CollapseButton from "../CollapseButton.jsx";
  * @param {string} Synopsis - A short description of the unit.
  * @param {string} UnitCode - The unit's associated unit code.
  * @param {string} UnitName - The unit's associated unit name.
- * @param {number} usefulnessScore - A score between 0 and 5 representing how much students felt they learnt in the unit. 
+ * @param {number} usefulnessScore - A score between 0 and 5 representing how much students felt they learnt in the unit.
+ * @param {boolean} error - A value indicating whether an error has occured or not, if there is an error getting unit data, the component will display error message.
  */
 function UnitInfo(props) {
 
     UnitInfo.propTypes = {
         collapse: PropTypes.bool.isRequired,
+        error: PropTypes.bool.isRequired,
         Faculty: PropTypes.string.isRequired,
         likeScore: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired,
@@ -52,31 +54,44 @@ function UnitInfo(props) {
         </div>
         );
     } else {
-        return (
-            <div className="ui raised segment">
-               <CollapseButton
+
+        if(props.error) {
+            return (
+                <div className="ui raised segment">
+                <CollapseButton
                     isDisabled={props.isDisabled}
                     collapse={props.collapse}
                     onCollapseClick={props.onCollapseClick} />
-                <Grid celled stackable columns={2}>
-                    <Grid.Column width={12}>
-                        <Grid.Row>
-                                <h3>{props.UnitCode + " - " + props.UnitName}</h3>
-                                <p>{props.Faculty}</p>
-                                <Divider />
-                                <p>{props.Synopsis}</p>
-                                <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
-                        </Grid.Row>
-                    </Grid.Column>
+                <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
+                </div>
+            );
+        } else {
+            return (
+                <div className="ui raised segment">
+                <CollapseButton
+                        isDisabled={props.isDisabled}
+                        collapse={props.collapse}
+                        onCollapseClick={props.onCollapseClick} />
+                    <Grid celled stackable columns={2}>
+                        <Grid.Column width={12}>
+                            <Grid.Row>
+                                    <h3>{props.UnitCode + " - " + props.UnitName}</h3>
+                                    <p>{props.Faculty}</p>
+                                    <Divider />
+                                    <p>{props.Synopsis}</p>
+                                    <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
+                            </Grid.Row>
+                        </Grid.Column>
 
-                    <Grid.Column width={4}>
-                        <Grid.Row>
-                            <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} />
-                        </Grid.Row>
-                    </Grid.Column>
-                </Grid>
-            </div>
-        );
+                        <Grid.Column width={4}>
+                            <Grid.Row>
+                                <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} />
+                            </Grid.Row>
+                        </Grid.Column>
+                    </Grid>
+                </div>
+            );
+        }
     }
 }
 

@@ -26,7 +26,8 @@ class UnitInfoContainer extends Component {
             UnitName: "",
             Faculty: "Faculty of IT",
             Synopsis: "",
-            isFirstSearch: true
+            isFirstSearch: true,
+            error: false
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
         this.unitSelected = this.unitSelected.bind(this);
@@ -65,12 +66,18 @@ class UnitInfoContainer extends Component {
                     UnitCode: nUnitCode,
                     UnitName: data.UnitName,
                     Faculty: data.Faculty,
-                    Synopsis: data.Description
+                    Synopsis: data.Description,
+                    error: false
                 });
             }.bind(this))
             .catch(function(error) {
                 console.log(error);
-            });
+                this.setState({
+                    isLoading: false,
+                    UnitCode: nUnitCode,
+                    error: true,
+                });
+            }.bind(this));
     }
 
     /**     
@@ -93,6 +100,7 @@ class UnitInfoContainer extends Component {
                     collapse={this.state.collapse}
                     isLoading={this.state.isLoading}
                     onCollapseClick={this.handleCollapseClick}
+                    error={this.state.error}
                 />
             </div>
         );
