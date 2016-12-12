@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import {Search, Grid, Container, Icon, Menu, Label, Dropdown, Popup} from "semantic-ui-react";
 import MediaQuery from "react-responsive";
+
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
 import SettingsModal from "../modals/settings.jsx";
 
+/**
+ * The header for the web app, which displays the logo, name, status and information menu.
+ */
 class Header extends Component {
     static getSettingsModalTrigger(handleOpen) {
         return <Dropdown.Item as="a" onClick={handleOpen}><i className="settings icon"></i> User Settings</Dropdown.Item>;
