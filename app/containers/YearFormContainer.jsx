@@ -1,9 +1,8 @@
 import React, {Component} from "react";
-import {Button, Container, Form, Grid, Icon, Message, Segment} from "semantic-ui-react";
+import {Button, Container, Form, Grid, Icon, Message, Segment, Input} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 
 /**
- * Home page that is shown to the user when they load the domain.
  *
  * @class
  */
@@ -21,7 +20,10 @@ class YearFormContainer extends Component {
 
         this.state = {
             startYear: this.startYearPlaceholder,
-            endYear: this.endYearPlaceholder
+            endYear: this.endYearPlaceholder,
+            isError: false,
+            isEntering: true,
+            isValid: false,
         };
 
         this.returnData = this.returnData.bind(this);
@@ -89,20 +91,30 @@ class YearFormContainer extends Component {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
         return (
-            <Form size="large">
+            <Form size="large" error>
                 <Segment raised>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                            <input type="text" placeholder={this.startYearPlaceholder} onChange={this.changeStartYear} />
+                            <Form.Input 
+                                type="text" 
+                                placeholder={this.startYearPlaceholder} 
+                                onChange={this.changeStartYear} 
+                                error={this.state.isError} />
+                    <Message
+                        error
+                        header="Action Forbidden"
+                        content="This is an error message."
+                    />
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
-                            <input type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear} />
+                            <Input type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear} />
                     </Form.Field>
                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
                          <Link to="/plan"><Button color="blue" >Start with an empty template <Icon name="right arrow" /></Button></Link>
                 </Segment>
-                <pre>{this.state.startYear}</pre>
+                <pre>{"Start Year: " + this.state.startYear}</pre>
+                <pre>{"End Year: " + this.state.endYear}</pre>
             </Form>
         );
     }
