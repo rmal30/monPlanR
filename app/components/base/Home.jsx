@@ -109,7 +109,7 @@ class Home extends Component {
                                         <input type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear} />
                                     </Form.Field>
                                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
-                                    <Button disabled>Start with empty template</Button>
+                                     <Link to="/plan"><Button color="blue" >Start with an empty template <Icon name="right arrow" /></Button></Link>
                                 </Segment>
                             </Form>
                         </Grid.Row>
