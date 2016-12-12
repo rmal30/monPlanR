@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Button, Container, Grid, Icon, Label } from "semantic-ui-react";
+import { Button, Container, Grid, Icon, Label, Statistic } from "semantic-ui-react";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
 import _ from "lodash";
-
+import MediaQuery from "react-responsive";
 /**
  * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates
  * the component.
@@ -28,7 +28,9 @@ class UnitInfoContainer extends Component {
             Faculty: "Faculty of IT",
             Synopsis: "",
             isFirstSearch: true,
-            error: false
+            error: false,
+            currentCreditPoints: 10,
+            currentEstCost: 1000,
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
         this.unitSelected = this.unitSelected.bind(this);
@@ -103,7 +105,7 @@ class UnitInfoContainer extends Component {
      */
     render() {
         return (
-            <Container>
+            <Container className="move">
                 <br />
                 <Grid stackable>
                     <Grid.Row>
@@ -112,14 +114,41 @@ class UnitInfoContainer extends Component {
                         </Grid.Column>
                         <Grid.Column width={8} />
                         <Grid.Column width={6}>
-                            <Label color="green" size="large">
-                            Total Credits Earnt
-                            <Label.Detail id="credits">0</Label.Detail>
-                        </Label>
-                        <Label color="green" size="large">
-                            Total Expenses
-                            <Label.Detail id="expenses">$0</Label.Detail>
-                        </Label>
+                            <MediaQuery minDeviceWidth={768}>{(desktop) => {
+                                if (desktop) {
+                                  return(
+                                    <Statistic.Group>
+                                        <Statistic size="mini">
+                                            <Statistic.Value>
+                                              <Icon name='student' />
+                                              {this.state.currentCreditPoints}
+                                            </Statistic.Value>
+                                            <Statistic.Label>Credit Points</Statistic.Label>
+                                        </Statistic>
+
+                                      <Statistic size="mini">
+                                        <Statistic.Value >
+                                          <Icon name='dollar' />
+                                          {this.state.currentEstCost}
+                                        </Statistic.Value>
+                                        <Statistic.Label>Total Est. Cost</Statistic.Label>
+                                      </Statistic>
+                                  </Statistic.Group>
+                                  );
+                                } else {
+                                  return (
+                                      <Container>
+                                <Label color="green" size="large">
+                                     Total Credits Earnt
+                                     <Label.Detail>{this.state.currentCreditPoints}</Label.Detail>
+                                 </Label>
+                                 <Label color="green" size="large">
+                                     Total Expenses
+                                     <Label.Detail>${this.state.currentEstCost}</Label.Detail>
+                                 </Label></Container>);
+                                }
+                              }}
+                            </MediaQuery>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

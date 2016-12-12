@@ -53,3 +53,13 @@ body {
 .disclaimer{
   font-size: 12px;
 }
+
+/*
+.move {
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+    position: sticky;
+    top: 2.85714286em; // required as well.
+}*/
