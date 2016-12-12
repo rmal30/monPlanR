@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {Search, Grid, Container, Icon, Menu, Label, Dropdown, Popup} from "semantic-ui-react";
+import MediaQuery from "react-responsive";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
 import SettingsModal from "../modals/settings.jsx";

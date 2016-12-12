@@ -27,3 +27,5 @@ function SetuRating(props) {
 
     );
 }
+
+export default SetuRating
