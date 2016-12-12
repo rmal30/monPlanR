@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Button, Container, Dropdown, Grid, Icon, Label, Table} from "semantic-ui-react";
+import axios from "axios";
 var MediaQuery = require("react-responsive");
 
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
@@ -8,6 +9,14 @@ import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 import Home from "./base/Home.jsx";
 import genCourse from "./GenerateCourseStructure.jsx";
 
+/**
+ * CourseStructure holds a table that allows students to plan their courses by
+ * adding, moving and deleting units. It also holds action and status components
+ * to give students feedback and ability to change the course structure.
+ *
+ * @class
+ * @extends React.Component
+ */
 class CourseStructure extends Component {
 
     /**
@@ -21,8 +30,16 @@ class CourseStructure extends Component {
         this.state = {
             "numberOfUnits": 4,
             "showInsertTeachingPeriods": false,
-            "teachingPeriods": this.generateCourse(parseInt(startYear), parseInt(endYear))
+            "teachingPeriods": this.generateCourse(parseInt(startYear), parseInt(endYear)),
+            "teachingPeriodsData": null
         };
+
+        axios.get("/data/teachingPeriods/common.json")
+             .then(response => {
+                 this.setState({
+                     teachingPeriodsData: response.data
+                 });
+             });
 
         this.generateCourse = this.generateCourse.bind(this);
     }
@@ -42,13 +59,13 @@ class CourseStructure extends Component {
             for(let year = startYear; year <= endYear; year++) {
                 const semesterOneTeachingPeriod = {
                     year,
-                    type: "S1-01",
+                    code: "S1-01",
                     numberOfUnits: 4,
                     units: [null, null, null, null]
                 };
                 const semesterTwoTeachingPeriod = {
                     year,
-                    type: "S2-02",
+                    code: "S2-01",
                     numberOfUnits: 4,
                     units: [null, null, null, null]
                 };
@@ -87,20 +104,20 @@ class CourseStructure extends Component {
      *
      * @param index - Which index in array to insert the teaching period
      * @param year - Year of teaching period that was taken place
-     * @param type - Teaching period code that indicates what type it is.
+     * @param ccode - Teaching period code.
      */
-    insertTeachingPeriod(index, year, type) {
+    insertTeachingPeriod(index, year, code) {
         const teachingPeriods = this.state.teachingPeriods;
         teachingPeriods.splice(index, 0, {
-            type: type,
-            year: year,
+            code,
+            year,
             numberOfUnits: 4,
             units: [null, null, null, null]
         });
 
         this.setState({
             showInsertTeachingPeriods: false,
-            teachingPeriods: teachingPeriods
+            teachingPeriods
         });
     }
 
@@ -110,13 +127,13 @@ class CourseStructure extends Component {
      * @param index - Which teaching period in list to delete.
      */
     deleteTeachingPeriod(index) {
-        const updatedTeachingPeriods = [
+        const teachingPeriods = [
             ...this.state.teachingPeriods.slice(0, index),
             ...this.state.teachingPeriods.slice(index + 1)
         ];
 
         this.setState({
-            teachingPeriods: updatedTeachingPeriods
+            teachingPeriods
         });
     }
 
@@ -138,10 +155,11 @@ class CourseStructure extends Component {
      */
     renderTeachingPeriod(teachingPeriod, index) {
         return <TeachingPeriod
-                    key={`${teachingPeriod.year}-${teachingPeriod.type}`}
+                    key={`${teachingPeriod.year}-${teachingPeriod.code}`}
                     index={index}
                     year={teachingPeriod.year}
-                    classification={teachingPeriod.type}
+                    code={teachingPeriod.code}
+                    data={this.state.teachingPeriodsData}
                     numberOfUnits={teachingPeriod.numberOfUnits}
                     deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
                     deleteUnit={this.deleteUnit.bind(this)}
@@ -153,26 +171,71 @@ class CourseStructure extends Component {
      */
     render() {
         const tableRows = [];
+        let year = new Date().getFullYear(), code = "S1-01", show = true;
         if(this.state.showInsertTeachingPeriods) {
+            if(this.state.teachingPeriods.length > 0) {
+                if(this.state.teachingPeriods[0].code === "S1-01") {
+                    code = "S2-01";
+                    year = this.state.teachingPeriods[0].year - 1;
+                } else if(this.state.teachingPeriods[0].code === "S2-02") {
+                    code = "S1-01";
+                    year = this.state.teachingPeriods[0].year;
+                } else {
+                    year = this.state.teachingPeriods[0].year;
+                }
+            }
+
             tableRows.push(<InsertTeachingPeriod index={0}
                                            key={`${0}-insertTeachingPeriod`}
                                            numberOfUnits={this.state.numberOfUnits}
                                            insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
-                                           year={2016}
+                                           year={year}
                                            teachingPeriodType="Semester"
-                                           teachingPeriodCode="S1-01" />);
+                                           code={code} />);
         }
 
-        for(var i = 0; i < this.state.teachingPeriods.length; i++) {
+        for(let i = 0; i < this.state.teachingPeriods.length; i++) {
             tableRows.push(this.renderTeachingPeriod(this.state.teachingPeriods[i], i));
             if(this.state.showInsertTeachingPeriods) {
-                tableRows.push(<InsertTeachingPeriod index={i + 1}
-                                               key={`${i + 1}-insertTeachingPeriod`}
-                                               numberOfUnits={this.state.numberOfUnits}
-                                               insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
-                                               year={2016}
-                                               teachingPeriodType="Semester"
-                                               teachingPeriodCode="S1-01" />);
+                if(i !== this.state.teachingPeriods.length - 1) {
+                    const condition1 = this.state.teachingPeriods[i].code === "S1-01" && this.state.teachingPeriods[i + 1].code === "S2-01" && this.state.teachingPeriods[i].year === this.state.teachingPeriods[i + 1].year;
+                    const condition2 = this.state.teachingPeriods[i].code === "S2-01" && this.state.teachingPeriods[i + 1].code === "S1-01" && this.state.teachingPeriods[i].year + 1 === this.state.teachingPeriods[i + 1].year;
+
+                    if(!condition1 && !condition2) {
+                        if(this.state.teachingPeriods[i].code === "S2-01") {
+                            code = "S1-01";
+                            year = this.state.teachingPeriods[i].year + 1;
+                        } else if(this.state.teachingPeriods[i].code === "S1-01") {
+                            code = "S2-01";
+                            year = this.state.teachingPeriods[i].year;
+                        }
+                        tableRows.push(<InsertTeachingPeriod index={i + 1}
+                                                             key={`${i + 1}-insertTeachingPeriod`}
+                                                             numberOfUnits={this.state.numberOfUnits}
+                                                             insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
+                                                             year={year}
+                                                             teachingPeriodType="Semester"
+                                                             code={code} />);
+                    }
+                } else {
+                    if(this.state.teachingPeriods[i].code === "S1-01") {
+                        code = "S2-01";
+                        year = this.state.teachingPeriods[i].year;
+                    } else if(this.state.teachingPeriods[i].code === "S2-01") {
+                        code = "S1-01";
+                        year = this.state.teachingPeriods[i].year + 1;
+                    } else {
+                        year = this.state.teachingPeriods[i].year;
+                    }
+
+                    tableRows.push(<InsertTeachingPeriod index={i + 1}
+                                                         key={`${i + 1}-insertTeachingPeriod`}
+                                                         numberOfUnits={this.state.numberOfUnits}
+                                                         insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
+                                                         year={year}
+                                                         teachingPeriodType="Semester"
+                                                         code={code} />);
+                }
             }
         }
 

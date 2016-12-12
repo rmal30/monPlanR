@@ -57,26 +57,20 @@ class UnitInfoContainer extends Component {
             isFirstSearch: false
         });
 
-        setTimeout(function(){
-            UnitQuery.getExtendedUnitData(nUnitCode)
+        UnitQuery.getExtendedUnitData(nUnitCode)
             .then(function(response) {
-                let source = response.data;
-                const re = new RegExp(_.escapeRegExp(nUnitCode), "i");
-                const isMatch = (result) => re.test(result.UnitCode);
-                let match = _.filter(source, isMatch)[0];
+                let data = response.data;
                 this.setState({
                     isLoading: false,
-                    UnitCode: match.UnitCode,
-                    UnitName: match.UnitName,
-                    Faculty: match.Faculty,
-                    Synopsis: match.Sypnosis
+                    UnitCode: nUnitCode,
+                    UnitName: data.UnitName,
+                    Faculty: data.Faculty,
+                    Synopsis: data.Description
                 });
             }.bind(this))
             .catch(function(error) {
                 console.log(error);
             });
-        }.bind(this)
-        ,300);
     }
 
     /**     
