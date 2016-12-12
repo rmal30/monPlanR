@@ -52,10 +52,12 @@ class UnitInfoContainer extends Component {
      */
     unitSelected(nUnitCode){
         
+        if(this.state.isFirstSearch){
+            this.setState({collapse: false});
+        }
         this.setState({
             isLoading: true,
-            collapse: false,
-            isFirstSearch: false
+            isFirstSearch: false,
         });
 
         UnitQuery.getExtendedUnitData(nUnitCode)
