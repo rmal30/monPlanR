@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Container, Grid} from "semantic-ui-react";
 
 import CourseStructure from "../CourseStructure.jsx";
+import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx"
+import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx"
 
 class Plan extends Component {
     /**
@@ -12,6 +14,8 @@ class Plan extends Component {
         const { startYear, endYear } = this.props.location.query;
 
         return (
+            <div>
+                <UnitInfoContainer />
             <Container className="main text">
                 <Grid>
                     <Grid.Row>
@@ -19,6 +23,8 @@ class Plan extends Component {
                     </Grid.Row>
                 </Grid>
             </Container>
+            </div>
+            
         );
     }
 }
