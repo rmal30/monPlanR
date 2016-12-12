@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Label, Grid } from "semantic-ui-react";
+import { Button, Container, Grid, Icon, Label } from "semantic-ui-react";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
@@ -18,7 +18,7 @@ class UnitInfoContainer extends Component {
      * component for before the first search and are changed afterwards.
      * @author JXNS
      */
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             collapse: true,
@@ -47,15 +47,22 @@ class UnitInfoContainer extends Component {
     }
 
     /**
+     * @author Saurabh Joshi
+     */
+    handleAddToCourse() {
+        this.props.addToCourse(this.state.UnitCode);
+    }
+
+    /**
      * The unitSelected function is called whenever a new unit is selected.
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
-    unitSelected(nUnitCode){
-
-        if(this.state.isFirstSearch){
+    unitSelected(nUnitCode) {
+        if(this.state.isFirstSearch) {
             this.setState({collapse: false});
         }
+
         this.setState({
             isLoading: true,
             isFirstSearch: false,
@@ -122,6 +129,7 @@ class UnitInfoContainer extends Component {
                     onCollapseClick={this.handleCollapseClick}
                     error={this.state.error}
                 />
+            <Button color="green" floated="right" onClick={this.handleAddToCourse.bind(this)}><Icon name="plus" />Add {this.state.UnitCode} to course</Button>
             </Container>
         );
     }

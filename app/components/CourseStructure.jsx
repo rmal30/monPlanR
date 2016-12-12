@@ -139,6 +139,15 @@ class CourseStructure extends Component {
     }
 
     /**
+     * Inserts unit into course structure.
+     */
+    addUnit(teachingPeriodIndex, unitIndex, unitCode) {
+        const { teachingPeriods } = this.state;
+        teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitCode;
+        this.setState({ teachingPeriods });
+    }
+
+    /**
      * Deletes a teaching period at a specified index.
      *
      * @author Saurabh Joshi
@@ -184,7 +193,10 @@ class CourseStructure extends Component {
                     data={this.state.teachingPeriodsData}
                     numberOfUnits={teachingPeriod.numberOfUnits}
                     deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
+                    addUnit={this.addUnit.bind(this)}
                     deleteUnit={this.deleteUnit.bind(this)}
+                    unitToAdd={this.props.unitToAdd}
+                    showAddToCourseUI={this.props.showAddToCourseUI}
                     units={teachingPeriod.units} />;
     }
 
