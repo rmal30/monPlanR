@@ -26,6 +26,16 @@ class Plan extends Component {
     }
 
     /**
+     * Turns off add unit UI.
+     */
+    doneAddingToCourse() {
+        this.setState({
+            showAddToCourseUI: false,
+            unitToAdd: undefined
+        });
+    }
+
+    /**
      * Returns a container of grid of a single row, holding the course
      * structure.
      */
@@ -34,13 +44,16 @@ class Plan extends Component {
 
         return (
             <div>
-                <UnitInfoContainer addToCourse={this.addToCourse.bind(this)} />
+                <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
+                                   showAddToCourseUI={this.state.showAddToCourseUI}
+                                   doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
                 <Container className="main text">
                     <Grid>
                         <Grid.Row>
                             <CourseStructure startYear={parseInt(startYear)}
                                              endYear={parseInt(endYear)}
                                              showAddToCourseUI={this.state.showAddToCourseUI}
+                                             doneAddingToCourse={this.doneAddingToCourse.bind(this)}
                                              unitToAdd={this.state.unitToAdd} />
                         </Grid.Row>
                     </Grid>
