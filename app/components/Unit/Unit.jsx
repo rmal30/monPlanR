@@ -1,5 +1,6 @@
 import React from "react";
-import {Button, Container, Dropdown, Table} from "semantic-ui-react";
+import {Button, Container, Dropdown, Icon, Table} from "semantic-ui-react";
+import MediaQuery from "react-responsive";
 
 /**
  * Unit component
@@ -34,6 +35,12 @@ class Unit extends React.Component {
         });
     };
 
+    handleMouseMove(e) {
+        this.setState({
+            showUI: true
+        });
+    }
+
     handleMouseLeave(e) {
         this.setState({
             showUI: false
@@ -58,19 +65,31 @@ class Unit extends React.Component {
     };
 
     render() {
+        let mobile = false;
+
         return (
-            <Table.Cell active={this.props.free && this.state.showUI && this.props.showAddToCourseUI}
-                        onMouseEnter={this.handleMouseEnter.bind(this)}
-                        onMouseLeave={this.handleMouseLeave.bind(this)}
-                        onClick={this.handleClick.bind(this)}>
-                {this.props.code}
-                {!this.props.free && this.state.showUI &&
-                        <Button.Group size="mini" compact className="right floated">
-                            <Button basic floated="right" onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
-                            <Button basic floated="right" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
-                        </Button.Group>
-                }
-            </Table.Cell>
+            <MediaQuery maxDeviceWidth={767}>
+                {mobile => {
+                    return (
+                        <Table.Cell active={this.props.free && this.state.showUI && this.props.showAddToCourseUI && !mobile}
+                                    onMouseEnter={this.handleMouseEnter.bind(this)}
+                                    onMouseMove={this.handleMouseMove.bind(this)}
+                                    onMouseLeave={this.handleMouseLeave.bind(this)}
+                                    onClick={this.handleClick.bind(this)}>
+                            {this.props.free && this.props.showAddToCourseUI && mobile && this.props.firstFreeUnit && 
+                                <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd}</Button>
+                            }
+                            {this.props.code}
+                            {!this.props.free && (this.state.showUI || mobile) &&
+                                    <Button.Group size="mini" compact className="right floated">
+                                        <Button basic floated="right" onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
+                                        <Button basic floated="right" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                                    </Button.Group>
+                            }
+                        </Table.Cell>
+                    );
+                }}
+            </MediaQuery>
         );
     }
 }

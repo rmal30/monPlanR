@@ -1,6 +1,5 @@
 import React from "react";
 import {Button, Dropdown, Table} from "semantic-ui-react";
-var MediaQuery = require("react-responsive");
 
 import Unit from "../Unit/Unit.jsx";
 
@@ -26,12 +25,16 @@ function TeachingPeriod(props) {
         props.deleteUnit(props.index, unitIndex);
     };
 
+    let firstFreeUnit = true;
     const unitsEle = props.units.map((unit, index) => {
         if(!unit) {
+            const temp = firstFreeUnit;
+            firstFreeUnit = false;
             return <Unit
                 key={`${props.year}-${props.code}-${index}`}
                 index={index}
                 free={true}
+                firstFreeUnit={temp}
                 addUnit={addUnit}
                 unitToAdd={props.unitToAdd}
                 showAddToCourseUI={props.showAddToCourseUI} />;
