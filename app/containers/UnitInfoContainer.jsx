@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Label, Grid } from "semantic-ui-react";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
@@ -52,10 +53,12 @@ class UnitInfoContainer extends Component {
      */
     unitSelected(nUnitCode){
         
+        if(this.state.isFirstSearch){
+            this.setState({collapse: false});
+        }
         this.setState({
             isLoading: true,
-            collapse: false,
-            isFirstSearch: false
+            isFirstSearch: false,
         });
 
         UnitQuery.getExtendedUnitData(nUnitCode)
@@ -88,7 +91,25 @@ class UnitInfoContainer extends Component {
         return (
             <div>
                 <br />
-                <UnitSearchContainer onResult={this.unitSelected} />
+                <Grid stackable>
+                    <Grid.Row>
+                        <Grid.Column width={2}>
+                            <UnitSearchContainer onResult={this.unitSelected} />
+                        </Grid.Column>
+                        <Grid.Column width={8} />
+                        <Grid.Column width={6}>
+                            <Label color="green" size="large">
+                            Total Credits Earnt
+                            <Label.Detail id="credits">0</Label.Detail>
+                        </Label>
+                        <Label color="green" size="large">
+                            Total Expenses
+                            <Label.Detail id="expenses">$0</Label.Detail>
+                        </Label>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+                
                 <UnitInfo
                     isDisabled={this.state.isFirstSearch}
                     UnitCode={this.state.UnitCode}
