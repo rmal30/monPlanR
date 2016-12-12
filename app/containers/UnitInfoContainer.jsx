@@ -54,6 +54,13 @@ class UnitInfoContainer extends Component {
     }
 
     /**
+     * @author Saurabh Joshi
+     */
+    handleCancelAddingToCourse() {
+        this.props.doneAddingToCourse();
+    }
+
+    /**
      * The unitSelected function is called whenever a new unit is selected.
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
@@ -129,7 +136,12 @@ class UnitInfoContainer extends Component {
                     onCollapseClick={this.handleCollapseClick}
                     error={this.state.error}
                 />
+            {!this.props.showAddToCourseUI && this.state.UnitCode &&
             <Button color="green" floated="right" onClick={this.handleAddToCourse.bind(this)}><Icon name="plus" />Add {this.state.UnitCode} to course</Button>
+            }
+            {this.props.showAddToCourseUI &&
+            <Button floated="right" onClick={this.handleCancelAddingToCourse.bind(this)}>Cancel</Button>
+            }
             </Container>
         );
     }
