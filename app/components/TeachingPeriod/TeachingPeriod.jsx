@@ -18,6 +18,11 @@ function TeachingPeriod(props) {
         props.deleteTeachingPeriod(props.index);
     };
 
+    const addUnit = (unitIndex, unitCode) => {
+        console.log("blah");
+        props.addUnit(props.index, unitIndex, unitCode);
+    };
+
     const deleteUnit = unitIndex => {
         props.deleteUnit(props.index, unitIndex);
     };
@@ -27,7 +32,10 @@ function TeachingPeriod(props) {
             return <Unit
                 key={`${props.year}-${props.code}-${index}`}
                 index={index}
-                free={true} />;
+                free={true}
+                addUnit={addUnit}
+                unitToAdd={props.unitToAdd}
+                showAddToCourseUI={props.showAddToCourseUI} />;
         }
         return <Unit key={`${props.year}-${props.code}-${unit}`}
                      index={index}

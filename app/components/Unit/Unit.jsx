@@ -29,20 +29,22 @@ class Unit extends React.Component {
     };
 
     handleMouseEnter(e) {
-        if(!this.props.free) {
-            this.setState({
-                showUI: true
-            });
-        }
+        this.setState({
+            showUI: true
+        });
     };
 
     handleMouseLeave(e) {
-        if(!this.props.free) {
-            this.setState({
-                showUI: false
-            });
-        }
+        this.setState({
+            showUI: false
+        });
     };
+
+    handleClick(e) {
+        if(this.props.free && this.state.showUI && this.props.unitToAdd) {
+            this.props.addUnit(this.props.index, this.props.unitToAdd);
+        }
+    }
 
     /**
      * Removes unit from the course structure.
@@ -57,7 +59,10 @@ class Unit extends React.Component {
 
     render() {
         return (
-            <Table.Cell onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)}>
+            <Table.Cell active={this.props.free && this.state.showUI && this.props.showAddToCourseUI}
+                        onMouseEnter={this.handleMouseEnter.bind(this)}
+                        onMouseLeave={this.handleMouseLeave.bind(this)}
+                        onClick={this.handleClick.bind(this)}>
                 {this.props.code}
                 {!this.props.free && this.state.showUI &&
                         <Button.Group size="mini" compact className="right floated">
