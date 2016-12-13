@@ -29,8 +29,8 @@ class UnitInfoContainer extends Component {
             Synopsis: "",
             isFirstSearch: true,
             error: false,
-            currentCreditPoints: 10,
-            currentEstCost: 1000,
+            currentCreditPoints: 0,
+            currentEstCost: 0,
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
         this.unitSelected = this.unitSelected.bind(this);
@@ -117,8 +117,8 @@ class UnitInfoContainer extends Component {
                             <MediaQuery minDeviceWidth={768}>{(desktop) => {
                                 if (desktop) {
                                   return(
-                                    <Statistic.Group>
-                                        <Statistic size="mini">
+                                    <Statistic.Group size="tiny">
+                                        <Statistic>
                                             <Statistic.Value>
                                               <Icon name='student' />
                                               {this.state.currentCreditPoints}
@@ -126,7 +126,7 @@ class UnitInfoContainer extends Component {
                                             <Statistic.Label>Credit Points</Statistic.Label>
                                         </Statistic>
 
-                                      <Statistic size="mini">
+                                      <Statistic>
                                         <Statistic.Value >
                                           <Icon name='dollar' />
                                           {this.state.currentEstCost}
