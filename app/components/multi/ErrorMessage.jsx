@@ -2,12 +2,12 @@ import React, { PropTypes } from "react";
 import { Message } from "semantic-ui-react";
 
 /**
- * This is the setuRating component, it returns 2 ratings, one representing how much the student's felt they learnt from a unit, and one representing
- * how much they enjoyed a unit.
+ * This is the error message component, it displays an error message where ever it is placed, 
+ * using 
  * @author JXNS
  * 
- * @param {number} starRating - the level of student learning (0 to 5)
- * @param {number} heartRating - the level of student enjoyment (0 to 5)
+ * @param {string} header - The tile of the error
+ * @param {string} errorMessage - The description of the error
  */
 function ErrorMessage(props) {
 
