@@ -145,9 +145,6 @@ class YearFormContainer extends Component {
                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
                          <Link to="/plan"><Button color="blue" >Start with an empty template <Icon name="right arrow" /></Button></Link>
                 </Segment>
-                <pre>{"Start Year: " + this.state.startYear}</pre>
-                <pre>{"End Year: " + this.state.endYear}</pre>
-                <pre>{"Eval: "}</pre>
             </Form>
         );
     }
