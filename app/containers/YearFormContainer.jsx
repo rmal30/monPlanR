@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Container, Form, Grid, Icon, Message, Segment, Input} from "semantic-ui-react";
+import {Button, Container, Form, Grid, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 
 /**
@@ -176,7 +176,7 @@ class YearFormContainer extends Component {
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
-                        <Form.Input 
+                        <Form.Input
                             type="text" 
                             placeholder={this.endYearPlaceholder} 
                             onChange={this.changeEndYear} 
@@ -184,7 +184,11 @@ class YearFormContainer extends Component {
                         {endYearErrorMessage}
                     </Form.Field>
                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
-                         <Link to="/plan"><Button color="blue" >Start with an empty template <Icon name="right arrow" /></Button></Link>
+                    <Link to="/plan">
+                        <Button color="blue" >
+                            Start with an empty template <Icon name="right arrow" />
+                        </Button>
+                    </Link>
                 </Segment>
             </Form>
         );
