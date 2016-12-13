@@ -21,6 +21,14 @@ function TeachingPeriod(props) {
         props.addUnit(props.index, unitIndex, unitCode);
     };
 
+    const willMoveUnit = unitIndex => {
+        props.willMoveUnit(props.index, unitIndex);
+    };
+
+    const moveUnit = unitIndex => {
+        props.moveUnit(props.index, unitIndex);
+    };
+
     const deleteUnit = unitIndex => {
         props.deleteUnit(props.index, unitIndex);
     };
@@ -34,14 +42,19 @@ function TeachingPeriod(props) {
                 key={`${props.year}-${props.code}-${index}`}
                 index={index}
                 free={true}
+                unitToBeMoved={props.unitToBeMoved}
                 firstFreeUnit={temp}
                 addUnit={addUnit}
+                moveUnit={moveUnit}
                 unitToAdd={props.unitToAdd}
-                showAddToCourseUI={props.showAddToCourseUI} />;
+                showAddToCourseUI={props.showAddToCourseUI}
+                showMoveUnitUI={props.showMoveUnitUI} />;
         }
         return <Unit key={`${props.year}-${props.code}-${unit}-${index}`}
                      index={index}
+                     willMoveUnit={willMoveUnit}
                      deleteUnit={deleteUnit}
+                     showMoveUnitUI={props.showMoveUnitUI}
                      free={false}
                      code={unit} />;
     });
@@ -62,7 +75,9 @@ function TeachingPeriod(props) {
         <Table.Row>
             <Table.Cell className="teachingPeriod cell">
                 {teachingPeriodName}, {props.year}
+                {!props.showMoveUnitUI &&
                 <Button basic floated="right" onClick={handleDelete} size="tiny" color="red" icon="close" />
+                }
             </Table.Cell>
             {unitsEle}
         </Table.Row>

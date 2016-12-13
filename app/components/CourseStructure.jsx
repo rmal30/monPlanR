@@ -33,7 +33,9 @@ class CourseStructure extends Component {
             numberOfUnits: 4,
             showInsertTeachingPeriods: false,
             teachingPeriods: this.generateCourse(startYear, endYear),
-            teachingPeriodsData: null
+            teachingPeriodsData: null,
+            showMoveUnitUI: false,
+            unitToBeMoved: undefined
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -140,12 +142,41 @@ class CourseStructure extends Component {
 
     /**
      * Inserts unit into course structure.
+     *
+     * @param {number} teachingPeriodIndex
+     * @param {number} unitIndex
+     * @param {number} unitCode
      */
     addUnit(teachingPeriodIndex, unitIndex, unitCode) {
         const { teachingPeriods } = this.state;
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitCode;
         this.setState({ teachingPeriods });
         this.props.doneAddingToCourse();
+    }
+
+    /**
+     * Allows user to move unit into another table cell.
+     *
+     * @param {number} teachingPeriodIndex
+     * @param {number} unitIndex
+     */
+    willMoveUnit(teachingPeriodIndex, unitIndex) {
+        this.setState({
+            showMoveUnitUI: true,
+            originalPosition: [teachingPeriodIndex, unitIndex],
+            unitToBeMoved: this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex]
+        });
+    }
+
+    moveUnit(teachingPeriodIndex, unitIndex) {
+        const { teachingPeriods } = this.state;
+        teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = undefined;
+        teachingPeriods[teachingPeriodIndex].units[unitIndex] = this.state.unitToBeMoved;
+        this.setState({
+            showMoveUnitUI: false,
+            originalPosition: undefined,
+            teachingPeriods: teachingPeriods
+        });
     }
 
     /**
@@ -195,9 +226,13 @@ class CourseStructure extends Component {
                     numberOfUnits={teachingPeriod.numberOfUnits}
                     deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
                     addUnit={this.addUnit.bind(this)}
+                    moveUnit={this.moveUnit.bind(this)}
+                    willMoveUnit={this.willMoveUnit.bind(this)}
                     deleteUnit={this.deleteUnit.bind(this)}
                     unitToAdd={this.props.unitToAdd}
                     showAddToCourseUI={this.props.showAddToCourseUI}
+                    showMoveUnitUI={this.state.showMoveUnitUI}
+                    unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units} />;
     }
 
