@@ -66,6 +66,8 @@ class YearFormContainer extends Component {
             } else {
                 this.setState({isEndYearError: false});
             }
+        } else {
+            this.setState({isEndYearError: false});
         }
     }
 
@@ -103,6 +105,8 @@ class YearFormContainer extends Component {
             } else {
                 this.setState({isStartYearError: false});
             }
+        } else {
+            this.setState({isStartYearError: false});
         }
         
 
@@ -183,12 +187,18 @@ class YearFormContainer extends Component {
                             error={this.state.isEndYearError} />
                         {endYearErrorMessage}
                     </Form.Field>
-                    <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
+                    <Button 
+                        color="green" 
+                        disabled={this.state.isStartYearError || this.state.isEndYearError} 
+                        onClick={this.submitData}>
+                            Start Planning <Icon name="right arrow" />
+                    </Button>
                     <Link to="/plan">
                         <Button color="blue" >
                             Start with an empty template <Icon name="right arrow" />
                         </Button>
                     </Link>
+                    {startYearErrorMessage}
                 </Segment>
             </Form>
         );
