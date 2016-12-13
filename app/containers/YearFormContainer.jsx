@@ -48,7 +48,7 @@ class YearFormContainer extends Component {
             this.setState({
                 endYear: this.endYearPlaceholder,
                 isEndYearError: false
-            })
+            });
         
         } else if (isNaN(e.target.value)){
             this.setState({
@@ -86,7 +86,6 @@ class YearFormContainer extends Component {
      * @param e - Event object
      */
     changeStartYear(e) {
-        
         this.setState({
             startYear: e.target.value
         });
@@ -188,7 +187,7 @@ class YearFormContainer extends Component {
                 <Segment raised>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                        <Form.Input 
+                        <Form.Input
                             type="text" 
                             placeholder={this.startYearPlaceholder} 
                             onChange={this.changeStartYear} 
@@ -215,6 +214,11 @@ class YearFormContainer extends Component {
                             Start with an empty template <Icon name="right arrow" />
                         </Button>
                     </Link>
+                </Segment>
+                <Segment>
+                    <pre>Debugging vals below: </pre>
+                    <pre>{"startYear: " + this.state.startYear}</pre>
+                    <pre>{"endYear: " + this.state.endYear}</pre>
                 </Segment>
             </Form>
         );
