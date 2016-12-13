@@ -50,6 +50,14 @@ class Unit extends React.Component {
     handleClick(e) {
         if(this.props.free && this.state.showUI && this.props.unitToAdd) {
             this.props.addUnit(this.props.index, this.props.unitToAdd);
+        } else if(this.props.free && this.state.showUI && this.props.showMoveUnitUI) {
+            this.props.moveUnit(this.props.index);
+        }
+    }
+
+    handleMove(e) {
+        if(!this.props.free) {
+            this.props.willMoveUnit(this.props.index);
         }
     }
 
@@ -69,7 +77,7 @@ class Unit extends React.Component {
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
                     return (
-                        <Table.Cell active={this.props.free && this.state.showUI && this.props.showAddToCourseUI && !mobile}
+                        <Table.Cell active={this.props.free && this.state.showUI && (this.props.showMoveUnitUI || this.props.showAddToCourseUI) && !mobile}
                                     onMouseEnter={this.handleMouseEnter.bind(this)}
                                     onMouseMove={this.handleMouseMove.bind(this)}
                                     onMouseLeave={this.handleMouseLeave.bind(this)}
@@ -78,10 +86,11 @@ class Unit extends React.Component {
                                 <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd}</Button>
                             }
                             {this.props.code}
-                            {!this.props.free && (this.state.showUI || mobile) &&
+                            {!this.props.free && (this.state.showUI || mobile) && !this.props.showMoveUnitUI &&
                                     <Button.Group size="mini" compact className="right floated">
-                                        <Button basic floated="right" onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
-                                        <Button basic floated="right" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                                        <Button basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
+                                        <Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />
+                                        <Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />
                                     </Button.Group>
                             }
                         </Table.Cell>

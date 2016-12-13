@@ -13,6 +13,7 @@ class Plan extends Component {
             unitToAdd: null
         };
     }
+
     /**
      * Adds unit to course by specifying unit code.
      *
@@ -52,6 +53,7 @@ class Plan extends Component {
                         <Grid.Row>
                             <CourseStructure startYear={parseInt(startYear)}
                                              endYear={parseInt(endYear)}
+                                             addToCourse={this.addToCourse.bind(this)}
                                              showAddToCourseUI={this.state.showAddToCourseUI}
                                              doneAddingToCourse={this.doneAddingToCourse.bind(this)}
                                              unitToAdd={this.state.unitToAdd} />
