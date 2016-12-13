@@ -17,8 +17,8 @@ function TeachingPeriod(props) {
         props.deleteTeachingPeriod(props.index);
     };
 
-    const addUnit = (unitIndex, unitCode) => {
-        props.addUnit(props.index, unitIndex, unitCode);
+    const addUnit = (unitIndex, unitToAdd) => {
+        props.addUnit(props.index, unitIndex, unitToAdd);
     };
 
     const willMoveUnit = unitIndex => {
@@ -27,6 +27,10 @@ function TeachingPeriod(props) {
 
     const moveUnit = unitIndex => {
         props.moveUnit(props.index, unitIndex);
+    };
+
+    const swapUnit = unitIndex => {
+        props.swapUnit(props.index, unitIndex);
     };
 
     const deleteUnit = unitIndex => {
@@ -55,8 +59,10 @@ function TeachingPeriod(props) {
                      willMoveUnit={willMoveUnit}
                      deleteUnit={deleteUnit}
                      showMoveUnitUI={props.showMoveUnitUI}
+                     swapUnit={swapUnit}
                      free={false}
-                     code={unit} />;
+                     code={unit.code}
+                     name={unit.name} />;
     });
 
     const teachingPeriodData = props.data;

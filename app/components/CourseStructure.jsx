@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import {Button, Container, Dropdown, Grid, Icon, Label, Table} from "semantic-ui-react";
+import {Button, Container, Dropdown, Grid, Icon, Label, Message, Table} from "semantic-ui-react";
 import axios from "axios";
 var MediaQuery = require("react-responsive");
 
@@ -145,11 +145,12 @@ class CourseStructure extends Component {
      *
      * @param {number} teachingPeriodIndex
      * @param {number} unitIndex
-     * @param {number} unitCode
+     * @param {string} code
+     * @param {string} name
      */
-    addUnit(teachingPeriodIndex, unitIndex, unitCode) {
+    addUnit(teachingPeriodIndex, unitIndex, unitToAdd) {
         const { teachingPeriods } = this.state;
-        teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitCode;
+        teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitToAdd;
         this.setState({ teachingPeriods });
         this.props.doneAddingToCourse();
     }
@@ -168,10 +169,36 @@ class CourseStructure extends Component {
         });
     }
 
+    /**
+     * Moves unit to specified position.
+     *
+     * @param {number} teachingPeriodIndex
+     * @param {number} unitIndex
+     */
     moveUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
         teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = undefined;
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = this.state.unitToBeMoved;
+        this.setState({
+            showMoveUnitUI: false,
+            originalPosition: undefined,
+            teachingPeriods: teachingPeriods
+        });
+    }
+
+    /**
+     * Swaps units over according to their positions. This method is used
+     * when the student wants to move their unit to another position where the
+     * table cell is occupied by another unit.
+     *
+     * @param {number} teachingPeriodIndex
+     * @param {number} unitIndex
+     */
+    swapUnit(teachingPeriodIndex, unitIndex) {
+        const { teachingPeriods } = this.state;
+        const temp = teachingPeriods[teachingPeriodIndex].units[unitIndex];
+        teachingPeriods[teachingPeriodIndex].units[unitIndex] = teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]];
+        teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = temp;
         this.setState({
             showMoveUnitUI: false,
             originalPosition: undefined,
@@ -227,6 +254,7 @@ class CourseStructure extends Component {
                     deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
                     addUnit={this.addUnit.bind(this)}
                     moveUnit={this.moveUnit.bind(this)}
+                    swapUnit={this.swapUnit.bind(this)}
                     willMoveUnit={this.willMoveUnit.bind(this)}
                     deleteUnit={this.deleteUnit.bind(this)}
                     unitToAdd={this.props.unitToAdd}
@@ -317,6 +345,27 @@ class CourseStructure extends Component {
 
         return (
             <Container>
+                {this.props.showAddToCourseUI &&
+                    <Message>
+                        <Message.Header>
+                            Adding {this.props.unitToAdd.code}
+                        </Message.Header>
+                        <p>
+                            Select a table cell in your course structure to insert {this.props.unitToAdd.code}.
+                        </p>
+                    </Message>
+                }
+                {this.state.showMoveUnitUI &&
+                    <Message>
+                        <Message.Header>
+                            Moving {this.state.unitToBeMoved.code}
+                        </Message.Header>
+                        <p>
+                            Select a table cell in your course structure to move {this.state.unitToBeMoved.code}.
+                            Selecting a table cell where there is already an occupied unit will swap the units.
+                        </p>
+                    </Message>
+                }
                 <Table celled fixed striped compact>
                     <MediaQuery query="(min-device-width: 768px)">
                         <Table.Header>
