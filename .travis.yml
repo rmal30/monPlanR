@@ -11,4 +11,4 @@ script:
     - npm run production
 
 after_success:
-    - '[ "${TRAVIS_BRANCH}" = "deploy"] && [ "${TRAVIS_PULL_REQUEST}" = "false" ] && bash ./deploy.sh'
+    - '[ "${TRAVIS_BRANCH}" = "deploy" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ] && bash ./deploy.sh'
