@@ -45,7 +45,7 @@ class YearFormContainer extends Component {
             endYear: e.target.value
         });
 
-        if(e.target.value == ""){
+        if(e.target.value === ""){
             this.setState({
                 endYear: this.endYearPlaceholder,
                 isEndYearError: false
@@ -60,7 +60,7 @@ class YearFormContainer extends Component {
         } else if (e.target.value.length >= 4) {
             let currentEndYear = parseInt(e.target.value);
             let maxEndYear = parseInt(this.state.startYear, 10) + 10;
-            let minEndYear = parseInt(this.state.startYear, 10)
+            let minEndYear = parseInt(this.state.startYear, 10);
         
             if(currentEndYear < minEndYear){
                 this.setState({
@@ -91,7 +91,7 @@ class YearFormContainer extends Component {
             startYear: e.target.value
         });
 
-        if(e.target.value == ""){
+        if(e.target.value === ""){
             this.setState({
                 startYear: this.startYearPlaceholder,
                 isStartYearError: false
@@ -129,6 +129,9 @@ class YearFormContainer extends Component {
 
     }
 
+    /**
+     * 
+     */
     returnData() {
         return this.state;
     }
