@@ -21,10 +21,10 @@ class YearFormContainer extends Component {
         this.state = {
             startYear: this.startYearPlaceholder,
             endYear: this.endYearPlaceholder,
-            isError: false,
-            isEntering: true,
-            isValid: false,
-            errorMessage: ""
+            startYearErrorMessage: "",
+            isStartYearError: false,
+            endYearErrorMessage: "",
+            isEndYearError: false,
         };
 
         this.returnData = this.returnData.bind(this);
@@ -43,6 +43,30 @@ class YearFormContainer extends Component {
         this.setState({
             endYear: e.target.value
         });
+
+        if(e.target.value == ""){
+            this.setState({endYear: this.endYearPlaceholder})
+        }
+
+        if (e.target.value.length >= 4) {
+            let currentEndYear = parseInt(e.target.value);
+            let maxEndYear = parseInt(this.state.startYear, 10) + 10;
+            let minEndYear = parseInt(this.state.startYear, 10)
+        
+            if(currentEndYear < minEndYear){
+                this.setState({
+                    isEndYearError: true,
+                    endYearErrorMessage: "End year must be equal to or greater than start year"
+                });
+            } else if (currentEndYear > maxEndYear){
+                this.setState({
+                    isEndYearError: true,
+                    endYearErrorMessage: "Ending year must be less than " + maxEndYear.toString()
+                });
+            } else {
+                this.setState({isEndYearError: false});
+            }
+        }
     }
 
     /**
@@ -57,6 +81,10 @@ class YearFormContainer extends Component {
             startYear: e.target.value
         });
 
+        if(e.target.value == ""){
+            this.setState({startYear: this.startYearPlaceholder})
+        }
+
         if (e.target.value.length >= 4) {
             let currentStartYear = parseInt(e.target.value, 10);
             let maxStartYear = parseInt(this.startYearPlaceholder, 10) + 10;
@@ -64,16 +92,16 @@ class YearFormContainer extends Component {
         
             if(currentStartYear > maxStartYear){
                 this.setState({
-                    isError: true,
-                    errorMessage: "Starting year must be less than " + maxStartYear.toString()
+                    isStartYearError: true,
+                    startYearErrorMessage: "Starting year must be less than " + maxStartYear.toString()
                 });
             } else if (currentStartYear < minStartYear){
                 this.setState({
-                    isError: true,
-                    errorMessage: "Starting year must be greater than" + minStartYear.toString()
+                    isStartYearError: true,
+                    startYearErrorMessage: "Starting year must be greater than " + minStartYear.toString()
                 });
             } else {
-                this.setState({isError: false});
+                this.setState({isStartYearError: false});
             }
         }
         
@@ -115,15 +143,23 @@ class YearFormContainer extends Component {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
         
-        let startYearErrorMessage 
-        if (this.state.isError) {
+        let startYearErrorMessage;
+        let endYearErrorMessage;
+
+        if (this.state.isStartYearError) {
             startYearErrorMessage = <Message
                         error
-                        header="Action Forbidden"
-                        content={this.state.errorMessage}
+                        header="Invalid start year"
+                        content={this.state.startYearErrorMessage}
                     />
-        } else {
-            startYearErrorMessage = null
+        }
+
+        if (this.state.isEndYearError) {
+            endYearErrorMessage = <Message
+                        error
+                        header="Invalid end year"
+                        content={this.state.endYearErrorMessage}
+                    />
         }
         
         return (
@@ -131,16 +167,21 @@ class YearFormContainer extends Component {
                 <Segment raised>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                            <Form.Input 
-                                type="text" 
-                                placeholder={this.startYearPlaceholder} 
-                                onChange={this.changeStartYear} 
-                                error={this.state.isError} />
-                    {startYearErrorMessage}
+                        <Form.Input 
+                            type="text" 
+                            placeholder={this.startYearPlaceholder} 
+                            onChange={this.changeStartYear} 
+                            error={this.state.isStartYearError} />
+                        {startYearErrorMessage}
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
-                            <Input type="text" placeholder={this.endYearPlaceholder} onChange={this.changeEndYear} />
+                        <Form.Input 
+                            type="text" 
+                            placeholder={this.endYearPlaceholder} 
+                            onChange={this.changeEndYear} 
+                            error={this.state.isEndYearError} />
+                        {endYearErrorMessage}
                     </Form.Field>
                     <Button color="green" onClick={this.submitData}>Start Planning <Icon name="right arrow" /></Button>
                          <Link to="/plan"><Button color="blue" >Start with an empty template <Icon name="right arrow" /></Button></Link>
