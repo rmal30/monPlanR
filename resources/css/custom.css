@@ -1,0 +1,65 @@
+body {
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.ui.menu .item img.logo {
+    margin-right: 1.5em;
+}
+
+.main.container {
+    margin-top: 5em;
+}
+
+.wireframe {
+    margin-top: 2em;
+}
+
+.ui.segment{
+    height: 100%;
+    flex: 1;
+}
+
+.ui.footer.segment {
+    margin: 5em 0em 0em;
+    padding: 3em 0em;
+    background-color: #005d95;
+    flex: 2
+}
+.display-none {
+    display: none;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.logo {
+  width: 60%;}
+
+.ui.inverted.menu {
+  background-color: #005d95;
+}
+
+#app{
+  min-height: 100%
+}
+
+.main-container{
+  min-height: 100%;
+}
+
+.disclaimer{
+  font-size: 12px;
+}
+
+/*
+.move {
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+    position: sticky;
+    top: 2.85714286em; // required as well.
+}*/
