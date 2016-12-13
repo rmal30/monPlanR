@@ -92,6 +92,10 @@ export default class UnitSearchContainer extends Component {
             }
 
             const re = new RegExp(_.escapeRegExp(this.state.value), "i");
+            
+            /**
+             * isMatch checks whether a result matches a regex for the Unit Code or Unit Name of a unit
+             */
             const isMatch = (result) => re.test(result.UnitCode) || re.test(result.UnitName);
             let matches = _.filter(source, isMatch);
             let reducedResults;

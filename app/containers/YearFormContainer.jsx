@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Button, Container, Form, Grid, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
+import ErrorMessage from "../components/multi/ErrorMessage.jsx";
 
 /**
  *
@@ -44,7 +45,7 @@ class YearFormContainer extends Component {
             endYear: e.target.value
         });
 
-        if(e.target.value == ""){
+        if(e.target.value === ""){
             this.setState({
                 endYear: this.endYearPlaceholder,
                 isEndYearError: false
@@ -59,7 +60,7 @@ class YearFormContainer extends Component {
         } else if (e.target.value.length >= 4) {
             let currentEndYear = parseInt(e.target.value);
             let maxEndYear = parseInt(this.state.startYear, 10) + 10;
-            let minEndYear = parseInt(this.state.startYear, 10)
+            let minEndYear = parseInt(this.state.startYear, 10);
         
             if(currentEndYear < minEndYear){
                 this.setState({
@@ -90,7 +91,7 @@ class YearFormContainer extends Component {
             startYear: e.target.value
         });
 
-        if(e.target.value == ""){
+        if(e.target.value === ""){
             this.setState({
                 startYear: this.startYearPlaceholder,
                 isStartYearError: false
@@ -128,6 +129,9 @@ class YearFormContainer extends Component {
 
     }
 
+    /**
+     * 
+     */
     returnData() {
         return this.state;
     }
@@ -163,24 +167,7 @@ class YearFormContainer extends Component {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
         
-        let startYearErrorMessage;
-        let endYearErrorMessage;
-
-        if (this.state.isStartYearError) {
-            startYearErrorMessage = <Message
-                        error
-                        header="Invalid start year"
-                        content={this.state.startYearErrorMessage}
-                    />
-        }
-
-        if (this.state.isEndYearError) {
-            endYearErrorMessage = <Message
-                        error
-                        header="Invalid end year"
-                        content={this.state.endYearErrorMessage}
-                    />
-        }
+        
         
         return (
             <Form size="large" error>
@@ -192,7 +179,7 @@ class YearFormContainer extends Component {
                             placeholder={this.startYearPlaceholder} 
                             onChange={this.changeStartYear} 
                             error={this.state.isStartYearError} />
-                        {startYearErrorMessage}
+                        {this.state.isStartYearError && <ErrorMessage header="Invalid start year" errorMessage={this.state.startYearErrorMessage}/>}
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
@@ -201,7 +188,7 @@ class YearFormContainer extends Component {
                             placeholder={this.endYearPlaceholder} 
                             onChange={this.changeEndYear} 
                             error={this.state.isEndYearError} />
-                        {endYearErrorMessage}
+                        {this.state.isEndYearError && <ErrorMessage header="Invalid end year" errorMessage={this.state.endYearErrorMessage}/>}
                     </Form.Field>
                     <Button 
                         color="green" 
