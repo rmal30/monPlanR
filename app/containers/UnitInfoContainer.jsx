@@ -52,7 +52,7 @@ class UnitInfoContainer extends Component {
      * @author Saurabh Joshi
      */
     handleAddToCourse() {
-        this.props.addToCourse(this.state.UnitCode);
+        this.props.addToCourse(this.state.UnitCode, this.state.UnitName);
     }
 
     /**
@@ -80,7 +80,7 @@ class UnitInfoContainer extends Component {
         UnitQuery.getExtendedUnitData(nUnitCode)
             .then(function(response) {
                 let data = response.data;
-                
+
                 this.setState({
                     isLoading: false,
                     UnitCode: nUnitCode,
