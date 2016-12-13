@@ -65,8 +65,6 @@ class Unit extends React.Component {
     };
 
     render() {
-        let mobile = false;
-
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
@@ -76,7 +74,7 @@ class Unit extends React.Component {
                                     onMouseMove={this.handleMouseMove.bind(this)}
                                     onMouseLeave={this.handleMouseLeave.bind(this)}
                                     onClick={this.handleClick.bind(this)}>
-                            {this.props.free && this.props.showAddToCourseUI && mobile && this.props.firstFreeUnit && 
+                            {this.props.free && this.props.showAddToCourseUI && mobile && this.props.firstFreeUnit &&
                                 <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd}</Button>
                             }
                             {this.props.code}

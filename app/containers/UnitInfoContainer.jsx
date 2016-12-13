@@ -80,6 +80,7 @@ class UnitInfoContainer extends Component {
         UnitQuery.getExtendedUnitData(nUnitCode)
             .then(function(response) {
                 let data = response.data;
+                
                 this.setState({
                     isLoading: false,
                     UnitCode: nUnitCode,

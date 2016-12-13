@@ -67,7 +67,7 @@ export default class UnitSearch extends Component {
      * @author JXNS
      */
     resetComponent() {
-        this.setState({ isLoading: false, results: [], value: ""});
+        this.setState({isLoading: false, results: [], value: ""});
     }
 
     /**
@@ -101,6 +101,16 @@ export default class UnitSearch extends Component {
                 reducedResults = matches;
             }
 
+            reducedResults = reducedResults.map(result =>
+                // TODO: Find way to avoid workaround that fixes unknown key bug by setting childKey attribute.
+                Object.assign({}, {childKey: `${result.UnitCode}`, UnitName: result.UnitName, UnitCode: result.UnitCode})
+            );
+
+            /*
+                BUG: Semantic UI React integration populates props in a div tag within SearchResult.js,
+                     as a side effect of the augmentation feature. This gives the unknown props on <div> tag
+            */
+
             this.setState({
                 isLoading: false,
                 results: reducedResults,
@@ -124,8 +134,7 @@ export default class UnitSearch extends Component {
                 placeholder={"Search Unit"}
                 noResultsMessage={"No units found"}
                 resultRenderer={resultRenderer}
-                onChange={this.handleChange}
-                {...this.props}>
+                onChange={this.handleChange}>
                 </Search>
         );
     }
