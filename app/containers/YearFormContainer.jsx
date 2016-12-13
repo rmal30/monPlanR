@@ -24,6 +24,7 @@ class YearFormContainer extends Component {
             isError: false,
             isEntering: true,
             isValid: false,
+            errorMessage: ""
         };
 
         this.returnData = this.returnData.bind(this);
@@ -51,9 +52,32 @@ class YearFormContainer extends Component {
      * @param e - Event object
      */
     changeStartYear(e) {
+        
         this.setState({
             startYear: e.target.value
         });
+
+        if (e.target.value.length >= 4) {
+            let currentStartYear = parseInt(e.target.value, 10);
+            let maxStartYear = parseInt(this.startYearPlaceholder, 10) + 10;
+            let minStartYear = parseInt(this.startYearPlaceholder, 10) - 10;
+        
+            if(currentStartYear > maxStartYear){
+                this.setState({
+                    isError: true,
+                    errorMessage: "Starting year must be less than " + maxStartYear.toString()
+                });
+            } else if (currentStartYear < minStartYear){
+                this.setState({
+                    isError: true,
+                    errorMessage: "Starting year must be greater than" + minStartYear.toString()
+                });
+            } else {
+                this.setState({isError: false});
+            }
+        }
+        
+
     }
 
     returnData() {
@@ -90,6 +114,18 @@ class YearFormContainer extends Component {
     render() {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
+        
+        let startYearErrorMessage 
+        if (this.state.isError) {
+            startYearErrorMessage = <Message
+                        error
+                        header="Action Forbidden"
+                        content={this.state.errorMessage}
+                    />
+        } else {
+            startYearErrorMessage = null
+        }
+        
         return (
             <Form size="large" error>
                 <Segment raised>
@@ -100,11 +136,7 @@ class YearFormContainer extends Component {
                                 placeholder={this.startYearPlaceholder} 
                                 onChange={this.changeStartYear} 
                                 error={this.state.isError} />
-                    <Message
-                        error
-                        header="Action Forbidden"
-                        content="This is an error message."
-                    />
+                    {startYearErrorMessage}
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
@@ -115,6 +147,7 @@ class YearFormContainer extends Component {
                 </Segment>
                 <pre>{"Start Year: " + this.state.startYear}</pre>
                 <pre>{"End Year: " + this.state.endYear}</pre>
+                <pre>{"Eval: "}</pre>
             </Form>
         );
     }
