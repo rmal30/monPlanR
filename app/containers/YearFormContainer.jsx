@@ -25,13 +25,15 @@ class YearFormContainer extends Component {
             startYearErrorMessage: "",
             isStartYearError: false,
             endYearErrorMessage: "",
-            isEndYearError: false
+            isEndYearError: false,
+            isInvalidForm: false
         };
 
         this.returnData = this.returnData.bind(this);
         this.changeEndYear = this.changeEndYear.bind(this);
         this.changeStartYear = this.changeStartYear.bind(this);
         this.submitData = this.submitData.bind(this);
+        this.validateData = this.validateData.bind(this);
     }
 
     /**
@@ -41,6 +43,10 @@ class YearFormContainer extends Component {
      * @param e - Event object
      */
     changeEndYear(e) {
+        if(e === undefined){
+            e.target.value = this.state.endYear;
+        }
+        
         this.setState({
             endYear: e.target.value
         });
@@ -87,6 +93,10 @@ class YearFormContainer extends Component {
      * @param e - Event object
      */
     changeStartYear(e) {
+        
+        if(e === undefined){
+            e.target.value = this.state.startYear;
+        }
         this.setState({
             startYear: e.target.value
         });
@@ -144,6 +154,19 @@ class YearFormContainer extends Component {
      * @method
      * @param event
      */
+    validateData(event){
+        
+        this.changeStartYear(event)
+        this.changeEndYear(event)
+
+        if(this.state.isEndYearError || this.state.isStartYearError){
+            this.setState({isInvalidForm: true});
+            event.preventDefault();
+        } else {
+            this.submitData(event)
+        }
+    }
+
     submitData(event) {
         event.preventDefault();
 
@@ -167,8 +190,6 @@ class YearFormContainer extends Component {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
         
-        
-        
         return (
             <Form size="large" error>
                 <Segment raised>
@@ -177,7 +198,7 @@ class YearFormContainer extends Component {
                         <Form.Input
                             type="text" 
                             placeholder={this.startYearPlaceholder} 
-                            onChange={this.changeStartYear} 
+                            onBlur={this.changeStartYear} 
                             error={this.state.isStartYearError} />
                         {this.state.isStartYearError && <ErrorMessage header="Invalid start year" errorMessage={this.state.startYearErrorMessage}/>}
                     </Form.Field>
@@ -186,14 +207,13 @@ class YearFormContainer extends Component {
                         <Form.Input
                             type="text" 
                             placeholder={this.endYearPlaceholder} 
-                            onChange={this.changeEndYear} 
+                            onBlur={this.changeEndYear} 
                             error={this.state.isEndYearError} />
                         {this.state.isEndYearError && <ErrorMessage header="Invalid end year" errorMessage={this.state.endYearErrorMessage}/>}
                     </Form.Field>
                     <Button 
                         color="green" 
-                        disabled={this.state.isStartYearError || this.state.isEndYearError} 
-                        onClick={this.submitData}>
+                        onClick={this.validateData}>
                             Start Planning <Icon name="right arrow" />
                     </Button>
                     <Link to="/plan">
@@ -201,11 +221,14 @@ class YearFormContainer extends Component {
                             Start with an empty template <Icon name="right arrow" />
                         </Button>
                     </Link>
+                    {this.state.isInvalidForm && <ErrorMessage header="Invalid data" errorMessage={"Please fix forms then submit again"}/>}
                 </Segment>
                 <Segment>
                     <pre>Debugging vals below: </pre>
                     <pre>{"startYear: " + this.state.startYear}</pre>
+                    <pre>{"startYearError?: " + this.state.isStartYearError}</pre>
                     <pre>{"endYear: " + this.state.endYear}</pre>
+                    <pre>{"endYearError?: " + this.state.isEndYearError}</pre>
                 </Segment>
             </Form>
         );

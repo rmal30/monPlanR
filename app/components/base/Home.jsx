@@ -46,9 +46,4 @@ class Home extends Component {
     }
 }
 
-
-Home.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
-
 export default Home;
