@@ -24,7 +24,7 @@ class YearFormContainer extends Component {
             startYearErrorMessage: "",
             isStartYearError: false,
             endYearErrorMessage: "",
-            isEndYearError: false,
+            isEndYearError: false
         };
 
         this.returnData = this.returnData.bind(this);
@@ -45,10 +45,18 @@ class YearFormContainer extends Component {
         });
 
         if(e.target.value == ""){
-            this.setState({endYear: this.endYearPlaceholder})
-        }
+            this.setState({
+                endYear: this.endYearPlaceholder,
+                isEndYearError: false
+            })
+        
+        } else if (isNaN(e.target.value)){
+            this.setState({
+                isEndYearError: true,
+                endYearErrorMessage: "Entered value must be a year"
+            });
 
-        if (e.target.value.length >= 4) {
+        } else if (e.target.value.length >= 4) {
             let currentEndYear = parseInt(e.target.value);
             let maxEndYear = parseInt(this.state.startYear, 10) + 10;
             let minEndYear = parseInt(this.state.startYear, 10)
@@ -84,10 +92,18 @@ class YearFormContainer extends Component {
         });
 
         if(e.target.value == ""){
-            this.setState({startYear: this.startYearPlaceholder})
-        }
-
-        if (e.target.value.length >= 4) {
+            this.setState({
+                startYear: this.startYearPlaceholder,
+                isStartYearError: false
+            });
+        
+        } else if (isNaN(e.target.value)){
+            this.setState({
+                isStartYearError: true,
+                startYearErrorMessage: "Entered value must be a year"
+            });
+            
+        } else if (e.target.value.length >= 4) {
             let currentStartYear = parseInt(e.target.value, 10);
             let maxStartYear = parseInt(this.startYearPlaceholder, 10) + 10;
             let minStartYear = parseInt(this.startYearPlaceholder, 10) - 10;
@@ -105,6 +121,7 @@ class YearFormContainer extends Component {
             } else {
                 this.setState({isStartYearError: false});
             }
+        
         } else {
             this.setState({isStartYearError: false});
         }
@@ -198,7 +215,6 @@ class YearFormContainer extends Component {
                             Start with an empty template <Icon name="right arrow" />
                         </Button>
                     </Link>
-                    {startYearErrorMessage}
                 </Segment>
             </Form>
         );
