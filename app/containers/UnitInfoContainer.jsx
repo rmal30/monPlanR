@@ -52,7 +52,11 @@ class UnitInfoContainer extends Component {
      * @author Saurabh Joshi
      */
     handleAddToCourse() {
-        this.props.addToCourse(this.state.UnitCode, this.state.UnitName);
+        this.props.addToCourse({
+            code: this.state.UnitCode,
+            name: this.state.UnitName,
+            faculty: this.state.Faculty
+        });
     }
 
     /**

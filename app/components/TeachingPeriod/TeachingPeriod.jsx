@@ -62,7 +62,8 @@ function TeachingPeriod(props) {
                      swapUnit={swapUnit}
                      free={false}
                      code={unit.code}
-                     name={unit.name} />;
+                     name={unit.name}
+                     faculty={unit.faculty} />;
     });
 
     const teachingPeriodData = props.data;

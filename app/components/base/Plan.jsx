@@ -17,13 +17,12 @@ class Plan extends Component {
     /**
      * Adds unit to course by specifying unit code.
      *
-     * @param {string} code - The unit to be added.
-     * @param {string} name - The name of the unit
+     * @param {string} unitToAdd - The unit to be added.
      */
-    addToCourse(code, name) {
+    addToCourse(unitToAdd) {
         this.setState({
             showAddToCourseUI: true,
-            unitToAdd: { code, name }
+            unitToAdd
         });
     }
 
