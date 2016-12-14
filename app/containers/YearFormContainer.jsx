@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Dropdown, Container, Form, Grid, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 import ErrorMessage from "../components/multi/ErrorMessage.jsx";
-import YearCalc from "../utils/YearCalc.js"
+import YearCalc from "../utils/YearCalc.js";
 
 /**
  *
@@ -42,11 +42,11 @@ class YearFormContainer extends Component {
 
 
     handleUpdateStartYear(event){
-        let selectedStartYear = ""
+        let selectedStartYear = "";
         
-        if(event.type == "click"){
+        if(event.type === "click"){
             selectedStartYear = event.target.textContent
-        } else if (event.type == "keydown"){
+        } else if (event.type === "keydown"){
             selectedStartYear = event.target.nextSibling.innerText
         } else {
             console.log("error with collection of events")
