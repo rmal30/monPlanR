@@ -49,7 +49,7 @@ class YearFormContainer extends Component {
         } else if (event.type === "keydown"){
             selectedStartYear = event.target.nextSibling.innerText;
         } else {
-            console.log("error with collection of events")
+            console.log("error with collection of events");
         }
 
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
@@ -64,18 +64,18 @@ class YearFormContainer extends Component {
     handleUpdateEndYear(event){
         let selectedEndYear = "";
         
-        if(event.type == "click"){
+        if(event.type === "click"){
             selectedEndYear = event.target.textContent;
-        } else if (event.type == "keydown"){
+        } else if (event.type === "keydown"){
             selectedEndYear = event.target.nextSibling.innerText;
         } else {
-            console.log("error with collection of events")
+            console.log("error with collection of events");
         }
         
         this.setState({
             endYear: selectedEndYear,
             notReadyToSubmit: false
-        })
+        });
     }
     /**
      * 
