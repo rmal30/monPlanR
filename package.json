@@ -5,6 +5,10 @@
   "main": "./app/index.jsx",
   "dependencies": {
     "axios": "^0.14.0",
+    "babel": "^6.5.2",
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
+    "if-env": "^1.0.0",
     "lodash": "^4.17.2",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
@@ -37,7 +41,9 @@
     "dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
     "test": "eslint app/**/*.jsx && mocha --compilers babel-core/register tests/*.spec.jsx",
     "fix": "eslint app/**/*.jsx --fix",
-    "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r"
+    "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
+    "start:prod": "webpack && node server.js",
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run dev"
   },
   "repository": {
     "type": "git",
