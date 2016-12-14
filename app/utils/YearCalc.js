@@ -16,7 +16,7 @@ export default class YearCalc {
     }
 
     static getEndYearVals(startYear){
-        console.log("start year: " + startYear);
+
         let min = parseInt(startYear, 10);
         let max = parseInt(startYear, 10) + 10;
         let validEndYears = [];
