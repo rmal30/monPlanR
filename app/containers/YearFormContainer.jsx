@@ -40,7 +40,11 @@ class YearFormContainer extends Component {
 
     }
 
-
+    /**
+     * Called when user selects a start year from the dropdown, it finds the type of event 
+     * (mouseclick or enter key press) and grabs the data accordingly. It may seem crazy to have to seperate these, but the 
+     * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'
+     */
     handleUpdateStartYear(event){
         let selectedStartYear = "";
         
