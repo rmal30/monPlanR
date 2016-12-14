@@ -29,7 +29,6 @@ class Home extends Component {
                             designed a web app that you can use to simplify tasks.
                         </p>
                         <h2>To begin:</h2>
-                        <p>Please enter your commencement and graduation year to get started.</p>
                         <Grid.Row>
                             <YearFormContainer />
                         </Grid.Row>
