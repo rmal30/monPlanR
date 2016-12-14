@@ -17,9 +17,19 @@ const InsertTeachingPeriod = (props) => {
         props.insertTeachingPeriod(props.index, year, code);
     };
 
+    let name = code;
+    let teachingPeriod = undefined;
+
+    if(props.teachingPeriods) {
+        teachingPeriod = props.teachingPeriods.find(ele => ele.code === code);
+        if(teachingPeriod) {
+            name = teachingPeriod.name || code;
+        }
+    }
+
     const triggerButton = (
         <Button onClick={handleClick} fluid>
-            <Icon name="plus" /> Insert {props.teachingPeriodType}
+            <Icon name="plus" /> Insert {name}, {props.year}
         </Button>
     );
 
