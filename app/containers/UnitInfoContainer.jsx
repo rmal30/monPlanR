@@ -75,10 +75,12 @@ class UnitInfoContainer extends Component {
         if(this.state.isFirstSearch) {
             this.setState({collapse: false});
         }
-
+		this.handleAddToCourse.bind(this);
+		
         this.setState({
             isLoading: true,
             isFirstSearch: false,
+			
         });
 
         UnitQuery.getExtendedUnitData(nUnitCode)
@@ -93,6 +95,10 @@ class UnitInfoContainer extends Component {
                     Synopsis: data.Description,
                     error: false
                 });
+				this.props.addToCourse({
+								code: nUnitCode,
+								name: data.UnitName,
+								faculty: data.Faculty});
             }.bind(this))
             .catch(function(error) {
                 console.log(error);
@@ -102,6 +108,7 @@ class UnitInfoContainer extends Component {
                     error: true,
                 });
             }.bind(this));
+			
     }
 
     /**
@@ -172,9 +179,7 @@ class UnitInfoContainer extends Component {
                     onCollapseClick={this.handleCollapseClick}
                     error={this.state.error}
                 />
-            {!this.props.showAddToCourseUI && this.state.UnitCode &&
-            <Button color="green" floated="right" onClick={this.handleAddToCourse.bind(this)}><Icon name="plus" />Add {this.state.UnitCode} to course</Button>
-            }
+            
             {this.props.showAddToCourseUI &&
             <Button floated="right" onClick={this.handleCancelAddingToCourse.bind(this)}>Cancel</Button>
             }

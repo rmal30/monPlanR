@@ -137,6 +137,7 @@ export default class UnitSearchContainer extends Component {
                 value={value}
                 placeholder={"Search Unit"}
                 noResultsMessage={"No units found"}
+				selectFirstResult={true}
                 resultRenderer={resultRenderer}
                 onChange={this.handleChange}>
                 </Search>
