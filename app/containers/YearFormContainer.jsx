@@ -45,28 +45,29 @@ class YearFormContainer extends Component {
         let selectedStartYear = "";
         
         if(event.type === "click"){
-            selectedStartYear = event.target.textContent
+            selectedStartYear = event.target.textContent;
         } else if (event.type === "keydown"){
-            selectedStartYear = event.target.nextSibling.innerText
+            selectedStartYear = event.target.nextSibling.innerText;
         } else {
             console.log("error with collection of events")
         }
 
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
+        
         this.setState({
             startYear: selectedStartYear,
             endYearDisabled: false
-        })
+        });
 
     }
 
     handleUpdateEndYear(event){
-        let selectedEndYear = ""
+        let selectedEndYear = "";
         
         if(event.type == "click"){
-            selectedEndYear = event.target.textContent
+            selectedEndYear = event.target.textContent;
         } else if (event.type == "keydown"){
-            selectedEndYear = event.target.nextSibling.innerText
+            selectedEndYear = event.target.nextSibling.innerText;
         } else {
             console.log("error with collection of events")
         }
