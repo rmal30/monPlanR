@@ -43,7 +43,8 @@ class YearFormContainer extends Component {
     /**
      * Called when user selects a start year from the dropdown, it finds the type of event 
      * (mouseclick or enter key press) and grabs the data accordingly. It may seem crazy to have to seperate these, but the 
-     * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'
+     * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'. 
+     * Also note that it then calculates the valid dropdown values for end year and re-enables the endyear dropdown.
      */
     handleUpdateStartYear(event){
         let selectedStartYear = "";
@@ -65,6 +66,11 @@ class YearFormContainer extends Component {
 
     }
 
+    /**
+     * Called when user selects an end year from the dropdown. As with handleUpdateStartYear it distingushes between
+     * click and keyboard events because the way the data is accessed is different. The end year dropdown is the last piece of info 
+     * necessary for the form to be 'valid' so it makes the submit button not disabled.
+     */
     handleUpdateEndYear(event){
         let selectedEndYear = "";
         
