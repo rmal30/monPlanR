@@ -40,7 +40,8 @@ function UnitInfo(props) {
                 <CollapseButton
                     isDisabled={props.isDisabled}
                     collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick} />
+                    onCollapseClick={props.onCollapseClick} 
+                    currentUnit={props.UnitCode} />
             </div>
         );
     } else if(props.isLoading) {
@@ -49,7 +50,8 @@ function UnitInfo(props) {
                <CollapseButton
                     isDisabled={props.isDisabled}
                     collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick} />
+                    onCollapseClick={props.onCollapseClick} 
+                    currentUnit={props.UnitCode} />
                <UnitInfoPlaceholder />
         </div>
         );
@@ -61,7 +63,8 @@ function UnitInfo(props) {
                 <CollapseButton
                     isDisabled={props.isDisabled}
                     collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick} />
+                    onCollapseClick={props.onCollapseClick} 
+                    currentUnit={props.UnitCode}/>
                 <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
                 </div>
             );
@@ -71,7 +74,8 @@ function UnitInfo(props) {
                 <CollapseButton
                         isDisabled={props.isDisabled}
                         collapse={props.collapse}
-                        onCollapseClick={props.onCollapseClick} />
+                        onCollapseClick={props.onCollapseClick} 
+                        currentUnit={props.UnitCode}/>
                     <Grid celled stackable columns={2}>
                         <Grid.Column width={12}>
                             <Grid.Row>
