@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Container, Dropdown, Header, Icon, Table} from "semantic-ui-react";
+import {Button, Container, Dropdown, Header, Message, Icon, Table} from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 
 /**
@@ -77,6 +77,24 @@ class Unit extends React.Component {
     };
 
     render() {
+        const facultyColors = {
+            "Art, Design and Architecture": "black",
+            "Arts": "red",
+            "Business and Economics": "teal",
+            "Education": "violet",
+            "Engineering": "orange",
+            "Information Technology": "purple",
+            "Law": "grey",
+            "Medicine, Nursing and Health Sciences": "blue",
+            "Pharmacy and Pharmaceutical Sciences": "olive",
+            "Science": "green"
+        };
+
+        let facultyColor = undefined;
+
+        if(!this.props.free) {
+            facultyColor = facultyColors[this.props.faculty.replace("Faculty of ", "")];
+        }
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
@@ -89,19 +107,23 @@ class Unit extends React.Component {
                             {this.props.free && this.props.showAddToCourseUI && mobile && this.props.firstFreeUnit &&
                                 <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd}</Button>
                             }
-                            {!this.props.free && (this.state.showUI || mobile) && !this.props.showMoveUnitUI &&
-                                <Button.Group size="mini" compact vertical className="right floated">
-                                    <Button basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
-                                    <Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />
-                                    <Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />
-                                </Button.Group>
+                            {!this.props.free &&
+                                <Message color={facultyColor} size="mini">
+                                    <Message.Header>
+                                        {this.props.code}
+                                    </Message.Header>
+                                    {(!this.state.showUI || !this.showMoveUnitUI) &&
+                                        `${this.props.name}`
+                                    }
+                                    {(this.state.showUI || mobile) && !this.props.showMoveUnitUI &&
+                                        <Button.Group size="mini" fluid compact>
+                                            <Button basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
+                                            <Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />
+                                            <Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                                        </Button.Group>
+                                    }
+                                </Message>
                             }
-                            <Header as="h4">
-                                {this.props.code}
-                                <Header.Subheader>
-                                    {this.props.name}
-                                </Header.Subheader>
-                            </Header>
                         </Table.Cell>
                     );
                 }}

@@ -141,6 +141,37 @@ class CourseStructure extends Component {
     }
 
     /**
+     * A quick option for students to insert semesters at the end of their
+     * course structures.
+     *
+     * Note: It currently only works if the list of teaching periods consist
+     * of only semester one and semester two teaching periods.
+     *
+     * TODO: Make this work for any teaching period, by scanning for the next
+     * semester in the list of teaching periods before inserting it into the
+     * course structure.
+     */
+    appendSemester() {
+        const index = this.state.teachingPeriods.length;
+        let year = new Date().getFullYear();
+        let code = "S1-01";
+
+        if(index > 0) {
+            if(this.state.teachingPeriods[index - 1].code === "S1-01") {
+                code = "S2-01";
+                year = this.state.teachingPeriods[index - 1].year;
+            } else if(this.state.teachingPeriods[index - 1].code === "S2-01") {
+                code = "S1-01";
+                year = this.state.teachingPeriods[index - 1].year + 1;
+            } else {
+                year = this.state.teachingPeriods[index - 1].year;
+            }
+        }
+
+        this.insertTeachingPeriod(index, year, code);
+    }
+
+    /**
      * Inserts unit into course structure.
      *
      * @param {number} teachingPeriodIndex
@@ -381,13 +412,14 @@ class CourseStructure extends Component {
                 </Table>
                 {!this.state.showInsertTeachingPeriods &&
                 <Button.Group color="green" className="right floated">
-                    <Button onClick={this.showInsertTeachingPeriodsUI.bind(this, "Semester")}><Icon name="add square"/>Add Semester</Button>
+                    <Button onClick={this.appendSemester.bind(this)}><Icon name="add square"/>Append Semester</Button>
                     <Dropdown floating button className="icon">
                         <Dropdown.Menu>
-                            <Dropdown.Item>Add Summer Semester A</Dropdown.Item>
-                            <Dropdown.Item>Add Summer Semester B</Dropdown.Item>
-                            <Dropdown.Item>Add Winter Semester</Dropdown.Item>
-                            <Dropdown.Item>Add Full Year</Dropdown.Item>
+                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "Semester")}>Insert Semester</Dropdown.Item>
+                            <Dropdown.Item>Insert Summer Semester A</Dropdown.Item>
+                            <Dropdown.Item>Insert Summer Semester B</Dropdown.Item>
+                            <Dropdown.Item>Insert Winter Semester</Dropdown.Item>
+                            <Dropdown.Item>Insert Full Year</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Button.Group>
