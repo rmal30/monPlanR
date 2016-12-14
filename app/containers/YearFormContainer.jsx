@@ -42,7 +42,16 @@ class YearFormContainer extends Component {
 
 
     handleUpdateStartYear(event){
-        let selectedStartYear = event.target.textContent
+        let selectedStartYear = ""
+        
+        if(event.type == "click"){
+            selectedStartYear = event.target.textContent
+        } else if (event.type == "keydown"){
+            selectedStartYear = event.target.nextSibling.innerText
+        } else {
+            console.log("error with collection of events")
+        }
+
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
         this.setState({
             startYear: selectedStartYear,
@@ -52,8 +61,16 @@ class YearFormContainer extends Component {
     }
 
     handleUpdateEndYear(event){
-        let selectedEndYear = event.target.textContent
-        this.validEndYears = YearCalc.getEndYearVals(selectedEndYear);
+        let selectedEndYear = ""
+        
+        if(event.type == "click"){
+            selectedEndYear = event.target.textContent
+        } else if (event.type == "keydown"){
+            selectedEndYear = event.target.nextSibling.innerText
+        } else {
+            console.log("error with collection of events")
+        }
+        
         this.setState({
             endYear: selectedEndYear,
             notReadyToSubmit: false
@@ -94,7 +111,7 @@ class YearFormContainer extends Component {
                 <Segment raised>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                        <Dropdown onAddItem={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>
+                        <Dropdown onChange={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
