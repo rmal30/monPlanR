@@ -6,6 +6,8 @@ import MediaQuery from "react-responsive";
 import ErrorMessage from "../components/multi/ErrorMessage.jsx";
 import YearCalc from "../utils/YearCalc.js";
 
+
+import Tooltips from "../components/multi/tooltips.jsx";
 /**
  *
  * @class
@@ -107,6 +109,24 @@ class YearFormContainer extends Component {
         });
     }
 
+    btnStartPlan(){
+            return (Tooltips.generate('Start Now', 'Click now to start planning with the current specified start/end years', '', <Button
+                color="green"
+                disabled={this.state.notReadyToSubmit}
+                onClick={this.submitData}>
+                    Start Planning <Icon name="right arrow" />
+            </Button>));
+    }
+
+    btnEmptyPlan(){
+            return (Tooltips.generate('Empty Template','Click here to start off with an empty template with no Teaching Periods added',
+                'bottom right',
+                <Button>
+                    Just start with an empty template <Icon name="right arrow" />
+            </Button>));
+    }
+    /**
+
     /**
      * Renders the welcome page, with a form and a disclaimer.
      *
@@ -122,7 +142,8 @@ class YearFormContainer extends Component {
                     <p>Please enter your commencement and graduation year to get started.</p>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                        <Dropdown onChange={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>
+                        {Tooltips.generate('Select a Year', 'Begin typing and select a year from the dropdown menu, for validation purposes you will have to select a year here first'
+                            , "top right", <Dropdown onChange={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>)}
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
@@ -155,17 +176,10 @@ class YearFormContainer extends Component {
                             } else {
                                 return (
                                         <Button.Group>
-                                            <Button
-                                                color="green"
-                                                disabled={this.state.notReadyToSubmit}
-                                                onClick={this.submitData}>
-                                                    Start Planning <Icon name="right arrow" />
-                                            </Button>
+                                            {this.btnStartPlan()}
                                             <Button.Or />
                                             <Link to="/plan">
-                                                <Button>
-                                                    Just start with an empty template <Icon name="right arrow" />
-                                                </Button>
+                                                {this.btnEmptyPlan()}
                                             </Link>
                                         </Button.Group>
                                 );
