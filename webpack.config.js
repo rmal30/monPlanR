@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require("html-webpack-plugin");
+var webpack = require('webpack')
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: __dirname + "/app/index.html",
@@ -8,14 +9,15 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 module.exports = {
     entry: [
-        "./app/index.jsx"
+        "./index.jsx"
     ],
 
     devtool: "eval-source-map",
 
     output: {
         path: __dirname + "/dist",
-        filename: "bundle.js"
+        filename: "bundle.js",
+        publicPath: '/'
     },
 
     module: {
@@ -25,6 +27,12 @@ module.exports = {
             {test: /\.css$/, loader: "style-loader!css-loader"}
         ]
     },
+
+    plugins: process.env.NODE_ENV === 'production' ? [
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.UglifyJsPlugin()
+    ] : [],
 
     externals: {
         "cheerio": "window",
