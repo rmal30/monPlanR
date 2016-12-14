@@ -87,6 +87,10 @@ class YearFormContainer extends Component {
         });
     }
 
+
+    /**
+     * When the form is submitted we move to the /plan page and feed the page the start and end year
+     */
     submitData(event) {
         event.preventDefault();
 
