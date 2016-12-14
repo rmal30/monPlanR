@@ -1,6 +1,8 @@
 import React, {Component} from "react";
-import {Button, Dropdown, Container, Form, Grid, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
+import {Button, Divider, Dropdown, Container, Form, Grid, Header, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
+import MediaQuery from "react-responsive";
+
 import ErrorMessage from "../components/multi/ErrorMessage.jsx";
 import YearCalc from "../utils/YearCalc.js";
 
@@ -40,14 +42,14 @@ class YearFormContainer extends Component {
     }
 
     /**
-     * Called when user selects a start year from the dropdown, it finds the type of event 
-     * (mouseclick or enter key press) and grabs the data accordingly. It may seem crazy to have to seperate these, but the 
-     * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'. 
+     * Called when user selects a start year from the dropdown, it finds the type of event
+     * (mouseclick or enter key press) and grabs the data accordingly. It may seem crazy to have to seperate these, but the
+     * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'.
      * Also note that it then calculates the valid dropdown values for end year and re-enables the endyear dropdown.
      */
     handleUpdateStartYear(event){
         let selectedStartYear = "";
-        
+
         if(event.type === "click"){
             selectedStartYear = event.target.textContent;
         } else if (event.type === "keydown"){
@@ -57,7 +59,7 @@ class YearFormContainer extends Component {
         }
 
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
-        
+
         this.setState({
             startYear: selectedStartYear,
             endYearDisabled: false
@@ -67,12 +69,12 @@ class YearFormContainer extends Component {
 
     /**
      * Called when user selects an end year from the dropdown. As with handleUpdateStartYear it distingushes between
-     * click and keyboard events because the way the data is accessed is different. The end year dropdown is the last piece of info 
+     * click and keyboard events because the way the data is accessed is different. The end year dropdown is the last piece of info
      * necessary for the form to be 'valid' so it makes the submit button not disabled.
      */
     handleUpdateEndYear(event){
         let selectedEndYear = "";
-        
+
         if(event.type === "click"){
             selectedEndYear = event.target.textContent;
         } else if (event.type === "keydown"){
@@ -80,7 +82,7 @@ class YearFormContainer extends Component {
         } else {
             console.log("error with collection of events");
         }
-        
+
         this.setState({
             endYear: selectedEndYear,
             notReadyToSubmit: false
@@ -113,10 +115,11 @@ class YearFormContainer extends Component {
     render() {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
-    
+
         return (
             <Form size="large" error>
                 <Segment raised>
+                    <p>Please enter your commencement and graduation year to get started.</p>
                     <Form.Field>
                         <label>Commencement Year:</label>
                         <Dropdown onChange={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>
@@ -125,17 +128,51 @@ class YearFormContainer extends Component {
                         <label>Graduation Year:</label>
                         <Dropdown onAddItem={this.handleUpdateEndYear} placeholder="Select end year" disabled={this.state.endYearDisabled} fluid search selection options={this.validEndYears}/>
                     </Form.Field>
-                    <Button 
-                        color="green" 
-                        disabled={this.state.notReadyToSubmit}
-                        onClick={this.submitData}>
-                            Start Planning <Icon name="right arrow" />
-                    </Button>
-                    <Link to="/plan">
-                        <Button color="blue" >
-                            Start with an empty template <Icon name="right arrow" />
-                        </Button>
-                    </Link>
+                    <MediaQuery maxDeviceWidth={767}>
+                        {mobile => {
+                            if(mobile) {
+                                return (
+                                    <Container>
+                                        <Button
+                                            fluid
+                                            color="green"
+                                            disabled={this.state.notReadyToSubmit}
+                                            onClick={this.submitData}>
+                                                Start Planning <Icon name="right arrow" />
+                                        </Button>
+                                        <Divider />
+                                        <Container textAlign="center">
+                                            <b style={{fontSize: "1.5em"}}>or</b>
+                                        </Container>
+                                        <Divider />
+                                        <Link to="/plan">
+                                            <Button fluid>
+                                                Just start with an empty template
+                                            </Button>
+                                        </Link>
+                                    </Container>
+                                );
+                            } else {
+                                return (
+                                        <Button.Group>
+                                            <Button
+                                                color="green"
+                                                disabled={this.state.notReadyToSubmit}
+                                                onClick={this.submitData}>
+                                                    Start Planning <Icon name="right arrow" />
+                                            </Button>
+                                            <Button.Or />
+                                            <Link to="/plan">
+                                                <Button>
+                                                    Just start with an empty template <Icon name="right arrow" />
+                                                </Button>
+                                            </Link>
+                                        </Button.Group>
+                                );
+                            }
+                        }
+                    }
+                    </MediaQuery>
                 </Segment>
             </Form>
         );
