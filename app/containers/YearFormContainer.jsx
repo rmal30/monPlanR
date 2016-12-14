@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Dropdown, Container, Form, Grid, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 import ErrorMessage from "../components/multi/ErrorMessage.jsx";
-import YearCalc from "../utils/YearCalc.js"
+import YearCalc from "../utils/YearCalc.js";
 
 /**
  *
@@ -30,7 +30,6 @@ class YearFormContainer extends Component {
             notReadyToSubmit: true
         };
 
-        this.returnData = this.returnData.bind(this);
         this.submitData = this.submitData.bind(this);
         this.handleUpdateStartYear = this.handleUpdateStartYear.bind(this);
         this.handleUpdateEndYear = this.handleUpdateEndYear.bind(this);
@@ -40,49 +39,58 @@ class YearFormContainer extends Component {
 
     }
 
-
+    /**
+     * Called when user selects a start year from the dropdown, it finds the type of event 
+     * (mouseclick or enter key press) and grabs the data accordingly. It may seem crazy to have to seperate these, but the 
+     * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'. 
+     * Also note that it then calculates the valid dropdown values for end year and re-enables the endyear dropdown.
+     */
     handleUpdateStartYear(event){
-        let selectedStartYear = ""
+        let selectedStartYear = "";
         
-        if(event.type == "click"){
-            selectedStartYear = event.target.textContent
-        } else if (event.type == "keydown"){
-            selectedStartYear = event.target.nextSibling.innerText
+        if(event.type === "click"){
+            selectedStartYear = event.target.textContent;
+        } else if (event.type === "keydown"){
+            selectedStartYear = event.target.nextSibling.innerText;
         } else {
-            console.log("error with collection of events")
+            console.log("error with collection of events");
         }
 
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
+        
         this.setState({
             startYear: selectedStartYear,
             endYearDisabled: false
-        })
+        });
 
     }
 
+    /**
+     * Called when user selects an end year from the dropdown. As with handleUpdateStartYear it distingushes between
+     * click and keyboard events because the way the data is accessed is different. The end year dropdown is the last piece of info 
+     * necessary for the form to be 'valid' so it makes the submit button not disabled.
+     */
     handleUpdateEndYear(event){
-        let selectedEndYear = ""
+        let selectedEndYear = "";
         
-        if(event.type == "click"){
-            selectedEndYear = event.target.textContent
-        } else if (event.type == "keydown"){
-            selectedEndYear = event.target.nextSibling.innerText
+        if(event.type === "click"){
+            selectedEndYear = event.target.textContent;
+        } else if (event.type === "keydown"){
+            selectedEndYear = event.target.nextSibling.innerText;
         } else {
-            console.log("error with collection of events")
+            console.log("error with collection of events");
         }
         
         this.setState({
             endYear: selectedEndYear,
             notReadyToSubmit: false
-        })
-    }
-    /**
-     * 
-     */
-    returnData() {
-        return this.state;
+        });
     }
 
+
+    /**
+     * When the form is submitted we move to the /plan page and feed the page the start and end year
+     */
     submitData(event) {
         event.preventDefault();
 
