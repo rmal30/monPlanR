@@ -30,7 +30,6 @@ class YearFormContainer extends Component {
             notReadyToSubmit: true
         };
 
-        this.returnData = this.returnData.bind(this);
         this.submitData = this.submitData.bind(this);
         this.handleUpdateStartYear = this.handleUpdateStartYear.bind(this);
         this.handleUpdateEndYear = this.handleUpdateEndYear.bind(this);
@@ -86,12 +85,6 @@ class YearFormContainer extends Component {
             endYear: selectedEndYear,
             notReadyToSubmit: false
         });
-    }
-    /**
-     * 
-     */
-    returnData() {
-        return this.state;
     }
 
     submitData(event) {
