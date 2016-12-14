@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import {Button, Container, Form, Grid, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
+import {Button, Dropdown, Container, Form, Grid, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 import ErrorMessage from "../components/multi/ErrorMessage.jsx";
+import YearCalc from "../utils/YearCalc.js"
 
 /**
  *
@@ -25,146 +26,44 @@ class YearFormContainer extends Component {
             startYearErrorMessage: "",
             isStartYearError: false,
             endYearErrorMessage: "",
-            isEndYearError: false,
-            isInvalidForm: false
+            endYearDisabled: true,
+            notReadyToSubmit: true
         };
 
         this.returnData = this.returnData.bind(this);
-        this.changeEndYear = this.changeEndYear.bind(this);
-        this.changeStartYear = this.changeStartYear.bind(this);
         this.submitData = this.submitData.bind(this);
-        this.validateData = this.validateData.bind(this);
+        this.handleUpdateStartYear = this.handleUpdateStartYear.bind(this);
+        this.handleUpdateEndYear = this.handleUpdateEndYear.bind(this);
+
+        this.validStartYears = YearCalc.getStartYearVals(this.startYearPlaceholder);
+        this.validEndYears = [];
+
     }
 
-    /**
-     * Changes end year in the state.
-     *
-     * @method
-     * @param e - Event object
-     */
-    changeEndYear(e) {
-        if(e === undefined){
-            e.target.value = this.state.endYear;
-        }
-        
+
+    handleUpdateStartYear(event){
+        let selectedStartYear = event.target.textContent
+        this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
         this.setState({
-            endYear: e.target.value
-        });
+            startYear: selectedStartYear,
+            endYearDisabled: false
+        })
 
-        if(e.target.value === ""){
-            this.setState({
-                endYear: this.endYearPlaceholder,
-                isEndYearError: false
-            });
-        
-        } else if (isNaN(e.target.value)){
-            this.setState({
-                isEndYearError: true,
-                endYearErrorMessage: "Entered value must be a year"
-            });
-
-        } else if (e.target.value.length >= 4) {
-            let currentEndYear = parseInt(e.target.value);
-            let maxEndYear = parseInt(this.state.startYear, 10) + 10;
-            let minEndYear = parseInt(this.state.startYear, 10);
-        
-            if(currentEndYear < minEndYear){
-                this.setState({
-                    isEndYearError: true,
-                    endYearErrorMessage: "End year must be equal to or greater than start year"
-                });
-            } else if (currentEndYear > maxEndYear){
-                this.setState({
-                    isEndYearError: true,
-                    endYearErrorMessage: "Ending year must be less than " + maxEndYear.toString()
-                });
-            } else {
-                this.setState({isEndYearError: false});
-            }
-        } else {
-            this.setState({isEndYearError: false});
-        }
     }
 
-    /**
-     * Changes start year in the state.
-     *
-     * @method
-     * @param e - Event object
-     */
-    changeStartYear(e) {
-        
-        if(e === undefined){
-            e.target.value = this.state.startYear;
-        }
+    handleUpdateEndYear(event){
+        let selectedEndYear = event.target.textContent
+        this.validEndYears = YearCalc.getEndYearVals(selectedEndYear);
         this.setState({
-            startYear: e.target.value
-        });
-
-        if(e.target.value === ""){
-            this.setState({
-                startYear: this.startYearPlaceholder,
-                isStartYearError: false
-            });
-        
-        } else if (isNaN(e.target.value)){
-            this.setState({
-                isStartYearError: true,
-                startYearErrorMessage: "Entered value must be a year"
-            });
-            
-        } else if (e.target.value.length >= 4) {
-            let currentStartYear = parseInt(e.target.value, 10);
-            let maxStartYear = parseInt(this.startYearPlaceholder, 10) + 10;
-            let minStartYear = parseInt(this.startYearPlaceholder, 10) - 10;
-        
-            if(currentStartYear > maxStartYear){
-                this.setState({
-                    isStartYearError: true,
-                    startYearErrorMessage: "Starting year must be less than " + maxStartYear.toString()
-                });
-            } else if (currentStartYear < minStartYear){
-                this.setState({
-                    isStartYearError: true,
-                    startYearErrorMessage: "Starting year must be greater than " + minStartYear.toString()
-                });
-            } else {
-                this.setState({isStartYearError: false});
-            }
-        
-        } else {
-            this.setState({isStartYearError: false});
-        }
-        
-
+            endYear: selectedEndYear,
+            notReadyToSubmit: false
+        })
     }
-
     /**
      * 
      */
     returnData() {
         return this.state;
-    }
-
-
-
-    /**
-     * Directs user to /plan where they can start planning their course.
-     *
-     * @method
-     * @param event
-     */
-    validateData(event){
-        
-        this.changeStartYear(event)
-        this.changeEndYear(event)
-
-        if(this.state.isEndYearError || this.state.isStartYearError){
-            this.setState({isInvalidForm: true});
-            event.preventDefault();
-        } else {
-            this.submitData(event)
-        }
     }
 
     submitData(event) {
@@ -189,31 +88,22 @@ class YearFormContainer extends Component {
     render() {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
-        
+    
         return (
             <Form size="large" error>
                 <Segment raised>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                        <Form.Input
-                            type="text" 
-                            placeholder={this.startYearPlaceholder} 
-                            onBlur={this.changeStartYear} 
-                            error={this.state.isStartYearError} />
-                        {this.state.isStartYearError && <ErrorMessage header="Invalid start year" errorMessage={this.state.startYearErrorMessage}/>}
+                        <Dropdown onAddItem={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
-                        <Form.Input
-                            type="text" 
-                            placeholder={this.endYearPlaceholder} 
-                            onBlur={this.changeEndYear} 
-                            error={this.state.isEndYearError} />
-                        {this.state.isEndYearError && <ErrorMessage header="Invalid end year" errorMessage={this.state.endYearErrorMessage}/>}
+                        <Dropdown onAddItem={this.handleUpdateEndYear} placeholder="Select end year" disabled={this.state.endYearDisabled} fluid search selection options={this.validEndYears}/>
                     </Form.Field>
                     <Button 
                         color="green" 
-                        onClick={this.validateData}>
+                        disabled={this.state.notReadyToSubmit}
+                        onClick={this.submitData}>
                             Start Planning <Icon name="right arrow" />
                     </Button>
                     <Link to="/plan">
@@ -221,14 +111,6 @@ class YearFormContainer extends Component {
                             Start with an empty template <Icon name="right arrow" />
                         </Button>
                     </Link>
-                    {this.state.isInvalidForm && <ErrorMessage header="Invalid data" errorMessage={"Please fix forms then submit again"}/>}
-                </Segment>
-                <Segment>
-                    <pre>Debugging vals below: </pre>
-                    <pre>{"startYear: " + this.state.startYear}</pre>
-                    <pre>{"startYearError?: " + this.state.isStartYearError}</pre>
-                    <pre>{"endYear: " + this.state.endYear}</pre>
-                    <pre>{"endYearError?: " + this.state.isEndYearError}</pre>
                 </Segment>
             </Form>
         );
