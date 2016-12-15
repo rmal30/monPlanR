@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Container, Form, Grid, Icon, Message, Segment} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 
-import YearFormContainer from '../../containers/YearFormContainer.jsx'
+import YearFormContainer from "../../containers/YearFormContainer.jsx";
 
 /**
  * Home page that is shown to the user when they load the domain.
@@ -10,6 +10,16 @@ import YearFormContainer from '../../containers/YearFormContainer.jsx'
  * @class
  */
 class Home extends Component {
+    static checkIfCourseStructureIsInLocalStorage() {
+        const stringifedJSON = localStorage.getItem("courseStructure");
+        if(stringifedJSON === null) {
+            return false;
+        }
+
+        const { teachingPeriods, numberOfUnits } = JSON.parse(stringifedJSON);
+
+        return Array.isArray(teachingPeriods) && teachingPeriods.length > 0 && numberOfUnits;
+    }
 
     /**
      * Renders the welcome page, with a form and a disclaimer.
@@ -28,10 +38,24 @@ class Home extends Component {
                             Monash University. We know that choosing units isn't particularly easy, so we've
                             designed a web app that you can use to simplify tasks.
                         </p>
-                        <h2>To begin:</h2>
-                        <Grid.Row>
+                        {Home.checkIfCourseStructureIsInLocalStorage() &&
+                        <Container>
+                            <h2>To continue where you left off:</h2>
+                            <Segment raised>
+                                <Link to="/plan">
+                                    <Button color="green">
+                                        Continue Planning <Icon name="right arrow" />
+                                    </Button>
+                                </Link>
+                            </Segment>
+                        </Container>
+                        }
+                        {!Home.checkIfCourseStructureIsInLocalStorage() &&
+                        <Container>
+                            <h2>To begin:</h2>
                             <YearFormContainer />
-                        </Grid.Row>
+                        </Container>
+                        }
                     <h4>Disclaimer</h4>
                     <p className="disclaimer">monPlan is a tool designed to help students to design courses with ease. Our features are designed to assist you in planning your course, including recommending units based off past
                       SETU results. Since it is only a tool, we recommend you to see your faculty’s course advisor.</p>

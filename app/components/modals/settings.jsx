@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Radio, Icon, Modal} from "semantic-ui-react";
+import {Button, Radio, Icon, Input, Modal} from "semantic-ui-react";
 
 class SettingsModal extends Component {
 
@@ -12,20 +12,20 @@ class SettingsModal extends Component {
             tooltips: true
         };
         //set up currentPrefences
-        this.prefs = $.extend(this.defaultPrefs);
+        this.prefs = Object.assign({}, this.defaultPrefs);
     }
 
     //this function gets user prefences
-    getTooltipsPrefs(){
-      return this.prefs.tooltips;
+    getTooltipsPrefs() {
+        return this.prefs.tooltips;
     }
 
     //this function temporartily saves prefences
-    handleChangeTooltips(type){
+    handleChangeTooltips(type) {
         this.prefs.tooltips = type;
     }
 
-    updatePrefs(prefType){
+    updatePrefs(prefType) {
         return (prefType === "tooltips" && this.prefs.tooltips); //return boolean value based on localStorage Type and Setting Value
     }
 
@@ -39,39 +39,38 @@ class SettingsModal extends Component {
             modalOpen: false
         });
     }
-    handleSave(){
+    handleSave() {
         localStorage.setItem("tooltips", this.prefs.tooltips);
     }
-    componentDidMount(){
+    componentDidMount() {
         this.getTooltipsPrefs();
     }
     render() {
         return (
             <Modal trigger={this.props.getTrigger(this.handleOpen.bind(this))}
-                   open={this.state.modalOpen}
-                   onClose={this.handleClose.bind(this)}>
+                open={this.state.modalOpen}
+                onClose={this.handleClose.bind(this)}>
                 <Modal.Header>
                     <Icon name="settings" />
                     User Settings
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                      <h3>General</h3>
-                      Tooltips <Radio
-                          toggle
-                          checked = {this.updatePrefs("tooltips")}
-                          onChange = {this.handleChangeTooltips(this.value)}
-                      >
+                        <h3>General</h3>
+                        Tooltips
+                        <Radio toggle
+                               checked={this.updatePrefs("tooltips")}
+                               onChange={this.handleChangeTooltips(this.value)}>
                     </Radio>
-                    </Modal.Description>
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button content="Save" color="green" icon="save" labelPosition="right" />
-                    <Button content="Close" color="grey" icon="close" labelPosition="right" onClick={this.handleClose.bind(this)} />
-                </Modal.Actions>
-            </Modal>
-        );
-    }
+                </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+                <Button content="Save" color="green" icon="save" labelPosition="right" />
+                <Button content="Close" color="grey" icon="close" labelPosition="right" onClick={this.handleClose.bind(this)} />
+            </Modal.Actions>
+        </Modal>
+    );
+}
 };
 
 export default SettingsModal;
