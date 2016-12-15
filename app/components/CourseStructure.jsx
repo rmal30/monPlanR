@@ -484,6 +484,16 @@ class CourseStructure extends Component {
 
         return (
             <Container>
+                {!this.state.showMoveUnitUI && !this.props.unitToAdd &&
+                    <Message>
+                        <Message.Header>
+                            Ready to add  units to course plan 
+                        </Message.Header>
+                        <p>
+                            Search for units in the above search bar, then place it in your course plan.
+                        </p>
+                    </Message>
+                }
                 {this.props.unitToAdd &&
                     <Message>
                         <Button floated="right" onClick={this.props.doneAddingToCourse}>Cancel</Button>

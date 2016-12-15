@@ -113,11 +113,26 @@ class UnitInfoContainer extends Component {
     render() {
         return (
             <Container className="move">
-                <br />
+                
+                <UnitInfo
+                    isDisabled={this.state.isFirstSearch}
+                    UnitCode={this.state.UnitCode}
+                    UnitName={this.state.UnitName}
+                    Faculty={this.state.Faculty}
+                    Synopsis={this.state.Synopsis}
+                    usefulnessScore={5}
+                    likeScore={3}
+                    collapse={this.state.collapse}
+                    isLoading={this.state.isLoading}
+                    onCollapseClick={this.handleCollapseClick}
+                    error={this.state.error}
+                />
+                <UnitSearchContainer onResult={this.unitSelected} />
+                {false &&
                 <Grid stackable>
                     <Grid.Row>
                         <Grid.Column width={2}>
-                            <UnitSearchContainer onResult={this.unitSelected} />
+                            
                         </Grid.Column>
                         <Grid.Column width={8} />
                         <Grid.Column width={6}>
@@ -163,19 +178,7 @@ class UnitInfoContainer extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <UnitInfo
-                    isDisabled={this.state.isFirstSearch}
-                    UnitCode={this.state.UnitCode}
-                    UnitName={this.state.UnitName}
-                    Faculty={this.state.Faculty}
-                    Synopsis={this.state.Synopsis}
-                    usefulnessScore={5}
-                    likeScore={3}
-                    collapse={this.state.collapse}
-                    isLoading={this.state.isLoading}
-                    onCollapseClick={this.handleCollapseClick}
-                    error={this.state.error}
-                />
+                }
             </Container>
         );
     }
