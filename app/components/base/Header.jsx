@@ -37,11 +37,12 @@ class Header extends Component {
                                 <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
                             </div>
                             }
+                            <Dropdown.Header>Issues</Dropdown.Header>
+                            <Dropdown.Item as="a" href="https://gitreports.com/issue/MonashUnitPlanner/monPlan" target="_blank"><i className="bug icon"></i> Submit an Issue</Dropdown.Item>
                             <Dropdown.Header>Quick Links (for Devs)</Dropdown.Header>
                             <Dropdown.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Dropdown.Item>
                             <Dropdown.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Dropdown.Item>
                             <Dropdown.Header>About</Dropdown.Header>
-                            <Dropdown.Item as="a" href="https://gitreports.com/issue/MonashUnitPlanner/monPlan" target="_blank"><i className="bug icon"></i> Submit an Issue</Dropdown.Item>
                             <Dropdown.Item as="a" href="https://monashunitplanner.github.io" target="_blank"  className="item"><i className="info icon"></i>The Project</Dropdown.Item>
                             <Dropdown.Item as="a" href="https://goo.gl/TO6Z3M" target="_blank" className="item"><i className="users icon"></i> Join the Team</Dropdown.Item>
                             <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
