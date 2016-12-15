@@ -119,8 +119,8 @@ class YearFormContainer extends Component {
     }
 
     btnEmptyPlan(){
-        return (Tooltips.generate('Empty Template','Click here to start off with an empty template with no Teaching Periods added',
-                'bottom right',
+        return (Tooltips.generate("Empty Template","Click here to start off with an empty template with no Teaching Periods added",
+                "bottom right",
                 <Button>
                     Just start with an empty template <Icon name="right arrow" />
             </Button>));
@@ -142,7 +142,7 @@ class YearFormContainer extends Component {
                     <p>Please enter your commencement and graduation year to get started.</p>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                        {Tooltips.generate('Select a Year', 'Begin typing and select a year from the dropdown menu, for validation purposes you will have to select a year here first'
+                        {Tooltips.generate("Select a Year", "Begin typing and select a year from the dropdown menu, for validation purposes you will have to select a year here first"
                             , "top right", <Dropdown onChange={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>)}
                     </Form.Field>
                     <Form.Field>
