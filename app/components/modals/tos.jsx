@@ -3,7 +3,7 @@ import {Button, Icon, Modal} from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 
-export default ({trigger}) => {
+export default ({ trigger }) => {
     const closeTrigger = <Button content="OK" positive icon="checkmark" labelPosition="right" />;
     return (
         <ControlledModal

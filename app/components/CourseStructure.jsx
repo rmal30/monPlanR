@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from "react";
 import {Button, Container, Dropdown, Grid, Header, Icon, Label, Message, Segment, Table} from "semantic-ui-react";
 import axios from "axios";
-var MediaQuery = require("react-responsive");
+import MediaQuery from "react-responsive";
 
 import Home from "./base/Home.jsx";
 
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
+import DeleteCourseModal from "./modals/DeleteCourseModal.jsx";
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
@@ -96,6 +97,67 @@ class CourseStructure extends Component {
         }
 
         return [];
+    }
+
+    /**
+     * Saves list of teaching periods to local storage.
+     */
+    saveCourse() {
+        const { teachingPeriods, numberOfUnits } = this.state;
+        localStorage.setItem("courseStructure", JSON.stringify({
+            teachingPeriods,
+            numberOfUnits
+        }));
+    }
+
+    /**
+     * Loads list of teaching periods from local storage.
+     */
+    loadCourse() {
+        const stringifedJSON = localStorage.getItem("courseStructure");
+        if(stringifedJSON) {
+            const { teachingPeriods, numberOfUnits } = JSON.parse(stringifedJSON);
+            this.setState({
+                teachingPeriods,
+                numberOfUnits
+            });
+        }
+    }
+
+    /**
+     * Clears course, but only if the confirmString is equal to "clear"
+     *
+     * @param {string} confirmString - Used as a precaution to prevent users
+     * from clicking on a confirm button accidentally.
+     * @returns {boolean} performDelete - Indicates if deletion has been performed.
+     */
+    deleteCourse(confirmString) {
+        const performDelete = confirmString === "clear";
+
+        if(performDelete) {
+            this.setState({
+                teachingPeriods: [],
+                numberOfUnits: 4
+            });
+        }
+
+        return performDelete;
+    }
+
+    /**
+     * Loads course if it exists.
+     */
+    componentWillMount() {
+        if(Home.checkIfCourseStructureIsInLocalStorage()) {
+            this.loadCourse();
+        }
+    }
+
+    /**
+     * Set to auto save when the state of the component changes
+     */
+    componentDidUpdate() {
+        this.saveCourse();
     }
 
     /**
@@ -487,10 +549,10 @@ class CourseStructure extends Component {
                 {!this.state.showMoveUnitUI && !this.props.unitToAdd &&
                     <Message>
                         <Message.Header>
-                            Ready to add  units to course plan 
+                            Ready to add units to course plan
                         </Message.Header>
                         <p>
-                            Search for units in the above search bar, then place it in your course plan.
+                            Search for units in the above search bar, then place it in your course plan. Your course structure is automatically saved to your browser, so when you come back it will be exactly where you left off.
                         </p>
                     </Message>
                 }
@@ -530,6 +592,7 @@ class CourseStructure extends Component {
                         {tableRows}
                     </Table.Body>
                 </Table>
+                <DeleteCourseModal deleteCourse={this.deleteCourse.bind(this)} />
                 {!this.state.showInsertTeachingPeriods &&
                 <Button.Group color="green" className="right floated">
                     <Button onClick={this.appendSemester.bind(this)}><Icon name="add square"/>Add {this.getQuickSemesterString()}</Button>
