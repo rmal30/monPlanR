@@ -6,17 +6,18 @@
 Built in the latest standards with _React_ and _Semantic-UI_, **monPlan** delivers a clean and beautiful tool that students can use to plan their courses.
 
 ## Get started
-We use npm for transpiling ES6 and running scripts. To start this project, first install dependencies:
+We use babel for transpiling ES6 and npm for running scripts. To start this project, first install dependencies via:
 ```
 npm install
 ```
-then to run the development environment (on `0.0.0.0:8080`):
+then to run the local development environment (on `localhost:8080`):
 ```
-npm run dev
+npm start
 ```
-Optionally if you wish to build a production distribution to test on a server or for whatever reason, you can build a dist via:
+Optionally if you wish to build a production distribution to test on a server or for whatever reason, you can build a dist and host via:
 ```
-npm run production
+chmod +x ./start-prod.sh #if first time running
+./start-prod.sh
 ```
 
 ## Test
