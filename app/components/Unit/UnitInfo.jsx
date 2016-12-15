@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Divider, Grid, Icon, Segment } from "semantic-ui-react";
+import { Button, Divider, Grid, Icon, Segment, Message } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
@@ -91,6 +91,9 @@ function UnitInfo(props) {
                         <Grid.Column width={4}>
                             <Grid.Row>
                                 {false /* disable SetuRating for now */ && <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} /> }
+                                <Message info>
+                                    <Message.Header>Unit ratings coming soon!</Message.Header>
+                                </Message>
                             </Grid.Row>
                         </Grid.Column>
                     </Grid>

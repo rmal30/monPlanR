@@ -127,7 +127,17 @@ class UnitInfoContainer extends Component {
                     onCollapseClick={this.handleCollapseClick}
                     error={this.state.error}
                 />
-                <UnitSearchContainer onResult={this.unitSelected} />
+
+                <Grid reversed="mobile" stackable>
+                    <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>
+                    <Grid.Column width="3" />
+                    <Grid.Column width="4">
+                    <a target="_blank" href="https://docs.google.com/forms/d/1BNnHFCMxfEDejKDY83Vgs9wBXiurM-W4nk4f6KJy79c/edit">
+                        <Button primary fluid>Give us feedback</Button>
+                    </a>
+                    </Grid.Column>
+                </Grid>
+                
                 {false &&
                 <Grid stackable>
                     <Grid.Row>
