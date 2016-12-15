@@ -10,9 +10,12 @@ class Tooltips extends Component {
 
   }
 
-  static generate(title, message, direction, target){
+  static generate(title, message, direction, target, on){
       if(direction === null || direction === ""){
           direction = "bottom left";
+      }
+      if (on === "") {
+          on = "focus"
       }
       if(title !== "" && message !== ""){
           return (
@@ -21,6 +24,7 @@ class Tooltips extends Component {
              trigger = {target}
              content = {message}
              positioning = {direction}
+             on = {on}
            />
           );
       } else {
