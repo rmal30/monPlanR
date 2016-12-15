@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Divider, Dropdown, Container, Form, Grid, Header, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
+import {Button, Divider, Dropdown, Container, Form, Grid, Header, Icon, Message, Segment, Input, Label, Popup} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 import MediaQuery from "react-responsive";
 
@@ -109,8 +109,11 @@ class YearFormContainer extends Component {
         });
     }
 
+    /**
+     * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
+     */
     btnStartPlan(){
-            return (Tooltips.generate('Start Now', 'Click now to start planning with the current specified start/end years', '', <Button
+        return (Tooltips.generate("Start Now", "Click now to start planning with the current specified start/end years", "", <Button
                 color="green"
                 disabled={this.state.notReadyToSubmit}
                 onClick={this.submitData}>
@@ -118,9 +121,12 @@ class YearFormContainer extends Component {
             </Button>));
     }
 
+    /**
+     * btnEmptyPlan is a function that returns a tooltipped button for the start year form
+     */
     btnEmptyPlan(){
-            return (Tooltips.generate('Empty Template','Click here to start off with an empty template with no Teaching Periods added',
-                'bottom right',
+        return (Tooltips.generate("Empty Template","Click here to start off with an empty template with no Teaching Periods added",
+                "bottom right",
                 <Button>
                     Just start with an empty template <Icon name="right arrow" />
             </Button>));
@@ -142,12 +148,32 @@ class YearFormContainer extends Component {
                     <p>Please enter your commencement and graduation year to get started.</p>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                        {Tooltips.generate('Select a Year', 'Begin typing and select a year from the dropdown menu, for validation purposes you will have to select a year here first'
-                            , "top right", <Dropdown onChange={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>)}
+                        <Popup
+                            header = {"Select a start year"}
+                            content = {"Begin typing or click a year from the dropdown menu. This is the year that you want to start planning from onwards."}
+                            positioning = {"top right"}
+                            on={"focus"}
+                            trigger = {<Dropdown 
+                                            onChange={this.handleUpdateStartYear} 
+                                            placeholder="Select start year" fluid search selection
+                                            options={this.validStartYears}/>}
+                            
+                        />
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
-                        <Dropdown onAddItem={this.handleUpdateEndYear} placeholder="Select end year" disabled={this.state.endYearDisabled} fluid search selection options={this.validEndYears}/>
+                        <Popup
+                            header = {"Select an end year"}
+                            content = {"Begin typing or click a year from the dropdown menu. This is the last year that you want to plan for."}
+                            positioning = {"top right"}
+                            on={"focus"}
+                            trigger = {<Dropdown 
+                                            onChange={this.handleUpdateEndYear} 
+                                            placeholder="Select end year" fluid search selection
+                                            options={this.validEndYears}
+                                            disabled={this.state.endYearDisabled}/>}
+                            
+                        />
                     </Form.Field>
                     <MediaQuery maxDeviceWidth={767}>
                         {mobile => {
