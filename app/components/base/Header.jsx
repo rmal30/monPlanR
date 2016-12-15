@@ -29,7 +29,7 @@ class Header extends Component {
                         content="As you add units, we will inform you of any conflicts, such as missing prerequisites."
                         />
                     }
-                    <Dropdown floating icon="info" className="item">
+                    <Dropdown floating text="Menu" className="item">
                         <Dropdown.Menu>
                             {false /* disable access to app settings for now */ &&
                             <div className="pleaseRemoveOnceYouEnableThis">
