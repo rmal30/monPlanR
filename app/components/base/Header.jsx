@@ -44,7 +44,6 @@ class Header extends Component {
                             <Dropdown.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Dropdown.Item>
                             <Dropdown.Header>About</Dropdown.Header>
                             <Dropdown.Item as="a" href="https://monashunitplanner.github.io" target="_blank"  className="item"><i className="info icon"></i>The Project</Dropdown.Item>
-                            <Dropdown.Item as="a" href="https://goo.gl/TO6Z3M" target="_blank" className="item"><i className="users icon"></i> Join the Team</Dropdown.Item>
                             <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
                             <ToSModal trigger={<Dropdown.Item as="a">Terms of Use</Dropdown.Item>} />
                             <PrivacyModal trigger={<Dropdown.Item as="a">Privacy Policy</Dropdown.Item>} />

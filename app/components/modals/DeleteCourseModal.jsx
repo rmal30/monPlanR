@@ -14,8 +14,10 @@ class DeleteCourseModal extends Component {
     }
 
     handleChange(e) {
-        if(this.props.deleteCourse(e.target.value)) {
+        if(e.target.value === "clear" || e.target.value === "Clear") {
             this.setState({disabled:false});
+        } else {
+            this.setState({disabled:true});
         }
     }
 
@@ -30,6 +32,12 @@ class DeleteCourseModal extends Component {
             disabled: true
         });
     }
+
+    handleClick() {
+         this.props.deleteCourse();
+         this.handleClose();
+    }
+
     render() {
         return (
             <Modal trigger={<Button color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
@@ -47,7 +55,7 @@ class DeleteCourseModal extends Component {
                 </Modal.Content>
                 
                 <Modal.Actions>
-                    <Button color='red' disabled={this.state.disabled} floated={"left"} onClick={this.handleClose.bind(this)}>Clear Course</Button>
+                    <Button color='red' disabled={this.state.disabled} floated={"left"} onClick={this.handleClick.bind(this)}>Clear Course</Button>
                     <Button danger onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>

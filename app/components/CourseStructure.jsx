@@ -125,23 +125,15 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Clears course, but only if the confirmString is equal to "clear"
+     * Clears course on call.
      *
-     * @param {string} confirmString - Used as a precaution to prevent users
-     * from clicking on a confirm button accidentally.
-     * @returns {boolean} performDelete - Indicates if deletion has been performed.
      */
-    deleteCourse(confirmString) {
-        const performDelete = confirmString === "clear";
+    deleteCourse() {
+        this.setState({
+            teachingPeriods: [],
+            numberOfUnits: 4
+        });
 
-        if(performDelete) {
-            this.setState({
-                teachingPeriods: [],
-                numberOfUnits: 4
-            });
-        }
-
-        return performDelete;
     }
 
     /**
