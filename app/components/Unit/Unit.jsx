@@ -117,7 +117,7 @@ class Unit extends React.Component {
                                     }
                                     {(this.state.showUI || mobile) && !this.props.showMoveUnitUI &&
                                         <Button.Group size="mini" fluid compact>
-                                            <Button basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
+                                            {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
                                             <Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />
                                             <Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />
                                         </Button.Group>
