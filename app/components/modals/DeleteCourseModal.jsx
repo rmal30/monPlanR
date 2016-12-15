@@ -40,8 +40,8 @@ class DeleteCourseModal extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <p>To clear course, type "clear" into the input box. After doing this, your course
-                        structure will be cleared, and this popup will disappear.</p>
+                        <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
+                        structure will be cleared.</p>
                         <Input onChange={this.handleChange.bind(this)} />
                     </Modal.Description>
                 </Modal.Content>
