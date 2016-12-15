@@ -110,7 +110,7 @@ class YearFormContainer extends Component {
     }
 
     btnStartPlan(){
-        return (Tooltips.generate('Start Now', 'Click now to start planning with the current specified start/end years', '', <Button
+        return (Tooltips.generate("Start Now", "Click now to start planning with the current specified start/end years", "", <Button
                 color="green"
                 disabled={this.state.notReadyToSubmit}
                 onClick={this.submitData}>
