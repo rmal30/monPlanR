@@ -132,7 +132,7 @@ class UnitInfoContainer extends Component {
                     <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>
                     <Grid.Column width="3" />
                     <Grid.Column width="4">
-                    <a target="_blank" href="https://docs.google.com/forms/d/1BNnHFCMxfEDejKDY83Vgs9wBXiurM-W4nk4f6KJy79c/edit">
+                    <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
                         <Button primary fluid>Give us feedback</Button>
                     </a>
                     </Grid.Column>
