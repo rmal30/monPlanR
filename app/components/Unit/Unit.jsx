@@ -99,13 +99,13 @@ class Unit extends React.Component {
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
                     return (
-                        <Table.Cell active={this.state.showUI && (this.props.showMoveUnitUI || this.props.free && this.props.showAddToCourseUI) && !mobile}
+                        <Table.Cell active={this.state.showUI && (this.props.showMoveUnitUI || this.props.free && this.props.unitToAdd !== undefined) && !mobile}
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
                             onMouseLeave={this.handleMouseLeave.bind(this)}
                             onClick={this.handleClick.bind(this)}>
-                            {this.props.free && this.props.showAddToCourseUI && mobile && this.props.firstFreeUnit &&
-                                <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd}</Button>
+                            {this.props.free && this.props.unitToAdd !== undefined && mobile && this.props.firstFreeUnit &&
+                                <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd.code}</Button>
                             }
                             {!this.props.free &&
                                 <Message color={facultyColor} size="mini">
