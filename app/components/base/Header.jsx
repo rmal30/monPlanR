@@ -18,7 +18,7 @@ class Header extends Component {
             <Menu attached="top" inverted>
                 <Menu.Header className="item">
                     <img className="logo" src="resources/img/logo.png" alt="logo" />
-                    <MediaQuery query="(min-device-width: 300px)">monPlan Alpha v0.1</MediaQuery>
+                    <MediaQuery query="(min-device-width: 300px)">monPlan v0.1.0</MediaQuery>
                 </Menu.Header>
                 <Menu.Menu position="right">
                     {false /* disable status for now */ &&
