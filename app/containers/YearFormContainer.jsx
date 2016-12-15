@@ -110,7 +110,7 @@ class YearFormContainer extends Component {
     }
 
     btnStartPlan(){
-            return (Tooltips.generate('Start Now', 'Click now to start planning with the current specified start/end years', '', <Button
+        return (Tooltips.generate('Start Now', 'Click now to start planning with the current specified start/end years', '', <Button
                 color="green"
                 disabled={this.state.notReadyToSubmit}
                 onClick={this.submitData}>
@@ -119,7 +119,7 @@ class YearFormContainer extends Component {
     }
 
     btnEmptyPlan(){
-            return (Tooltips.generate('Empty Template','Click here to start off with an empty template with no Teaching Periods added',
+        return (Tooltips.generate('Empty Template','Click here to start off with an empty template with no Teaching Periods added',
                 'bottom right',
                 <Button>
                     Just start with an empty template <Icon name="right arrow" />
