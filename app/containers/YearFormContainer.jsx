@@ -109,6 +109,9 @@ class YearFormContainer extends Component {
         });
     }
 
+    /**
+     * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
+     */
     btnStartPlan(){
         return (Tooltips.generate("Start Now", "Click now to start planning with the current specified start/end years", "", <Button
                 color="green"
