@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import {Button, Container, Dropdown, Grid, Icon, Label, Message, Table} from "semantic-ui-react";
+import {Button, Container, Dropdown, Grid, Header, Icon, Label, Message, Segment, Table} from "semantic-ui-react";
 import axios from "axios";
 var MediaQuery = require("react-responsive");
 
@@ -155,8 +155,7 @@ class CourseStructure extends Component {
      * A quick option for students to insert semesters at the end of their
      * course structures.
      *
-     * Note: It currently only works if the list of teaching periods consist
-     * of only semester one and semester two teaching periods.
+     * @author Saurabh Joshi
      */
     appendSemester() {
         const index = this.state.teachingPeriods.length;
@@ -193,6 +192,8 @@ class CourseStructure extends Component {
 
     /**
      * Gets the quick semester append string to be displayed on the button.
+     *
+     * @author Saurabh Joshi
      */
     getQuickSemesterString() {
         const index = this.state.teachingPeriods.length;
@@ -242,6 +243,7 @@ class CourseStructure extends Component {
     /**
      * Inserts unit into course structure.
      *
+     * @author Saurabh Joshi
      * @param {number} teachingPeriodIndex
      * @param {number} unitIndex
      * @param {string} code
@@ -257,6 +259,7 @@ class CourseStructure extends Component {
     /**
      * Allows user to move unit into another table cell.
      *
+     * @author Saurabh Joshi
      * @param {number} teachingPeriodIndex
      * @param {number} unitIndex
      */
@@ -265,6 +268,19 @@ class CourseStructure extends Component {
             showMoveUnitUI: true,
             originalPosition: [teachingPeriodIndex, unitIndex],
             unitToBeMoved: this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex]
+        });
+    }
+
+    /**
+     * Cancels the move unit operation.
+     *
+     * @author Saurabh Joshi
+     */
+    cancelMoving() {
+        this.setState({
+            showMoveUnitUI: false,
+            originalPosition: undefined,
+            unitToBeMoved: undefined
         });
     }
 
@@ -357,7 +373,6 @@ class CourseStructure extends Component {
                     willMoveUnit={this.willMoveUnit.bind(this)}
                     deleteUnit={this.deleteUnit.bind(this)}
                     unitToAdd={this.props.unitToAdd}
-                    showAddToCourseUI={this.props.showAddToCourseUI}
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units} />;
@@ -451,10 +466,27 @@ class CourseStructure extends Component {
             }
         }
 
+        if(this.state.teachingPeriods.length === 0) {
+            tableRows.push(
+                <Table.Row key="no-teaching-period">
+                    <Table.Cell colSpan={this.state.numberOfUnits + 1}>
+                        <Header as="h3" icon textAlign="center">
+                            <Icon name="calendar" />
+                            No teaching periods
+                            <Header.Subheader>
+                                Click add semester button below to get started.
+                            </Header.Subheader>
+                        </Header>
+                    </Table.Cell>
+                </Table.Row>
+            );
+        }
+
         return (
             <Container>
-                {this.props.showAddToCourseUI &&
+                {this.props.unitToAdd &&
                     <Message>
+                        <Button floated="right" onClick={this.props.doneAddingToCourse}>Cancel</Button>
                         <Message.Header>
                             Adding {this.props.unitToAdd.code}
                         </Message.Header>
@@ -465,6 +497,7 @@ class CourseStructure extends Component {
                 }
                 {this.state.showMoveUnitUI &&
                     <Message>
+                        <Button floated="right" onClick={this.cancelMoving.bind(this)}>Cancel</Button>
                         <Message.Header>
                             Moving {this.state.unitToBeMoved.code}
                         </Message.Header>

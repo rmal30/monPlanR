@@ -4,10 +4,10 @@ import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
 
-/**     
+/**
  * This component displays the unit info for a selected unit in the form of a collapsable tray.
  * @author JXNS
- * 
+ *
  * @param {boolean} collapse - A true/false value representing whether the component is in collpased state or not.
  * @param {string} Faculty - The faculty a unit belongs to.
  * @param {number} likeScore - A score between 0 and 5 representing how much the students enjoyed a unit.
@@ -31,7 +31,7 @@ function UnitInfo(props) {
         Synopsis: PropTypes.string.isRequired,
         UnitCode: PropTypes.string.isRequired,
         UnitName: PropTypes.string.isRequired,
-        usefulnessScore: PropTypes.number.isRequired    
+        usefulnessScore: PropTypes.number.isRequired
     };
 
     if (props.collapse){
@@ -40,7 +40,7 @@ function UnitInfo(props) {
                 <CollapseButton
                     isDisabled={props.isDisabled}
                     collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick} 
+                    onCollapseClick={props.onCollapseClick}
                     currentUnit={props.UnitCode} />
             </div>
         );
@@ -50,7 +50,7 @@ function UnitInfo(props) {
                <CollapseButton
                     isDisabled={props.isDisabled}
                     collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick} 
+                    onCollapseClick={props.onCollapseClick}
                     currentUnit={props.UnitCode} />
                <UnitInfoPlaceholder />
         </div>
@@ -63,7 +63,7 @@ function UnitInfo(props) {
                 <CollapseButton
                     isDisabled={props.isDisabled}
                     collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick} 
+                    onCollapseClick={props.onCollapseClick}
                     currentUnit={props.UnitCode}/>
                 <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
                 </div>
@@ -74,7 +74,7 @@ function UnitInfo(props) {
                 <CollapseButton
                         isDisabled={props.isDisabled}
                         collapse={props.collapse}
-                        onCollapseClick={props.onCollapseClick} 
+                        onCollapseClick={props.onCollapseClick}
                         currentUnit={props.UnitCode}/>
                     <Grid celled stackable columns={2}>
                         <Grid.Column width={12}>
@@ -83,13 +83,14 @@ function UnitInfo(props) {
                                     <p>{props.Faculty}</p>
                                     <Divider />
                                     <p>{props.Synopsis}</p>
-                                    <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>
+                                    {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
+                                    <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
                             </Grid.Row>
                         </Grid.Column>
 
                         <Grid.Column width={4}>
                             <Grid.Row>
-                                <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} />
+                                {false /* disable SetuRating for now */ && <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} /> }
                             </Grid.Row>
                         </Grid.Column>
                     </Grid>

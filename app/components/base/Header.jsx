@@ -21,16 +21,22 @@ class Header extends Component {
                     <MediaQuery query="(min-device-width: 300px)">monPlan Alpha</MediaQuery>
                 </Menu.Header>
                 <Menu.Menu position="right">
+                    {false /* disable status for now */ &&
                     <Popup
                         id="displayMessage"
                         trigger={<Menu.Item><MediaQuery query="(min-device-width: 500px)">Status: <span id="statusTag">OK</span></MediaQuery><Icon name="checkmark" color="green" id="statusIcon" /></Menu.Item>}
                         header="Everything looks good"
                         content="As you add units, we will inform you of any conflicts, such as missing prerequisites."
                         />
+                    }
                     <Dropdown floating icon="info" className="item">
                         <Dropdown.Menu>
-                            <Dropdown.Header>App Settings</Dropdown.Header>
-                            <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
+                            {false /* disable access to app settings for now */ &&
+                            <div className="pleaseRemoveOnceYouEnableThis">
+                                <Dropdown.Header>App Settings</Dropdown.Header>
+                                <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
+                            </div>
+                            }
                             <Dropdown.Header>Quick Links (for Devs)</Dropdown.Header>
                             <Dropdown.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Dropdown.Item>
                             <Dropdown.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Dropdown.Item>
