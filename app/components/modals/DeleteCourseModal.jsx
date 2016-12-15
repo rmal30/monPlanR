@@ -7,12 +7,15 @@ import { Button, Header, Icon, Input, Modal } from "semantic-ui-react";
 class DeleteCourseModal extends Component {
     constructor() {
         super();
-        this.state = {modalOpen: false};
+        this.state = {
+            modalOpen: false,
+            disabled: true
+        };
     }
 
     handleChange(e) {
         if(this.props.deleteCourse(e.target.value)) {
-            this.handleClose();
+            this.setState({disabled:false});
         }
     }
 
@@ -22,9 +25,9 @@ class DeleteCourseModal extends Component {
         });
     }
     handleClose() {
-        console.log("blah");
         this.setState({
-            modalOpen: false
+            modalOpen: false,
+            disabled: true
         });
     }
     render() {
@@ -42,8 +45,10 @@ class DeleteCourseModal extends Component {
                         <Input onChange={this.handleChange.bind(this)} />
                     </Modal.Description>
                 </Modal.Content>
+                
                 <Modal.Actions>
-                    <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
+                    <Button color='red' disabled={this.state.disabled} floated={"left"} onClick={this.handleClose.bind(this)}>Clear Course</Button>
+                    <Button danger onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
         );
