@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from "react";
-import {Button, Container, Dropdown, Grid, Icon, Label, Message, Table} from "semantic-ui-react";
+import {Button, Container, Dropdown, Grid, Header, Icon, Label, Message, Segment, Table} from "semantic-ui-react";
 import axios from "axios";
-var MediaQuery = require("react-responsive");
+import MediaQuery from "react-responsive";
 
 import Home from "./base/Home.jsx";
 
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
+import DeleteCourseModal from "./modals/DeleteCourseModal.jsx";
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
@@ -41,6 +42,14 @@ class CourseStructure extends Component {
         // Fetch common teaching periods to get names for each teaching period code.
         axios.get("/data/teachingPeriods/common.json")
              .then(response => {
+                 function compareDate(a, b) {
+                     return Math.sign(new Date(...a.split("/").reverse()) - new Date(...b.split("/").reverse()));
+                 }
+
+                 response.data.sort(
+                     (a, b) => compareDate(a.startDate, b.startDate) !== 0 ? compareDate(a.startDate, b.startDate) : compareDate(b.endDate, a.endDate)
+                 );
+
                  this.setState({
                      teachingPeriodsData: response.data
                  });
@@ -91,14 +100,78 @@ class CourseStructure extends Component {
     }
 
     /**
+     * Saves list of teaching periods to local storage.
+     */
+    saveCourse() {
+        const { teachingPeriods, numberOfUnits } = this.state;
+        localStorage.setItem("courseStructure", JSON.stringify({
+            teachingPeriods,
+            numberOfUnits
+        }));
+    }
+
+    /**
+     * Loads list of teaching periods from local storage.
+     */
+    loadCourse() {
+        const stringifedJSON = localStorage.getItem("courseStructure");
+        if(stringifedJSON) {
+            const { teachingPeriods, numberOfUnits } = JSON.parse(stringifedJSON);
+            this.setState({
+                teachingPeriods,
+                numberOfUnits
+            });
+        }
+    }
+
+    /**
+     * Clears course, but only if the confirmString is equal to "clear"
+     *
+     * @param {string} confirmString - Used as a precaution to prevent users
+     * from clicking on a confirm button accidentally.
+     * @returns {boolean} performDelete - Indicates if deletion has been performed.
+     */
+    deleteCourse(confirmString) {
+        const performDelete = confirmString === "clear";
+
+        if(performDelete) {
+            this.setState({
+                teachingPeriods: [],
+                numberOfUnits: 4
+            });
+        }
+
+        return performDelete;
+    }
+
+    /**
+     * Loads course if it exists.
+     */
+    componentWillMount() {
+        if(Home.checkIfCourseStructureIsInLocalStorage()) {
+            this.loadCourse();
+        }
+    }
+
+    /**
+     * Set to auto save when the state of the component changes
+     */
+    componentDidUpdate() {
+        this.saveCourse();
+    }
+
+    /**
      * Displays add teaching period buttons in between the teaching period
      * table rows.
      *
      * @author Saurabh Joshi
+     * @param {string} teachingPeriodToInsertCode - what teaching period are we
+     * inserting
      */
-    showInsertTeachingPeriodsUI() {
+    showInsertTeachingPeriodsUI(teachingPeriodToInsertCode) {
         this.setState({
-            showInsertTeachingPeriods: true
+            showInsertTeachingPeriods: true,
+            teachingPeriodToInsertCode
         });
     }
 
@@ -144,27 +217,35 @@ class CourseStructure extends Component {
      * A quick option for students to insert semesters at the end of their
      * course structures.
      *
-     * Note: It currently only works if the list of teaching periods consist
-     * of only semester one and semester two teaching periods.
-     *
-     * TODO: Make this work for any teaching period, by scanning for the next
-     * semester in the list of teaching periods before inserting it into the
-     * course structure.
+     * @author Saurabh Joshi
      */
     appendSemester() {
         const index = this.state.teachingPeriods.length;
         let year = new Date().getFullYear();
-        let code = "S1-01";
+        let s1Code = "S1-01";
+        let s2Code = "S2-01";
+
+        let code = s1Code;
+
+        const { teachingPeriods, teachingPeriodsData } = this.state;
+
+        if(!teachingPeriodsData) {
+            return;
+        }
 
         if(index > 0) {
-            if(this.state.teachingPeriods[index - 1].code === "S1-01") {
-                code = "S2-01";
-                year = this.state.teachingPeriods[index - 1].year;
-            } else if(this.state.teachingPeriods[index - 1].code === "S2-01") {
-                code = "S1-01";
-                year = this.state.teachingPeriods[index - 1].year + 1;
-            } else {
-                year = this.state.teachingPeriods[index - 1].year;
+            const startIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriods[index - 1].code);
+            const s1middleIndex = teachingPeriodsData.findIndex(ele => ele.code === s1Code);
+            const s2middleIndex = teachingPeriodsData.findIndex(ele => ele.code === s2Code);
+
+            year = teachingPeriods[index - 1].year;
+
+            if(startIndex < s1middleIndex) {
+                // do nothing
+            } else if(startIndex < s2middleIndex) {
+                code = s2Code;
+            } else if(startIndex >= s1middleIndex) {
+                year ++;
             }
         }
 
@@ -172,8 +253,59 @@ class CourseStructure extends Component {
     }
 
     /**
+     * Gets the quick semester append string to be displayed on the button.
+     *
+     * @author Saurabh Joshi
+     */
+    getQuickSemesterString() {
+        const index = this.state.teachingPeriods.length;
+        let year = new Date().getFullYear();
+        let s1Code = "S1-01";
+        let s2Code = "S2-01";
+
+        let code = s1Code;
+
+        const { teachingPeriods, teachingPeriodsData } = this.state;
+
+        if(!teachingPeriodsData) {
+            return;
+        }
+
+        if(index > 0) {
+            const startIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriods[index - 1].code);
+            const s1middleIndex = teachingPeriodsData.findIndex(ele => ele.code === s1Code);
+            const s2middleIndex = teachingPeriodsData.findIndex(ele => ele.code === s2Code);
+
+            year = teachingPeriods[index - 1].year;
+
+            if(startIndex < s1middleIndex) {
+                // do nothing
+            } else if(startIndex < s2middleIndex) {
+                code = s2Code;
+            } else if(startIndex >= s1middleIndex) {
+                year ++;
+            }
+        }
+
+        let teachingPeriodName = code;
+
+        if(teachingPeriodsData) {
+            const teachingPeriod = teachingPeriodsData.find((element) =>
+                element.code === code
+            );
+
+            if(teachingPeriod !== undefined) {
+                teachingPeriodName = teachingPeriod.name || code;
+            }
+        }
+
+        return `${teachingPeriodName}, ${year}`;
+    }
+
+    /**
      * Inserts unit into course structure.
      *
+     * @author Saurabh Joshi
      * @param {number} teachingPeriodIndex
      * @param {number} unitIndex
      * @param {string} code
@@ -189,6 +321,7 @@ class CourseStructure extends Component {
     /**
      * Allows user to move unit into another table cell.
      *
+     * @author Saurabh Joshi
      * @param {number} teachingPeriodIndex
      * @param {number} unitIndex
      */
@@ -197,6 +330,19 @@ class CourseStructure extends Component {
             showMoveUnitUI: true,
             originalPosition: [teachingPeriodIndex, unitIndex],
             unitToBeMoved: this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex]
+        });
+    }
+
+    /**
+     * Cancels the move unit operation.
+     *
+     * @author Saurabh Joshi
+     */
+    cancelMoving() {
+        this.setState({
+            showMoveUnitUI: false,
+            originalPosition: undefined,
+            unitToBeMoved: undefined
         });
     }
 
@@ -289,7 +435,6 @@ class CourseStructure extends Component {
                     willMoveUnit={this.willMoveUnit.bind(this)}
                     deleteUnit={this.deleteUnit.bind(this)}
                     unitToAdd={this.props.unitToAdd}
-                    showAddToCourseUI={this.props.showAddToCourseUI}
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units} />;
@@ -306,78 +451,114 @@ class CourseStructure extends Component {
      */
     render() {
         const tableRows = [];
-        let year = new Date().getFullYear(), code = "S1-01", show = true;
-        if(this.state.showInsertTeachingPeriods) {
-            if(this.state.teachingPeriods.length > 0) {
-                if(this.state.teachingPeriods[0].code === "S1-01") {
-                    code = "S2-01";
-                    year = this.state.teachingPeriods[0].year - 1;
-                } else if(this.state.teachingPeriods[0].code === "S2-02") {
-                    code = "S1-01";
-                    year = this.state.teachingPeriods[0].year;
-                } else {
-                    year = this.state.teachingPeriods[0].year;
-                }
-            }
-
-            tableRows.push(<InsertTeachingPeriod index={0}
-                                           key={`${0}-insertTeachingPeriod`}
-                                           numberOfUnits={this.state.numberOfUnits}
-                                           insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
-                                           year={year}
-                                           teachingPeriodType="Semester"
-                                           code={code} />);
+        let year, code, show = false;
+        const { teachingPeriodToInsertCode, teachingPeriods, teachingPeriodsData, showInsertTeachingPeriods } = this.state;
+        if(showInsertTeachingPeriods) {
+            year = new Date().getFullYear();
+            code = teachingPeriodToInsertCode;
         }
 
-        for(let i = 0; i < this.state.teachingPeriods.length; i++) {
-            tableRows.push(this.renderTeachingPeriod(this.state.teachingPeriods[i], i));
-            if(this.state.showInsertTeachingPeriods) {
-                if(i !== this.state.teachingPeriods.length - 1) {
-                    const condition1 = this.state.teachingPeriods[i].code === "S1-01" && this.state.teachingPeriods[i + 1].code === "S2-01" && this.state.teachingPeriods[i].year === this.state.teachingPeriods[i + 1].year;
-                    const condition2 = this.state.teachingPeriods[i].code === "S2-01" && this.state.teachingPeriods[i + 1].code === "S1-01" && this.state.teachingPeriods[i].year + 1 === this.state.teachingPeriods[i + 1].year;
+        for(let i = 0; i <= teachingPeriods.length; i++) {
+            show = true;
+            if(i !== 0) {
+                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1));
+                year = teachingPeriods[i - 1].year;
 
-                    if(!condition1 && !condition2) {
-                        if(this.state.teachingPeriods[i].code === "S2-01") {
-                            code = "S1-01";
-                            year = this.state.teachingPeriods[i].year + 1;
-                        } else if(this.state.teachingPeriods[i].code === "S1-01") {
-                            code = "S2-01";
-                            year = this.state.teachingPeriods[i].year;
+                if(!showInsertTeachingPeriods) {
+                    continue;
+                }
+
+                if(i !== teachingPeriods.length) {
+                    const startIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriods[i - 1].code);
+                    const middleIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriodToInsertCode);
+                    const endIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriods[i].code);
+
+                    if(startIndex !== -1 && endIndex !== -1) {
+                        if(teachingPeriods[i - 1].year === teachingPeriods[i].year && startIndex < middleIndex && middleIndex < endIndex) {
+                            year = teachingPeriods[i - 1].year;
+                        }  else if(teachingPeriods[i - 1].year !== teachingPeriods[i].year) {
+                            if(startIndex >= middleIndex && middleIndex >= endIndex) {
+                                continue;
+                            }
+                            year = teachingPeriods[i - 1].year;
+
+                            if(startIndex >= middleIndex) {
+                                year ++;
+                            }
+                        } else {
+                            continue;
                         }
-                        tableRows.push(<InsertTeachingPeriod index={i + 1}
-                                                             key={`${i + 1}-insertTeachingPeriod`}
-                                                             numberOfUnits={this.state.numberOfUnits}
-                                                             insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
-                                                             year={year}
-                                                             teachingPeriodType="Semester"
-                                                             code={code} />);
                     }
                 } else {
-                    if(this.state.teachingPeriods[i].code === "S1-01") {
-                        code = "S2-01";
-                        year = this.state.teachingPeriods[i].year;
-                    } else if(this.state.teachingPeriods[i].code === "S2-01") {
-                        code = "S1-01";
-                        year = this.state.teachingPeriods[i].year + 1;
-                    } else {
-                        year = this.state.teachingPeriods[i].year;
-                    }
+                    const startIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriods[i - 1].code);
+                    const middleIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriodToInsertCode);
 
-                    tableRows.push(<InsertTeachingPeriod index={i + 1}
-                                                         key={`${i + 1}-insertTeachingPeriod`}
-                                                         numberOfUnits={this.state.numberOfUnits}
-                                                         insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
-                                                         year={year}
-                                                         teachingPeriodType="Semester"
-                                                         code={code} />);
+                    year = teachingPeriods[i - 1].year;
+
+                    if(startIndex >= middleIndex) {
+                        year ++;
+                    }
                 }
+            } else if(showInsertTeachingPeriods && teachingPeriods.length > 0) {
+                const middleIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriodToInsertCode);
+                const endIndex = teachingPeriodsData.findIndex(ele => ele.code === teachingPeriods[i].code);
+
+                year = teachingPeriods[i].year;
+
+                if(middleIndex >= endIndex) {
+                    year --;
+                }
+            } else if(showInsertTeachingPeriods && teachingPeriods.length === 0) {
+                // don't do anything
+            } else {
+                continue;
             }
+
+            if(showInsertTeachingPeriods && show) {
+                tableRows.push(
+                    <InsertTeachingPeriod index={i}
+                                          key={`${i}-insertTeachingPeriod`}
+                                          numberOfUnits={this.state.numberOfUnits}
+                                          insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
+                                          year={year}
+                                          teachingPeriodType="Teaching Period"
+                                          teachingPeriods={this.state.teachingPeriodsData}
+                                          code={code} />
+                );
+            }
+        }
+
+        if(this.state.teachingPeriods.length === 0) {
+            tableRows.push(
+                <Table.Row key="no-teaching-period">
+                    <Table.Cell colSpan={this.state.numberOfUnits + 1}>
+                        <Header as="h3" icon textAlign="center">
+                            <Icon name="calendar" />
+                            No teaching periods
+                            <Header.Subheader>
+                                Click add semester button below to get started.
+                            </Header.Subheader>
+                        </Header>
+                    </Table.Cell>
+                </Table.Row>
+            );
         }
 
         return (
             <Container>
-                {this.props.showAddToCourseUI &&
+                {!this.state.showMoveUnitUI && !this.props.unitToAdd &&
                     <Message>
+                        <Message.Header>
+                            Ready to add units to course plan
+                        </Message.Header>
+                        <p>
+                            Search for units in the above search bar, then place it in your course plan. Your course structure is automatically saved to your browser, so when you come back it will be exactly where you left off.
+                        </p>
+                    </Message>
+                }
+                {this.props.unitToAdd &&
+                    <Message>
+                        <Button floated="right" onClick={this.props.doneAddingToCourse}>Cancel</Button>
                         <Message.Header>
                             Adding {this.props.unitToAdd.code}
                         </Message.Header>
@@ -388,6 +569,7 @@ class CourseStructure extends Component {
                 }
                 {this.state.showMoveUnitUI &&
                     <Message>
+                        <Button floated="right" onClick={this.cancelMoving.bind(this)}>Cancel</Button>
                         <Message.Header>
                             Moving {this.state.unitToBeMoved.code}
                         </Message.Header>
@@ -410,16 +592,18 @@ class CourseStructure extends Component {
                         {tableRows}
                     </Table.Body>
                 </Table>
+                <DeleteCourseModal deleteCourse={this.deleteCourse.bind(this)} />
                 {!this.state.showInsertTeachingPeriods &&
                 <Button.Group color="green" className="right floated">
-                    <Button onClick={this.appendSemester.bind(this)}><Icon name="add square"/>Append Semester</Button>
+                    <Button onClick={this.appendSemester.bind(this)}><Icon name="add square"/>Add {this.getQuickSemesterString()}</Button>
                     <Dropdown floating button className="icon">
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "Semester")}>Insert Semester</Dropdown.Item>
-                            <Dropdown.Item>Insert Summer Semester A</Dropdown.Item>
-                            <Dropdown.Item>Insert Summer Semester B</Dropdown.Item>
-                            <Dropdown.Item>Insert Winter Semester</Dropdown.Item>
-                            <Dropdown.Item>Insert Full Year</Dropdown.Item>
+                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "S1-01")}>Insert Semester 1</Dropdown.Item>
+                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "S2-01")}>Insert Semester 2</Dropdown.Item>
+                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "SSA-02")}>Insert Summer Semester A</Dropdown.Item>
+                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "SSB-01")}>Insert Summer Semester B</Dropdown.Item>
+                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "WS-01")}>Insert Winter Semester</Dropdown.Item>
+                            <Dropdown.Item onClick={this.showInsertTeachingPeriodsUI.bind(this, "FY-01")}>Insert Full Year</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Button.Group>

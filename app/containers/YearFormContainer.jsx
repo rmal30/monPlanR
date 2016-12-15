@@ -1,11 +1,13 @@
 import React, {Component} from "react";
-import {Button, Divider, Dropdown, Container, Form, Grid, Header, Icon, Message, Segment, Input, Label} from "semantic-ui-react";
+import {Button, Divider, Dropdown, Container, Form, Grid, Header, Icon, Message, Segment, Input, Label, Popup} from "semantic-ui-react";
 import {Link, Router, Route} from "react-router";
 import MediaQuery from "react-responsive";
 
 import ErrorMessage from "../components/multi/ErrorMessage.jsx";
 import YearCalc from "../utils/YearCalc.js";
 
+
+import Tooltips from "../components/multi/tooltips.jsx";
 /**
  *
  * @class
@@ -108,6 +110,30 @@ class YearFormContainer extends Component {
     }
 
     /**
+     * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
+     */
+    btnStartPlan(){
+        return (Tooltips.generate("Start Now", "Click now to start planning with the current specified start/end years", "", <Button
+                color="green"
+                disabled={this.state.notReadyToSubmit}
+                onClick={this.submitData}>
+                    Start Planning <Icon name="right arrow" />
+            </Button>));
+    }
+
+    /**
+     * btnEmptyPlan is a function that returns a tooltipped button for the start year form
+     */
+    btnEmptyPlan(){
+        return (Tooltips.generate("Empty Template","Click here to start off with an empty template with no Teaching Periods added",
+                "bottom right",
+                <Button>
+                    Just start with an empty template <Icon name="right arrow" />
+            </Button>));
+    }
+    /**
+
+    /**
      * Renders the welcome page, with a form and a disclaimer.
      *
      * @method
@@ -122,11 +148,32 @@ class YearFormContainer extends Component {
                     <p>Please enter your commencement and graduation year to get started.</p>
                     <Form.Field>
                         <label>Commencement Year:</label>
-                        <Dropdown onChange={this.handleUpdateStartYear} placeholder="Select start year" fluid search selection options={this.validStartYears}/>
+                        <Popup
+                            header = {"Select a start year"}
+                            content = {"Begin typing or click a year from the dropdown menu. This is the year that you want to start planning from onwards."}
+                            positioning = {"top right"}
+                            on={"focus"}
+                            trigger = {<Dropdown 
+                                            onChange={this.handleUpdateStartYear} 
+                                            placeholder="Select start year" fluid search selection
+                                            options={this.validStartYears}/>}
+                            
+                        />
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
-                        <Dropdown onAddItem={this.handleUpdateEndYear} placeholder="Select end year" disabled={this.state.endYearDisabled} fluid search selection options={this.validEndYears}/>
+                        <Popup
+                            header = {"Select an end year"}
+                            content = {"Begin typing or click a year from the dropdown menu. This is the last year that you want to plan for."}
+                            positioning = {"top right"}
+                            on={"focus"}
+                            trigger = {<Dropdown 
+                                            onChange={this.handleUpdateEndYear} 
+                                            placeholder="Select end year" fluid search selection
+                                            options={this.validEndYears}
+                                            disabled={this.state.endYearDisabled}/>}
+                            
+                        />
                     </Form.Field>
                     <MediaQuery maxDeviceWidth={767}>
                         {mobile => {
@@ -155,17 +202,10 @@ class YearFormContainer extends Component {
                             } else {
                                 return (
                                         <Button.Group>
-                                            <Button
-                                                color="green"
-                                                disabled={this.state.notReadyToSubmit}
-                                                onClick={this.submitData}>
-                                                    Start Planning <Icon name="right arrow" />
-                                            </Button>
+                                            {this.btnStartPlan()}
                                             <Button.Or />
                                             <Link to="/plan">
-                                                <Button>
-                                                    Just start with an empty template <Icon name="right arrow" />
-                                                </Button>
+                                                {this.btnEmptyPlan()}
                                             </Link>
                                         </Button.Group>
                                 );

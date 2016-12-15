@@ -10,7 +10,7 @@ export default class UnitQuery {
     }
 
     static getExtendedUnitData(nUnitCode){
-       let qURL = "http://128.199.166.82:3000/units/" + nUnitCode;
+       let qURL = "http://api.monplan.tech:3000/units/" + nUnitCode;
        return axios.get(qURL);
     }
 }

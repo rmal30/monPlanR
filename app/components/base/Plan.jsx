@@ -1,29 +1,37 @@
 import React, {Component} from "react";
-import {Container, Grid} from "semantic-ui-react";
+import {Container} from "semantic-ui-react";
 
 import CourseStructure from "../CourseStructure.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
 
+/**
+ * The plan component is the main page of the app, where students can add and
+ * remove teaching periods and units.
+ */
 class Plan extends Component {
+    /**
+     * State holds a unit object that is used during the add
+     * unit process.
+     *
+     * @param {object} props - React's props
+     */
     constructor(props) {
         super(props);
         this.state = {
-            showAddToCourseUI: false,
-            unitToAdd: null
+            unitToAdd: undefined,
+            showAddToCourseUI: false
         };
     }
 
     /**
-     * Adds unit to course by specifying unit code.
+     * Adds unit to course by specifying unit code. It does not add unit
+     * immediately.
      *
      * @param {string} unitToAdd - The unit to be added.
      */
     addToCourse(unitToAdd) {
-        this.setState({
-            showAddToCourseUI: true,
-            unitToAdd
-        });
+        this.setState({ unitToAdd });
     }
 
     /**
@@ -31,7 +39,6 @@ class Plan extends Component {
      */
     doneAddingToCourse() {
         this.setState({
-            showAddToCourseUI: false,
             unitToAdd: undefined
         });
     }
@@ -46,19 +53,13 @@ class Plan extends Component {
         return (
             <div>
                 <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
-                                   showAddToCourseUI={this.state.showAddToCourseUI}
                                    doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
                 <Container className="main text">
-                    <Grid>
-                        <Grid.Row>
-                            <CourseStructure startYear={parseInt(startYear)}
-                                             endYear={parseInt(endYear)}
-                                             addToCourse={this.addToCourse.bind(this)}
-                                             showAddToCourseUI={this.state.showAddToCourseUI}
-                                             doneAddingToCourse={this.doneAddingToCourse.bind(this)}
-                                             unitToAdd={this.state.unitToAdd} />
-                        </Grid.Row>
-                    </Grid>
+                    <CourseStructure startYear={parseInt(startYear)}
+                                     endYear={parseInt(endYear)}
+                                     addToCourse={this.addToCourse.bind(this)}
+                                     doneAddingToCourse={this.doneAddingToCourse.bind(this)}
+                                     unitToAdd={this.state.unitToAdd} />
                 </Container>
             </div>
 

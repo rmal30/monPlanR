@@ -51,7 +51,6 @@ function TeachingPeriod(props) {
                 addUnit={addUnit}
                 moveUnit={moveUnit}
                 unitToAdd={props.unitToAdd}
-                showAddToCourseUI={props.showAddToCourseUI}
                 showMoveUnitUI={props.showMoveUnitUI} />;
         }
         return <Unit key={`${props.year}-${props.code}-${unit}-${index}`}

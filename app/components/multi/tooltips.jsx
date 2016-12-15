@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {Popup, Button} from "semantic-ui-react";
-import SettingsModal from "../modals/settings.jsx";
 
 class Tooltips extends Component {
   constructor(props) {
@@ -11,13 +10,21 @@ class Tooltips extends Component {
 
   }
 
-  tooltips(title, message, target){
-      if(title !== "" && message !== "" && prefs.getTooltipsPrefs()){
+  static generate(title, message, direction, target, on){
+      if(direction === null || direction === ""){
+          direction = "bottom left";
+      }
+      if (on === "") {
+          on = "focus"
+      }
+      if(title !== "" && message !== ""){
           return (
             <Popup
              header = {title}
              trigger = {target}
              content = {message}
+             positioning = {direction}
+             on = {on}
            />
           );
       } else {

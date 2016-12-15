@@ -60,13 +60,6 @@ class UnitInfoContainer extends Component {
     }
 
     /**
-     * @author Saurabh Joshi
-     */
-    handleCancelAddingToCourse() {
-        this.props.doneAddingToCourse();
-    }
-
-    /**
      * The unitSelected function is called whenever a new unit is selected.
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
@@ -75,12 +68,12 @@ class UnitInfoContainer extends Component {
         if(this.state.isFirstSearch) {
             this.setState({collapse: false});
         }
-		this.handleAddToCourse.bind(this);
-		
+
+        this.handleAddToCourse.bind(this);
+
         this.setState({
             isLoading: true,
-            isFirstSearch: false,
-			
+            isFirstSearch: false
         });
 
         UnitQuery.getExtendedUnitData(nUnitCode)
@@ -95,10 +88,12 @@ class UnitInfoContainer extends Component {
                     Synopsis: data.Description,
                     error: false
                 });
-				this.props.addToCourse({
-								code: nUnitCode,
-								name: data.UnitName,
-								faculty: data.Faculty});
+
+                this.props.addToCourse({
+                    code: nUnitCode,
+                    name: data.UnitName,
+			        faculty: data.Faculty
+                });
             }.bind(this))
             .catch(function(error) {
                 console.log(error);
@@ -108,7 +103,7 @@ class UnitInfoContainer extends Component {
                     error: true,
                 });
             }.bind(this));
-			
+
     }
 
     /**
@@ -118,14 +113,30 @@ class UnitInfoContainer extends Component {
     render() {
         return (
             <Container className="move">
-                <br />
+                
+                <UnitInfo
+                    isDisabled={this.state.isFirstSearch}
+                    UnitCode={this.state.UnitCode}
+                    UnitName={this.state.UnitName}
+                    Faculty={this.state.Faculty}
+                    Synopsis={this.state.Synopsis}
+                    usefulnessScore={5}
+                    likeScore={3}
+                    collapse={this.state.collapse}
+                    isLoading={this.state.isLoading}
+                    onCollapseClick={this.handleCollapseClick}
+                    error={this.state.error}
+                />
+                <UnitSearchContainer onResult={this.unitSelected} />
+                {false &&
                 <Grid stackable>
                     <Grid.Row>
                         <Grid.Column width={2}>
-                            <UnitSearchContainer onResult={this.unitSelected} />
+                            
                         </Grid.Column>
                         <Grid.Column width={8} />
                         <Grid.Column width={6}>
+                            {false /* disable rendering status information for now */ && 
                             <MediaQuery minDeviceWidth={768}>{(desktop) => {
                                 if (desktop) {
                                     return(
@@ -163,26 +174,11 @@ class UnitInfoContainer extends Component {
                                 }
                             }}
                             </MediaQuery>
+                            }
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <UnitInfo
-                    isDisabled={this.state.isFirstSearch}
-                    UnitCode={this.state.UnitCode}
-                    UnitName={this.state.UnitName}
-                    Faculty={this.state.Faculty}
-                    Synopsis={this.state.Synopsis}
-                    usefulnessScore={5}
-                    likeScore={3}
-                    collapse={this.state.collapse}
-                    isLoading={this.state.isLoading}
-                    onCollapseClick={this.handleCollapseClick}
-                    error={this.state.error}
-                />
-            
-            {this.props.showAddToCourseUI &&
-            <Button floated="right" onClick={this.handleCancelAddingToCourse.bind(this)}>Cancel</Button>
-            }
+                }
             </Container>
         );
     }
