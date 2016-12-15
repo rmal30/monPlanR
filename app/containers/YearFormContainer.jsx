@@ -118,6 +118,9 @@ class YearFormContainer extends Component {
             </Button>));
     }
 
+    /**
+     * btnEmptyPlan is a function that returns a tooltipped button for the start year form
+     */
     btnEmptyPlan(){
         return (Tooltips.generate("Empty Template","Click here to start off with an empty template with no Teaching Periods added",
                 "bottom right",
