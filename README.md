@@ -16,7 +16,7 @@ npm start
 ```
 Optionally if you wish to build a production distribution to test on a server or for whatever reason, you can build a dist and host via:
 ```
-chmod +x ./start-prod.sh #if first time running
+chmod +x ./start-prod.sh
 ./start-prod.sh
 ```
 
