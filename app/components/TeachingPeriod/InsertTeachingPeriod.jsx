@@ -36,6 +36,8 @@ const InsertTeachingPeriod = (props) => {
     return (
         <Table.Row>
             <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1}>
+                {triggerButton}
+                {false && 
                 <Popup hoverable flowing trigger={triggerButton}>
                     <Form onSubmit={e => e.preventDefault()}>
                         <Form.Field>
@@ -48,6 +50,7 @@ const InsertTeachingPeriod = (props) => {
                         </Form.Field>
                     </Form>
                 </Popup>
+                }
             </Table.Cell>
         </Table.Row>
     );

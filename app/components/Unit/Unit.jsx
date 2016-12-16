@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Container, Dropdown, Header, Message, Icon, Table} from "semantic-ui-react";
+import {Button, Container, Dropdown, Header, Message, Icon, Table, Popup} from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 
 /**
@@ -117,9 +117,19 @@ class Unit extends React.Component {
                                     }
                                     {(this.state.showUI || mobile) && !this.props.showMoveUnitUI &&
                                         <Button.Group size="mini" fluid compact>
-                                            <Button basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />
-                                            <Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />
-                                            <Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                                            {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
+                                            <Popup
+                                                trigger={<Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />}
+                                                content='Move unit'
+                                                size='mini'
+                                                positioning='bottom center'
+                                                />
+                                            <Popup
+                                                trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
+                                                content='Remove unit'
+                                                size='mini'
+                                                positioning='bottom center'
+                                                />
                                         </Button.Group>
                                     }
                                 </Message>

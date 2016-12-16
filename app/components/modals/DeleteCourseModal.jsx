@@ -7,12 +7,17 @@ import { Button, Header, Icon, Input, Modal } from "semantic-ui-react";
 class DeleteCourseModal extends Component {
     constructor() {
         super();
-        this.state = {modalOpen: false};
+        this.state = {
+            modalOpen: false,
+            disabled: true
+        };
     }
 
     handleChange(e) {
-        if(this.props.deleteCourse(e.target.value)) {
-            this.handleClose();
+        if(e.target.value === "clear" || e.target.value === "Clear") {
+            this.setState({disabled:false});
+        } else {
+            this.setState({disabled:true});
         }
     }
 
@@ -22,11 +27,17 @@ class DeleteCourseModal extends Component {
         });
     }
     handleClose() {
-        console.log("blah");
         this.setState({
-            modalOpen: false
+            modalOpen: false,
+            disabled: true
         });
     }
+
+    handleClick() {
+         this.props.deleteCourse();
+         this.handleClose();
+    }
+
     render() {
         return (
             <Modal trigger={<Button color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
@@ -37,13 +48,15 @@ class DeleteCourseModal extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <p>To clear course, type "clear" into the input box. After doing this, your course
-                        structure will be cleared, and this popup will disappear.</p>
+                        <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
+                        structure will be cleared.</p>
                         <Input onChange={this.handleChange.bind(this)} />
                     </Modal.Description>
                 </Modal.Content>
+                
                 <Modal.Actions>
-                    <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
+                    <Button color='red' disabled={this.state.disabled} floated={"left"} onClick={this.handleClick.bind(this)}>Clear Course</Button>
+                    <Button danger onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
         );
