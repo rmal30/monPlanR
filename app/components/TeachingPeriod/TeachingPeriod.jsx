@@ -60,9 +60,9 @@ function TeachingPeriod(props) {
                      showMoveUnitUI={props.showMoveUnitUI}
                      swapUnit={swapUnit}
                      free={false}
-                     code={unit.code}
-                     name={unit.name}
-                     faculty={unit.faculty} />;
+                     code={unit.UnitCode}
+                     name={unit.UnitName}
+                     faculty={unit.Faculty} />;
     });
 
     const teachingPeriodData = props.data;
