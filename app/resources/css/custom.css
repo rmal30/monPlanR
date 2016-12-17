@@ -16,7 +16,7 @@ body {
     margin-top: 2em;
 }
 
-.ui.segment{
+.ui.segment {
     height: 100%;
     flex: 1;
 }
@@ -36,22 +36,23 @@ body {
 }
 
 .logo {
-  width: 60%;}
+    width: 60%;
+}
 
 .ui.inverted.menu {
-  background-color: #005d95;
+    background-color: #005d95;
 }
 
-#app{
-  min-height: 100%
+#app {
+    min-height: 100%
 }
 
-.main-container{
-  min-height: 100%;
+.main-container {
+    min-height: 100%;
 }
 
-.disclaimer{
-  font-size: 12px;
+.disclaimer {
+    font-size: 12px;
 }
 
 /*

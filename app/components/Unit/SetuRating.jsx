@@ -14,7 +14,7 @@ function SetuRating(props) {
     SetuRating.propTypes = {
         starRating: PropTypes.number.isRequired,
         heartRating: PropTypes.number.isRequired
-    }
+    };
 
     return (
         <div id="setu-rating">
@@ -28,4 +28,4 @@ function SetuRating(props) {
     );
 }
 
-export default SetuRating
+export default SetuRating;

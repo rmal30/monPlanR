@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { Button, Container, Grid, Icon, Label, Statistic } from "semantic-ui-react";
+import MediaQuery from "react-responsive";
+
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
-import _ from "lodash";
-import MediaQuery from "react-responsive";
+
 /**
  * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates
  * the component.
@@ -77,7 +78,7 @@ class UnitInfoContainer extends Component {
         });
 
         UnitQuery.getExtendedUnitData(nUnitCode)
-            .then(function(response) {
+            .then(response => {
                 let data = response.data;
 
                 this.setState({
@@ -92,18 +93,18 @@ class UnitInfoContainer extends Component {
                 this.props.addToCourse({
                     code: nUnitCode,
                     name: data.UnitName,
-			        faculty: data.Faculty
+                    faculty: data.Faculty
                 });
-            }.bind(this))
-            .catch(function(error) {
+            })
+            .catch(error => {
                 console.log(error);
+
                 this.setState({
                     isLoading: false,
                     UnitCode: nUnitCode,
                     error: true,
                 });
-            }.bind(this));
-
+            });
     }
 
     /**
@@ -113,7 +114,6 @@ class UnitInfoContainer extends Component {
     render() {
         return (
             <Container className="move">
-                
                 <UnitInfo
                     isDisabled={this.state.isFirstSearch}
                     UnitCode={this.state.UnitCode}
@@ -127,7 +127,6 @@ class UnitInfoContainer extends Component {
                     onCollapseClick={this.handleCollapseClick}
                     error={this.state.error}
                 />
-
                 <Grid reversed="mobile" stackable>
                     <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>
                     <Grid.Column width="3" />
@@ -137,16 +136,16 @@ class UnitInfoContainer extends Component {
                     </a>
                     </Grid.Column>
                 </Grid>
-                
+
                 {false &&
                 <Grid stackable>
                     <Grid.Row>
                         <Grid.Column width={2}>
-                            
+
                         </Grid.Column>
                         <Grid.Column width={8} />
                         <Grid.Column width={6}>
-                            {false /* disable rendering status information for now */ && 
+                            {false /* disable rendering status information for now */ &&
                             <MediaQuery minDeviceWidth={768}>{(desktop) => {
                                 if (desktop) {
                                     return(
@@ -193,5 +192,9 @@ class UnitInfoContainer extends Component {
         );
     }
 }
+
+UnitInfoContainer.propTypes = {
+    addToCourse: PropTypes.func.isRequired
+};
 
 export default UnitInfoContainer;

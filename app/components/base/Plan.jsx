@@ -1,8 +1,7 @@
-import React, {Component} from "react";
-import {Container} from "semantic-ui-react";
+import React, { Component, PropTypes } from "react";
+import { Container } from "semantic-ui-react";
 
 import CourseStructure from "../CourseStructure.jsx";
-import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
 
 /**
@@ -52,19 +51,32 @@ class Plan extends Component {
 
         return (
             <div>
-                <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
-                                   doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
+                <UnitInfoContainer
+                    addToCourse={this.addToCourse.bind(this)}
+                    doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
                 <Container className="main text">
-                    <CourseStructure startYear={parseInt(startYear)}
-                                     endYear={parseInt(endYear)}
-                                     addToCourse={this.addToCourse.bind(this)}
-                                     doneAddingToCourse={this.doneAddingToCourse.bind(this)}
-                                     unitToAdd={this.state.unitToAdd} />
+                    <CourseStructure
+                        startYear={parseInt(startYear)}
+                        endYear={parseInt(endYear)}
+                        addToCourse={this.addToCourse.bind(this)}
+                        doneAddingToCourse={this.doneAddingToCourse.bind(this)}
+                        unitToAdd={this.state.unitToAdd} />
                 </Container>
             </div>
 
         );
     }
 }
+
+Plan.propTypes = {
+    location: PropTypes.shape({
+        query: PropTypes.shape({
+            /* When a student begins their course */
+            startYear: PropTypes.string,
+            /* When the student is expected to graduate */
+            endYear: PropTypes.string
+        }).isRequired
+    }).isRequired
+};
 
 export default Plan;

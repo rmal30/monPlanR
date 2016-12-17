@@ -6,10 +6,10 @@ export default class YearCalc {
         let validStartYears = [];
 
         for(var i=min; i <= max; i++){
-            let val = i.toString()
+            let val = i.toString();
             validStartYears.push(
-                { text: i.toString(), value: i}
-            )
+                { text: i.toString(), value: String.fromCharCode(i+70)}
+            );
         }
         return validStartYears;
 
@@ -24,7 +24,7 @@ export default class YearCalc {
         for(var j=min; j <= max; j++){
             validEndYears.push(
                 { text: j.toString(), value: j}
-            )
+            );
         }
         return validEndYears;
     }

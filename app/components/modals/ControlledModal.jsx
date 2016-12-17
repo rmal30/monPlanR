@@ -32,6 +32,6 @@ class ControlledModal extends Component {
             </Modal>
         );
     }
-};
+}
 
 export default ControlledModal;

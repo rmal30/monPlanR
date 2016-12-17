@@ -1,9 +1,18 @@
-import React, {Component} from "react";
-import {Button, Icon, Modal} from "semantic-ui-react";
+import React, { PropTypes } from "react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 
-export default ({ trigger }) => {
+/**
+ * The terms of service modal.
+ *
+ * @author Eric Jiang, Saurabh Joshi
+ */
+export default function tos({ trigger }) {
+    tos.propTypes = {
+        trigger: PropTypes.element.isRequired
+    };
+
     const closeTrigger = <Button content="OK" positive icon="checkmark" labelPosition="right" />;
     return (
         <ControlledModal
@@ -30,4 +39,4 @@ export default ({ trigger }) => {
             </Modal.Content>
         </ControlledModal>
     );
-};
+}

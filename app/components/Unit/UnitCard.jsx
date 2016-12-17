@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Card } from "semantic-ui-react";
+import { Divider, Rating } from "semantic-ui-react";
 
 /**
  * This is the setuRating component, it returns 2 ratings, one representing how much the student's felt they learnt from a unit, and one representing

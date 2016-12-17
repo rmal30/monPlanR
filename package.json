@@ -1,6 +1,6 @@
 {
   "name": "monPlanR",
-  "version": "0.0.5",
+  "version": "0.1.1",
   "description": "A course planning tool designed by Monash students for Monash students.",
   "main": "./app/index.jsx",
   "dependencies": {
@@ -28,6 +28,7 @@
     "enzyme": "^2.6.0",
     "eslint": "^3.11.1",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-react": "^6.8.0",
     "html-webpack-plugin": "^2.22.0",
     "jsdom": "^9.8.3",
     "mocha": "^3.2.0",
@@ -37,13 +38,15 @@
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
-    "production": "webpack -p",
+    "production": "webpack --progress -p",
     "dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
-    "test": "eslint app/**/*.jsx && mocha --compilers babel-core/register tests/*.spec.jsx",
-    "fix": "eslint app/**/*.jsx --fix",
+    "test": "test:lint && test:unit",
+    "test:lint": "eslint --ext .jsx --ext .js app",
+    "test:unit": "mocha --compilers babel-core/register tests/*.spec.jsx",
+    "fix": "eslint --ext .jsx --ext .js app --fix",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
-    "start:prod": "webpack && node server.js",
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run dev"
+    "start:prod": "webpack --progress -p && node server.js",
+    "start": "if-env NODE_ENV=\"production\" && npm run start:prod || npm run dev"
   },
   "repository": {
     "type": "git",

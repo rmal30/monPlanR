@@ -1,6 +1,8 @@
 # monPlan
 ###### _Previously known as "monPlanR", and before that "Monash Unit Planner"_.
 
+**[Start Planning](http://www.monplan.tech)**
+
 **monPlan** is an interactive course planner tool, which is designed to help you choose units for future teaching periods up to several years.
 
 Built in the latest standards with _React_ and _Semantic-UI_, **monPlan** delivers a clean and beautiful tool that students can use to plan their courses.

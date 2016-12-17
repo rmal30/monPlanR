@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Divider, Grid, Icon, Segment, Message } from "semantic-ui-react";
+import { Divider, Grid, Segment, Message } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
@@ -12,6 +12,7 @@ import CollapseButton from "../CollapseButton.jsx";
 * @param {string} Faculty - The faculty a unit belongs to.
 * @param {number} likeScore - A score between 0 and 5 representing how much the students enjoyed a unit.
 * @param {boolean} isDisabled - A value representing whether the collapse button should be disabled, only necessary for before first search.
+* @param {boolean} isLoading - Whether or not to display loading UI.
 * @param {function} onCollapseClick - A function called when the prop collapses (in this case used to control the data and state of container parent).
 * @param {string} Synopsis - A short description of the unit.
 * @param {string} UnitCode - The unit's associated unit code.
@@ -27,6 +28,7 @@ function UnitInfo(props) {
         Faculty: PropTypes.string.isRequired,
         likeScore: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired,
+        isLoading: PropTypes.bool,
         onCollapseClick: PropTypes.func.isRequired,
         Synopsis: PropTypes.string.isRequired,
         UnitCode: PropTypes.string.isRequired,
@@ -55,21 +57,19 @@ function UnitInfo(props) {
                 <UnitInfoPlaceholder />
             </div>
         );
-    } else {
-
-        if(props.error) {
-            return (
-                <div className="ui raised segment">
+    } else if(props.error) {
+        return (
+                <Segment raised>
                     <CollapseButton
                         isDisabled={props.isDisabled}
                         collapse={props.collapse}
                         onCollapseClick={props.onCollapseClick}
                         currentUnit={props.UnitCode}/>
                     <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
-                </div>
-            );
-        } else {
-            return (
+                </Segment>
+        );
+    } else {
+        return (
                 <Segment raised>
                     <CollapseButton
                         isDisabled={props.isDisabled}
@@ -98,8 +98,7 @@ function UnitInfo(props) {
                         </Grid.Column>
                     </Grid>
                 </Segment>
-            );
-        }
+        );
     }
 }
 
