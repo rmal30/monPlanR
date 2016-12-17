@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Container} from "semantic-ui-react";
 
 import CourseStructure from "../CourseStructure.jsx";
+import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
 
@@ -99,43 +100,7 @@ class Plan extends Component {
                         <Grid.Column width={8} />
                         <Grid.Column width={6}>
                             {false /* disable rendering status information for now */ && 
-                            <MediaQuery minDeviceWidth={768}>{(desktop) => {
-                                if (desktop) {
-                                    return(
-                                        <Statistic.Group size="tiny">
-                                            <Statistic>
-                                                <Statistic.Value>
-                                                    <Icon name='student' />
-                                                    {this.state.currentCreditPoints}
-                                                </Statistic.Value>
-                                                <Statistic.Label>Credit Points</Statistic.Label>
-                                            </Statistic>
-
-                                            <Statistic>
-                                                <Statistic.Value >
-                                                    <Icon name='dollar' />
-                                                    {this.state.currentEstCost}
-                                                </Statistic.Value>
-                                                <Statistic.Label>Total Est. Cost</Statistic.Label>
-                                            </Statistic>
-                                        </Statistic.Group>
-                                    );
-                                } else {
-                                    return (
-                                      <Container>
-                                          <Label color="green" size="large">
-                                              Total Credits Earnt
-                                              <Label.Detail>{this.state.currentCreditPoints}</Label.Detail>
-                                          </Label>
-                                          <Label color="green" size="large">
-                                              Total Expenses
-                                              <Label.Detail>${this.state.currentEstCost}</Label.Detail>
-                                          </Label>
-                                      </Container>
-                                    );
-                                }
-                            }}
-                            </MediaQuery>
+                                <CourseStatisticGroup />
                             }
                         </Grid.Column>
                     </Grid.Row>
