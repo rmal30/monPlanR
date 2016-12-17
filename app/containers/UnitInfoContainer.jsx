@@ -58,7 +58,7 @@ class UnitInfoContainer extends Component {
         
         
         if(!(nextProps.newUnit === undefined)) {
-            let nUnitCode = nextProps.newUnit.UnitCode
+            let nUnitCode = nextProps.newUnit.UnitCode;
             
             if(this.state.isFirstSearch) {
                 this.setState({collapse: false});
