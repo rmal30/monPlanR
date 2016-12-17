@@ -33,7 +33,6 @@ class UnitInfoContainer extends Component {
             currentEstCost: 0,
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
-        this.handleAddToCourse = this.handleAddToCourse.bind(this);
     }
 
     /**
@@ -82,6 +81,12 @@ class UnitInfoContainer extends Component {
                         error: false
                     });
 
+                    this.props.addToCourse({
+                        code: nUnitCode,
+                        name: data.UnitName,
+                        faculty: data.Faculty
+                    });
+                    
                 }.bind(this))
                 .catch(function(error) {
                     console.log(error);
@@ -93,14 +98,7 @@ class UnitInfoContainer extends Component {
                 }.bind(this));
         }
     }
-
-    handleAddToCourse() {
-        this.props.addToCourse({
-            code: this.state.UnitCode,
-            name: this.state.UnitName,
-            faculty: this.state.Faculty
-        });
-    }
+    
 
     /**
      * The component currently returns both the unitsearch and unitInfo components with all the gathered state.
