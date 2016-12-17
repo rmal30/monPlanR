@@ -33,6 +33,7 @@ class UnitInfoContainer extends Component {
             currentEstCost: 0,
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
+        this.handleAddToCourse = this.handleAddToCourse.bind(this);
     }
 
     /**
@@ -91,6 +92,14 @@ class UnitInfoContainer extends Component {
                     });
                 }.bind(this));
         }
+    }
+
+    handleAddToCourse() {
+        this.props.addToCourse({
+            code: this.state.UnitCode,
+            name: this.state.UnitName,
+            faculty: this.state.Faculty
+        });
     }
 
     /**
