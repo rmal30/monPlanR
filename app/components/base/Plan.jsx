@@ -53,8 +53,37 @@ class Plan extends Component {
 
         return (
             <div>
-                <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
-                                   doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
+                <Container className="move">
+                
+                    <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
+                                    doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
+
+                    <Grid reversed="mobile" stackable>
+                        <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>
+                        <Grid.Column width="3" />
+                        <Grid.Column width="4">
+                        <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
+                            <Button primary fluid>Give us feedback</Button>
+                        </a>
+                        </Grid.Column>
+                    </Grid>
+                    
+                    {false &&
+                    <Grid stackable>
+                        <Grid.Row>
+                            <Grid.Column width={2}>
+                                
+                            </Grid.Column>
+                            <Grid.Column width={8} />
+                            <Grid.Column width={6}>
+                                {false /* disable rendering status information for now */ && 
+                                    <CourseStatisticGroup />
+                                }
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                    }
+                </Container>
                 
                 <Container className="main text">
                     <CourseStructure startYear={parseInt(startYear)}
@@ -64,50 +93,6 @@ class Plan extends Component {
                                      unitToAdd={this.state.unitToAdd} />
                 </Container>
             </div>
-
-            <Container className="move">
-                
-                <UnitInfo
-                    isDisabled={this.state.isFirstSearch}
-                    UnitCode={this.state.UnitCode}
-                    UnitName={this.state.UnitName}
-                    Faculty={this.state.Faculty}
-                    Synopsis={this.state.Synopsis}
-                    usefulnessScore={5}
-                    likeScore={3}
-                    collapse={this.state.collapse}
-                    isLoading={this.state.isLoading}
-                    onCollapseClick={this.handleCollapseClick}
-                    error={this.state.error}
-                />
-
-                <Grid reversed="mobile" stackable>
-                    <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>
-                    <Grid.Column width="3" />
-                    <Grid.Column width="4">
-                    <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
-                        <Button primary fluid>Give us feedback</Button>
-                    </a>
-                    </Grid.Column>
-                </Grid>
-                
-                {false &&
-                <Grid stackable>
-                    <Grid.Row>
-                        <Grid.Column width={2}>
-                            
-                        </Grid.Column>
-                        <Grid.Column width={8} />
-                        <Grid.Column width={6}>
-                            {false /* disable rendering status information for now */ && 
-                                <CourseStatisticGroup />
-                            }
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-                }
-            </Container>
-
         );
     }
 }
