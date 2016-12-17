@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Container, Grid, Button} from "semantic-ui-react";
 
+import UnitQuery from "../../utils/UnitQuery";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
@@ -34,8 +35,23 @@ class Plan extends Component {
      *
      * @param {string} unitToAdd - The unit to be added.
      */
-    addToCourse(unitToAdd) {
-        this.setState({ unitToAdd });
+    addToCourse(nUnitCode) {
+        if(!(nUnitCode === undefined)) {
+
+            UnitQuery.getExtendedUnitData(nUnitCode)
+                .then(function(response) {
+                    let data = response.data;
+                    console.log(data);
+
+                    this.setState({
+                        unitToAdd: data
+                    });
+                    
+                }.bind(this))
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
     }
 
     /**
@@ -59,7 +75,7 @@ class Plan extends Component {
                 <Container className="move">
                 
                     <UnitInfoContainer 
-                        unitSelected={this.state.unitToAdd} />
+                        newUnit={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable>
                         <Grid.Column width="9"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
@@ -73,6 +89,7 @@ class Plan extends Component {
                     
                     {false &&
                     <Grid stackable>
+
                         <Grid.Row>
                             <Grid.Column width={2}>
                                 

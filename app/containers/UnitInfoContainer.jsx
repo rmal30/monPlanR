@@ -55,9 +55,10 @@ class UnitInfoContainer extends Component {
      */
     componentWillReceiveProps(nextProps) {
         
-        let nUnitCode = nextProps.unitSelected
         
-        if(!(nUnitCode === undefined)) {
+        
+        if(!(nextProps.newUnit === undefined)) {
+            let nUnitCode = nextProps.newUnit.UnitCode
             
             if(this.state.isFirstSearch) {
                 this.setState({collapse: false});
@@ -80,8 +81,6 @@ class UnitInfoContainer extends Component {
                         Synopsis: data.Description,
                         error: false
                     });
-
-                    this.props.addToCourse(data);
                     
                 }.bind(this))
                 .catch(function(error) {
