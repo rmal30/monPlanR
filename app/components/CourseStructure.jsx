@@ -552,10 +552,10 @@ class CourseStructure extends Component {
                     <Message>
                         <Button floated="right" onClick={this.props.doneAddingToCourse}>Cancel</Button>
                         <Message.Header>
-                            Adding {this.props.unitToAdd.code}
+                            Adding {this.props.unitToAdd.UnitCode}
                         </Message.Header>
                         <p>
-                            Select a table cell in your course structure to insert {this.props.unitToAdd.code}.
+                            Select a table cell in your course structure to insert {this.props.unitToAdd.UnitCode}.
                         </p>
                     </Message>
                 }
@@ -563,10 +563,10 @@ class CourseStructure extends Component {
                     <Message>
                         <Button floated="right" onClick={this.cancelMoving.bind(this)}>Cancel</Button>
                         <Message.Header>
-                            Moving {this.state.unitToBeMoved.code}
+                            Moving {this.state.unitToBeMoved.UnitCode}
                         </Message.Header>
                         <p>
-                            Select a table cell in your course structure to move {this.state.unitToBeMoved.code}.
+                            Select a table cell in your course structure to move {this.state.unitToBeMoved.UnitCode}.
                             Selecting a table cell where there is already an occupied unit will swap the units.
                         </p>
                     </Message>
