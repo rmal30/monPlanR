@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Container} from "semantic-ui-react";
+import {Container, Grid, Button} from "semantic-ui-react";
 
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
@@ -56,7 +56,7 @@ class Plan extends Component {
                 <Container className="move">
                 
                     <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
-                                    doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
+                                       doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
 
                     <Grid reversed="mobile" stackable>
                         <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>
