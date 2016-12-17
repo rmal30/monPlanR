@@ -2,10 +2,18 @@ import React, { PropTypes } from "react";
 import { Statistic, Label, Container } from "semantic-ui-react";
 
 /**
+ * This currently is a component that renders the statistics for cost and credit points
+ * @author JXNS
  * 
+ * @param {number} currentCreditPoints - A number representing the toal sum of credit points accumulated from a course
+ * @param {number} currentEstCost - A number representing the current total estimated cost of a degree
  */
 function CourseStatisticGroup(props) {
 
+    CourseStatisticGroup.propTypes = {
+        currentCreditPoints: PropTypes.number.isRequired,
+        currentEstCost: PropTypes.number.isRequired
+    };
 
     return (
         <MediaQuery minDeviceWidth={768}>{(desktop) => {
@@ -49,4 +57,4 @@ function CourseStatisticGroup(props) {
     );
 }
 
-export default CourseStatisticGroup
+export default CourseStatisticGroup;
