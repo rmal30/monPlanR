@@ -42,6 +42,9 @@ class CourseStructure extends Component {
         // Fetch common teaching periods to get names for each teaching period code.
         axios.get("/data/teachingPeriods/common.json")
              .then(response => {
+                 /**
+                  * Grabbing the common teaching periods and sorting
+                  */
                  function compareDate(a, b) {
                      return Math.sign(new Date(...a.split("/").reverse()) - new Date(...b.split("/").reverse()));
                  }
