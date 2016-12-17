@@ -55,8 +55,7 @@ class Plan extends Component {
             <div>
                 <Container className="move">
                 
-                    <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
-                                       doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
+                    <UnitInfoContainer unitSelected={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable>
                         <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>

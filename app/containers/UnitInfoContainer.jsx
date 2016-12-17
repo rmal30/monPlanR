@@ -64,46 +64,51 @@ class UnitInfoContainer extends Component {
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
-    unitSelected(nUnitCode) {
-        if(this.state.isFirstSearch) {
-            this.setState({collapse: false});
+    componentDidUpdate() {
+        
+        let nUnitCode = this.props.unitSelected
+        
+        if(!(this.props.unitSelected === undefined)) {
+            
+            if(this.state.isFirstSearch) {
+                this.setState({collapse: false});
+            }
+
+            this.handleAddToCourse.bind(this);
+
+            this.setState({
+                isLoading: true,
+                isFirstSearch: false
+            });
+
+            UnitQuery.getExtendedUnitData(nUnitCode)
+                .then(function(response) {
+                    let data = response.data;
+
+                    this.setState({
+                        isLoading: false,
+                        UnitCode: nUnitCode,
+                        UnitName: data.UnitName,
+                        Faculty: data.Faculty,
+                        Synopsis: data.Description,
+                        error: false
+                    });
+
+                    this.props.addToCourse({
+                        code: nUnitCode,
+                        name: data.UnitName,
+                        faculty: data.Faculty
+                    });
+                }.bind(this))
+                .catch(function(error) {
+                    console.log(error);
+                    this.setState({
+                        isLoading: false,
+                        UnitCode: nUnitCode,
+                        error: true,
+                    });
+                }.bind(this));
         }
-
-        this.handleAddToCourse.bind(this);
-
-        this.setState({
-            isLoading: true,
-            isFirstSearch: false
-        });
-
-        UnitQuery.getExtendedUnitData(nUnitCode)
-            .then(function(response) {
-                let data = response.data;
-
-                this.setState({
-                    isLoading: false,
-                    UnitCode: nUnitCode,
-                    UnitName: data.UnitName,
-                    Faculty: data.Faculty,
-                    Synopsis: data.Description,
-                    error: false
-                });
-
-                this.props.addToCourse({
-                    code: nUnitCode,
-                    name: data.UnitName,
-			        faculty: data.Faculty
-                });
-            }.bind(this))
-            .catch(function(error) {
-                console.log(error);
-                this.setState({
-                    isLoading: false,
-                    UnitCode: nUnitCode,
-                    error: true,
-                });
-            }.bind(this));
-
     }
 
     /**
@@ -124,7 +129,7 @@ class UnitInfoContainer extends Component {
                 isLoading={this.state.isLoading}
                 onCollapseClick={this.handleCollapseClick}
                 error={this.state.error}
-                />
+            />
         );
     }
 }
