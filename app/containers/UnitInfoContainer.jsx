@@ -81,11 +81,7 @@ class UnitInfoContainer extends Component {
                         error: false
                     });
 
-                    this.props.addToCourse({
-                        code: nUnitCode,
-                        name: data.UnitName,
-                        faculty: data.Faculty
-                    });
+                    this.props.addToCourse(data);
                     
                 }.bind(this))
                 .catch(function(error) {
