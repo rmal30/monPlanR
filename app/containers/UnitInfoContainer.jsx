@@ -33,7 +33,6 @@ class UnitInfoContainer extends Component {
             currentEstCost: 0,
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
-        this.unitSelected = this.unitSelected.bind(this);
     }
 
     /**
@@ -48,33 +47,21 @@ class UnitInfoContainer extends Component {
         });
     }
 
-    /**
-     * @author Saurabh Joshi
-     */
-    handleAddToCourse() {
-        this.props.addToCourse({
-            code: this.state.UnitCode,
-            name: this.state.UnitName,
-            faculty: this.state.Faculty
-        });
-    }
 
     /**
      * The unitSelected function is called whenever a new unit is selected.
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
-    componentDidUpdate() {
+    componentWillReceiveProps(nextProps) {
         
-        let nUnitCode = this.props.unitSelected
+        let nUnitCode = nextProps.unitSelected
         
-        if(!(this.props.unitSelected === undefined)) {
+        if(!(nUnitCode === undefined)) {
             
             if(this.state.isFirstSearch) {
                 this.setState({collapse: false});
             }
-
-            this.handleAddToCourse.bind(this);
 
             this.setState({
                 isLoading: true,
@@ -94,11 +81,6 @@ class UnitInfoContainer extends Component {
                         error: false
                     });
 
-                    this.props.addToCourse({
-                        code: nUnitCode,
-                        name: data.UnitName,
-                        faculty: data.Faculty
-                    });
                 }.bind(this))
                 .catch(function(error) {
                     console.log(error);

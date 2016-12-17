@@ -23,6 +23,9 @@ class Plan extends Component {
             unitToAdd: undefined,
             showAddToCourseUI: false
         };
+
+        this.addToCourse = this.addToCourse.bind(this);
+        this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
     }
 
     /**
@@ -55,10 +58,11 @@ class Plan extends Component {
             <div>
                 <Container className="move">
                 
-                    <UnitInfoContainer unitSelected={this.state.unitToAdd} />
+                    <UnitInfoContainer 
+                        unitSelected={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable>
-                        <Grid.Column width="9"><UnitSearchContainer onResult={this.unitSelected} /></Grid.Column>
+                        <Grid.Column width="9"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
                         <Grid.Column width="3" />
                         <Grid.Column width="4">
                         <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
@@ -87,8 +91,8 @@ class Plan extends Component {
                 <Container className="main text">
                     <CourseStructure startYear={parseInt(startYear)}
                                      endYear={parseInt(endYear)}
-                                     addToCourse={this.addToCourse.bind(this)}
-                                     doneAddingToCourse={this.doneAddingToCourse.bind(this)}
+                                     addToCourse={this.addToCourse}
+                                     doneAddingToCourse={this.doneAddingToCourse}
                                      unitToAdd={this.state.unitToAdd} />
                 </Container>
             </div>
