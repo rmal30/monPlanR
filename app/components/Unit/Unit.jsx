@@ -83,7 +83,7 @@ class Unit extends React.Component {
             "Business and Economics": "teal",
             "Education": "violet",
             "Engineering": "orange",
-            "Information Technology": "purple",
+            "Information Techonology": "purple",
             "Law": "grey",
             "Medicine, Nursing and Health Sciences": "blue",
             "Pharmacy and Pharmaceutical Sciences": "olive",

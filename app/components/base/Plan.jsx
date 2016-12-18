@@ -1,7 +1,9 @@
 import React, {Component} from "react";
-import {Container} from "semantic-ui-react";
+import {Container, Grid, Button} from "semantic-ui-react";
 
+import UnitQuery from "../../utils/UnitQuery";
 import CourseStructure from "../CourseStructure.jsx";
+import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
 
@@ -22,6 +24,9 @@ class Plan extends Component {
             unitToAdd: undefined,
             showAddToCourseUI: false
         };
+
+        this.addToCourse = this.addToCourse.bind(this);
+        this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
     }
 
     /**
@@ -30,8 +35,23 @@ class Plan extends Component {
      *
      * @param {string} unitToAdd - The unit to be added.
      */
-    addToCourse(unitToAdd) {
-        this.setState({ unitToAdd });
+    addToCourse(nUnitCode) {
+        if(!(nUnitCode === undefined)) {
+
+            UnitQuery.getExtendedUnitData(nUnitCode)
+                .then(function(response) {
+                    let data = response.data;
+                    console.log(data);
+
+                    this.setState({
+                        unitToAdd: data
+                    });
+                    
+                }.bind(this))
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
     }
 
     /**
@@ -52,17 +72,47 @@ class Plan extends Component {
 
         return (
             <div>
-                <UnitInfoContainer addToCourse={this.addToCourse.bind(this)}
-                                   doneAddingToCourse={this.doneAddingToCourse.bind(this)} />
+                <Container className="move">
+                
+                    <UnitInfoContainer 
+                        newUnit={this.state.unitToAdd} />
+
+                    <Grid reversed="mobile" stackable>
+                        <Grid.Column width="9"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
+                        <Grid.Column width="3" />
+                        <Grid.Column width="4">
+                        <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
+                            <Button primary fluid>Give us feedback</Button>
+                        </a>
+                        </Grid.Column>
+                    </Grid>
+                    
+                    {false &&
+                    <Grid stackable>
+
+                        <Grid.Row>
+                            <Grid.Column width={2}>
+                                
+                            </Grid.Column>
+                            <Grid.Column width={8} />
+                            <Grid.Column width={6}>
+                                {false /* disable rendering status information for now */ && 
+                                    <CourseStatisticGroup />
+                                }
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                    }
+                </Container>
+                
                 <Container className="main text">
                     <CourseStructure startYear={parseInt(startYear)}
                                      endYear={parseInt(endYear)}
-                                     addToCourse={this.addToCourse.bind(this)}
-                                     doneAddingToCourse={this.doneAddingToCourse.bind(this)}
+                                     addToCourse={this.addToCourse}
+                                     doneAddingToCourse={this.doneAddingToCourse}
                                      unitToAdd={this.state.unitToAdd} />
                 </Container>
             </div>
-
         );
     }
 }
