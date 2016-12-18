@@ -41,7 +41,6 @@ class Plan extends Component {
             UnitQuery.getExtendedUnitData(nUnitCode)
                 .then(function(response) {
                     let data = response.data;
-                    console.log(data);
 
                     this.setState({
                         unitToAdd: data
@@ -49,7 +48,7 @@ class Plan extends Component {
 
                 }.bind(this))
                 .catch(function(error) {
-                    console.log(error);
+                    console.error(error);
                 });
         }
     }
