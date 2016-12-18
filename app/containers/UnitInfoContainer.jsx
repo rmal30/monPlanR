@@ -1,9 +1,6 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Grid, Icon, Label, Statistic } from "semantic-ui-react";
-import MediaQuery from "react-responsive";
 
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
-import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
 
 /**
@@ -55,12 +52,12 @@ class UnitInfoContainer extends Component {
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
-        
-        
-        
+
+
+
         if(!(nextProps.newUnit === undefined)) {
             let nUnitCode = nextProps.newUnit.UnitCode;
-            
+
             if(this.state.isFirstSearch) {
                 this.setState({collapse: false});
             }
@@ -81,7 +78,7 @@ class UnitInfoContainer extends Component {
                         Faculty: data.Faculty,
                         Synopsis: data.Description,
                         error: false
-                    });   
+                    });
                 })
                 .catch(error => {
                     console.log(error);
@@ -90,10 +87,10 @@ class UnitInfoContainer extends Component {
                         UnitCode: nUnitCode,
                         error: true,
                     });
-                }));
+                });
         }
     }
-    
+
 
     /**
      * The component currently returns both the unitsearch and unitInfo components with all the gathered state.

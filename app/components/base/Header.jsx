@@ -11,7 +11,9 @@ import SettingsModal from "../modals/settings.jsx";
  */
 class Header extends Component {
     /**
+     * Used for settings modal to tell which react element is the target.
      *
+     * @returns {ReactElement} Dropdown
      */
     static getSettingsModalTrigger(handleOpen) {
         return <Dropdown.Item as="a" onClick={handleOpen}><i className="settings icon"></i> User Settings</Dropdown.Item>;

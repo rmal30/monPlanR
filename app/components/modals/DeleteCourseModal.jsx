@@ -5,6 +5,11 @@ import { Button, Icon, Input, Modal } from "semantic-ui-react";
 * A modal used specifically for students who wish to delete their course.
 */
 class DeleteCourseModal extends Component {
+    /**
+     * A boolean value in the state is used to keep track on whether or not
+     * to show the modal, and another boolean is used to disable the confirm
+     * delete course button.
+     */
     constructor() {
         super();
         this.state = {
@@ -14,7 +19,8 @@ class DeleteCourseModal extends Component {
     }
 
     /**
-     * Checks if string is
+     * Checks if string in input tag is "clear", and if so, enables the confirm
+     * delete course button.
      */
     handleChange(e) {
         if(e.target.value === "clear" || e.target.value === "Clear") {
@@ -43,11 +49,20 @@ class DeleteCourseModal extends Component {
         });
     }
 
+    /**
+     * Deletes the course and then closes the modal.
+     */
     handleClick() {
         this.props.deleteCourse();
         this.handleClose();
     }
 
+    /**
+     * Returns a Modal asking the user if they really want to delete their course
+     * plan.
+     *
+     * @returns {ReactElement} Modal
+     */
     render() {
         return (
             <Modal trigger={<Button fluid={this.props.fluid} color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
