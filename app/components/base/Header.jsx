@@ -26,7 +26,7 @@ class Header extends Component {
      */
     render() {
         return (
-            <Menu attached="top" inverted>
+            <Menu attached="top" inverted className="no-print">
                 <Menu.Header className="item">
                     <img className="logo" src="resources/img/logo.png" alt="logo" />
                     <MediaQuery query="(min-device-width: 300px)">monPlan</MediaQuery>

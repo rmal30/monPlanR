@@ -91,7 +91,7 @@ class Unit extends React.Component {
             "Business and Economics": "teal",
             "Education": "violet",
             "Engineering": "orange",
-            "Information Techonology": "purple",
+            "Information Technology": "purple",
             "Law": "grey",
             "Medicine, Nursing and Health Sciences": "blue",
             "Pharmacy and Pharmaceutical Sciences": "olive",
@@ -125,7 +125,7 @@ class Unit extends React.Component {
                                         `${this.props.name}`
                                     }
                                     {(this.state.hovering || mobile) && !this.props.showMoveUnitUI &&
-                                        <Button.Group size="mini" fluid compact>
+                                        <Button.Group className="no-print" size="mini" fluid compact>
                                             {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
                                             <Popup
                                                 trigger={<Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />}

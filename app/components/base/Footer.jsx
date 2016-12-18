@@ -6,7 +6,7 @@ import {Container, Segment, Grid} from "semantic-ui-react";
  */
 export default function Footer() {
     return (
-        <Segment inverted attached="bottom" className="footer stackable">
+        <Segment inverted attached="bottom" className="footer stackable no-print">
             <Grid columns={4} stackable>
               <Grid.Row>
                 <Grid.Column>

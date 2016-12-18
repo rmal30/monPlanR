@@ -46,7 +46,7 @@ class Plan extends Component {
                     this.setState({
                         unitToAdd: data
                     });
-                    
+
                 }.bind(this))
                 .catch(function(error) {
                     console.log(error);
@@ -72,12 +72,11 @@ class Plan extends Component {
 
         return (
             <div>
-                <Container className="move">
-                
-                    <UnitInfoContainer 
+                <Container className="move no-print">
+                    <UnitInfoContainer
                         newUnit={this.state.unitToAdd} />
 
-                    <Grid reversed="mobile" stackable>
+                    <Grid reversed="mobile" stackable className="no-print">
                         <Grid.Column width="9"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
                         <Grid.Column width="3" />
                         <Grid.Column width="4">
@@ -86,17 +85,17 @@ class Plan extends Component {
                         </a>
                         </Grid.Column>
                     </Grid>
-                    
+
                     {false &&
                     <Grid stackable>
 
                         <Grid.Row>
                             <Grid.Column width={2}>
-                                
+
                             </Grid.Column>
                             <Grid.Column width={8} />
                             <Grid.Column width={6}>
-                                {false /* disable rendering status information for now */ && 
+                                {false /* disable rendering status information for now */ &&
                                     <CourseStatisticGroup />
                                 }
                             </Grid.Column>
@@ -104,7 +103,7 @@ class Plan extends Component {
                     </Grid>
                     }
                 </Container>
-                
+
                 <Container className="main text">
                     <CourseStructure startYear={parseInt(startYear)}
                                      endYear={parseInt(endYear)}

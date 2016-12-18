@@ -55,6 +55,16 @@ body {
     font-size: 12px;
 }
 
+@page {
+    size: landscape;
+}
+
+@media print {
+    .no-print, .ui.modals, .ui.dimmer, .ui.modal {
+        display: none !important;
+    }
+}
+
 /*
 .move {
     position: -webkit-sticky;

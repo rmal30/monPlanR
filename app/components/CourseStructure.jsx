@@ -7,6 +7,7 @@ import Home from "./base/Home.jsx";
 
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
+import CompletedCourseModal from "./modals/CompletedCourseModal.jsx";
 import DeleteCourseModal from "./modals/DeleteCourseModal.jsx";
 
 /**
@@ -559,7 +560,7 @@ class CourseStructure extends Component {
         return (
             <Container>
                 {!this.state.showMoveUnitUI && !this.props.unitToAdd &&
-                    <Message>
+                    <Message className="no-print">
                         <Message.Header>
                             Ready to add units to course plan
                         </Message.Header>
@@ -569,7 +570,7 @@ class CourseStructure extends Component {
                     </Message>
                 }
                 {this.props.unitToAdd &&
-                    <Message positive>
+                    <Message positive className="no-print">
                         <Button floated="right" onClick={this.props.doneAddingToCourse}>Cancel</Button>
                         <Message.Header>
                             Adding {this.props.unitToAdd.UnitCode}
@@ -580,7 +581,7 @@ class CourseStructure extends Component {
                     </Message>
                 }
                 {this.state.showMoveUnitUI &&
-                    <Message info>
+                    <Message info className="no-print">
                         <Button floated="right" onClick={this.cancelMoving.bind(this)}>Cancel</Button>
                         <Message.Header>
                             Moving {this.state.unitToBeMoved.UnitCode}
@@ -609,7 +610,7 @@ class CourseStructure extends Component {
                         <Container>
                             <DeleteCourseModal fluid={mobile} deleteCourse={this.deleteCourse.bind(this)} />
                             {!this.state.showInsertTeachingPeriods &&
-                            <Button.Group color="green" className="right floated">
+                            <Button.Group color="green" className="right floated no-print">
                                 <Button fluid={mobile} onClick={this.appendSemester.bind(this)}><Icon name="add square"/>Add {this.getQuickSemesterString()}</Button>
                                 <Dropdown floating button className="icon">
                                     <Dropdown.Menu>
@@ -624,8 +625,9 @@ class CourseStructure extends Component {
                             </Button.Group>
                             }
                             {this.state.showInsertTeachingPeriods &&
-                            <Button fluid={mobile} floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
+                            <Button fluid={mobile} className="no-print" floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
                             }
+                            <CompletedCourseModal trigger={<Button primary className="no-print">Complete course plan</Button>} />
                         </Container>
                     }
                 </MediaQuery>
@@ -638,9 +640,9 @@ CourseStructure.propTypes = {
     startYear: PropTypes.number,
     endYear: PropTypes.number,
     unitToAdd: PropTypes.shape({
-        name: PropTypes.string,
-        code: PropTypes.string,
-        faculty: PropTypes.string
+        UnitName: PropTypes.string,
+        UnitCode: PropTypes.string,
+        Faculty: PropTypes.string
     }),
     doneAddingToCourse: PropTypes.func
 };

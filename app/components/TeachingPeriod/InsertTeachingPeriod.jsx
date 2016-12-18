@@ -61,7 +61,7 @@ const InsertTeachingPeriod = props => {
     );
 
     return (
-        <Table.Row>
+        <Table.Row className="no-print">
             <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1}>
                 {triggerButton}
                 {false &&

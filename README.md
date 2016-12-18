@@ -1,7 +1,7 @@
 # monPlan
-###### _Previously known as "monPlanR", and before that "Monash Unit Planner"_.
+[![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR)
 
-**[Start Planning](http://www.monplan.tech)**
+### **[Start Planning](http://www.monplan.tech)**
 
 **monPlan** is an interactive course planner tool, which is designed to help you choose units for future teaching periods up to several years.
 

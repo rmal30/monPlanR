@@ -65,7 +65,7 @@ class DeleteCourseModal extends Component {
      */
     render() {
         return (
-            <Modal trigger={<Button fluid={this.props.fluid} color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
+            <Modal trigger={<Button className="no-print" fluid={this.props.fluid} color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
                 <Modal.Header>
