@@ -26,9 +26,7 @@ class UnitInfoContainer extends Component {
             Faculty: "",
             Synopsis: "",
             isFirstSearch: true,
-            error: false,
-            currentCreditPoints: 0,
-            currentEstCost: 0,
+            error: false
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
     }

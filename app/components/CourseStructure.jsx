@@ -37,7 +37,9 @@ class CourseStructure extends Component {
             teachingPeriods: this.generateCourse(startYear, endYear),
             teachingPeriodsData: null,
             showMoveUnitUI: false,
-            unitToBeMoved: undefined
+            unitToBeMoved: undefined,
+            totalCreditPoints: 0,
+            totalEstimatedCost: 0
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
