@@ -31,6 +31,10 @@ export default function CompletedCourseModal({ trigger }) {
                         advisor will help speed up the process on whether or not
                         you can follow it.
                     </p>
+                    <p>
+                        <b>Note:</b> Export features have not been implemented yet.
+                        We will soon implement these in a future update.                            
+                    </p>
                     <Button primary onClick={() => print()}><Icon name="print" />Print course plan</Button>
                     <Button.Group secondary>
                         <Button><Icon name="download" /> Export as PDF</Button>
