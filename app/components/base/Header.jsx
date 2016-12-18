@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Search, Grid, Container, Icon, Menu, Label, Dropdown, Popup} from "semantic-ui-react";
+import { Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 
 import ToSModal from "../modals/tos.jsx";
@@ -10,15 +10,26 @@ import SettingsModal from "../modals/settings.jsx";
  * The header for the web app, which displays the logo, name, status and information menu.
  */
 class Header extends Component {
+    /**
+     * Used for settings modal to tell which react element is the target.
+     *
+     * @returns {ReactElement} Dropdown
+     */
     static getSettingsModalTrigger(handleOpen) {
         return <Dropdown.Item as="a" onClick={handleOpen}><i className="settings icon"></i> User Settings</Dropdown.Item>;
     }
+
+    /**
+     * The header component is a navigation bar that uses the Menu component.
+     *
+     * @returns {ReactElement} Header
+     */
     render() {
         return (
-            <Menu attached="top" inverted>
+            <Menu attached="top" inverted className="no-print">
                 <Menu.Header className="item">
                     <img className="logo" src="resources/img/logo.png" alt="logo" />
-                    <MediaQuery query="(min-device-width: 300px)">monPlan v0.1.0</MediaQuery>
+                    <MediaQuery query="(min-device-width: 300px)">monPlan</MediaQuery>
                 </Menu.Header>
                 <Menu.Menu position="right">
                     {false /* disable status for now */ &&
@@ -44,7 +55,6 @@ class Header extends Component {
                             <Dropdown.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Dropdown.Item>
                             <Dropdown.Header>About</Dropdown.Header>
                             <Dropdown.Item as="a" href="https://monashunitplanner.github.io" target="_blank"  className="item"><i className="info icon"></i>The Project</Dropdown.Item>
-                            <Dropdown.Item as="a" href="https://goo.gl/TO6Z3M" target="_blank" className="item"><i className="users icon"></i> Join the Team</Dropdown.Item>
                             <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
                             <ToSModal trigger={<Dropdown.Item as="a">Terms of Use</Dropdown.Item>} />
                             <PrivacyModal trigger={<Dropdown.Item as="a">Privacy Policy</Dropdown.Item>} />

@@ -1,5 +1,4 @@
 import React, { PropTypes } from "react";
-import { Rating, Icon } from "semantic-ui-react";
 
 /**
  * Returns the way in which we want a search result to be rendered

@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Button, Radio, Icon, Input, Modal} from "semantic-ui-react";
+import React, { Component, PropTypes } from "react";
+import { Button, Radio, Icon, Modal } from "semantic-ui-react";
 
 class SettingsModal extends Component {
 
@@ -69,8 +69,12 @@ class SettingsModal extends Component {
                 <Button content="Close" color="grey" icon="close" labelPosition="right" onClick={this.handleClose.bind(this)} />
             </Modal.Actions>
         </Modal>
-    );
+        );
+    }
 }
+
+SettingsModal.propTypes = {
+    getTrigger: PropTypes.func.isRequired
 };
 
 export default SettingsModal;

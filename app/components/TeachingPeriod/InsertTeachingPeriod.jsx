@@ -1,19 +1,46 @@
-import React from "react";
-import {Button, Icon, Input, Form, Grid, Popup, Table} from "semantic-ui-react";
+import React, { PropTypes } from "react";
+import { Button, Icon, Form, Popup, Table } from "semantic-ui-react";
 
-const InsertTeachingPeriod = (props) => {
-    let year = props.year,
-        code = props.code;
+/**
+ * InsertTeachingPeriod allows students to insert teaching periods into their
+ * course structure.
+ *
+ * @returns {ReactElement} tableRow - A table row to be placed inside
+ * the course structure table's body.
+ * @author Saurabh Joshi
+ */
+const InsertTeachingPeriod = props => {
+    InsertTeachingPeriod.propTypes = {
+        year: PropTypes.number.isRequired,
+        code: PropTypes.string.isRequired,
+        teachingPeriods: PropTypes.array,
+        numberOfUnits: PropTypes.number
+    };
 
-    const handleYearChange = (e) => {
+    let { year, code } = props;
+
+    /**
+     * Used when user changes the teaching period start year in the popup.
+     *
+     * @param {event} e - onChange event for year input element.
+     */
+    const handleYearChange = e => {
         year = parseInt(e.target.value || props.year);
     };
 
-    const handleCodeChange = (e) => {
+    /**
+     * Used when user changes the teaching period code in the popup.
+     *
+     * @param {event} e - onChange event for code input element.
+     */
+    const handleCodeChange = e => {
         code = e.target.value || props.code;
     };
 
-    const handleClick = (e) => {
+    /**
+     * Used when user clicks on insert teaching period button.
+     */
+    const handleClick = () => {
         props.insertTeachingPeriod(props.index, year, code);
     };
 
@@ -34,8 +61,10 @@ const InsertTeachingPeriod = (props) => {
     );
 
     return (
-        <Table.Row>
+        <Table.Row className="no-print">
             <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1}>
+                {triggerButton}
+                {false &&
                 <Popup hoverable flowing trigger={triggerButton}>
                     <Form onSubmit={e => e.preventDefault()}>
                         <Form.Field>
@@ -48,6 +77,7 @@ const InsertTeachingPeriod = (props) => {
                         </Form.Field>
                     </Form>
                 </Popup>
+                }
             </Table.Cell>
         </Table.Row>
     );
