@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, Segment, Grid} from "semantic-ui-react";
+import {Container, Header, Segment, Grid} from "semantic-ui-react";
 
 /**
  * The footer component that is displayed at the bottom of the page.
@@ -13,7 +13,10 @@ export default function Footer() {
                 </Grid.Column>
                 <Grid.Column>
                     <Container textAlign="center">
-                        <h4 className="ui inverted header">monPlan</h4>
+                        <Header as="h4" inverted>
+                            monPlan
+                            <Header.Subheader>Version {MONPLAN_VERSION}</Header.Subheader>
+                        </Header>
                         <p>A Monash University Course Planner, designed by Monash Students, for Monash Students.</p>
                     </Container>
                 </Grid.Column>

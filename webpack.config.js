@@ -1,10 +1,18 @@
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-var webpack = require('webpack');
+var webpack = require("webpack");
+var packageJSON = require("./package.json");
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: __dirname + "/app/index.html",
     filename: "index.html",
     inject: "body"
+});
+
+var metaDataPlugin = new webpack.DefinePlugin({
+    MONPLAN_DESCRIPITON: packageJSON.description,
+    MONPLAN_VERSION: JSON.stringify(packageJSON.version),
+    MONPLAN_AUTHOR: packageJSON.author,
+    MONPLAN_REMOTE_URL: JSON.stringify("http://api.monplan.tech:3000")
 });
 
 const config = {
@@ -15,7 +23,7 @@ const config = {
     output: {
         path: __dirname + "/dist",
         filename: "bundle.js",
-        publicPath: '/'
+        publicPath: "/"
     },
 
     module: {
@@ -27,21 +35,14 @@ const config = {
     },
 
     plugins: process.env.NODE_ENV === JSON.stringify("production") ? [
-        new webpack.DefinePlugin({
-            VERSION: JSON.stringify(require("./package.json").version)
-        }),
-        new webpack.DefinePlugin({
-            "process.env": {
-                "NODE_ENV": JSON.stringify("production")
-            }
-        }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.UglifyJsPlugin(),
+        metaDataPlugin,
+        HtmlWebpackPluginConfig
     ] : [
-        new webpack.DefinePlugin({
-            VERSION: JSON.stringify(require("./package.json").version)
-        })
+        metaDataPlugin,
+        HtmlWebpackPluginConfig
     ],
 
     externals: {
@@ -52,13 +53,11 @@ const config = {
 
     devServer: {
         headers: { "Access-Control-Allow-Origin": "*"}
-    },
-
-    plugins: [HtmlWebpackPluginConfig]
+    }
 };
 
 if(process.env.NODE_ENV !== JSON.stringify("production")) {
-    config.devtool = "source-map";
+    config.devtool = "eval-source-map";
 }
 
 module.exports = config;

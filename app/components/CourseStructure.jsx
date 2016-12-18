@@ -608,9 +608,8 @@ class CourseStructure extends Component {
                 <MediaQuery maxDeviceWidth={767}>
                     {mobile =>
                         <Container>
-                            <DeleteCourseModal fluid={mobile} deleteCourse={this.deleteCourse.bind(this)} />
                             {!this.state.showInsertTeachingPeriods &&
-                            <Button.Group color="green" className="right floated no-print">
+                            <Button.Group color="green" fluid={mobile} className={"no-print" + (mobile ? "" : " right floated")}>
                                 <Button fluid={mobile} onClick={this.appendSemester.bind(this)}><Icon name="add square"/>Add {this.getQuickSemesterString()}</Button>
                                 <Dropdown floating button className="icon">
                                     <Dropdown.Menu>
@@ -627,7 +626,10 @@ class CourseStructure extends Component {
                             {this.state.showInsertTeachingPeriods &&
                             <Button fluid={mobile} className="no-print" floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
                             }
-                            <CompletedCourseModal trigger={<Button primary className="no-print">Complete course plan</Button>} />
+                            {mobile && <br /> && <br />}
+                            <DeleteCourseModal fluid={mobile} deleteCourse={this.deleteCourse.bind(this)} />
+                            {mobile && <br />}
+                            <CompletedCourseModal trigger={<Button primary fluid={mobile} className="no-print">Complete course plan</Button>} />
                         </Container>
                     }
                 </MediaQuery>

@@ -1,16 +1,31 @@
 import axios from "axios";
+
+/**
+ * A list of helper methods for unit queries.
+ */
 export default class UnitQuery {
 
-    static getUnitCodeAndUnitNames(){
+    /**
+     * Retrieves a list of units locally specifying only unit names and codes.
+     */
+    static getUnitCodeAndUnitNames() {
         return axios.get("../../data/units/simple.json");
     }
 
-    static getExtendedUnitDataLocal(UnitCode){
+    /**
+     * Retrieves a list of units locally with more detailed information.
+     */
+    static getExtendedUnitDataLocal() {
         return axios.get("../../data/units/extended.json");
     }
 
-    static getExtendedUnitData(nUnitCode){
-        let qURL = "http://api.monplan.tech:3000/units/" + nUnitCode;
+    /**
+     * Retrieves information about a single unit remotely.
+
+     * @param {string} UnitCode - The unit code to retrieve more information about.
+     */
+    static getExtendedUnitData(UnitCode) {
+        let qURL = `${MONPLAN_REMOTE_URL}/units/${UnitCode}`;
         return axios.get(qURL);
     }
 

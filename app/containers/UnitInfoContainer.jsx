@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitQuery from "../utils/UnitQuery";
@@ -23,7 +23,7 @@ class UnitInfoContainer extends Component {
             isLoading: false,
             UnitCode: "",
             UnitName: "",
-            Faculty: "Faculty of IT",
+            Faculty: "",
             Synopsis: "",
             isFirstSearch: true,
             error: false,
@@ -114,9 +114,5 @@ class UnitInfoContainer extends Component {
         );
     }
 }
-
-UnitInfoContainer.propTypes = {
-    addToCourse: PropTypes.func.isRequired
-};
 
 export default UnitInfoContainer;
