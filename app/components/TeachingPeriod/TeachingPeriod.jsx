@@ -1,5 +1,5 @@
-import React from "react";
-import {Button, Dropdown, Table} from "semantic-ui-react";
+import React, { PropTypes } from "react";
+import { Button, Table } from "semantic-ui-react";
 
 import Unit from "../Unit/Unit.jsx";
 
@@ -13,28 +13,15 @@ import Unit from "../Unit/Unit.jsx";
  * @arg props
  */
 function TeachingPeriod(props) {
-    const handleDelete = () => {
-        props.deleteTeachingPeriod(props.index);
-    };
 
-    const addUnit = (unitIndex, unitToAdd) => {
-        props.addUnit(props.index, unitIndex, unitToAdd);
-    };
-
-    const willMoveUnit = unitIndex => {
-        props.willMoveUnit(props.index, unitIndex);
-    };
-
-    const moveUnit = unitIndex => {
-        props.moveUnit(props.index, unitIndex);
-    };
-
-    const swapUnit = unitIndex => {
-        props.swapUnit(props.index, unitIndex);
-    };
-
-    const deleteUnit = unitIndex => {
-        props.deleteUnit(props.index, unitIndex);
+    TeachingPeriod.propTypes = {
+        code: PropTypes.string.isRequired,
+        index: PropTypes.number.isRequired,
+        year: PropTypes.number.isRequired,
+        data: PropTypes.array,
+        units: PropTypes.array.isRequired,
+        showMoveUnitUI: PropTypes.bool.isRequired,
+        deleteTeachingPeriod: PropTypes.func.isRequired
     };
 
     let firstFreeUnit = true;
@@ -45,27 +32,25 @@ function TeachingPeriod(props) {
             return <Unit
                 key={`${props.year}-${props.code}-${index}`}
                 index={index}
-                free={true}
+                free
                 unitToBeMoved={props.unitToBeMoved}
                 firstFreeUnit={temp}
-                addUnit={addUnit}
-                moveUnit={moveUnit}
+                addUnit={props.addUnit.bind(this, props.index)}
+                moveUnit={props.moveUnit.bind(this, props.index)}
                 unitToAdd={props.unitToAdd}
                 showMoveUnitUI={props.showMoveUnitUI} />;
         }
         return <Unit key={`${props.year}-${props.code}-${unit}-${index}`}
                      index={index}
-                     willMoveUnit={willMoveUnit}
-                     deleteUnit={deleteUnit}
+                     willMoveUnit={props.willMoveUnit.bind(null, props.index)}
+                     deleteUnit={props.deleteUnit.bind(null, props.index)}
                      showMoveUnitUI={props.showMoveUnitUI}
-                     swapUnit={swapUnit}
-                     free={false}
+                     swapUnit={props.swapUnit.bind(null, props.index)}
                      code={unit.UnitCode}
                      name={unit.UnitName}
                      faculty={unit.Faculty} />;
     });
 
-    const teachingPeriodData = props.data;
     let teachingPeriodName = props.code;
     if(props.data !== null) {
         const teachingPeriod = props.data.find((element) =>
@@ -79,10 +64,10 @@ function TeachingPeriod(props) {
 
     return (
         <Table.Row>
-            <Table.Cell className="teachingPeriod cell">
+            <Table.Cell>
                 {teachingPeriodName}, {props.year}
                 {!props.showMoveUnitUI &&
-                <Button basic floated="right" onClick={handleDelete} size="tiny" color="red" icon="close" />
+                <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />
                 }
             </Table.Cell>
             {unitsEle}

@@ -1,5 +1,5 @@
-import React from "react";
-import {Button, Container, Dropdown, Header, Message, Icon, Table, Popup} from "semantic-ui-react";
+import React, { PropTypes } from "react";
+import { Button, Message, Icon, Table, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 
 /**
@@ -19,7 +19,8 @@ class Unit extends React.Component {
     constructor() {
         super();
         this.state = {
-            showUI: false
+            hovering: false,
+            moving: false
         };
     }
     /**
@@ -27,30 +28,36 @@ class Unit extends React.Component {
     */
     handleDetail() {
 
-    };
-
-    handleMouseEnter(e) {
-        this.setState({
-            showUI: true
-        });
-    };
-
-    handleMouseMove(e) {
-        this.setState({
-            showUI: true
-        });
     }
 
-    handleMouseLeave(e) {
-        this.setState({
-            showUI: false
-        });
-    };
+    handleMouseEnter() {
+        if(!this.state.hovering) {
+            this.setState({
+                hovering: true
+            });
+        }
+    }
 
-    handleClick(e) {
-        if(this.props.free && this.state.showUI && this.props.unitToAdd) {
+    handleMouseMove() {
+        if(!this.state.hovering) {
+            this.setState({
+                hovering: true
+            });
+        }
+    }
+
+    handleMouseLeave() {
+        if(this.state.hovering) {
+            this.setState({
+                hovering: false
+            });
+        }
+    }
+
+    handleClick() {
+        if(this.props.free && this.state.hovering && this.props.unitToAdd) {
             this.props.addUnit(this.props.index, this.props.unitToAdd);
-        } else if(this.state.showUI && this.props.showMoveUnitUI) {
+        } else if(this.state.hovering && this.props.showMoveUnitUI) {
             if(this.props.free) {
                 this.props.moveUnit(this.props.index);
             } else {
@@ -59,9 +66,10 @@ class Unit extends React.Component {
         }
     }
 
-    handleMove(e) {
+    handleMove() {
         if(!this.props.free) {
             this.props.willMoveUnit(this.props.index);
+            this.setState({ moving: true });
         }
     }
 
@@ -74,7 +82,7 @@ class Unit extends React.Component {
         }
 
         this.props.deleteUnit(this.props.index);
-    };
+    }
 
     render() {
         const facultyColors = {
@@ -83,7 +91,7 @@ class Unit extends React.Component {
             "Business and Economics": "teal",
             "Education": "violet",
             "Engineering": "orange",
-            "Information Techonology": "purple",
+            "Information Technology": "purple",
             "Law": "grey",
             "Medicine, Nursing and Health Sciences": "blue",
             "Pharmacy and Pharmaceutical Sciences": "olive",
@@ -93,13 +101,14 @@ class Unit extends React.Component {
         let facultyColor = undefined;
 
         if(!this.props.free) {
+            console.log(this.props.faculty);
             facultyColor = facultyColors[this.props.faculty.replace("Faculty of ", "")];
         }
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
                     return (
-                        <Table.Cell active={this.state.showUI && (this.props.showMoveUnitUI || this.props.free && this.props.unitToAdd !== undefined) && !mobile}
+                        <Table.Cell active={this.state.hovering && (this.props.showMoveUnitUI || this.props.free && this.props.unitToAdd !== undefined) && !mobile}
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
                             onMouseLeave={this.handleMouseLeave.bind(this)}
@@ -112,11 +121,11 @@ class Unit extends React.Component {
                                     <Message.Header>
                                         {this.props.code}
                                     </Message.Header>
-                                    {(!this.state.showUI || !this.showMoveUnitUI) &&
+                                    {(!this.state.hovering || !this.showMoveUnitUI) &&
                                         `${this.props.name}`
                                     }
-                                    {(this.state.showUI || mobile) && !this.props.showMoveUnitUI &&
-                                        <Button.Group size="mini" fluid compact>
+                                    {(this.state.hovering || mobile) && !this.props.showMoveUnitUI &&
+                                        <Button.Group className="no-print" size="mini" fluid compact>
                                             {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
                                             <Popup
                                                 trigger={<Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />}
@@ -141,5 +150,29 @@ class Unit extends React.Component {
         );
     }
 }
+
+Unit.propTypes = {
+    /* Used for indicating whether unit is free or not */
+    free: PropTypes.bool,
+
+    index: PropTypes.number.isRequired,
+    code: PropTypes.string,
+    name: PropTypes.string,
+    faculty: PropTypes.string,
+
+    unitToAdd: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired,
+        faculty: PropTypes.string
+    }),
+
+    addUnit: PropTypes.func,
+    moveUnit: PropTypes.func,
+    willMoveUnit: PropTypes.func,
+    showMoveUnitUI: PropTypes.bool,
+    swapUnit: PropTypes.func,
+    deleteUnit: PropTypes.func,
+    firstFreeUnit: PropTypes.bool
+};
 
 export default Unit;

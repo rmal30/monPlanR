@@ -1,22 +1,18 @@
-import React, {Component} from "react";
-import {Button, Divider, Dropdown, Container, Form, Grid, Header, Icon, Message, Segment, Input, Label, Popup} from "semantic-ui-react";
-import {Link, Router, Route} from "react-router";
+import React, { Component } from "react";
+import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup } from "semantic-ui-react";
+import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 
-import ErrorMessage from "../components/multi/ErrorMessage.jsx";
 import YearCalc from "../utils/YearCalc.js";
-
-
 import Tooltips from "../components/multi/tooltips.jsx";
+
 /**
- *
- * @class
+ * The year form container prompts students to enter in their commercement and
+ * their graduation years.
  */
 class YearFormContainer extends Component {
     /**
      * Assumes that the student will plan a full time 4 year course next year.
-     *
-     * @constructor
      */
     constructor(props) {
         super(props);
@@ -49,15 +45,13 @@ class YearFormContainer extends Component {
      * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'.
      * Also note that it then calculates the valid dropdown values for end year and re-enables the endyear dropdown.
      */
-    handleUpdateStartYear(event){
+    handleUpdateStartYear(event) {
         let selectedStartYear = "";
 
-        if(event.type === "click"){
+        if(event.type === "click") {
             selectedStartYear = event.target.textContent;
-        } else if (event.type === "keydown"){
+        } else if (event.type === "keydown") {
             selectedStartYear = event.target.nextSibling.innerText;
-        } else {
-            console.log("error with collection of events");
         }
 
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
@@ -74,15 +68,13 @@ class YearFormContainer extends Component {
      * click and keyboard events because the way the data is accessed is different. The end year dropdown is the last piece of info
      * necessary for the form to be 'valid' so it makes the submit button not disabled.
      */
-    handleUpdateEndYear(event){
+    handleUpdateEndYear(event) {
         let selectedEndYear = "";
 
-        if(event.type === "click"){
+        if(event.type === "click") {
             selectedEndYear = event.target.textContent;
-        } else if (event.type === "keydown"){
-            selectedEndYear = event.target.nextSibling.innerText;
-        } else {
-            console.log("error with collection of events");
+        } else if (event.type === "keydown") {
+            selectedEndYear = event.target.nextSibling.textContent;
         }
 
         this.setState({
@@ -112,24 +104,33 @@ class YearFormContainer extends Component {
     /**
      * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
      */
-    btnStartPlan(){
-        return (Tooltips.generate("Start Now", "Click now to start planning with the current specified start/end years", "", <Button
-                color="green"
-                disabled={this.state.notReadyToSubmit}
-                onClick={this.submitData}>
-                    Start Planning <Icon name="right arrow" />
-            </Button>));
+    btnStartPlan() {
+        return (
+            <Tooltips
+                title="Start Now"
+                message="Click now to start planning with the current specified start/end years"
+                target={(
+                    <Button
+                        color="green"
+                        disabled={this.state.notReadyToSubmit}
+                        onClick={this.submitData}>
+                            Start Planning <Icon name="right arrow" />
+                    </Button>
+                )} />
+        );
     }
 
     /**
      * btnEmptyPlan is a function that returns a tooltipped button for the start year form
      */
-    btnEmptyPlan(){
-        return (Tooltips.generate("Empty Template","Click here to start off with an empty template with no Teaching Periods added",
-                "bottom right",
-                <Button>
-                    Just start with an empty template <Icon name="right arrow" />
-            </Button>));
+    btnEmptyPlan() {
+        return (
+            <Tooltips
+                title="Empty Template"
+                message="Click here to start off with an empty template with no teaching periods added"
+                direction="bottom right"
+                target={<Button>Just start with an empty template <Icon name="right arrow" /></Button>} />
+        );
     }
     /**
 
@@ -145,34 +146,36 @@ class YearFormContainer extends Component {
         return (
             <Form size="large" error>
                 <Segment raised>
-                    <p>Please enter your commencement and graduation year to get started.</p>
+                    <p>Please enter your commencement and graduation year to get started. This will generate a course structure of semester one
+                        and semester two teaching periods.</p>
+                    <p>Alternatively, you can start with an empty template if your course structure mostly has non-semester teaching periods.</p>
                     <Form.Field>
                         <label>Commencement Year:</label>
                         <Popup
-                            header = {"Select a start year"}
-                            content = {"Begin typing or click a year from the dropdown menu. This is the year that you want to start planning from onwards."}
-                            positioning = {"top right"}
-                            on={"focus"}
-                            trigger = {<Dropdown 
-                                            onChange={this.handleUpdateStartYear} 
-                                            placeholder="Select start year" fluid search selection
-                                            options={this.validStartYears}/>}
-                            
+                            header="Select a start year"
+                            content="Begin typing or clicking a year from the dropdown menu. This is the year that you want to start planning from onwards."
+                            positioning="top right"
+                            on="focus"
+                            trigger={<Dropdown
+                                        onChange={this.handleUpdateStartYear}
+                                        onBlur={this.handleUpdateStartYear}
+                                        placeholder="Select start year" fluid search selection
+                                        options={this.validStartYears}/>}
                         />
                     </Form.Field>
                     <Form.Field>
                         <label>Graduation Year:</label>
                         <Popup
-                            header = {"Select an end year"}
-                            content = {"Begin typing or click a year from the dropdown menu. This is the last year that you want to plan for."}
-                            positioning = {"top right"}
-                            on={"focus"}
-                            trigger = {<Dropdown 
-                                            onChange={this.handleUpdateEndYear} 
-                                            placeholder="Select end year" fluid search selection
-                                            options={this.validEndYears}
-                                            disabled={this.state.endYearDisabled}/>}
-                            
+                            header="Select an end year"
+                            content="Begin typing or clicking a year from the dropdown menu. This is the last year that you want to plan for."
+                            positioning="top right"
+                            on="focus"
+                            trigger={<Dropdown
+                                        onChange={this.handleUpdateEndYear}
+                                        onBlur={this.handleUpdateEndYear}
+                                        placeholder="Select end year" fluid search selection
+                                        options={this.validEndYears}
+                                        disabled={this.state.endYearDisabled}/>}
                         />
                     </Form.Field>
                     <MediaQuery maxDeviceWidth={767}>
@@ -201,13 +204,13 @@ class YearFormContainer extends Component {
                                 );
                             } else {
                                 return (
-                                        <Button.Group>
-                                            {this.btnStartPlan()}
-                                            <Button.Or />
-                                            <Link to="/plan">
-                                                {this.btnEmptyPlan()}
-                                            </Link>
-                                        </Button.Group>
+                                    <Button.Group>
+                                        {this.btnStartPlan()}
+                                        <Button.Or />
+                                        <Link to="/plan">
+                                            {this.btnEmptyPlan()}
+                                        </Link>
+                                    </Button.Group>
                                 );
                             }
                         }

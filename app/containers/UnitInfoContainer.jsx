@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-import { Button, Container, Grid, Icon, Label, Statistic } from "semantic-ui-react";
+import React, { Component, PropTypes } from "react";
+
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
-import UnitSearchContainer from "./UnitSearchContainer.jsx";
 import UnitQuery from "../utils/UnitQuery";
-import _ from "lodash";
-import MediaQuery from "react-responsive";
+
 /**
  * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates
  * the component.
@@ -54,12 +52,12 @@ class UnitInfoContainer extends Component {
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
-        
-        
-        
+
+
+
         if(!(nextProps.newUnit === undefined)) {
             let nUnitCode = nextProps.newUnit.UnitCode;
-            
+
             if(this.state.isFirstSearch) {
                 this.setState({collapse: false});
             }
@@ -70,7 +68,7 @@ class UnitInfoContainer extends Component {
             });
 
             UnitQuery.getExtendedUnitData(nUnitCode)
-                .then(function(response) {
+                .then(response => {
                     let data = response.data;
 
                     this.setState({
@@ -81,19 +79,18 @@ class UnitInfoContainer extends Component {
                         Synopsis: data.Description,
                         error: false
                     });
-                    
-                }.bind(this))
-                .catch(function(error) {
+                })
+                .catch(error => {
                     console.log(error);
                     this.setState({
                         isLoading: false,
                         UnitCode: nUnitCode,
                         error: true,
                     });
-                }.bind(this));
+                });
         }
     }
-    
+
 
     /**
      * The component currently returns both the unitsearch and unitInfo components with all the gathered state.
@@ -117,5 +114,9 @@ class UnitInfoContainer extends Component {
         );
     }
 }
+
+UnitInfoContainer.propTypes = {
+    addToCourse: PropTypes.func.isRequired
+};
 
 export default UnitInfoContainer;

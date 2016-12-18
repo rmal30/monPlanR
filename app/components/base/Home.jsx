@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {Button, Container, Form, Grid, Icon, Message, Segment} from "semantic-ui-react";
-import {Link, Router, Route} from "react-router";
+import {Button, Container, Icon, Segment} from "semantic-ui-react";
+import { Link } from "react-router";
 
 import YearFormContainer from "../../containers/YearFormContainer.jsx";
 
@@ -10,6 +10,13 @@ import YearFormContainer from "../../containers/YearFormContainer.jsx";
  * @class
  */
 class Home extends Component {
+    /**
+     * Checks if there is anything saved to local storage, and if so, whether
+     * or not teaching periods list is empty. This is used for checking if
+     * a user has anything saved to their browser.
+     *
+     * @return {boolean} courseStructureDoesExist
+     */
     static checkIfCourseStructureIsInLocalStorage() {
         const stringifedJSON = localStorage.getItem("courseStructure");
         if(stringifedJSON === null) {

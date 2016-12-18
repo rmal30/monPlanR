@@ -1,8 +1,9 @@
 #!/bin/bash
 
-echo "Initialising staic data files..."
-cp -r app/data/ dist/
-echo "Initialising staic resource files..."
-cp -r app/resources/ dist/
+echo "Cleaning up old static files..."
+rm -rf dist/
+echo "Initialising static files..."
+mkdir dist
+cp -r app/data/ app/resources/ dist/
 echo "Starting production server..."
-NODE_ENV=production npm start
+NODE_ENV="production" npm start

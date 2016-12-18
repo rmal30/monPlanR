@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
@@ -7,7 +7,17 @@ import Footer from "./Footer.jsx";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import "../../resources/css/transitions.css";
 
+/**
+ * The main layout used for all views.
+ *
+ * @param {object} props
+ */
 function Main(props) {
+    Main.propTypes = {
+        children: PropTypes.element.isRequired,
+        location: PropTypes.object
+    };
+
     return (
         <div className='main-container'>
             <Header />

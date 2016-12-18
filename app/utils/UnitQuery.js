@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 export default class UnitQuery {
 
     static getUnitCodeAndUnitNames(){
@@ -6,11 +6,11 @@ export default class UnitQuery {
     }
 
     static getExtendedUnitDataLocal(UnitCode){
-       return axios.get("../../data/units/extended.json");
+        return axios.get("../../data/units/extended.json");
     }
 
     static getExtendedUnitData(nUnitCode){
-       let qURL = "http://api.monplan.tech:3000/units/" + nUnitCode;
-       return axios.get(qURL);
+        let qURL = "http://api.monplan.tech:3000/units/" + nUnitCode;
+        return axios.get(qURL);
     }
 }

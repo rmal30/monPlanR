@@ -1,9 +1,8 @@
 import _ from "lodash";
-import React, { Component } from "react";
-import { Search, Grid, Header, Item } from "semantic-ui-react";
+import React, { Component, PropTypes } from "react";
+import { Search } from "semantic-ui-react";
 import UnitQuery from "../utils/UnitQuery";
 import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
-import axios from "axios";
 
 /**
  * Source is initialised here, it is populated later with responses from API
@@ -13,18 +12,23 @@ let source = {};
 /**
  * The result renderer function dictates what form results should be returned
  */
-let resultRenderer = ({UnitCode, UnitName}) => (
+let resultRenderer = ({ UnitCode, UnitName }) => (
     <UnitSearchResult
         UnitCode={UnitCode}
         UnitName={UnitName}
     />
 );
 
+resultRenderer.propTypes = {
+    UnitCode: PropTypes.string,
+    UnitName: PropTypes.string
+};
+
 /**
  * This component searches through the available units for selection
  * @author JXNS
  */
-export default class UnitSearchContainer extends Component {
+class UnitSearchContainer extends Component {
 
     /**
      * The constructor initialises the state and binds the methods used
@@ -58,7 +62,7 @@ export default class UnitSearchContainer extends Component {
                 });
             }.bind(this))
             .catch(function(error) {
-                console.log(error);
+                console.error(error);
             });
     }
 
@@ -92,7 +96,7 @@ export default class UnitSearchContainer extends Component {
             }
 
             const re = new RegExp(_.escapeRegExp(this.state.value), "i");
-            
+
             /**
              * isMatch checks whether a result matches a regex for the Unit Code or Unit Name of a unit
              */
@@ -144,3 +148,9 @@ export default class UnitSearchContainer extends Component {
         );
     }
 }
+
+UnitSearchContainer.propTypes = {
+    onResult: PropTypes.func
+};
+
+export default UnitSearchContainer;

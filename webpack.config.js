@@ -1,5 +1,5 @@
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-var webpack = require('webpack')
+var webpack = require('webpack');
 
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: __dirname + "/app/index.html",
@@ -7,12 +7,10 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     inject: "body"
 });
 
-module.exports = {
+const config = {
     entry: [
         "./index.jsx"
     ],
-
-    devtool: "eval-source-map",
 
     output: {
         path: __dirname + "/dist",
@@ -28,11 +26,23 @@ module.exports = {
         ]
     },
 
-    plugins: process.env.NODE_ENV === 'production' ? [
+    plugins: process.env.NODE_ENV === JSON.stringify("production") ? [
+        new webpack.DefinePlugin({
+            VERSION: JSON.stringify(require("./package.json").version)
+        }),
+        new webpack.DefinePlugin({
+            "process.env": {
+                "NODE_ENV": JSON.stringify("production")
+            }
+        }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin()
-    ] : [],
+    ] : [
+        new webpack.DefinePlugin({
+            VERSION: JSON.stringify(require("./package.json").version)
+        })
+    ],
 
     externals: {
         "cheerio": "window",
@@ -46,3 +56,9 @@ module.exports = {
 
     plugins: [HtmlWebpackPluginConfig]
 };
+
+if(process.env.NODE_ENV !== JSON.stringify("production")) {
+    config.devtool = "source-map";
+}
+
+module.exports = config;

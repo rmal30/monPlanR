@@ -14,7 +14,7 @@ function ErrorMessage(props) {
     ErrorMessage.propTypes = {
         header: PropTypes.string.isRequired,
         errorMessage: PropTypes.string.isRequired
-    }
+    };
 
     return (
         <Message
@@ -25,4 +25,4 @@ function ErrorMessage(props) {
     );
 }
 
-export default ErrorMessage
+export default ErrorMessage;
