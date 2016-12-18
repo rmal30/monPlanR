@@ -55,12 +55,12 @@ class UnitSearchContainer extends Component {
      */
     componentDidMount() {
         UnitQuery.getUnitCodeAndUnitNames()
-            .then(function(response) {
+            .then(response => {
                 source = response.data;
                 this.setState({
                     isLoading: false
                 });
-            }.bind(this))
+            })
             .catch(function(error) {
                 console.error(error);
             });
@@ -100,11 +100,15 @@ class UnitSearchContainer extends Component {
             /**
              * isMatch checks whether a result matches a regex for the Unit Code or Unit Name of a unit
              */
-            const isMatch = (result) => re.test(result.UnitCode) || re.test(result.UnitName);
-            let matches = _.filter(source, isMatch);
+            const isCodeMatch = result => re.test(result.UnitCode);
+            let matches = _.filter(source, isCodeMatch);
             let reducedResults;
-            if (matches.length > 5){
-                reducedResults = matches.slice(0,5);
+
+            const isNameMatch = result => re.test(result.UnitName);
+            matches = [...matches, ..._.filter(source, isNameMatch)];
+
+            if (matches.length > 5) {
+                reducedResults = matches.slice(0, 5);
             } else {
                 reducedResults = matches;
             }
