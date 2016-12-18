@@ -46,9 +46,9 @@ function TeachingPeriod(props) {
                      deleteUnit={props.deleteUnit.bind(null, props.index)}
                      showMoveUnitUI={props.showMoveUnitUI}
                      swapUnit={props.swapUnit.bind(null, props.index)}
-                     code={unit.code}
-                     name={unit.name}
-                     faculty={unit.faculty} />;
+                     code={unit.UnitCode}
+                     name={unit.UnitName}
+                     faculty={unit.Faculty} />;
     });
 
     let teachingPeriodName = props.code;
