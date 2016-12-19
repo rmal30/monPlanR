@@ -19,16 +19,17 @@ class UnitInfoContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapse: true,
+            collapse: false,
             isLoading: false,
-            UnitCode: "",
-            UnitName: "",
+            UnitCode: "FIT2001",
+            UnitName: "Systems Development",
             Faculty: "Faculty of IT",
-            Synopsis: "",
+            Synopsis: "The unit introduces students to systems analysis and design as a problem solving activity, within the framework of a selected methodology. It will focus on contemporary industry practice; investigating understanding and documenting system requirements; a range of design and implementation activities; and professional skills required for systems development.",
             isFirstSearch: true,
             error: false,
             currentCreditPoints: 0,
-            currentEstCost: 0,
+            currentEstCost: 0
+
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
     }
@@ -45,15 +46,13 @@ class UnitInfoContainer extends Component {
         });
     }
 
-
     /**
      * The unitSelected function is called whenever a new unit is selected.
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
-
-
+        let scaMap = [0, 132, 188, 220] //sca band 1 through 3 maps to their per credit point cost
 
         if(!(nextProps.newUnit === undefined)) {
             let nUnitCode = nextProps.newUnit.UnitCode;
@@ -77,7 +76,10 @@ class UnitInfoContainer extends Component {
                         UnitName: data.UnitName,
                         Faculty: data.Faculty,
                         Synopsis: data.Description,
-                        error: false
+                        error: false,
+                        currentCreditPoints: data.CreditPoints,
+                        currentEstCost: scaMap[data.SCABand] * data.CreditPoints
+
                     });
                 })
                 .catch(error => {
