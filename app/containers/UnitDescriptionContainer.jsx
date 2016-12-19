@@ -39,11 +39,18 @@ export default class UnitDescriptionContainer extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    /**
+     * This handles the clicking of the show more/less link
+     */
     handleClick() {
         let newValue = !this.state.hide;
         this.setState({hide: newValue});
     }
 
+    /**
+     * Render is pretty straight forward. if the shortText string is not null (i.e. theres a reason to shorten it)
+     * then it cycles through the hiding and showing of the full text based on the hide parameter
+     */
     render() {
         if (!(this.state.shortText === "")) {
             if (this.state.hide) {
