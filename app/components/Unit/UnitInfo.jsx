@@ -24,6 +24,8 @@ function UnitInfo(props) {
 
     UnitInfo.propTypes = {
         collapse: PropTypes.bool.isRequired,
+        cost: PropTypes.number.isRequired,
+        creditPoints: PropTypes.number.isRequired,
         error: PropTypes.bool.isRequired,
         Faculty: PropTypes.string.isRequired,
         likeScore: PropTypes.number.isRequired,
