@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Button, Container, Grid } from "semantic-ui-react";
 
 import UnitQuery from "../../utils/UnitQuery";
+//import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";

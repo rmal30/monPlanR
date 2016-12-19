@@ -20,17 +20,17 @@ export default class OfferingContainer extends Component {
     constructor(props) {
         super(props);
         
-        /*
+        
         let notAvailable = true;
         let offeringArray = this.props.offeringArray;
 
         if(offeringArray && offeringArray.length > 0) {
             notAvailable = false;
         }
-        */
+        
         this.state = {
-            offeringArray: testData,
-            notAvailable: false
+            offeringArray: offeringArray,
+            notAvailable: notAvailable
         };
     }
 
@@ -48,7 +48,7 @@ export default class OfferingContainer extends Component {
                 <div>
                 {this.state.offeringArray.map(function(item){
                     return (<p><b>{item[0]}</b>{": " + item[1].map(function(offering) {
-                        return (offering)
+                        return (offering + " ")
                     })}</p>)
                 })}
                 </div>

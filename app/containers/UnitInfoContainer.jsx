@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitQuery from "../utils/UnitQuery";
+import CostCalc from "../utils/CostCalc";
 
 /**
  * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates
@@ -78,7 +79,7 @@ class UnitInfoContainer extends Component {
                         Synopsis: data.Description,
                         error: false,
                         currentCreditPoints: data.CreditPoints,
-                        currentEstCost: scaMap[data.SCABand] * data.CreditPoints,
+                        currentEstCost: CostCalc.calculateCost(data.SCABand, data.CreditPoints),
                         offeringArray: data.UnitLocationTP
                     });
                 })
