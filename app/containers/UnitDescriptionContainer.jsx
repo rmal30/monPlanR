@@ -4,13 +4,22 @@ class UnitDescriptionContainer extends Component {
 
     constructor(props) {
         super(props);
-
         
+        let maxLength = this.props.textLength;
+        let fullText = this.props.fullText;
+        let shortText = "";
+        let remainingText = "";
 
+        if (fullText.length > maxLength) {
+            let textArr = fullText.split("");
+            shortText = textArr.slice(0, maxLength);
+            shortText = shortText.toString();
+        }
 
         this.state = {
-            fullText: this.props.fullText,
+            fullText: fullText,
             shortText: text,
+            remainingText: '',
             hide: this.props.hide
         };
 
@@ -18,8 +27,20 @@ class UnitDescriptionContainer extends Component {
     }
 
     render() {
-        return (
-
-        );
+        if (!(this.state.remainingText === "")) {
+            if (this.state.hide) {
+                return (
+                    <p>{this.state.shortText}<a href="#">... Show more</a></p>
+                );
+            } else {
+                return (
+                    <p>{this.state.fullText}<a href="#">... Show less</a></p>
+                );
+            }
+        } else {
+            return (
+                <p>{this.state.fullText}</p>
+            );
+        }
     }
 }
