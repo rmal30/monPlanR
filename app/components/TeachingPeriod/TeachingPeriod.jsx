@@ -29,26 +29,33 @@ function TeachingPeriod(props) {
         if(!unit) {
             const temp = firstFreeUnit;
             firstFreeUnit = false;
-            return <Unit
-                key={`${props.year}-${props.code}-${index}`}
-                index={index}
-                free
-                unitToBeMoved={props.unitToBeMoved}
-                firstFreeUnit={temp}
-                addUnit={props.addUnit.bind(this, props.index)}
-                moveUnit={props.moveUnit.bind(this, props.index)}
-                unitToAdd={props.unitToAdd}
-                showMoveUnitUI={props.showMoveUnitUI} />;
+            return (
+                <Unit
+                    key={`${props.year}-${props.code}-${index}`}
+                    index={index}
+                    teachingPeriodIndex={props.index}
+                    free
+                    unitToBeMoved={props.unitToBeMoved}
+                    firstFreeUnit={temp}
+                    addUnit={props.addUnit.bind(this, props.index)}
+                    moveUnit={props.moveUnit.bind(this, props.index)}
+                    unitToAdd={props.unitToAdd}
+                    showMoveUnitUI={props.showMoveUnitUI} />
+            );
         }
-        return <Unit key={`${props.year}-${props.code}-${unit}-${index}`}
-                     index={index}
-                     willMoveUnit={props.willMoveUnit.bind(null, props.index)}
-                     deleteUnit={props.deleteUnit.bind(null, props.index)}
-                     showMoveUnitUI={props.showMoveUnitUI}
-                     swapUnit={props.swapUnit.bind(null, props.index)}
-                     code={unit.UnitCode}
-                     name={unit.UnitName}
-                     faculty={unit.Faculty} />;
+        return (
+            <Unit
+                key={`${props.year}-${props.code}-${unit}-${index}`}
+                index={index}
+                teachingPeriodIndex={props.index}
+                willMoveUnit={props.willMoveUnit.bind(null, props.index)}
+                deleteUnit={props.deleteUnit.bind(null, props.index)}
+                showMoveUnitUI={props.showMoveUnitUI}
+                swapUnit={props.swapUnit.bind(null, props.index)}
+                code={unit.UnitCode}
+                name={unit.UnitName}
+                faculty={unit.Faculty} />
+        );
     });
 
     let teachingPeriodName = props.code;
