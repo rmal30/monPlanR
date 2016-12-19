@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-class UnitDescriptionContainer extends Component {
+export default class UnitDescriptionContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -43,4 +43,10 @@ class UnitDescriptionContainer extends Component {
             );
         }
     }
+}
+
+UnitDescriptionContainer.propTypes = {
+    textLength: PropTypes.number.isRequired,
+    fullText: PropTypes.string.isRequired,
+    hide: PropTypes.bool.isRequired
 }
