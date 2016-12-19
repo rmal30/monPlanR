@@ -12,7 +12,8 @@ var metaDataPlugin = new webpack.DefinePlugin({
     MONPLAN_DESCRIPITON: packageJSON.description,
     MONPLAN_VERSION: JSON.stringify(packageJSON.version),
     MONPLAN_AUTHOR: packageJSON.author,
-    MONPLAN_REMOTE_URL: JSON.stringify("http://api.monplan.tech:3000")
+    MONPLAN_REMOTE_URL: JSON.stringify("http://api.monplan.tech:3000"),
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
 });
 
 const config = {
@@ -34,10 +35,12 @@ const config = {
         ]
     },
 
-    plugins: process.env.NODE_ENV === JSON.stringify("production") ? [
+    plugins: process.env.NODE_ENV === "production" ? [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true
+        }),
         metaDataPlugin,
         HtmlWebpackPluginConfig
     ] : [
@@ -56,7 +59,7 @@ const config = {
     }
 };
 
-if(process.env.NODE_ENV !== JSON.stringify("production")) {
+if(process.env.NODE_ENV !== "production") {
     config.devtool = "eval-source-map";
 }
 

@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react";
 import { Button, Dropdown, Header, Icon, Modal } from "semantic-ui-react";
+import fileDownload from "react-file-download";
 
 import ControlledModal from "./ControlledModal.jsx";
 
@@ -8,9 +9,47 @@ import ControlledModal from "./ControlledModal.jsx";
  *
  * @author Saurabh Joshi
  */
-export default function CompletedCourseModal({ trigger }) {
+export default function CompletedCourseModal({ trigger, teachingPeriods, numberOfUnits }) {
     CompletedCourseModal.propTypes = {
-        trigger: PropTypes.element.isRequired
+        trigger: PropTypes.element.isRequired,
+        teachingPeriods: PropTypes.arrayOf(PropTypes.object),
+        numberOfUnits: PropTypes.number.isRequired
+    };
+
+    const exportToCSVFile = () => {
+        var csvString = "Year, Teaching Period";
+
+        for (var j = 0; j < numberOfUnits; j++) {
+            csvString += ",Unit" + parseInt(j, 10);
+        }
+        csvString += "\r\n";
+
+        for (var i = 0; i < teachingPeriods.length; i ++) {
+            var teachingPeriod = teachingPeriods[i];
+            csvString += teachingPeriod.year + "," + teachingPeriod.code + ",";
+
+            var listofUnits = teachingPeriod.units;
+            for(var k = 0; k < numberOfUnits; k++) {
+                var unit = "";
+
+                if(listofUnits[k] === null || listofUnits[k] === undefined || listofUnits[k] === "") {
+                    // do nothing
+                } else {
+                    unit = listofUnits[k].UnitCode;
+                }
+
+                csvString += unit + ",";
+            }
+
+            csvString += "\r\n";
+        }
+
+        console.log(csvString);
+        fileDownload(csvString, "course-plan.csv");
+    };
+
+    const exportToJSONFile = () => {
+        fileDownload(JSON.stringify({ teachingPeriods, numberOfUnits }), "course-plan.json");
     };
 
     const closeTrigger = <Button content="Close" />;
@@ -31,21 +70,17 @@ export default function CompletedCourseModal({ trigger }) {
                         advisor will help speed up the process on whether or not
                         you can follow it.
                     </p>
-                    <p>
-                        <b>Note:</b> Export features have not been implemented yet.
-                        We will soon implement these in a future update.
-                    </p>
                     <Button primary onClick={() => print()}><Icon name="print" />Print course plan</Button>
                     <Button.Group secondary>
-                        <Button disabled><Icon name="download" /> Export as PDF</Button>
-                        <Dropdown floating button disabled className="icon">
+                        <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
+                        <Dropdown floating button className="icon">
                             <Dropdown.Menu>
-                                <Dropdown.Item>Export as CSV</Dropdown.Item>
-                                <Dropdown.Item>Export as JSON</Dropdown.Item>
+                                <Dropdown.Item onClick={exportToCSVFile}>Export as CSV</Dropdown.Item>
+                                <Dropdown.Item onClick={exportToJSONFile}>Export as JSON</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Button.Group>
-                    <Header>2. Put it somewhere</Header>
+                    <Header>2. Place it somewhere</Header>
                     <p>
                         You can place your course plan somewhere, whether it is a printed
                         document or an exported digital copy. You can import your
