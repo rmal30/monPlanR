@@ -49,7 +49,7 @@ export default class UnitDescriptionContainer extends Component {
 
     /**
      * Render is pretty straight forward. if the shortText string is not null (i.e. theres a reason to shorten it)
-     * then it cycles through the hiding and showing of the full text based on the hide parameter
+     * then it cycles through the hiding and showing of the full text based on the hide parameters
      */
     render() {
         if (!(this.state.shortText === "")) {
@@ -73,4 +73,4 @@ export default class UnitDescriptionContainer extends Component {
 UnitDescriptionContainer.propTypes = {
     textLength: PropTypes.number.isRequired,
     fullText: PropTypes.string.isRequired,
-}
+};
