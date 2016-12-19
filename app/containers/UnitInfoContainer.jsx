@@ -19,12 +19,12 @@ class UnitInfoContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapse: false,
+            collapse: true,
             isLoading: false,
-            UnitCode: "FIT2001",
-            UnitName: "Systems Development",
-            Faculty: "Faculty of IT",
-            Synopsis: "The unit introduces students to systems analysis and design as a problem solving activity, within the framework of a selected methodology. It will focus on contemporary industry practice; investigating understanding and documenting system requirements; a range of design and implementation activities; and professional skills required for systems development.",
+            UnitCode: "",
+            UnitName: "",
+            Faculty: "",
+            Synopsis: "",
             isFirstSearch: true,
             error: false,
             currentCreditPoints: 0,
@@ -112,6 +112,8 @@ class UnitInfoContainer extends Component {
                 isLoading={this.state.isLoading}
                 onCollapseClick={this.handleCollapseClick}
                 error={this.state.error}
+                cost={this.state.currentEstCost}
+                creditPoints={this.state.currentCreditPoints}
             />
         );
     }

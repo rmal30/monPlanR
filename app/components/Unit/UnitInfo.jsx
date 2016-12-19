@@ -86,7 +86,7 @@ function UnitInfo(props) {
                                 <Statistic size="mini">
                                     <Statistic.Value>
                                         <Icon name='student' />
-                                        {6}
+                                        {props.creditPoints}
                                     </Statistic.Value>
                                     <Statistic.Label>Credit Points</Statistic.Label>
                                 </Statistic>
@@ -95,9 +95,9 @@ function UnitInfo(props) {
                                 <Statistic size="mini">
                                     <Statistic.Value >
                                         <Icon name='dollar' />
-                                        {1000}
+                                        {props.cost}
                                     </Statistic.Value>
-                                    <Statistic.Label>Total Est. Cost</Statistic.Label>
+                                    <Statistic.Label>Est. Unit Cost</Statistic.Label>
                                 </Statistic>
                             </Grid.Column>
                         </Grid.Row>
