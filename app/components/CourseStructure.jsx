@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dropdown, Header, Icon, Message, Table } from "semantic-ui-react";
+import { Button, Container, Dropdown, Header, Icon, Message, Popup, Table } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
@@ -30,6 +30,9 @@ class CourseStructure extends Component {
         super(props);
 
         const { startYear, endYear } = this.props;
+
+        this.minNumberOfUnits = 4;
+        this.maxNumberOfUnits = 6;
 
         this.state = {
             numberOfUnits: 4,
@@ -89,15 +92,13 @@ class CourseStructure extends Component {
                 const semesterOneTeachingPeriod = {
                     year,
                     code: "S1-01",
-                    numberOfUnits: 4,
-                    units: [null, null, null, null]
+                    units: new Array(this.state.numberOfUnits).fill(null)
                 };
 
                 const semesterTwoTeachingPeriod = {
                     year,
                     code: "S2-01",
-                    numberOfUnits: 4,
-                    units: [null, null, null, null]
+                    units: new Array(this.state.numberOfUnits).fill(null)
                 };
 
                 arr.push(semesterOneTeachingPeriod);
@@ -213,8 +214,7 @@ class CourseStructure extends Component {
             {
                 code,
                 year,
-                numberOfUnits: 4,
-                units: [null, null, null, null]
+                units: new Array(this.state.numberOfUnits).fill(null)
             },
             ...this.state.teachingPeriods.slice(index)
         ];
@@ -427,6 +427,41 @@ class CourseStructure extends Component {
     }
 
     /**
+     * Adds a column to the course structure.
+     */
+    incrementNumberOfUnits() {
+        const teachingPeriods = this.state.teachingPeriods.slice();
+
+        if(this.state.numberOfUnits < this.maxNumberOfUnits) {
+            for(let i = 0; i < teachingPeriods.length; i++) {
+                teachingPeriods[i].units.push(null);
+            }
+
+            this.setState({
+                numberOfUnits: this.state.numberOfUnits + 1,
+                teachingPeriods
+            });
+        }
+    }
+
+    /**
+     * Removes a column from the course structure.
+     */
+    decrementNumberOfUnits() {
+        if(this.state.numberOfUnits > this.minNumberOfUnits) {
+            const teachingPeriods = this.state.teachingPeriods.slice();
+
+            for(let i = 0; i < teachingPeriods.length; i++) {
+                teachingPeriods[i].units.pop();
+            }
+
+            this.setState({
+                numberOfUnits: this.state.numberOfUnits - 1
+            });
+        }
+    }
+
+    /**
      * Returns a rendered teaching period component as a table row to be used in
      * a table.
      *
@@ -441,7 +476,7 @@ class CourseStructure extends Component {
                     year={teachingPeriod.year}
                     code={teachingPeriod.code}
                     data={this.state.teachingPeriodsData}
-                    numberOfUnits={teachingPeriod.numberOfUnits}
+                    numberOfUnits={this.state.numberOfUnits}
                     deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
                     addUnit={this.addUnit.bind(this)}
                     moveUnit={this.moveUnit.bind(this)}
@@ -599,7 +634,21 @@ class CourseStructure extends Component {
                         <Table.Header>
                             <Table.Row textAlign="center">
                                 <Table.HeaderCell>Teaching Period</Table.HeaderCell>
-                                <Table.HeaderCell colSpan={this.state.numberOfUnits}>Units</Table.HeaderCell>
+                                <Table.HeaderCell colSpan={this.state.numberOfUnits}>
+                                    <Popup
+                                        trigger={<Button className="no-print" disabled={this.state.numberOfUnits <= this.minNumberOfUnits}  onClick={this.decrementNumberOfUnits.bind(this)} color="red" floated="left">Remove column</Button>}
+                                        content="Removes last column from your course plan."
+                                        size='mini'
+                                        positioning='bottom center'
+                                        />
+                                    Units
+                                    <Popup
+                                        trigger={<Button className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right">Add column</Button>}
+                                        content="Click this to overload a teaching period."
+                                        size='mini'
+                                        positioning='bottom center'
+                                        />
+                                </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                     </MediaQuery>

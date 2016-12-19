@@ -65,7 +65,7 @@ body {
 }
 
 @media print {
-    .no-print, .ui.modals, .ui.dimmer, .ui.modal {
+    .no-print, .ui.modals, .ui.dimmer, .ui.modal, .ui.button {
         display: none !important;
     }
 }
