@@ -3,6 +3,7 @@ import { Divider, Grid, Segment, Message, Statistic, Icon } from "semantic-ui-re
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
+import UnitDescriptionContainer from "../../containers/UnitDescriptionContainer.jsx";
 
 /**
 * This component displays the unit info for a selected unit in the form of a collapsable tray.
@@ -106,7 +107,10 @@ function UnitInfo(props) {
                         <Grid.Row>
                             <Grid.Column width={12}>
                                 <Grid.Row>
-                                    <p>{props.Synopsis}</p>
+                                    <UnitDescriptionContainer
+                                        textLength={200}
+                                        fullText={props.Synopsis}
+                                    />
                                     {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
                                     <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
                                 </Grid.Row>

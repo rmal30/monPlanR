@@ -10,31 +10,40 @@ export default class UnitDescriptionContainer extends Component {
         let shortText = "";
         let remainingText = "";
 
+        console.log(maxLength);
+        console.log(fullText.length);
+        console.log(fullText.length > maxLength);
         if (fullText.length > maxLength) {
+            console.log("hello")
             let textArr = fullText.split("");
             shortText = textArr.slice(0, maxLength);
-            shortText = shortText.toString();
+            shortText = shortText.join("");
         }
 
         this.state = {
             fullText: fullText,
-            shortText: text,
+            shortText: shortText,
             remainingText: '',
-            hide: this.props.hide
+            hide: true
         };
 
+        this.handleClick = this.handleClick.bind(this);
+    }
 
+    handleClick() {
+        let newValue = !this.state.hide;
+        this.setState({hide: newValue});
     }
 
     render() {
-        if (!(this.state.remainingText === "")) {
+        if (!(this.state.shortText === "")) {
             if (this.state.hide) {
                 return (
-                    <p>{this.state.shortText}<a href="#">... Show more</a></p>
+                    <p>{this.state.shortText}<a style={{cursor: 'pointer'}} onClick={this.handleClick}>... Show more</a></p>
                 );
             } else {
                 return (
-                    <p>{this.state.fullText}<a href="#">... Show less</a></p>
+                    <p>{this.state.fullText}<a style={{cursor: 'pointer'}} onClick={this.handleClick}> Show less</a></p>
                 );
             }
         } else {
@@ -48,5 +57,4 @@ export default class UnitDescriptionContainer extends Component {
 UnitDescriptionContainer.propTypes = {
     textLength: PropTypes.number.isRequired,
     fullText: PropTypes.string.isRequired,
-    hide: PropTypes.bool.isRequired
 }
