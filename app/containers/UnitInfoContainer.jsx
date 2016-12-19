@@ -26,7 +26,10 @@ class UnitInfoContainer extends Component {
             Faculty: "",
             Synopsis: "",
             isFirstSearch: true,
-            error: false
+            error: false,
+            currentCreditPoints: 0,
+            currentEstCost: 0
+
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
     }
@@ -43,15 +46,13 @@ class UnitInfoContainer extends Component {
         });
     }
 
-
     /**
      * The unitSelected function is called whenever a new unit is selected.
      * @author JXNS
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
-
-
+        let scaMap = [0, 132, 188, 220] //sca band 1 through 3 maps to their per credit point cost
 
         if(!(nextProps.newUnit === undefined)) {
             let nUnitCode = nextProps.newUnit.UnitCode;
@@ -75,7 +76,10 @@ class UnitInfoContainer extends Component {
                         UnitName: data.UnitName,
                         Faculty: data.Faculty,
                         Synopsis: data.Description,
-                        error: false
+                        error: false,
+                        currentCreditPoints: data.CreditPoints,
+                        currentEstCost: scaMap[data.SCABand] * data.CreditPoints
+
                     });
                 })
                 .catch(error => {
@@ -108,6 +112,8 @@ class UnitInfoContainer extends Component {
                 isLoading={this.state.isLoading}
                 onCollapseClick={this.handleCollapseClick}
                 error={this.state.error}
+                cost={this.state.currentEstCost}
+                creditPoints={this.state.currentCreditPoints}
             />
         );
     }
