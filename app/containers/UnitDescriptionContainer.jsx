@@ -1,20 +1,29 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from "react";
 
+/**
+ * UnitDescriptionContainer is a container component that controls the hide/show more display of a 
+ * large text pargraph. It is designed to be reusabled, so once you feed it a limit character count and 
+ * a text it will manage its own state completely
+ * 
+ * @author JXNS
+ * 
+ * @param {number} textLength - the max length you want before it is cut off
+ * @param {string} fullText - the full text that you want to have display limited
+ */
 export default class UnitDescriptionContainer extends Component {
 
+    /**
+     * Constructor calculates whether the text needs to be shortened, if it does the it saves the 
+     * shortened version of the text.
+     */
     constructor(props) {
         super(props);
         
         let maxLength = this.props.textLength;
         let fullText = this.props.fullText;
         let shortText = "";
-        let remainingText = "";
 
-        console.log(maxLength);
-        console.log(fullText.length);
-        console.log(fullText.length > maxLength);
         if (fullText.length > maxLength) {
-            console.log("hello")
             let textArr = fullText.split("");
             shortText = textArr.slice(0, maxLength);
             shortText = shortText.join("");
@@ -23,7 +32,7 @@ export default class UnitDescriptionContainer extends Component {
         this.state = {
             fullText: fullText,
             shortText: shortText,
-            remainingText: '',
+            remainingText: "",
             hide: true
         };
 
