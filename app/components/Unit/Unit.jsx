@@ -1,6 +1,52 @@
 import React, { PropTypes } from "react";
-import { Button, Message, Icon, Table, Popup } from "semantic-ui-react";
+import { Button, Message, Icon, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
+import { DragSource, DropTarget } from "react-dnd";
+import { flow } from "lodash";
+
+/**
+* Implements the drag source contract.
+*/
+const unitSource = {
+    beginDrag(props) {
+        props.willMoveUnit(props.index);
+        return {};
+    }
+};
+
+/**
+* Used for drop in react-dnd
+*/
+const unitTarget = {
+    drop(props) {
+        if(props.free) {
+            props.moveUnit(props.index);
+        } else {
+            props.swapUnit(props.index);
+        }
+        return {};
+    }
+};
+
+/**
+* Specifies the props to inject into your component.
+*/
+function collectSource(connect, monitor) {
+    return {
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    };
+}
+
+/**
+* Mapping functions to props (for react-dnd)
+*/
+function collectTarget(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    };
+}
 
 /**
 * Unit component
@@ -103,44 +149,52 @@ class Unit extends React.Component {
         if(!this.props.free && typeof this.props.faculty === "string") {
             facultyColor = facultyColors[this.props.faculty.replace("Faculty of ", "")];
         }
+
+        const { connectDragSource, connectDropTarget }  = this.props;
+
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
                     return (
-                        <Table.Cell active={this.state.hovering && (this.props.showMoveUnitUI || this.props.free && this.props.unitToAdd !== undefined) && !mobile}
+                        connectDropTarget(
+                        <td
+                            className={this.state.hovering && (this.props.showMoveUnitUI || this.props.free && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
                             onMouseLeave={this.handleMouseLeave.bind(this)}
-                            onClick={this.handleClick.bind(this)}>
+                            onClick={this.handleClick.bind(this)}
+                            >
                             {this.props.free && this.props.unitToAdd !== undefined && mobile && this.props.firstFreeUnit &&
                                 <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd.code}</Button>
                             }
                             {!this.props.free &&
-                                <Message color={facultyColor} size="mini">
-                                    <Message.Header>
-                                        {this.props.code}
-                                    </Message.Header>
-                                    {(!this.state.hovering || !this.showMoveUnitUI) &&
-                                        `${this.props.name}`
-                                    }
-                                    <Button.Group className="no-print" size="mini" fluid compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
-                                        {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
-                                        <Popup
-                                            trigger={<Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />}
-                                            content='Move unit'
-                                            size='mini'
-                                            positioning='bottom center'
-                                            />
-                                        <Popup
-                                            trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
-                                            content='Remove unit'
-                                            size='mini'
-                                            positioning='bottom center'
-                                            />
-                                    </Button.Group>
-                                </Message>
+                                connectDragSource(
+                                <div>
+                                    <Message
+                                        color={facultyColor}
+                                        className={this.state.hovering ? "grab" : ""}
+                                        style={this.state.hovering ? {boxShadow: "0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15)"} : {}}
+                                        size="mini">
+                                        <Message.Header>
+                                            {this.props.code}
+                                        </Message.Header>
+                                        {(!this.state.hovering || !this.showMoveUnitUI) &&
+                                            `${this.props.name}`
+                                        }
+                                        <Button.Group className="no-print" size="mini" fluid compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
+                                            {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
+                                            <Popup
+                                                trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
+                                                content='Remove unit'
+                                                size='mini'
+                                                positioning='bottom center'
+                                                />
+                                        </Button.Group>
+                                    </Message>
+                                </div>
+                                )
                             }
-                        </Table.Cell>
+                        </td>)
                     );
                 }}
             </MediaQuery>
@@ -170,7 +224,17 @@ Unit.propTypes = {
     showMoveUnitUI: PropTypes.bool,
     swapUnit: PropTypes.func,
     deleteUnit: PropTypes.func,
-    firstFreeUnit: PropTypes.bool
+    firstFreeUnit: PropTypes.bool,
+
+    /* Used for drag functionality */
+    connectDragSource: PropTypes.func.isRequried,
+    connectDropTarget: PropTypes.func.isRequried,
+    isDragging: PropTypes.bool.isRequried
 };
 
-export default Unit;
+// https://github.com/gaearon/react-dnd/issues/157
+
+export default flow(
+    DragSource("unit", unitSource, collectSource),
+    DropTarget("unit", unitTarget, collectTarget)
+)(Unit);

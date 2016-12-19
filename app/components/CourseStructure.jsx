@@ -3,6 +3,9 @@ import { Button, Container, Dropdown, Header, Icon, Message, Popup, Table } from
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+
 import Home from "./base/Home.jsx";
 
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
@@ -624,8 +627,8 @@ class CourseStructure extends Component {
                             Moving {this.state.unitToBeMoved.UnitCode}
                         </Message.Header>
                         <p>
-                            Select a table cell in your course structure to move {this.state.unitToBeMoved.UnitCode}.
-                            Selecting a table cell where there is already an occupied unit will swap the units.
+                            Drop into a table cell in your course structure to move {this.state.unitToBeMoved.UnitCode}.
+                            Dropping into a table cell where there is already an occupied unit will swap the units.
                         </p>
                     </Message>
                 }
@@ -700,4 +703,4 @@ CourseStructure.propTypes = {
     doneAddingToCourse: PropTypes.func
 };
 
-export default CourseStructure;
+export default DragDropContext(HTML5Backend)(CourseStructure);
