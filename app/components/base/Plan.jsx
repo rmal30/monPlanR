@@ -43,9 +43,11 @@ class Plan extends Component {
             UnitQuery.getExtendedUnitData(nUnitCode)
                 .then(function(response) {
                     let data = response.data;
+                    let newCred = this.state.totalCredits + data.CreditPoints;
 
                     this.setState({
-                        unitToAdd: data
+                        unitToAdd: data,
+                        totalCredits: newCred
                     });
 
                 }.bind(this))
