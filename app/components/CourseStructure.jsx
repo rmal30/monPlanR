@@ -13,6 +13,7 @@ import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 import CompletedCourseModal from "./modals/CompletedCourseModal.jsx";
 import DeleteCourseModal from "./modals/DeleteCourseModal.jsx";
 
+var fileDownload = require('react-file-download');
 /**
  * CourseStructure holds a table that allows students to plan their courses by
  * adding, moving and deleting units. It also holds action and status components
@@ -113,6 +114,38 @@ class CourseStructure extends Component {
 
         return [];
     }
+
+    converter() {
+        var course = this.state.teachingPeriods;
+        var numberOfUnits = this.state.numberOfUnits;
+
+        var csvString = "Year,Semester";
+
+        for (var j = 0; j < numberOfUnits + 1; j += 1){
+            csvString += ",Unit" + parseInt(j, 10);
+        }
+        csvString += "\r\n"
+
+        for (var i = 0; i < course.length; i += 1){
+            var currentCourse = course[i]
+            csvString += currentCourse.year + "," + currentCourse.code + ","
+
+            var listofUnits = currentCourse.units;
+            for(var k = 0; k < numberOfUnits + 1; k+= 1){
+                if(listofUnits[k] === null || listofUnits[k] === undefined || listofUnits[k] === "" ){
+                    var unit = ""
+                } else {
+                    var unit = listofUnits[k].UnitCode
+                }
+                csvString += unit + ","
+            }
+            csvString += "\r\n"
+        }
+
+        console.log(csvString)
+        fileDownload(csvString, "test.csv")
+    }
+
 
     /**
      * Saves list of teaching periods to local storage.
@@ -687,6 +720,9 @@ class CourseStructure extends Component {
                         </Container>
                     }
                 </MediaQuery>
+
+                <Button className="no-print" floated="right" onClick={this.converter.bind(this)}>Convert to CSV</Button>
+
             </Container>
         );
     }

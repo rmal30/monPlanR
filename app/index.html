@@ -26,12 +26,30 @@
           ga('send', 'pageview');
 
         </script>
+
+
         <link rel="stylesheet" type="text/css" href="./resources/css/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="./resources/css/custom.css">
     </head>
 
     <body class="dimmed dimmable">
-        <div id="docs-loading-dimmer" class="ui active page dimmer" style="background-color: rgba(0, 93, 149, 0.8)"><div class="content"><div class="center"><div class="ui large text loader"><div class="ui inverted header">Loading monPlan...<div class="sub header">Please remember to give feedback</div></div></div></div></div></div>
+        <div id="docs-loading-dimmer" class="ui active page dimmer" style="background-color: rgba(0, 93, 149, 0.8)"><div class="content"><div class="center"><div class="ui large text loader"><div class="ui inverted header">Loading monPlan...<div class="sub header"><span id="quotes"></span></div></div></div></div></div></div>
+
+        <script>
+            var randomInt = Math.floor(Math.random() * 5);
+
+            var messages = [
+                "Please give us feedback",
+                "We recommend you to go see a Course Advisor for advanced queries",
+                "Built by Monash Students for Monash Students",
+                "An amazing tool designed and implmented using React and Semantic-UI",
+                "Beautifying amazing code",
+            ]
+
+            var quotes = document.getElementById("quotes");
+            quotes.innerHTML = messages[randomInt];
+        </script>
+
         <script>
         (function() {
             /* Loading display from http://react.semantic-ui.com/ */
