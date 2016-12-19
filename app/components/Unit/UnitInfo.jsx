@@ -105,9 +105,6 @@ function UnitInfo(props) {
                             <Grid.Column width={12}>
                                 <Grid.Row>
                                     <p>{props.Synopsis}</p>
-                                    <p><b>Clayton</b>- First semester 2017 (Day), Second semester 2017 (Day)</p>
-                                    <p><b>Malaysia</b>- First semester 2017 (Day)</p>
-                                    <p><b>South Africa</b>- First semester 2017 (Day)</p>
                                     {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
                                     <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
                                 </Grid.Row>
