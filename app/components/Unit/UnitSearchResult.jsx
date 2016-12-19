@@ -1,4 +1,5 @@
 import React, { PropTypes } from "react";
+import Unit from "./Unit.jsx";
 
 /**
  * Returns the way in which we want a search result to be rendered
@@ -20,6 +21,10 @@ function UnitSearchResult(props) {
             <div className="description">{props.UnitName}</div>
         </div>
     );
+    /* <Unit
+        basic
+        name={props.UnitName}
+        code={props.UnitCode} /> */
 }
 
 export default UnitSearchResult;

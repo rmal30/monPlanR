@@ -28,10 +28,33 @@
         </script>
         <link rel="stylesheet" type="text/css" href="./resources/css/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="./resources/css/custom.css">
-
     </head>
 
-    <body>
+    <body class="dimmed dimmable">
+        <div id="docs-loading-dimmer" class="ui active page dimmer" style="background-color: rgba(0, 93, 149, 0.8)"><div class="content"><div class="center"><div class="ui large text loader"><div class="ui inverted header">Loading monPlan...<div class="sub header">Please remember to give feedback</div></div></div></div></div></div>
+        <script>
+        (function() {
+            /* Loading display from http://react.semantic-ui.com/ */
+            var delay = 500;
+            var dimmer = document.getElementById("docs-loading-dimmer");
+            dimmer.style.pointerEvents = "none";
+            dimmer.style.transition = "opacity " + delay + "ms linear";
+
+            function removeDimmer() {
+                dimmer.style.opacity = '0';
+
+                setTimeout(() => {
+                    var dimmer = document.getElementById("docs-loading-dimmer");
+
+                    document.body.removeChild(dimmer);
+                    document.body.setAttribute("class", "");
+                    window.removeEventListener("load", removeDimmer);
+                }, delay);
+            }
+
+            window.addEventListener("load", removeDimmer);
+        }());
+        </script>
         <div id="app"></div>
     </body>
 </html>

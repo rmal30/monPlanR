@@ -100,8 +100,7 @@ class Unit extends React.Component {
 
         let facultyColor = undefined;
 
-        if(!this.props.free) {
-            console.log(this.props.faculty);
+        if(!this.props.free && typeof this.props.faculty === "string") {
             facultyColor = facultyColors[this.props.faculty.replace("Faculty of ", "")];
         }
         return (
@@ -124,23 +123,21 @@ class Unit extends React.Component {
                                     {(!this.state.hovering || !this.showMoveUnitUI) &&
                                         `${this.props.name}`
                                     }
-                                    {(this.state.hovering || mobile) && !this.props.showMoveUnitUI &&
-                                        <Button.Group className="no-print" size="mini" fluid compact>
-                                            {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
-                                            <Popup
-                                                trigger={<Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />}
-                                                content='Move unit'
-                                                size='mini'
-                                                positioning='bottom center'
-                                                />
-                                            <Popup
-                                                trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
-                                                content='Remove unit'
-                                                size='mini'
-                                                positioning='bottom center'
-                                                />
-                                        </Button.Group>
-                                    }
+                                    <Button.Group className="no-print" size="mini" fluid compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
+                                        {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
+                                        <Popup
+                                            trigger={<Button basic onClick={this.handleMove.bind(this)} color="grey" icon="move" />}
+                                            content='Move unit'
+                                            size='mini'
+                                            positioning='bottom center'
+                                            />
+                                        <Popup
+                                            trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
+                                            content='Remove unit'
+                                            size='mini'
+                                            positioning='bottom center'
+                                            />
+                                    </Button.Group>
                                 </Message>
                             }
                         </Table.Cell>
@@ -154,15 +151,16 @@ class Unit extends React.Component {
 Unit.propTypes = {
     /* Used for indicating whether unit is free or not */
     free: PropTypes.bool,
+    basic: PropTypes.bool,
 
-    index: PropTypes.number.isRequired,
+    index: PropTypes.number,
     code: PropTypes.string,
     name: PropTypes.string,
     faculty: PropTypes.string,
 
     unitToAdd: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        code: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        code: PropTypes.string,
         faculty: PropTypes.string
     }),
 

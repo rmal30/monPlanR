@@ -5,7 +5,7 @@ import MediaQuery from "react-responsive";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
 import SettingsModal from "../modals/settings.jsx";
-
+import Notes from "../modals/NotesModal.jsx"
 /**
  * The header for the web app, which displays the logo, name, status and information menu.
  */
@@ -58,6 +58,7 @@ class Header extends Component {
                             <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
                             <ToSModal trigger={<Dropdown.Item as="a">Terms of Use</Dropdown.Item>} />
                             <PrivacyModal trigger={<Dropdown.Item as="a">Privacy Policy</Dropdown.Item>} />
+                            <Notes trigger={<Dropdown.Item as="a">Release Notes</Dropdown.Item>} />
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Menu>
