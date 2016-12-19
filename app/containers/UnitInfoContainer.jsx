@@ -19,7 +19,7 @@ class UnitInfoContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapse: true,
+            collapse: false,
             isLoading: false,
             UnitCode: "",
             UnitName: "",

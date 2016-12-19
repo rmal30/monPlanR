@@ -18,8 +18,6 @@ export default class OfferingContainer extends Component {
             offeringArray: this.props.offeringArray,
             notAvailable: false
         };
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
     /**
