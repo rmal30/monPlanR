@@ -103,19 +103,18 @@ class Unit extends React.Component {
     handleClick() {
         if(this.props.free && this.state.hovering && this.props.unitToAdd) {
             this.props.addUnit(this.props.index, this.props.unitToAdd);
-        } else if(this.state.hovering && this.props.showMoveUnitUI) {
-            if(this.props.free) {
-                this.props.moveUnit(this.props.index);
-            } else {
-                this.props.swapUnit(this.props.index);
-            }
         }
     }
 
     handleMove() {
         if(!this.props.free) {
-            this.props.willMoveUnit(this.props.index);
             this.setState({ moving: true });
+        }
+    }
+
+    componentDidUpdate() {
+        if(this.state.moving) {
+            this.props.willMoveUnit(this.props.index);
         }
     }
 
@@ -150,7 +149,11 @@ class Unit extends React.Component {
             facultyColor = facultyColors[this.props.faculty.replace("Faculty of ", "")];
         }
 
-        const { connectDragSource, connectDropTarget }  = this.props;
+        const { connectDragSource, connectDropTarget, isOver }  = this.props;
+
+        if(this.state.moving) {
+            return null;
+        }
 
         return (
             <MediaQuery maxDeviceWidth={767}>
@@ -158,7 +161,7 @@ class Unit extends React.Component {
                     return (
                         connectDropTarget(
                         <td
-                            className={this.state.hovering && (this.props.showMoveUnitUI || this.props.free && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
+                            className={(isOver || this.state.hovering && this.props.free && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
                             onMouseLeave={this.handleMouseLeave.bind(this)}
@@ -177,19 +180,19 @@ class Unit extends React.Component {
                                         size="mini">
                                         <Message.Header>
                                             {this.props.code}
+                                            <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
+                                                {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
+                                                <Popup
+                                                    trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
+                                                    content='Remove unit'
+                                                    size='mini'
+                                                    positioning='bottom center'
+                                                    />
+                                            </Button.Group>
                                         </Message.Header>
                                         {(!this.state.hovering || !this.showMoveUnitUI) &&
                                             `${this.props.name}`
                                         }
-                                        <Button.Group className="no-print" size="mini" fluid compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
-                                            {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
-                                            <Popup
-                                                trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
-                                                content='Remove unit'
-                                                size='mini'
-                                                positioning='bottom center'
-                                                />
-                                        </Button.Group>
                                     </Message>
                                 </div>
                                 )

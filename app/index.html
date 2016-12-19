@@ -36,18 +36,16 @@
         <div id="docs-loading-dimmer" class="ui active page dimmer" style="background-color: rgba(0, 93, 149, 0.8)"><div class="content"><div class="center"><div class="ui large text loader"><div class="ui inverted header">Loading monPlan...<div class="sub header"><span id="quotes"></span></div></div></div></div></div></div>
 
         <script>
-            var randomInt = Math.floor(Math.random() * 5);
-
             var messages = [
                 "Please give us feedback",
-                "We recommend you to go see a Course Advisor for advanced queries",
-                "Built by Monash Students for Monash Students",
-                "An amazing tool designed and implmented using React and Semantic-UI",
-                "Beautifying amazing code",
-            ]
+                "We recommend you to go see a course advisor for advanced queries",
+                "Built by Monash Students for Monash Students"
+            ];
+
+            var randomInt = Math.floor(Math.random() * messages.length);
 
             var quotes = document.getElementById("quotes");
-            quotes.innerHTML = messages[randomInt];
+            quotes.textContent = messages[randomInt];
         </script>
 
         <script>
