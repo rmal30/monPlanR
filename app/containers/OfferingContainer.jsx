@@ -20,16 +20,17 @@ export default class OfferingContainer extends Component {
     constructor(props) {
         super(props);
         
+        /*
         let notAvailable = true;
         let offeringArray = this.props.offeringArray;
 
         if(offeringArray && offeringArray.length > 0) {
             notAvailable = false;
         }
-
+        */
         this.state = {
-            offeringArray: offeringArray,
-            notAvailable: notAvailable
+            offeringArray: testData,
+            notAvailable: false
         };
     }
 
