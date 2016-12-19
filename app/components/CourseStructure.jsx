@@ -327,7 +327,7 @@ class CourseStructure extends Component {
         const { teachingPeriods } = this.state;
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitToAdd;
         this.setState({ teachingPeriods });
-        this.props.doneAddingToCourse();
+        this.props.doneAddingToCourse(unitToAdd);
     }
 
     /**
@@ -422,8 +422,9 @@ class CourseStructure extends Component {
      */
     deleteUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
+        this.props.removeFromCourse(teachingPeriods[teachingPeriodIndex].units[unitIndex])
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = undefined;
-        this.setState({ teachingPeriods });
+        this.setState({ teachingPeriods });   
     }
 
     /**

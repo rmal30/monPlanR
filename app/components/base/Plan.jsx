@@ -30,6 +30,7 @@ class Plan extends Component {
 
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
+        this.removeFromCourse = this.removeFromCourse.bind(this);
     }
 
     /**
@@ -44,12 +45,10 @@ class Plan extends Component {
             UnitQuery.getExtendedUnitData(nUnitCode)
                 .then(function(response) {
                     let data = response.data;
-                    let newCred = this.state.totalCredits + data.CreditPoints;
-                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints)
+                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
 
                     this.setState({
                         unitToAdd: data,
-                        totalCredits: newCred
                     });
 
                 }.bind(this))
@@ -59,12 +58,27 @@ class Plan extends Component {
         }
     }
 
+    removeFromCourse(unit) {
+        let newCred = this.state.totalCredits - unit.CreditPoints;
+        let newCost = this.state.totalCost - unit.Cost;
+
+        this.setState({
+           totalCredits: newCred,
+           totalCost: newCost 
+        });
+    }
+
     /**
      * Turns off add unit UI.
      */
-    doneAddingToCourse() {
+    doneAddingToCourse(unit) {
+        let newCred = this.state.totalCredits + unit.CreditPoints;
+        let newCost = this.state.totalCost + unit.Cost;
+
         this.setState({
-            unitToAdd: undefined
+           totalCredits: newCred,
+           totalCost: newCost,
+           unitToAdd: undefined
         });
     }
 
@@ -98,6 +112,7 @@ class Plan extends Component {
                                      endYear={parseInt(endYear)}
                                      addToCourse={this.addToCourse}
                                      doneAddingToCourse={this.doneAddingToCourse}
+                                     removeFromCourse={this.removeFromCourse}
                                      unitToAdd={this.state.unitToAdd} />
                 </Container>
             </div>
