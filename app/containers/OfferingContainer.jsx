@@ -57,5 +57,5 @@ export default class OfferingContainer extends Component {
 }
 
 OfferingContainer.propTypes = {
-    
+    offeringArray: PropTypes.array
 };
