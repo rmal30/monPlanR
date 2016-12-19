@@ -22,7 +22,9 @@ class Plan extends Component {
         super(props);
         this.state = {
             unitToAdd: undefined,
-            showAddToCourseUI: false
+            showAddToCourseUI: false,
+            totalCredits: 0,
+            totalCost: 0
         };
 
         this.addToCourse = this.addToCourse.bind(this);
@@ -76,31 +78,15 @@ class Plan extends Component {
                         newUnit={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Column width="9"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
-                        <Grid.Column width="3" />
+                        <Grid.Column width="6"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
+                        <Grid.Column width="6"><CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} /></Grid.Column>
                         <Grid.Column width="4">
                         <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
                             <Button primary fluid>Give us feedback</Button>
                         </a>
                         </Grid.Column>
+                        
                     </Grid>
-
-                    {false &&
-                    <Grid stackable>
-
-                        <Grid.Row>
-                            <Grid.Column width={2}>
-
-                            </Grid.Column>
-                            <Grid.Column width={8} />
-                            <Grid.Column width={6}>
-                                {false /* disable rendering status information for now */ &&
-                                    <CourseStatisticGroup />
-                                }
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    }
                 </Container>
 
                 <Container className="main text">
