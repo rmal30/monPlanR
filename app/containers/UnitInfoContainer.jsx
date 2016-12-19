@@ -70,7 +70,8 @@ class UnitInfoContainer extends Component {
             UnitQuery.getExtendedUnitData(nUnitCode)
                 .then(response => {
                     let data = response.data;
-
+                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints)
+                    
                     this.setState({
                         isLoading: false,
                         UnitCode: nUnitCode,
@@ -79,7 +80,7 @@ class UnitInfoContainer extends Component {
                         Synopsis: data.Description,
                         error: false,
                         currentCreditPoints: data.CreditPoints,
-                        currentEstCost: CostCalc.calculateCost(data.SCABand, data.CreditPoints),
+                        currentEstCost: data.Cost,
                         offeringArray: data.UnitLocationTP
                     });
                 })

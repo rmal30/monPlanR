@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Button, Container, Grid } from "semantic-ui-react";
 
 import UnitQuery from "../../utils/UnitQuery";
-//import CostCalc from "../../utils/CostCalc";
+import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
@@ -45,6 +45,7 @@ class Plan extends Component {
                 .then(function(response) {
                     let data = response.data;
                     let newCred = this.state.totalCredits + data.CreditPoints;
+                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints)
 
                     this.setState({
                         unitToAdd: data,
