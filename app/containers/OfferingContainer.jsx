@@ -17,15 +17,16 @@ export default class OfferingContainer extends Component {
      */
     constructor(props) {
         super(props);
-        let notAvailable = false;
+        
+        let notAvailable = true;
+        let offeringArray = this.props.offeringArray;
 
-        if(testData.length > 0) {
-
-        } else {
-            notAvailable = true;
+        if(offeringArray && offeringArray.length > 0) {
+            notAvailable = false;
         }
+
         this.state = {
-            offeringArray: testData,
+            offeringArray: offeringArray,
             notAvailable: notAvailable
         };
     }
@@ -34,6 +35,7 @@ export default class OfferingContainer extends Component {
      * Render description
      */
     render() {
+
         if (this.state.notAvailable) {
             return (
                 <p>No offering information available</p>

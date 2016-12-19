@@ -78,8 +78,8 @@ class UnitInfoContainer extends Component {
                         Synopsis: data.Description,
                         error: false,
                         currentCreditPoints: data.CreditPoints,
-                        currentEstCost: scaMap[data.SCABand] * data.CreditPoints
-
+                        currentEstCost: scaMap[data.SCABand] * data.CreditPoints,
+                        offeringArray: data.UnitLocationTP
                     });
                 })
                 .catch(error => {
@@ -114,6 +114,7 @@ class UnitInfoContainer extends Component {
                 error={this.state.error}
                 cost={this.state.currentEstCost}
                 creditPoints={this.state.currentCreditPoints}
+                offeringArray={this.state.offeringArray}
             />
         );
     }

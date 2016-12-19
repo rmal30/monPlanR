@@ -37,7 +37,7 @@ function UnitInfo(props) {
         Synopsis: PropTypes.string.isRequired,
         UnitCode: PropTypes.string.isRequired,
         UnitName: PropTypes.string.isRequired,
-        usefulnessScore: PropTypes.number.isRequired
+        usefulnessScore: PropTypes.number.isRequired,
     };
 
     if (props.collapse){
@@ -113,7 +113,7 @@ function UnitInfo(props) {
                                         fullText={props.Synopsis}
                                     />
                                     <Divider />
-                                    <OfferingContainer />
+                                    <OfferingContainer offeringArray={props.offeringArray}/>
                                     <Divider />
                                     {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
                                     <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
