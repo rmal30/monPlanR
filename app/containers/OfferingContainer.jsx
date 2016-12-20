@@ -8,9 +8,6 @@ import React, { Component, PropTypes } from "react";
  * @param {array} offeringArray - a multidimensional array of values of the form [[[Location1], [offering1, offering2, ...], [Location2], [offering1, offering2, ...]]] etc
  * 
  */
-
-const testData = [[['Clayton'], ['First semester 2017 (Day)', 'Second semester 2017 (Day)']], [['Malaysia'], ['First semester 2017 (Day)']], [['South Africa'], ['First semester 2017 (Day)']]];
-
 export default class OfferingContainer extends Component {
 
     /**
@@ -48,8 +45,8 @@ export default class OfferingContainer extends Component {
                 <div>
                 {this.state.offeringArray.map(function(item){
                     return (<p><b>{item[0]}</b>{": " + item[1].map(function(offering) {
-                        return (offering + " ")
-                    })}</p>)
+                        return (offering + " ");
+                    })}</p>);
                 })}
                 </div>
             );
