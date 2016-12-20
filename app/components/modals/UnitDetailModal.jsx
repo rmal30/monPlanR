@@ -21,7 +21,6 @@ export default function UnitDetailModal({ trigger, unitCode }) {
             </Modal.Header>
             <Modal.Content>
                 {unitCode ? <UnitInfoContainer nUnitCode={unitCode} /> : <UnitInfoContainer />}
-                
             </Modal.Content>
         </ControlledModal>
     );
