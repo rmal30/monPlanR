@@ -30,6 +30,7 @@ class Plan extends Component {
         };
 
         this.addToCourse = this.addToCourse.bind(this);
+        this.addCustomUnit = this.addCustomUnit.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.removeFromCourse = this.removeFromCourse.bind(this);
         this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
@@ -42,10 +43,9 @@ class Plan extends Component {
      * @param {string} unitToAdd - The unit to be added.
      */
     addToCourse(nUnitCode) {
-        if(!(nUnitCode === undefined)) {
-
+        if(nUnitCode !== undefined) {
             UnitQuery.getExtendedUnitData(nUnitCode)
-                .then(function(response) {
+                .then(response => {
                     let data = response.data;
                     data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
 
@@ -53,14 +53,14 @@ class Plan extends Component {
                         unitToAdd: data,
                     });
 
-                }.bind(this))
-                .catch(function(error) {
+                })
+                .catch(error => {
                     console.error(error);
                 });
         }
     }
 
-    /** 
+    /**
      * Sets customUnitCode in state.
      */
     addCustomUnit(nUnitCode) {
@@ -78,7 +78,7 @@ class Plan extends Component {
 
         this.setState({
             totalCredits: newCred,
-            totalCost: newCost 
+            totalCost: newCost
         });
     }
 
@@ -121,14 +121,14 @@ class Plan extends Component {
                         newUnit={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Column width="6"><UnitSearchContainer addToCourse={this.addToCourse} addCustomUnit={this.addCustomUnit.bind(this)} /></Grid.Column>
+                        <Grid.Column width="6"><UnitSearchContainer addToCourse={this.addToCourse} addCustomUnit={this.addCustomUnit} /></Grid.Column>
                         <Grid.Column width="6"><CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} /></Grid.Column>
                         <Grid.Column width="4">
                         <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
                             <Button primary fluid>Give us feedback</Button>
                         </a>
                         </Grid.Column>
-                        
+
                     </Grid>
                 </Container>
 
@@ -138,9 +138,9 @@ class Plan extends Component {
                                      addToCourse={this.addToCourse}
                                      doneAddingToCourse={this.doneAddingToCourse}
                                      removeFromCourse={this.removeFromCourse}
-                                     unitToAdd={this.state.unitToAdd} 
+                                     unitToAdd={this.state.unitToAdd}
                                      totalCreditPoints={this.state.totalCredits}
-                                     totalCost={this.state.totalCost} 
+                                     totalCost={this.state.totalCost}
                                      handleChildUpdateTotals={this.handleChildUpdateTotals} />
                 </Container>
             </div>

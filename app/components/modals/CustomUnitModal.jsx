@@ -4,7 +4,6 @@ import { Button, Form, Select, Modal } from "semantic-ui-react";
 import UnitInfo from "../Unit/UnitInfo.jsx";
 import ControlledModal from "./ControlledModal.jsx";
 import CostCalc from "../../utils/CostCalc.js";
-import SearchSelectDropdownGrabValueWorkaround from "../../utils/SearchSelectDropdownGrabValueWorkaround.js";
 
 /**
  * The custom unit modal that allows students to enter in units manually if our web
@@ -81,13 +80,9 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onSCABandChange(e) {
-        SearchSelectDropdownGrabValueWorkaround(e, value => {
-            value = parseInt(value);
-
-            this.setState({
-                SCABand: value
-            });
+    onSCABandChange(e, { value }) {
+        this.setState({
+            SCABand: parseInt(value)
         });
     }
 
@@ -96,11 +91,9 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onFacultyChange(e) {
-        SearchSelectDropdownGrabValueWorkaround(e, value => {
-            this.setState({
-                Faculty: value
-            });
+    onFacultyChange(e, { value }) {
+        this.setState({
+            Faculty: value
         });
     }
 
@@ -110,7 +103,7 @@ class CustomUnitModal extends Component {
      */
     render() {
         const { UnitCode, UnitName, Faculty, SCABand, creditPoints } = this.state;
-        const closeTrigger = <Button content="Close" />;
+        const closeTrigger = <Button content="Cancel" />;
 
         return (
             <ControlledModal
@@ -118,6 +111,7 @@ class CustomUnitModal extends Component {
                 openTrigger={this.props.trigger}
                 closeTrigger={closeTrigger}>
                 <Modal.Header>
+                    <Button disabled color="green" floated="right">Add {UnitCode}</Button>
                     Adding {UnitCode}
                 </Modal.Header>
                 <Modal.Content>

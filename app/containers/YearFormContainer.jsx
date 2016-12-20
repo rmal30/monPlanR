@@ -4,7 +4,6 @@ import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 
 import YearCalc from "../utils/YearCalc.js";
-import SearchSelectDropdownGrabValueWorkaround from "../utils/SearchSelectDropdownGrabValueWorkaround.js";
 import Tooltips from "../components/multi/tooltips.jsx";
 
 /**
@@ -46,15 +45,13 @@ class YearFormContainer extends Component {
      * semantic UI component doesn't have an easy way to get data from a dropdown on keypress easily'.
      * Also note that it then calculates the valid dropdown values for end year and re-enables the endyear dropdown.
      */
-    handleUpdateStartYear(event) {
-        SearchSelectDropdownGrabValueWorkaround(event, selectedStartYear => {
-            selectedStartYear = parseInt(selectedStartYear);
+    handleUpdateStartYear(event, { value }) {
+        const selectedStartYear = parseInt(value);
 
-            this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
-            this.setState({
-                startYear: selectedStartYear,
-                endYearDisabled: false
-            });
+        this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
+        this.setState({
+            startYear: selectedStartYear,
+            endYearDisabled: false
         });
     }
 
@@ -62,15 +59,16 @@ class YearFormContainer extends Component {
      * Called when user selects an end year from the dropdown. As with handleUpdateStartYear it distingushes between
      * click and keyboard events because the way the data is accessed is different. The end year dropdown is the last piece of info
      * necessary for the form to be 'valid' so it makes the submit button not disabled.
+     *
+     * @param {SyntheticEvent} event
+     * @param {object} value
      */
-    handleUpdateEndYear(event) {
-        SearchSelectDropdownGrabValueWorkaround(event, selectedEndYear => {
-            selectedEndYear = parseInt(selectedEndYear);
+    handleUpdateEndYear(event, { value }) {
+        const selectedEndYear = parseInt(value);
 
-            this.setState({
-                endYear: selectedEndYear,
-                notReadyToSubmit: false
-            });
+        this.setState({
+            endYear: selectedEndYear,
+            notReadyToSubmit: false
         });
     }
 
