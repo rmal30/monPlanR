@@ -82,7 +82,7 @@ function UnitInfo(props) {
                     <Grid.Column width={12}>
                         <Grid.Row>
                             <UnitDescriptionContainer
-                                textLength={300}
+                                textLength={500}
                                 fullText={props.Synopsis}
                             />
                             <Divider />
@@ -94,10 +94,7 @@ function UnitInfo(props) {
                     </Grid.Column>
                     
                     <Grid.Column width={4}>
-                        <Message info>
-                            <Message.Header>Unit Ratings</Message.Header>
-                            <Message.Content>Ratings coming soon</Message.Content>
-                        </Message>
+                        <SetuRating />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

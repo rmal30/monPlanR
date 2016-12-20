@@ -84,7 +84,7 @@ html, body {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin: 0 auto -170px; /* the bottom margin is the negative value of the footer's height */
+    margin: 0 auto -210px; /* the bottom margin is the negative value of the footer's height */
 }
 
 .welcomeMargin {
@@ -96,7 +96,7 @@ html, body {
 }
 
 .footer, .push {
-    height: 170px; /* .push must be the same height as .footer */
+    height: 210px; /* .push must be the same height as .footer */
 }
 
 /*
