@@ -48,7 +48,7 @@ class UnitSearchContainer extends Component {
         };
 
         this.resetComponent = this.resetComponent.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
     }
 
@@ -78,10 +78,10 @@ class UnitSearchContainer extends Component {
     }
 
     /**
-     * Handle change is called whenever the user selects a result, this function calls the parent onResult function and the resets the component.
+     * Handle result select is called whenever the user selects a result, this function calls a parent function and the resets the component.
      * @author JXNS
      */
-    handleChange(e, result) {
+    handleResultSelect(e, result) {
         if(result.custom) {
             this.props.addCustomUnit(result.UnitCode.toUpperCase());
         } else {
@@ -106,12 +106,15 @@ class UnitSearchContainer extends Component {
             const re = new RegExp(_.escapeRegExp(this.state.value), "i");
 
             /**
-             * isMatch checks whether a result matches a regex for the Unit Code or Unit Name of a unit
+             * isCodeMatch checks whether a result matches a regex for the Unit Code of a unit
              */
             const isCodeMatch = result => re.test(result.UnitCode);
             let matches = _.filter(source, isCodeMatch);
             let reducedResults;
 
+            /**
+             * isNameMatch checks whether a result matches a regex for the Unit Name of a unit
+             */
             const isNameMatch = result => re.test(result.UnitName);
             matches = [...matches, ..._.filter(source, isNameMatch)];
 
@@ -176,7 +179,7 @@ class UnitSearchContainer extends Component {
                 noResultsMessage={"No units found"}
 				selectFirstResult={true}
                 resultRenderer={resultRenderer}
-                onChange={this.handleChange}>
+                onResultSelect={this.handleResultSelect}>
                 </Search>
         );
     }
