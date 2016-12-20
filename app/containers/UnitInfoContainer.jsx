@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitQuery from "../utils/UnitQuery";
+import CostCalc from "../utils/CostCalc";
 
 /**
  * The UnitInfoContainer class holds the state of and controls the unitInfo component. It fetches and updates the data that populates
@@ -19,7 +20,7 @@ class UnitInfoContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapse: true,
+            collapse: false,
             isLoading: false,
             UnitCode: "",
             UnitName: "",
@@ -52,7 +53,6 @@ class UnitInfoContainer extends Component {
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
-        let scaMap = [0, 132, 188, 220] //sca band 1 through 3 maps to their per credit point cost
 
         if(!(nextProps.newUnit === undefined)) {
             let nUnitCode = nextProps.newUnit.UnitCode;
@@ -69,7 +69,8 @@ class UnitInfoContainer extends Component {
             UnitQuery.getExtendedUnitData(nUnitCode)
                 .then(response => {
                     let data = response.data;
-
+                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
+                    
                     this.setState({
                         isLoading: false,
                         UnitCode: nUnitCode,
@@ -78,8 +79,8 @@ class UnitInfoContainer extends Component {
                         Synopsis: data.Description,
                         error: false,
                         currentCreditPoints: data.CreditPoints,
-                        currentEstCost: scaMap[data.SCABand] * data.CreditPoints
-
+                        currentEstCost: data.Cost,
+                        offeringArray: data.UnitLocationTP
                     });
                 })
                 .catch(error => {
@@ -114,6 +115,7 @@ class UnitInfoContainer extends Component {
                 error={this.state.error}
                 cost={this.state.currentEstCost}
                 creditPoints={this.state.currentCreditPoints}
+                offeringArray={this.state.offeringArray}
             />
         );
     }

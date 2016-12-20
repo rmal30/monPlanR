@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Button, Container, Grid } from "semantic-ui-react";
 
 import UnitQuery from "../../utils/UnitQuery";
+import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
@@ -22,11 +23,15 @@ class Plan extends Component {
         super(props);
         this.state = {
             unitToAdd: undefined,
-            showAddToCourseUI: false
+            showAddToCourseUI: false,
+            totalCredits: 0,
+            totalCost: 0
         };
 
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
+        this.removeFromCourse = this.removeFromCourse.bind(this);
+        this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
     }
 
     /**
@@ -41,9 +46,10 @@ class Plan extends Component {
             UnitQuery.getExtendedUnitData(nUnitCode)
                 .then(function(response) {
                     let data = response.data;
+                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
 
                     this.setState({
-                        unitToAdd: data
+                        unitToAdd: data,
                     });
 
                 }.bind(this))
@@ -54,11 +60,40 @@ class Plan extends Component {
     }
 
     /**
-     * Turns off add unit UI.
+     * Handles the removal of a unit and updates the totals
      */
-    doneAddingToCourse() {
+    removeFromCourse(unit) {
+        let newCred = this.state.totalCredits - unit.CreditPoints;
+        let newCost = this.state.totalCost - unit.Cost;
+
         this.setState({
+            totalCredits: newCred,
+            totalCost: newCost 
+        });
+    }
+
+    /**
+     * Turns off add unit UI, also updated running course totals
+     */
+    doneAddingToCourse(unit) {
+        let newCred = this.state.totalCredits + unit.CreditPoints;
+        let newCost = this.state.totalCost + unit.Cost;
+
+        this.setState({
+            totalCredits: newCred,
+            totalCost: newCost,
             unitToAdd: undefined
+        });
+    }
+
+    /**
+     * On occasion, such as loading from local storage, a child component may need to update the totals without the parent being aware
+     * this function is passed down, and it is the child components responsibity to call this function in these situations.
+     */
+    handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
+        this.setState({
+           totalCredits: totalCreditPoints,
+           totalCost: totalEstimatedCost,
         });
     }
 
@@ -76,31 +111,15 @@ class Plan extends Component {
                         newUnit={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Column width="9"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
-                        <Grid.Column width="3" />
+                        <Grid.Column width="6"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
+                        <Grid.Column width="6"><CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} /></Grid.Column>
                         <Grid.Column width="4">
                         <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
                             <Button primary fluid>Give us feedback</Button>
                         </a>
                         </Grid.Column>
+                        
                     </Grid>
-
-                    {false &&
-                    <Grid stackable>
-
-                        <Grid.Row>
-                            <Grid.Column width={2}>
-
-                            </Grid.Column>
-                            <Grid.Column width={8} />
-                            <Grid.Column width={6}>
-                                {false /* disable rendering status information for now */ &&
-                                    <CourseStatisticGroup />
-                                }
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    }
                 </Container>
 
                 <Container className="main text">
@@ -108,7 +127,11 @@ class Plan extends Component {
                                      endYear={parseInt(endYear)}
                                      addToCourse={this.addToCourse}
                                      doneAddingToCourse={this.doneAddingToCourse}
-                                     unitToAdd={this.state.unitToAdd} />
+                                     removeFromCourse={this.removeFromCourse}
+                                     unitToAdd={this.state.unitToAdd} 
+                                     totalCreditPoints={this.state.totalCredits}
+                                     totalCost={this.state.totalCost} 
+                                     onLoadFromLocalStorage={this.handleChildUpdateTotals} />
                 </Container>
             </div>
         );
