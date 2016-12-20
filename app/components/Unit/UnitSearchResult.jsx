@@ -1,7 +1,5 @@
 import React, { PropTypes } from "react";
 
-import CustomUnitModal from "../modals/CustomUnitModal.jsx";
-
 /**
  * Returns the way in which we want a search result to be rendered
  * @author JXNS
@@ -29,9 +27,7 @@ function UnitSearchResult(props) {
         </div>
     );
 
-    return props.custom
-        ? <CustomUnitModal trigger={searchResult} UnitCode={props.UnitCode} />
-        : searchResult;
+    return searchResult;
     /* <Unit
         basic
         name={props.UnitName}

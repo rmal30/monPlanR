@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Container, Grid } from "semantic-ui-react";
 
+import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
@@ -30,7 +31,6 @@ class Plan extends Component {
         };
 
         this.addToCourse = this.addToCourse.bind(this);
-        this.addCustomUnit = this.addCustomUnit.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.removeFromCourse = this.removeFromCourse.bind(this);
         this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
@@ -41,31 +41,35 @@ class Plan extends Component {
      * immediately.
      *
      * @param {string} unitToAdd - The unit to be added.
+     * @param {boolean} custom - If it is a custom unit, prompt user to enter details
      */
-    addToCourse(nUnitCode) {
+    addToCourse(nUnitCode, custom) {
         if(nUnitCode !== undefined) {
-            UnitQuery.getExtendedUnitData(nUnitCode)
-                .then(response => {
-                    let data = response.data;
-                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
+            if(!custom) {
+                UnitQuery.getExtendedUnitData(nUnitCode)
+                    .then(response => {
+                        let data = response.data;
+                        data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
 
-                    this.setState({
-                        unitToAdd: data,
+                        this.setState({
+                            unitToAdd: data
+                        });
+
+                    })
+                    .catch(error => {
+                        console.error(error);
                     });
-
-                })
-                .catch(error => {
-                    console.error(error);
+            } else {
+                this.setState({
+                    customUnitCode: nUnitCode
                 });
+            }
         }
     }
 
-    /**
-     * Sets customUnitCode in state.
-     */
-    addCustomUnit(nUnitCode) {
+    cancelAddingCustomUnitToCourse() {
         this.setState({
-            customUnitCode: nUnitCode
+            customUnitCode: undefined
         });
     }
 
@@ -102,8 +106,8 @@ class Plan extends Component {
      */
     handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
         this.setState({
-           totalCredits: totalCreditPoints,
-           totalCost: totalEstimatedCost
+            totalCredits: totalCreditPoints,
+            totalCost: totalEstimatedCost
         });
     }
 
@@ -116,12 +120,15 @@ class Plan extends Component {
 
         return (
             <div>
+                {this.state.customUnitCode &&
+                    <CustomUnitModal UnitCode={this.state.customUnitCode} cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)} />
+                }
                 <Container className="move no-print">
                     <UnitInfoContainer
                         newUnit={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Column width="6"><UnitSearchContainer addToCourse={this.addToCourse} addCustomUnit={this.addCustomUnit} /></Grid.Column>
+                        <Grid.Column width="6"><UnitSearchContainer addToCourse={this.addToCourse} /></Grid.Column>
                         <Grid.Column width="6"><CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} /></Grid.Column>
                         <Grid.Column width="4">
                         <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">

@@ -10,9 +10,11 @@ class ControlledModal extends Component {
      * A boolean value is used to indicate to Semantic UI whether or not to
      * show the modal.
      */
-    constructor() {
-        super();
-        this.state = {modalOpen: false};
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalOpen: !!props.defaultOpen
+        };
     }
 
     /**
@@ -31,6 +33,10 @@ class ControlledModal extends Component {
         this.setState({
             modalOpen: false
         });
+
+        if(this.props.onClose) {
+            this.props.onClose();
+        }
     }
 
     /**
@@ -38,7 +44,14 @@ class ControlledModal extends Component {
      * is used to display the close trigger element.
      */
     render() {
-        const trigger = React.cloneElement(this.props.openTrigger, {onClick: this.handleOpen.bind(this)});
+        let trigger;
+
+        if(this.props.openTrigger) {
+            trigger = React.cloneElement(this.props.openTrigger, {onClick: this.handleOpen.bind(this)});
+        } else {
+            trigger = undefined;
+        }
+
         const closeButton = React.cloneElement(this.props.closeTrigger, {onClick: this.handleClose.bind(this)});
 
         return (
@@ -56,7 +69,9 @@ class ControlledModal extends Component {
 
 ControlledModal.propTypes = {
     openTrigger: PropTypes.element,
-    closeTrigger: PropTypes.element.isRequired
+    closeTrigger: PropTypes.element.isRequired,
+    defaultOpen: PropTypes.bool,
+    onClose: PropTypes.func
 };
 
 export default ControlledModal;

@@ -98,6 +98,13 @@ class CustomUnitModal extends Component {
     }
 
     /**
+     * Reset state in plan component
+     */
+    onClose() {
+        this.props.cancelAddingCustomUnitToCourse();
+    }
+
+    /**
      * Renders a controlled modal holding form elements and a preview component.
      * @returns {ReactElement} ControlledModal
      */
@@ -107,12 +114,12 @@ class CustomUnitModal extends Component {
 
         return (
             <ControlledModal
-                shouldBeClosed={!UnitCode}
-                openTrigger={this.props.trigger}
+                defaultOpen
+                onClose={this.onClose.bind(this)}
                 closeTrigger={closeTrigger}>
                 <Modal.Header>
                     <Button disabled color="green" floated="right">Add {UnitCode}</Button>
-                    Adding {UnitCode}
+                    Creating custom unit...
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
@@ -148,7 +155,8 @@ class CustomUnitModal extends Component {
 
 CustomUnitModal.propTypes = {
     UnitCode: PropTypes.string.isRequired,
-    trigger: PropTypes.element.isRequired
+    trigger: PropTypes.element.isRequired,
+    cancelAddingCustomUnitToCourse: PropTypes.func.isRequired
 };
 
 export default CustomUnitModal;
