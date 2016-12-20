@@ -59,30 +59,37 @@ class Plan extends Component {
         }
     }
 
+    /**
+     * Handles the removal of a unit and updates the totals
+     */
     removeFromCourse(unit) {
         let newCred = this.state.totalCredits - unit.CreditPoints;
         let newCost = this.state.totalCost - unit.Cost;
 
         this.setState({
-           totalCredits: newCred,
-           totalCost: newCost 
+            totalCredits: newCred,
+            totalCost: newCost 
         });
     }
 
     /**
-     * Turns off add unit UI.
+     * Turns off add unit UI, also updated running course totals
      */
     doneAddingToCourse(unit) {
         let newCred = this.state.totalCredits + unit.CreditPoints;
         let newCost = this.state.totalCost + unit.Cost;
 
         this.setState({
-           totalCredits: newCred,
-           totalCost: newCost,
-           unitToAdd: undefined
+            totalCredits: newCred,
+            totalCost: newCost,
+            unitToAdd: undefined
         });
     }
 
+    /**
+     * On occasion, such as loading from local storage, a child component may need to update the totals without the parent being aware
+     * this function is passed down, and it is the child components responsibity to call this function in these situations.
+     */
     handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
         this.setState({
            totalCredits: totalCreditPoints,
