@@ -31,7 +31,7 @@ class Plan extends Component {
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.removeFromCourse = this.removeFromCourse.bind(this);
-        this.handleLoadFromLocalStorage = this.handleLoadFromLocalStorage.bind(this);
+        this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
     }
 
     /**
@@ -83,7 +83,7 @@ class Plan extends Component {
         });
     }
 
-    handleLoadFromLocalStorage(totalCreditPoints, totalEstimatedCost) {
+    handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
         this.setState({
            totalCredits: totalCreditPoints,
            totalCost: totalEstimatedCost,
@@ -124,7 +124,7 @@ class Plan extends Component {
                                      unitToAdd={this.state.unitToAdd} 
                                      totalCreditPoints={this.state.totalCredits}
                                      totalCost={this.state.totalCost} 
-                                     onLoadFromLocalStorage={this.handleLoadFromLocalStorage} />
+                                     onLoadFromLocalStorage={this.handleChildUpdateTotals} />
                 </Container>
             </div>
         );

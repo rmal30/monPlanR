@@ -149,7 +149,7 @@ class CourseStructure extends Component {
                 totalEstimatedCost
             });
 
-            this.props.onLoadFromLocalStorage(totalCreditPoints, totalEstimatedCost);
+            this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
         }
     }
 
@@ -166,7 +166,7 @@ class CourseStructure extends Component {
             totalEstimatedCost: 0
         });
 
-        this.props.onLoadFromLocalStorage(0, 0)
+        this.props.handleChildUpdateTotals(0, 0)
     }
 
     /**
