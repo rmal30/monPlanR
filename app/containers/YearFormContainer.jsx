@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 
 import YearCalc from "../utils/YearCalc.js";
+import SearchSelectDropdownGrabValueWorkaround from "../utils/SearchSelectDropdownGrabValueWorkaround.js";
 import Tooltips from "../components/multi/tooltips.jsx";
 
 /**
@@ -46,21 +47,15 @@ class YearFormContainer extends Component {
      * Also note that it then calculates the valid dropdown values for end year and re-enables the endyear dropdown.
      */
     handleUpdateStartYear(event) {
-        let selectedStartYear = "";
+        SearchSelectDropdownGrabValueWorkaround(event, selectedStartYear => {
+            selectedStartYear = parseInt(selectedStartYear);
 
-        if(event.type === "click") {
-            selectedStartYear = event.target.textContent;
-        } else if (event.type === "keydown") {
-            selectedStartYear = event.target.nextSibling.innerText;
-        }
-
-        this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
-
-        this.setState({
-            startYear: selectedStartYear,
-            endYearDisabled: false
+            this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
+            this.setState({
+                startYear: selectedStartYear,
+                endYearDisabled: false
+            });
         });
-
     }
 
     /**
@@ -69,20 +64,15 @@ class YearFormContainer extends Component {
      * necessary for the form to be 'valid' so it makes the submit button not disabled.
      */
     handleUpdateEndYear(event) {
-        let selectedEndYear = "";
+        SearchSelectDropdownGrabValueWorkaround(event, selectedEndYear => {
+            selectedEndYear = parseInt(selectedEndYear);
 
-        if(event.type === "click") {
-            selectedEndYear = event.target.textContent;
-        } else if (event.type === "keydown") {
-            selectedEndYear = event.target.nextSibling.textContent;
-        }
-
-        this.setState({
-            endYear: selectedEndYear,
-            notReadyToSubmit: false
+            this.setState({
+                endYear: selectedEndYear,
+                notReadyToSubmit: false
+            });
         });
     }
-
 
     /**
      * When the form is submitted we move to the /plan page and feed the page the start and end year

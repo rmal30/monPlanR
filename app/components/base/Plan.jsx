@@ -25,7 +25,8 @@ class Plan extends Component {
             unitToAdd: undefined,
             showAddToCourseUI: false,
             totalCredits: 0,
-            totalCost: 0
+            totalCost: 0,
+            customUnitCode: undefined
         };
 
         this.addToCourse = this.addToCourse.bind(this);
@@ -59,8 +60,17 @@ class Plan extends Component {
         }
     }
 
+    /** 
+     * Sets customUnitCode in state.
+     */
+    addCustomUnit(nUnitCode) {
+        this.setState({
+            customUnitCode: nUnitCode
+        });
+    }
+
     /**
-     * Handles the removal of a unit and updates the totals
+     * Handles the removal of a unit and updates the totals.
      */
     removeFromCourse(unit) {
         let newCred = this.state.totalCredits - unit.CreditPoints;
@@ -93,7 +103,7 @@ class Plan extends Component {
     handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
         this.setState({
            totalCredits: totalCreditPoints,
-           totalCost: totalEstimatedCost,
+           totalCost: totalEstimatedCost
         });
     }
 
@@ -111,7 +121,7 @@ class Plan extends Component {
                         newUnit={this.state.unitToAdd} />
 
                     <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Column width="6"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
+                        <Grid.Column width="6"><UnitSearchContainer addToCourse={this.addToCourse} addCustomUnit={this.addCustomUnit.bind(this)} /></Grid.Column>
                         <Grid.Column width="6"><CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} /></Grid.Column>
                         <Grid.Column width="4">
                         <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">

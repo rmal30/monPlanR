@@ -55,7 +55,7 @@ class ControlledModal extends Component {
 }
 
 ControlledModal.propTypes = {
-    openTrigger: PropTypes.element.isRequired,
+    openTrigger: PropTypes.element,
     closeTrigger: PropTypes.element.isRequired
 };
 
