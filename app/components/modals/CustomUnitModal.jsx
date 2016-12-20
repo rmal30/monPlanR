@@ -14,6 +14,9 @@ import CostCalc from "../../utils/CostCalc.js";
 class CustomUnitModal extends Component {
     constructor(props) {
         super(props);
+
+        this.defaultCreditPoints = 6;
+
         this.scaBandOptions = [
             {value: 1, text: "1"},
             {value: 2, text: "2"},
@@ -38,7 +41,7 @@ class CustomUnitModal extends Component {
             UnitName: "",
             Faculty: "",
             SCABand: 0,
-            creditPoints: 0
+            creditPoints: this.defaultCreditPoints
         };
     }
 
@@ -49,7 +52,7 @@ class CustomUnitModal extends Component {
      */
     onUnitCodeChange(e) {
         this.setState({
-            UnitCode: e.target.value
+            UnitCode: e.target.value || this.props.UnitCode
         });
     }
 
@@ -71,7 +74,7 @@ class CustomUnitModal extends Component {
      */
     onCreditPointsChange(e) {
         this.setState({
-            creditPoints: e.target.value
+            creditPoints: parseInt(e.target.value) || 6
         });
     }
 
@@ -82,7 +85,7 @@ class CustomUnitModal extends Component {
      */
     onSCABandChange(e, { value }) {
         this.setState({
-            SCABand: parseInt(value)
+            SCABand: parseInt(value) || 0
         });
     }
 
@@ -95,6 +98,17 @@ class CustomUnitModal extends Component {
         this.setState({
             Faculty: value
         });
+    }
+
+    /**
+     * Validates form
+     *
+     * @return {bool} valid
+     */
+    formIsValid() {
+        const unitCodeRegularExpression = /^[A-Z]{3}[0-9]{4}$/;
+        const { UnitCode, UnitName, creditPoints, SCABand, Faculty } = this.state;
+        return unitCodeRegularExpression.test(UnitCode) && UnitName && !isNaN(creditPoints) && !isNaN(SCABand) && SCABand && Faculty;
     }
 
     /**
@@ -118,7 +132,7 @@ class CustomUnitModal extends Component {
                 onClose={this.onClose.bind(this)}
                 closeTrigger={closeTrigger}>
                 <Modal.Header>
-                    <Button disabled color="green" floated="right">Add {UnitCode}</Button>
+                    <Button disabled={!this.formIsValid.call(this)} color="green" floated="right">Add {UnitCode}</Button>
                     Creating custom unit...
                 </Modal.Header>
                 <Modal.Content>
@@ -130,7 +144,7 @@ class CustomUnitModal extends Component {
                             <Form.Group width="equal">
                                 <Form.Input onChange={this.onUnitCodeChange.bind(this)} label="Unit code" placeholder={this.props.UnitCode} />
                                 <Form.Input onChange={this.onUnitNameChange.bind(this)} label="Unit name" />
-                                    <Form.Input onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={0} />
+                                    <Form.Input onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={this.defaultCreditPoints} />
                                     <Form.Field selectOnBlur onChange={this.onSCABandChange.bind(this)} label="SCA Band" control={Select} search options={this.scaBandOptions} />
                             </Form.Group>
                             <Form.Field onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
