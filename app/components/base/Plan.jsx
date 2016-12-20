@@ -111,6 +111,13 @@ class Plan extends Component {
      */
     render() {
         const { startYear, endYear } = this.props.location.query;
+        let unitDetailButton;
+        if (this.state.unitToAdd) {
+            unitDetailButton =  <Button unit={this.state.unitToAdd} fluid>{"View " + this.state.unitToAdd.UnitCode + " details"}</Button>
+        } else {
+            unitDetailButton = <Button disabled={true}>View unit details</Button>
+        }
+
 
         return (
             <div>
@@ -121,12 +128,7 @@ class Plan extends Component {
                         <Grid.Row>
                             <Grid.Column width="3"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
                             <Grid.Column width="3">
-                                <UnitDetailModal 
-                                trigger={<Button 
-                                            disabled={this.state.unitToAdd ? false : true} 
-                                            unitCode={this.state.unitToAdd ? this.state.unitToAdd.UnitCode : ""} 
-                                            onClick={this.handleUnitDetailClick} 
-                                            fluid>View {this.state.unitToAdd ? this.state.unitToAdd.UnitCode : "unit"} details</Button>} />
+                                <UnitDetailModal unit={this.state.unitToAdd} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="3" />
                             <Grid.Column width="3">

@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Divider, Grid, Segment, Message, Statistic, Icon, Button } from "semantic-ui-react";
+import { Divider, Grid, Segment, Message, Statistic, Icon } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import CollapseButton from "../CollapseButton.jsx";
@@ -107,13 +107,23 @@ function UnitInfo(props) {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={12}>
-                               <UnitDescriptionContainer
-                                        textLength={200}
+                                <Grid.Row>
+                                    <UnitDescriptionContainer
+                                        textLength={300}
                                         fullText={props.Synopsis}
                                     />
+                                    <Divider />
+                                    <OfferingContainer offeringArray={props.offeringArray}/>
+                                    <Divider />
+                                    {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
+                                    <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
+                                </Grid.Row>
                             </Grid.Column>
                             <Grid.Column width={4}>
-                                <Button fluid>View unit details</Button>
+                            <Message info>
+                                <Message.Header>Unit Ratings</Message.Header>
+                                <Message.Content>Ratings coming soon</Message.Content>
+                            </Message>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -124,17 +134,6 @@ function UnitInfo(props) {
 
 export default UnitInfo;
 
-/*
+/**
  * Dead code (for now)
- *  <Grid.Row>
-                                    <UnitDescriptionContainer
-                                        textLength={300}
-                                        fullText={props.Synopsis}
-                                    />
-                                    <Divider />
-                                    <OfferingContainer offeringArray={props.offeringArray}/>
-                                    <Divider />
-                                    {false /* disable renderind unit guide link for now  && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
-                                    <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
-                                </Grid.Row>
  */

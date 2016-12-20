@@ -19,8 +19,9 @@ class UnitInfoContainer extends Component {
      */
     constructor(props) {
         super(props);
+
         this.state = {
-            collapse: true,
+            collapse: false,
             isLoading: false,
             UnitCode: "",
             UnitName: "",
@@ -33,6 +34,48 @@ class UnitInfoContainer extends Component {
 
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
+        console.log(this.state.UnitCode)
+    }
+
+    componentDidMount(){
+        if(this.props.nUnitCode){
+
+            let nUnitCode = this.props.nUnitCode;
+            if(this.state.isFirstSearch) {
+                this.setState({collapse: false});
+            }
+
+            this.setState({
+                isLoading: true,
+                isFirstSearch: false
+            });
+
+            UnitQuery.getExtendedUnitData(nUnitCode)
+                .then(response => {
+                    let data = response.data;
+                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
+                    
+                    this.setState({
+                        isLoading: false,
+                        UnitCode: nUnitCode,
+                        UnitName: data.UnitName,
+                        Faculty: data.Faculty,
+                        Synopsis: data.Description,
+                        error: false,
+                        currentCreditPoints: data.CreditPoints,
+                        currentEstCost: data.Cost,
+                        offeringArray: data.UnitLocationTP
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.setState({
+                        isLoading: false,
+                        UnitCode: nUnitCode,
+                        error: true,
+                    });
+                });
+        }
     }
 
     /**
@@ -53,7 +96,7 @@ class UnitInfoContainer extends Component {
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
-
+        console.log("recieved props")
         if(!(nextProps.newUnit === undefined)) {
             let nUnitCode = nextProps.newUnit.UnitCode;
 

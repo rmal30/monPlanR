@@ -8,7 +8,7 @@ import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx"
 /**
  *
  */
-export default function UnitDetailModal({ trigger, unitCode }) {
+export default function UnitDetailModal({ trigger, unit }) {
 
 
     const closeTrigger = <Button content="Close" />;
@@ -20,16 +20,8 @@ export default function UnitDetailModal({ trigger, unitCode }) {
                 <Icon name="checked calendar" />Well done on planning your course
             </Modal.Header>
             <Modal.Content>
-                <Modal.Description>
-                    There are several things you can do next:
-                    <br />
-                    <Header>1. Take it to your course advisor</Header>
-                    <p>
-                        Printing your course plan then showing it to your course
-                        advisor will help speed up the process on whether or not
-                        you can follow it.
-                    </p>
-                </Modal.Description>
+                {unit ? <UnitInfoContainer nUnitCode={unit.UnitCode} /> : <UnitInfoContainer />}
+                
             </Modal.Content>
         </ControlledModal>
     );
