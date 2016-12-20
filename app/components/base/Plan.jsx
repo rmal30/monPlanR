@@ -7,6 +7,7 @@ import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
+import UnitDetailModal from "../modals/UnitDetailModal.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -98,6 +99,13 @@ class Plan extends Component {
     }
 
     /**
+     * handles the unit detail button modal clicking
+     */
+    handleUnitDetailClick(){
+
+    }
+
+    /**
      * Returns a container of grid of a single row, holding the course
      * structure.
      */
@@ -107,18 +115,29 @@ class Plan extends Component {
         return (
             <div>
                 <Container className="move no-print">
-                    <UnitInfoContainer
-                        newUnit={this.state.unitToAdd} />
-
+                    {false && <UnitInfoContainer newUnit={this.state.unitToAdd} /> }
+                    <br />
                     <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Column width="6"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
-                        <Grid.Column width="6"><CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} /></Grid.Column>
-                        <Grid.Column width="4">
-                        <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
-                            <Button primary fluid>Give us feedback</Button>
-                        </a>
-                        </Grid.Column>
-                        
+                        <Grid.Row>
+                            <Grid.Column width="3"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
+                            <Grid.Column width="3">
+                                <UnitDetailModal 
+                                trigger={<Button 
+                                            disabled={this.state.unitToAdd ? false : true} 
+                                            unitCode={this.state.unitToAdd ? this.state.unitToAdd.UnitCode : ""} 
+                                            onClick={this.handleUnitDetailClick} 
+                                            fluid>View {this.state.unitToAdd ? this.state.unitToAdd.UnitCode : "unit"} details</Button>} />
+                            </Grid.Column>
+                            <Grid.Column width="3" />
+                            <Grid.Column width="3">
+                                <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
+                                    <Button primary fluid>Give us feedback</Button>
+                                </a>
+                            </Grid.Column>
+                            <Grid.Column width="4">
+                                <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
+                            </Grid.Column>
+                        </Grid.Row>
                     </Grid>
                 </Container>
 
