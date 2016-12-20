@@ -131,7 +131,7 @@ class Plan extends Component {
                                      unitToAdd={this.state.unitToAdd} 
                                      totalCreditPoints={this.state.totalCredits}
                                      totalCost={this.state.totalCost} 
-                                     onLoadFromLocalStorage={this.handleChildUpdateTotals} />
+                                     handleChildUpdateTotals={this.handleChildUpdateTotals} />
                 </Container>
             </div>
         );
