@@ -76,6 +76,29 @@ body {
     }
 }
 
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -170px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.welcomeMargin {
+    height: 30px;
+}
+
+.welcomeBackMargin {
+    height: 170px;
+}
+
+.footer, .push {
+    height: 170px; /* .push must be the same height as .footer */
+}
+
 /*
 .move {
     position: -webkit-sticky;

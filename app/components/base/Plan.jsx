@@ -120,7 +120,7 @@ class Plan extends Component {
 
 
         return (
-            <div>
+            <div className="wrapper">
                 <Container className="move no-print">
                     {false && <UnitInfoContainer newUnit={this.state.unitToAdd} /> }
                     <br />
@@ -154,6 +154,7 @@ class Plan extends Component {
                                      totalCost={this.state.totalCost} 
                                      handleChildUpdateTotals={this.handleChildUpdateTotals} />
                 </Container>
+                <div className="push" />
             </div>
         );
     }
