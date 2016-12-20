@@ -43,43 +43,23 @@ function UnitInfo(props) {
     if (props.collapse){
         return (
             <div className="ui raised segment">
-                <CollapseButton
-                    isDisabled={props.isDisabled}
-                    collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick}
-                    currentUnit={props.UnitCode} />
             </div>
         );
     } else if(props.isLoading) {
         return (
             <div className="ui raised segment">
-                <CollapseButton
-                    isDisabled={props.isDisabled}
-                    collapse={props.collapse}
-                    onCollapseClick={props.onCollapseClick}
-                    currentUnit={props.UnitCode} />
                 <UnitInfoPlaceholder />
             </div>
         );
     } else if(props.error) {
         return (
                 <Segment raised>
-                    <CollapseButton
-                        isDisabled={props.isDisabled}
-                        collapse={props.collapse}
-                        onCollapseClick={props.onCollapseClick}
-                        currentUnit={props.UnitCode}/>
                     <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
                 </Segment>
         );
     } else {
         return (
                 <Segment raised>
-                    <CollapseButton
-                        isDisabled={props.isDisabled}
-                        collapse={props.collapse}
-                        onCollapseClick={props.onCollapseClick}
-                        currentUnit={props.UnitCode}/>
                     <Grid celled stackable columns={2}>
                         <Grid.Row>
                             <Grid.Column width={12}>

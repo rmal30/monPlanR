@@ -17,7 +17,7 @@ export default function UnitDetailModal({ trigger, unit }) {
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
             <Modal.Header>
-                <Icon name="checked calendar" />Well done on planning your course
+                Unit Information
             </Modal.Header>
             <Modal.Content>
                 {unit ? <UnitInfoContainer nUnitCode={unit.UnitCode} /> : <UnitInfoContainer />}
