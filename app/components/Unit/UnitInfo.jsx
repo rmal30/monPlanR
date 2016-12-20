@@ -41,25 +41,17 @@ function UnitInfo(props) {
     };
 
     if (props.collapse){
-        return (
-            <div className="ui raised segment">
-            </div>
-        );
+        console.log("error")
     } else if(props.isLoading) {
         return (
-            <div className="ui raised segment">
                 <UnitInfoPlaceholder />
-            </div>
         );
     } else if(props.error) {
         return (
-                <Segment raised>
                     <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
-                </Segment>
         );
     } else {
         return (
-                <Segment raised>
                     <Grid celled stackable columns={2}>
                         <Grid.Row>
                             <Grid.Column width={12}>
@@ -107,7 +99,6 @@ function UnitInfo(props) {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                </Segment>
         );
     }
 }
