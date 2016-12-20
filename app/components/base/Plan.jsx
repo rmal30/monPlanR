@@ -31,6 +31,7 @@ class Plan extends Component {
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.removeFromCourse = this.removeFromCourse.bind(this);
+        this.handleLoadFromLocalStorage = this.handleLoadFromLocalStorage.bind(this);
     }
 
     /**
@@ -82,6 +83,13 @@ class Plan extends Component {
         });
     }
 
+    handleLoadFromLocalStorage(totalCreditPoints, totalEstimatedCost) {
+        this.setState({
+           totalCredits: totalCreditPoints,
+           totalCost: totalEstimatedCost,
+        });
+    }
+
     /**
      * Returns a container of grid of a single row, holding the course
      * structure.
@@ -113,7 +121,10 @@ class Plan extends Component {
                                      addToCourse={this.addToCourse}
                                      doneAddingToCourse={this.doneAddingToCourse}
                                      removeFromCourse={this.removeFromCourse}
-                                     unitToAdd={this.state.unitToAdd} />
+                                     unitToAdd={this.state.unitToAdd} 
+                                     totalCreditPoints={this.state.totalCredits}
+                                     totalCost={this.state.totalCost} 
+                                     onLoadFromLocalStorage={this.handleLoadFromLocalStorage} />
                 </Container>
             </div>
         );

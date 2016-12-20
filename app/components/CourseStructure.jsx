@@ -41,8 +41,8 @@ class CourseStructure extends Component {
             teachingPeriodsData: null,
             showMoveUnitUI: false,
             unitToBeMoved: undefined,
-            totalCreditPoints: 0,
-            totalEstimatedCost: 0
+            totalCreditPoints: this.props.totalCreditPoints,
+            totalEstimatedCost: this.props.totalCost
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -69,6 +69,13 @@ class CourseStructure extends Component {
              });
 
         this.generateCourse = this.generateCourse.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            totalCreditPoints: nextProps.totalCreditPoints,
+            totalEstimatedCost: nextProps.totalCost
+        });
     }
 
     /**
@@ -117,10 +124,12 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      */
     saveCourse() {
-        const { teachingPeriods, numberOfUnits } = this.state;
+        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost } = this.state;
         localStorage.setItem("courseStructure", JSON.stringify({
             teachingPeriods,
-            numberOfUnits
+            numberOfUnits,
+            totalCreditPoints,
+            totalEstimatedCost
         }));
     }
 
@@ -132,11 +141,15 @@ class CourseStructure extends Component {
     loadCourse() {
         const stringifedJSON = localStorage.getItem("courseStructure");
         if(stringifedJSON) {
-            const { teachingPeriods, numberOfUnits } = JSON.parse(stringifedJSON);
+            const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost } = JSON.parse(stringifedJSON);
             this.setState({
                 teachingPeriods,
-                numberOfUnits
+                numberOfUnits,
+                totalCreditPoints,
+                totalEstimatedCost
             });
+
+            this.props.onLoadFromLocalStorage(totalCreditPoints, totalEstimatedCost);
         }
     }
 
@@ -148,9 +161,12 @@ class CourseStructure extends Component {
     deleteCourse() {
         this.setState({
             teachingPeriods: [],
-            numberOfUnits: 4
+            numberOfUnits: 4,
+            totalCreditPoints: 0,
+            totalEstimatedCost: 0
         });
 
+        this.props.onLoadFromLocalStorage(0, 0)
     }
 
     /**
