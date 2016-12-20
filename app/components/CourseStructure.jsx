@@ -71,6 +71,10 @@ class CourseStructure extends Component {
         this.generateCourse = this.generateCourse.bind(this);
     }
 
+    /**
+     * This is necessary for passing down changes in the totals from the parent plan element, 
+     * it keeps the totals updated.
+     */
     componentWillReceiveProps(nextProps) {
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
@@ -166,7 +170,7 @@ class CourseStructure extends Component {
             totalEstimatedCost: 0
         });
 
-        this.props.handleChildUpdateTotals(0, 0)
+        this.props.handleChildUpdateTotals(0, 0);
     }
 
     /**
@@ -438,7 +442,7 @@ class CourseStructure extends Component {
      */
     deleteUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
-        this.props.removeFromCourse(teachingPeriods[teachingPeriodIndex].units[unitIndex])
+        this.props.removeFromCourse(teachingPeriods[teachingPeriodIndex].units[unitIndex]);
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = undefined;
         this.setState({ teachingPeriods });   
     }
@@ -714,7 +718,11 @@ CourseStructure.propTypes = {
         UnitCode: PropTypes.string,
         Faculty: PropTypes.string
     }),
-    doneAddingToCourse: PropTypes.func
+    doneAddingToCourse: PropTypes.func,
+    totalCreditPoints: PropTypes.number.isRequired,
+    totalCost: PropTypes.number.isRequired,
+    handleChildUpdateTotals: PropTypes.func.isRequired,
+    removeFromCourse: PropTypes.func.isRequired
 };
 
 export default CourseStructure;
