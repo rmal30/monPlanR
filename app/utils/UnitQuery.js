@@ -29,9 +29,11 @@ export default class UnitQuery {
         return axios.get(qURL);
     }
 
-    //V0.3 api
+    /**
+     * Currently using new API so this is not necessary
+     */
     static getOldUnitData(nUnitCode){
-       let qURL = "http://api.monplan.tech:3000/v0.2/" + nUnitCode;
-       return axios.get(qURL);
+        let qURL = "http://api.monplan.tech:3000/v0.2/" + nUnitCode;
+        return axios.get(qURL);
     }
 }
