@@ -12,16 +12,20 @@ let source = {};
 /**
  * The result renderer function dictates what form results should be returned
  */
-let resultRenderer = ({ UnitCode, UnitName }) => (
+let resultRenderer = ({ UnitCode, UnitName, id, custom }) => (
     <UnitSearchResult
         UnitCode={UnitCode}
         UnitName={UnitName}
+        custom={custom}
+        id={id}
     />
 );
 
 resultRenderer.propTypes = {
     UnitCode: PropTypes.string,
-    UnitName: PropTypes.string
+    UnitName: PropTypes.string,
+    id: PropTypes.number,
+    custom: PropTypes.bool
 };
 
 /**
@@ -46,7 +50,6 @@ class UnitSearchContainer extends Component {
         this.resetComponent = this.resetComponent.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
-
     }
 
     /**
@@ -79,7 +82,12 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     handleChange(e, result) {
-        this.props.onResult(result.UnitCode);
+        if(result.custom) {
+            this.props.addCustomUnit(result.UnitCode.toUpperCase());
+        } else {
+            this.props.addToCourse(result.UnitCode);
+        }
+
         this.resetComponent();
     }
 
@@ -113,9 +121,30 @@ class UnitSearchContainer extends Component {
                 reducedResults = matches;
             }
 
+            // Show custom message.
+            if(reducedResults.length === 0) {
+                const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
+
+                if(reUnitCode.test(value.trim())) {
+                    reducedResults.push({
+                        UnitCode: value,
+                        UnitName: "Create custom unit",
+                        custom: true
+                    });
+                }
+            }
+
             reducedResults = reducedResults.map(result =>
                 // TODO: Find way to avoid workaround that fixes unknown key bug by setting childKey attribute.
-                Object.assign({}, {childKey: `${result.UnitCode}`, UnitName: result.UnitName, UnitCode: result.UnitCode})
+                Object.assign(
+                    {},
+                    {
+                        childKey: `${result.UnitCode}`,
+                        UnitName: result.UnitName,
+                        UnitCode: result.UnitCode,
+                        custom: result.custom || false
+                    }
+                )
             );
 
             /*
@@ -154,7 +183,8 @@ class UnitSearchContainer extends Component {
 }
 
 UnitSearchContainer.propTypes = {
-    onResult: PropTypes.func
+    addToCourse: PropTypes.func,
+    addCustomUnit: PropTypes.func
 };
 
 export default UnitSearchContainer;

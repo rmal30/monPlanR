@@ -53,8 +53,9 @@ class UnitInfoContainer extends Component {
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
+        let scaMap = [0, 132, 188, 220]; //sca band 1 through 3 maps to their per credit point cost
 
-        if(!(nextProps.newUnit === undefined)) {
+        if(nextProps.newUnit !== undefined) {
             let nUnitCode = nextProps.newUnit.UnitCode;
 
             if(this.state.isFirstSearch) {

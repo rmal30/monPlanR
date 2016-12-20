@@ -11,7 +11,7 @@ import Home from "./base/Home.jsx";
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 import CompletedCourseModal from "./modals/CompletedCourseModal.jsx";
-import DeleteCourseModal from "./modals/DeleteCourseModal.jsx";
+import ClearCourseModal from "./modals/ClearCourseModal.jsx";
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
@@ -75,7 +75,7 @@ class CourseStructure extends Component {
     }
 
     /**
-     * This is necessary for passing down changes in the totals from the parent plan element, 
+     * This is necessary for passing down changes in the totals from the parent plan element,
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
@@ -106,13 +106,13 @@ class CourseStructure extends Component {
                 const semesterOneTeachingPeriod = {
                     year,
                     code: "S1-01",
-                    units: new Array(this.state.numberOfUnits).fill(null)
+                    units: new Array(4).fill(null)
                 };
 
                 const semesterTwoTeachingPeriod = {
                     year,
                     code: "S2-01",
-                    units: new Array(this.state.numberOfUnits).fill(null)
+                    units: new Array(4).fill(null)
                 };
 
                 arr.push(semesterOneTeachingPeriod);
@@ -165,7 +165,7 @@ class CourseStructure extends Component {
      *
      * @author Saurabh Joshi
      */
-    deleteCourse() {
+    clearCourse() {
         this.setState({
             teachingPeriods: [],
             numberOfUnits: 4,
@@ -447,7 +447,7 @@ class CourseStructure extends Component {
         const { teachingPeriods } = this.state;
         this.props.removeFromCourse(teachingPeriods[teachingPeriodIndex].units[unitIndex]);
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = undefined;
-        this.setState({ teachingPeriods });   
+        this.setState({ teachingPeriods });
     }
 
     /**
@@ -702,7 +702,7 @@ class CourseStructure extends Component {
                             <Button fluid={mobile} className="no-print" floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
                             }
                             {mobile && <br /> && <br />}
-                            <DeleteCourseModal fluid={mobile} deleteCourse={this.deleteCourse.bind(this)} />
+                            <ClearCourseModal fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
                             {mobile && <br />}
                             <CompletedCourseModal
                                 trigger={<Button primary fluid={mobile} className="no-print">Complete course plan</Button>}
