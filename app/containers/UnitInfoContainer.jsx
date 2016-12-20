@@ -39,7 +39,6 @@ class UnitInfoContainer extends Component {
 
     componentDidMount(){
         if(this.props.nUnitCode){
-
             let nUnitCode = this.props.nUnitCode;
             if(this.state.isFirstSearch) {
                 this.setState({collapse: false});

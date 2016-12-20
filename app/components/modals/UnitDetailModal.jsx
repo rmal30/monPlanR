@@ -8,7 +8,7 @@ import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx"
 /**
  *
  */
-export default function UnitDetailModal({ trigger, unit }) {
+export default function UnitDetailModal({ trigger, unitCode }) {
 
 
     const closeTrigger = <Button content="Close" />;
@@ -20,7 +20,7 @@ export default function UnitDetailModal({ trigger, unit }) {
                 Unit Information
             </Modal.Header>
             <Modal.Content>
-                {unit ? <UnitInfoContainer nUnitCode={unit.UnitCode} /> : <UnitInfoContainer />}
+                {unitCode ? <UnitInfoContainer nUnitCode={unitCode} /> : <UnitInfoContainer />}
                 
             </Modal.Content>
         </ControlledModal>

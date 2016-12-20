@@ -26,13 +26,15 @@ class Plan extends Component {
             unitToAdd: undefined,
             showAddToCourseUI: false,
             totalCredits: 0,
-            totalCost: 0
+            totalCost: 0,
+            focusedUnitCode: ""
         };
 
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.removeFromCourse = this.removeFromCourse.bind(this);
         this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
+        this.handleUnitDetailClick = this.handleUnitDetailClick.bind(this);
     }
 
     /**
@@ -51,6 +53,7 @@ class Plan extends Component {
 
                     this.setState({
                         unitToAdd: data,
+                        focusedUnitCode: data.UnitCode
                     });
 
                 }.bind(this))
@@ -99,10 +102,10 @@ class Plan extends Component {
     }
 
     /**
-     * handles the unit detail button modal clicking
+     * handles the updating of unit info button
      */
-    handleUnitDetailClick(){
-
+    handleUnitDetailClick(unitCode){
+        this.setState({focusedUnitCode: unitCode});
     }
 
     /**
@@ -112,8 +115,8 @@ class Plan extends Component {
     render() {
         const { startYear, endYear } = this.props.location.query;
         let unitDetailButton;
-        if (this.state.unitToAdd) {
-            unitDetailButton =  <Button unit={this.state.unitToAdd} fluid>{"View " + this.state.unitToAdd.UnitCode + " details"}</Button>
+        if (this.state.focusedUnitCode) {
+            unitDetailButton =  <Button fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>
         } else {
             unitDetailButton = <Button disabled={true}>View unit details</Button>
         }
@@ -122,13 +125,12 @@ class Plan extends Component {
         return (
             <div className="wrapper">
                 <Container className="move no-print">
-                    {false && <UnitInfoContainer newUnit={this.state.unitToAdd} /> }
                     <br />
                     <Grid reversed="mobile" stackable className="no-print">
                         <Grid.Row>
                             <Grid.Column width="3"><UnitSearchContainer onResult={this.addToCourse} /></Grid.Column>
                             <Grid.Column width="3">
-                                <UnitDetailModal unit={this.state.unitToAdd} trigger={unitDetailButton} />
+                                <UnitDetailModal unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="3" />
                             <Grid.Column width="3">
@@ -152,7 +154,8 @@ class Plan extends Component {
                                      unitToAdd={this.state.unitToAdd} 
                                      totalCreditPoints={this.state.totalCredits}
                                      totalCost={this.state.totalCost} 
-                                     handleChildUpdateTotals={this.handleChildUpdateTotals} />
+                                     handleChildUpdateTotals={this.handleChildUpdateTotals} 
+                                     onUnitClick={this.handleUnitDetailClick} />
                 </Container>
                 <div className="push" />
             </div>
