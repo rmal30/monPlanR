@@ -40,65 +40,67 @@ function UnitInfo(props) {
         usefulnessScore: PropTypes.number.isRequired,
     };
 
-    if (props.collapse){
-        console.log("error")
-    } else if(props.isLoading) {
+    if(props.isLoading) {
         return (
-                <UnitInfoPlaceholder />
+            <UnitInfoPlaceholder />
         );
     } else if(props.error) {
         return (
-                    <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
+            <h3>{"Error fetching unit data for unit: " + props.UnitCode}</h3>
         );
     } else {
         return (
-                    <Grid celled stackable columns={2}>
+            <Grid celled stackable columns={2}>
+                <Grid.Row>
+                    <Grid.Column width={12}>
+                        <h3>{props.UnitCode + " - " + props.UnitName}</h3>
+                        <p>{props.Faculty}</p>
+                    </Grid.Column>
+                    
+                    <Grid.Column width={2}>
+                        <Statistic size="mini">
+                            <Statistic.Value>
+                                <Icon name='student' />
+                                {props.creditPoints}
+                            </Statistic.Value>
+                            <Statistic.Label>Credit Points</Statistic.Label>
+                        </Statistic>
+                    </Grid.Column>
+                            
+                    <Grid.Column width={2}>
+                        <Statistic size="mini">
+                            <Statistic.Value >
+                                <Icon name='dollar' />
+                                {props.cost}
+                            </Statistic.Value>
+                            <Statistic.Label>Est. Unit Cost</Statistic.Label>
+                        </Statistic>
+                    </Grid.Column>
+                </Grid.Row>
+                
+                <Grid.Row>
+                    <Grid.Column width={12}>
                         <Grid.Row>
-                            <Grid.Column width={12}>
-                                <h3>{props.UnitCode + " - " + props.UnitName}</h3>
-                                <p>{props.Faculty}</p>
-                            </Grid.Column>
-                            <Grid.Column width={2}>
-                                <Statistic size="mini">
-                                    <Statistic.Value>
-                                        <Icon name='student' />
-                                        {props.creditPoints}
-                                    </Statistic.Value>
-                                    <Statistic.Label>Credit Points</Statistic.Label>
-                                </Statistic>
-                            </Grid.Column>
-                            <Grid.Column width={2}>
-                                <Statistic size="mini">
-                                    <Statistic.Value >
-                                        <Icon name='dollar' />
-                                        {props.cost}
-                                    </Statistic.Value>
-                                    <Statistic.Label>Est. Unit Cost</Statistic.Label>
-                                </Statistic>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={12}>
-                                <Grid.Row>
-                                    <UnitDescriptionContainer
-                                        textLength={300}
-                                        fullText={props.Synopsis}
-                                    />
-                                    <Divider />
-                                    <OfferingContainer offeringArray={props.offeringArray}/>
-                                    <Divider />
-                                    {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
-                                    <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
-                                </Grid.Row>
-                            </Grid.Column>
-                            <Grid.Column width={4}>
-                            <Message info>
-                                <Message.Header>Unit Ratings</Message.Header>
-                                <Message.Content>Ratings coming soon</Message.Content>
-                            </Message>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+                            <UnitDescriptionContainer
+                                textLength={300}
+                                fullText={props.Synopsis}
+                            />
+                            <Divider />
+                            <OfferingContainer offeringArray={props.offeringArray}/>
+                            <Divider />
+                            {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
+                            <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
+                         </Grid.Row>
+                    </Grid.Column>
+                    
+                    <Grid.Column width={4}>
+                        <Message info>
+                            <Message.Header>Unit Ratings</Message.Header>
+                            <Message.Content>Ratings coming soon</Message.Content>
+                        </Message>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         );
     }
 }
