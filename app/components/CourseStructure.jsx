@@ -361,6 +361,7 @@ class CourseStructure extends Component {
      * @param {number} unitIndex
      */
     willMoveUnit(teachingPeriodIndex, unitIndex) {
+        this.props.onUnitClick(this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex].UnitCode)
         this.setState({
             showMoveUnitUI: true,
             originalPosition: [teachingPeriodIndex, unitIndex],
@@ -510,7 +511,8 @@ class CourseStructure extends Component {
                     unitToAdd={this.props.unitToAdd}
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
-                    units={teachingPeriod.units} />;
+                    units={teachingPeriod.units} 
+                    handleUnitDetailClick={this.props.onUnitClick} />;
     }
 
     /**

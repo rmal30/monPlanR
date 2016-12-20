@@ -114,6 +114,7 @@ class Plan extends Component {
      */
     render() {
         const { startYear, endYear } = this.props.location.query;
+        console.log(this.state.focusedUnitCode)
         let unitDetailButton;
         if (this.state.focusedUnitCode) {
             unitDetailButton =  <Button fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>

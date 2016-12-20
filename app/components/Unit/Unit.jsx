@@ -62,8 +62,8 @@ class Unit extends React.Component {
     *
     * TODO: Find some way to make Unit stateless again.
     */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             hovering: false,
             moving: false
@@ -101,8 +101,11 @@ class Unit extends React.Component {
     }
 
     handleClick() {
+        if(!this.props.free) {
+            this.props.onUnitClick(this.props.code);
+        }
         if(this.props.free && this.state.hovering && this.props.unitToAdd) {
-            this.props.addUnit(this.props.index, this.props.unitToAdd);
+            this.props.addUnit(this.props.index, this.props.unitToAdd); 
         }
     }
 

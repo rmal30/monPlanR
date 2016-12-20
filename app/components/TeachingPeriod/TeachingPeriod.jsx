@@ -40,7 +40,8 @@ function TeachingPeriod(props) {
                     addUnit={props.addUnit.bind(this, props.index)}
                     moveUnit={props.moveUnit.bind(this, props.index)}
                     unitToAdd={props.unitToAdd}
-                    showMoveUnitUI={props.showMoveUnitUI} />
+                    showMoveUnitUI={props.showMoveUnitUI} 
+                    onUnitClick={props.handleUnitDetailClick} />
             );
         }
         return (
@@ -54,7 +55,8 @@ function TeachingPeriod(props) {
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}
                 name={unit.UnitName}
-                faculty={unit.Faculty} />
+                faculty={unit.Faculty} 
+                onUnitClick={props.handleUnitDetailClick} />
         );
     });
 
