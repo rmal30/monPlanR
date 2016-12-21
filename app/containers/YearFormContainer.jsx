@@ -46,7 +46,7 @@ class YearFormContainer extends Component {
      * Also note that it then calculates the valid dropdown values for end year and re-enables the endyear dropdown.
      */
     handleUpdateStartYear(event, { value }) {
-        const selectedStartYear = parseInt(value);
+        const selectedStartYear = value;
 
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
         this.setState({
@@ -64,7 +64,7 @@ class YearFormContainer extends Component {
      * @param {object} value
      */
     handleUpdateEndYear(event, { value }) {
-        const selectedEndYear = parseInt(value);
+        const selectedEndYear = value;
 
         this.setState({
             endYear: selectedEndYear,
@@ -149,7 +149,6 @@ class YearFormContainer extends Component {
                                         on="focus"
                                         trigger={<Dropdown
                                                     onChange={this.handleUpdateStartYear}
-                                                    onBlur={this.handleUpdateStartYear}
                                                     placeholder="Select start year" fluid search selection
                                                     options={this.validStartYears}/>}
                                     />
@@ -165,7 +164,6 @@ class YearFormContainer extends Component {
                                         on="focus"
                                         trigger={<Dropdown
                                                     onChange={this.handleUpdateEndYear}
-                                                    onBlur={this.handleUpdateEndYear}
                                                     placeholder="Select end year" fluid search selection
                                                     options={this.validEndYears}
                                                     disabled={this.state.endYearDisabled}/>}

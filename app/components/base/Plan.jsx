@@ -67,6 +67,17 @@ class Plan extends Component {
         }
     }
 
+    /**
+     * Shows add unit UI and allows user to add their custom unit.
+     *
+     * @param {string} unitToAdd - The unit to be added.
+     */
+    addCustomUnitToCourse(unitToAdd) {
+        this.setState({
+            unitToAdd
+        });
+    }
+
     cancelAddingCustomUnitToCourse() {
         this.setState({
             customUnitCode: undefined
@@ -121,7 +132,10 @@ class Plan extends Component {
         return (
             <div>
                 {this.state.customUnitCode &&
-                    <CustomUnitModal UnitCode={this.state.customUnitCode} cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)} />
+                    <CustomUnitModal
+                        UnitCode={this.state.customUnitCode}
+                        cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
+                        addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
                 }
                 <Container className="move no-print">
                     <UnitInfoContainer

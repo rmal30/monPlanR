@@ -16,7 +16,7 @@ export default class YearCalc {
 
         for(let i=min; i <= max; i++) {
             validStartYears.push(
-                { text: i.toString(), value: String.fromCharCode(i+70)}
+                { text: i.toString(), value: i}
             );
         }
 

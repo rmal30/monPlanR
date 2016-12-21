@@ -41,7 +41,8 @@ class CustomUnitModal extends Component {
             UnitName: "",
             Faculty: "",
             SCABand: 0,
-            creditPoints: this.defaultCreditPoints
+            creditPoints: this.defaultCreditPoints,
+            custom: true
         };
     }
 
@@ -96,7 +97,7 @@ class CustomUnitModal extends Component {
      */
     onFacultyChange(e, { value }) {
         this.setState({
-            Faculty: value
+            Faculty: "Faculty of " + value
         });
     }
 
@@ -109,6 +110,14 @@ class CustomUnitModal extends Component {
         const unitCodeRegularExpression = /^[A-Z]{3}[0-9]{4}$/;
         const { UnitCode, UnitName, creditPoints, SCABand, Faculty } = this.state;
         return unitCodeRegularExpression.test(UnitCode) && UnitName && !isNaN(creditPoints) && !isNaN(SCABand) && SCABand && Faculty;
+    }
+
+    /**
+     * Allows user to add their custom unit to their course plan.
+     */
+    addCustomUnitToCourse() {
+        this.props.addCustomUnitToCourse(this.state);
+        this.props.cancelAddingCustomUnitToCourse();
     }
 
     /**
@@ -132,7 +141,13 @@ class CustomUnitModal extends Component {
                 onClose={this.onClose.bind(this)}
                 closeTrigger={closeTrigger}>
                 <Modal.Header>
-                    <Button disabled={!this.formIsValid.call(this)} color="green" floated="right">Add {UnitCode}</Button>
+                    <Button
+                        disabled={!this.formIsValid.call(this)}
+                        color="green"
+                        onClick={this.addCustomUnitToCourse.bind(this)}
+                        floated="right">
+                            Add {UnitCode}
+                    </Button>
                     Creating custom unit...
                 </Modal.Header>
                 <Modal.Content>
@@ -155,7 +170,7 @@ class CustomUnitModal extends Component {
                             cost={CostCalc.calculateCost(SCABand, creditPoints)}
                             creditPoints={creditPoints}
                             error={false}
-                            Faculty={`Faculty of ${Faculty}`}
+                            Faculty={Faculty}
                             isDisabled={false}
                             UnitCode={UnitCode}
                             UnitName={UnitName}
@@ -170,7 +185,8 @@ class CustomUnitModal extends Component {
 CustomUnitModal.propTypes = {
     UnitCode: PropTypes.string.isRequired,
     trigger: PropTypes.element.isRequired,
-    cancelAddingCustomUnitToCourse: PropTypes.func.isRequired
+    cancelAddingCustomUnitToCourse: PropTypes.func.isRequired,
+    addCustomUnitToCourse: PropTypes.func.isRequired
 };
 
 export default CustomUnitModal;
