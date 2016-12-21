@@ -6,7 +6,6 @@ import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
-import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
 import UnitDetailModal from "../modals/UnitDetailModal.jsx";
 
 /**
@@ -96,8 +95,8 @@ class Plan extends Component {
      */
     handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
         this.setState({
-           totalCredits: totalCreditPoints,
-           totalCost: totalEstimatedCost,
+            totalCredits: totalCreditPoints,
+            totalCost: totalEstimatedCost,
         });
     }
 
@@ -116,9 +115,9 @@ class Plan extends Component {
         const { startYear, endYear } = this.props.location.query;
         let unitDetailButton;
         if (this.state.focusedUnitCode) {
-            unitDetailButton =  <Button fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>
+            unitDetailButton =  <Button fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>;
         } else {
-            unitDetailButton = <Button disabled={true}>View unit details</Button>
+            unitDetailButton = <Button disabled={true}>View unit details</Button>;
         }
 
 
