@@ -19,6 +19,7 @@ export default function notes({ trigger }) {
             <Modal.Content>
                 <Modal.Description>
                     <List bulleted>
+                        <List.Item>Many bug fixes</List.Item>
                         <List.Item>Added Loading Screen</List.Item>
                         <List.Item>Changed Visiblity from Display to Unit Action Button</List.Item>
                         <List.Item>Updated minifier for faster load tme</List.Item>
