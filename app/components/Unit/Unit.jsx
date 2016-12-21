@@ -230,9 +230,9 @@ Unit.propTypes = {
     firstFreeUnit: PropTypes.bool,
 
     /* Used for drag functionality */
-    connectDragSource: PropTypes.func.isRequried,
-    connectDropTarget: PropTypes.func.isRequried,
-    isDragging: PropTypes.bool.isRequried
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired
 };
 
 // https://github.com/gaearon/react-dnd/issues/157
