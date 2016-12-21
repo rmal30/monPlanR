@@ -7,7 +7,7 @@ import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
-import UnitDetailPopup from "../popups/UnitDetailPopup.jsx";
+import UnitDetailModalPopup from "../Unit/UnitDetailModalPopup.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -141,9 +141,9 @@ class Plan extends Component {
         const { startYear, endYear } = this.props.location.query;
         const focused = !!this.state.focusedUnitCode;
         const unitDetailButton = <Button
-                                    fluid={focused}
+                                    fluid
                                     disabled={!focused}
-                                    secondary>View {this.state.focusedUnitCode || "unit"} details</Button>;
+                                    primary>View {this.state.focusedUnitCode || "unit"} details</Button>;
 
         return (
             <div className="wrapper">
@@ -160,12 +160,12 @@ class Plan extends Component {
                         <Grid.Row>
                             <Grid.Column width="3"><UnitSearchContainer addToCourse={this.addToCourse} /></Grid.Column>
                             <Grid.Column width="3">
-                                <UnitDetailPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
+                                <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="3" />
                             <Grid.Column width="3">
                                 <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
-                                    <Button primary fluid>Give us feedback</Button>
+                                    <Button fluid>Give us feedback</Button>
                                 </a>
                             </Grid.Column>
                             <Grid.Column width="4">
