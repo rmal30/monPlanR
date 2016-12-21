@@ -12,16 +12,8 @@ class LoadCourseMap extends Component {
     constructor() {
         super();
         this.state = {
-            courseCode: null
+            CourseCode: null
         };
-    }
-
-    /**
-     * Checks if string in input tag is "clear", and if so, enables the confirm
-     * clear course button.
-     */
-    handleChange(e) {
-
     }
 
     /**
@@ -50,6 +42,12 @@ class LoadCourseMap extends Component {
         this.handleClose();
     }
 
+    handleChange(e){
+        this.setState({
+            CourseCode: e.target.value
+        });
+    }
+
     /**
      * Returns a Modal asking the user if they really want to clear their course
      * plan.
@@ -58,20 +56,21 @@ class LoadCourseMap extends Component {
      */
     render() {
         return (
-            <Modal trigger={<Button className="no-print" color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
+            <Modal trigger={<Button className="no-print" color="green" onClick={this.handleOpen.bind(this)}>Load Course Map</Button>}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
                 <Modal.Header>
-                    <Icon name="" /> Find Course
+                    <Icon name="external square" /> Load Course Map
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
                         <p>To load a course map, enter your course name and it will automatically load up a template for you</p>
-                    <Input />
+                    <Input onChange={this.handleChange.bind(this)} label="Find a course" />
                     </Modal.Description>
                 </Modal.Content>
 
                 <Modal.Actions>
+                    <Button color="green">Go</Button>
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
@@ -80,8 +79,7 @@ class LoadCourseMap extends Component {
 }
 
 LoadCourseMap.propTypes = {
-    CourseCode: PropTypes.func.isRequired,
+    CourseCode: PropTypes.func.isRequired
 };
-
 
 export default LoadCourseMap;

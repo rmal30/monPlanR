@@ -43,7 +43,7 @@ export default class UnitQuery {
      * @param {string} CourseCode - The unit code to retrieve more information about.
      */
     static getCourseMapData(CourseCode) {
-        let qURL = `${MONPLAN_REMOTE_URL}/units/${CourseCode}`;
+        let qURL = `${MONPLAN_REMOTE_URL}/courses/${CourseCode}`;
         return axios.get(qURL);
     }
 

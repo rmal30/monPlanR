@@ -162,7 +162,9 @@ class Plan extends Component {
                             <Grid.Column width="3">
                                 <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
-                            <Grid.Column width="3" />
+                            <Grid.Column width="3" >
+                                <LoadCourseMap />
+                            </Grid.Column>
                             <Grid.Column width="3">
                                 <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
                                     <Button fluid>Give us feedback</Button>
