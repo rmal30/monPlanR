@@ -7,7 +7,7 @@ import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
-import UnitDetailModal from "../modals/UnitDetailModal.jsx";
+import UnitDetailPopup from "../popups/UnitDetailPopup.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -62,7 +62,7 @@ class Plan extends Component {
                     .catch(error => {
                         console.error(error);
                     });
-              
+
             } else {
                 this.setState({
                     customUnitCode: nUnitCode
@@ -139,13 +139,11 @@ class Plan extends Component {
      */
     render() {
         const { startYear, endYear } = this.props.location.query;
-        let unitDetailButton;
-        if (this.state.focusedUnitCode) {
-            unitDetailButton =  <Button fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>;
-        } else {
-            unitDetailButton = <Button disabled={true}>View unit details</Button>;
-        }
-
+        const focused = !!this.state.focusedUnitCode;
+        const unitDetailButton = <Button
+                                    fluid={focused}
+                                    disabled={!focused}
+                                    secondary>View {this.state.focusedUnitCode || "unit"} details</Button>;
 
         return (
             <div className="wrapper">
@@ -162,7 +160,7 @@ class Plan extends Component {
                         <Grid.Row>
                             <Grid.Column width="3"><UnitSearchContainer addToCourse={this.addToCourse} /></Grid.Column>
                             <Grid.Column width="3">
-                                <UnitDetailModal unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
+                                <UnitDetailPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="3" />
                             <Grid.Column width="3">
@@ -185,8 +183,8 @@ class Plan extends Component {
                                      removeFromCourse={this.removeFromCourse}
                                      unitToAdd={this.state.unitToAdd}
                                      totalCreditPoints={this.state.totalCredits}
-                                     totalCost={this.state.totalCost} 
-                                     handleChildUpdateTotals={this.handleChildUpdateTotals} 
+                                     totalCost={this.state.totalCost}
+                                     handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      onUnitClick={this.handleUnitDetailClick} />
 
                 </Container>
