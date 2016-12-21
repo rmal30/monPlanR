@@ -27,7 +27,8 @@ function Main(props) {
                     transitionLeaveTimeout={500}>
                     {React.cloneElement(props.children, {key: props.location.pathname})}
             </ReactCSSTransitionGroup>
-            <Footer />
+            <div className="push" />
+            <Footer className="footer"/>
         </div>
     );
 }

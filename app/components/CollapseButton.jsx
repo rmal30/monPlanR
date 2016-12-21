@@ -23,13 +23,13 @@ function CollapseButton(props){
     if(props.collapse){
         return(
             <Button disabled={props.isDisabled} compact={true} onClick={props.onCollapseClick}>
-                    {props.currentUnit ? "Show " + props.currentUnit + " details " : "Show unit details "} <Icon name="chevron down" />
+                    {props.currentUnit ? "Show " + props.currentUnit + " overview " : "Show unit overview "} <Icon name="chevron down" />
             </Button>
         );
     } else {
         return (
             <Button disabled={props.isDisabled} compact={true} onClick={props.onCollapseClick}>
-                    {props.currentUnit ? "Hide " + props.currentUnit + " details " : "Hide unit details "} <Icon name="chevron up" />
+                    {props.currentUnit ? "Hide " + props.currentUnit + " overview " : "Hide unit overview "} <Icon name="chevron up" />
             </Button>
         );
     }
