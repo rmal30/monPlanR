@@ -41,7 +41,7 @@ class CustomUnitModal extends Component {
             UnitName: "",
             Faculty: "",
             SCABand: 0,
-            creditPoints: this.defaultCreditPoints,
+            CreditPoints: this.defaultCreditPoints,
             custom: true
         };
     }
@@ -75,7 +75,7 @@ class CustomUnitModal extends Component {
      */
     onCreditPointsChange(e) {
         this.setState({
-            creditPoints: parseInt(e.target.value) || 6
+            CreditPoints: parseInt(e.target.value) || 6
         });
     }
 
@@ -108,15 +108,16 @@ class CustomUnitModal extends Component {
      */
     formIsValid() {
         const unitCodeRegularExpression = /^[A-Z]{3}[0-9]{4}$/;
-        const { UnitCode, UnitName, creditPoints, SCABand, Faculty } = this.state;
-        return unitCodeRegularExpression.test(UnitCode) && UnitName && !isNaN(creditPoints) && !isNaN(SCABand) && SCABand && Faculty;
+        const { UnitCode, UnitName, CreditPoints, SCABand, Faculty } = this.state;
+        return unitCodeRegularExpression.test(UnitCode) && UnitName && !isNaN(CreditPoints) && !isNaN(SCABand) && SCABand && Faculty;
     }
 
     /**
      * Allows user to add their custom unit to their course plan.
      */
     addCustomUnitToCourse() {
-        this.props.addCustomUnitToCourse(this.state);
+        const { SCABand, CreditPoints } = this.state;
+        this.props.addCustomUnitToCourse(Object.assign({}, this.state, {Cost: CostCalc.calculateCost(SCABand, CreditPoints)}));
         this.props.cancelAddingCustomUnitToCourse();
     }
 
@@ -132,7 +133,7 @@ class CustomUnitModal extends Component {
      * @returns {ReactElement} ControlledModal
      */
     render() {
-        const { UnitCode, UnitName, Faculty, SCABand, creditPoints } = this.state;
+        const { UnitCode, UnitName, Faculty, SCABand, CreditPoints } = this.state;
         const closeTrigger = <Button content="Cancel" />;
 
         return (
@@ -167,8 +168,8 @@ class CustomUnitModal extends Component {
                         <b>Preview:</b>
                         <UnitInfo
                             collapse={false}
-                            cost={CostCalc.calculateCost(SCABand, creditPoints)}
-                            creditPoints={creditPoints}
+                            cost={CostCalc.calculateCost(SCABand, CreditPoints)}
+                            creditPoints={CreditPoints}
                             error={false}
                             Faculty={Faculty}
                             isDisabled={false}
