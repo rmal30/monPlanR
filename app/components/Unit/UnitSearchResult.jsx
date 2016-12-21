@@ -9,7 +9,6 @@ import React, { PropTypes } from "react";
  * @param {number} id - Index of search result.
  */
 function UnitSearchResult(props) {
-
     UnitSearchResult.propTypes = {
         UnitCode: PropTypes.string.isRequired,
         UnitName: PropTypes.string.isRequired,
@@ -19,7 +18,7 @@ function UnitSearchResult(props) {
 
     const searchResult = (
         <div className="content">
-            {props.id === 0 && <b style={{float: "right", color: "#005d95"}}>Press Enter</b>}
+            {props.active && <b style={{float: "right", color: "#005d95"}}>Press Enter</b>}
             <div className="title">
                 {props.UnitCode}
             </div>

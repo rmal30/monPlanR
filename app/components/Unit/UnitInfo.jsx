@@ -1,8 +1,7 @@
 import React, { PropTypes } from "react";
-import { Divider, Grid, Segment, Message, Statistic, Icon } from "semantic-ui-react";
+import { Divider, Grid, Statistic, Icon } from "semantic-ui-react";
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
-import CollapseButton from "../CollapseButton.jsx";
 import UnitDescriptionContainer from "../../containers/UnitDescriptionContainer.jsx";
 import OfferingContainer from "../../containers/OfferingContainer.jsx";
 
@@ -50,13 +49,13 @@ function UnitInfo(props) {
         );
     } else {
         return (
-            <Grid celled stackable columns={2}>
+            <Grid stackable celled="internally" columns={2}>
                 <Grid.Row>
                     <Grid.Column width={12}>
                         <h3>{props.UnitCode + " - " + props.UnitName}</h3>
                         <p>{props.Faculty}</p>
                     </Grid.Column>
-                    
+
                     <Grid.Column width={2}>
                         <Statistic size="mini">
                             <Statistic.Value>
@@ -66,7 +65,7 @@ function UnitInfo(props) {
                             <Statistic.Label>Credit Points</Statistic.Label>
                         </Statistic>
                     </Grid.Column>
-                            
+
                     <Grid.Column width={2}>
                         <Statistic size="mini">
                             <Statistic.Value >
@@ -77,7 +76,7 @@ function UnitInfo(props) {
                         </Statistic>
                     </Grid.Column>
                 </Grid.Row>
-                
+
                 <Grid.Row>
                     <Grid.Column width={12}>
                         <Grid.Row>
@@ -91,7 +90,7 @@ function UnitInfo(props) {
                             {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
                          </Grid.Row>
                     </Grid.Column>
-                    
+
                     <Grid.Column width={4}>
                         <SetuRating />
                         <Divider />

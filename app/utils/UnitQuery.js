@@ -36,4 +36,15 @@ export default class UnitQuery {
         let qURL = "http://api.monplan.tech:3000/v0.2/" + nUnitCode;
         return axios.get(qURL);
     }
+
+    /**
+     * Retrieves information about a single unit remotely.
+
+     * @param {string} CourseCode - The unit code to retrieve more information about.
+     */
+    static getCourseMapData(CourseCode) {
+        let qURL = `${MONPLAN_REMOTE_URL}/courses/${CourseCode}`;
+        return axios.get(qURL);
+    }
+
 }
