@@ -51,6 +51,9 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
         fileDownload(csvString, "course-plan.csv");
     };
 
+    /**
+     * Exports the course plan to JSON format and downloads it
+     */
     const exportToJSONFile = () => {
         fileDownload(JSON.stringify({ teachingPeriods, numberOfUnits }), "course-plan.json");
     };

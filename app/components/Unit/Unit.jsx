@@ -62,8 +62,8 @@ class Unit extends React.Component {
     *
     * TODO: Find some way to make Unit stateless again.
     */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             hovering: false,
             moving: false
@@ -76,6 +76,9 @@ class Unit extends React.Component {
 
     }
 
+    /**
+     * 
+     */
     handleMouseEnter() {
         if(!this.state.hovering) {
             this.setState({
@@ -84,6 +87,9 @@ class Unit extends React.Component {
         }
     }
 
+    /**
+     * 
+     */
     handleMouseMove() {
         if(!this.state.hovering) {
             this.setState({
@@ -92,6 +98,9 @@ class Unit extends React.Component {
         }
     }
 
+    /**
+     * 
+     */
     handleMouseLeave() {
         if(this.state.hovering) {
             this.setState({
@@ -100,18 +109,31 @@ class Unit extends React.Component {
         }
     }
 
+    /**
+     * The handle click function is called whenever use clicks a table cell, if the cell is empty (not free),
+     * then the unit detail button will be updated via the onUnitClick function
+     */
     handleClick() {
+        if(!this.props.free) {
+            this.props.onUnitClick(this.props.code);
+        }
         if(this.props.free && this.state.hovering && this.props.unitToAdd) {
-            this.props.addUnit(this.props.index, this.props.unitToAdd);
+            this.props.addUnit(this.props.index, this.props.unitToAdd); 
         }
     }
 
+    /**
+     * 
+     */
     handleMove() {
         if(!this.props.free) {
             this.setState({ moving: true });
         }
     }
 
+    /**
+     * 
+     */
     componentDidUpdate() {
         if(this.state.moving) {
             this.props.willMoveUnit(this.props.index);
@@ -129,6 +151,9 @@ class Unit extends React.Component {
         this.props.deleteUnit(this.props.index);
     }
 
+    /**
+     * 
+     */
     render() {
         const facultyColors = {
             "Art, Design and Architecture": "black",
@@ -228,11 +253,13 @@ Unit.propTypes = {
     swapUnit: PropTypes.func,
     deleteUnit: PropTypes.func,
     firstFreeUnit: PropTypes.bool,
+    onUnitClick: PropTypes.func,
 
     /* Used for drag functionality */
     connectDragSource: PropTypes.func.isRequried,
     connectDropTarget: PropTypes.func.isRequried,
-    isDragging: PropTypes.bool.isRequried
+    isDragging: PropTypes.bool.isRequried,
+    isOver: PropTypes.bool.isRequired
 };
 
 // https://github.com/gaearon/react-dnd/issues/157

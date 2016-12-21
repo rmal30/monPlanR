@@ -4,7 +4,6 @@ import { Button, Form, Select, Modal } from "semantic-ui-react";
 import UnitInfo from "../Unit/UnitInfo.jsx";
 import ControlledModal from "./ControlledModal.jsx";
 import CostCalc from "../../utils/CostCalc.js";
-import SearchSelectDropdownGrabValueWorkaround from "../../utils/SearchSelectDropdownGrabValueWorkaround.js";
 
 /**
  * The custom unit modal that allows students to enter in units manually if our web
@@ -15,6 +14,9 @@ import SearchSelectDropdownGrabValueWorkaround from "../../utils/SearchSelectDro
 class CustomUnitModal extends Component {
     constructor(props) {
         super(props);
+
+        this.defaultCreditPoints = 6;
+
         this.scaBandOptions = [
             {value: 1, text: "1"},
             {value: 2, text: "2"},
@@ -39,7 +41,8 @@ class CustomUnitModal extends Component {
             UnitName: "",
             Faculty: "",
             SCABand: 0,
-            creditPoints: 0
+            CreditPoints: this.defaultCreditPoints,
+            custom: true
         };
     }
 
@@ -50,7 +53,7 @@ class CustomUnitModal extends Component {
      */
     onUnitCodeChange(e) {
         this.setState({
-            UnitCode: e.target.value
+            UnitCode: e.target.value || this.props.UnitCode
         });
     }
 
@@ -72,7 +75,7 @@ class CustomUnitModal extends Component {
      */
     onCreditPointsChange(e) {
         this.setState({
-            creditPoints: e.target.value
+            CreditPoints: parseInt(e.target.value) || 6
         });
     }
 
@@ -81,13 +84,9 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onSCABandChange(e) {
-        SearchSelectDropdownGrabValueWorkaround(e, value => {
-            value = parseInt(value);
-
-            this.setState({
-                SCABand: value
-            });
+    onSCABandChange(e, { value }) {
+        this.setState({
+            SCABand: parseInt(value) || 0
         });
     }
 
@@ -96,12 +95,37 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onFacultyChange(e) {
-        SearchSelectDropdownGrabValueWorkaround(e, value => {
-            this.setState({
-                Faculty: value
-            });
+    onFacultyChange(e, { value }) {
+        this.setState({
+            Faculty: "Faculty of " + value
         });
+    }
+
+    /**
+     * Validates form
+     *
+     * @return {bool} valid
+     */
+    formIsValid() {
+        const unitCodeRegularExpression = /^[A-Z]{3}[0-9]{4}$/;
+        const { UnitCode, UnitName, CreditPoints, SCABand, Faculty } = this.state;
+        return unitCodeRegularExpression.test(UnitCode) && UnitName && !isNaN(CreditPoints) && !isNaN(SCABand) && SCABand && Faculty;
+    }
+
+    /**
+     * Allows user to add their custom unit to their course plan.
+     */
+    addCustomUnitToCourse() {
+        const { SCABand, CreditPoints } = this.state;
+        this.props.addCustomUnitToCourse(Object.assign({}, this.state, {Cost: CostCalc.calculateCost(SCABand, CreditPoints)}));
+        this.props.cancelAddingCustomUnitToCourse();
+    }
+
+    /**
+     * Reset state in plan component
+     */
+    onClose() {
+        this.props.cancelAddingCustomUnitToCourse();
     }
 
     /**
@@ -109,16 +133,23 @@ class CustomUnitModal extends Component {
      * @returns {ReactElement} ControlledModal
      */
     render() {
-        const { UnitCode, UnitName, Faculty, SCABand, creditPoints } = this.state;
-        const closeTrigger = <Button content="Close" />;
+        const { UnitCode, UnitName, Faculty, SCABand, CreditPoints } = this.state;
+        const closeTrigger = <Button content="Cancel" />;
 
         return (
             <ControlledModal
-                shouldBeClosed={!UnitCode}
-                openTrigger={this.props.trigger}
+                defaultOpen
+                onClose={this.onClose.bind(this)}
                 closeTrigger={closeTrigger}>
                 <Modal.Header>
-                    Adding {UnitCode}
+                    <Button
+                        disabled={!this.formIsValid.call(this)}
+                        color="green"
+                        onClick={this.addCustomUnitToCourse.bind(this)}
+                        floated="right">
+                            Add {UnitCode}
+                    </Button>
+                    Creating custom unit...
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
@@ -129,7 +160,7 @@ class CustomUnitModal extends Component {
                             <Form.Group width="equal">
                                 <Form.Input onChange={this.onUnitCodeChange.bind(this)} label="Unit code" placeholder={this.props.UnitCode} />
                                 <Form.Input onChange={this.onUnitNameChange.bind(this)} label="Unit name" />
-                                    <Form.Input onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={0} />
+                                    <Form.Input onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={this.defaultCreditPoints} />
                                     <Form.Field selectOnBlur onChange={this.onSCABandChange.bind(this)} label="SCA Band" control={Select} search options={this.scaBandOptions} />
                             </Form.Group>
                             <Form.Field onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
@@ -137,10 +168,10 @@ class CustomUnitModal extends Component {
                         <b>Preview:</b>
                         <UnitInfo
                             collapse={false}
-                            cost={CostCalc.calculateCost(SCABand, creditPoints)}
-                            creditPoints={creditPoints}
+                            cost={CostCalc.calculateCost(SCABand, CreditPoints)}
+                            creditPoints={CreditPoints}
                             error={false}
-                            Faculty={`Faculty of ${Faculty}`}
+                            Faculty={Faculty}
                             isDisabled={false}
                             UnitCode={UnitCode}
                             UnitName={UnitName}
@@ -154,7 +185,9 @@ class CustomUnitModal extends Component {
 
 CustomUnitModal.propTypes = {
     UnitCode: PropTypes.string.isRequired,
-    trigger: PropTypes.element.isRequired
+    trigger: PropTypes.element.isRequired,
+    cancelAddingCustomUnitToCourse: PropTypes.func.isRequired,
+    addCustomUnitToCourse: PropTypes.func.isRequired
 };
 
 export default CustomUnitModal;

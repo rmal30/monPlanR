@@ -37,7 +37,7 @@ class Home extends Component {
         //const { formData, value } = this.state;
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
         return (
-            <Container className="ui main text">
+            <Container className="ui main text wrapper">
                 <div id="welcome" className="ui container">
                     <h1>Welcome to monPlan!</h1>
                         <p>
@@ -69,7 +69,7 @@ class Home extends Component {
                     <p className="disclaimer">Our fundamental goal is to allow all Monash University students to add any units in any teaching period, for any year. Period.
                       We place trust in you as a student to plan your own course, and for some quick guidance, we will inform you if there is anything that might be wrong with your course plan.</p>
                     <p className="disclaimer">Our promise is that we will never restrict you in adding your units to your course, and it is up to you and the course advisors to assist you with your plan.</p>
-
+                    <div className={Home.checkIfCourseStructureIsInLocalStorage() ? "welcomeBackMargin" : "welcomeMargin"} />
                 </div>
             </Container>
         );
