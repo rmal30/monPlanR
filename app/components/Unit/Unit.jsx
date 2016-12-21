@@ -256,9 +256,9 @@ Unit.propTypes = {
     onUnitClick: PropTypes.func,
 
     /* Used for drag functionality */
-    connectDragSource: PropTypes.func.isRequried,
-    connectDropTarget: PropTypes.func.isRequried,
-    isDragging: PropTypes.bool.isRequried,
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
     isOver: PropTypes.bool.isRequired
 };
 

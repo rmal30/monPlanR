@@ -82,9 +82,7 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     handleResultSelect(e, result) {
-        console.log(this);
         this.props.addToCourse(result.UnitCode.toUpperCase(), result.custom);
-
         this.resetComponent();
     }
 
