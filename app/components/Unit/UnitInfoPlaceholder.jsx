@@ -8,7 +8,7 @@ import { Grid, Image, Loader, Rating } from "semantic-ui-react";
  */
 function UnitInfoPlaceholder() {
     return (
-        <Grid celled stackable columns={2}>
+        <Grid celled="internally" stackable columns={2}>
             <Grid.Column width={12}>
                 <Grid.Row>
                     <Image src='../resources/img/loaders/header.png' />
