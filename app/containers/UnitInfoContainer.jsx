@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitQuery from "../utils/UnitQuery";
@@ -9,7 +9,7 @@ import CostCalc from "../utils/CostCalc";
  * the component.
  * @author JXNS
  */
-class UnitInfoContainer extends Component {
+export default class UnitInfoContainer extends Component {
 
     /**
      * The constructor for the UnitInfoContainer component, sets the initial state of the component and binds the necessary functions.
@@ -34,9 +34,14 @@ class UnitInfoContainer extends Component {
 
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
-        console.log(this.state.UnitCode)
     }
 
+    /**
+     * @author JXNS 
+     * Currently a bit of a workaround for making this play nice with both the unit detail button and the 
+     * create custom unit modal. Component will recieve props is not called the first time it is rendered, 
+     * So component did mount needs to be called for the unit detail modal.
+     */
     componentDidMount(){
         if(this.props.nUnitCode){
             let nUnitCode = this.props.nUnitCode;
@@ -95,7 +100,6 @@ class UnitInfoContainer extends Component {
      * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
      */
     componentWillReceiveProps(nextProps) {
-        console.log("recieved props")
         if(!(nextProps.newUnit === undefined)) {
             let nUnitCode = nextProps.newUnit.UnitCode;
 
@@ -163,4 +167,6 @@ class UnitInfoContainer extends Component {
     }
 }
 
-export default UnitInfoContainer;
+UnitInfoContainer.propTypes = {
+    nUnitCode: PropTypes.string
+};
