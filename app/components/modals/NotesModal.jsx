@@ -7,7 +7,7 @@ export default function notes({ trigger }) {
         trigger: PropTypes.element.isRequired
     };
 
-    const closeTrigger = <Button content="OK, I've got it" positive icon="checkmark" labelPosition="right" />;
+    const closeTrigger = <Button content="OK" positive icon="checkmark" labelPosition="right" />;
     return (
         <ControlledModal
                openTrigger={trigger}

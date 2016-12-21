@@ -17,13 +17,14 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
     };
 
     /**
-     * Exports the course plan to CSV format and downloads it
-     */
+    * The exporting to CSV code
+    * @author Eric Jiang, Saurabh Joshi
+    */
     const exportToCSVFile = () => {
         var csvString = "Year, Teaching Period";
 
         for (var j = 0; j < numberOfUnits; j++) {
-            csvString += ",Unit" + parseInt(j, 10);
+            csvString += ",Unit" + (parseInt(j, 10)+1);
         }
         csvString += "\r\n";
 
@@ -47,7 +48,6 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
             csvString += "\r\n";
         }
 
-        console.log(csvString);
         fileDownload(csvString, "course-plan.csv");
     };
 

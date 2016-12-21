@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from "react";
 import { Button, Icon, Input, Modal } from "semantic-ui-react";
 
 /**
-* A modal used specifically for students who wish to delete their course.
+* A modal used specifically for students who wish to clear their course.
 */
-class DeleteCourseModal extends Component {
+class ClearCourseModal extends Component {
     /**
      * A boolean value in the state is used to keep track on whether or not
      * to show the modal, and another boolean is used to disable the confirm
-     * delete course button.
+     * clear course button.
      */
     constructor() {
         super();
@@ -20,7 +20,7 @@ class DeleteCourseModal extends Component {
 
     /**
      * Checks if string in input tag is "clear", and if so, enables the confirm
-     * delete course button.
+     * clear course button.
      */
     handleChange(e) {
         if(e.target.value === "clear" || e.target.value === "Clear") {
@@ -50,15 +50,15 @@ class DeleteCourseModal extends Component {
     }
 
     /**
-     * Deletes the course and then closes the modal.
+     * Clears the course and then closes the modal.
      */
     handleClick() {
-        this.props.deleteCourse();
+        this.props.clearCourse();
         this.handleClose();
     }
 
     /**
-     * Returns a Modal asking the user if they really want to delete their course
+     * Returns a Modal asking the user if they really want to clear their course
      * plan.
      *
      * @returns {ReactElement} Modal
@@ -75,23 +75,23 @@ class DeleteCourseModal extends Component {
                     <Modal.Description>
                         <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
                         structure will be cleared.</p>
-                        <Input onChange={this.handleChange.bind(this)} />
+                    <Input onChange={this.handleChange.bind(this)} />
                     </Modal.Description>
                 </Modal.Content>
 
                 <Modal.Actions>
                     <Button color='red' disabled={this.state.disabled} floated={"left"} onClick={this.handleClick.bind(this)}>Clear Course</Button>
-                    <Button danger onClick={this.handleClose.bind(this)}>Cancel</Button>
+                    <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
         );
     }
 }
 
-DeleteCourseModal.propTypes = {
-    deleteCourse: PropTypes.func.isRequired,
+ClearCourseModal.propTypes = {
+    clearCourse: PropTypes.func.isRequired,
     fluid: PropTypes.bool
 };
 
 
-export default DeleteCourseModal;
+export default ClearCourseModal;

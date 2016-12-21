@@ -33,11 +33,11 @@ function UnitInfo(props) {
         likeScore: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool,
-        onCollapseClick: PropTypes.func.isRequired,
-        Synopsis: PropTypes.string.isRequired,
+        onCollapseClick: PropTypes.func,
+        Synopsis: PropTypes.string,
         UnitCode: PropTypes.string.isRequired,
         UnitName: PropTypes.string.isRequired,
-        usefulnessScore: PropTypes.number.isRequired,
+        usefulnessScore: PropTypes.number.isRequired
     };
 
     if(props.isLoading) {
