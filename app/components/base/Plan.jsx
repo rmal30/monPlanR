@@ -8,7 +8,7 @@ import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 import UnitDetailModal from "../modals/UnitDetailModal.jsx";
-
+import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 /**
  * The plan component is the main page of the app, where students can add and
  * remove teaching periods and units.
@@ -62,7 +62,7 @@ class Plan extends Component {
                     .catch(error => {
                         console.error(error);
                     });
-              
+
             } else {
                 this.setState({
                     customUnitCode: nUnitCode
@@ -164,7 +164,9 @@ class Plan extends Component {
                             <Grid.Column width="3">
                                 <UnitDetailModal unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
-                            <Grid.Column width="3" />
+                            <Grid.Column width="3" >
+                                <LoadCourseMap />
+                            </Grid.Column>
                             <Grid.Column width="3">
                                 <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
                                     <Button primary fluid>Give us feedback</Button>
@@ -185,8 +187,8 @@ class Plan extends Component {
                                      removeFromCourse={this.removeFromCourse}
                                      unitToAdd={this.state.unitToAdd}
                                      totalCreditPoints={this.state.totalCredits}
-                                     totalCost={this.state.totalCost} 
-                                     handleChildUpdateTotals={this.handleChildUpdateTotals} 
+                                     totalCost={this.state.totalCost}
+                                     handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      onUnitClick={this.handleUnitDetailClick} />
 
                 </Container>
