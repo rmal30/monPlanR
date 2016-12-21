@@ -12,11 +12,12 @@ let source = {};
 /**
  * The result renderer function dictates what form results should be returned
  */
-let resultRenderer = ({ UnitCode, UnitName, id, custom }) => (
+let resultRenderer = ({ UnitCode, UnitName, id, custom, active }) => (
     <UnitSearchResult
         UnitCode={UnitCode}
         UnitName={UnitName}
         custom={custom}
+        active={active}
         id={id}
     />
 );
@@ -172,12 +173,12 @@ class UnitSearchContainer extends Component {
                 onSearchChange={this.handleSearchChange}
                 results={results}
                 value={value}
-                placeholder={"Search Unit"}
-                noResultsMessage={"No units found"}
+                placeholder="Search Unit"
+                noResultsMessage="No units found"
+                noResultsDescription="Type in a valid unit code to insert custom unit"
 				selectFirstResult={true}
                 resultRenderer={resultRenderer}
-                onResultSelect={this.handleResultSelect}>
-                </Search>
+                onResultSelect={this.handleResultSelect} />
         );
     }
 }
