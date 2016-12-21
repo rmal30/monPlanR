@@ -141,9 +141,9 @@ class Plan extends Component {
         const { startYear, endYear } = this.props.location.query;
         let unitDetailButton;
         if (this.state.focusedUnitCode) {
-            unitDetailButton =  <Button fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>;
+            unitDetailButton =  <Button primary fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>;
         } else {
-            unitDetailButton = <Button disabled={true}>View unit details</Button>;
+            unitDetailButton = <Button primary disabled={true}>View unit details</Button>;
         }
 
 
@@ -167,7 +167,7 @@ class Plan extends Component {
                             <Grid.Column width="3" />
                             <Grid.Column width="3">
                                 <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
-                                    <Button primary fluid>Give us feedback</Button>
+                                    <Button fluid>Give us feedback</Button>
                                 </a>
                             </Grid.Column>
                             <Grid.Column width="4">
