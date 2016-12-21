@@ -33,28 +33,33 @@
     </head>
 
     <body class="dimmed dimmable">
-        <div id="docs-loading-dimmer" class="ui active page dimmer" style="background-color: rgba(0, 93, 149, 0.8)"><div class="content"><div class="center"><div class="ui large text loader"><div class="ui inverted header">Loading monPlan...<div class="sub header"><span id="quotes"></span></div></div></div></div></div></div>
-
-        <script>
-            var messages = [
-                "Please give us feedback via the blue feedback button",
-                "We recommend you to go see a course advisor for advanced queries",
-                "Built by Monash Students for Monash Students",
-                "You can now print off or download your course plan",
-                "To check our status visit http://status.monplan.tech",
-                "You can view our announcements over our Facebook Page: https://facebook.com/monplan/",
-                "As we release new versions, please remember to clear course before proceeding as it may break"
-            ];
-
-            var randomInt = Math.floor(Math.random() * messages.length);
-
-            var quotes = document.getElementById("quotes");
-            quotes.textContent = messages[randomInt];
-        </script>
-
+        <div id="docs-loading-dimmer" class="ui active page dimmer" style="background-color: rgba(0, 93, 149, 0.8)">
+            <div class="content">
+                <div class="center">
+                    <div id="loader" class="ui large text">
+                        <div class="ui inverted header">
+                            <div id="loading"></div>
+                            <div class="sub header">
+                                <span id="quotes"></span>
+                            </div>
+                        </div>
+                        <div id="no-script">
+                            <h1><i class="icon warning sign"></i>Oh noes!</h1>
+                            <p>Please enable JavaScript, as it is necessary to run this application.</p>
+                            <a style="color: white; text-decoration: underline" href="http://privacy.monash.edu.au/procedure/">View privacy policy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
         (function() {
             /* Loading display from http://react.semantic-ui.com/ */
+            var loader = document.getElementById("loader");
+            loader.removeChild(document.getElementById("no-script"));
+            loader.classList.add("loader");
+            document.getElementById("loading").textContent = "Loading monPlan...";
+
             var delay = 500;
             var dimmer = document.getElementById("docs-loading-dimmer");
             dimmer.style.pointerEvents = "none";
@@ -71,6 +76,21 @@
                     window.removeEventListener("load", removeDimmer);
                 }, delay);
             }
+
+            var messages = [
+                "Please give us feedback via the blue feedback button",
+                "We recommend you to go see a course advisor for advanced queries",
+                "Built by Monash Students for Monash Students",
+                "You can now print off or download your course plan",
+                "To check our status visit http://status.monplan.tech",
+                "You can view our announcements over our Facebook Page: https://facebook.com/monplan/",
+                "As we release new versions, please remember to clear course before proceeding as it may break"
+            ];
+
+            var randomInt = Math.floor(Math.random() * messages.length);
+
+            var quotes = document.getElementById("quotes");
+            quotes.textContent = messages[randomInt];
 
             window.addEventListener("load", removeDimmer);
         }());
