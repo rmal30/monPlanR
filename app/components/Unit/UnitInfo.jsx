@@ -88,12 +88,13 @@ function UnitInfo(props) {
                             <OfferingContainer offeringArray={props.offeringArray}/>
                             <Divider />
                             {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
-                            <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>View handbook entry for this unit</a>
                          </Grid.Row>
                     </Grid.Column>
 
                     <Grid.Column width={4}>
                         <SetuRating />
+                        <Divider />
+                        <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

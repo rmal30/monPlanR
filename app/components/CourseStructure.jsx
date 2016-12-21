@@ -377,8 +377,6 @@ class CourseStructure extends Component {
     cancelMoving() {
         this.setState({
             showMoveUnitUI: false,
-            originalPosition: undefined,
-            unitToBeMoved: undefined
         });
     }
 
@@ -512,7 +510,8 @@ class CourseStructure extends Component {
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units} 
-                    handleUnitDetailClick={this.props.onUnitClick} />;
+                    handleUnitDetailClick={this.props.onUnitClick} 
+                    cancelMoving={this.cancelMoving.bind(this)} />;
     }
 
     /**
@@ -628,13 +627,15 @@ class CourseStructure extends Component {
                             Ready to add units to course plan
                         </Message.Header>
                         <p>
-                            Search for units in the above search bar, then place it in your course plan. Your course structure is automatically saved to your browser, so when you come back it will be exactly where you left off.
+                            Search for units in the above search bar, then place it in your course plan.
                         </p>
                     </Message>
                 }
-                {this.props.unitToAdd &&
-                    <Message positive className="no-print">
-                        <Button floated="right" onClick={this.props.doneAddingToCourse}>Cancel</Button>
+                {this.props.unitToAdd && !this.state.showMoveUnitUI &&
+                    <Message 
+                        positive 
+                        className="no-print"
+                        onDismiss={this.props.cancelAddingToCourse}>
                         <Message.Header>
                             Adding {this.props.unitToAdd.UnitCode}
                         </Message.Header>
@@ -645,7 +646,6 @@ class CourseStructure extends Component {
                 }
                 {this.state.showMoveUnitUI &&
                     <Message info className="no-print">
-                        <Button floated="right" onClick={this.cancelMoving.bind(this)}>Cancel</Button>
                         <Message.Header>
                             Moving {this.state.unitToBeMoved.UnitCode}
                         </Message.Header>

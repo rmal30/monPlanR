@@ -56,7 +56,8 @@ function TeachingPeriod(props) {
                 code={unit.UnitCode}
                 name={unit.UnitName}
                 faculty={unit.Faculty} 
-                onUnitClick={props.handleUnitDetailClick} />
+                onUnitClick={props.handleUnitDetailClick} 
+                cancelMoving={props.cancelMoving} />
         );
     });
 
