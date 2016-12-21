@@ -7,8 +7,8 @@ import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
-import UnitDetailModal from "../modals/UnitDetailModal.jsx";
-import LoadCourseMap from "../modals/LoadCourseMap.jsx";
+import UnitDetailModalPopup from "../Unit/UnitDetailModalPopup.jsx";
+
 /**
  * The plan component is the main page of the app, where students can add and
  * remove teaching periods and units.
@@ -139,13 +139,11 @@ class Plan extends Component {
      */
     render() {
         const { startYear, endYear } = this.props.location.query;
-        let unitDetailButton;
-        if (this.state.focusedUnitCode) {
-            unitDetailButton =  <Button fluid>{"View " + this.state.focusedUnitCode + " details"}</Button>;
-        } else {
-            unitDetailButton = <Button disabled={true}>View unit details</Button>;
-        }
-
+        const focused = !!this.state.focusedUnitCode;
+        const unitDetailButton = <Button
+                                    fluid
+                                    disabled={!focused}
+                                    primary>View {this.state.focusedUnitCode || "unit"} details</Button>;
 
         return (
             <div className="wrapper">
@@ -162,14 +160,14 @@ class Plan extends Component {
                         <Grid.Row>
                             <Grid.Column width="3"><UnitSearchContainer addToCourse={this.addToCourse} /></Grid.Column>
                             <Grid.Column width="3">
-                                <UnitDetailModal unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
+                                <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="3" >
                                 <LoadCourseMap />
                             </Grid.Column>
                             <Grid.Column width="3">
                                 <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
-                                    <Button primary fluid>Give us feedback</Button>
+                                    <Button fluid>Give us feedback</Button>
                                 </a>
                             </Grid.Column>
                             <Grid.Column width="4">
