@@ -11,6 +11,10 @@ const unitSource = {
     beginDrag(props) {
         props.willMoveUnit(props.index);
         return {};
+    },
+
+    endDrag(props) {
+        props.cancelMoving();
     }
 };
 

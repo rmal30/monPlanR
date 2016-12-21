@@ -375,11 +375,8 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      */
     cancelMoving() {
-        console.log("in cancel moving");
         this.setState({
             showMoveUnitUI: false,
-            originalPosition: undefined,
-            unitToBeMoved: undefined
         });
     }
 
@@ -513,7 +510,8 @@ class CourseStructure extends Component {
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units} 
-                    handleUnitDetailClick={this.props.onUnitClick} />;
+                    handleUnitDetailClick={this.props.onUnitClick} 
+                    cancelMoving={this.cancelMoving.bind(this)} />;
     }
 
     /**
