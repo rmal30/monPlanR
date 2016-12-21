@@ -36,6 +36,7 @@ class Plan extends Component {
         this.removeFromCourse = this.removeFromCourse.bind(this);
         this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
         this.handleUnitDetailClick = this.handleUnitDetailClick.bind(this);
+        this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
     }
 
     /**
@@ -98,6 +99,12 @@ class Plan extends Component {
         this.setState({
             totalCredits: newCred,
             totalCost: newCost
+        });
+    }
+
+    cancelAddingToCourse(unit) {
+        this.setState({
+            unitToAdd: undefined
         });
     }
 
@@ -182,6 +189,7 @@ class Plan extends Component {
                                      endYear={parseInt(endYear)}
                                      addToCourse={this.addToCourse}
                                      doneAddingToCourse={this.doneAddingToCourse}
+                                     cancelAddingToCourse={this.cancelAddingToCourse}
                                      removeFromCourse={this.removeFromCourse}
                                      unitToAdd={this.state.unitToAdd}
                                      totalCreditPoints={this.state.totalCredits}

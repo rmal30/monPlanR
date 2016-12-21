@@ -634,7 +634,7 @@ class CourseStructure extends Component {
                 }
                 {this.props.unitToAdd &&
                     <Message positive className="no-print">
-                        <Button floated="right" onClick={this.props.doneAddingToCourse}>Cancel</Button>
+                        <Button floated="right" onClick={this.props.cancelAddingToCourse}>Cancel</Button>
                         <Message.Header>
                             Adding {this.props.unitToAdd.UnitCode}
                         </Message.Header>
