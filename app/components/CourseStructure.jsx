@@ -361,7 +361,7 @@ class CourseStructure extends Component {
      * @param {number} unitIndex
      */
     willMoveUnit(teachingPeriodIndex, unitIndex) {
-        this.props.onUnitClick(this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex].UnitCode)
+        this.props.onUnitClick(this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex].UnitCode);
         this.setState({
             showMoveUnitUI: true,
             originalPosition: [teachingPeriodIndex, unitIndex],
@@ -730,7 +730,8 @@ CourseStructure.propTypes = {
     totalCreditPoints: PropTypes.number.isRequired,
     totalCost: PropTypes.number.isRequired,
     handleChildUpdateTotals: PropTypes.func.isRequired,
-    removeFromCourse: PropTypes.func.isRequired
+    removeFromCourse: PropTypes.func.isRequired,
+    onUnitClick: PropTypes.func.isRequired
 };
 
 export default DragDropContext(HTML5Backend)(CourseStructure);
