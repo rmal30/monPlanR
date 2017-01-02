@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { Button, Confirm } from 'semantic-ui-react';
 
+
+/**
+ * @author JXNS
+ * @param {array} units - The unit object array used in the teaching period, this is necessary to know what units a teaching period contains
+ * @param {array} unitArray - The array of unitcode strings that is extracted from the unit array
+ */
 export default class ConfirmDeleteTeachingPeriod extends Component {
     
+    /**
+     * Sets up initial state and binds the functions
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -16,6 +25,11 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
         this.handleConfirm = this.handleConfirm.bind(this);
     }
 
+    /**
+     * handles the initial pressing of the remove button. It then processes the current unit array. If the unit array is empty, 
+     * then it can jump straight to deleting the teaching period, however, if there are units in the array, then the confirmation modal 
+     * is triggered to open
+     */
     handlePress() {
         let unitArray = [];
         for (var i=0; i < this.state.units.length; i++) {
@@ -37,15 +51,25 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
 
     }
 
+    /**
+     * If the user selects cancel, nothing happens and the modal closes
+     */
     handleCancel() {
         this.setState({ open: false });
     }
 
+    /**
+     * If the user presses confirm, the modal closes and the delete action is carried out by parent component
+     */
     handleConfirm() {
         this.setState({ open: false });
         this.props.onDeletePress();
     }
 
+    /**
+     * on render we process the message that will be shown in the confirmation popup, if the state is set to open then we show the 
+     * modal, otherwise we just show the plain remove button
+     */
     render() {
         const message = <div>
                             <p>Deleting this teaching period will remove the following units from your course plan:</p>
@@ -67,5 +91,3 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
         }
     }
 }
-
-// <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />
