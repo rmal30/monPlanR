@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Button, Confirm } from 'semantic-ui-react';
+import React, { Component, PropTypes } from "react";
+import { Button, Confirm } from "semantic-ui-react";
 
 
 /**
@@ -35,7 +35,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
         for (var i=0; i < this.state.units.length; i++) {
             var item = this.state.units[i];
             if (item !== null) {
-                unitArray.push(item.UnitCode)
+                unitArray.push(item.UnitCode);
             }
         }
 
@@ -71,10 +71,10 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
      * modal, otherwise we just show the plain remove button
      */
     render() {
-        const message = <div>
+        const message = (<div>
                             <p>Deleting this teaching period will remove the following units from your course plan:</p>
-                            <ul>{this.state.unitArray.map(function(item) {return <li>{item}</li>})}</ul>
-                        </div>
+                            <ul>{this.state.unitArray.map(function(item) {return (<li>{item}</li>);})}</ul>
+                        </div>);
         if (this.state.open) {
             return (
                 <Confirm
@@ -91,3 +91,9 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
         }
     }
 }
+
+
+ConfirmDeleteTeachingPeriod.propTypes = {
+    units: PropTypes.array,
+    onDeletePress: PropTypes.func
+};
