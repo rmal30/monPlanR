@@ -203,10 +203,9 @@ class Unit extends React.Component {
                                 connectDragSource(
                                 <div>
                                     <Message
-                                        style={{height: '80px'}}
                                         color={facultyColor}
                                         className={this.state.hovering ? "grab" : ""}
-                                        style={this.state.hovering ? {height: '90px', boxShadow: "0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15)"} : {height: '90px'}}
+                                        style={this.state.hovering ? {minHeight: '90px', boxShadow: "0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15)"} : {minHeight: '90px'}}
                                         size="mini">
                                         <Message.Header>
                                             {this.props.code}
