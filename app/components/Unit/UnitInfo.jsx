@@ -99,6 +99,8 @@ function UnitInfo(props) {
                         <SetuRating />
                         <Divider />
                         <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
+                        <Divider />
+                        <a target="blank" href={`https://unitguidemanager.monash.edu/refine?searchQuery=${props.UnitCode}`}>{"View unit guides for " +  props.UnitCode + " offerings"}</a>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
