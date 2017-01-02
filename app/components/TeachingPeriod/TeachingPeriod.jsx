@@ -75,7 +75,7 @@ function TeachingPeriod(props) {
     }
 
     return (
-        <Table.Row>
+        <Table.Row style={{lineHeight: '100px'}}>
             <Table.Cell>
                 {teachingPeriodName}, {props.year}
                 {!props.showMoveUnitUI &&

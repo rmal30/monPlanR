@@ -111,5 +111,5 @@ function UnitInfo(props) {
 export default UnitInfo;
 
 /**
- * Dead code (for now)
+ * 100px is best for card
  */
