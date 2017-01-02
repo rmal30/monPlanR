@@ -1,6 +1,8 @@
 import React, { PropTypes } from "react";
 import { Button, Table } from "semantic-ui-react";
 
+
+import ConfirmDeleteTeachingPeriod from "../modals/ConfirmDeleteTeachingPeriod.jsx";
 import Unit from "../Unit/Unit.jsx";
 
 /**
@@ -77,7 +79,7 @@ function TeachingPeriod(props) {
             <Table.Cell>
                 {teachingPeriodName}, {props.year}
                 {!props.showMoveUnitUI &&
-                <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />
+                <ConfirmDeleteTeachingPeriod />
                 }
             </Table.Cell>
             {unitsEle}
@@ -86,3 +88,6 @@ function TeachingPeriod(props) {
 }
 
 export default TeachingPeriod;
+
+
+// <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />

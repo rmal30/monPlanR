@@ -20,10 +20,12 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
 
     handleCancel() {
         console.log("cancelled")
+        this.setState({ open: false });
     }
 
     handleConfirm() {
-        console.log("cancelled")
+        console.log("confirmed")
+        this.setState({ open: false });
     }
 
     render() {
