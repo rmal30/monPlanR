@@ -30,7 +30,9 @@ export default class UnitInfoContainer extends Component {
             isFirstSearch: true,
             error: false,
             currentCreditPoints: 0,
-            currentEstCost: 0
+            currentEstCost: 0,
+            prereqs: "",
+            prohibs: ""
 
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
@@ -68,7 +70,9 @@ export default class UnitInfoContainer extends Component {
                         error: false,
                         currentCreditPoints: data.CreditPoints,
                         currentEstCost: data.Cost,
-                        offeringArray: data.UnitLocationTP
+                        offeringArray: data.UnitLocationTP,
+                        prohibs: data.Prohibitions,
+                        prereqs: data.Prerequisites
                     });
                 })
                 .catch(error => {
@@ -126,7 +130,9 @@ export default class UnitInfoContainer extends Component {
                         error: false,
                         currentCreditPoints: data.CreditPoints,
                         currentEstCost: data.Cost,
-                        offeringArray: data.UnitLocationTP
+                        offeringArray: data.UnitLocationTP,
+                        prohibs: data.Prohibitions,
+                        prereqs: data.Prerequisites
                     });
                 })
                 .catch(error => {
@@ -162,6 +168,8 @@ export default class UnitInfoContainer extends Component {
                 cost={this.state.currentEstCost}
                 creditPoints={this.state.currentCreditPoints}
                 offeringArray={this.state.offeringArray}
+                prohibs={this.state.prohibs}
+                prereqs={this.state.prereqs}
             />
         );
     }
