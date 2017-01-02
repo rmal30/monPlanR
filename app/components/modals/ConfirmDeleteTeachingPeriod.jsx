@@ -29,15 +29,19 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Button basic className="no-print" floated="right" onClick={this.handlePress} size="tiny" color="red" icon="close" />
+
+        if (this.state.open) {
+            return (
                 <Confirm
                     open={this.state.open}
                     onCancel={this.handleCancel}
                     onConfirm={this.handleConfirm} />
-            </div>
-        );
+            );
+        } else {
+            return (
+                <Button basic className="no-print" floated="right" onClick={this.handlePress} size="tiny" color="red" icon="close" />
+            );
+        }
     }
 }
 
