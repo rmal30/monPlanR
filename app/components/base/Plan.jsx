@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Grid, Icon } from "semantic-ui-react";
+import { Button, Container, Grid } from "semantic-ui-react";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
@@ -46,7 +46,7 @@ class Plan extends Component {
      *
      * @param {string} unitToAdd - The unit to be added.
      * @param {boolean} custom - If it is a custom unit, prompt user to enter details
-     */LoadCourseMap
+     */
     addToCourse(nUnitCode, custom) {
         if(nUnitCode !== undefined) {
             if(!custom) {

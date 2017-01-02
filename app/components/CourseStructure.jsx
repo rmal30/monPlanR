@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dropdown, Header, Icon, Message, Popup, Table } from "semantic-ui-react";
+import { Button, Container, Dropdown, Icon, Message, Popup, Table } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
@@ -7,8 +7,8 @@ import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 
 import Home from "./base/Home.jsx";
-
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
+import NoTeachingPeriod from "./TeachingPeriod/NoTeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 import CompletedCourseModal from "./modals/CompletedCourseModal.jsx";
 import ClearCourseModal from "./modals/ClearCourseModal.jsx";
@@ -509,8 +509,8 @@ class CourseStructure extends Component {
                     unitToAdd={this.props.unitToAdd}
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
-                    units={teachingPeriod.units} 
-                    handleUnitDetailClick={this.props.onUnitClick} 
+                    units={teachingPeriod.units}
+                    handleUnitDetailClick={this.props.onUnitClick}
                     cancelMoving={this.cancelMoving.bind(this)} />;
     }
 
@@ -605,18 +605,9 @@ class CourseStructure extends Component {
 
         if(this.state.teachingPeriods.length === 0) {
             tableRows.push(
-                <Table.Row key="no-teaching-period">
-                    <Table.Cell colSpan={this.state.numberOfUnits + 1}>
-                        <Header as="h3" icon textAlign="center">
-                            <Icon name="calendar" />
-                            No teaching periods
-                            <Header.Subheader>
-                                Click add semester button below to get started.
-                            </Header.Subheader>
-                        </Header>
-                    </Table.Cell>
-                </Table.Row>
-            );
+                <NoTeachingPeriod
+                    key="no-teaching-period"
+                    numberOfUnits={this.state.numberOfUnits} />);
         }
 
         return (
@@ -632,8 +623,8 @@ class CourseStructure extends Component {
                     </Message>
                 }
                 {this.props.unitToAdd && !this.state.showMoveUnitUI &&
-                    <Message 
-                        positive 
+                    <Message
+                        positive
                         className="no-print"
                         onDismiss={this.props.cancelAddingToCourse}>
                         <Message.Header>
