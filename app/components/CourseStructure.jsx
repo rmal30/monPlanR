@@ -426,10 +426,6 @@ class CourseStructure extends Component {
      * @param {number} index - Which teaching period in list to delete.
      */
     deleteTeachingPeriod(index) {
-        console.log(this.state.teachingPeriods[index].units)
-        this.state.teachingPeriods[index].units.map(function(unit){
-            console.log("Warning: you will be deleting " + unit.UnitCode)
-        })
         const teachingPeriods = [
             ...this.state.teachingPeriods.slice(0, index),
             ...this.state.teachingPeriods.slice(index + 1)

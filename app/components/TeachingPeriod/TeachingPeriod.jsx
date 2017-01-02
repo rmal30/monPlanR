@@ -79,7 +79,9 @@ function TeachingPeriod(props) {
             <Table.Cell>
                 {teachingPeriodName}, {props.year}
                 {!props.showMoveUnitUI &&
-                <ConfirmDeleteTeachingPeriod />
+                <ConfirmDeleteTeachingPeriod
+                    onDeletePress={props.deleteTeachingPeriod.bind(null, props.index)} 
+                    units={props.units} />
                 }
             </Table.Cell>
             {unitsEle}
