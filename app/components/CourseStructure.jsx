@@ -433,6 +433,17 @@ class CourseStructure extends Component {
             ...this.state.teachingPeriods.slice(index + 1)
         ];
 
+        let { totalCreditPoints, totalEstimatedCost } = this.state;
+
+        for (let i=0; i < this.state.teachingPeriods[index].units.length; i++) {
+            let unit = this.state.teachingPeriods[index].units[i];
+            if (unit !== null && unit !== undefined) {
+                console.log(unit)
+                totalCreditPoints -= unit.CreditPoints
+                totalEstimatedCost -= unit.Cost
+            }
+        }
+        this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost)
         this.setState({ teachingPeriods });
     }
 
@@ -469,7 +480,6 @@ class CourseStructure extends Component {
         }
     }
 
-
     getAffectedUnits() {
         const teachingPeriods = this.state.teachingPeriods.slice();
         let unitIndex = this.state.numberOfUnits - 1;
@@ -490,7 +500,19 @@ class CourseStructure extends Component {
     decrementNumberOfUnits() {
         if(this.state.numberOfUnits > this.minNumberOfUnits) {
             const teachingPeriods = this.state.teachingPeriods.slice();
-            
+
+            let { totalCreditPoints, totalEstimatedCost } = this.state;
+
+            for (let i=0; i < this.state.teachingPeriods[index].units.length; i++) {
+                let unit = this.state.teachingPeriods[index].units[i];
+                if (unit !== null && unit !== undefined) {
+                    console.log(unit)
+                    totalCreditPoints -= unit.CreditPoints
+                    totalEstimatedCost -= unit.Cost
+                }
+            }
+        this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost)
+
             for(let i = 0; i < teachingPeriods.length; i++) {
                 teachingPeriods[i].units.pop();
             }
