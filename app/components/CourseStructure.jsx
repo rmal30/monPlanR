@@ -661,16 +661,16 @@ class CourseStructure extends Component {
                             <Table.Row textAlign="center">
                                 <Table.HeaderCell>Teaching Period</Table.HeaderCell>
                                 <Table.HeaderCell colSpan={this.state.numberOfUnits}>
+                                    Units
                                     <Popup
-                                        trigger={<Button className="no-print" disabled={this.state.numberOfUnits <= this.minNumberOfUnits}  onClick={this.decrementNumberOfUnits.bind(this)} color="red" floated="left">Remove column</Button>}
-                                        content="Removes last column from your course plan."
+                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"> <Icon name='plus' /></Button>}
+                                        content="Click this to overload a teaching period."
                                         size='mini'
                                         positioning='bottom center'
                                         />
-                                    Units
                                     <Popup
-                                        trigger={<Button className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right">Add column</Button>}
-                                        content="Click this to overload a teaching period."
+                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits <= this.minNumberOfUnits}  onClick={this.decrementNumberOfUnits.bind(this)} color="red" floated="right"> <Icon name='minus' /></Button>}
+                                        content="Removes last column from your course plan."
                                         size='mini'
                                         positioning='bottom center'
                                         />
