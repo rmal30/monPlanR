@@ -108,13 +108,8 @@ html, body {
 
 .sidebar .message {
     font-size: 1em !important;
-    color: black !important;
     width: 300px;
     min-height: 90px;
-}
-
-.sidebar .message .header {
-    color: black !important;
 }
 
 .sidebar .active.item {
