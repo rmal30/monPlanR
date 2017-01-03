@@ -7,7 +7,7 @@ export default function fuzzy(searchTarget, data){
     var options = {
       include: ["score"],
       shouldSort: true,
-      threshold: 0.6,
+      threshold: 0.5,
       location: 0,
       distance: 100,
       findAllMatches: true,
@@ -19,7 +19,7 @@ export default function fuzzy(searchTarget, data){
     var fuse = new Fuse(data, options);
     let result = fuse.search(searchTarget).slice(0,8);
     return result;
-    
-    
+
+
 
 }
