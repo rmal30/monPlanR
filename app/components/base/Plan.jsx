@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Grid, Header, Icon, Input, Menu, Sidebar, Segment } from "semantic-ui-react";
+import { Button, Container, Grid, Header, Icon, Menu, Sidebar, Segment } from "semantic-ui-react";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
+import TouchBackend from "react-dnd-touch-backend";
 
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
 import SettingsModal from "../modals/settings.jsx";
 import Notes from "../modals/NotesModal.jsx";
-import UnitSearchResultsContainer from "../../containers/UnitSearchResultsContainer.jsx";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
@@ -247,4 +247,4 @@ Plan.propTypes = {
     }).isRequired
 };
 
-export default DragDropContext(HTML5Backend)(Plan);
+export default DragDropContext("ontouchstart" in document.documentElement ? TouchBackend : HTML5Backend)(Plan);

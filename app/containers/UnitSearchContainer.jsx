@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from "react";
 import UnitQuery from "../utils/UnitQuery";
 import { Input, Menu } from "semantic-ui-react";
 
+import fuzzy from "../utils/fuzzy";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
 
 /**
@@ -26,9 +27,9 @@ class UnitSearchContainer extends Component {
         this.state = {
             isLoading: false,
             results: [],
-            value: "",
             searchResults: [],
-            searchResultIndex: 0
+            searchResultIndex: 0,
+            timeoutValue: null
         };
 
         this.resetComponent = this.resetComponent.bind(this);
@@ -60,7 +61,16 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     resetComponent() {
-        this.setState({isLoading: false, results: [], value: ""});
+        if(this.state.timeoutValue) {
+            clearTimeout(this.state.timeoutValue);
+        }
+
+        this.setState({
+            isLoading: false,
+            results: [],
+            timeoutValue: null,
+            searchResultIndex: 0
+        });
     }
 
     /**
@@ -111,57 +121,44 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     handleSearchChange(e) {
-        this.setState({ isLoading: true, value: e.target.value, searchResultIndex: 0 });
+        const { value } = e.target;
 
-        setTimeout(() => {
-            if(this.state.value.length < 1) {
-                return this.resetComponent();
-            }
+        if(this.state.timeoutValue) {
+            clearTimeout(this.state.timeoutValue);
+        }
 
-            const re = new RegExp(_.escapeRegExp(this.state.value), "i");
+        const timeoutValue = setTimeout(() => {
+            let reducedResults = [];
 
-            /**
-             * isCodeMatch checks whether a result matches a regex for the Unit Code of a unit
-             */
-            const isCodeMatch = result => re.test(result.UnitCode);
-            let matches = _.filter(source, isCodeMatch);
-            let reducedResults;
+            const results = fuzzy(value, source);
 
-            /**
-             * isNameMatch checks whether a result matches a regex for the Unit Name of a unit
-             */
-            const isNameMatch = result => re.test(result.UnitName);
-            matches = [...matches, ..._.filter(source, isNameMatch)];
+            const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
 
-            if (matches.length > 5) {
-                reducedResults = matches.slice(0, 5);
-            } else {
-                reducedResults = matches;
-            }
-
-            // Show custom message.
-            if(reducedResults.length === 0) {
-                const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
-
-                if(reUnitCode.test(this.state.value.trim())) {
-                    reducedResults.push({
-                        UnitCode: this.state.value,
+            if(results.filter(result => result.item.UnitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
+                // Show custom unit
+                const customUnit = {
+                    item: {
+                        UnitCode: value.trim().toUpperCase(),
                         UnitName: "Create custom unit",
                         custom: true
-                    });
-                }
+                    }
+                };
+
+                reducedResults = [customUnit, ...results];
+            } else {
+                reducedResults = results;
             }
 
-            reducedResults = reducedResults.map(result =>
+            reducedResults = reducedResults.map(({ item }) =>
                 // TODO: Find way to avoid workaround that fixes unknown key bug by setting childKey attribute.
                 Object.assign(
                     {},
                     {
-                        childKey: `${result.UnitCode}`,
-                        UnitName: result.UnitName,
-                        UnitCode: result.UnitCode,
-                        Faculty: result.Faculty,
-                        custom: result.custom || false
+                        childKey: `${item.UnitCode}`,
+                        UnitName: item.UnitName,
+                        UnitCode: item.UnitCode,
+                        Faculty: item.Faculty,
+                        custom: item.custom || false
                     }
                 )
             );
@@ -170,7 +167,9 @@ class UnitSearchContainer extends Component {
                 isLoading: false,
                 searchResults: reducedResults
             });
-        }, 500);
+        }, 200);
+
+        this.setState({ isLoading: true, searchResultIndex: 0, timeoutValue });
     }
 
     /**
@@ -178,7 +177,7 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     render() {
-        const { isLoading, value } = this.state;
+        const { isLoading } = this.state;
 
         return (
             <Menu.Item>
@@ -189,8 +188,7 @@ class UnitSearchContainer extends Component {
                         onChange={this.handleSearchChange}
                         onKeyDown={this.onKeyDown}
                         placeholder="Search Unit"
-                        icon="search"
-                        value={value} />
+                        icon="search" />
                 </Menu.Item>
                 <Menu.Header>
                     Search Results
