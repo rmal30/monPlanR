@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 
-import ToSModal from "../modals/tos.jsx";
-import PrivacyModal from "../modals/privacy.jsx";
-import SettingsModal from "../modals/settings.jsx";
-import Notes from "../modals/NotesModal.jsx";
 /**
  * The header for the web app, which displays the logo, name, status and information menu.
  */
@@ -31,6 +27,12 @@ class Header extends Component {
                     <img className="logo" src="resources/img/logo.png" alt="logo" />
                     <MediaQuery query="(min-device-width: 300px)">monPlan</MediaQuery>
                 </Menu.Header>
+                <Menu.Menu>
+                    <Menu.Item onClick={this.props.handleSearchClick}>
+                        <Icon name="plus" />
+                        Add unit
+                    </Menu.Item>
+                </Menu.Menu>
                 <Menu.Menu position="right">
                     {false /* disable status for now */ &&
                     <Popup
@@ -40,27 +42,13 @@ class Header extends Component {
                         content="As you add units, we will inform you of any conflicts, such as missing prerequisites."
                         />
                     }
-                    <Dropdown floating text="Menu" className="item">
-                        <Dropdown.Menu>
-                            {false /* disable access to app settings for now */ &&
-                            <div className="pleaseRemoveOnceYouEnableThis">
-                                <Dropdown.Header>App Settings</Dropdown.Header>
-                                <SettingsModal getTrigger={Header.getSettingsModalTrigger} />
-                            </div>
-                            }
-                            <Dropdown.Header>Issues</Dropdown.Header>
-                            <Dropdown.Item as="a" href="https://gitreports.com/issue/MonashUnitPlanner/monPlan" target="_blank"><i className="bug icon"></i> Submit an Issue</Dropdown.Item>
-                            <Dropdown.Header>Quick Links (for Devs)</Dropdown.Header>
-                            <Dropdown.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Dropdown.Item>
-                            <Dropdown.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Dropdown.Item>
-                            <Dropdown.Header>About</Dropdown.Header>
-                            <Dropdown.Item as="a" href="https://monashunitplanner.github.io" target="_blank"  className="item"><i className="info icon"></i>The Project</Dropdown.Item>
-                            <Dropdown.Header as="a" className="ui inverted header">Our Policies</Dropdown.Header>
-                            <ToSModal trigger={<Dropdown.Item as="a">Terms of Use</Dropdown.Item>} />
-                            <PrivacyModal trigger={<Dropdown.Item as="a">Privacy Policy</Dropdown.Item>} />
-                            <Notes trigger={<Dropdown.Item as="a">Release Notes</Dropdown.Item>} />
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform" target="_blank">
+                        Give us feedback
+                    </Menu.Item>
+                    <Menu.Item onClick={this.props.handleMenuClick}>
+                        <Icon name="options" />
+                        Menu
+                    </Menu.Item>
                 </Menu.Menu>
             </Menu>
         );

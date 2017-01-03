@@ -3,9 +3,6 @@ import { Button, Container, Dropdown, Icon, Message, Popup, Table } from "semant
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
-import { DragDropContext } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
-
 import Home from "./base/Home.jsx";
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriod from "./TeachingPeriod/NoTeachingPeriod.jsx";
@@ -389,7 +386,9 @@ class CourseStructure extends Component {
      */
     moveUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
-        teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = undefined;
+        if(this.state.originalPosition) {
+            teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = undefined;
+        }
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = this.state.unitToBeMoved;
         this.setState({
             showMoveUnitUI: false,
@@ -725,4 +724,4 @@ CourseStructure.propTypes = {
     onUnitClick: PropTypes.func.isRequired
 };
 
-export default DragDropContext(HTML5Backend)(CourseStructure);
+export default CourseStructure;

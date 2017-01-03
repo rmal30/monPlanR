@@ -9,12 +9,19 @@ import { flow } from "lodash";
 */
 const unitSource = {
     beginDrag(props) {
-        props.willMoveUnit(props.index);
+        if(props.newUnit) {
+            props.willAddUnit(props.code);
+        } else {
+            props.willMoveUnit(props.index);
+        }
+
         return {};
     },
 
     endDrag(props) {
-        props.cancelMoving();
+        if(!props.newUnit) {
+            props.cancelMoving();
+        }
     }
 };
 
@@ -24,7 +31,11 @@ const unitSource = {
 const unitTarget = {
     drop(props) {
         if(props.free) {
-            props.moveUnit(props.index);
+            if(props.addUnit && props.unitToAdd) {
+                props.addUnit(props.index, props.unitToAdd);
+            } else {
+                props.moveUnit(props.index);
+            }
         } else {
             props.swapUnit(props.index);
         }
@@ -81,7 +92,7 @@ class Unit extends React.Component {
     }
 
     /**
-     * 
+     *
      */
     handleMouseEnter() {
         if(!this.state.hovering) {
@@ -92,7 +103,7 @@ class Unit extends React.Component {
     }
 
     /**
-     * 
+     *
      */
     handleMouseMove() {
         if(!this.state.hovering) {
@@ -103,7 +114,7 @@ class Unit extends React.Component {
     }
 
     /**
-     * 
+     *
      */
     handleMouseLeave() {
         if(this.state.hovering) {
@@ -122,12 +133,12 @@ class Unit extends React.Component {
             this.props.onUnitClick(this.props.code);
         }
         if(this.props.free && this.state.hovering && this.props.unitToAdd) {
-            this.props.addUnit(this.props.index, this.props.unitToAdd); 
+            this.props.addUnit(this.props.index, this.props.unitToAdd);
         }
     }
 
     /**
-     * 
+     *
      */
     handleMove() {
         if(!this.props.free) {
@@ -136,7 +147,7 @@ class Unit extends React.Component {
     }
 
     /**
-     * 
+     *
      */
     componentDidUpdate() {
         if(this.state.moving) {
@@ -156,7 +167,7 @@ class Unit extends React.Component {
     }
 
     /**
-     * 
+     *
      */
     render() {
         const facultyColors = {
