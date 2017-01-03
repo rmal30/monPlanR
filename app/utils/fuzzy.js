@@ -1,10 +1,9 @@
-import UnitQuery from "./UnitQuery";
 import Fuse from "fuse.js";
 
 /**
  * Fuzzy Search algorithm
  */
-export default function fuzzy(searchTarget){
+export default function fuzzy(searchTarget, data){
     var options = {
       include: ["score"],
       shouldSort: true,
@@ -16,12 +15,11 @@ export default function fuzzy(searchTarget){
       minMatchCharLength: 1,
       keys:["UnitCode", "UnitName"]
     };
-    UnitQuery.getUnitCodeAndUnitNames().then(response => {
-        let data = response.data;
-        var fuse = new Fuse(data, options);
-        var result = fuse.search(searchTarget);
 
-        console.log(result);
-    });
+    var fuse = new Fuse(data, options);
+    let result = fuse.search(searchTarget).slice(0,8);
+    return result;
+    
+    
 
 }
