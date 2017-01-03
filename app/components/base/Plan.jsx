@@ -209,7 +209,7 @@ class Plan extends Component {
                                     <Grid.Column width="4" >
                                         <LoadCourseMap />
                                     </Grid.Column>
-                                    <Grid.Column width="8">
+                                    <Grid.Column floated="right" width="8">
                                         <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
                                     </Grid.Column>
                                 </Grid.Row>
