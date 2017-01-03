@@ -36,7 +36,9 @@ function UnitInfo(props) {
         Synopsis: PropTypes.string,
         UnitCode: PropTypes.string.isRequired,
         UnitName: PropTypes.string.isRequired,
-        usefulnessScore: PropTypes.number.isRequired
+        usefulnessScore: PropTypes.number.isRequired,
+        prereqs: PropTypes.string,
+        prohibs: PropTypes.string
     };
 
     if(props.isLoading) {
@@ -87,6 +89,8 @@ function UnitInfo(props) {
                             <Divider />
                             <OfferingContainer offeringArray={props.offeringArray}/>
                             <Divider />
+                            {props.prereqs !== "" ? <p>{"Prerequisites: " + props.prereqs}</p> : <p>Prerequisites: None</p>}
+                            {props.prohibs !== "" ? <p>{"Prohibitions: " + props.prohibs}</p> : <p>Prohibitions: None</p>}
                             {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
                          </Grid.Row>
                     </Grid.Column>
@@ -95,6 +99,8 @@ function UnitInfo(props) {
                         <SetuRating />
                         <Divider />
                         <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
+                        <Divider />
+                        <a target="blank" href={`https://unitguidemanager.monash.edu/refine?searchQuery=${props.UnitCode}`}>{"View unit guides for " +  props.UnitCode + " offerings"}</a>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -105,5 +111,5 @@ function UnitInfo(props) {
 export default UnitInfo;
 
 /**
- * Dead code (for now)
+ * 100px is best for card
  */
