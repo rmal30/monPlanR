@@ -179,15 +179,14 @@ class Plan extends Component {
                         }
                         <Menu.Header>Issues</Menu.Header>
                         <Menu.Item as="a" href="https://gitreports.com/issue/MonashUnitPlanner/monPlan" target="_blank"><i className="bug icon"></i> Submit an Issue</Menu.Item>
-                        <Menu.Header>Quick Links (for Devs)</Menu.Header>
+                        <Menu.Header>Developer Links</Menu.Header>
                         <Menu.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Menu.Item>
-                        <Menu.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Menu.Item>
                         <Menu.Header>About</Menu.Header>
                         <Menu.Item as="a" href="https://monashunitplanner.github.io" target="_blank"  className="item"><i className="info icon"></i>The Project</Menu.Item>
+                        <Notes trigger={<Menu.Item as="a"><i className="file text outline icon"></i>Release Notes</Menu.Item>} />
                         <Menu.Header>Our Policies</Menu.Header>
                         <ToSModal trigger={<Menu.Item as="a">Terms of Use</Menu.Item>} />
                         <PrivacyModal trigger={<Menu.Item as="a">Privacy Policy</Menu.Item>} />
-                        <Notes trigger={<Menu.Item as="a">Release Notes</Menu.Item>} />
                     </Menu.Item>
                 </Sidebar>
                 <Sidebar.Pusher dimmed={this.props.menuVisible}>
