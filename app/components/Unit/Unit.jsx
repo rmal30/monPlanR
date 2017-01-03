@@ -210,7 +210,7 @@ class Unit extends React.Component {
                             {this.props.free && this.props.unitToAdd !== undefined && mobile && this.props.firstFreeUnit &&
                                 <Button color="green"><Icon name="plus" />Add {this.props.unitToAdd.code}</Button>
                             }
-                            {!this.props.free &&
+                            {!this.props.free && !this.props.isDragging &&
                                 connectDragSource(
                                 <div>
                                     <Message
