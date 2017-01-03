@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Confirm } from "semantic-ui-react";
+import { Button, Confirm, Icon } from "semantic-ui-react";
 
 
 /**
@@ -78,7 +78,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
         if (this.state.open) {
             return (
                 <Confirm
-                    header="Are you sure you want to delete teaching period?"
+                    header={<p><Icon name="trash" />Are you sure you want to delete teaching period?</p>}
                     content={message}
                     open={this.state.open}
                     onCancel={this.handleCancel}
