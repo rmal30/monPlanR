@@ -433,6 +433,17 @@ class CourseStructure extends Component {
             ...this.state.teachingPeriods.slice(index + 1)
         ];
 
+        let { totalCreditPoints, totalEstimatedCost } = this.state;
+
+        for (let i=0; i < this.state.teachingPeriods[index].units.length; i++) {
+            let unit = this.state.teachingPeriods[index].units[i];
+            if (unit !== null && unit !== undefined) {
+                totalCreditPoints -= unit.CreditPoints;
+                totalEstimatedCost -= unit.Cost;
+            }
+        }
+
+        this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
         this.setState({ teachingPeriods });
     }
 
@@ -469,7 +480,9 @@ class CourseStructure extends Component {
         }
     }
 
-
+    /**
+     * Returns an array of all units affected by an overload column removal
+     */
     getAffectedUnits() {
         const teachingPeriods = this.state.teachingPeriods.slice();
         let unitIndex = this.state.numberOfUnits - 1;
@@ -477,7 +490,7 @@ class CourseStructure extends Component {
         for(let i=0; i < teachingPeriods.length; i++) {
             let item = teachingPeriods[i].units[unitIndex];
             if (item !== null && item !== undefined) {
-                unitArray.push(item.UnitCode)
+                unitArray.push(item.UnitCode);
             }
         }
 
@@ -490,7 +503,19 @@ class CourseStructure extends Component {
     decrementNumberOfUnits() {
         if(this.state.numberOfUnits > this.minNumberOfUnits) {
             const teachingPeriods = this.state.teachingPeriods.slice();
-            
+
+            let { totalCreditPoints, totalEstimatedCost } = this.state;
+            let unitIndex = this.state.numberOfUnits - 1;
+
+            for (let i=0; i < this.state.teachingPeriods.length; i++) {
+                let unit = this.state.teachingPeriods[i].units[unitIndex];
+                if (unit !== null && unit !== undefined) {
+                    totalCreditPoints -= unit.CreditPoints;
+                    totalEstimatedCost -= unit.Cost;
+                }
+            }
+            this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
+
             for(let i = 0; i < teachingPeriods.length; i++) {
                 teachingPeriods[i].units.pop();
             }
@@ -746,7 +771,8 @@ CourseStructure.propTypes = {
     totalCost: PropTypes.number.isRequired,
     handleChildUpdateTotals: PropTypes.func.isRequired,
     removeFromCourse: PropTypes.func.isRequired,
-    onUnitClick: PropTypes.func.isRequired
+    onUnitClick: PropTypes.func.isRequired,
+    cancelAddingToCourse: PropTypes.func
 };
 
 export default DragDropContext(HTML5Backend)(CourseStructure);
