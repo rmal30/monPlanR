@@ -12,8 +12,8 @@ import { Divider, Rating } from "semantic-ui-react";
 function SetuRating(props) {
 
     SetuRating.propTypes = {
-        starRating: PropTypes.number.isRequired,
-        heartRating: PropTypes.number.isRequired
+        starRating: PropTypes.number,
+        heartRating: PropTypes.number
     };
 
     return (
