@@ -12,6 +12,7 @@ import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 import CompletedCourseModal from "./modals/CompletedCourseModal.jsx";
 import ClearCourseModal from "./modals/ClearCourseModal.jsx";
+import ConfirmDeleteOverload from "./modals/ConfirmDeleteOverload.jsx";
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
@@ -72,6 +73,7 @@ class CourseStructure extends Component {
              });
 
         this.generateCourse = this.generateCourse.bind(this);
+        this.getAffectedUnits = this.getAffectedUnits.bind(this);
     }
 
     /**
@@ -467,13 +469,28 @@ class CourseStructure extends Component {
         }
     }
 
+
+    getAffectedUnits() {
+        const teachingPeriods = this.state.teachingPeriods.slice();
+        let unitIndex = this.state.numberOfUnits - 1;
+        let unitArray = [];
+        for(let i=0; i < teachingPeriods.length; i++) {
+            let item = teachingPeriods[i].units[unitIndex];
+            if (item !== null && item !== undefined) {
+                unitArray.push(item.UnitCode)
+            }
+        }
+
+        return unitArray;
+    } 
+
     /**
      * Removes a column from the course structure.
      */
     decrementNumberOfUnits() {
         if(this.state.numberOfUnits > this.minNumberOfUnits) {
             const teachingPeriods = this.state.teachingPeriods.slice();
-
+            
             for(let i = 0; i < teachingPeriods.length; i++) {
                 teachingPeriods[i].units.pop();
             }
@@ -668,12 +685,10 @@ class CourseStructure extends Component {
                                         size='mini'
                                         positioning='bottom center'
                                         />
-                                    <Popup
-                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits <= this.minNumberOfUnits}  onClick={this.decrementNumberOfUnits.bind(this)} color="red" floated="right"> <Icon name='minus' /></Button>}
-                                        content="Removes last column from your course plan."
-                                        size='mini'
-                                        positioning='bottom center'
-                                        />
+                                    <ConfirmDeleteOverload 
+                                        isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits} 
+                                        getAffectedUnits={this.getAffectedUnits} 
+                                        handleRemove={this.decrementNumberOfUnits.bind(this)} />
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
