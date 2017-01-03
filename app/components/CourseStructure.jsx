@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dropdown, Icon, Message, Popup, Table } from "semantic-ui-react";
+import { Button, Container, Dropdown, Icon, Message, Popup, Table, Loader } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
+import UnitQuery from "../utils/UnitQuery"
 import Home from "./base/Home.jsx";
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriod from "./TeachingPeriod/NoTeachingPeriod.jsx";
@@ -43,7 +44,8 @@ class CourseStructure extends Component {
             showMoveUnitUI: false,
             unitToBeMoved: undefined,
             totalCreditPoints: this.props.totalCreditPoints,
-            totalEstimatedCost: this.props.totalCost
+            totalEstimatedCost: this.props.totalCost,
+            isLoading: false
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -71,6 +73,8 @@ class CourseStructure extends Component {
 
         this.generateCourse = this.generateCourse.bind(this);
         this.getAffectedUnits = this.getAffectedUnits.bind(this);
+        this.courseLoadTest = this.courseLoadTest.bind(this);
+        this.loadCourseFromAPI = this.loadCourseFromAPI.bind(this);
     }
 
     /**
@@ -122,6 +126,47 @@ class CourseStructure extends Component {
         }
 
         return [];
+    }
+
+    loadCourseFromAPI(data){
+        console.log(data);
+        let newTeachingPeriods = [];
+        let tmpArr = data.teachingPeriods;
+        for(let i=0; i < tmpArr.length; i++) {
+            let item = tmpArr[i];
+            if (item.code){
+                if (item.numberOfUnits === 0) {
+                    item.units = new Array(4).fill(null);    
+                } else {
+                    for(let j=0; j < 4 - item.numberOfUnits; j++){
+                        item.units.push(null);
+                    }
+                }
+                newTeachingPeriods.push(item)
+            }
+        }
+
+
+        this.setState({
+            isLoading: false,
+            teachingPeriods: newTeachingPeriods
+        });
+
+    }
+
+    courseLoadTest() {
+        console.log("worked");
+        this.setState({isLoading: true});
+        this.clearCourse();
+        UnitQuery.getTestCourseData()
+            .then(response => {
+                let data = response.data;
+                this.loadCourseFromAPI(data)
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        
     }
 
     /**
@@ -688,6 +733,7 @@ class CourseStructure extends Component {
                     </Message>
                 }
                 <Table celled fixed striped compact>
+                    {this.state.isLoading && <Loader active size="huge" />}
                     <MediaQuery query="(min-device-width: 768px)">
                         <Table.Header>
                             <Table.Row textAlign="center">
@@ -704,6 +750,7 @@ class CourseStructure extends Component {
                                         isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits} 
                                         getAffectedUnits={this.getAffectedUnits} 
                                         handleRemove={this.decrementNumberOfUnits.bind(this)} />
+                                    <Button color="blue" onClick={this.courseLoadTest} floated="right">Test loading course</Button>
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
