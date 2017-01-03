@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Table } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
 
 import ConfirmDeleteTeachingPeriod from "../modals/ConfirmDeleteTeachingPeriod.jsx";
@@ -42,7 +42,7 @@ function TeachingPeriod(props) {
                     addUnit={props.addUnit.bind(this, props.index)}
                     moveUnit={props.moveUnit.bind(this, props.index)}
                     unitToAdd={props.unitToAdd}
-                    showMoveUnitUI={props.showMoveUnitUI} 
+                    showMoveUnitUI={props.showMoveUnitUI}
                     onUnitClick={props.handleUnitDetailClick} />
             );
         }
@@ -57,8 +57,8 @@ function TeachingPeriod(props) {
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}
                 name={unit.UnitName}
-                faculty={unit.Faculty} 
-                onUnitClick={props.handleUnitDetailClick} 
+                faculty={unit.Faculty}
+                onUnitClick={props.handleUnitDetailClick}
                 cancelMoving={props.cancelMoving} />
         );
     });
@@ -80,7 +80,7 @@ function TeachingPeriod(props) {
                 {teachingPeriodName}, {props.year}
                 {!props.showMoveUnitUI &&
                 <ConfirmDeleteTeachingPeriod
-                    onDeletePress={props.deleteTeachingPeriod.bind(null, props.index)} 
+                    onDeletePress={props.deleteTeachingPeriod.bind(null, props.index)}
                     units={props.units} />
                 }
             </Table.Cell>
