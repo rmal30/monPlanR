@@ -2,7 +2,7 @@ import UnitQuery from "./UnitQuery";
 import Fuse from "fuse.js";
 
 /**
- * A list of helper methods for unit queries.
+ * Fuzzy Search algorithm
  */
 export default class fuzzy {
   static main(searchItem){
