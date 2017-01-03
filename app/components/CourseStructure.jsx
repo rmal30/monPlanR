@@ -9,6 +9,7 @@ import NoTeachingPeriod from "./TeachingPeriod/NoTeachingPeriod.jsx";
 import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
 import CompletedCourseModal from "./modals/CompletedCourseModal.jsx";
 import ClearCourseModal from "./modals/ClearCourseModal.jsx";
+import ConfirmDeleteOverload from "./modals/ConfirmDeleteOverload.jsx";
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
@@ -69,6 +70,7 @@ class CourseStructure extends Component {
              });
 
         this.generateCourse = this.generateCourse.bind(this);
+        this.getAffectedUnits = this.getAffectedUnits.bind(this);
     }
 
     /**
@@ -430,6 +432,17 @@ class CourseStructure extends Component {
             ...this.state.teachingPeriods.slice(index + 1)
         ];
 
+        let { totalCreditPoints, totalEstimatedCost } = this.state;
+
+        for (let i=0; i < this.state.teachingPeriods[index].units.length; i++) {
+            let unit = this.state.teachingPeriods[index].units[i];
+            if (unit !== null && unit !== undefined) {
+                totalCreditPoints -= unit.CreditPoints;
+                totalEstimatedCost -= unit.Cost;
+            }
+        }
+
+        this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
         this.setState({ teachingPeriods });
     }
 
@@ -467,11 +480,40 @@ class CourseStructure extends Component {
     }
 
     /**
+     * Returns an array of all units affected by an overload column removal
+     */
+    getAffectedUnits() {
+        const teachingPeriods = this.state.teachingPeriods.slice();
+        let unitIndex = this.state.numberOfUnits - 1;
+        let unitArray = [];
+        for(let i=0; i < teachingPeriods.length; i++) {
+            let item = teachingPeriods[i].units[unitIndex];
+            if (item !== null && item !== undefined) {
+                unitArray.push(item.UnitCode);
+            }
+        }
+
+        return unitArray;
+    } 
+
+    /**
      * Removes a column from the course structure.
      */
     decrementNumberOfUnits() {
         if(this.state.numberOfUnits > this.minNumberOfUnits) {
             const teachingPeriods = this.state.teachingPeriods.slice();
+
+            let { totalCreditPoints, totalEstimatedCost } = this.state;
+            let unitIndex = this.state.numberOfUnits - 1;
+
+            for (let i=0; i < this.state.teachingPeriods.length; i++) {
+                let unit = this.state.teachingPeriods[i].units[unitIndex];
+                if (unit !== null && unit !== undefined) {
+                    totalCreditPoints -= unit.CreditPoints;
+                    totalEstimatedCost -= unit.Cost;
+                }
+            }
+            this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
 
             for(let i = 0; i < teachingPeriods.length; i++) {
                 teachingPeriods[i].units.pop();
@@ -651,19 +693,17 @@ class CourseStructure extends Component {
                             <Table.Row textAlign="center">
                                 <Table.HeaderCell>Teaching Period</Table.HeaderCell>
                                 <Table.HeaderCell colSpan={this.state.numberOfUnits}>
-                                    <Popup
-                                        trigger={<Button className="no-print" disabled={this.state.numberOfUnits <= this.minNumberOfUnits}  onClick={this.decrementNumberOfUnits.bind(this)} color="red" floated="left">Remove column</Button>}
-                                        content="Removes last column from your course plan."
-                                        size='mini'
-                                        positioning='bottom center'
-                                        />
                                     Units
                                     <Popup
-                                        trigger={<Button className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right">Add column</Button>}
+                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"> <Icon name='plus' /></Button>}
                                         content="Click this to overload a teaching period."
                                         size='mini'
                                         positioning='bottom center'
                                         />
+                                    <ConfirmDeleteOverload 
+                                        isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits} 
+                                        getAffectedUnits={this.getAffectedUnits} 
+                                        handleRemove={this.decrementNumberOfUnits.bind(this)} />
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
@@ -721,7 +761,8 @@ CourseStructure.propTypes = {
     totalCost: PropTypes.number.isRequired,
     handleChildUpdateTotals: PropTypes.func.isRequired,
     removeFromCourse: PropTypes.func.isRequired,
-    onUnitClick: PropTypes.func.isRequired
+    onUnitClick: PropTypes.func.isRequired,
+    cancelAddingToCourse: PropTypes.func
 };
 
 export default CourseStructure;

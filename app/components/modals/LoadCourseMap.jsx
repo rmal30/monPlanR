@@ -79,7 +79,7 @@ class LoadCourseMap extends Component {
 }
 
 LoadCourseMap.propTypes = {
-    CourseCode: PropTypes.func.isRequired
+    CourseCode: PropTypes.func
 };
 
 export default LoadCourseMap;

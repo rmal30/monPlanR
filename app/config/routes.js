@@ -6,15 +6,17 @@ import Main from "../components/base/Main.jsx";
 import Home from "../components/base/Home.jsx";
 import Plan from "../components/base/Plan.jsx";
 import tooltips from "../components/multi/tooltips.jsx";
+import Test from "../components/multi/test.jsx";
 
 /* Containers import here*/
 import UnitInfoContainer from "../containers/UnitInfoContainer.jsx";
 
 export default (
-    <Route path="/" component={Main}>
-        <IndexRoute component={Home} />
-        <Route path="plan(/?courseDetails)" component={Plan} handler={Home}/>
-        <Route path="tooltips" component={tooltips} />
-        <Route path="unit" component={UnitInfoContainer} />
-    </Route>
+  <Route path="/" component={Main}>
+      <IndexRoute component={Home} />
+      <Route path="plan(/?courseDetails)" component={Plan} handler={Home}/>
+      <Route path="tooltips" component={tooltips} />
+      <Route path="unit" component={UnitInfoContainer} />
+      <Route path="test" component={Test} />
+  </Route>
 );

@@ -1,6 +1,8 @@
 import React, { PropTypes } from "react";
-import { Button, Table } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
+
+import ConfirmDeleteTeachingPeriod from "../modals/ConfirmDeleteTeachingPeriod.jsx";
 import Unit from "../Unit/Unit.jsx";
 
 /**
@@ -40,7 +42,7 @@ function TeachingPeriod(props) {
                     addUnit={props.addUnit.bind(this, props.index)}
                     moveUnit={props.moveUnit.bind(this, props.index)}
                     unitToAdd={props.unitToAdd}
-                    showMoveUnitUI={props.showMoveUnitUI} 
+                    showMoveUnitUI={props.showMoveUnitUI}
                     onUnitClick={props.handleUnitDetailClick} />
             );
         }
@@ -55,8 +57,8 @@ function TeachingPeriod(props) {
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}
                 name={unit.UnitName}
-                faculty={unit.Faculty} 
-                onUnitClick={props.handleUnitDetailClick} 
+                faculty={unit.Faculty}
+                onUnitClick={props.handleUnitDetailClick}
                 cancelMoving={props.cancelMoving} />
         );
     });
@@ -73,11 +75,13 @@ function TeachingPeriod(props) {
     }
 
     return (
-        <Table.Row>
+        <Table.Row style={{lineHeight: '100px'}}>
             <Table.Cell>
                 {teachingPeriodName}, {props.year}
                 {!props.showMoveUnitUI &&
-                <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />
+                <ConfirmDeleteTeachingPeriod
+                    onDeletePress={props.deleteTeachingPeriod.bind(null, props.index)}
+                    units={props.units} />
                 }
             </Table.Cell>
             {unitsEle}
@@ -86,3 +90,6 @@ function TeachingPeriod(props) {
 }
 
 export default TeachingPeriod;
+
+
+// <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />

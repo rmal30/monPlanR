@@ -44,7 +44,7 @@ export default class OfferingContainer extends Component {
             return (
                 <div>
                 {this.state.offeringArray.map(function(item){
-                    return (<p><b>{item[0]}</b>{": " + item[1].map(function(offering) {
+                    return (<p key={item}><b>{item[0]}</b>{": " + item[1].map(function(offering) {
                         return (offering + " ");
                     })}</p>);
                 })}

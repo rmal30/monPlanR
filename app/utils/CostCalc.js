@@ -14,5 +14,4 @@ export default class CostCalc {
         let estCost = scaMap[SCAband] * creditPoints;
         return estCost;
     }
-
 }
