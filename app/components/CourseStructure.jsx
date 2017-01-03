@@ -502,16 +502,16 @@ class CourseStructure extends Component {
             const teachingPeriods = this.state.teachingPeriods.slice();
 
             let { totalCreditPoints, totalEstimatedCost } = this.state;
+            let unitIndex = this.state.numberOfUnits - 1;
 
-            for (let i=0; i < this.state.teachingPeriods[index].units.length; i++) {
-                let unit = this.state.teachingPeriods[index].units[i];
+            for (let i=0; i < this.state.teachingPeriods.length; i++) {
+                let unit = this.state.teachingPeriods[i].units[unitIndex]
                 if (unit !== null && unit !== undefined) {
-                    console.log(unit)
                     totalCreditPoints -= unit.CreditPoints
                     totalEstimatedCost -= unit.Cost
                 }
             }
-        this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost)
+            this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost)
 
             for(let i = 0; i < teachingPeriods.length; i++) {
                 teachingPeriods[i].units.pop();
