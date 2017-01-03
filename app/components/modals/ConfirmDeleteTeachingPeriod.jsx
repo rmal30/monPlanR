@@ -73,7 +73,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
     render() {
         const message = (<div>
                             <p>Removing this teaching period will delete the following units from your course plan:</p>
-                            <ul>{this.state.unitArray.map((item) => {return (<li>{item}</li>);})}</ul>
+                            <ul>{this.state.unitArray.map((item) => {return (<li key={item}>{item}</li>);})}</ul>
                         </div>);
         if (this.state.open) {
             return (

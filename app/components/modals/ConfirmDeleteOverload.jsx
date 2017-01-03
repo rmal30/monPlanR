@@ -3,12 +3,15 @@ import { Button, Confirm, Icon, Popup } from "semantic-ui-react";
 
 
 /**
- * 
+ * @author JXNS
+ * @param {boolean} isDisabled - parent component controls when the button should be disabled
+ * @param {function} getAffectedUnits - parent component calculates all units that would be affected by the remove and returns them in an array
+ * @param {function} handleRemove - when user confirms deletion, this function is called to handle the removal of overload column
  */
 export default class ConfirmDeleteOverload extends Component {
     
     /**
-     * 
+     * sets up start values, modal should not be opened at start and unitArray is empty
      */
     constructor(props) {
         super(props);
@@ -23,7 +26,8 @@ export default class ConfirmDeleteOverload extends Component {
     }
 
     /**
-     * n
+     * When the user presses the remove button, the parent calculates what (if any) units will be affected and returns them in an array.
+     * If the array is empty, the parent can safely remove, if the array has values, then the confirm modal is displayed
      */
     handlePress() {
         let unitArray = this.props.getAffectedUnits();
@@ -38,14 +42,14 @@ export default class ConfirmDeleteOverload extends Component {
     }
 
     /**
-     * 
+     * The modal closes and the overload column is not affected if user presses cancel
      */
     handleCancel() {
         this.setState({ open: false });
     }
 
     /**
-     *
+     * user confirms, the modal is closed and parents handles removal.
      */
     handleConfirm() {
         this.setState({ open: false });
@@ -53,7 +57,7 @@ export default class ConfirmDeleteOverload extends Component {
     }
 
     /**
-     * 
+     * Construct list of affected items in message for modal, if the modal is not open then show a button
      */
     render() {
         const message = (<div>
@@ -84,7 +88,6 @@ export default class ConfirmDeleteOverload extends Component {
 
 
 ConfirmDeleteOverload.propTypes = {
-    units: PropTypes.array,
     isDisabled: PropTypes.bool,
     getAffectedUnits: PropTypes.func,
     handleRemove: PropTypes.func
