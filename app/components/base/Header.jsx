@@ -30,7 +30,7 @@ class Header extends Component {
                 <Menu.Menu>
                     <Menu.Item onClick={this.props.handleSearchClick}>
                         <Icon name="plus" />
-                        Add unit
+                        <MediaQuery query="(min-device-width: 768px)">Add unit</MediaQuery>
                     </Menu.Item>
                 </Menu.Menu>
                 <Menu.Menu position="right">
@@ -43,11 +43,12 @@ class Header extends Component {
                         />
                     }
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform" target="_blank">
-                        Give us feedback
+                        <Icon name="comment outline" />
+                        <MediaQuery query="(min-device-width: 768px)">Give us feedback</MediaQuery>
                     </Menu.Item>
                     <Menu.Item onClick={this.props.handleMenuClick}>
                         <Icon name="options" />
-                        Menu
+                        <MediaQuery query="(min-device-width: 768px)">Menu</MediaQuery>
                     </Menu.Item>
                 </Menu.Menu>
             </Menu>

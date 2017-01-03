@@ -74,18 +74,18 @@ class UnitSearchContainer extends Component {
 
     moveUpSearchResult() {
         this.setState({
-            searchResultIndex: this.state.searchResultIndex - 1
+            searchResultIndex: (this.state.searchResultIndex - 1 + this.state.searchResults.length) % this.state.searchResults.length
         });
     }
 
     moveDownSearchResult() {
         this.setState({
-            searchResultIndex: this.state.searchResultIndex + 1
+            searchResultIndex: (this.state.searchResultIndex + 1) % this.state.searchResults.length
         });
     }
 
     selectSearchResult() {
-        const searchResult = this.state.searchResults[this.state.searchResultIndex % this.state.searchResults.length];
+        const searchResult = this.state.searchResults[this.state.searchResultIndex];
         this.props.addToCourse(searchResult.UnitCode, searchResult.custom);
     }
 
@@ -111,7 +111,7 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     handleSearchChange(e) {
-        this.setState({ isLoading: true, value: e.target.value });
+        this.setState({ isLoading: true, value: e.target.value, searchResultIndex: 0 });
 
         setTimeout(() => {
             if(this.state.value.length < 1) {
@@ -195,7 +195,7 @@ class UnitSearchContainer extends Component {
                 <Menu.Header>
                     Search Results
                 </Menu.Header>
-                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex % this.state.searchResults.length} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
+                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
             </Menu.Item>
         );
     }

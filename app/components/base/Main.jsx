@@ -58,7 +58,6 @@ class Main extends Component {
                         transitionLeaveTimeout={500}>
                         {React.cloneElement(this.props.children, {key: this.props.location.pathname, menuVisible: this.state.menuVisible, searchVisible: this.state.searchVisible, handleDocumentClick: this.handleDocumentClick})}
                 </ReactCSSTransitionGroup>
-                <div className="push" />
                 <Footer className="footer"/>
             </div>
         );
