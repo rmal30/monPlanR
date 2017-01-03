@@ -11,7 +11,7 @@ import Test from "../components/multi/test.jsx";
 /* Containers import here*/
 import UnitInfoContainer from "../containers/UnitInfoContainer.jsx";
 
-module.exports = (
+export default (
   <Route path="/" component={Main}>
       <IndexRoute component={Home} />
       <Route path="plan(/?courseDetails)" component={Plan} handler={Home}/>

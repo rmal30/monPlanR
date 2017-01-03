@@ -1,5 +1,13 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Grid, Icon } from "semantic-ui-react";
+import { Button, Container, Grid, Header, Icon, Input, Menu, Sidebar, Segment } from "semantic-ui-react";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+
+import ToSModal from "../modals/tos.jsx";
+import PrivacyModal from "../modals/privacy.jsx";
+import SettingsModal from "../modals/settings.jsx";
+import Notes from "../modals/NotesModal.jsx";
+import UnitSearchResultsContainer from "../../containers/UnitSearchResultsContainer.jsx";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
@@ -29,7 +37,9 @@ class Plan extends Component {
             totalCredits: 0,
             totalCost: 0,
             focusedUnitCode: "",
-            customUnitCode: undefined
+            customUnitCode: undefined,
+            searchResults: null,
+            searchResultIndex: 0
         };
 
         this.addToCourse = this.addToCourse.bind(this);
@@ -46,9 +56,10 @@ class Plan extends Component {
      *
      * @param {string} unitToAdd - The unit to be added.
      * @param {boolean} custom - If it is a custom unit, prompt user to enter details
-     */LoadCourseMap
+     */
     addToCourse(nUnitCode, custom) {
         if(nUnitCode !== undefined) {
+            this.props.handleDocumentClick();
             if(!custom) {
                 UnitQuery.getExtendedUnitData(nUnitCode)
                     .then(response => {
@@ -137,7 +148,7 @@ class Plan extends Component {
     /**
      * handles the updating of unit info button
      */
-    handleUnitDetailClick(unitCode){
+    handleUnitDetailClick(unitCode) {
         this.setState({focusedUnitCode: unitCode});
     }
 
@@ -154,53 +165,74 @@ class Plan extends Component {
                                     primary>View {this.state.focusedUnitCode || "unit"} details</Button>;
 
         return (
-            <div className="wrapper">
-                {this.state.customUnitCode &&
-                    <CustomUnitModal
-                        UnitCode={this.state.customUnitCode}
-                        cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
-                        addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
-                }
+            <Sidebar.Pushable as={Segment}>
+                <Sidebar as={Menu} animation="overlay" width="wide" direction="left" visible={this.props.searchVisible} vertical>
+                    <UnitSearchContainer addToCourse={this.addToCourse} />
+                </Sidebar>
+                <Sidebar as={Menu} animation="overlay" width="wide" direction="right" visible={this.props.menuVisible} icon="labeled" vertical inverted>
+                    <Menu.Item>
+                        {false /* disable access to app settings for now */ &&
+                        <div className="pleaseRemoveOnceYouEnableThis">
+                            <Menu.Header>App Settings</Menu.Header>
+                            <Menu getTrigger={Header.getSettingsModalTrigger} />
+                        </div>
+                        }
+                        <Menu.Header>Issues</Menu.Header>
+                        <Menu.Item as="a" href="https://gitreports.com/issue/MonashUnitPlanner/monPlan" target="_blank"><i className="bug icon"></i> Submit an Issue</Menu.Item>
+                        <Menu.Header>Quick Links (for Devs)</Menu.Header>
+                        <Menu.Item as="a" href="https://github.com/MonashUnitPlanner" target="_blank"><Icon name="github" />GitHub Project</Menu.Item>
+                        <Menu.Item as="a" href="https://monplan.slack.com" target="_blank"><Icon name="slack" />Slack (for Devs)</Menu.Item>
+                        <Menu.Header>About</Menu.Header>
+                        <Menu.Item as="a" href="https://monashunitplanner.github.io" target="_blank"  className="item"><i className="info icon"></i>The Project</Menu.Item>
+                        <Menu.Header>Our Policies</Menu.Header>
+                        <ToSModal trigger={<Menu.Item as="a">Terms of Use</Menu.Item>} />
+                        <PrivacyModal trigger={<Menu.Item as="a">Privacy Policy</Menu.Item>} />
+                        <Notes trigger={<Menu.Item as="a">Release Notes</Menu.Item>} />
+                    </Menu.Item>
+                </Sidebar>
+                <Sidebar.Pusher dimmed={this.props.menuVisible}>
+                    <div className="wrapper" onClick={this.props.handleDocumentClick}>
+                        {this.state.customUnitCode &&
+                            <CustomUnitModal
+                                UnitCode={this.state.customUnitCode}
+                                cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
+                                addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
+                        }
 
-                <Container className="move no-print">
-                    <br />
-                    <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Row>
-                            <Grid.Column width="3"><UnitSearchContainer addToCourse={this.addToCourse} /></Grid.Column>
-                            <Grid.Column width="3">
-                                <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
-                            </Grid.Column>
-                            <Grid.Column width="3" >
-                                <LoadCourseMap />
-                            </Grid.Column>
-                            <Grid.Column width="3">
-                                <a target="_blank" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform">
-                                    <Button fluid>Give us feedback</Button>
-                                </a>
-                            </Grid.Column>
-                            <Grid.Column width="4">
-                                <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Container>
+                        <Container className="move no-print">
+                            <br />
+                            <Grid reversed="mobile" stackable className="no-print">
+                                <Grid.Row>
+                                    <Grid.Column width="4">
+                                        <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
+                                    </Grid.Column>
+                                    <Grid.Column width="4" >
+                                        <LoadCourseMap />
+                                    </Grid.Column>
+                                    <Grid.Column width="8">
+                                        <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Container>
 
-                <Container className="main text">
-                    <CourseStructure startYear={parseInt(startYear)}
-                                     endYear={parseInt(endYear)}
-                                     addToCourse={this.addToCourse}
-                                     doneAddingToCourse={this.doneAddingToCourse}
-                                     cancelAddingToCourse={this.cancelAddingToCourse}
-                                     removeFromCourse={this.removeFromCourse}
-                                     unitToAdd={this.state.unitToAdd}
-                                     totalCreditPoints={this.state.totalCredits}
-                                     totalCost={this.state.totalCost}
-                                     handleChildUpdateTotals={this.handleChildUpdateTotals}
-                                     onUnitClick={this.handleUnitDetailClick} />
-
-                </Container>
-                <div className="push" />
-            </div>
+                        <Container className="main text">
+                            <CourseStructure startYear={parseInt(startYear)}
+                                             endYear={parseInt(endYear)}
+                                             addToCourse={this.addToCourse}
+                                             doneAddingToCourse={this.doneAddingToCourse}
+                                             cancelAddingToCourse={this.cancelAddingToCourse}
+                                             removeFromCourse={this.removeFromCourse}
+                                             unitToAdd={this.state.unitToAdd}
+                                             totalCreditPoints={this.state.totalCredits}
+                                             totalCost={this.state.totalCost}
+                                             handleChildUpdateTotals={this.handleChildUpdateTotals}
+                                             onUnitClick={this.handleUnitDetailClick} />
+                        </Container>
+                        <div className="push" />
+                    </div>
+                </Sidebar.Pusher>
+            </Sidebar.Pushable>
         );
     }
 }
@@ -216,4 +248,4 @@ Plan.propTypes = {
     }).isRequired
 };
 
-export default Plan;
+export default DragDropContext(HTML5Backend)(Plan);

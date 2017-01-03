@@ -1,33 +1,14 @@
 import _ from "lodash";
 import React, { Component, PropTypes } from "react";
-import { Search } from "semantic-ui-react";
 import UnitQuery from "../utils/UnitQuery";
-import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
+import { Input, Menu } from "semantic-ui-react";
+
+import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
 
 /**
  * Source is initialised here, it is populated later with responses from API
  */
 let source = {};
-
-/**
- * The result renderer function dictates what form results should be returned
- */
-let resultRenderer = ({ UnitCode, UnitName, id, custom, active }) => (
-    <UnitSearchResult
-        UnitCode={UnitCode}
-        UnitName={UnitName}
-        custom={custom}
-        active={active}
-        id={id}
-    />
-);
-
-resultRenderer.propTypes = {
-    UnitCode: PropTypes.string,
-    UnitName: PropTypes.string,
-    id: PropTypes.number,
-    custom: PropTypes.bool
-};
 
 /**
  * This component searches through the available units for selection
@@ -45,12 +26,15 @@ class UnitSearchContainer extends Component {
         this.state = {
             isLoading: false,
             results: [],
-            value: ""
+            value: "",
+            searchResults: [],
+            searchResultIndex: 0
         };
 
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     /**
@@ -58,6 +42,7 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     componentDidMount() {
+
         UnitQuery.getUnitCodeAndUnitNames()
             .then(response => {
                 source = response.data;
@@ -87,12 +72,46 @@ class UnitSearchContainer extends Component {
         this.resetComponent();
     }
 
+    moveUpSearchResult() {
+        this.setState({
+            searchResultIndex: this.state.searchResultIndex - 1
+        });
+    }
+
+    moveDownSearchResult() {
+        this.setState({
+            searchResultIndex: this.state.searchResultIndex + 1
+        });
+    }
+
+    selectSearchResult() {
+        const searchResult = this.state.searchResults[this.state.searchResultIndex % this.state.searchResults.length];
+        this.props.addToCourse(searchResult.UnitCode, searchResult.custom);
+    }
+
+    onKeyDown(e) {
+        switch(e.keyCode) {
+        case 13:
+            this.selectSearchResult();
+            e.preventDefault();
+            break;
+        case 38:
+            this.moveUpSearchResult();
+            e.preventDefault();
+            break;
+        case 40:
+            this.moveDownSearchResult();
+            e.preventDefault();
+            break;
+        }
+    }
+
     /**
      * Handle search change updates the currently entered text in the prompt and searchs through the results based on the currently entered text.
      * @author JXNS
      */
-    handleSearchChange(e, value) {
-        this.setState({ isLoading: true, value });
+    handleSearchChange(e) {
+        this.setState({ isLoading: true, value: e.target.value });
 
         setTimeout(() => {
             if(this.state.value.length < 1) {
@@ -124,9 +143,9 @@ class UnitSearchContainer extends Component {
             if(reducedResults.length === 0) {
                 const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
 
-                if(reUnitCode.test(value.trim())) {
+                if(reUnitCode.test(this.state.value.trim())) {
                     reducedResults.push({
-                        UnitCode: value,
+                        UnitCode: this.state.value,
                         UnitName: "Create custom unit",
                         custom: true
                     });
@@ -141,19 +160,15 @@ class UnitSearchContainer extends Component {
                         childKey: `${result.UnitCode}`,
                         UnitName: result.UnitName,
                         UnitCode: result.UnitCode,
+                        Faculty: result.Faculty,
                         custom: result.custom || false
                     }
                 )
             );
 
-            /*
-                BUG: Semantic UI React integration populates props in a div tag within SearchResult.js,
-                     as a side effect of the augmentation feature. This gives the unknown props on <div> tag
-            */
-
             this.setState({
                 isLoading: false,
-                results: reducedResults,
+                searchResults: reducedResults
             });
         }, 500);
     }
@@ -163,20 +178,25 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     render() {
-        const { isLoading, value, results } = this.state;
+        const { isLoading, value } = this.state;
 
         return (
-            <Search
-                loading={isLoading}
-                onSearchChange={this.handleSearchChange}
-                results={results}
-                value={value}
-                placeholder="Search Unit"
-                noResultsMessage="No units found"
-                noResultsDescription="Type in a valid unit code to insert custom unit"
-				selectFirstResult={true}
-                resultRenderer={resultRenderer}
-                onResultSelect={this.handleResultSelect} />
+            <Menu.Item>
+                <Menu.Item>
+                    <Input
+                        ref={(input) => {this.searchInput = input;}}
+                        loading={isLoading}
+                        onChange={this.handleSearchChange}
+                        onKeyDown={this.onKeyDown}
+                        placeholder="Search Unit"
+                        icon="search"
+                        value={value} />
+                </Menu.Item>
+                <Menu.Header>
+                    Search Results
+                </Menu.Header>
+                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex % this.state.searchResults.length} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
+            </Menu.Item>
         );
     }
 }
