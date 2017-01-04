@@ -534,7 +534,7 @@ class CourseStructure extends Component {
         for(let i=0; i < teachingPeriods.length; i++) {
             let item = teachingPeriods[i].units[unitIndex];
             if (item !== null && item !== undefined) {
-                unitArray.push(item.UnitCode);
+                unitArray.push(item.UnitCode + " - " + item.UnitName);
             }
         }
 

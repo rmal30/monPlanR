@@ -35,7 +35,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
         for (var i=0; i < this.state.units.length; i++) {
             var item = this.state.units[i];
             if (item !== null && item !== undefined) {
-                unitArray.push(item.UnitCode);
+                unitArray.push(item.UnitCode + " - " + item.UnitName);
             }
         }
 
