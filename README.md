@@ -1,6 +1,6 @@
 # monPlan
 [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR)
-
+[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
 ### **[Start Planning](http://www.monplan.tech)**
 
 **monPlan** is an interactive course planner tool, which is designed to help you choose units for future teaching periods up to several years.
@@ -37,6 +37,8 @@ Otherwise you can view it here: https://doclets.io/MonashUnitPlanner/monPlanR
 MIT License
 
 Copyright (c) 2016 eSolutions (Monash University)
+
+_Built by Saurabh Joshi, Josh Nelsson-Smith, Eric Jiang_
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
