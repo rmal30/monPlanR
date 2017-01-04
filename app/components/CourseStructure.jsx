@@ -776,7 +776,7 @@ class CourseStructure extends Component {
                             <Button fluid={mobile} className="no-print" floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
                             }
                             {mobile && <br /> && <br />}
-                            <ClearCourseModal fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
+                            <ClearCourseModal disabled={this.state.teachingPeriods.length === 0} fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
                             {mobile && <br />}
                             <CompletedCourseModal
                                 trigger={<Button primary fluid={mobile} className="no-print">Complete course plan</Button>}

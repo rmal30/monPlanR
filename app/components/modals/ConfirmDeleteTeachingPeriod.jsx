@@ -81,7 +81,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
                     open={this.state.open}
                     size="small">
                     <Modal.Header>
-                        <p><Icon name="trash" />Are you sure you want to remove teaching period?</p>
+                        <p><Icon name="trash" />Are you sure you want to remove this teaching period?</p>
                     </Modal.Header>
                     <Modal.Content>{message}</Modal.Content>
                     <Modal.Actions>
