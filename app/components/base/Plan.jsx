@@ -97,6 +97,9 @@ class Plan extends Component {
         });
     }
 
+    /**
+     * handles the cancellation of addCustomUnitToCourse
+     */
     cancelAddingCustomUnitToCourse() {
         this.setState({
             customUnitCode: undefined
@@ -116,6 +119,9 @@ class Plan extends Component {
         });
     }
 
+    /**
+     * Handles the cancellation of adding a unit to course
+     */
     cancelAddingToCourse(unit) {
         this.setState({
             unitToAdd: undefined
@@ -154,7 +160,10 @@ class Plan extends Component {
         this.setState({focusedUnitCode: unitCode});
     }
 
-
+    /**
+     * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as 
+     * a prop
+     */
     handleCourseLoad(courseCode){
         this.setState({courseToLoad: courseCode});
     }
