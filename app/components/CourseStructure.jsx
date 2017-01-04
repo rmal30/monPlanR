@@ -77,7 +77,6 @@ class CourseStructure extends Component {
 
         this.generateCourse = this.generateCourse.bind(this);
         this.getAffectedUnits = this.getAffectedUnits.bind(this);
-        this.courseLoadTest = this.courseLoadTest.bind(this);
         this.loadCourseFromAPI = this.loadCourseFromAPI.bind(this);
         this.courseLoad = this.courseLoad.bind(this);
     }
@@ -159,22 +158,6 @@ class CourseStructure extends Component {
 
     }
 
-    /**
-     * Test harness for testing that a course can be loaded from API and processed into course structure
-     */
-    courseLoadTest() {
-        this.setState({isLoading: true});
-        this.clearCourse();
-        UnitQuery.getTestCourseData()
-            .then(response => {
-                let data = response.data;
-                this.loadCourseFromAPI(data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
     courseLoad(courseCode) {
         this.setState({isLoading: true});
         this.clearCourse();
@@ -185,6 +168,9 @@ class CourseStructure extends Component {
             })
             .catch(err => {
                 console.log(err);
+                this.setState({
+                    isLoading: false
+                })
             });
     }
 
@@ -769,7 +755,6 @@ class CourseStructure extends Component {
                                         isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0} 
                                         getAffectedUnits={this.getAffectedUnits} 
                                         handleRemove={this.decrementNumberOfUnits.bind(this)} />
-                                    <Button color="blue" onClick={this.courseLoadTest} floated="right">Test loading course</Button>
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
