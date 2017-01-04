@@ -85,7 +85,7 @@ class LoadCourseMap extends Component {
     }
 
     handleChange(e){
-        let results = FuzzySearch.searchCourses(e.target.value, this.state.data).map(current => {return current.item})
+        let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item})
         
         results = results.map(item => {
             return {title: item.courseCode, description: item.courseName + " - " + item.courseType}

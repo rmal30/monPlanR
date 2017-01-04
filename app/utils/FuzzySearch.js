@@ -8,7 +8,7 @@ export default class FuzzySearch {
     /**
      * Retrieves a list of units locally specifying only unit names and codes.
      */
-    static searchCourses(searchTarget, data) {
+    static search(searchTarget, data, numberOfResults, searchKeys) {
         if(searchTarget !== null || searchTarget !== "") {
             var options = {
                 include: ["score"],
@@ -19,11 +19,11 @@ export default class FuzzySearch {
                 findAllMatches: true,
                 maxPatternLength: 32,
                 minMatchCharLength: 1,
-                keys:["courseCode", "courseName"]
+                keys: searchKeys
             };
 
             const fuse = new Fuse(data, options);
-            const results = fuse.search(searchTarget).slice(0, 5);
+            const results = fuse.search(searchTarget).slice(0, numberOfResults);
             return results;
         }
         
