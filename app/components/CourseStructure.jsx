@@ -47,7 +47,9 @@ class CourseStructure extends Component {
             unitToBeMoved: undefined,
             totalCreditPoints: this.props.totalCreditPoints,
             totalEstimatedCost: this.props.totalCost,
-            isLoading: false
+            isLoading: false,
+            unlock: true, 
+            courseToLoad: this.props.courseToLoad
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -77,6 +79,7 @@ class CourseStructure extends Component {
         this.getAffectedUnits = this.getAffectedUnits.bind(this);
         this.courseLoadTest = this.courseLoadTest.bind(this);
         this.loadCourseFromAPI = this.loadCourseFromAPI.bind(this);
+        this.courseLoad = this.courseLoad.bind(this);
     }
 
     /**
@@ -84,6 +87,14 @@ class CourseStructure extends Component {
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
+        if (nextProps.courseToLoad !== "" && this.state.unlock) {
+            if (nextProps.courseToLoad !== this.state.courseToLoad) {
+                this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
+                this.courseLoad(nextProps.courseToLoad)
+            }
+            
+
+        }
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
@@ -140,7 +151,8 @@ class CourseStructure extends Component {
         this.setState({
             isLoading: false,
             teachingPeriods: result.newTeachingPeriods,
-            numberOfUnits: result.overLoadNumber
+            numberOfUnits: result.overLoadNumber,
+            unlock: true
         });
 
         this.props.handleChildUpdateTotals(result.newCP, result.newCost);
@@ -161,7 +173,19 @@ class CourseStructure extends Component {
             .catch(err => {
                 console.log(err);
             });
-        
+    }
+
+    courseLoad(courseCode) {
+        this.setState({isLoading: true});
+        this.clearCourse();
+        UnitQuery.getCourseData(courseCode)
+            .then(response => {
+                let data = response.data;
+                this.loadCourseFromAPI(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     /**

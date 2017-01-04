@@ -39,7 +39,8 @@ class Plan extends Component {
             focusedUnitCode: "",
             customUnitCode: undefined,
             searchResults: null,
-            searchResultIndex: 0
+            searchResultIndex: 0,
+            courseToLoad: ""
         };
 
         this.addToCourse = this.addToCourse.bind(this);
@@ -48,6 +49,7 @@ class Plan extends Component {
         this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
         this.handleUnitDetailClick = this.handleUnitDetailClick.bind(this);
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
+        this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
 
     /**
@@ -152,6 +154,11 @@ class Plan extends Component {
         this.setState({focusedUnitCode: unitCode});
     }
 
+
+    handleCourseLoad(courseCode){
+        this.setState({courseToLoad: courseCode});
+    }
+
     /**
      * Returns a container of grid of a single row, holding the course
      * structure.
@@ -206,7 +213,8 @@ class Plan extends Component {
                                         <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                                     </Grid.Column>
                                     <Grid.Column width="4" >
-                                        <LoadCourseMap />
+                                        <LoadCourseMap 
+                                            onCourseLoad={this.handleCourseLoad} />
                                     </Grid.Column>
                                     <Grid.Column floated="right" width="8">
                                         <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
@@ -226,7 +234,8 @@ class Plan extends Component {
                                              totalCreditPoints={this.state.totalCredits}
                                              totalCost={this.state.totalCost}
                                              handleChildUpdateTotals={this.handleChildUpdateTotals}
-                                             onUnitClick={this.handleUnitDetailClick} />
+                                             onUnitClick={this.handleUnitDetailClick} 
+                                             courseToLoad={this.state.courseToLoad} />
                         </Container>
                         <div className="push" />
                     </div>

@@ -24,6 +24,8 @@ class LoadCourseMap extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
+        this.handleLoadCourse = this.handleLoadCourse.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     componentDidMount() {
@@ -48,11 +50,24 @@ class LoadCourseMap extends Component {
     /**
      * Closes the modal
      */
-    handleClose() {
+    handleCancel() {
         this.setState({
+            CourseCode: "",
+            value: "",
             modalOpen: false,
             disabled: true
         });
+    }
+
+    handleLoadCourse() {
+        this.props.onCourseLoad(this.state.CourseCode);
+        this.setState({
+            CourseCode: "",
+            value: "",
+            modalOpen: false,
+            disabled: true
+        });
+
     }
 
     /**
@@ -82,7 +97,7 @@ class LoadCourseMap extends Component {
         });
     }
 
-    /**
+    /** 
      * Returns a Modal asking the user if they really want to clear their course
      * plan.
      *
@@ -92,7 +107,7 @@ class LoadCourseMap extends Component {
         return (
             <Modal trigger={<Button className="no-print" color="green" onClick={this.handleOpen.bind(this)}>Load Course Map</Button>}
                 open={this.state.modalOpen}
-                onClose={this.handleClose.bind(this)}>
+                onClose={this.handleCancel}>
                 <Modal.Header>
                     <Icon name="external square" /> Load Course Map
                 </Modal.Header>
@@ -112,8 +127,8 @@ class LoadCourseMap extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    {this.state.CourseCode === "" ? <Button disabled color="green">Load Course Map</Button> : <Button color="green">Load {this.state.CourseCode} Map</Button>}
-                    <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
+                    {this.state.CourseCode === "" ? <Button disabled color="green">Load Course Map</Button> : <Button onClick={this.handleLoadCourse} color="green">Load {this.state.CourseCode} Map</Button>}
+                    <Button onClick={this.handleCancel}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
         );
