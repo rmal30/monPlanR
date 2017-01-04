@@ -131,12 +131,14 @@ class CourseStructure extends Component {
     }
 
     loadCourseFromAPI(data){
-        let newTeachingPeriods = CourseTemplate.parse(data);
-
+        let result = CourseTemplate.parse(data);
+        
         this.setState({
             isLoading: false,
-            teachingPeriods: newTeachingPeriods
+            teachingPeriods: result.newTeachingPeriods
         });
+
+        this.props.handleChildUpdateTotals(result.newCP, result.newCost);
 
     }
 
