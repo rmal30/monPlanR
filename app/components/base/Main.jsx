@@ -7,6 +7,8 @@ import Footer from "./Footer.jsx";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import "../../resources/css/transitions.css";
 
+import {StickyContainer, Sticky} from "react-sticky";
+
 /**
  * The main layout used for all views.
  *
@@ -50,16 +52,22 @@ class Main extends Component {
 
     render() {
         return (
+          <StickyContainer>
             <div className='main-container'>
+              <Sticky style={{zIndex: '9999'}}>
                 <Header handleMenuClick={this.handleMenuClick} handleSearchClick={this.handleSearchClick} />
-                <ReactCSSTransitionGroup
-                        transitionName="appear"
-                        transitionEnterTimeout={500}
-                        transitionLeaveTimeout={500}>
-                        {React.cloneElement(this.props.children, {key: this.props.location.pathname, menuVisible: this.state.menuVisible, searchVisible: this.state.searchVisible, handleDocumentClick: this.handleDocumentClick})}
-                </ReactCSSTransitionGroup>
-                <Footer className="footer"/>
+              </Sticky>
+                <div className='main-body'>
+                  <ReactCSSTransitionGroup
+                          transitionName="appear"
+                          transitionEnterTimeout={500}
+                          transitionLeaveTimeout={500}>
+                          {React.cloneElement(this.props.children, {key: this.props.location.pathname, menuVisible: this.state.menuVisible, searchVisible: this.state.searchVisible, handleDocumentClick: this.handleDocumentClick})}
+                  </ReactCSSTransitionGroup>
+                  <Footer className="footer"/>
+                </div>
             </div>
+          </StickyContainer>
         );
     }
 }
