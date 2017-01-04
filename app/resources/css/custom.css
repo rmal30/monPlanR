@@ -99,6 +99,10 @@ html, body {
     height: 210px;
 }
 
+.push {
+    height: 170px;
+}
+
 .sidebar .item > .header {
     text-align: left;
     margin-top: 1em !important;
