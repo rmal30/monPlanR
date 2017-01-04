@@ -23,7 +23,6 @@ class ClearCourseModal extends Component {
      * clear course button.
      */
     handleChange(e) {
-        console.dir(e)
         if(e.target.value === "clear" || e.target.value === "Clear") {
             this.setState({disabled:false});
         } else {
