@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Confirm, Icon } from "semantic-ui-react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 
 
 /**
@@ -77,12 +77,18 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
                         </div>);
         if (this.state.open) {
             return (
-                <Confirm
-                    header={<p><Icon name="trash" />Are you sure you want to remove teaching period?</p>}
-                    content={message}
+                <Modal
                     open={this.state.open}
-                    onCancel={this.handleCancel}
-                    onConfirm={this.handleConfirm} />
+                    size="small">
+                    <Modal.Header>
+                        <p><Icon name="trash" />Are you sure you want to remove teaching period?</p>
+                    </Modal.Header>
+                    <Modal.Content>{message}</Modal.Content>
+                    <Modal.Actions>
+                        <Button color='red' floated={"right"} onClick={this.handleConfirm}>Remove Teaching Period</Button>
+                        <Button onClick={this.handleCancel}>Cancel</Button>
+                    </Modal.Actions>
+                </Modal>
             );
         } else {
             return (
