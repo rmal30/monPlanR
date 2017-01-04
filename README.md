@@ -1,6 +1,6 @@
 # monPlan
 [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR)
-
+[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
 ### **[Start Planning](http://www.monplan.tech)**
 
 **monPlan** is an interactive course planner tool, which is designed to help you choose units for future teaching periods up to several years.
