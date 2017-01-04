@@ -48,7 +48,7 @@ export default class CourseTemplate {
                         item.units.push(null);
                     }
                 }
-                newTeachingPeriods.push(item)
+                newTeachingPeriods.push(item);
             }
         }
 
@@ -59,7 +59,7 @@ export default class CourseTemplate {
             newCost: newCost,
             newCP: newCP,
             overLoadNumber: max
-        }
+        };
 
         return result;
     }
