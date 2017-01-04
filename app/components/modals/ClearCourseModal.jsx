@@ -23,7 +23,6 @@ class ClearCourseModal extends Component {
      * clear course button.
      */
     handleChange(e) {
-        console.dir(e)
         if(e.target.value === "clear" || e.target.value === "Clear") {
             this.setState({disabled:false});
         } else {
@@ -66,7 +65,7 @@ class ClearCourseModal extends Component {
      */
     render() {
         return (
-            <Modal trigger={<Button className="no-print" fluid={this.props.fluid} color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
+            <Modal trigger={<Button className="no-print" disabled={this.props.disabled} fluid={this.props.fluid} color="red" onClick={this.handleOpen.bind(this)}>Clear course</Button>}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
                 <Modal.Header>

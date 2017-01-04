@@ -736,13 +736,13 @@ class CourseStructure extends Component {
                                 <Table.HeaderCell colSpan={this.state.numberOfUnits}>
                                     Units
                                     <Popup
-                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"> <Icon name='plus' /></Button>}
+                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"> <Icon name='plus' /></Button>}
                                         content="Click this to overload a teaching period."
                                         size='mini'
                                         positioning='bottom center'
                                         />
                                     <ConfirmDeleteOverload 
-                                        isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits} 
+                                        isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0} 
                                         getAffectedUnits={this.getAffectedUnits} 
                                         handleRemove={this.decrementNumberOfUnits.bind(this)} />
                                     <Button color="blue" onClick={this.courseLoadTest} floated="right">Test loading course</Button>
@@ -776,7 +776,7 @@ class CourseStructure extends Component {
                             <Button fluid={mobile} className="no-print" floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
                             }
                             {mobile && <br /> && <br />}
-                            <ClearCourseModal fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
+                            <ClearCourseModal disabled={this.state.teachingPeriods.length === 0} fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
                             {mobile && <br />}
                             <CompletedCourseModal
                                 trigger={<Button primary fluid={mobile} className="no-print">Complete course plan</Button>}
