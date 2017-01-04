@@ -247,4 +247,4 @@ Plan.propTypes = {
     }).isRequired
 };
 
-export default DragDropContext("ontouchstart" in document.documentElement ? TouchBackend : HTML5Backend)(Plan);
+export default DragDropContext(HTML5Backend)(Plan);
