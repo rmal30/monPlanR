@@ -169,7 +169,8 @@ class CourseStructure extends Component {
             .catch(err => {
                 console.log(err);
                 this.setState({
-                    isLoading: false
+                    isLoading: false,
+                    unlock: true
                 })
             });
     }
