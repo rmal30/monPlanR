@@ -15,11 +15,11 @@ class LoadCourseMap extends Component {
     constructor() {
         super();
         this.state = {
-            CourseCode: null,
+            CourseCode: "",
             data: {},
             isLoading: false,
             results: [],
-            value: ""
+            value: "",
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -63,14 +63,17 @@ class LoadCourseMap extends Component {
     }
 
     handleResultSelect(e, value) {
-        this.setState({value: value.title})
+        this.setState({
+            value: value.title,
+            CourseCode: value.title
+        });
     }
 
     handleChange(e){
         let results = FuzzySearch.searchCourses(e.target.value, this.state.data).map(current => {return current.item})
         
         results = results.map(item => {
-            return {title: item.courseCode, description: item.courseName}
+            return {title: item.courseCode, description: item.courseName + " - " + item.courseType}
         })
 
         this.setState({
@@ -109,7 +112,7 @@ class LoadCourseMap extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    <Button color="green">Go</Button>
+                    {this.state.CourseCode === "" ? <Button disabled color="green">Load Course Map</Button> : <Button color="green">Load {this.state.CourseCode} Map</Button>}
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>

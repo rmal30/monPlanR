@@ -23,7 +23,7 @@ export default class FuzzySearch {
             };
 
             const fuse = new Fuse(data, options);
-            const results = fuse.search(searchTarget).slice(0, 7);
+            const results = fuse.search(searchTarget).slice(0, 5);
             return results;
         }
         
