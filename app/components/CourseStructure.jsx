@@ -49,6 +49,8 @@ class CourseStructure extends Component {
             totalCreditPoints: this.props.totalCreditPoints,
             totalEstimatedCost: this.props.totalCost,
             isLoading: false,
+            unlock: true, 
+            courseToLoad: this.props.courseToLoad,
             startYear: startYear || new Date().getFullYear()
         };
 
@@ -77,12 +79,10 @@ class CourseStructure extends Component {
 
         this.generateCourse = this.generateCourse.bind(this);
         this.getAffectedUnits = this.getAffectedUnits.bind(this);
-        this.courseLoadTest = this.courseLoadTest.bind(this);
         this.loadCourseFromAPI = this.loadCourseFromAPI.bind(this);
-
+        this.courseLoad = this.courseLoad.bind(this);
         this.nextSemester = this.nextSemester.bind(this);
         this.changeStartYear = this.changeStartYear.bind(this);
-
         this.getQuickSemesterString = this.getQuickSemesterString.bind(this);
         this.appendSemester = this.appendSemester.bind(this);
         this.showInsertTeachingPeriodsUI = this.showInsertTeachingPeriodsUI.bind(this);
@@ -93,6 +93,14 @@ class CourseStructure extends Component {
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
+        if (nextProps.courseToLoad !== "" && this.state.unlock) {
+            if (nextProps.courseToLoad !== this.state.courseToLoad) {
+                this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
+                this.courseLoad(nextProps.courseToLoad);
+            }
+            
+
+        }
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
@@ -149,7 +157,8 @@ class CourseStructure extends Component {
         this.setState({
             isLoading: false,
             teachingPeriods: result.newTeachingPeriods,
-            numberOfUnits: result.overLoadNumber
+            numberOfUnits: result.overLoadNumber,
+            unlock: true
         });
 
         this.props.handleChildUpdateTotals(result.newCP, result.newCost);
@@ -157,20 +166,25 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Test harness for testing that a course can be loaded from API and processed into course structure
+     * on call will load the course from API with the given course code, 
+     * note that if there is an error, we turn off the loader and unlock the lock so 
+     * the user can make another request
      */
-    courseLoadTest() {
+    courseLoad(courseCode) {
         this.setState({isLoading: true});
         this.clearCourse();
-        UnitQuery.getTestCourseData()
+        UnitQuery.getCourseData(courseCode)
             .then(response => {
                 let data = response.data;
                 this.loadCourseFromAPI(data);
             })
             .catch(err => {
                 console.log(err);
-            });
-
+                this.setState({
+                    isLoading: false,
+                    unlock: true
+             });
+         });
     }
 
     /**
@@ -758,7 +772,6 @@ class CourseStructure extends Component {
                                         isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0}
                                         getAffectedUnits={this.getAffectedUnits}
                                         handleRemove={this.decrementNumberOfUnits.bind(this)} />
-                                    <Button color="blue" onClick={this.courseLoadTest} floated="right">Test loading course</Button>
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
@@ -810,7 +823,8 @@ CourseStructure.propTypes = {
     handleChildUpdateTotals: PropTypes.func.isRequired,
     removeFromCourse: PropTypes.func.isRequired,
     onUnitClick: PropTypes.func.isRequired,
-    cancelAddingToCourse: PropTypes.func
+    cancelAddingToCourse: PropTypes.func,
+    courseToLoad: PropTypes.string
 };
 
 export default CourseStructure;

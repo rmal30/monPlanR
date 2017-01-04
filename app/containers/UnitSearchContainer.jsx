@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from "react";
 import UnitQuery from "../utils/UnitQuery";
 import { Input, Menu } from "semantic-ui-react";
 
-import fuzzy from "../utils/fuzzy";
+import FuzzySearch from "../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
 
 /**
@@ -141,7 +141,7 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = fuzzy(value, source);
+            const results = FuzzySearch.search(value, source, 5, ["UnitCode", "UnitName"]);
 
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
 

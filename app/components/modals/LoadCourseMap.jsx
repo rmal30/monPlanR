@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Icon, Input, Modal, Search } from "semantic-ui-react";
+import { Button, Icon, Modal, Search } from "semantic-ui-react";
 
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitQuery from "../../utils/UnitQuery";
@@ -15,17 +15,22 @@ class LoadCourseMap extends Component {
     constructor() {
         super();
         this.state = {
-            CourseCode: null,
+            CourseCode: "",
             data: {},
             isLoading: false,
             results: [],
-            value: ""
+            value: "",
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
+        this.handleLoadCourse = this.handleLoadCourse.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
+    /**
+     * On mount we query the api once to get the data we are searching against
+     */
     componentDidMount() {
         UnitQuery.getCourses()
             .then(response => {
@@ -33,8 +38,8 @@ class LoadCourseMap extends Component {
                 this.setState({data: data});
             })
             .catch(err => {
-                console.error(err)
-            })
+                console.error(err);
+            });
     }
     /**
      * Opens the modal
@@ -48,11 +53,28 @@ class LoadCourseMap extends Component {
     /**
      * Closes the modal
      */
-    handleClose() {
+    handleCancel() {
         this.setState({
+            CourseCode: "",
+            value: "",
             modalOpen: false,
             disabled: true
         });
+    }
+
+    /**
+     * Called when the user presses the load course button, we close the modal, reset the component and call the parents 
+     * onCourseLoad function, feeding it the courseCode
+     */
+    handleLoadCourse() {
+        this.props.onCourseLoad(this.state.CourseCode);
+        this.setState({
+            CourseCode: "",
+            value: "",
+            modalOpen: false,
+            disabled: true
+        });
+
     }
 
     /**
@@ -62,16 +84,26 @@ class LoadCourseMap extends Component {
         this.handleClose();
     }
 
+    /**
+     * When a value is selected, we updated the prompt to show the title and save the coursecode to the state
+     */
     handleResultSelect(e, value) {
-        this.setState({value: value.title})
+        this.setState({
+            value: value.title,
+            CourseCode: value.title
+        });
     }
 
+    /**
+     * On change to input we run a fuzzy search to get results and process the results into a semantic-ui search 
+     * friendly form (they require results in the form of title and description)
+     */
     handleChange(e){
-        let results = FuzzySearch.searchCourses(e.target.value, this.state.data).map(current => {return current.item})
+        let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
         
         results = results.map(item => {
-            return {title: item.courseCode, description: item.courseName}
-        })
+            return {title: item.courseCode, description: item.courseName + " - " + item.courseType};
+        });
 
         this.setState({
             value: e.target.value,
@@ -79,7 +111,7 @@ class LoadCourseMap extends Component {
         });
     }
 
-    /**
+    /** 
      * Returns a Modal asking the user if they really want to clear their course
      * plan.
      *
@@ -89,7 +121,7 @@ class LoadCourseMap extends Component {
         return (
             <Modal trigger={<Button className="no-print" color="green" onClick={this.handleOpen.bind(this)}>Load Course Map</Button>}
                 open={this.state.modalOpen}
-                onClose={this.handleClose.bind(this)}>
+                onClose={this.handleCancel}>
                 <Modal.Header>
                     <Icon name="external square" /> Load Course Map
                 </Modal.Header>
@@ -109,8 +141,8 @@ class LoadCourseMap extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    <Button color="green">Go</Button>
-                    <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
+                    {this.state.CourseCode === "" ? <Button disabled color="green">Load Course Map</Button> : <Button onClick={this.handleLoadCourse} color="green">Load {this.state.CourseCode} Map</Button>}
+                    <Button onClick={this.handleCancel}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
         );
@@ -118,7 +150,8 @@ class LoadCourseMap extends Component {
 }
 
 LoadCourseMap.propTypes = {
-    CourseCode: PropTypes.func
+    CourseCode: PropTypes.string,
+    onCourseLoad: PropTypes.func
 };
 
 export default LoadCourseMap;
