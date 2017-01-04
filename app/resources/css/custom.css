@@ -103,6 +103,10 @@ html, body {
     height: 170px;
 }
 
+.push404 {
+    height: 347px;
+}
+
 .sidebar .item > .header {
     text-align: left;
     margin-top: 1em !important;
