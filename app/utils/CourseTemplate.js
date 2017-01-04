@@ -17,7 +17,14 @@ export default class CourseTemplate {
         let newCP = 0;
         let tmpArr = data.teachingPeriods;
         console.log(tmpArr)
-        for(let i=0; i < tmpArr.length; i++) {
+        let max = 4;
+        for (let m=0; m < tmpArr.length; m++) {
+            let item = tmpArr[m];
+            if (item.numberOfUnits > max){
+                max = item.numberOfUnits;
+            }
+        }
+        for (let i=0; i < tmpArr.length; i++) {
             console.log("hello")
             let item = tmpArr[i];
             if (item.code){
@@ -33,7 +40,7 @@ export default class CourseTemplate {
                         console.log("Cost: " + newCost);
                         console.log("CP: " + newCP);
                     }
-                    for(let j=0; j < 4 - item.numberOfUnits; j++){
+                    for(let j=0; j < max - item.numberOfUnits; j++){
                         item.units.push(null);
                     }
                 }
@@ -44,7 +51,8 @@ export default class CourseTemplate {
         let result = {
             newTeachingPeriods: newTeachingPeriods,
             newCost: newCost,
-            newCP: newCP
+            newCP: newCP,
+            overLoadNumber: max
         }
         //let scaMap = [0, 132, 188, 220]; //sca band 1 through 3 maps to their per credit point cost
         //let estCost = scaMap[SCAband] * creditPoints;

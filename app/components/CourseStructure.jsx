@@ -135,7 +135,8 @@ class CourseStructure extends Component {
         
         this.setState({
             isLoading: false,
-            teachingPeriods: result.newTeachingPeriods
+            teachingPeriods: result.newTeachingPeriods,
+            numberOfUnits: result.overLoadNumber
         });
 
         this.props.handleChildUpdateTotals(result.newCP, result.newCost);
