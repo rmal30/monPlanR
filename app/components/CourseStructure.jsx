@@ -3,7 +3,9 @@ import { Button, Container, Dropdown, Icon, Message, Popup, Table, Loader } from
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
-import UnitQuery from "../utils/UnitQuery"
+import UnitQuery from "../utils/UnitQuery";
+import CourseTemplate from "../utils/CourseTemplate";
+
 import Home from "./base/Home.jsx";
 import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriod from "./TeachingPeriod/NoTeachingPeriod.jsx";
@@ -129,23 +131,7 @@ class CourseStructure extends Component {
     }
 
     loadCourseFromAPI(data){
-        console.log(data);
-        let newTeachingPeriods = [];
-        let tmpArr = data.teachingPeriods;
-        for(let i=0; i < tmpArr.length; i++) {
-            let item = tmpArr[i];
-            if (item.code){
-                if (item.numberOfUnits === 0) {
-                    item.units = new Array(4).fill(null);    
-                } else {
-                    for(let j=0; j < 4 - item.numberOfUnits; j++){
-                        item.units.push(null);
-                    }
-                }
-                newTeachingPeriods.push(item)
-            }
-        }
-
+        let newTeachingPeriods = CourseTemplate.parse(data);
 
         this.setState({
             isLoading: false,
