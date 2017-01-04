@@ -130,26 +130,33 @@ class CourseStructure extends Component {
         return [];
     }
 
+    /**
+     * Once the data is grabbed from API this will process it
+     * TODO: rename to more descriptive name like "processCourseLoadedFromAPI"
+     */
     loadCourseFromAPI(data){
         let result = CourseTemplate.parse(data);
         
         this.setState({
             isLoading: false,
-            teachingPeriods: result.newTeachingPeriods
+            teachingPeriods: result.newTeachingPeriods,
+            numberOfUnits: result.overLoadNumber
         });
 
         this.props.handleChildUpdateTotals(result.newCP, result.newCost);
 
     }
 
+    /**
+     * Test harness for testing that a course can be loaded from API and processed into course structure
+     */
     courseLoadTest() {
-        console.log("worked");
         this.setState({isLoading: true});
         this.clearCourse();
         UnitQuery.getTestCourseData()
             .then(response => {
                 let data = response.data;
-                this.loadCourseFromAPI(data)
+                this.loadCourseFromAPI(data);
             })
             .catch(err => {
                 console.log(err);

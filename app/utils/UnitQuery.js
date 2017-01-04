@@ -47,8 +47,12 @@ export default class UnitQuery {
         return axios.get(qURL);
     }
 
+    /**
+     * Used for testing the importing of course data, currently hardcoded...
+     */
     static getTestCourseData() {
-        let qURL = `${MONPLAN_REMOTE_URL}/courses/B2001-0`;
+        //let qURL = `${MONPLAN_REMOTE_URL}/courses/B2001-0`;
+        let qURL = `${MONPLAN_REMOTE_URL}/courses/D3001-0`;
         return axios.get(qURL);
     }
 
