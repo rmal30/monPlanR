@@ -89,7 +89,7 @@ class CourseStructure extends Component {
         if (nextProps.courseToLoad !== "" && this.state.unlock) {
             if (nextProps.courseToLoad !== this.state.courseToLoad) {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
-                this.courseLoad(nextProps.courseToLoad)
+                this.courseLoad(nextProps.courseToLoad);
             }
             
 
@@ -158,6 +158,11 @@ class CourseStructure extends Component {
 
     }
 
+    /**
+     * on call will load the course from API with the given course code, 
+     * note that if there is an error, we turn off the loader and unlock the lock so 
+     * the user can make another request
+     */
     courseLoad(courseCode) {
         this.setState({isLoading: true});
         this.clearCourse();
@@ -171,7 +176,7 @@ class CourseStructure extends Component {
                 this.setState({
                     isLoading: false,
                     unlock: true
-                })
+                });
             });
     }
 
@@ -814,7 +819,8 @@ CourseStructure.propTypes = {
     handleChildUpdateTotals: PropTypes.func.isRequired,
     removeFromCourse: PropTypes.func.isRequired,
     onUnitClick: PropTypes.func.isRequired,
-    cancelAddingToCourse: PropTypes.func
+    cancelAddingToCourse: PropTypes.func,
+    courseToLoad: PropTypes.string
 };
 
 export default CourseStructure;
