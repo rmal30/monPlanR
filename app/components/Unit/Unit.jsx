@@ -130,7 +130,7 @@ class Unit extends React.Component {
      */
     handleClick() {
         if(!this.props.free) {
-            this.props.onUnitClick(this.props.code);
+            this.props.onUnitClick(this.props.code, this.props.custom);
         }
         if(this.props.free && this.state.hovering && this.props.unitToAdd) {
             this.props.addUnit(this.props.index, this.props.unitToAdd);

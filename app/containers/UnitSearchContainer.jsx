@@ -29,7 +29,8 @@ class UnitSearchContainer extends Component {
             results: [],
             searchResults: [],
             searchResultIndex: 0,
-            timeoutValue: null
+            timeoutValue: null,
+            empty: true
         };
 
         this.resetComponent = this.resetComponent.bind(this);
@@ -56,6 +57,14 @@ class UnitSearchContainer extends Component {
             });
     }
 
+    componentDidUpdate() {
+        if(!this.props.searchVisible) {
+            this.searchInput.value = "";
+        } else {
+            this.searchInput.focus();
+        }
+    }
+
     /**
      * Reset needs to be called after a unit is selected, when it is selected we change the entered value back to empty string (clears the searchbox).
      * @author JXNS
@@ -64,6 +73,8 @@ class UnitSearchContainer extends Component {
         if(this.state.timeoutValue) {
             clearTimeout(this.state.timeoutValue);
         }
+
+        this.searchInput.value = "";
 
         this.setState({
             isLoading: false,
@@ -165,7 +176,8 @@ class UnitSearchContainer extends Component {
 
             this.setState({
                 isLoading: false,
-                searchResults: reducedResults
+                searchResults: reducedResults,
+                empty: !value
             });
         }, 200);
 
@@ -182,18 +194,19 @@ class UnitSearchContainer extends Component {
         return (
             <Menu.Item>
                 <Menu.Item>
-                    <Input
-                        ref={(input) => {this.searchInput = input;}}
-                        loading={isLoading}
-                        onChange={this.handleSearchChange}
-                        onKeyDown={this.onKeyDown}
-                        placeholder="Search Unit"
-                        icon="search" />
+                    <div className={"ui icon input" + (isLoading ? " loading" : "")}>
+                        <input
+                            ref={(input) => {this.searchInput = input;}}
+                            onChange={this.handleSearchChange}
+                            onKeyDown={this.onKeyDown}
+                            placeholder="Search Unit" />
+                        <i className="search icon" />
+                    </div>
                 </Menu.Item>
                 <Menu.Header>
-                    Search Results
+                    <h1 style={{fontSize: "4em !important", textAlign: "center"}}>Search Results</h1>
                 </Menu.Header>
-                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
+                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
             </Menu.Item>
         );
     }

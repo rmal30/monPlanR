@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu } from "semantic-ui-react";
+import { Header, Menu } from "semantic-ui-react";
 
 import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
 
@@ -9,16 +9,27 @@ class UnitSearchResultsContainer extends Component {
         this.willAddUnit = this.willAddUnit.bind(this);
     }
 
-    willAddUnit(code) {
-        this.props.addToCourse(code, false);
+    willAddUnit(code, custom) {
+        this.props.addToCourse(code, custom);
     }
 
     render() {
-        if(!this.props.results) {
+        if(this.props.empty) {
             return (
-                <div>
-                    <h1>No units found</h1>
-                    <p>Type in a valid unit code to insert custom unit</p>
+                <div style={{lineHeight: 1.5}}>
+                    To begin, please type in a unit name or unit code in the search bar.
+                </div>
+            );
+        }
+        if(!this.props.results || this.props.results.length === 0) {
+            return (
+                <div style={{marginTop: "1em"}}>
+                    <Header>
+                        No units found
+                        <Header.Subheader>
+                            Type in a valid unit code to insert custom unit
+                        </Header.Subheader>
+                    </Header>
                 </div>
             );
         }
