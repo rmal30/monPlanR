@@ -56,6 +56,14 @@ class UnitSearchContainer extends Component {
             });
     }
 
+    componentDidUpdate() {
+        if(!this.props.searchVisible) {
+            this.searchInput.value = "";
+        } else {
+            this.searchInput.focus();
+        }
+    }
+
     /**
      * Reset needs to be called after a unit is selected, when it is selected we change the entered value back to empty string (clears the searchbox).
      * @author JXNS
@@ -64,6 +72,8 @@ class UnitSearchContainer extends Component {
         if(this.state.timeoutValue) {
             clearTimeout(this.state.timeoutValue);
         }
+
+        this.searchInput.value = "";
 
         this.setState({
             isLoading: false,
@@ -182,13 +192,14 @@ class UnitSearchContainer extends Component {
         return (
             <Menu.Item>
                 <Menu.Item>
-                    <Input
-                        ref={(input) => {this.searchInput = input;}}
-                        loading={isLoading}
-                        onChange={this.handleSearchChange}
-                        onKeyDown={this.onKeyDown}
-                        placeholder="Search Unit"
-                        icon="search" />
+                    <div className={"ui icon input" + (isLoading ? " loading" : "")}>
+                        <input
+                            ref={(input) => {this.searchInput = input;}}
+                            onChange={this.handleSearchChange}
+                            onKeyDown={this.onKeyDown}
+                            placeholder="Search Unit" />
+                        <i className="search icon" />
+                    </div>
                 </Menu.Item>
                 <Menu.Header>
                     Search Results

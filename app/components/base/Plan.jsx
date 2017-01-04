@@ -167,7 +167,7 @@ class Plan extends Component {
         return (
             <Sidebar.Pushable as={Segment}>
                 <Sidebar as={Menu} animation="overlay" width="wide" direction="left" visible={this.props.searchVisible} vertical>
-                    <UnitSearchContainer addToCourse={this.addToCourse} />
+                    <UnitSearchContainer addToCourse={this.addToCourse} searchVisible={this.props.searchVisible} />
                 </Sidebar>
                 <Sidebar as={Menu} animation="overlay" width="wide" direction="right" visible={this.props.menuVisible} icon="labeled" vertical inverted>
                     <Menu.Item>
