@@ -28,6 +28,9 @@ class LoadCourseMap extends Component {
         this.handleCancel = this.handleCancel.bind(this);
     }
 
+    /**
+     * On mount we query the api once to get the data we are searching against
+     */
     componentDidMount() {
         UnitQuery.getCourses()
             .then(response => {
@@ -59,6 +62,10 @@ class LoadCourseMap extends Component {
         });
     }
 
+    /**
+     * Called when the user presses the load course button, we close the modal, reset the component and call the parents 
+     * onCourseLoad function, feeding it the courseCode
+     */
     handleLoadCourse() {
         this.props.onCourseLoad(this.state.CourseCode);
         this.setState({
@@ -77,6 +84,9 @@ class LoadCourseMap extends Component {
         this.handleClose();
     }
 
+    /**
+     * When a value is selected, we updated the prompt to show the title and save the coursecode to the state
+     */
     handleResultSelect(e, value) {
         this.setState({
             value: value.title,
@@ -84,6 +94,10 @@ class LoadCourseMap extends Component {
         });
     }
 
+    /**
+     * On change to input we run a fuzzy search to get results and process the results into a semantic-ui search 
+     * friendly form (they require results in the form of title and description)
+     */
     handleChange(e){
         let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
         
@@ -136,7 +150,8 @@ class LoadCourseMap extends Component {
 }
 
 LoadCourseMap.propTypes = {
-    CourseCode: PropTypes.func
+    CourseCode: PropTypes.string,
+    onCourseLoad: PropTypes.func
 };
 
 export default LoadCourseMap;
