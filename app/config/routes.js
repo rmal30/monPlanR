@@ -7,6 +7,8 @@ import Home from "../components/base/Home.jsx";
 import Plan from "../components/base/Plan.jsx";
 import tooltips from "../components/multi/tooltips.jsx";
 
+import missingPage from "../components/base/404.jsx";
+
 /* Containers import here*/
 import UnitInfoContainer from "../containers/UnitInfoContainer.jsx";
 
@@ -16,5 +18,6 @@ export default (
       <Route path="plan(/?courseDetails)" component={Plan} handler={Home}/>
       <Route path="tooltips" component={tooltips} />
       <Route path="unit" component={UnitInfoContainer} />
+      <Route path="*" component={missingPage} />
   </Route>
 );
