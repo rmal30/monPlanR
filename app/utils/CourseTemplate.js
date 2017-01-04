@@ -7,47 +7,60 @@ import CostCalc from "./CostCalc";
 export default class CourseTemplate {
 
     /**
-     * 
+     * parse takes a course template object as returned by the api as 'data' and creates a valid teachingPeriod array.
+     * Because of certain issues with the API's data integrity it is necessary to parse this data and catch any invalid 
+     * pieces of data so the table is not corrupted. '
      */
     static parse(data) {
-        console.log(data);
-
         let newTeachingPeriods = [];
         let newCost = 0;
         let newCP = 0;
         let tmpArr = data.teachingPeriods;
-        console.log(tmpArr)
-        for(let i=0; i < tmpArr.length; i++) {
-            console.log("hello")
+        let max = 4;
+        
+        // Currently the easiest way to check for overloading so we render the correct amount of teaching period unit slots
+        // This loops through the teaching periods and if the number of units in a teaching period is greater than 4, makes that the new max
+        for (let m=0; m < tmpArr.length; m++) {
+            let item = tmpArr[m];
+            if (item.numberOfUnits > max){
+                max = item.numberOfUnits;
+            }
+        }
+
+        /**
+         * Goes through each teaching period and if the number of units is 0, fills it with nulls.
+         * If a unit is encountered, it loops through every unit and calculates the cost, updating the credit point and 
+         * total cost values as well.
+         */
+        for (let i=0; i < tmpArr.length; i++) {
             let item = tmpArr[i];
             if (item.code){
                 if (item.numberOfUnits === 0) {
-                    item.units = new Array(4).fill(null);    
+                    item.units = new Array(max).fill(null);    
                 } else {
                     for (let k=0; k < item.numberOfUnits; k++){
                         let unit = item.units[k];
                         unit.Cost = CostCalc.calculateCost(unit.SCABand, unit.CreditPoints);
-                        console.log("---" + unit.UnitCode + "---");
                         newCost += unit.Cost;
                         newCP += unit.CreditPoints;
-                        console.log("Cost: " + newCost);
-                        console.log("CP: " + newCP);
                     }
-                    for(let j=0; j < 4 - item.numberOfUnits; j++){
+                    for(let j=0; j < max - item.numberOfUnits; j++){
                         item.units.push(null);
                     }
                 }
-                newTeachingPeriods.push(item)
+                newTeachingPeriods.push(item);
             }
         }
 
+
+        // result object contains all the data we want
         let result = {
             newTeachingPeriods: newTeachingPeriods,
             newCost: newCost,
-            newCP: newCP
-        }
-        //let scaMap = [0, 132, 188, 220]; //sca band 1 through 3 maps to their per credit point cost
-        //let estCost = scaMap[SCAband] * creditPoints;
+            newCP: newCP,
+            overLoadNumber: max
+        };
+
         return result;
     }
 }

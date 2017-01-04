@@ -23,6 +23,7 @@ class ClearCourseModal extends Component {
      * clear course button.
      */
     handleChange(e) {
+        console.dir(e)
         if(e.target.value === "clear" || e.target.value === "Clear") {
             this.setState({disabled:false});
         } else {
@@ -80,7 +81,7 @@ class ClearCourseModal extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    <Button color='red' disabled={this.state.disabled} floated={"left"} onClick={this.handleClick.bind(this)}>Clear Course</Button>
+                    <Button color='red' disabled={this.state.disabled} floated={"right"} onClick={this.handleClick.bind(this)}>Clear Course</Button>
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
