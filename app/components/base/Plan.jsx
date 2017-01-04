@@ -189,8 +189,8 @@ class Plan extends Component {
                         <PrivacyModal trigger={<Menu.Item as="a">Privacy Policy</Menu.Item>} />
                     </Menu.Item>
                 </Sidebar>
-                <Sidebar.Pusher dimmed={this.props.menuVisible}>
-                    <div className="wrapper" onClick={this.props.handleDocumentClick}>
+                <Sidebar.Pusher dimmed={this.props.menuVisible} onClick={this.props.handleDocumentClick}>
+                    <div className="wrapper">
                         {this.state.customUnitCode &&
                             <CustomUnitModal
                                 UnitCode={this.state.customUnitCode}

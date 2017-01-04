@@ -25,6 +25,7 @@ function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, addUnit, un
             willAddUnit={willAddUnit}
             addUnit={addUnit}
             onUnitClick={willAddUnit}
+            custom={custom}
             unitToAdd={unitToAdd}
             index={id}
             code={UnitCode}

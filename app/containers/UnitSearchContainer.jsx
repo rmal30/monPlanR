@@ -29,7 +29,8 @@ class UnitSearchContainer extends Component {
             results: [],
             searchResults: [],
             searchResultIndex: 0,
-            timeoutValue: null
+            timeoutValue: null,
+            empty: true
         };
 
         this.resetComponent = this.resetComponent.bind(this);
@@ -175,7 +176,8 @@ class UnitSearchContainer extends Component {
 
             this.setState({
                 isLoading: false,
-                searchResults: reducedResults
+                searchResults: reducedResults,
+                empty: !value
             });
         }, 200);
 
@@ -202,9 +204,9 @@ class UnitSearchContainer extends Component {
                     </div>
                 </Menu.Item>
                 <Menu.Header>
-                    Search Results
+                    <h1 style={{fontSize: "4em !important", textAlign: "center"}}>Search Results</h1>
                 </Menu.Header>
-                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
+                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
             </Menu.Item>
         );
     }
