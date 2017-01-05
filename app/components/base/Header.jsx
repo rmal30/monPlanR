@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
+import { Link } from "react-router";
 
 /**
  * The header for the web app, which displays the logo, name, status and information menu.
@@ -22,10 +23,14 @@ class Header extends Component {
      */
     render() {
         return (
-            <Menu inverted className="no-print">
-                <Menu.Header className="item">
-                    <img className="logo" src="resources/img/logo.png" alt="logo" />
-                    <MediaQuery query="(min-device-width: 300px)">monPlan</MediaQuery>
+            <Menu inverted className="no-print nav" onClick={this.props.handleDocumentClick}>
+                <Menu.Header>
+                    <Link to="/">
+                        <Menu.Item>
+                            <img className="logo" src="resources/img/logo.png" alt="logo" />
+                            <MediaQuery query="(min-device-width: 300px)">monPlan</MediaQuery>
+                        </Menu.Item>
+                    </Link>
                 </Menu.Header>
                 <Menu.Menu>
                     <Menu.Item onClick={this.props.handleSearchClick}>
