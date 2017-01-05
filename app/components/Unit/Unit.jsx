@@ -180,7 +180,8 @@ class Unit extends React.Component {
             "Law": "grey",
             "Medicine, Nursing and Health Sciences": "blue",
             "Pharmacy and Pharmaceutical Sciences": "olive",
-            "Science": "green"
+            "Science": "green",
+            "All": "yellow"
         };
 
         let facultyColor = undefined;
