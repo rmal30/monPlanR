@@ -30,34 +30,19 @@ export default class UnitQuery {
     }
 
     /**
-     * Currently using new API so this is not necessary
+     * Retrieves the basic course list from the API, this returns {courseCode, courseName, courseType}
      */
-    static getOldUnitData(nUnitCode){
-        let qURL = "http://api.monplan.tech:3000/v0.2/" + nUnitCode;
-        return axios.get(qURL);
-    }
-
-    /**
-     * Retrieves information about a single unit remotely.
-
-     * @param {string} CourseCode - The unit code to retrieve more information about.
-     */
-    static getCourseMapData(CourseCode) {
-        let qURL = `${MONPLAN_REMOTE_URL}/courses/${CourseCode}`;
-        return axios.get(qURL);
-    }
-
-    /**
-     * Used for testing the importing of course data, currently hardcoded...
-     */
-    static getTestCourseData() {
-        //let qURL = `${MONPLAN_REMOTE_URL}/courses/B2001-0`;
-        let qURL = `${MONPLAN_REMOTE_URL}/courses/D3001-0`;
-        return axios.get(qURL);
-    }
-
     static getCourses() {
         let qURL = `${MONPLAN_REMOTE_URL}/basic/courses`;
+        return axios.get(qURL);
+    }
+
+    /**
+     * given a courseCode, retrieves the course template data from the API
+     * @param {string} courseCode - the courseCode corresponding to the course to search
+     */
+    static getCourseData(courseCode) {
+        let qURL = `${MONPLAN_REMOTE_URL}/courses/${courseCode}`;
         return axios.get(qURL);
     }
 
