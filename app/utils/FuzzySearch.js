@@ -21,9 +21,9 @@ export default class FuzzySearch {
                 shouldSort: true,
                 threshold: 0.5,
                 location: 0,
-                distance: 100,
+                distance: 400,
                 findAllMatches: true,
-                maxPatternLength: 32,
+                maxPatternLength: 128,
                 minMatchCharLength: 1,
                 keys: searchKeys
             };
@@ -32,7 +32,7 @@ export default class FuzzySearch {
             const results = fuse.search(searchTarget).slice(0, numberOfResults);
             return results;
         }
-        
+
         return [];
     }
 
