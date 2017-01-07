@@ -111,7 +111,7 @@ class Main extends Component {
                             <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />
                         </Sidebar>
                         }
-                        <Sidebar.Pusher dimmed={this.state.menuVisible}>
+                        <Sidebar.Pusher dimmed={this.state.menuVisible} onClick={this.handleDocumentClick}>
                             <ReactCSSTransitionGroup
                                   transitionName="appear"
                                   transitionEnterTimeout={500}
@@ -121,7 +121,6 @@ class Main extends Component {
                                           key: this.props.location.pathname,
                                           menuVisible: this.state.menuVisible,
                                           searchVisible: this.state.searchVisible,
-                                          handleDocumentClick: this.handleDocumentClick,
                                           attachAddToCourse: this.attachAddToCourse,
                                           detachAddToCourse: this.detachAddToCourse
                                       })}
