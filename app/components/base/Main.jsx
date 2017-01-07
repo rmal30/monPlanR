@@ -121,6 +121,7 @@ class Main extends Component {
                                           key: this.props.location.pathname,
                                           menuVisible: this.state.menuVisible,
                                           searchVisible: this.state.searchVisible,
+                                          handleDocumentClick: this.handleDocumentClick,
                                           attachAddToCourse: this.attachAddToCourse,
                                           detachAddToCourse: this.detachAddToCourse
                                       })}
