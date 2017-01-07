@@ -30,12 +30,27 @@ class Main extends Component {
         super(props);
 
         this.state = {
-            menuVisible: false
+            menuVisible: false,
+            addToCourse: null
         };
 
         this.handleMenuClick = this.handleMenuClick.bind(this);
         this.handleSearchClick = this.handleSearchClick.bind(this);
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
+        this.attachAddToCourse = this.attachAddToCourse.bind(this);
+        this.detachAddToCourse = this.detachAddToCourse.bind(this);
+    }
+
+    attachAddToCourse(addToCourse) {
+        this.setState({
+            addToCourse
+        });
+    }
+
+    detachAddToCourse() {
+        this.setState({
+            addToCourse: null
+        });
     }
 
     handleSearchClick() {
@@ -64,7 +79,11 @@ class Main extends Component {
     render() {
         return (
             <div className='main-container'>
-                <Header handleMenuClick={this.handleMenuClick} handleSearchClick={this.handleSearchClick} handleDocumentClick={this.handleDocumentClick} />
+                <Header
+                    handleMenuClick={this.handleMenuClick}
+                    handleSearchClick={this.handleSearchClick}
+                    handleDocumentClick={this.handleDocumentClick}
+                    showAddUnit={!!this.state.addToCourse} />
                 <div className='main-body'>
                     <Sidebar.Pushable as={Segment}>
                         <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="right" visible={this.state.menuVisible} icon="labeled" vertical inverted>
@@ -87,12 +106,25 @@ class Main extends Component {
                                 <PrivacyModal trigger={<Menu.Item as="a">Privacy Policy</Menu.Item>} />
                             </Menu.Item>
                         </Sidebar>
+                        {this.state.addToCourse &&
+                        <Sidebar as={Menu} animation="overlay" direction="top" visible={this.state.searchVisible} vertical>
+                            <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />
+                        </Sidebar>
+                        }
                         <Sidebar.Pusher dimmed={this.state.menuVisible}>
                             <ReactCSSTransitionGroup
                                   transitionName="appear"
                                   transitionEnterTimeout={500}
                                   transitionLeaveTimeout={500}>
-                                  {React.cloneElement(this.props.children, {key: this.props.location.pathname, menuVisible: this.state.menuVisible, searchVisible: this.state.searchVisible, handleDocumentClick: this.handleDocumentClick})}
+                                  {React.cloneElement(this.props.children,
+                                      {
+                                          key: this.props.location.pathname,
+                                          menuVisible: this.state.menuVisible,
+                                          searchVisible: this.state.searchVisible,
+                                          handleDocumentClick: this.handleDocumentClick,
+                                          attachAddToCourse: this.attachAddToCourse,
+                                          detachAddToCourse: this.detachAddToCourse
+                                      })}
                             </ReactCSSTransitionGroup>
                             <Footer className="footer"/>
                         </Sidebar.Pusher>
