@@ -8,7 +8,6 @@ import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import UnitDetailModalPopup from "../Unit/UnitDetailModalPopup.jsx";
-import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
