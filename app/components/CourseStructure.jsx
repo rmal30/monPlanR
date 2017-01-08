@@ -49,13 +49,14 @@ class CourseStructure extends Component {
             totalCreditPoints: this.props.totalCreditPoints,
             totalEstimatedCost: this.props.totalCost,
             isLoading: false,
-            unlock: true, 
+            unlock: true,
             courseToLoad: this.props.courseToLoad,
             startYear: startYear || new Date().getFullYear()
         };
+        let qURL = `${MONPLAN_REMOTE_URL}/basic/teachingperiods`;
 
         // Fetch common teaching periods to get names for each teaching period code.
-        axios.get("/data/teachingPeriods/common.json")
+        axios.get(qURL)
              .then(response => {
                  /**
                   * Compares start teaching period date between two teaching periods.
@@ -98,7 +99,7 @@ class CourseStructure extends Component {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
                 this.courseLoad(nextProps.courseToLoad);
             }
-            
+
 
         }
         this.setState({
@@ -166,8 +167,8 @@ class CourseStructure extends Component {
     }
 
     /**
-     * on call will load the course from API with the given course code, 
-     * note that if there is an error, we turn off the loader and unlock the lock so 
+     * on call will load the course from API with the given course code,
+     * note that if there is an error, we turn off the loader and unlock the lock so
      * the user can make another request
      */
     courseLoad(courseCode) {
