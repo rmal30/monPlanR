@@ -72,7 +72,7 @@ class Plan extends Component {
                     .then(response => {
                         let data = response.data;
                         data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
-
+                        
                         this.setState({
                             unitToAdd: data,
                             focusedUnitCode: data.UnitCode

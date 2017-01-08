@@ -51,7 +51,9 @@ class CourseStructure extends Component {
             isLoading: false,
             unlock: true, 
             courseToLoad: this.props.courseToLoad,
-            startYear: startYear || new Date().getFullYear()
+            startYear: startYear || new Date().getFullYear(),
+            isError: false,
+            errorMsg: ""
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -86,6 +88,7 @@ class CourseStructure extends Component {
         this.getQuickSemesterString = this.getQuickSemesterString.bind(this);
         this.appendSemester = this.appendSemester.bind(this);
         this.showInsertTeachingPeriodsUI = this.showInsertTeachingPeriodsUI.bind(this);
+        this.validate = this.validate.bind(this);
     }
 
     /**
@@ -98,13 +101,45 @@ class CourseStructure extends Component {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
                 this.courseLoad(nextProps.courseToLoad);
             }
-            
+        }
 
+        let isError = false;
+        let errorMsg;
+
+        if (nextProps.unitToAdd !== undefined) {
+            errorMsg = this.validate(nextProps.unitToAdd);
+            if(errorMsg !== "") {
+                isError = true;
+            }
         }
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
-            totalEstimatedCost: nextProps.totalCost
+            totalEstimatedCost: nextProps.totalCost,
+            errorMsg,
+            isError
         });
+
+    }
+
+    validate(newUnit) {
+        for(let i=0; i < this.state.teachingPeriods.length; i++) {
+            let TP = this.state.teachingPeriods[i];
+            for(let j=0; j < TP.units.length; j++) {
+                let unit = TP.units[j];
+                console.log("------------------");
+                if (unit !== null) {
+                    console.log(unit);
+                    console.log(newUnit);
+                    if (unit.UnitCode === newUnit.UnitCode){
+                        return "Unit " + unit.UnitCode + " already exists in course plan."
+                    }
+                }
+                console.log("------------------")
+                
+            }
+        }
+
+        return "";
     }
 
     /**
@@ -409,6 +444,7 @@ class CourseStructure extends Component {
     willMoveUnit(teachingPeriodIndex, unitIndex) {
         this.props.onUnitClick(this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex].UnitCode);
         this.setState({
+            isError: false,
             showMoveUnitUI: true,
             originalPosition: [teachingPeriodIndex, unitIndex],
             unitToBeMoved: this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex]
@@ -436,12 +472,12 @@ class CourseStructure extends Component {
     moveUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
         if(this.state.originalPosition) {
-            teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = undefined;
+            teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = null;
         }
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = this.state.unitToBeMoved;
         this.setState({
             showMoveUnitUI: false,
-            originalPosition: undefined,
+            originalPosition: null,
             teachingPeriods: teachingPeriods
         });
     }
@@ -609,7 +645,8 @@ class CourseStructure extends Component {
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units}
                     handleUnitDetailClick={this.props.onUnitClick}
-                    cancelMoving={this.cancelMoving.bind(this)} />;
+                    cancelMoving={this.cancelMoving.bind(this)} 
+                    isError={this.state.isError} />;
     }
 
     /**
@@ -720,6 +757,16 @@ class CourseStructure extends Component {
 
         return (
             <Container>
+                {this.state.isError && this.props.unitToAdd && 
+                    <Message negative className="no-print">
+                        <Message.Header>
+                           {"Error adding " + this.props.unitToAdd.UnitCode}
+                        </Message.Header>
+                        <p>
+                            {this.state.errorMsg}
+                        </p>
+                    </Message>
+                }
                 {!this.state.showMoveUnitUI && !this.props.unitToAdd &&
                     <Message className="no-print">
                         <Message.Header>
@@ -730,7 +777,7 @@ class CourseStructure extends Component {
                         </p>
                     </Message>
                 }
-                {this.props.unitToAdd && !this.state.showMoveUnitUI &&
+                {this.props.unitToAdd && !this.state.showMoveUnitUI && !this.state.isError &&
                     <Message
                         positive
                         className="no-print"
