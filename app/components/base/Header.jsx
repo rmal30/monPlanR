@@ -32,12 +32,14 @@ class Header extends Component {
                         </Menu.Item>
                     </Link>
                 </Menu.Header>
+                {this.props.showAddUnit &&
                 <Menu.Menu>
                     <Menu.Item onClick={this.props.handleSearchClick}>
                         <Icon name="plus" />
                         <MediaQuery query="(min-device-width: 768px)">Add unit</MediaQuery>
                     </Menu.Item>
                 </Menu.Menu>
+                }
                 <Menu.Menu position="right">
                     {false /* disable status for now */ &&
                     <Popup

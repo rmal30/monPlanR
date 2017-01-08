@@ -37,7 +37,7 @@ class UnitSearchResultsContainer extends Component {
         const eles = this.props.results.map((unitToAdd, index) => {
             const { UnitCode, UnitName, custom, Faculty } = unitToAdd;
             return (
-                <Menu.Item active={this.props.searchResultIndex === index} key={index}>
+                <Menu.Item active={this.props.searchResultIndex === index} key={index} style={{display: "inline-block"}}>
                     <UnitSearchResult
                         key={UnitCode}
                         UnitCode={UnitCode}

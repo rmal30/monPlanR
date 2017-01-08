@@ -45,6 +45,19 @@ class Plan extends Component {
     }
 
     /**
+     * A workaround that is a React anti-pattern.
+     *
+     * TODO: Find some better way of handling state.
+     */
+    componentDidMount() {
+        this.props.attachAddToCourse(this.addToCourse);
+    }
+
+    componentWillUnmount() {
+        this.props.detachAddToCourse();
+    }
+
+    /**
      * Adds unit to course by specifying unit code. It does not add unit
      * immediately.
      *
@@ -153,7 +166,7 @@ class Plan extends Component {
     }
 
     /**
-     * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as 
+     * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as
      * a prop
      */
     handleCourseLoad(courseCode){
@@ -174,9 +187,6 @@ class Plan extends Component {
 
         return (
             <div className="wrapper">
-                <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.props.searchVisible} vertical>
-                    <UnitSearchContainer addToCourse={this.addToCourse} searchVisible={this.props.searchVisible} />
-                </Sidebar>
                 {this.state.customUnitCode &&
                     <CustomUnitModal
                         UnitCode={this.state.customUnitCode}
@@ -192,7 +202,7 @@ class Plan extends Component {
                                 <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="4" >
-                                <LoadCourseMap 
+                                <LoadCourseMap
                                     onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
                             <Grid.Column floated="right" width="8">

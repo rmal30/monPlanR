@@ -116,9 +116,15 @@ class UnitSearchContainer extends Component {
             this.selectSearchResult();
             e.preventDefault();
             break;
+        case 37:
+            this.moveUpSearchResult();
+            break;
         case 38:
             this.moveUpSearchResult();
             e.preventDefault();
+            break;
+        case 39:
+            this.moveDownSearchResult();
             break;
         case 40:
             this.moveDownSearchResult();
@@ -203,9 +209,7 @@ class UnitSearchContainer extends Component {
                         <i className="search icon" />
                     </div>
                 </Menu.Item>
-                <Menu.Header>
-                    <h1 style={{fontSize: "4em !important", textAlign: "center"}}>Search Results</h1>
-                </Menu.Header>
+
                 <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
             </Menu.Item>
         );
