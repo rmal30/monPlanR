@@ -64,7 +64,7 @@ class Plan extends Component {
      * @param {string} unitToAdd - The unit to be added.
      * @param {boolean} custom - If it is a custom unit, prompt user to enter details
      */
-    addToCourse(nUnitCode, custom) {
+    addToCourse(nUnitCode, custom, drag, position) {
         if(nUnitCode !== undefined) {
             this.props.handleDocumentClick();
             if(!custom) {
@@ -83,9 +83,20 @@ class Plan extends Component {
                         console.error(error);
                     });
 
-            } else {
+            } else if(custom && drag) {
                 this.setState({
-                    customUnitCode: nUnitCode
+                    unitToAdd: {
+                        UnitCode: nUnitCode,
+                        UnitName: "Create custom unit",
+                        custom: true,
+                        dragged: true
+                    },
+                    focusedUnitCode: "nUnitCode"
+                });
+            } else if(custom) {
+                this.setState({
+                    customUnitCode: nUnitCode,
+                    customUnitPosition: position
                 });
             }
         }
@@ -190,6 +201,7 @@ class Plan extends Component {
                 {this.state.customUnitCode &&
                     <CustomUnitModal
                         UnitCode={this.state.customUnitCode}
+                        position={this.state.customUnitPosition}
                         cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
                         addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
                 }

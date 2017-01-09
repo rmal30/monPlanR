@@ -7,9 +7,10 @@ import TouchBackend from "react-dnd-touch-backend";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 
-import { Icon, Menu, Segment, Sidebar } from "semantic-ui-react";
+import { Menu, Sidebar } from "semantic-ui-react";
 
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
+// import UnitDragPreview from "../Unit/UnitDragPreview.jsx";
 
 /* These imports handle the smooth transitioning between app views */
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
@@ -113,4 +114,4 @@ Main.propTypes = {
     location: PropTypes.object
 };
 
-export default DragDropContext(HTML5Backend)(Main);
+export default DragDropContext("ontouchstart" in window ? TouchBackend({ enableMouseEvents: true }) : HTML5Backend)(Main);

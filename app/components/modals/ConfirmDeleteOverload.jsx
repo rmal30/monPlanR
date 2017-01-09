@@ -9,7 +9,7 @@ import { Button, Icon, Popup, Modal } from "semantic-ui-react";
  * @param {function} handleRemove - when user confirms deletion, this function is called to handle the removal of overload column
  */
 export default class ConfirmDeleteOverload extends Component {
-    
+
     /**
      * sets up start values, modal should not be opened at start and unitArray is empty
      */
@@ -74,7 +74,7 @@ export default class ConfirmDeleteOverload extends Component {
                     </Modal.Header>
                     <Modal.Content>{message}</Modal.Content>
                     <Modal.Actions>
-                        <Button color='red' floated={"right"} onClick={this.handleConfirm}>Remove Column</Button>
+                        <Button color='red' floated="right" onClick={this.handleConfirm}>Remove Column</Button>
                         <Button onClick={this.handleCancel}>Cancel</Button>
                     </Modal.Actions>
                 </Modal>
@@ -82,7 +82,7 @@ export default class ConfirmDeleteOverload extends Component {
         } else {
             return (
                 <Popup
-                    trigger={<Button icon className="no-print" disabled={this.props.isDisabled}  onClick={this.handlePress} color="red" floated="right"> <Icon name='minus' /></Button>}
+                    trigger={<Button icon="minus" labelPosition={this.props.mobile ? "left" : undefined} className="no-print" disabled={this.props.isDisabled}  onClick={this.handlePress} color="red" floated={!this.props.mobile ? "right" : undefined} fluid={this.props.mobile} content={this.props.mobile ? "Remove overload column" : ""} />}
                     content="Removes last column from your course plan."
                     size='mini'
                     positioning='bottom center'
@@ -96,6 +96,6 @@ export default class ConfirmDeleteOverload extends Component {
 ConfirmDeleteOverload.propTypes = {
     isDisabled: PropTypes.bool,
     getAffectedUnits: PropTypes.func,
-    handleRemove: PropTypes.func
-
+    handleRemove: PropTypes.func,
+    mobile: PropTypes.bool
 };

@@ -9,8 +9,8 @@ class UnitSearchResultsContainer extends Component {
         this.willAddUnit = this.willAddUnit.bind(this);
     }
 
-    willAddUnit(code, custom) {
-        this.props.addToCourse(code, custom);
+    willAddUnit(code, custom, drag) {
+        this.props.addToCourse(code, custom, drag);
     }
 
     render() {

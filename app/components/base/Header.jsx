@@ -29,14 +29,12 @@ class Header extends Component {
     render() {
         return (
             <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick}>
-                <Menu.Header>
-                    <Link to="/">
-                        <Menu.Item>
-                            <img className="logo" src="resources/img/logo.png" alt="logo" />
-                            <MediaQuery query="(min-device-width: 768px)">monPlan</MediaQuery>
-                        </Menu.Item>
-                    </Link>
-                </Menu.Header>
+                <Link to="/">
+                    <Menu.Item>
+                        <img className="logo" src="resources/img/logo.png" alt="logo" />
+                        <MediaQuery query="(min-device-width: 768px)">monPlan</MediaQuery>
+                    </Menu.Item>
+                </Link>
                 {this.props.showAddUnit &&
                 <Menu.Menu>
                     <Menu.Item onClick={this.props.handleSearchClick}>
@@ -61,7 +59,7 @@ class Header extends Component {
                     <Menu.Item>
                         <MediaQuery maxDeviceWidth={767}>
                             {mobile =>
-                                <Dropdown floating vertical text={!mobile ? "Menu" : ""} icon={mobile ? "options" : "caret down"}>
+                                <Dropdown floating text={!mobile ? "Menu" : ""} icon={mobile ? "options" : "caret down"}>
                                     <Dropdown.Menu>
                                         {false /* disable access to app settings for now */ &&
                                         <div className="pleaseRemoveOnceYouEnableThis">

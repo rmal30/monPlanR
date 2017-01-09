@@ -31,9 +31,9 @@ class CustomUnitModal extends Component {
             {text: "Engineering", value: "Engineering"},
             {text: "Information Technology", value: "Information Technology"},
             {text: "Law", value: "Law"},
+            {text: "Science", value: "Science"},
             {text: "Medicine, Nursing and Health Sciences", value: "Medicine, Nursing and Health Sciences"},
-            {text: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"},
-            {text: "Science", value: "Science"}
+            {text: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"}
         ];
 
         this.state = {
@@ -117,7 +117,7 @@ class CustomUnitModal extends Component {
      */
     addCustomUnitToCourse() {
         const { SCABand, CreditPoints } = this.state;
-        this.props.addCustomUnitToCourse(Object.assign({}, this.state, {Cost: CostCalc.calculateCost(SCABand, CreditPoints)}));
+        this.props.addCustomUnitToCourse(Object.assign({}, this.state, {Cost: CostCalc.calculateCost(SCABand, CreditPoints), position: this.props.position}));
         this.props.cancelAddingCustomUnitToCourse();
     }
 
@@ -185,9 +185,9 @@ class CustomUnitModal extends Component {
 
 CustomUnitModal.propTypes = {
     UnitCode: PropTypes.string.isRequired,
-    trigger: PropTypes.element.isRequired,
     cancelAddingCustomUnitToCourse: PropTypes.func.isRequired,
-    addCustomUnitToCourse: PropTypes.func.isRequired
+    addCustomUnitToCourse: PropTypes.func.isRequired,
+    position: PropTypes.array
 };
 
 export default CustomUnitModal;
