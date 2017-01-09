@@ -53,7 +53,8 @@ class CourseStructure extends Component {
             courseToLoad: this.props.courseToLoad,
             startYear: startYear || new Date().getFullYear(),
             isError: false,
-            errorMsg: ""
+            errorMsg: "",
+            errorHeader: ""
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -103,43 +104,48 @@ class CourseStructure extends Component {
             }
         }
 
-        let isError = false;
-        let errorMsg;
 
-        if (nextProps.unitToAdd !== undefined) {
-            errorMsg = this.validate(nextProps.unitToAdd);
-            if(errorMsg !== "") {
-                isError = true;
-            }
-        }
+        let error = this.validate(nextProps.unitToAdd);
+
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost,
-            errorMsg,
-            isError
+            errorMsg: error.errorMsg,
+            isError: error.isError,
+            errorHeader: error.errorHeader,
         });
 
     }
 
     validate(newUnit) {
-        for(let i=0; i < this.state.teachingPeriods.length; i++) {
-            let TP = this.state.teachingPeriods[i];
-            for(let j=0; j < TP.units.length; j++) {
-                let unit = TP.units[j];
-                console.log("------------------");
-                if (unit !== null) {
-                    console.log(unit);
-                    console.log(newUnit);
-                    if (unit.UnitCode === newUnit.UnitCode){
-                        return "Unit " + unit.UnitCode + " already exists in course plan."
-                    }
-                }
-                console.log("------------------")
-                
-            }
+        let error = {
+            errorMsg: "",
+            errorHeader: "",
+            isError: false
         }
 
-        return "";
+        if (newUnit !== undefined) {
+            for(let i=0; i < this.state.teachingPeriods.length; i++) {
+                let TP = this.state.teachingPeriods[i];
+                for(let j=0; j < TP.units.length; j++) {
+                    let unit = TP.units[j];
+                    if (unit !== null) {
+                        if (unit.UnitCode === newUnit.UnitCode){
+                            error.errorMsg = "Unit " + unit.UnitCode + " already exists in course plan.";
+                            error.errorHeader = "Error adding unit: " + unit.UnitCode
+                            error.isError = true;
+                            
+                            return error;
+
+                        }
+                    }
+                }
+            }
+            error.isError = false; 
+        }
+
+
+        return error;
     }
 
     /**
@@ -442,7 +448,15 @@ class CourseStructure extends Component {
      * @param {number} unitIndex
      */
     willMoveUnit(teachingPeriodIndex, unitIndex) {
-        this.props.onUnitClick(this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex].UnitCode);
+        console.log("will move unit");
+        if (this.props.unitToAdd !== undefined) {
+            this.props.cancelAddingToCourse();
+        }
+        let focusedUnit = this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex];
+        //let errorMsg = this.validate(focusedUnit)
+        //let isError = (errorMsg !== "");
+
+        this.props.onUnitClick(focusedUnit.UnitCode);
         this.setState({
             isError: false,
             showMoveUnitUI: true,
@@ -757,10 +771,10 @@ class CourseStructure extends Component {
 
         return (
             <Container>
-                {this.state.isError && this.props.unitToAdd && 
+                {this.state.isError && 
                     <Message negative className="no-print">
                         <Message.Header>
-                           {"Error adding " + this.props.unitToAdd.UnitCode}
+                           {this.state.errorHeader}
                         </Message.Header>
                         <p>
                             {this.state.errorMsg}
