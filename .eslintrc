@@ -24,6 +24,12 @@
         }],
         "semi": "error"
     },
+    "globals": {
+        "MONPLAN_DESCRIPITON": true,
+        "MONPLAN_VERSION": true,
+        "MONPLAN_AUTHOR": true,
+        "MONPLAN_REMOTE_URL": true
+    },
     "env": {
         "es6": true,
         "browser": true,
