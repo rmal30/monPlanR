@@ -31,7 +31,7 @@ class Header extends Component {
             <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick}>
                 <Link to="/">
                     <Menu.Item>
-                        <img className="logo" src="resources/img/logo.png" alt="logo" />
+                        <img className="logo" src="/resources/img/logo.png" alt="logo" />
                         <MediaQuery query="(min-device-width: 768px)">monPlan</MediaQuery>
                     </Menu.Item>
                 </Link>
