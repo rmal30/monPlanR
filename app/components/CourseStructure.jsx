@@ -98,17 +98,17 @@ class CourseStructure extends Component {
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
-        if (nextProps.courseToLoad !== "" && this.state.unlock) {
+        if (nextProps.courseToLoad !== "" && this.state.unlock && nextProps.courseYear) {
             if (nextProps.courseToLoad !== this.state.courseToLoad) {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
-                this.courseLoad(nextProps.courseToLoad);
+                this.courseLoad(nextProps.courseToLoad, nextProps.courseYear);
             }
         }
 
 
         //let error = this.validate(this.props.unitToAdd);
         //this.processError(error);
-        
+
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
@@ -117,9 +117,7 @@ class CourseStructure extends Component {
     }
 
     processError(error) {  
-        console.log("processing error")
         let teachingPeriods = this.state.teachingPeriods;
-        console.log(teachingPeriods)
 
         if (error.errorArray[0] === "All") {
             teachingPeriods = teachingPeriods.map(tp => {
@@ -271,8 +269,8 @@ class CourseStructure extends Component {
      * Once the data is grabbed from API this will process it
      * TODO: rename to more descriptive name like "processCourseLoadedFromAPI"
      */
-    loadCourseFromAPI(data){
-        let result = CourseTemplate.parse(data);
+    loadCourseFromAPI(data, year){
+        let result = CourseTemplate.parse(data, year);
 
         this.setState({
             isLoading: false,
@@ -290,13 +288,13 @@ class CourseStructure extends Component {
      * note that if there is an error, we turn off the loader and unlock the lock so 
      * the user can make another request
      */
-    courseLoad(courseCode) {
+    courseLoad(courseCode, year) {
         this.setState({isLoading: true});
         this.clearCourse();
         UnitQuery.getCourseData(courseCode)
             .then(response => {
                 let data = response.data;
-                this.loadCourseFromAPI(data);
+                this.loadCourseFromAPI(data, year);
             })
             .catch(err => {
                 console.log(err);
@@ -354,7 +352,6 @@ class CourseStructure extends Component {
             totalCreditPoints: 0,
             totalEstimatedCost: 0
         });
-        console.log("entered clear course")
         this.props.handleChildUpdateTotals(0, 0);
     }
 

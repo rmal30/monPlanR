@@ -11,7 +11,8 @@ export default class CourseTemplate {
      * Because of certain issues with the API's data integrity it is necessary to parse this data and catch any invalid 
      * pieces of data so the table is not corrupted. '
      */
-    static parse(data) {
+    static parse(data, year) {
+        let startYear = year;
         let newTeachingPeriods = [];
         let newCost = 0;
         let newCP = 0;
@@ -35,6 +36,7 @@ export default class CourseTemplate {
         for (let i=0; i < tmpArr.length; i++) {
             let item = tmpArr[i];
             if (item.code){
+                item.year = item.year += startYear;
                 if (item.numberOfUnits === 0) {
                     item.units = new Array(max).fill(null);    
                 } else {

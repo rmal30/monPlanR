@@ -32,7 +32,8 @@ class Plan extends Component {
             customUnitCode: undefined,
             searchResults: null,
             searchResultIndex: 0,
-            courseToLoad: ""
+            courseToLoad: "",
+            courseYear: 0
         };
 
         this.addToCourse = this.addToCourse.bind(this);
@@ -169,8 +170,11 @@ class Plan extends Component {
      * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as
      * a prop
      */
-    handleCourseLoad(courseCode){
-        this.setState({courseToLoad: courseCode});
+    handleCourseLoad(courseCode, courseYear){
+        this.setState({
+            courseToLoad: courseCode,
+            courseYear
+        });
     }
 
     /**
@@ -224,7 +228,8 @@ class Plan extends Component {
                                      totalCost={this.state.totalCost}
                                      handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      onUnitClick={this.handleUnitDetailClick}
-                                     courseToLoad={this.state.courseToLoad} />
+                                     courseToLoad={this.state.courseToLoad} 
+                                     courseYear={this.state.courseYear} />
                 </Container>
                 <div className="push" />
             </div>
