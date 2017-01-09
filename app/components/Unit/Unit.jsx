@@ -10,7 +10,7 @@ import { flow } from "lodash";
 const unitSource = {
     beginDrag(props) {
         if(props.newUnit) {
-            props.willAddUnit(props.code);
+            props.willAddUnit(props.code, props.custom, true);
         } else {
             props.willMoveUnit(props.index);
         }
@@ -209,9 +209,9 @@ class Unit extends React.Component {
                             onMouseLeave={this.handleMouseLeave.bind(this)}
                             onClick={this.handleClick.bind(this)}
                             >
-                            {this.props.free &&
+                            {(this.props.free || this.props.isDragging) && (!mobile || mobile && (this.props.unitToAdd !== undefined || this.props.showMoveUnitUI)) &&
                                 <div style={{minHeight: 90, border: mobile ? "1px dashed grey": ""}}>
-                                    {this.props.free && this.props.unitToAdd !== undefined && mobile &&
+                                    {mobile && this.props.unitToAdd !== undefined &&
                                         <Header as="h4" icon textAlign="center" style={{marginTop: "0.5em"}}>
                                             <Icon name="plus" color="green" />
                                             Add {this.props.unitToAdd.UnitCode}

@@ -33,6 +33,8 @@ class UnitSearchContainer extends Component {
             empty: true
         };
 
+        this.searchVisible = false;
+
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -44,7 +46,6 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     componentDidMount() {
-
         UnitQuery.getUnitCodeAndUnitNames()
             .then(response => {
                 source = response.data;
@@ -58,10 +59,13 @@ class UnitSearchContainer extends Component {
     }
 
     componentDidUpdate() {
-        if(!this.props.searchVisible) {
-            this.searchInput.value = "";
-        } else {
-            this.searchInput.focus();
+        if(this.props.searchVisible !== this.searchVisible) {
+            if(this.props.searchVisible) {
+                this.searchInput.focus();
+                this.searchInput.select();
+            }
+
+            this.searchVisible = this.props.searchVisible;
         }
     }
 
@@ -204,7 +208,7 @@ class UnitSearchContainer extends Component {
                             ref={(input) => {this.searchInput = input;}}
                             onChange={this.handleSearchChange}
                             onKeyDown={this.onKeyDown}
-                            placeholder="Search Unit" />
+                            placeholder="Search to add unit" />
                         <i className="search icon" />
                     </div>
                 </Menu.Item>

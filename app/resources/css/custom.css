@@ -40,26 +40,8 @@ body {
     background-color: #005d95;
 }
 
-.main-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
-
 .nav {
     flex-shrink: 0;
-}
-
-.main-body {
-    overflow-x: hidden;
-    flex-grow: 1;
-    overflow-y: auto;
-    min-height: 5em;
 }
 
 .disclaimer {
@@ -72,6 +54,10 @@ body {
     cursor: grab;
 }
 
+html, body {
+    height: 100%;
+}
+
 @page {
     size: landscape;
 }
@@ -80,10 +66,31 @@ body {
     .no-print, .ui.modals, .ui.dimmer, .ui.modal, .ui.button {
         display: none !important;
     }
+
+    body, .main-container {
+        width: auto;
+        height: auto;
+    }
 }
 
-html, body {
-    height: 100%;
+@media screen {
+    .main-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+
+    .main-body {
+        overflow-x: hidden;
+        flex-grow: 1;
+        overflow-y: auto;
+        min-height: 5em;
+    }
 }
 
 .wrapper {

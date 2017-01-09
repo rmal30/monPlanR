@@ -106,10 +106,15 @@ class CourseStructure extends Component {
             }
         }
 
+        /* If position is specified, no need to ask user again to select a
+           table cell as the user has already dropped the unit into a cell */
+        if(nextProps.unitToAdd && nextProps.unitToAdd.position) {
+            this.addUnit(nextProps.unitToAdd.position[0], nextProps.unitToAdd.position[1], nextProps.unitToAdd);
+        }
 
         //let error = this.validate(this.props.unitToAdd);
         //this.processError(error);
-
+        
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
@@ -270,7 +275,7 @@ class CourseStructure extends Component {
      * Once the data is grabbed from API this will process it
      * TODO: rename to more descriptive name like "processCourseLoadedFromAPI"
      */
-    loadCourseFromAPI(data, year){
+    loadCourseFromAPI(data, year) {
         let result = CourseTemplate.parse(data, year);
 
         this.setState({
@@ -312,12 +317,13 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      */
     saveCourse() {
-        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost } = this.state;
+        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = this.state;
         localStorage.setItem("courseStructure", JSON.stringify({
             teachingPeriods,
             numberOfUnits,
             totalCreditPoints,
-            totalEstimatedCost
+            totalEstimatedCost,
+            startYear
         }));
     }
 
@@ -328,13 +334,15 @@ class CourseStructure extends Component {
      */
     loadCourse() {
         const stringifedJSON = localStorage.getItem("courseStructure");
+
         if(stringifedJSON) {
-            const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost } = JSON.parse(stringifedJSON);
+            const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = JSON.parse(stringifedJSON);
             this.setState({
                 teachingPeriods,
                 numberOfUnits,
                 totalCreditPoints,
-                totalEstimatedCost
+                totalEstimatedCost,
+                startYear
             });
 
             this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
@@ -512,6 +520,12 @@ class CourseStructure extends Component {
      * @param {string} name
      */
     addUnit(teachingPeriodIndex, unitIndex, unitToAdd) {
+        // If a customm unit has been dragged and dropped onto a table cell, prompt user to enter details
+        if(unitToAdd.custom && unitToAdd.dragged) {
+            this.props.addToCourse(unitToAdd.UnitCode, true, false, [teachingPeriodIndex, unitIndex]);
+            return;
+        }
+
         const { teachingPeriods } = this.state;
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitToAdd;
         this.setState({ teachingPeriods });
@@ -894,6 +908,19 @@ class CourseStructure extends Component {
                         </p>
                     </Message>
                 }
+                <MediaQuery maxDeviceWidth={767}>
+                    <Popup
+                        trigger={<Button icon="plus" labelPosition="left" className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" fluid content="Add overload column" />}
+                        content="Click this to overload a teaching period."
+                        size='mini'
+                        positioning='bottom center'
+                        />
+                    <ConfirmDeleteOverload
+                        isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0}
+                        getAffectedUnits={this.getAffectedUnits}
+                        mobile
+                        handleRemove={this.decrementNumberOfUnits.bind(this)} />
+                </MediaQuery>
                 <Table celled fixed striped compact>
                     {this.state.isLoading && <Loader active size="huge" />}
                     <MediaQuery query="(min-device-width: 768px)">
@@ -957,6 +984,7 @@ CourseStructure.propTypes = {
         UnitCode: PropTypes.string,
         Faculty: PropTypes.string
     }),
+    addToCourse: PropTypes.func,
     doneAddingToCourse: PropTypes.func,
     totalCreditPoints: PropTypes.number.isRequired,
     totalCost: PropTypes.number.isRequired,
