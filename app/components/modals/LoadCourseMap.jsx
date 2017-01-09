@@ -161,7 +161,9 @@ class LoadCourseMap extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <p>To load a course map, enter your course name and it will automatically load up a template for you</p>
+                        <p>
+                            To load a course map, enter your course name and it will automatically load up a template for you.
+                        </p>
                     <br />
                     <Search
                         loading={this.state.isLoading}
@@ -170,6 +172,9 @@ class LoadCourseMap extends Component {
                         results={this.state.results}
                         value={this.state.value}
                         placeholder="Search for your course"
+                        selectFirstResult
+                        noResultsMessage="No courses found"
+                        noResultsDescription="We only store 2017 course maps for most courses across Monash."
                         {...this.props}
                     />
 
@@ -177,6 +182,9 @@ class LoadCourseMap extends Component {
                     <Dropdown disabled={this.state.specIsDisabled} placeholder='Select Specialisation' search selection options={this.state.specialisations} onChange={this.handleSpecialisationSelect}/>
                     <br />
                     <br />
+                    <p>
+                        Please note that all course maps are for students who commence their course in 2017, so your course map may differ if you started your course before 2017.
+                    </p>
                     <Dropdown disabled={this.state.yearIsDisabled} placeholder='Select Starting Year' search selection options={this.state.years} onChange={this.handleYearSelect}/>
                     </Modal.Description>
                 </Modal.Content>
