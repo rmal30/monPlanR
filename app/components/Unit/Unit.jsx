@@ -202,7 +202,7 @@ class Unit extends React.Component {
                     return (
                         connectDropTarget(
                         <td
-                            style={{ backgroundColor: this.props.isError ? '#ffe7e7' : 'white'}}
+                            style={{ backgroundColor: this.props.isError ? "#ffe7e7" : "white"}}
                             className={(isOver || this.state.hovering && this.props.free && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
@@ -265,9 +265,9 @@ Unit.propTypes = {
     faculty: PropTypes.string,
 
     unitToAdd: PropTypes.shape({
-        name: PropTypes.string,
-        code: PropTypes.string,
-        faculty: PropTypes.string
+        UnitName: PropTypes.string,
+        UnitCode: PropTypes.string,
+        Faculty: PropTypes.string
     }),
 
     addUnit: PropTypes.func,
@@ -283,7 +283,10 @@ Unit.propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    isOver: PropTypes.bool.isRequired
+    isOver: PropTypes.bool.isRequired,
+
+    /* Validation */
+    isError: PropTypes.bool
 };
 
 // https://github.com/gaearon/react-dnd/issues/157

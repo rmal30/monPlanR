@@ -1,7 +1,6 @@
-import _ from "lodash";
 import React, { Component, PropTypes } from "react";
 import UnitQuery from "../utils/UnitQuery";
-import { Input, Menu } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 
 import FuzzySearch from "../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";

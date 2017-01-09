@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Header, Menu } from "semantic-ui-react";
+import { Button, Header, Menu } from "semantic-ui-react";
 
 import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
 
@@ -18,6 +18,11 @@ class UnitSearchResultsContainer extends Component {
             return (
                 <div style={{lineHeight: 1.5}}>
                     To begin, please type in a unit name or unit code in the search bar.
+                    <br /><br />
+                    If the unit is not in our search results, then you can instead add a custom unit
+                    by clicking the buttom below.
+                    <br /><br />
+                    <Button onClick={this.willAddUnit.bind(this, null, true)} fluid>Add custom unit</Button>
                 </div>
             );
         }

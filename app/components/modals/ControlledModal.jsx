@@ -60,6 +60,7 @@ class ControlledModal extends Component {
                    onClose={this.handleClose.bind(this)}>
                 {this.props.children}
                 <Modal.Actions>
+                    {this.props.positiveButton}
                     {closeButton}
                 </Modal.Actions>
             </Modal>
@@ -70,6 +71,7 @@ class ControlledModal extends Component {
 ControlledModal.propTypes = {
     openTrigger: PropTypes.element,
     closeTrigger: PropTypes.element.isRequired,
+    positiveButton: PropTypes.element,
     defaultOpen: PropTypes.bool,
     onClose: PropTypes.func
 };
