@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Container, Icon, Segment} from "semantic-ui-react";
+import {Button, Container, Icon, Segment, Message} from "semantic-ui-react";
 import { Link } from "react-router";
 
 import YearFormContainer from "../../containers/YearFormContainer.jsx";
@@ -10,6 +10,19 @@ import YearFormContainer from "../../containers/YearFormContainer.jsx";
  * @class
  */
 class Home extends Component {
+    /**
+    *
+    */
+    constructor(){
+      super();
+
+      this.state = {
+        showMessage: true
+      };
+
+      this.handleDismiss = this.handleDismiss.bind(this);
+    }
+
     /**
      * Checks if there is anything saved to local storage, and if so, whether
      * or not teaching periods list is empty. This is used for checking if
@@ -29,6 +42,15 @@ class Home extends Component {
     }
 
     /**
+    * Handles Warning Message Dismissal
+    *
+    * @method
+    */
+    handleDismiss(){
+        this.setState({ showMessage: false });
+    }
+
+    /**
      * Renders the welcome page, with a form and a disclaimer.
      *
      * @method
@@ -39,6 +61,13 @@ class Home extends Component {
         return (
             <Container className="ui main text wrapper">
                 <div id="welcome" className="ui container">
+                      {this.state.showMessage && <Message
+                        icon="warning sign"
+                        negative
+                        header="Please Clear Course Plan"
+                        content="A Major Update has occured, in order for the website to function fully, please Clear Course upon entering the planning page."
+                        onDismiss={this.handleDismiss}
+                      />}
                     <h1>Welcome to monPlan!</h1>
                         <p>
                             monPlan allows you to plan your course structure whilst you are at

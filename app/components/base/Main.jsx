@@ -26,11 +26,10 @@ class Main extends Component {
         super(props);
 
         this.state = {
-            menuVisible: false,
+            searchVisible: false,
             addToCourse: null
         };
 
-        this.handleMenuClick = this.handleMenuClick.bind(this);
         this.handleSearchClick = this.handleSearchClick.bind(this);
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
         this.attachAddToCourse = this.attachAddToCourse.bind(this);
@@ -51,22 +50,13 @@ class Main extends Component {
 
     handleSearchClick() {
         this.setState({
-            searchVisible: !this.state.searchVisible,
-            menuVisible: false
-        });
-    }
-
-    handleMenuClick() {
-        this.setState({
-            menuVisible: !this.state.menuVisible,
-            searchVisible: false
+            searchVisible: !this.state.searchVisible
         });
     }
 
     handleDocumentClick() {
-        if(this.state.menuVisible || this.state.searchVisible) {
+        if(this.state.searchVisible) {
             this.setState({
-                menuVisible: false,
                 searchVisible: false
             });
         }
@@ -76,34 +66,33 @@ class Main extends Component {
         return (
             <div className='main-container'>
                 <Header
-                    handleMenuClick={this.handleMenuClick}
                     handleSearchClick={this.handleSearchClick}
+                    searchVisible={this.state.searchVisible}
                     handleDocumentClick={this.handleDocumentClick}
                     showAddUnit={!!this.state.addToCourse} />
-                <Sidebar.Pushable style={{position: "relative"}}>
-                        {this.state.addToCourse &&
-                        <Sidebar as={Menu} animation="scale down" style={{width: 300, flexGrow: 1}} direction="left" visible={this.state.searchVisible} vertical>
-                            <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />
-                        </Sidebar>
-                        }
-                        <Sidebar.Pusher dimmed={this.state.menuVisible} onClick={this.handleDocumentClick} className="main-body">
-                            <ReactCSSTransitionGroup
-                                  transitionName="appear"
-                                  transitionEnterTimeout={500}
-                                  transitionLeaveTimeout={500}>
-                                  {React.cloneElement(this.props.children,
-                                      {
-                                          key: this.props.location.pathname,
-                                          menuVisible: this.state.menuVisible,
-                                          searchVisible: this.state.searchVisible,
-                                          handleDocumentClick: this.handleDocumentClick,
-                                          attachAddToCourse: this.attachAddToCourse,
-                                          detachAddToCourse: this.detachAddToCourse
-                                      })}
-                            </ReactCSSTransitionGroup>
-                            <Footer className="footer"/>
-                        </Sidebar.Pusher>
-                    </Sidebar.Pushable>
+                <Sidebar.Pushable>
+                    {this.state.addToCourse &&
+                    <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.state.searchVisible} vertical>
+                        <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />
+                    </Sidebar>
+                    }
+                    <Sidebar.Pusher dimmed={this.state.menuVisible} onClick={this.handleDocumentClick} className="main-body">
+                        <ReactCSSTransitionGroup
+                              transitionName="appear"
+                              transitionEnterTimeout={500}
+                              transitionLeaveTimeout={500}>
+                              {React.cloneElement(this.props.children,
+                                  {
+                                      key: this.props.location.pathname,
+                                      searchVisible: this.state.searchVisible,
+                                      handleDocumentClick: this.handleDocumentClick,
+                                      attachAddToCourse: this.attachAddToCourse,
+                                      detachAddToCourse: this.detachAddToCourse
+                                  })}
+                        </ReactCSSTransitionGroup>
+                        <Footer className="footer"/>
+                    </Sidebar.Pusher>
+                </Sidebar.Pushable>
             </div>
         );
     }
@@ -114,4 +103,4 @@ Main.propTypes = {
     location: PropTypes.object
 };
 
-export default DragDropContext("ontouchstart" in window ? TouchBackend({ enableMouseEvents: true }) : HTML5Backend)(Main);
+export default DragDropContext(HTML5Backend)(Main);

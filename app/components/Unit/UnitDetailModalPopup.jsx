@@ -12,12 +12,14 @@ import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
  *
  * @param {element} trigger - The element that you want to trigger the modal (only for mobile view)
  * @param {string} unitCode - The unitcode that serves as the key for the unit detail view request you want to pull up
+ * @param {string} custom - If custom, hide some features of unit details, and do not perform a query.
  */
-export default function UnitDetailModalPopup({ trigger, unitCode }) {
+export default function UnitDetailModalPopup({ trigger, unitCode, custom }) {
 
     UnitDetailModalPopup.propTypes = {
         trigger: PropTypes.element.isRequired,
-        unitCode: PropTypes.string
+        unitCode: PropTypes.string,
+        custom: PropTypes.bool
     };
 
     const closeTrigger = <Button content="Close" />;
@@ -29,7 +31,7 @@ export default function UnitDetailModalPopup({ trigger, unitCode }) {
                     return <ControlledModal
                                 openTrigger={trigger}
                                 closeTrigger={closeTrigger}>
-                                    {unitCode ? <UnitInfoContainer nUnitCode={unitCode} /> : <UnitInfoContainer />}
+                                    {unitCode ? <UnitInfoContainer nUnitCode={unitCode} custom={custom} /> : <UnitInfoContainer />}
                             </ControlledModal>;
                 } else {
                     return <Popup
@@ -38,7 +40,7 @@ export default function UnitDetailModalPopup({ trigger, unitCode }) {
                         positioning="bottom center"
                         style={{maxWidth: 800}}
                         basic>
-                            {unitCode ? <UnitInfoContainer nUnitCode={unitCode} /> : <UnitInfoContainer />}
+                            {unitCode ? <UnitInfoContainer nUnitCode={unitCode} custom={custom} /> : <UnitInfoContainer />}
                     </Popup>;
                 }
             }}

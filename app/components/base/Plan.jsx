@@ -66,14 +66,14 @@ class Plan extends Component {
      * @param {boolean} custom - If it is a custom unit, prompt user to enter details
      */
     addToCourse(nUnitCode, custom, drag, position) {
-        if(nUnitCode !== undefined) {
+        if(typeof nUnitCode === "string") {
             this.props.handleDocumentClick();
             if(!custom) {
                 UnitQuery.getExtendedUnitData(nUnitCode)
                     .then(response => {
                         let data = response.data;
                         data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
-                        
+
                         this.setState({
                             unitToAdd: data,
                             focusedUnitCode: data.UnitCode
@@ -100,6 +100,10 @@ class Plan extends Component {
                     customUnitPosition: position
                 });
             }
+        } else if(custom) {
+            this.setState({
+                customUnitCode: "Unit code"
+            });
         }
     }
 
@@ -172,16 +176,20 @@ class Plan extends Component {
 
     /**
      * handles the updating of unit info button
+     *
+     * @author JXNS, Saurabh Joshi
+     * @param {string} unitCode - The code of the unit
+     * @param {bool} custom - Whether or not the unit is a custom unit.
      */
-    handleUnitDetailClick(unitCode) {
-        this.setState({focusedUnitCode: unitCode});
+    handleUnitDetailClick(unitCode, custom) {
+        this.setState({focusedUnitCode: unitCode, custom});
     }
 
     /**
      * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as
      * a prop
      */
-    handleCourseLoad(courseCode, courseYear){
+    handleCourseLoad(courseCode, courseYear) {
         this.setState({
             courseToLoad: courseCode,
             courseYear
@@ -240,7 +248,7 @@ class Plan extends Component {
                                      totalCost={this.state.totalCost}
                                      handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      onUnitClick={this.handleUnitDetailClick}
-                                     courseToLoad={this.state.courseToLoad} 
+                                     courseToLoad={this.state.courseToLoad}
                                      courseYear={this.state.courseYear} />
                 </Container>
                 <MediaQuery minDeviceWidth={768}>
