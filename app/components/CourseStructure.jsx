@@ -49,16 +49,17 @@ class CourseStructure extends Component {
             totalCreditPoints: this.props.totalCreditPoints,
             totalEstimatedCost: this.props.totalCost,
             isLoading: false,
-            unlock: true, 
+            unlock: true,
             courseToLoad: this.props.courseToLoad,
             startYear: startYear || new Date().getFullYear(),
             isError: false,
             errorMsg: "",
             errorHeader: ""
         };
+        let qURL = `${MONPLAN_REMOTE_URL}/basic/teachingperiods`;
 
         // Fetch common teaching periods to get names for each teaching period code.
-        axios.get("/data/teachingPeriods/common.json")
+        axios.get(qURL)
              .then(response => {
                  /**
                   * Compares start teaching period date between two teaching periods.
@@ -284,8 +285,8 @@ class CourseStructure extends Component {
     }
 
     /**
-     * on call will load the course from API with the given course code, 
-     * note that if there is an error, we turn off the loader and unlock the lock so 
+     * on call will load the course from API with the given course code,
+     * note that if there is an error, we turn off the loader and unlock the lock so
      * the user can make another request
      */
     courseLoad(courseCode, year) {
@@ -841,7 +842,7 @@ class CourseStructure extends Component {
                     changeStartYear={this.changeStartYear}
                     numberOfUnits={this.state.numberOfUnits}
                     semesterString={this.getQuickSemesterString()}
-                    showInsertTeachingPeriodsUI={this.showInsertTeachingPeriodsUI}
+                    insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
                     appendSemester={this.appendSemester}
                     noFloat
                      />);
@@ -865,7 +866,7 @@ class CourseStructure extends Component {
                             Ready to add units to course plan
                         </Message.Header>
                         <p>
-                            Search for units in the above search bar, then place it in your course plan.
+                            Search for units by clicking the plus icon in the header, then place it in your course plan.
                         </p>
                     </Message>
                 }
@@ -925,15 +926,15 @@ class CourseStructure extends Component {
                             {!this.state.showInsertTeachingPeriods && !areThereNoTeachingPeriods &&
                             <InsertTeachingPeriodButton
                                 semesterString={this.getQuickSemesterString()}
-                                showInsertTeachingPeriodsUI={this.showInsertTeachingPeriodsUI}
+                                insert={this.showInsertTeachingPeriodsUI}
                                 appendSemester={this.appendSemester}
                                 mobile={mobile}
                                 />
                             }
                             {this.state.showInsertTeachingPeriods &&
-                            <Button fluid={mobile} className="no-print" floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
+                            <Button fluid={mobile} className="no-print" floated={mobile ? "" : "right"} onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
                             }
-                            {mobile && <br /> && <br />}
+                            {mobile && <div><br /></div>}
                             <ClearCourseModal disabled={this.state.teachingPeriods.length === 0} fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
                             {mobile && <br />}
                             <CompletedCourseModal

@@ -9,14 +9,8 @@ export default class UnitQuery {
      * Retrieves a list of units locally specifying only unit names and codes.
      */
     static getUnitCodeAndUnitNames() {
-        return axios.get("../../data/units/simple.json");
-    }
-
-    /**
-     * Retrieves a list of units locally with more detailed information.
-     */
-    static getExtendedUnitDataLocal() {
-        return axios.get("../../data/units/extended.json");
+        let qURL = `${MONPLAN_REMOTE_URL}/basic/units`;
+        return axios.get(qURL);
     }
 
     /**
