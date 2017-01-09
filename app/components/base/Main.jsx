@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import TouchBackend from "react-dnd-touch-backend";
+// import TouchBackend from "react-dnd-touch-backend";
 
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";

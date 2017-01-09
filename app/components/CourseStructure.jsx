@@ -324,7 +324,8 @@ class CourseStructure extends Component {
             numberOfUnits,
             totalCreditPoints,
             totalEstimatedCost,
-            startYear
+            startYear,
+            version: MONPLAN_VERSION
         }));
     }
 

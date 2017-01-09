@@ -145,7 +145,7 @@ class LoadCourseMap extends Component {
         });
     }
 
-    /** 
+    /**
      * Returns a Modal asking the user if they really want to clear their course
      * plan.
      *
@@ -162,7 +162,7 @@ class LoadCourseMap extends Component {
                 <Modal.Content>
                     <Modal.Description>
                         <p>To load a course map, enter your course name and it will automatically load up a template for you</p>
-                    <br />                   
+                    <br />
                     <Search
                         loading={this.state.isLoading}
                         onResultSelect={this.handleResultSelect}
@@ -172,17 +172,17 @@ class LoadCourseMap extends Component {
                         placeholder="Search for your course"
                         {...this.props}
                     />
-                    
+
                     <br />
                     <Dropdown disabled={this.state.specIsDisabled} placeholder='Select Specialisation' search selection options={this.state.specialisations} onChange={this.handleSpecialisationSelect}/>
                     <br />
                     <br />
-                    <Dropdown disabled={this.state.yearIsDisabled} placeholder='Select Starting Year' search selection options={this.state.years} onChange={this.handleYearSelect}/>                    
+                    <Dropdown disabled={this.state.yearIsDisabled} placeholder='Select Starting Year' search selection options={this.state.years} onChange={this.handleYearSelect}/>
                     </Modal.Description>
                 </Modal.Content>
 
                 <Modal.Actions>
-                    {this.state.CourseCode === "" ? <Button disabled color="green">Load Course Map</Button> : <Button onClick={this.handleLoadCourse} color="green">Load {this.state.CourseCode} Map</Button>}
+                    {this.state.CourseCode === "" ? <Button disabled color="green">Load Course Map</Button> : <Button disabled={this.state.code === "" || !this.state.year} onClick={this.handleLoadCourse} color="green">Load {this.state.CourseCode} Map</Button>}
                     <Button onClick={this.handleCancel}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
