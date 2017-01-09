@@ -29,17 +29,10 @@ class Header extends Component {
     render() {
         return (
             <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick}>
-                <Link to="/">
-                    <Menu.Item>
-                        <img className="logo" src="/resources/img/logo.png" alt="logo" />
-                        <MediaQuery query="(min-device-width: 768px)">monPlan</MediaQuery>
-                    </Menu.Item>
-                </Link>
-                {this.props.showAddUnit &&
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
-                            <img className="logo" src="resources/img/logo.png" alt="logo" />
+                            <img className="logo" src="/resources/img/logo.png" alt="logo" />
                             <MediaQuery query="(min-device-width: 768px)">monPlan</MediaQuery>
                         </Menu.Item>
                     </Link>
