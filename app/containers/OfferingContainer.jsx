@@ -21,7 +21,7 @@ export default class OfferingContainer extends Component {
         let notAvailable = true;
         let offeringArray = this.props.offeringArray;
 
-        if(offeringArray && offeringArray.length > 0) {
+        if(offeringArray && typeof offeringArray !== "string" && offeringArray.length > 0) {
             notAvailable = false;
         }
         
@@ -53,7 +53,3 @@ export default class OfferingContainer extends Component {
         }
     }
 }
-
-OfferingContainer.propTypes = {
-    offeringArray: PropTypes.array
-};
