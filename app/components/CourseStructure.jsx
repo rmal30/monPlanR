@@ -51,7 +51,10 @@ class CourseStructure extends Component {
             isLoading: false,
             unlock: true,
             courseToLoad: this.props.courseToLoad,
-            startYear: startYear || new Date().getFullYear()
+            startYear: startYear || new Date().getFullYear(),
+            isError: false,
+            errorMsg: "",
+            errorHeader: ""
         };
         let qURL = `${MONPLAN_REMOTE_URL}/basic/teachingperiods`;
 
@@ -87,6 +90,8 @@ class CourseStructure extends Component {
         this.getQuickSemesterString = this.getQuickSemesterString.bind(this);
         this.appendSemester = this.appendSemester.bind(this);
         this.showInsertTeachingPeriodsUI = this.showInsertTeachingPeriodsUI.bind(this);
+        this.validate = this.validate.bind(this);
+        this.processError = this.processError.bind(this);
     }
 
     /**
@@ -94,18 +99,129 @@ class CourseStructure extends Component {
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
-        if (nextProps.courseToLoad !== "" && this.state.unlock) {
+        if (nextProps.courseToLoad !== "" && this.state.unlock && nextProps.courseYear) {
             if (nextProps.courseToLoad !== this.state.courseToLoad) {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
-                this.courseLoad(nextProps.courseToLoad);
+                this.courseLoad(nextProps.courseToLoad, nextProps.courseYear);
             }
-
-
         }
+
+
+        //let error = this.validate(this.props.unitToAdd);
+        //this.processError(error);
+
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
         });
+
+    }
+
+    processError(error) {  
+        let teachingPeriods = this.state.teachingPeriods;
+
+        if (error.errorArray[0] === "All") {
+            teachingPeriods = teachingPeriods.map(tp => {
+                tp.isError = true;
+                return tp;
+            });
+
+        } else if (error.errorArray.length > 0) {
+            teachingPeriods = teachingPeriods.map((tp, index) => {
+                let arr = error.errorArray;
+                for (let i=0; i < arr.length; i++) {
+                    if (index === arr[i]) {
+                        tp.isError = true;
+                        return tp;
+                    }
+                }
+                tp.isError = false;
+                return tp;
+            });
+        } else {
+            teachingPeriods = teachingPeriods.map(tp => {
+                tp.isError = false;
+                return tp;
+            })
+        }
+        this.setState({
+            errorMsg: error.errorMsg,
+            isError: error.isError,
+            errorHeader: error.errorHeader,
+            teachingPeriods
+        });
+    }
+
+    validate(newUnit) {
+        let error = {
+            errorMsg: "",
+            errorHeader: "",
+            isError: false,
+            errorArray: [] //This array holds the indicies of all teaching periods with errors in them
+        }
+
+        let codeMap = {
+            "FY-01": "Full year",
+            "S1-01": "First semester",
+            "S2-01": "Second semester",
+            "SSA-02": "Summer semester A",
+            "SSB-01": "Summer semester B",
+            "WS-01": "Winter semester"
+        };
+
+
+        if (newUnit !== undefined) {
+            for(let i=0; i < this.state.teachingPeriods.length; i++) {
+                let TP = this.state.teachingPeriods[i];
+                let TPcode = TP.code;
+                
+                for(let j=0; j < TP.units.length; j++) {
+                    
+                    let unit = TP.units[j];
+                   
+                    if (unit !== null) {
+                        if (unit.UnitCode === newUnit.UnitCode){
+                            error.errorMsg = "Unit " + unit.UnitCode + " already exists in course plan.";
+                            error.errorHeader = "Error adding unit: " + unit.UnitCode
+                            error.isError = true;
+                            error.errorArray = ["All"]
+                            return error;
+
+                        }
+                    }
+                }
+                
+                let offerings = newUnit.UnitLocationTP;
+                    if (codeMap[TPcode] !== undefined) {
+                        //semester we're checking against is covered by mapping'
+                        let re = new RegExp(codeMap[TPcode]);
+                        let isValid = false;
+                        for(let k=0; k < offerings.length; k++){
+                            let locations = offerings[k][1];
+                                for(let l=0; l < locations.length; l++) {
+                                    let offering = locations[l];
+                                    let isMatch = re.test(offering);
+                                    
+                                    if(isMatch) {
+                                        isValid = true;
+                                        break;
+                                    }
+
+                                }
+                                if (isValid) {
+                                    break;
+                                }
+                            }
+                        if (!isValid) {
+                            error.errorArray.push(i)
+                        }
+
+                    }
+            }
+        }
+
+
+        return error;
     }
 
     /**
@@ -129,13 +245,15 @@ class CourseStructure extends Component {
                 const semesterOneTeachingPeriod = {
                     year,
                     code: "S1-01",
-                    units: new Array(4).fill(null)
+                    units: new Array(4).fill(null),
+                    isError: false
                 };
 
                 const semesterTwoTeachingPeriod = {
                     year,
                     code: "S2-01",
-                    units: new Array(4).fill(null)
+                    units: new Array(4).fill(null),
+                    isError: false
                 };
 
                 arr.push(semesterOneTeachingPeriod);
@@ -152,8 +270,8 @@ class CourseStructure extends Component {
      * Once the data is grabbed from API this will process it
      * TODO: rename to more descriptive name like "processCourseLoadedFromAPI"
      */
-    loadCourseFromAPI(data){
-        let result = CourseTemplate.parse(data);
+    loadCourseFromAPI(data, year){
+        let result = CourseTemplate.parse(data, year);
 
         this.setState({
             isLoading: false,
@@ -171,13 +289,13 @@ class CourseStructure extends Component {
      * note that if there is an error, we turn off the loader and unlock the lock so
      * the user can make another request
      */
-    courseLoad(courseCode) {
+    courseLoad(courseCode, year) {
         this.setState({isLoading: true});
         this.clearCourse();
         UnitQuery.getCourseData(courseCode)
             .then(response => {
                 let data = response.data;
-                this.loadCourseFromAPI(data);
+                this.loadCourseFromAPI(data, year);
             })
             .catch(err => {
                 console.log(err);
@@ -235,7 +353,6 @@ class CourseStructure extends Component {
             totalCreditPoints: 0,
             totalEstimatedCost: 0
         });
-
         this.props.handleChildUpdateTotals(0, 0);
     }
 
@@ -300,7 +417,8 @@ class CourseStructure extends Component {
             {
                 code,
                 year,
-                units: new Array(this.state.numberOfUnits).fill(null)
+                units: new Array(this.state.numberOfUnits).fill(null),
+                isError: false
             },
             ...this.state.teachingPeriods.slice(index)
         ];
@@ -327,7 +445,7 @@ class CourseStructure extends Component {
         const { teachingPeriods, teachingPeriodsData } = this.state;
 
         if(!teachingPeriodsData) {
-            return { index, year, code };
+            return { index, year, code, isError: false };
         }
 
         if(index > 0) {
@@ -408,8 +526,16 @@ class CourseStructure extends Component {
      * @param {number} unitIndex
      */
     willMoveUnit(teachingPeriodIndex, unitIndex) {
-        this.props.onUnitClick(this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex].UnitCode);
+        if (this.props.unitToAdd !== undefined) {
+            this.props.cancelAddingToCourse();
+        }
+        let focusedUnit = this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex];
+        //let errorMsg = this.validate(focusedUnit)
+        //let isError = (errorMsg !== "");
+
+        this.props.onUnitClick(focusedUnit.UnitCode);
         this.setState({
+            isError: false,
             showMoveUnitUI: true,
             originalPosition: [teachingPeriodIndex, unitIndex],
             unitToBeMoved: this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex]
@@ -437,12 +563,12 @@ class CourseStructure extends Component {
     moveUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
         if(this.state.originalPosition) {
-            teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = undefined;
+            teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = null;
         }
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = this.state.unitToBeMoved;
         this.setState({
             showMoveUnitUI: false,
-            originalPosition: undefined,
+            originalPosition: null,
             teachingPeriods: teachingPeriods
         });
     }
@@ -592,6 +718,7 @@ class CourseStructure extends Component {
      * @param {number} index - For bookkeeping which teaching period is which.
      */
     renderTeachingPeriod(teachingPeriod, index) {
+        
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
                     index={index}
@@ -610,7 +737,8 @@ class CourseStructure extends Component {
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units}
                     handleUnitDetailClick={this.props.onUnitClick}
-                    cancelMoving={this.cancelMoving.bind(this)} />;
+                    cancelMoving={this.cancelMoving.bind(this)} 
+                    isError={teachingPeriod.isError} />;
     }
 
     /**
@@ -624,6 +752,7 @@ class CourseStructure extends Component {
      * @returns {ReactElement} CourseStructure
      */
     render() {
+        
         const tableRows = [];
         let year, code, show = false;
         let areThereNoTeachingPeriods = false;
@@ -721,6 +850,16 @@ class CourseStructure extends Component {
 
         return (
             <Container>
+                {this.state.isError && 
+                    <Message negative className="no-print">
+                        <Message.Header>
+                           {this.state.errorHeader}
+                        </Message.Header>
+                        <p>
+                            {this.state.errorMsg}
+                        </p>
+                    </Message>
+                }
                 {!this.state.showMoveUnitUI && !this.props.unitToAdd &&
                     <Message className="no-print">
                         <Message.Header>
@@ -731,7 +870,7 @@ class CourseStructure extends Component {
                         </p>
                     </Message>
                 }
-                {this.props.unitToAdd && !this.state.showMoveUnitUI &&
+                {this.props.unitToAdd && !this.state.showMoveUnitUI && !this.state.isError &&
                     <Message
                         positive
                         className="no-print"
