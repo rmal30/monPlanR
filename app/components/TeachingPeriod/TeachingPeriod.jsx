@@ -43,7 +43,8 @@ function TeachingPeriod(props) {
                     moveUnit={props.moveUnit.bind(this, props.index)}
                     unitToAdd={props.unitToAdd}
                     showMoveUnitUI={props.showMoveUnitUI}
-                    onUnitClick={props.handleUnitDetailClick} />
+                    onUnitClick={props.handleUnitDetailClick} 
+                    isError={props.isError} />
             );
         }
         return (
@@ -59,7 +60,8 @@ function TeachingPeriod(props) {
                 name={unit.UnitName}
                 faculty={unit.Faculty}
                 onUnitClick={props.handleUnitDetailClick}
-                cancelMoving={props.cancelMoving} />
+                cancelMoving={props.cancelMoving} 
+                isError={props.isError} />
         );
     });
 
