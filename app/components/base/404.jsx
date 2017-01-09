@@ -17,8 +17,7 @@ const missingPage = () =>
       </Link>
     </div>
 
-    <div className="push404">
-    </div>
+    <div className="push404" />
   </Segment>;
 
 

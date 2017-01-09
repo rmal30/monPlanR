@@ -60,9 +60,10 @@ export default class ConfirmDeleteOverload extends Component {
      * Construct list of affected items in message for modal, if the modal is not open then show a button
      */
     render() {
+        let IDcount = 0;
         const message = (<div>
                             <p>Removing this overload column will delete the following units from your course plan:</p>
-                            <ul>{this.state.unitArray.map((item) => {return (<li key={item}>{item}</li>);})}</ul>
+                            <ul>{this.state.unitArray.map((item) => {return (<li key={item + IDcount++}>{item}</li>);})}</ul>
                         </div>);
         if (this.state.open) {
             return (

@@ -113,8 +113,8 @@ class CourseStructure extends Component {
         }
 
         //let error = this.validate(this.props.unitToAdd);
-        //this.processError(error);
-
+        //this.processError(error);    
+      
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
@@ -192,7 +192,6 @@ class CourseStructure extends Component {
                             error.isError = true;
                             error.errorArray = ["All"];
                             return error;
-
                         }
                     }
                 }
@@ -224,8 +223,6 @@ class CourseStructure extends Component {
                 }
             }
         }
-
-
         return error;
     }
 
@@ -545,8 +542,6 @@ class CourseStructure extends Component {
             this.props.cancelAddingToCourse();
         }
         let focusedUnit = this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex];
-        //let errorMsg = this.validate(focusedUnit)
-        //let isError = (errorMsg !== "");
 
         this.props.onUnitClick(focusedUnit.UnitCode, focusedUnit.custom);
 

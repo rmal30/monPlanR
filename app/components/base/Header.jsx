@@ -29,6 +29,13 @@ class Header extends Component {
     render() {
         return (
             <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick}>
+                <Link to="/">
+                    <Menu.Item>
+                        <img className="logo" src="/resources/img/logo.png" alt="logo" />
+                        <MediaQuery query="(min-device-width: 768px)">monPlan</MediaQuery>
+                    </Menu.Item>
+                </Link>
+                {this.props.showAddUnit &&
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
@@ -52,7 +59,7 @@ class Header extends Component {
                         content="As you add units, we will inform you of any conflicts, such as missing prerequisites."
                         />
                     }
-                    <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLScyXYUi_4-C7juCSrsvxqBuQCf1rKpoJLb7fVknxxApfrym2g/viewform" target="_blank">
+                    <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
                         <Icon name="comment outline" />
                         <MediaQuery query="(min-device-width: 768px)">Give us feedback</MediaQuery>
                     </Menu.Item>
