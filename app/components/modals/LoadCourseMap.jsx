@@ -63,7 +63,7 @@ class LoadCourseMap extends Component {
     }
 
     /**
-     * Called when the user presses the load course button, we close the modal, reset the component and call the parents 
+     * Called when the user presses the load course button, we close the modal, reset the component and call the parents
      * onCourseLoad function, feeding it the courseCode
      */
     handleLoadCourse() {
@@ -95,12 +95,12 @@ class LoadCourseMap extends Component {
     }
 
     /**
-     * On change to input we run a fuzzy search to get results and process the results into a semantic-ui search 
+     * On change to input we run a fuzzy search to get results and process the results into a semantic-ui search
      * friendly form (they require results in the form of title and description)
      */
     handleChange(e){
         let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
-        
+
         results = results.map(item => {
             return {title: item.courseCode, description: item.courseName + " - " + item.courseType};
         });
@@ -111,7 +111,7 @@ class LoadCourseMap extends Component {
         });
     }
 
-    /** 
+    /**
      * Returns a Modal asking the user if they really want to clear their course
      * plan.
      *
@@ -119,7 +119,7 @@ class LoadCourseMap extends Component {
      */
     render() {
         return (
-            <Modal trigger={<Button className="no-print" color="green" onClick={this.handleOpen.bind(this)}>Load Course Map</Button>}
+            <Modal trigger={<Button className="no-print" color="green" fluid onClick={this.handleOpen.bind(this)}>Load Course Map</Button>}
                 open={this.state.modalOpen}
                 onClose={this.handleCancel}>
                 <Modal.Header>

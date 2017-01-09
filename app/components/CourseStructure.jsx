@@ -713,7 +713,7 @@ class CourseStructure extends Component {
                     changeStartYear={this.changeStartYear}
                     numberOfUnits={this.state.numberOfUnits}
                     semesterString={this.getQuickSemesterString()}
-                    showInsertTeachingPeriodsUI={this.showInsertTeachingPeriodsUI}
+                    insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
                     appendSemester={this.appendSemester}
                     noFloat
                      />);
@@ -727,7 +727,7 @@ class CourseStructure extends Component {
                             Ready to add units to course plan
                         </Message.Header>
                         <p>
-                            Search for units in the above search bar, then place it in your course plan.
+                            Search for units by clicking the plus icon in the header, then place it in your course plan.
                         </p>
                     </Message>
                 }
@@ -787,15 +787,15 @@ class CourseStructure extends Component {
                             {!this.state.showInsertTeachingPeriods && !areThereNoTeachingPeriods &&
                             <InsertTeachingPeriodButton
                                 semesterString={this.getQuickSemesterString()}
-                                showInsertTeachingPeriodsUI={this.showInsertTeachingPeriodsUI}
+                                insert={this.showInsertTeachingPeriodsUI}
                                 appendSemester={this.appendSemester}
                                 mobile={mobile}
                                 />
                             }
                             {this.state.showInsertTeachingPeriods &&
-                            <Button fluid={mobile} className="no-print" floated="right" onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
+                            <Button fluid={mobile} className="no-print" floated={mobile ? "" : "right"} onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
                             }
-                            {mobile && <br /> && <br />}
+                            {mobile && <div><br /></div>}
                             <ClearCourseModal disabled={this.state.teachingPeriods.length === 0} fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
                             {mobile && <br />}
                             <CompletedCourseModal
