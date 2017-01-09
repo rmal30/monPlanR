@@ -39,13 +39,13 @@ export default class UnitInfoContainer extends Component {
     }
 
     /**
-     * @author JXNS 
-     * Currently a bit of a workaround for making this play nice with both the unit detail button and the 
-     * create custom unit modal. Component will recieve props is not called the first time it is rendered, 
+     * @author JXNS
+     * Currently a bit of a workaround for making this play nice with both the unit detail button and the
+     * create custom unit modal. Component will recieve props is not called the first time it is rendered,
      * So component did mount needs to be called for the unit detail modal.
      */
-    componentDidMount(){
-        if(this.props.nUnitCode){
+    componentDidMount() {
+        if(this.props.nUnitCode) {
             let nUnitCode = this.props.nUnitCode;
             if(this.state.isFirstSearch) {
                 this.setState({collapse: false});
@@ -56,33 +56,41 @@ export default class UnitInfoContainer extends Component {
                 isFirstSearch: false
             });
 
-            UnitQuery.getExtendedUnitData(nUnitCode)
-                .then(response => {
-                    let data = response.data;
-                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
-                    
-                    this.setState({
-                        isLoading: false,
-                        UnitCode: nUnitCode,
-                        UnitName: data.UnitName,
-                        Faculty: data.Faculty,
-                        Synopsis: data.Description,
-                        error: false,
-                        currentCreditPoints: data.CreditPoints,
-                        currentEstCost: data.Cost,
-                        offeringArray: data.UnitLocationTP,
-                        prohibs: data.Prohibitions,
-                        prereqs: data.Prerequisites
+            if(!this.props.custom) {
+                UnitQuery.getExtendedUnitData(nUnitCode)
+                    .then(response => {
+                        let data = response.data;
+                        data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
+
+                        this.setState({
+                            isLoading: false,
+                            UnitCode: nUnitCode,
+                            UnitName: data.UnitName,
+                            Faculty: data.Faculty,
+                            Synopsis: data.Description,
+                            error: false,
+                            currentCreditPoints: data.CreditPoints,
+                            currentEstCost: data.Cost,
+                            offeringArray: data.UnitLocationTP,
+                            prohibs: data.Prohibitions,
+                            prereqs: data.Prerequisites
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        
+                        this.setState({
+                            isLoading: false,
+                            UnitCode: nUnitCode,
+                            error: true,
+                        });
                     });
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.setState({
-                        isLoading: false,
-                        UnitCode: nUnitCode,
-                        error: true,
-                    });
+            } else {
+                this.setState({
+                    isLoading: false,
+                    UnitCode: nUnitCode
                 });
+            }
         }
     }
 
@@ -120,7 +128,7 @@ export default class UnitInfoContainer extends Component {
                 .then(response => {
                     let data = response.data;
                     data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
-                    
+
                     this.setState({
                         isLoading: false,
                         UnitCode: nUnitCode,

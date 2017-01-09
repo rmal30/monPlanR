@@ -53,7 +53,7 @@ class CustomUnitModal extends Component {
      */
     onUnitCodeChange(e) {
         this.setState({
-            UnitCode: e.target.value || this.props.UnitCode
+            UnitCode: e.target.value.toUpperCase() || this.props.UnitCode
         });
     }
 
@@ -107,9 +107,8 @@ class CustomUnitModal extends Component {
      * @return {bool} valid
      */
     formIsValid() {
-        const unitCodeRegularExpression = /^[A-Z]{3}[0-9]{4}$/;
         const { UnitCode, UnitName, CreditPoints, SCABand, Faculty } = this.state;
-        return unitCodeRegularExpression.test(UnitCode) && UnitName && !isNaN(CreditPoints) && !isNaN(SCABand) && SCABand && Faculty;
+        return UnitCode && UnitName && !isNaN(CreditPoints) && !isNaN(SCABand) && SCABand && Faculty;
     }
 
     /**
@@ -139,9 +138,7 @@ class CustomUnitModal extends Component {
         return (
             <ControlledModal
                 defaultOpen
-                onClose={this.onClose.bind(this)}
-                closeTrigger={closeTrigger}>
-                <Modal.Header>
+                positiveButton={(
                     <Button
                         disabled={!this.formIsValid.call(this)}
                         color="green"
@@ -149,6 +146,10 @@ class CustomUnitModal extends Component {
                         floated="right">
                             Add {UnitCode}
                     </Button>
+                )}
+                onClose={this.onClose.bind(this)}
+                closeTrigger={closeTrigger}>
+                <Modal.Header>
                     Creating custom unit...
                 </Modal.Header>
                 <Modal.Content>

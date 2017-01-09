@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dropdown, Icon, Message, Popup, Table, Loader } from "semantic-ui-react";
+import { Button, Container, Icon, Message, Popup, Table, Loader } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
@@ -114,7 +114,7 @@ class CourseStructure extends Component {
 
         //let error = this.validate(this.props.unitToAdd);
         //this.processError(error);
-        
+
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
@@ -122,7 +122,7 @@ class CourseStructure extends Component {
 
     }
 
-    processError(error) {  
+    processError(error) {
         let teachingPeriods = this.state.teachingPeriods;
 
         if (error.errorArray[0] === "All") {
@@ -147,8 +147,9 @@ class CourseStructure extends Component {
             teachingPeriods = teachingPeriods.map(tp => {
                 tp.isError = false;
                 return tp;
-            })
+            });
         }
+
         this.setState({
             errorMsg: error.errorMsg,
             isError: error.isError,
@@ -162,8 +163,8 @@ class CourseStructure extends Component {
             errorMsg: "",
             errorHeader: "",
             isError: false,
-            errorArray: [] //This array holds the indicies of all teaching periods with errors in them
-        }
+            errorArray: [] // This array holds the indices of all teaching periods with errors in them
+        };
 
         let codeMap = {
             "FY-01": "Full year",
@@ -179,49 +180,48 @@ class CourseStructure extends Component {
             for(let i=0; i < this.state.teachingPeriods.length; i++) {
                 let TP = this.state.teachingPeriods[i];
                 let TPcode = TP.code;
-                
+
                 for(let j=0; j < TP.units.length; j++) {
-                    
+
                     let unit = TP.units[j];
-                   
+
                     if (unit !== null) {
-                        if (unit.UnitCode === newUnit.UnitCode){
-                            error.errorMsg = "Unit " + unit.UnitCode + " already exists in course plan.";
-                            error.errorHeader = "Error adding unit: " + unit.UnitCode
+                        if (unit.UnitCode === newUnit.UnitCode) {
+                            error.errorMsg = `Unit ${unit.UnitCode} already exists in course plan.`;
+                            error.errorHeader = "Error adding unit: " + unit.UnitCode;
                             error.isError = true;
-                            error.errorArray = ["All"]
+                            error.errorArray = ["All"];
                             return error;
 
                         }
                     }
                 }
-                
+
                 let offerings = newUnit.UnitLocationTP;
-                    if (codeMap[TPcode] !== undefined) {
-                        //semester we're checking against is covered by mapping'
-                        let re = new RegExp(codeMap[TPcode]);
-                        let isValid = false;
-                        for(let k=0; k < offerings.length; k++){
-                            let locations = offerings[k][1];
-                                for(let l=0; l < locations.length; l++) {
-                                    let offering = locations[l];
-                                    let isMatch = re.test(offering);
-                                    
-                                    if(isMatch) {
-                                        isValid = true;
-                                        break;
-                                    }
+                if (codeMap[TPcode] !== undefined) {
+                    // semester we're checking against is covered by mapping'
+                    let re = new RegExp(codeMap[TPcode]);
+                    let isValid = false;
+                    for(let k=0; k < offerings.length; k++){
+                        let locations = offerings[k][1];
+                        for(let l=0; l < locations.length; l++) {
+                            let offering = locations[l];
+                            let isMatch = re.test(offering);
 
-                                }
-                                if (isValid) {
-                                    break;
-                                }
+                            if(isMatch) {
+                                isValid = true;
+                                break;
                             }
-                        if (!isValid) {
-                            error.errorArray.push(i)
                         }
-
+                        if(isValid) {
+                            break;
+                        }
                     }
+
+                    if (!isValid) {
+                        error.errorArray.push(i);
+                    }
+                }
             }
         }
 
@@ -304,11 +304,12 @@ class CourseStructure extends Component {
             })
             .catch(err => {
                 console.log(err);
+
                 this.setState({
                     isLoading: false,
                     unlock: true
-             });
-         });
+                });
+            });
     }
 
     /**
@@ -342,7 +343,7 @@ class CourseStructure extends Component {
                 numberOfUnits,
                 totalCreditPoints,
                 totalEstimatedCost,
-                startYear
+                startYear: startYear || new Date().getFullYear()
             });
 
             this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
@@ -547,7 +548,8 @@ class CourseStructure extends Component {
         //let errorMsg = this.validate(focusedUnit)
         //let isError = (errorMsg !== "");
 
-        this.props.onUnitClick(focusedUnit.UnitCode);
+        this.props.onUnitClick(focusedUnit.UnitCode, focusedUnit.custom);
+
         this.setState({
             isError: false,
             showMoveUnitUI: true,
@@ -732,7 +734,7 @@ class CourseStructure extends Component {
      * @param {number} index - For bookkeeping which teaching period is which.
      */
     renderTeachingPeriod(teachingPeriod, index) {
-        
+
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
                     index={index}
@@ -751,7 +753,7 @@ class CourseStructure extends Component {
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units}
                     handleUnitDetailClick={this.props.onUnitClick}
-                    cancelMoving={this.cancelMoving.bind(this)} 
+                    cancelMoving={this.cancelMoving.bind(this)}
                     isError={teachingPeriod.isError} />;
     }
 
@@ -766,7 +768,7 @@ class CourseStructure extends Component {
      * @returns {ReactElement} CourseStructure
      */
     render() {
-        
+
         const tableRows = [];
         let year, code, show = false;
         let areThereNoTeachingPeriods = false;
@@ -864,7 +866,7 @@ class CourseStructure extends Component {
 
         return (
             <Container>
-                {this.state.isError && 
+                {this.state.isError &&
                     <Message negative className="no-print">
                         <Message.Header>
                            {this.state.errorHeader}
