@@ -9,14 +9,14 @@ import YearCalc from "../../utils/YearCalc.js";
  * This component is displayed when there are no teaching periods in the course
  * structure.
  */
-export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, startYear, changeStartYear, semesterString, showInsertTeachingPeriodsUI, appendSemester, mobile, noFloat }) {
+export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, startYear, changeStartYear, semesterString, insertTeachingPeriod, appendSemester, mobile, noFloat }) {
     NoTeachingPeriod.propTypes = {
         numberOfUnits: PropTypes.number.isRequired,
         placeholderStartYear: PropTypes.number.isRequired,
         startYear: PropTypes.number,
         changeStartYear: PropTypes.func.isRequired,
         semesterString: PropTypes.string.isRequired,
-        showInsertTeachingPeriodsUI: PropTypes.func.isRequired,
+        insertTeachingPeriod: PropTypes.func.isRequired,
         appendSemester: PropTypes.func.isRequired,
         mobile: PropTypes.bool,
         noFloat: PropTypes.bool
@@ -41,7 +41,7 @@ export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, 
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <InsertTeachingPeriodButton
                       semesterString={semesterString}
-                      showInsertTeachingPeriodsUI={showInsertTeachingPeriodsUI}
+                      insert={code => insertTeachingPeriod(0, startYear, code)}
                       appendSemester={appendSemester}
                       mobile={mobile}
                       noFloat={noFloat}

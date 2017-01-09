@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Grid, Header, Icon, Menu, Sidebar, Segment } from "semantic-ui-react";
+import { Button, Container, Grid } from "semantic-ui-react";
+import MediaQuery from "react-responsive";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
@@ -8,7 +9,6 @@ import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import UnitDetailModalPopup from "../Unit/UnitDetailModalPopup.jsx";
-import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -205,7 +205,7 @@ class Plan extends Component {
                                 <LoadCourseMap
                                     onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
-                            <Grid.Column floated="right" width="8">
+                            <Grid.Column floated="right" width="6">
                                 <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
                             </Grid.Column>
                         </Grid.Row>
@@ -226,7 +226,9 @@ class Plan extends Component {
                                      onUnitClick={this.handleUnitDetailClick}
                                      courseToLoad={this.state.courseToLoad} />
                 </Container>
-                <div className="push" />
+                <MediaQuery minDeviceWidth={768}>
+                    <div className="push" />
+                </MediaQuery>
             </div>
         );
     }

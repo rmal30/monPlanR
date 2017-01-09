@@ -106,6 +106,11 @@ class UnitSearchContainer extends Component {
     }
 
     selectSearchResult() {
+        // Ignore if there are no search results
+        if(this.state.searchResults.length === 0) {
+            return;
+        }
+
         const searchResult = this.state.searchResults[this.state.searchResultIndex];
         this.props.addToCourse(searchResult.UnitCode, searchResult.custom);
     }
@@ -116,15 +121,9 @@ class UnitSearchContainer extends Component {
             this.selectSearchResult();
             e.preventDefault();
             break;
-        case 37:
-            this.moveUpSearchResult();
-            break;
         case 38:
             this.moveUpSearchResult();
             e.preventDefault();
-            break;
-        case 39:
-            this.moveDownSearchResult();
             break;
         case 40:
             this.moveDownSearchResult();

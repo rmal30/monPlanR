@@ -75,14 +75,14 @@ function TeachingPeriod(props) {
     }
 
     return (
-        <Table.Row style={{lineHeight: '100px'}}>
+        <Table.Row>
             <Table.Cell>
-                {teachingPeriodName}, {props.year}
                 {!props.showMoveUnitUI &&
                 <ConfirmDeleteTeachingPeriod
                     onDeletePress={props.deleteTeachingPeriod.bind(null, props.index)}
                     units={props.units} />
                 }
+                {teachingPeriodName}, {props.year}
             </Table.Cell>
             {unitsEle}
         </Table.Row>
