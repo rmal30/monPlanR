@@ -70,7 +70,7 @@ class Main extends Component {
                     searchVisible={this.state.searchVisible}
                     handleDocumentClick={this.handleDocumentClick}
                     showAddUnit={!!this.state.addToCourse} />
-                <Sidebar.Pushable>
+                <Sidebar.Pushable >
                     {this.state.addToCourse &&
                     <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.state.searchVisible} vertical>
                         <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />

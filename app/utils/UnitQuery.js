@@ -40,4 +40,9 @@ export default class UnitQuery {
         return axios.get(qURL);
     }
 
+    static getUnitRatings(unitCode) {
+        let qURL = `${MONPLAN_REMOTE_URL}/unitRatings/${unitCode}`;
+        return axios.get(qURL);
+    }
+
 }
