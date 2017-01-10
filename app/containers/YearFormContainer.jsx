@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup, Grid } from "semantic-ui-react";
+import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 
@@ -137,86 +137,74 @@ class YearFormContainer extends Component {
                     <p>Please enter your commencement and graduation year to get started. This will generate a course structure of semester one
                         and semester two teaching periods.</p>
                     <p>Alternatively, you can start with an empty template if your course structure mostly has non-semester teaching periods.</p>
-                    <Grid>
-                        <Grid.Row>
-                            <Grid.Column width={5}>
-                                <Form.Field>
-                                    <label>Start Year:</label>
-                                    <Popup
-                                        header="Select a start year"
-                                        content="Begin typing or clicking a year from the dropdown menu. This is the year that you want to start planning from onwards."
-                                        positioning="top right"
-                                        on="focus"
-                                        trigger={<Dropdown
-                                                    onChange={this.handleUpdateStartYear}
-                                                    placeholder="Select start year" fluid search selection
-                                                    options={this.validStartYears}/>}
-                                    />
-                                </Form.Field>
-                            </Grid.Column>
-                            <Grid.Column width={5}>
-                                <Form.Field>
-                                    <label>End Year:</label>
-                                    <Popup
-                                        header="Select an end year"
-                                        content="Begin typing or clicking a year from the dropdown menu. This is the last year that you want to plan for."
-                                        positioning="top right"
-                                        on="focus"
-                                        trigger={<Dropdown
-                                                    onChange={this.handleUpdateEndYear}
-                                                    placeholder="Select end year" fluid search selection
-                                                    options={this.validEndYears}
-                                                    disabled={this.state.endYearDisabled}/>}
-                                    />
-                                </Form.Field>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column>
-                                <MediaQuery maxDeviceWidth={767}>
-                                    {mobile => {
-                                        if(mobile) {
-                                            return (
-                                                <Container>
-                                                    <Button
-                                                        fluid
-                                                        color="green"
-                                                        disabled={this.state.notReadyToSubmit}
-                                                        onClick={this.submitData}>
-                                                            Start Planning <Icon name="right arrow" />
-                                                    </Button>
-                                                    <Divider />
-                                                    <Container textAlign="center">
-                                                        <b style={{fontSize: "1.5em"}}>or</b>
-                                                    </Container>
-                                                    <Divider />
-                                                    <Link to="/plan">
-                                                        <Button fluid>
-                                                            Just start with an empty template
-                                                        </Button>
-                                                    </Link>
-                                                </Container>
-                                            );
-                                        } else {
-                                            return (
-                                                <Button.Group>
-                                                    {this.btnStartPlan()}
-                                                    <Button.Or />
-                                                    <Link to="/plan">
-                                                        {this.btnEmptyPlan()}
-                                                    </Link>
-                                                </Button.Group>
-                                            );
-                                        }
-                                    }
-                                }
-                                </MediaQuery>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+                    <Form.Group widths="equal">
+                        <Form.Field>
+                            <label>Start Year:</label>
+                            <Popup
+                                header="Select a start year"
+                                content="Begin typing or clicking a year from the dropdown menu. This is the year that you want to start planning from onwards."
+                                positioning="top right"
+                                on="focus"
+                                trigger={<Dropdown
+                                            onChange={this.handleUpdateStartYear}
+                                            placeholder="Select start year" fluid search selection
+                                            options={this.validStartYears}/>}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>End Year:</label>
+                            <Popup
+                                header="Select an end year"
+                                content="Begin typing or clicking a year from the dropdown menu. This is the last year that you want to plan for."
+                                positioning="top right"
+                                on="focus"
+                                trigger={<Dropdown
+                                            onChange={this.handleUpdateEndYear}
+                                            placeholder="Select end year" fluid search selection
+                                            options={this.validEndYears}
+                                            disabled={this.state.endYearDisabled}/>}
+                            />
+                        </Form.Field>
+                    </Form.Group>
 
-
-
+                    <MediaQuery maxDeviceWidth={767}>
+                        {mobile => {
+                            if(mobile) {
+                                return (
+                                    <Container>
+                                        <Button
+                                            fluid
+                                            color="green"
+                                            disabled={this.state.notReadyToSubmit}
+                                            onClick={this.submitData}>
+                                                Start Planning <Icon name="right arrow" />
+                                        </Button>
+                                        <Divider />
+                                        <Container textAlign="center">
+                                            <b style={{fontSize: "1.5em"}}>or</b>
+                                        </Container>
+                                        <Divider />
+                                        <Link to="/plan">
+                                            <Button fluid>
+                                                Just start with an empty template
+                                            </Button>
+                                        </Link>
+                                    </Container>
+                                );
+                            } else {
+                                return (
+                                    <Button.Group>
+                                        {this.btnStartPlan()}
+                                        <Button.Or />
+                                        <Link to="/plan">
+                                            {this.btnEmptyPlan()}
+                                        </Link>
+                                    </Button.Group>
+                                );
+                            }
+                        }
+                    }
+                    </MediaQuery>
                 </Segment>
             </Form>
         );
