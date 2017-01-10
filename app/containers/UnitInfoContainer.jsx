@@ -60,9 +60,8 @@ export default class UnitInfoContainer extends Component {
 
             if(!this.props.custom) {
 
-                axios.all([UnitQuery.getUnitRatings(nUnitCode), UnitQuery.getExtendedUnitData(nUnitCode)])
-                    .then(axios.spread((ratingsResp, unitDataResp) => {
-                        let ratings = ratingsResp.data;
+                UnitQuery.getExtendedUnitData(nUnitCode)
+                    .then(unitDataResp => {
                         let unitData = unitDataResp.data;
                         unitData.Cost = CostCalc.calculateCost(unitData.SCABand, unitData.CreditPoints);
                         this.setState({
@@ -70,18 +69,18 @@ export default class UnitInfoContainer extends Component {
                             UnitCode: nUnitCode,
                             UnitName: unitData.UnitName,
                             Faculty: unitData.Faculty,
-                            Synopsis: unitData.Description,
+                            Synopsis: unitData.Sypnosis,
                             error: false,
                             currentCreditPoints: unitData.CreditPoints,
                             currentEstCost: unitData.Cost,
-                            offeringArray: unitData.UnitLocationTP,
-                            prohibs: unitData.Prohibitions,
-                            prereqs: unitData.Prerequisites,
-                            likeScore: ratings.enjoyRating,
-                            learnScore: ratings.learnRating
+                            offeringArray: unitData.LocationAndTime,
+                            prohibs: unitData.Proh,
+                            prereqs: unitData.Preqs,
+                            likeScore: unitData.enjoyRating,
+                            learnScore: unitData.learnRating
                         });
 
-                    }))
+                    })
                     .catch(error => {
                         console.log(error);
                         this.setState({
@@ -130,9 +129,8 @@ export default class UnitInfoContainer extends Component {
                 isFirstSearch: false
             });
 
-            axios.all([UnitQuery.getUnitRatings(nUnitCode), UnitQuery.getExtendedUnitData(nUnitCode)])
-                    .then(axios.spread((ratingsResp, unitDataResp) => {
-                        let ratings = ratingsResp.data;
+            UnitQuery.getExtendedUnitData(nUnitCode)
+                    .then(unitDataResp => {
                         let unitData = unitDataResp.data;
                         unitData.Cost = CostCalc.calculateCost(unitData.SCABand, unitData.CreditPoints);
                         this.setState({
@@ -140,18 +138,18 @@ export default class UnitInfoContainer extends Component {
                             UnitCode: nUnitCode,
                             UnitName: unitData.UnitName,
                             Faculty: unitData.Faculty,
-                            Synopsis: unitData.Description,
+                            Synopsis: unitData.Sypnosis,
                             error: false,
                             currentCreditPoints: unitData.CreditPoints,
                             currentEstCost: unitData.Cost,
-                            offeringArray: unitData.UnitLocationTP,
-                            prohibs: unitData.Prohibitions,
-                            prereqs: unitData.Prerequisites,
-                            likeScore: ratings.enjoyRating,
-                            learnScore: ratings.learnRating
+                            offeringArray: unitData.LocationAndTime,
+                            prohibs: unitData.Proh,
+                            prereqs: unitData.Preqs,
+                            likeScore: unitData.enjoyRating,
+                            learnScore: unitData.learnRating
                         });
 
-                    }))
+                    })
                     .catch(error => {
                         console.log(error);
                         this.setState({

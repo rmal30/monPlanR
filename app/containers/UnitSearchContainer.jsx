@@ -149,7 +149,7 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, source, 5, ["UnitCode", "UnitName"]);
+            const results = FuzzySearch.search(value, source, 8, ["UnitCode", "UnitName"]);
 
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
 
