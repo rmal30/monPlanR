@@ -60,7 +60,7 @@ class Home extends Component {
         return (
             <Container className="ui main text wrapper">
                 <div id="welcome" className="ui container">
-                    {this.state.showMessage && inLocalStorage !== MONPLAN_VERSION &&
+                    {this.state.showMessage && inLocalStorage !== false && inLocalStorage !== MONPLAN_VERSION &&
                         <Message
                             icon="warning sign"
                             negative
