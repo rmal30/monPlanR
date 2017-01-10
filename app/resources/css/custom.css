@@ -123,6 +123,11 @@ html, body {
     min-height: 90px;
 }
 
+
+.sidebar {
+    overflow-x: hidden;
+}
+
 .sidebar .active.item {
     background: #E0E0E0 !important;
 }
