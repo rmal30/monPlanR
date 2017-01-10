@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-
+import axios from 'axios';
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitQuery from "../utils/UnitQuery";
 import CostCalc from "../utils/CostCalc";
@@ -32,7 +32,9 @@ export default class UnitInfoContainer extends Component {
             currentCreditPoints: 0,
             currentEstCost: 0,
             prereqs: "",
-            prohibs: ""
+            prohibs: "",
+            likeScore: 0,
+            learnScore: 0
 
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
@@ -57,34 +59,38 @@ export default class UnitInfoContainer extends Component {
             });
 
             if(!this.props.custom) {
-                UnitQuery.getExtendedUnitData(nUnitCode)
-                    .then(response => {
-                        let data = response.data;
-                        data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
 
+                axios.all([UnitQuery.getUnitRatings(nUnitCode), UnitQuery.getExtendedUnitData(nUnitCode)])
+                    .then(axios.spread((ratingsResp, unitDataResp) => {
+                        let ratings = ratingsResp.data;
+                        let unitData = unitDataResp.data;
+                        unitData.Cost = CostCalc.calculateCost(unitData.SCABand, unitData.CreditPoints);
                         this.setState({
                             isLoading: false,
                             UnitCode: nUnitCode,
-                            UnitName: data.UnitName,
-                            Faculty: data.Faculty,
-                            Synopsis: data.Description,
+                            UnitName: unitData.UnitName,
+                            Faculty: unitData.Faculty,
+                            Synopsis: unitData.Description,
                             error: false,
-                            currentCreditPoints: data.CreditPoints,
-                            currentEstCost: data.Cost,
-                            offeringArray: data.UnitLocationTP,
-                            prohibs: data.Prohibitions,
-                            prereqs: data.Prerequisites
+                            currentCreditPoints: unitData.CreditPoints,
+                            currentEstCost: unitData.Cost,
+                            offeringArray: unitData.UnitLocationTP,
+                            prohibs: unitData.Prohibitions,
+                            prereqs: unitData.Prerequisites,
+                            likeScore: ratings.enjoyRating,
+                            learnScore: ratings.learnRating
                         });
-                    })
+
+                    }))
                     .catch(error => {
                         console.log(error);
-                        
                         this.setState({
                             isLoading: false,
                             UnitCode: nUnitCode,
                             error: true,
                         });
                     });
+                
             } else {
                 this.setState({
                     isLoading: false,
@@ -124,33 +130,36 @@ export default class UnitInfoContainer extends Component {
                 isFirstSearch: false
             });
 
-            UnitQuery.getExtendedUnitData(nUnitCode)
-                .then(response => {
-                    let data = response.data;
-                    data.Cost = CostCalc.calculateCost(data.SCABand, data.CreditPoints);
+            axios.all([UnitQuery.getUnitRatings(nUnitCode), UnitQuery.getExtendedUnitData(nUnitCode)])
+                    .then(axios.spread((ratingsResp, unitDataResp) => {
+                        let ratings = ratingsResp.data;
+                        let unitData = unitDataResp.data;
+                        unitData.Cost = CostCalc.calculateCost(unitData.SCABand, unitData.CreditPoints);
+                        this.setState({
+                            isLoading: false,
+                            UnitCode: nUnitCode,
+                            UnitName: unitData.UnitName,
+                            Faculty: unitData.Faculty,
+                            Synopsis: unitData.Description,
+                            error: false,
+                            currentCreditPoints: unitData.CreditPoints,
+                            currentEstCost: unitData.Cost,
+                            offeringArray: unitData.UnitLocationTP,
+                            prohibs: unitData.Prohibitions,
+                            prereqs: unitData.Prerequisites,
+                            likeScore: ratings.enjoyRating,
+                            learnScore: ratings.learnRating
+                        });
 
-                    this.setState({
-                        isLoading: false,
-                        UnitCode: nUnitCode,
-                        UnitName: data.UnitName,
-                        Faculty: data.Faculty,
-                        Synopsis: data.Description,
-                        error: false,
-                        currentCreditPoints: data.CreditPoints,
-                        currentEstCost: data.Cost,
-                        offeringArray: data.UnitLocationTP,
-                        prohibs: data.Prohibitions,
-                        prereqs: data.Prerequisites
+                    }))
+                    .catch(error => {
+                        console.log(error);
+                        this.setState({
+                            isLoading: false,
+                            UnitCode: nUnitCode,
+                            error: true,
+                        });
                     });
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.setState({
-                        isLoading: false,
-                        UnitCode: nUnitCode,
-                        error: true,
-                    });
-                });
         }
     }
 
@@ -167,8 +176,8 @@ export default class UnitInfoContainer extends Component {
                 UnitName={this.state.UnitName}
                 Faculty={this.state.Faculty}
                 Synopsis={this.state.Synopsis}
-                usefulnessScore={5}
-                likeScore={3}
+                usefulnessScore={this.state.learnScore}
+                likeScore={this.state.likeScore}
                 collapse={this.state.collapse}
                 isLoading={this.state.isLoading}
                 onCollapseClick={this.handleCollapseClick}

@@ -96,7 +96,7 @@ function UnitInfo(props) {
                     </Grid.Column>
 
                     <Grid.Column width={4}>
-                        <SetuRating />
+                        <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} />
                         <Divider />
                         <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
                         <Divider />
