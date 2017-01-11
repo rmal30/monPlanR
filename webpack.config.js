@@ -55,7 +55,7 @@ const config = {
     },
 
     devServer: {
-        headers: { "Access-Control-Allow-Origin": "*"}
+        headers: { "Access-Control-Allow-Origin": "api.monplan.tech"}
     }
 };
 
