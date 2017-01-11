@@ -40,6 +40,10 @@ export default class UnitQuery {
         return axios.get(qURL);
     }
 
+    /**
+     * Given a unit code, grabs the rating for that unit
+     * @param {string} unitCode - the unitCode corresponding to the unit for ratings
+     */
     static getUnitRatings(unitCode) {
         let qURL = `${MONPLAN_REMOTE_URL}/unitRatings/${unitCode}`;
         return axios.get(qURL);
