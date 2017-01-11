@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Dropdown, Icon } from "semantic-ui-react";
+import { Button, Divider, Dropdown, Icon } from "semantic-ui-react";
 
 /**
  * Allows students to insert new teaching periods, by both quickly adding new
@@ -18,7 +18,7 @@ export default function InsertTeachingPeriodButton({ semesterString, insert, app
     return (
         <Button.Group color="green" fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
             <Button onClick={appendSemester}><Icon name="add square"/>Add {semesterString}</Button>
-            <Dropdown floating button className="icon" style={{textAlign: "center"}}>
+            <Dropdown floating button className="icon" style={{textAlign: "center", marginLeft: "0.1em"}}>
                 <Dropdown.Menu>
                     <Dropdown.Item onClick={insert.bind(null, "S1-01")}>Insert Semester 1</Dropdown.Item>
                     <Dropdown.Item onClick={insert.bind(null, "S2-01")}>Insert Semester 2</Dropdown.Item>

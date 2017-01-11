@@ -137,6 +137,12 @@ class Unit extends React.Component {
         }
     }
 
+    handleDoubleClick() {
+        if(!this.props.free && typeof this.props.viewUnitDetails === "function") {
+            this.props.viewUnitDetails(this.props.code, this.props.custom);
+        }
+    }
+
     /**
      *
      */
@@ -277,6 +283,7 @@ Unit.propTypes = {
     deleteUnit: PropTypes.func,
     firstFreeUnit: PropTypes.bool,
     onUnitClick: PropTypes.func,
+    viewUnitDetails: PropTypes.func,
 
     /* Used for drag functionality */
     connectDragSource: PropTypes.func.isRequired,

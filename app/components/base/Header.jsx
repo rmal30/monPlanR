@@ -28,7 +28,7 @@ class Header extends Component {
      */
     render() {
         return (
-            <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick}>
+            <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick} style={{borderRadius: 0}}>
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>

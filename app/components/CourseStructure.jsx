@@ -113,8 +113,8 @@ class CourseStructure extends Component {
         }
 
         //let error = this.validate(this.props.unitToAdd);
-        //this.processError(error);    
-      
+        //this.processError(error);
+
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost
@@ -749,6 +749,7 @@ class CourseStructure extends Component {
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units}
                     handleUnitDetailClick={this.props.onUnitClick}
+                    viewUnitDetails={this.props.viewUnitDetails}
                     cancelMoving={this.cancelMoving.bind(this)}
                     isError={teachingPeriod.isError} />;
     }
@@ -928,7 +929,7 @@ class CourseStructure extends Component {
                                 <Table.HeaderCell colSpan={this.state.numberOfUnits}>
                                     Units
                                     <Popup
-                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"> <Icon name='plus' /></Button>}
+                                        trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"><Icon name='plus' /> Overload</Button>}
                                         content="Click this to overload a teaching period."
                                         size='mini'
                                         positioning='bottom center'
@@ -990,7 +991,8 @@ CourseStructure.propTypes = {
     removeFromCourse: PropTypes.func.isRequired,
     onUnitClick: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
-    courseToLoad: PropTypes.string
+    courseToLoad: PropTypes.string,
+    viewUnitDetails: PropTypes.func
 };
 
 export default CourseStructure;
