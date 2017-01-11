@@ -8,7 +8,12 @@ import Unit from "./Unit.jsx";
  *
  * @param {string} UnitCode - The unit code associated with a result.
  * @param {string} UnitName - The unit name associated with a result.
+ * @param {string} Faculty - The faculty associated with a result.
+ * @param {bool} custom - Whether or not the unit is a custom unit.
  * @param {number} id - Index of search result.
+ * @param {func} addUnit - Function that adds a unit to the course structure.
+ * @param {object} unitToAdd - The unit to be added to the course.
+ * @param {func} willAddUnit - Function that triggers add unit UI upon call.
  */
 function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, addUnit, unitToAdd, willAddUnit }) {
     UnitSearchResult.propTypes = {
@@ -33,19 +38,7 @@ function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, addUnit, un
             faculty={Faculty} />
     );
 
-    /*<div className="content">
-        {props.active && <b style={{float: "right", color: "#005d95"}}>Press Enter</b>}
-        <div className="title">
-            {props.UnitCode}
-        </div>
-        <div className="description">{props.UnitName}</div>
-    </div>*/
-
     return searchResult;
-    /* <Unit
-        basic
-        name={props.UnitName}
-        code={props.UnitCode} /> */
 }
 
 export default UnitSearchResult;

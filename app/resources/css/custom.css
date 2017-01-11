@@ -143,8 +143,13 @@ html, body {
     cursor: grab;
 }
 
-
 .removalButton.ui.button.red:hover {
     background: #DB2828 !important;
     color: white !important;
+}
+
+/* Adds margin in between a button and a dropdown */
+.buttons > .dropdown {
+    margin-left: 0.1em !important;
+    text-align: center;
 }

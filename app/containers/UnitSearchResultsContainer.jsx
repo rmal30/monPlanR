@@ -1,9 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { Button, Header, Menu } from "semantic-ui-react";
 
 import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
 
+/**
+ * Displays a list of
+ */
 class UnitSearchResultsContainer extends Component {
+    /**
+     * Binds methods to the instance.
+     */
     constructor(props) {
         super(props);
         this.willAddUnit = this.willAddUnit.bind(this);
@@ -42,9 +48,10 @@ class UnitSearchResultsContainer extends Component {
         const eles = this.props.results.map((unitToAdd, index) => {
             const { UnitCode, UnitName, custom, Faculty } = unitToAdd;
             return (
-                <Menu.Item active={this.props.searchResultIndex === index} key={index} style={{display: "inline-block"}}>
+                <Menu.Item active={this.props.searchResultIndex === index} key={index}>
                     <UnitSearchResult
                         key={UnitCode}
+                        tabindex={1}
                         UnitCode={UnitCode}
                         UnitName={UnitName}
                         custom={custom}
@@ -61,5 +68,13 @@ class UnitSearchResultsContainer extends Component {
         return <Menu.Menu>{eles}</Menu.Menu>;
     }
 }
+
+UnitSearchResultsContainer.propTypes = {
+    addUnit: PropTypes.func,
+    addToCourse: PropTypes.func,
+    searchResultIndex: PropTypes.number,
+    results: PropTypes.array,
+    empty: PropTypes.bool
+};
 
 export default UnitSearchResultsContainer;
