@@ -4,21 +4,38 @@ import { Button, Header, Menu } from "semantic-ui-react";
 import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
 
 /**
- * Displays a list of
+ * Displays a list of units if there are search results.
+ *
+ * @author Saurabh Joshi
  */
 class UnitSearchResultsContainer extends Component {
     /**
-     * Binds methods to the instance.
+     * Binds method to the instance.
      */
     constructor(props) {
         super(props);
         this.willAddUnit = this.willAddUnit.bind(this);
     }
 
+    /**
+     * Activates add unit UI with specified unit code.
+     *
+     * @param {string} code - The unit code that corresponds to the unit being
+     * added.
+     * @param {bool} custom - Whether or not the unit is a custom unit
+     * @param {bool} drag - Whether or not the custom unit is being dragged.
+     */
     willAddUnit(code, custom, drag) {
         this.props.addToCourse(code, custom, drag);
     }
 
+    /**
+     * If the search bar is empty, then it returns the default view where it
+     * indicates to the user what they should do next if they want to add new
+     * units. If there are no search results, then no results component is
+     * rendered. Otherwise a list of UnitSearchResults are rendered to the
+     * screen.
+     */
     render() {
         if(this.props.empty) {
             return (

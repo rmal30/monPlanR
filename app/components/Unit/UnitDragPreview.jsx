@@ -6,10 +6,10 @@
 import Unit from "./Unit.jsx";
 import shallowEqual from "../../utils/shallowEqual.js";
 
-'use strict';
+"use strict";
 
-import React, { Component, PropTypes } from 'react';
-import DragLayer from 'react-dnd/lib/DragLayer';
+import React, { Component, PropTypes } from "react";
+import DragLayer from "react-dnd/lib/DragLayer";
 
 function collect (monitor) {
     var item = monitor.getItem();
@@ -21,10 +21,10 @@ function collect (monitor) {
     };
 }
 
-function getItemStyles (currentOffset) {
+function getItemStyles(currentOffset) {
     if (!currentOffset) {
         return {
-            display: 'none'
+            display: "none"
         };
     }
 
@@ -34,7 +34,7 @@ function getItemStyles (currentOffset) {
     var transform = `translate(${x}px, ${y}px)`;
 
     return {
-        pointerEvents: 'none',
+        pointerEvents: "none",
         transform: transform,
         WebkitTransform: transform
     };

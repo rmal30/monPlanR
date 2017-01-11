@@ -8,7 +8,7 @@ import { Button, Icon, Modal } from "semantic-ui-react";
  * @param {array} unitArray - The array of unitcode strings that is extracted from the unit array
  */
 export default class ConfirmDeleteTeachingPeriod extends Component {
-    
+
     /**
      * Sets up initial state and binds the functions
      */
@@ -26,8 +26,8 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
     }
 
     /**
-     * handles the initial pressing of the remove button. It then processes the current unit array. If the unit array is empty, 
-     * then it can jump straight to deleting the teaching period, however, if there are units in the array, then the confirmation modal 
+     * handles the initial pressing of the remove button. It then processes the current unit array. If the unit array is empty,
+     * then it can jump straight to deleting the teaching period, however, if there are units in the array, then the confirmation modal
      * is triggered to open
      */
     handlePress() {
@@ -42,12 +42,12 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
         if (unitArray.length === 0) {
             this.props.onDeletePress();
         } else {
-            this.setState({ 
+            this.setState({
                 open: true,
                 unitArray: unitArray
             });
         }
-        
+
 
     }
 
@@ -67,7 +67,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
     }
 
     /**
-     * on render we process the message that will be shown in the confirmation popup, if the state is set to open then we show the 
+     * on render we process the message that will be shown in the confirmation popup, if the state is set to open then we show the
      * modal, otherwise we just show the plain remove button
      */
     render() {
@@ -93,7 +93,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
             );
         } else {
             return (
-                <Button basic className="no-print" className="removalButton" floated="right" onClick={this.handlePress} color="red" size="tiny" icon="close" />
+                <Button basic className="no-print removalButton" floated="right" onClick={this.handlePress} color="red" size="tiny" icon="close" />
             );
         }
     }

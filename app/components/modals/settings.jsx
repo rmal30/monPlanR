@@ -1,50 +1,80 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Radio, Icon, Modal } from "semantic-ui-react";
+import { Button, Icon, Modal, Radio } from "semantic-ui-react";
 
+/**
+ * A modal that users can use to configure preferences when using this web app.
+ *
+ * @author Eric Jiang
+ */
 class SettingsModal extends Component {
-
+    /**
+     * Holds a boolean value in the state whether or not to show the modal,
+     * and also holds preferences which is populated by default preferences.
+     */
     constructor() {
         super();
+
         this.state = {
             modalOpen: false
         };
+
         this.defaultPrefs = {
             tooltips: true
         };
-        //set up currentPrefences
+
+        // Set up currentPreferences
         this.prefs = Object.assign({}, this.defaultPrefs);
     }
 
-    //this function gets user prefences
+    /**
+     * Grabs user preferences for tooltips.
+     */
     getTooltipsPrefs() {
         return this.prefs.tooltips;
     }
 
-    //this function temporartily saves prefences
+    /**
+     * Changes tooltips preferences to what the user wants.
+     */
     handleChangeTooltips(type) {
         this.prefs.tooltips = type;
     }
 
+    /**
+     * return boolean value based on localStorage Type and Setting Value
+     */
     updatePrefs(prefType) {
-        return (prefType === "tooltips" && this.prefs.tooltips); //return boolean value based on localStorage Type and Setting Value
+        return (prefType === "tooltips" && this.prefs.tooltips);
     }
 
+    /**
+     * Opens the modal
+     */
     handleOpen() {
         this.setState({
             modalOpen: true
         });
     }
+
+    /**
+     * Closes the modal
+     */
     handleClose() {
         this.setState({
             modalOpen: false
         });
     }
+
+    /**
+     * Saves preferences to local storage.
+     */
     handleSave() {
         localStorage.setItem("tooltips", this.prefs.tooltips);
     }
-    componentDidMount() {
-        this.getTooltipsPrefs();
-    }
+
+    /**
+     * @returns {Modal}
+     */
     render() {
         return (
             <Modal trigger={this.props.getTrigger(this.handleOpen.bind(this))}

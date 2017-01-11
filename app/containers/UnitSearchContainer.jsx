@@ -57,14 +57,13 @@ class UnitSearchContainer extends Component {
             });
     }
 
-    componentDidUpdate() {
-        if(this.props.searchVisible !== this.searchVisible) {
-            if(this.props.searchVisible) {
-                this.searchInput.focus();
-                this.searchInput.select();
-            }
-
-            this.searchVisible = this.props.searchVisible;
+    /**
+     * If sidebar becomes visible, then focus and select the search bar.
+     */
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.searchVisible) {
+            this.searchInput.focus();
+            this.searchInput.select();
         }
     }
 
@@ -96,18 +95,29 @@ class UnitSearchContainer extends Component {
         this.resetComponent();
     }
 
+    /**
+     * Moves search selection up by one. If the first result was selected,
+     * then the last result will be selected.
+     */
     moveUpSearchResult() {
         this.setState({
             searchResultIndex: (this.state.searchResultIndex - 1 + this.state.searchResults.length) % this.state.searchResults.length
         });
     }
 
+    /**
+     * Moves search selection down by one. If the last result was selected,
+     * then the first result will be selected.
+     */
     moveDownSearchResult() {
         this.setState({
             searchResultIndex: (this.state.searchResultIndex + 1) % this.state.searchResults.length
         });
     }
 
+    /**
+     * Selects the currently selected search result
+     */
     selectSearchResult() {
         // Ignore if there are no search results
         if(this.state.searchResults.length === 0) {
@@ -118,17 +128,22 @@ class UnitSearchContainer extends Component {
         this.props.addToCourse(searchResult.UnitCode, searchResult.custom);
     }
 
+    /**
+     * If one of the following keys are pressed, then the following actions are
+     * performed: Enter selects the search result, up moves search selection up
+     * by one, and down moves search selection down by one.
+     */
     onKeyDown(e) {
         switch(e.keyCode) {
-        case 13:
+        case 13: // Enter
             this.selectSearchResult();
             e.preventDefault();
             break;
-        case 38:
+        case 38: // Up
             this.moveUpSearchResult();
             e.preventDefault();
             break;
-        case 40:
+        case 40: // Down
             this.moveDownSearchResult();
             e.preventDefault();
             break;
@@ -219,7 +234,8 @@ class UnitSearchContainer extends Component {
 }
 
 UnitSearchContainer.propTypes = {
-    addToCourse: PropTypes.func
+    addToCourse: PropTypes.func,
+    searchVisible: PropTypes.bool
 };
 
 export default UnitSearchContainer;

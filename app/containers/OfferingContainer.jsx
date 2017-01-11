@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from "react";
 
 /**
  * Offering container returns the formatted unit offering/location data
- * 
+ *
  * @author JXNS
- * 
+ *
  * @param {array} offeringArray - a multidimensional array of values of the form [[[Location1], [offering1, offering2, ...], [Location2], [offering1, offering2, ...]]] etc
- * 
+ *
  */
-export default class OfferingContainer extends Component {
+class OfferingContainer extends Component {
 
     /**
      * If the offeringArray given has any values (length > 0) then notAvailable is set to false and the offerings can be output, otherwise in the case of an empty array,
@@ -16,15 +16,15 @@ export default class OfferingContainer extends Component {
      */
     constructor(props) {
         super(props);
-        
-        
+
+
         let notAvailable = true;
         let offeringArray = this.props.offeringArray;
 
         if(offeringArray && typeof offeringArray !== "string" && offeringArray.length > 0) {
             notAvailable = false;
         }
-        
+
         this.state = {
             offeringArray: offeringArray,
             notAvailable: notAvailable
@@ -53,3 +53,9 @@ export default class OfferingContainer extends Component {
         }
     }
 }
+
+OfferingContainer.propTypes = {
+    offeringArray: PropTypes.array
+};
+
+export default OfferingContainer;

@@ -73,7 +73,8 @@ ControlledModal.propTypes = {
     closeTrigger: PropTypes.element.isRequired,
     positiveButton: PropTypes.element,
     defaultOpen: PropTypes.bool,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    children: PropTypes.node
 };
 
 export default ControlledModal;

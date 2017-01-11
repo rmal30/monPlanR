@@ -57,14 +57,14 @@ export default class UnitDescriptionContainer extends Component {
         if(!this.state.fullText) {
             return <p><i>No description provided.</i></p>;
         }
-        if (!(this.state.shortText === "")) {
+        if (this.state.shortText !== "") {
             if (this.state.hide) {
                 return (
-                    <p>{this.state.shortText}<a style={{cursor: 'pointer'}} onClick={this.handleClick}>... Show more</a></p>
+                    <p>{this.state.shortText}<a style={{cursor: "pointer"}} onClick={this.handleClick}>... Show more</a></p>
                 );
             } else {
                 return (
-                    <p>{this.state.fullText}<a style={{cursor: 'pointer'}} onClick={this.handleClick}> Show less</a></p>
+                    <p>{this.state.fullText}<a style={{cursor: "pointer"}} onClick={this.handleClick}> Show less</a></p>
                 );
             }
         } else {

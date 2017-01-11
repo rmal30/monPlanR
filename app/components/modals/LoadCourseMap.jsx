@@ -44,13 +44,13 @@ class LoadCourseMap extends Component {
     componentDidMount() {
         UnitQuery.getCourses()
             .then(response => {
-                let data = response.data;
-                this.setState({data: data});
+                this.setState({data: response.data});
             })
             .catch(err => {
                 console.error(err);
             });
     }
+
     /**
      * Opens the modal
      */
@@ -132,6 +132,9 @@ class LoadCourseMap extends Component {
         });
     }
 
+    /**
+     * Changes specialisation value, and enables start year selection
+     */
     handleSpecialisationSelect(e, { value }) {
         this.setState({
             code: value,
@@ -139,6 +142,9 @@ class LoadCourseMap extends Component {
         });
     }
 
+    /**
+     * Changes starting year value.
+     */
     handleYearSelect(e, { value }) {
         this.setState({
             year: value
@@ -146,14 +152,22 @@ class LoadCourseMap extends Component {
     }
 
     /**
-     * Returns a Modal asking the user if they really want to clear their course
-     * plan.
+     * Returns a Modal prompting the user to enter which course map they would
+     * like to load.
      *
-     * @returns {ReactElement} Modal
+     * @returns {Modal}
      */
     render() {
         return (
-            <Modal trigger={<Button className="no-print" color="green" fluid onClick={this.handleOpen.bind(this)}>Load Course Map</Button>}
+            <Modal trigger={(
+                    <Button
+                        className="no-print"
+                        color="green"
+                        fluid
+                        onClick={this.handleOpen.bind(this)}>
+                        Load Course Map
+                    </Button>
+                )}
                 open={this.state.modalOpen}
                 onClose={this.handleCancel}>
                 <Modal.Header>
@@ -162,7 +176,8 @@ class LoadCourseMap extends Component {
                 <Modal.Content>
                     <Modal.Description>
                         <p>
-                            To load a course map, enter your course name and it will automatically load up a template for you.
+                            To load a course map, enter your course name and it
+                            will automatically load up a template for you.
                         </p>
                     <br />
                     <Search
@@ -179,13 +194,27 @@ class LoadCourseMap extends Component {
                     />
 
                     <br />
-                    <Dropdown disabled={this.state.specIsDisabled} placeholder='Select Specialisation' search selection options={this.state.specialisations} onChange={this.handleSpecialisationSelect}/>
+                    <Dropdown
+                        disabled={this.state.specIsDisabled}
+                        placeholder='Select Specialisation'
+                        search
+                        selection
+                        options={this.state.specialisations}
+                        onChange={this.handleSpecialisationSelect}/>
                     <br />
                     <br />
                     <p>
-                        Please note that all course maps are for students who commence their course in 2017, so your course map may differ if you started your course before 2017.
+                        Please note that all course maps are for students who
+                        commence their course in 2017, so your course map may
+                        differ if you started your course before 2017.
                     </p>
-                    <Dropdown disabled={this.state.yearIsDisabled} placeholder='Select Starting Year' search selection options={this.state.years} onChange={this.handleYearSelect}/>
+                    <Dropdown
+                        disabled={this.state.yearIsDisabled}
+                        placeholder='Select Starting Year'
+                        search
+                        selection
+                        options={this.state.years}
+                        onChange={this.handleYearSelect}/>
                     </Modal.Description>
                 </Modal.Content>
 
