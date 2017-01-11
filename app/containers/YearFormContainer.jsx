@@ -147,6 +147,7 @@ class YearFormContainer extends Component {
                                 on="focus"
                                 trigger={<Dropdown
                                             onChange={this.handleUpdateStartYear}
+                                            defaultValue={this.startYearPlaceholder}
                                             placeholder="Select start year" fluid search selection
                                             options={this.validStartYears}/>}
                             />
@@ -179,11 +180,7 @@ class YearFormContainer extends Component {
                                             onClick={this.submitData}>
                                                 Start Planning <Icon name="right arrow" />
                                         </Button>
-                                        <Divider />
-                                        <Container textAlign="center">
-                                            <b style={{fontSize: "1.5em"}}>or</b>
-                                        </Container>
-                                        <Divider />
+                                        <Divider horizontal>OR</Divider>
                                         <Link to="/plan">
                                             <Button fluid>
                                                 Just start with an empty template

@@ -23,6 +23,7 @@ function TeachingPeriod(props) {
         data: PropTypes.array,
         units: PropTypes.array.isRequired,
         showMoveUnitUI: PropTypes.bool.isRequired,
+        viewUnitDetails: PropTypes.func,
         deleteTeachingPeriod: PropTypes.func.isRequired
     };
 
@@ -43,7 +44,7 @@ function TeachingPeriod(props) {
                     moveUnit={props.moveUnit.bind(this, props.index)}
                     unitToAdd={props.unitToAdd}
                     showMoveUnitUI={props.showMoveUnitUI}
-                    onUnitClick={props.handleUnitDetailClick} 
+                    onUnitClick={props.handleUnitDetailClick}
                     isError={props.isError} />
             );
         }
@@ -60,14 +61,15 @@ function TeachingPeriod(props) {
                 name={unit.UnitName}
                 faculty={unit.Faculty}
                 onUnitClick={props.handleUnitDetailClick}
-                cancelMoving={props.cancelMoving} 
+                viewUnitDetails={props.viewUnitDetails}
+                cancelMoving={props.cancelMoving}
                 isError={props.isError} />
         );
     });
 
     let teachingPeriodName = props.code;
     if(props.data !== null) {
-        const teachingPeriod = props.data.find((element) =>
+        const teachingPeriod = props.data.find(element =>
             element.code === props.code
         );
 
