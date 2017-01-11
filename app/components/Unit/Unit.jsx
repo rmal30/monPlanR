@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Message, Header, Icon, Popup } from "semantic-ui-react";
+import { Button, Message, Header, Icon } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { DragSource, DropTarget } from "react-dnd";
 import { flow } from "lodash";
@@ -92,7 +92,7 @@ class Unit extends React.Component {
     }
 
     /**
-     *
+     * Updates state to indicate that the user is hovering on the unit.
      */
     handleMouseEnter() {
         if(!this.state.hovering) {
@@ -103,7 +103,8 @@ class Unit extends React.Component {
     }
 
     /**
-     *
+     * Updates state to indicate that the user is no longer hovering on the
+     * unit.
      */
     handleMouseMove() {
         if(!this.state.hovering) {
@@ -137,6 +138,9 @@ class Unit extends React.Component {
         }
     }
 
+    /**
+     * Opens up a detailed unit view when a user double clicks a unit.
+     */
     handleDoubleClick() {
         if(!this.props.free && typeof this.props.viewUnitDetails === "function") {
             this.props.viewUnitDetails(this.props.code, this.props.custom);
@@ -153,7 +157,7 @@ class Unit extends React.Component {
     }
 
     /**
-     *
+     * If a unit is being moved, then start the move UI.
      */
     componentDidUpdate() {
         if(this.state.moving) {
@@ -173,7 +177,9 @@ class Unit extends React.Component {
     }
 
     /**
-     *
+     * Renders a table cell with a Message inside of it, which displays the
+     * unit code and name, as well as showing the color to represent the
+     * faculty of the unit.
      */
     render() {
         const facultyColors = {
@@ -236,12 +242,7 @@ class Unit extends React.Component {
                                             {this.props.code}
                                             <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
                                                 {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
-                                                <Popup
-                                                    trigger={<Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
-                                                    content='Remove unit'
-                                                    size='mini'
-                                                    positioning='bottom center'
-                                                    />
+                                                <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
                                             </Button.Group>
                                         </Message.Header>
                                         {(!this.state.hovering || !this.showMoveUnitUI) &&
@@ -284,6 +285,9 @@ Unit.propTypes = {
     firstFreeUnit: PropTypes.bool,
     onUnitClick: PropTypes.func,
     viewUnitDetails: PropTypes.func,
+
+    /* Whether or not it is a custom unit */
+    custom: PropTypes.bool,
 
     /* Used for drag functionality */
     connectDragSource: PropTypes.func.isRequired,

@@ -22,6 +22,13 @@ import "../../resources/css/transitions.css";
  * @param {object} props
  */
 class Main extends Component {
+    /**
+     * The state holds a boolean value for whether or not to show the sidebar,
+     * and a function which is used for the "Add unit" sidebar to make it
+     * functional.
+     *
+     * @author Saurabh Joshi
+     */
     constructor(props) {
         super(props);
 
@@ -36,24 +43,42 @@ class Main extends Component {
         this.detachAddToCourse = this.detachAddToCourse.bind(this);
     }
 
+    /**
+     * Attaches addToCourse function to the state.
+     *
+     * @author Saurabh Joshi
+     */
     attachAddToCourse(addToCourse) {
-        this.setState({
-            addToCourse
-        });
+        this.setState({ addToCourse });
     }
 
+    /**
+     * Detaches addToCourse function from the state.
+     *
+     * @author Saurabh Joshi
+     */
     detachAddToCourse() {
-        this.setState({
-            addToCourse: null
-        });
+        this.attachAddToCourse(null);
     }
 
+    /**
+     * Handles the add unit menu item click, which toggles the view of the
+     * sidebar.
+     *
+     * @author Saurabh Joshi
+     */
     handleSearchClick() {
         this.setState({
             searchVisible: !this.state.searchVisible
         });
     }
 
+    /**
+     * When the user clicks anywhere but the sidebar, this method is used
+     * to hide the sidebar from view.
+     *
+     * @author Saurabh Joshi
+     */
     handleDocumentClick() {
         if(this.state.searchVisible) {
             this.setState({
@@ -62,9 +87,16 @@ class Main extends Component {
         }
     }
 
+    /**
+     * Renders a header and a sidebar pushable, which holds the "Add unit"
+     * sidebar. The children props is within the sidebar pusher, which is where
+     * page components are rendered.
+     *
+     * @author Saurabh Joshi
+     */
     render() {
         return (
-            <div className='main-container'>
+            <div className="main-container">
                 <Header
                     handleSearchClick={this.handleSearchClick}
                     searchVisible={this.state.searchVisible}

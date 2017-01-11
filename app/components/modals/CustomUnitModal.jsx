@@ -12,6 +12,9 @@ import CostCalc from "../../utils/CostCalc.js";
  * @author Saurabh Joshi
  */
 class CustomUnitModal extends Component {
+    /**
+     * Holds user input in the state, and options in other instance attributes.
+     */
     constructor(props) {
         super(props);
 

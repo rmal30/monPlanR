@@ -46,14 +46,22 @@ class Plan extends Component {
     }
 
     /**
-     * A workaround that is a React anti-pattern.
+     * A workaround that is a React anti-pattern. It attaches add to course menu
+     * callback function, which is called when the user clicks the "+ Add unit"
+     * menu item.
      *
      * TODO: Find some better way of handling state.
+     * @author Saurabh Joshi
      */
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
     }
 
+    /**
+     * Detaches add to course menu
+     *
+     * @author Saurabh Joshi
+     */
     componentWillUnmount() {
         this.props.detachAddToCourse();
     }
@@ -68,6 +76,7 @@ class Plan extends Component {
     addToCourse(nUnitCode, custom, drag, position) {
         if(typeof nUnitCode === "string") {
             this.props.handleDocumentClick();
+
             if(!custom) {
                 UnitQuery.getExtendedUnitData(nUnitCode)
                     .then(response => {
@@ -143,7 +152,7 @@ class Plan extends Component {
     /**
      * Handles the cancellation of adding a unit to course
      */
-    cancelAddingToCourse(unit) {
+    cancelAddingToCourse() {
         this.setState({
             unitToAdd: undefined
         });
@@ -267,7 +276,10 @@ Plan.propTypes = {
             /* When the student is expected to graduate */
             endYear: PropTypes.string
         }).isRequired
-    }).isRequired
+    }).isRequired,
+    attachAddToCourse: PropTypes.func,
+    detachAddToCourse: PropTypes.func,
+    handleDocumentClick: PropTypes.func
 };
 
 export default Plan;

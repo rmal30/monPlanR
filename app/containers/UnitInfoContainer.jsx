@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import axios from 'axios';
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitQuery from "../utils/UnitQuery";
 import CostCalc from "../utils/CostCalc";
@@ -59,7 +58,6 @@ export default class UnitInfoContainer extends Component {
             });
 
             if(!this.props.custom) {
-
                 UnitQuery.getExtendedUnitData(nUnitCode)
                     .then(unitDataResp => {
                         let unitData = unitDataResp.data;
@@ -83,13 +81,14 @@ export default class UnitInfoContainer extends Component {
                     })
                     .catch(error => {
                         console.log(error);
+                        
                         this.setState({
                             isLoading: false,
                             UnitCode: nUnitCode,
                             error: true,
                         });
                     });
-                
+
             } else {
                 this.setState({
                     isLoading: false,
@@ -132,7 +131,9 @@ export default class UnitInfoContainer extends Component {
             UnitQuery.getExtendedUnitData(nUnitCode)
                     .then(unitDataResp => {
                         let unitData = unitDataResp.data;
+
                         unitData.Cost = CostCalc.calculateCost(unitData.SCABand, unitData.CreditPoints);
+
                         this.setState({
                             isLoading: false,
                             UnitCode: nUnitCode,
@@ -148,10 +149,10 @@ export default class UnitInfoContainer extends Component {
                             likeScore: unitData.enjoyRating,
                             learnScore: unitData.learnRating
                         });
-
                     })
                     .catch(error => {
                         console.log(error);
+
                         this.setState({
                             isLoading: false,
                             UnitCode: nUnitCode,
@@ -191,5 +192,6 @@ export default class UnitInfoContainer extends Component {
 }
 
 UnitInfoContainer.propTypes = {
-    nUnitCode: PropTypes.string
+    nUnitCode: PropTypes.string,
+    custom: PropTypes.bool
 };

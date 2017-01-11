@@ -1,6 +1,5 @@
 import React, { PropTypes } from "react";
-import { Container, Icon, Label, Statistic } from "semantic-ui-react";
-import MediaQuery from "react-responsive";
+import { Icon, Statistic } from "semantic-ui-react";
 
 /**
  * This currently is a component that renders the statistics for cost and credit points
