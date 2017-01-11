@@ -142,3 +142,9 @@ html, body {
     cursor: -moz-grab;
     cursor: grab;
 }
+
+
+.removalButton.ui.button.red:hover {
+    background: #DB2828 !important;
+    color: white !important;
+}

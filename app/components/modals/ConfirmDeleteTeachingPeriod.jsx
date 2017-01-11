@@ -93,7 +93,7 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
             );
         } else {
             return (
-                <Button basic className="no-print" floated="right" onClick={this.handlePress} size="tiny" color="red" icon="close" />
+                <Button basic className="no-print" className="removalButton" floated="right" onClick={this.handlePress} color="red" size="tiny" icon="close" />
             );
         }
     }

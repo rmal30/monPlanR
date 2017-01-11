@@ -231,7 +231,7 @@ class Unit extends React.Component {
                                             <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
                                                 {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
                                                 <Popup
-                                                    trigger={<Button basic onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
+                                                    trigger={<Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />}
                                                     content='Remove unit'
                                                     size='mini'
                                                     positioning='bottom center'
