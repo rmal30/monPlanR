@@ -10,6 +10,7 @@ import CourseStatisticGroup from "../Course/CourseStatisticGroup.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import UnitDetailModalPopup from "../Unit/UnitDetailModalPopup.jsx";
 import CourseDetailPopup from "../Course/CourseDetailPopup.jsx"
+import CourseInfo from "../Course/CourseInfo.jsx"
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -239,7 +240,7 @@ class Plan extends Component {
                                 <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="4" >
-                                <CourseDetailPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
+                                <CourseDetailPopup trigger={courseDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="4" >
                                 <LoadCourseMap

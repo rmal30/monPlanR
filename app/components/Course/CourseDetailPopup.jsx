@@ -4,13 +4,14 @@ import MediaQuery from "react-responsive";
 
 import ControlledModal from "../modals/ControlledModal.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
+import CourseInfo from "./CourseInfo.jsx"
 
 /**
  * 
  * @author JXNS
  
  */
-export default function CourseDetailPopup({ trigger, unitCode, custom }) {
+export default function CourseDetailPopup({ trigger }) {
 
     CourseDetailPopup.propTypes = {
         trigger: PropTypes.element.isRequired,
@@ -26,7 +27,7 @@ export default function CourseDetailPopup({ trigger, unitCode, custom }) {
                     return <ControlledModal
                                 openTrigger={trigger}
                                 closeTrigger={closeTrigger}>
-                                    {unitCode ? <UnitInfoContainer nUnitCode={unitCode} custom={custom} /> : <UnitInfoContainer />}
+                                    <CourseInfo />
                             </ControlledModal>;
                 } else {
                     return <Popup
@@ -35,7 +36,7 @@ export default function CourseDetailPopup({ trigger, unitCode, custom }) {
                         positioning="bottom center"
                         style={{maxWidth: 800}}
                         basic>
-                            {unitCode ? <UnitInfoContainer nUnitCode={unitCode} custom={custom} /> : <UnitInfoContainer />}
+                            <CourseInfo />
                     </Popup>;
                 }
             }}
