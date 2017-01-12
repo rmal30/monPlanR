@@ -93,7 +93,7 @@ class Home extends Component {
                                                 </Button>
                                             </Link>
                                             <Divider horizontal>OR</Divider>
-                                            <ClearCourseModal fluid clearCourse={() => {return localStorage.clear()}}/>
+                                            <ClearCourseModal fluid clearCourse={() => {return localStorage.clear();}}/>
                                         </Segment>
                                     </Container>
                                 );
@@ -107,7 +107,7 @@ class Home extends Component {
                                                     Continue Planning <Icon name="right arrow" />
                                                 </Button>
                                             </Link>
-                                            <ClearCourseModal floated="right" redirect="/" clearCourse={() => {return localStorage.clear()}}/>
+                                            <ClearCourseModal floated="right" redirect="/" clearCourse={() => {return localStorage.clear();}}/>
                                         </Segment>
                                     </Container>
                                 );
