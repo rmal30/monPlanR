@@ -35,6 +35,8 @@ export default function CourseInfo(props){
                             <Divider />
                             <b>Mode and location:</b>
                             <p>{"On-campus (Clayton)"}</p>
+                            <Divider />
+                            <b>Awards: </b>
                             
                          </Grid.Row>
                     </Grid.Column>
