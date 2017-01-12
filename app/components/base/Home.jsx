@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Button, Container, Icon, Segment, Message} from "semantic-ui-react";
 import { Link } from "react-router";
 
+
+import ClearCourseModal from "../modals/ClearCourseModal.jsx"
 import YearFormContainer from "../../containers/YearFormContainer.jsx";
 
 /**
@@ -22,6 +24,7 @@ class Home extends Component {
         };
 
         this.handleDismiss = this.handleDismiss.bind(this);
+        this.handleClearCourse = this.handleClearCourse.bind(this);
     }
 
     /**
@@ -40,6 +43,12 @@ class Home extends Component {
         const { teachingPeriods, numberOfUnits, version } = JSON.parse(stringifedJSON);
 
         return Array.isArray(teachingPeriods) && teachingPeriods.length > 0 && numberOfUnits && (version || true);
+    }
+
+
+    handleClearCourse(e) {
+        localStorage.clear();
+
     }
 
     /**
@@ -71,7 +80,7 @@ class Home extends Component {
                     <h1>Welcome to monPlan!</h1>
                         <p>
                             monPlan allows you to plan your course structure whilst you are at
-                            Monash University. We know that choosing units isn't particularly easy, so we've
+                            Monash University. We know thdat choosing units isn't particularly easy, so we've
                             designed a web app that you can use to simplify tasks.
                         </p>
                         {inLocalStorage &&
@@ -83,6 +92,9 @@ class Home extends Component {
                                         Continue Planning <Icon name="right arrow" />
                                     </Button>
                                 </Link>
+                                
+                                <ClearCourseModal redirect clearCourse={() => {return localStorage.clear()}}/>
+                                
                             </Segment>
                         </Container>
                         }

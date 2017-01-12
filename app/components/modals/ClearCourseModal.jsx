@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Icon, Input, Modal } from "semantic-ui-react";
-
+import { Link } from "react-router"
 /**
  * A modal used specifically for students who wish to clear their course.
  *
@@ -100,7 +100,8 @@ class ClearCourseModal extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    <Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button>
+                    {this.props.redirect ? <Link to="/"><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link> 
+                                         : <Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
