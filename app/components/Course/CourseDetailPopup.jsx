@@ -4,7 +4,7 @@ import MediaQuery from "react-responsive";
 
 import ControlledModal from "../modals/ControlledModal.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
-import CourseInfo from "./CourseInfo.jsx"
+import CourseInfoContainer from "../../containers/CourseInfoContainer.jsx"
 
 /**
  * 
@@ -27,7 +27,7 @@ export default function CourseDetailPopup({ trigger }) {
                     return <ControlledModal
                                 openTrigger={trigger}
                                 closeTrigger={closeTrigger}>
-                                    <CourseInfo />
+                                    <CourseInfoContainer />
                             </ControlledModal>;
                 } else {
                     return <Popup
@@ -36,7 +36,7 @@ export default function CourseDetailPopup({ trigger }) {
                         positioning="bottom center"
                         style={{maxWidth: 800}}
                         basic>
-                            <CourseInfo />
+                            <CourseInfoContainer />
                     </Popup>;
                 }
             }}

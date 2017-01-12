@@ -3,19 +3,20 @@ import { Divider, Grid, Statistic, Icon } from "semantic-ui-react";
 import UnitDescriptionContainer from "../../containers/UnitDescriptionContainer.jsx";
 
 export default function CourseInfo(props){
+    let keyVal = 0;
     return (
     <Grid stackable celled="internally" columns={2}>
                 <Grid.Row>
                     <Grid.Column width={12}>
-                        <h3>{"E3003" + " - " + "Bachelor of Engineering (Honours) and Bachelor of Commerce Specialist"}</h3>
-                        <p>{"Managing faculty: " + "Faculty of Engineering"}</p>
+                        <h3>{props.courseCode + " - " + props.courseName}</h3>
+                        <p>{"Managing faculty: " + props.faculty}</p>
                     </Grid.Column>
 
                     <Grid.Column width={4}>
                         <Statistic size="mini">
                             <Statistic.Value>
                                 <Icon name='student' />
-                                {"144"}
+                                {props.creditPoints}
                             </Statistic.Value>
                             <Statistic.Label>Required Credit Points</Statistic.Label>
                         </Statistic>
@@ -27,27 +28,31 @@ export default function CourseInfo(props){
                         <Grid.Row>
                             <UnitDescriptionContainer
                                 textLength={500}
-                                fullText={"Partner one of our specialist degrees in actuarial science, economics or finance with your choice from nine engineering specialisations to open up exciting career opportunities that may not be available to graduates in engineering or commerce alone. Perhaps after some years as an aeronautical engineer your future will be as a finance director for the major company designing the next generation of flight vehicles. Perhaps you will draw on strategic planning know how of actuarial science to contribute to the fortunes of a small start up. The possibilities are there - and yours for the making. Your blend of technical and analytical skills, along with an understanding of the business world, will give you a competitive edge in the job market. Career options include commerce, industry, government or private practice. You might work in in the aviation industry or in environmental management."}
+                                fullText={props.description}
                             />
                             <Divider />
                             <b>Duration: </b>
-                            <p>{"5 years FT, 10 years PT Students have a maximum of 10 years to complete this course."}</p>
+                            <p>{props.durationStr}</p>
                             <Divider />
                             <b>Mode and location:</b>
-                            <p>{"On-campus (Clayton)"}</p>
+                            <p>{props.modeAndLocation}</p>
                             <Divider />
                             <b>Awards: </b>
-                            
+                            <ul>
+                            {props.awards.map(item => {
+                                return <li key={keyVal++}>{item}</li>
+                            })}
+                            </ul>
                          </Grid.Row>
                     </Grid.Column>
 
                     <Grid.Column width={4}>
                         <b>Abbreviated title:</b>
-                        <p>{"BE(Hons)/BComSpec"}</p>
+                        <p>{props.abrTitle}</p>
                         <Divider />
-                        <a target="blank" href="#">{"View " + "E3003" + " handbook entry"}</a>
+                        <a target="blank" href="#">{"View " + props.courseCode + " handbook entry"}</a>
                         <Divider />
-                        <a target="blank" href="#">{"View study.monash entry for " +  "E3003"}</a>
+                        <a target="blank" href="#">{"View study.monash entry for " +  props.courseCode}</a>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
