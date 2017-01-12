@@ -11,6 +11,9 @@ import { Link } from "react-router"
  * reaches the confirmation modal. Useful if course has already been cleared.
  * @param {bool} fluid - Whether or not to set 100% width to the "Clear course"
  * button in the course structure screen (and not the modal).
+ * @param {string} redirect - Used to indicate whether a component should re-route to a certain path once cleared, if it is defined the clear course 
+ * button will reroute there
+ * @param {string} floated - Used if you want the button to float to left or right
  */
 class ClearCourseModal extends Component {
     /**
@@ -76,17 +79,31 @@ class ClearCourseModal extends Component {
     render() {
         return (
             <Modal
-                trigger={(
-                    <Button
-                        floated={this.props.redirect ? "right": "none"}
-                        className="no-print"
-                        disabled={this.props.disabled}
-                        fluid={this.props.fluid}
-                        color="red"
-                        onClick={this.handleOpen.bind(this)}>
-                        Clear course
-                    </Button>
-                )}
+                trigger={
+                    this.props.floated ? 
+                    (
+                        <Button
+                            floated={this.props.floated}
+                            className="no-print"
+                            disabled={this.props.disabled}
+                            fluid={this.props.fluid}
+                            color="red"
+                            onClick={this.handleOpen.bind(this)}>
+                            Clear course
+                        </Button>
+                     )
+                     :
+                    (
+                        <Button
+                            className="no-print"
+                            disabled={this.props.disabled}
+                            fluid={this.props.fluid}
+                            color="red"
+                            onClick={this.handleOpen.bind(this)}>
+                            Clear course
+                        </Button>
+                     )
+            }
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
                 <Modal.Header>
@@ -101,7 +118,7 @@ class ClearCourseModal extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    {this.props.redirect ? <Link to="/"><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link> 
+                    {this.props.redirect ? <Link to={this.props.redirect}><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link> 
                                          : <Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
@@ -113,7 +130,9 @@ class ClearCourseModal extends Component {
 ClearCourseModal.propTypes = {
     clearCourse: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    fluid: PropTypes.bool
+    fluid: PropTypes.bool,
+    redirect: PropTypes.string,
+    floated: PropTypes.string
 };
 
 

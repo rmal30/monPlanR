@@ -116,7 +116,7 @@ class Home extends Component {
                                                     Continue Planning <Icon name="right arrow" />
                                                 </Button>
                                             </Link>
-                                            <ClearCourseModal redirect clearCourse={() => {return localStorage.clear()}}/>
+                                            <ClearCourseModal floated="right" redirect="/" clearCourse={() => {return localStorage.clear()}}/>
                                         </Segment>
                                     </Container>
                                 );
