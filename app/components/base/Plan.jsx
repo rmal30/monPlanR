@@ -6,9 +6,10 @@ import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
-import CourseStatisticGroup from "../CourseStatisticGroup.jsx";
+import CourseStatisticGroup from "../Course/CourseStatisticGroup.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import UnitDetailModalPopup from "../Unit/UnitDetailModalPopup.jsx";
+import CourseDetailPopup from "../Course/CourseDetailPopup.jsx"
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -215,8 +216,11 @@ class Plan extends Component {
         const unitDetailButton = <Button
                                     fluid
                                     disabled={!focused}
-                                    primary>View {this.state.focusedUnitCode || "unit"} details</Button>;
-
+                                    primary>View unit {this.state.focusedUnitCode || "unit"} details</Button>;
+        
+        const courseDetailButton = <Button
+                                    fluid
+                                    primary>View course E3003 details</Button>;
         return (
             <div className="wrapper">
                 {this.state.customUnitCode &&
@@ -235,10 +239,13 @@ class Plan extends Component {
                                 <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="4" >
+                                <CourseDetailPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
+                            </Grid.Column>
+                            <Grid.Column width="4" >
                                 <LoadCourseMap
                                     onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
-                            <Grid.Column floated="right" width="6">
+                            <Grid.Column width="4">
                                 <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
                             </Grid.Column>
                         </Grid.Row>
