@@ -3,8 +3,7 @@ import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-re
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 
-
-import ClearCourseModal from "../modals/ClearCourseModal.jsx"
+import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import YearFormContainer from "../../containers/YearFormContainer.jsx";
 
 /**
@@ -25,7 +24,6 @@ class Home extends Component {
         };
 
         this.handleDismiss = this.handleDismiss.bind(this);
-        this.handleClearCourse = this.handleClearCourse.bind(this);
     }
 
     /**
@@ -46,11 +44,6 @@ class Home extends Component {
         return Array.isArray(teachingPeriods) && teachingPeriods.length > 0 && numberOfUnits && (version || true);
     }
 
-
-    handleClearCourse(e) {
-        localStorage.clear();
-
-    }
 
     /**
     * Handles warning message dismissal
@@ -102,8 +95,6 @@ class Home extends Component {
                                             <Divider horizontal>OR</Divider>
                                             <ClearCourseModal fluid clearCourse={() => {return localStorage.clear()}}/>
                                         </Segment>
-                                        
-                                        
                                     </Container>
                                 );
                             } else {
