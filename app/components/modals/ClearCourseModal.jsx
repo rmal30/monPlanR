@@ -78,6 +78,7 @@ class ClearCourseModal extends Component {
             <Modal
                 trigger={(
                     <Button
+                        floated={this.props.redirect ? "right": "none"}
                         className="no-print"
                         disabled={this.props.disabled}
                         fluid={this.props.fluid}

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {Button, Container, Icon, Segment, Message} from "semantic-ui-react";
+import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-react";
 import { Link } from "react-router";
+import MediaQuery from "react-responsive";
 
 
 import ClearCourseModal from "../modals/ClearCourseModal.jsx"
@@ -84,19 +85,48 @@ class Home extends Component {
                             designed a web app that you can use to simplify tasks.
                         </p>
                         {inLocalStorage &&
-                        <Container>
-                            <h2>To continue where you left off:</h2>
-                            <Segment raised>
-                                <Link to="/plan">
-                                    <Button color="green">
-                                        Continue Planning <Icon name="right arrow" />
-                                    </Button>
-                                </Link>
+                        
+                    
+                    <MediaQuery maxDeviceWidth={767}>
+                        {mobile => {
+                            if(mobile) {
+                                return (
+                                    <Container>
+                                        <h2>To continue where you left off:</h2>
+                                        <Segment raised>
+                                            <Link to="/plan">
+                                                <Button fluid color="green">
+                                                    Continue Planning <Icon name="right arrow" />
+                                                </Button>
+                                            </Link>
+                                            <Divider horizontal>OR</Divider>
+                                            <ClearCourseModal fluid clearCourse={() => {return localStorage.clear()}}/>
+                                        </Segment>
+                                        
+                                        
+                                    </Container>
+                                );
+                            } else {
+                                return (
+                                    <Container>
+                                        <h2>To continue where you left off:</h2>
+                                        <Segment raised>
+                                            <Link to="/plan">
+                                                <Button color="green">
+                                                    Continue Planning <Icon name="right arrow" />
+                                                </Button>
+                                            </Link>
+                                            <ClearCourseModal redirect clearCourse={() => {return localStorage.clear()}}/>
+                                        </Segment>
+                                    </Container>
+                                );
+                            }
+                        }
+                    }
+                    </MediaQuery>
                                 
-                                <ClearCourseModal redirect clearCourse={() => {return localStorage.clear()}}/>
                                 
-                            </Segment>
-                        </Container>
+                           
                         }
                         {!inLocalStorage &&
                         <Container>
