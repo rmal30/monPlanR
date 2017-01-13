@@ -34,13 +34,19 @@ class Main extends Component {
 
         this.state = {
             searchVisible: false,
-            addToCourse: null
+            addToCourse: null,
+            getCourseErrors: null,
+            courseErrors: null
         };
 
         this.handleSearchClick = this.handleSearchClick.bind(this);
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
+
         this.attachAddToCourse = this.attachAddToCourse.bind(this);
         this.detachAddToCourse = this.detachAddToCourse.bind(this);
+
+        this.attachGetCourseErrors = this.attachGetCourseErrors.bind(this);
+        this.detachGetCourseErrors = this.detachGetCourseErrors.bind(this);
     }
 
     /**
@@ -59,6 +65,24 @@ class Main extends Component {
      */
     detachAddToCourse() {
         this.attachAddToCourse(null);
+    }
+
+    /**
+     * Attaches getCourseErrors function to the state.
+     *
+     * @author Saurabh Joshi
+     */
+    attachGetCourseErrors(getCourseErrors) {
+        this.setState({ getCourseErrors });
+    }
+
+    /**
+     * Detaches getCourseErrors function from the state.
+     *
+     * @author Saurabh Joshi
+     */
+    detachGetCourseErrors() {
+        this.attachGetCourseErrors(null);
     }
 
     /**
@@ -101,7 +125,9 @@ class Main extends Component {
                     handleSearchClick={this.handleSearchClick}
                     searchVisible={this.state.searchVisible}
                     handleDocumentClick={this.handleDocumentClick}
-                    showAddUnit={!!this.state.addToCourse} />
+                    showAddUnit={!!this.state.addToCourse}
+                    showStatus={!!this.state.getCourseErrors}
+                    courseErrors={typeof this.state.getCourseErrors === "function" ? this.state.getCourseErrors() : []} />
                 <Sidebar.Pushable >
                     {this.state.addToCourse &&
                     <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.state.searchVisible} vertical>
@@ -119,7 +145,9 @@ class Main extends Component {
                                       searchVisible: this.state.searchVisible,
                                       handleDocumentClick: this.handleDocumentClick,
                                       attachAddToCourse: this.attachAddToCourse,
-                                      detachAddToCourse: this.detachAddToCourse
+                                      detachAddToCourse: this.detachAddToCourse,
+                                      attachGetCourseErrors: this.attachGetCourseErrors,
+                                      detachGetCourseErrors: this.detachGetCourseErrors
                                   })}
                         </ReactCSSTransitionGroup>
                         <Footer className="footer"/>
