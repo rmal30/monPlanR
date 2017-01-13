@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CourseInfo from "../components/Course/CourseInfo.jsx";
+import UnitQuery from "../utils/UnitQuery";
 
 const testData = {
     courseCode: "E3003",
@@ -38,16 +39,38 @@ export default class CourseInfoContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            courseCode: testData.courseCode,
-            courseName: testData.courseName,
-            faculty: testData.faculty,
-            creditPoints: testData.creditPoints,
-            abrTitle: testData.abrTitle,
-            durationStr: testData.durationStr,
-            modeAndLocation: testData.modeAndLocation,
-            awards: testData.awards,
-            description: testData.description
+            courseCode: "",
+            courseName: "",
+            faculty: "",
+            creditPoints: 0,
+            abrTitle: "",
+            durationStr: "",
+            modeAndLocation: "",
+            awards: "",
+            courseDescription: ""
         };
+    }
+
+    componentDidMount() {
+        UnitQuery.getCourseInfo("E3003")
+            .then(response => {
+                let data = response.data;
+                console.log(data)
+                this.setState({
+                    courseCode: data.courseCode,
+                    courseName: data.courseName,
+                    faculty: data.mangFac,
+                    creditPoints: data.creditPoints,
+                    abrTitle: data.abrevTitle,
+                    durationStr: data.courseDuration,
+                    modeAndLocation: data.modeLoc,
+                    awards: "",
+                    courseDescription: data.courseDescrip
+                });
+            })
+            .catch(error => {
+                console.err(error);
+            });
     }
 
     /**

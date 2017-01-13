@@ -30,10 +30,7 @@ export default function CourseInfo(props){
             <Grid.Row>
                 <Grid.Column width={12}>
                     <Grid.Row>
-                        <UnitDescriptionContainer
-                            textLength={500}
-                            fullText={props.description}
-                        />
+                        <p>{props.courseDescription}</p>
                         <Divider />
                         <b>Duration: </b>
                         <p>{props.durationStr}</p>
@@ -42,11 +39,7 @@ export default function CourseInfo(props){
                         <p>{props.modeAndLocation}</p>
                         <Divider />
                         <b>Awards: </b>
-                        <ul>
-                            {props.awards.map(item => {
-                                return <li key={keyVal++}>{item}</li>;
-                            })}
-                        </ul>
+                        <p>{props.awards}</p>
                     </Grid.Row>
                 </Grid.Column>
 
@@ -68,7 +61,7 @@ CourseInfo.propTypes = {
     courseName: PropTypes.string,
     faculty: PropTypes.string,
     creditPoints: PropTypes.number,
-    description: PropTypes.string,
+    courseDescription: PropTypes.string,
     durationStr: PropTypes.string,
     modeAndLocation: PropTypes.string,
     awards: PropTypes.string,
