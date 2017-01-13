@@ -43,10 +43,8 @@ class OfferingContainer extends Component {
         } else {
             return (
                 <div>
-                {this.state.offeringArray.map(function(item){
-                    return (<p key={item}><b>{item[0]}</b>{": " + item[1].map(function(offering) {
-                        return (offering + " ");
-                    })}</p>);
+                {this.state.offeringArray.map(item => {
+                    return (<p key={item}><b>{item[0]}</b>{": " + item[1].join(", ")}</p>);
                 })}
                 </div>
             );

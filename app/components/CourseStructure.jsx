@@ -88,9 +88,6 @@ class CourseStructure extends Component {
         this.getQuickSemesterString = this.getQuickSemesterString.bind(this);
         this.appendSemester = this.appendSemester.bind(this);
         this.showInsertTeachingPeriodsUI = this.showInsertTeachingPeriodsUI.bind(this);
-        this.validate = this.validate.bind(this);
-        this.processError = this.processError.bind(this);
-
         this.getCourseErrors = this.getCourseErrors.bind(this);
     }
 
@@ -120,110 +117,6 @@ class CourseStructure extends Component {
             totalEstimatedCost: nextProps.totalCost
         });
 
-    }
-
-    processError(error) {
-        let teachingPeriods = this.state.teachingPeriods;
-
-        if (error.errorArray[0] === "All") {
-            teachingPeriods = teachingPeriods.map(tp => {
-                tp.isError = true;
-                return tp;
-            });
-
-        } else if (error.errorArray.length > 0) {
-            teachingPeriods = teachingPeriods.map((tp, index) => {
-                let arr = error.errorArray;
-                for (let i=0; i < arr.length; i++) {
-                    if (index === arr[i]) {
-                        tp.isError = true;
-                        return tp;
-                    }
-                }
-                tp.isError = false;
-                return tp;
-            });
-        } else {
-            teachingPeriods = teachingPeriods.map(tp => {
-                tp.isError = false;
-                return tp;
-            });
-        }
-
-        this.setState({
-            errorMsg: error.errorMsg,
-            isError: error.isError,
-            errorHeader: error.errorHeader,
-            teachingPeriods
-        });
-    }
-
-    validate(newUnit) {
-        let error = {
-            errorMsg: "",
-            errorHeader: "",
-            isError: false,
-            errorArray: [] // This array holds the indices of all teaching periods with errors in them
-        };
-
-        let codeMap = {
-            "FY-01": "Full year",
-            "S1-01": "First semester",
-            "S2-01": "Second semester",
-            "SSA-02": "Summer semester A",
-            "SSB-01": "Summer semester B",
-            "WS-01": "Winter semester"
-        };
-
-
-        if (newUnit !== undefined) {
-            for(let i=0; i < this.state.teachingPeriods.length; i++) {
-                let TP = this.state.teachingPeriods[i];
-                let TPcode = TP.code;
-
-                for(let j=0; j < TP.units.length; j++) {
-
-                    let unit = TP.units[j];
-
-                    if (unit !== null) {
-                        if (unit.UnitCode === newUnit.UnitCode) {
-                            error.errorMsg = `Unit ${unit.UnitCode} already exists in your course plan.`;
-                            error.errorHeader = "Error adding unit: " + unit.UnitCode;
-                            error.isError = true;
-                            error.errorArray = ["All"];
-                            return error;
-                        }
-                    }
-                }
-
-                let offerings = newUnit.UnitLocationTP;
-                if (codeMap[TPcode] !== undefined) {
-                    // semester we're checking against is covered by mapping'
-                    let re = new RegExp(codeMap[TPcode]);
-                    let isValid = false;
-                    for(let k=0; k < offerings.length; k++){
-                        let locations = offerings[k][1];
-                        for(let l=0; l < locations.length; l++) {
-                            let offering = locations[l];
-                            let isMatch = re.test(offering);
-
-                            if(isMatch) {
-                                isValid = true;
-                                break;
-                            }
-                        }
-                        if(isValid) {
-                            break;
-                        }
-                    }
-
-                    if (!isValid) {
-                        error.errorArray.push(i);
-                    }
-                }
-            }
-        }
-        return error;
     }
 
     /**
@@ -271,6 +164,52 @@ class CourseStructure extends Component {
                 coordinates: duplicateUnit.coordinates
             };
         }));
+
+        // Check if unit in the teaching period is being offered
+        let codeMap = {
+            "FY-01": "Full year",
+            "S1-01": "First semester",
+            "S2-01": "Second semester",
+            "SSA-02": "Summer semester A",
+            "SSB-01": "Summer semester B",
+            "WS-01": "Winter semester"
+        };
+
+        for(let i = 0; i < units.length; i++) {
+            let offerings = units[i].LocationAndTime;
+
+            const teachingPeriodStr = codeMap[this.state.teachingPeriods[units[i].teachingPeriodIndex].code];
+
+            if (teachingPeriodStr !== undefined) {
+                // semester we're checking against is covered by mapping'
+                let re = new RegExp(teachingPeriodStr);
+
+                let isValid = false;
+
+                for(let k = 0; k < offerings.length; k++) {
+                    let locations = offerings[k][1];
+                    for(let l = 0; l < locations.length; l++) {
+                        let offering = locations[l];
+                        let isMatch = re.test(offering);
+
+                        if(isMatch) {
+                            isValid = true;
+                            break;
+                        }
+                    }
+                    if(isValid) {
+                        break;
+                    }
+                }
+
+                if (!isValid) {
+                    errors.push({
+                        message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr}`,
+                        coordinates: [[units[i].teachingPeriodIndex, units[i].unitIndex]]
+                    });
+                }
+            }
+        }
 
         return errors;
     }
@@ -817,7 +756,6 @@ class CourseStructure extends Component {
      * @param {array} errors - Errors related to the teaching period.
      */
     renderTeachingPeriod(teachingPeriod, index, errors) {
-        console.log(index, errors);
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
                     index={index}
@@ -853,7 +791,6 @@ class CourseStructure extends Component {
      */
     render() {
         const errors = this.getCourseErrors();
-        console.log("-----");
 
         const tableRows = [];
         let year, code, show = false;
