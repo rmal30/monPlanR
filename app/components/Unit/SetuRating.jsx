@@ -21,12 +21,12 @@ function SetuRating(props) {
     return (
         <div id="setu-rating">
             <p>I learnt a lot</p>
-            <Rating icon='star' defaultRating={noLearnResponses ? 0 : Math.round(props.starRating)} maxRating={5} disabled/>
-            {noLearnResponses ? <p>(No responses yet)</p> : <p>({props.starRating.toFixed(2)}/5) - {props.learnResponseCount} responses</p>}
+            <Rating icon='star' defaultRating={(noLearnResponses || isNaN(props.starRating)) ? 0 : Math.round(props.starRating)} maxRating={5} disabled/>
+            {(noLearnResponses || isNaN(props.starRating)) ? <p>(No responses yet)</p> : <p>({props.starRating.toFixed(2)}/5) - {props.learnResponseCount} responses</p>}
             <Divider />
             <p>I enjoyed the unit</p>
-            <Rating icon='heart' defaultRating={noEnjoyResponses ? 0 : Math.round(props.heartRating)} maxRating={5} disabled/>
-            {noEnjoyResponses ? <p>(No responses yet)</p> : <p>({props.heartRating.toFixed(2)}/5) - {props.enjoyResponseCount} responses</p>}
+            <Rating icon='heart' defaultRating={(noEnjoyResponses || isNaN(props.heartRating)) ? 0 : Math.round(props.heartRating)} maxRating={5} disabled/>
+            {(noEnjoyResponses || isNaN(props.heartRating)) ? <p>(No responses yet)</p> : <p>({props.heartRating.toFixed(2)}/5) - {props.enjoyResponseCount} responses</p>}
         </div>
     );
 }
