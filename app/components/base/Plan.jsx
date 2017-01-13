@@ -211,16 +211,18 @@ class Plan extends Component {
      * structure.
      */
     render() {
+        const courseCode = this.state.courseToLoad.split("-")[0]
         const { startYear, endYear } = this.props.location.query;
         const focused = !!this.state.focusedUnitCode;
         const unitDetailButton = <Button
                                     fluid
                                     disabled={!focused}
-                                    primary>View unit {this.state.focusedUnitCode || "unit"} details</Button>;
+                                    primary>View {this.state.focusedUnitCode || "unit"} details</Button>;
         
         const courseDetailButton = <Button
                                     fluid
-                                    primary>View course E3003 details</Button>;
+                                    disabled={courseCode === ""}
+                                    primary>View {courseCode !== "" ? courseCode : "course"} details</Button>;
         return (
             <div className="wrapper">
                 {this.state.customUnitCode &&
@@ -239,7 +241,7 @@ class Plan extends Component {
                                 <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="4" >
-                                <CourseDetailPopup trigger={courseDetailButton} />
+                                <CourseDetailPopup courseCode={courseCode} trigger={courseDetailButton} />
                             </Grid.Column>
                             <Grid.Column width="4" >
                                 <LoadCourseMap

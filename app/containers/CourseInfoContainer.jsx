@@ -39,7 +39,7 @@ export default class CourseInfoContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            courseCode: "",
+            courseCode: this.props.courseCode,
             courseName: "",
             faculty: "",
             creditPoints: 0,
@@ -52,7 +52,7 @@ export default class CourseInfoContainer extends Component {
     }
 
     componentDidMount() {
-        UnitQuery.getCourseInfo("E3003")
+        UnitQuery.getCourseInfo(this.props.courseCode)
             .then(response => {
                 let data = response.data;
                 console.log(data)

@@ -11,10 +11,11 @@ import CourseInfoContainer from "../../containers/CourseInfoContainer.jsx";
  * a modal on mobiles. Currently only takes a trigger as a prop which the element that onClick, opens the 
  * modal/popup
  */
-export default function CourseDetailPopup({ trigger }) {
+export default function CourseDetailPopup({ trigger, courseCode }) {
 
     CourseDetailPopup.propTypes = {
         trigger: PropTypes.element.isRequired,
+        courseCode: PropTypes.string
     };
 
     const closeTrigger = <Button content="Close" />;
@@ -26,7 +27,7 @@ export default function CourseDetailPopup({ trigger }) {
                     return <ControlledModal
                                 openTrigger={trigger}
                                 closeTrigger={closeTrigger}>
-                                    <CourseInfoContainer />
+                                    <CourseInfoContainer courseCode={courseCode} />
                             </ControlledModal>;
                 } else {
                     return <Popup
@@ -35,7 +36,7 @@ export default function CourseDetailPopup({ trigger }) {
                         positioning="bottom center"
                         style={{maxWidth: 800}}
                         basic>
-                            <CourseInfoContainer />
+                            <CourseInfoContainer courseCode={courseCode} />
                     </Popup>;
                 }
             }}
