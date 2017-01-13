@@ -38,7 +38,8 @@ function UnitInfo(props) {
         UnitName: PropTypes.string.isRequired,
         usefulnessScore: PropTypes.number.isRequired,
         prereqs: PropTypes.string,
-        prohibs: PropTypes.string
+        prohibs: PropTypes.string,
+        offeringArray: PropTypes.oneOfType[PropTypes.string, PropTypes.array]
     };
 
     if(props.isLoading) {

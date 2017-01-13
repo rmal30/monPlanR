@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Icon, Input, Modal } from "semantic-ui-react";
-import { Link } from "react-router"
+import { Link } from "react-router";
 /**
  * A modal used specifically for students who wish to clear their course.
  *
