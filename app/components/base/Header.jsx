@@ -24,33 +24,47 @@ class Header extends Component {
     /**
      * The header component is a navigation bar that uses the Menu component.
      *
-     * @returns {ReactElement} Header
+     * @returns {Menu}
      */
     render() {
+        let content = this.props.courseErrors.length > 0
+            ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as missing prerequisites.";
+
         return (
             <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick} style={{borderRadius: 0}}>
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
                             <img className="logo" src="/resources/img/logo.png" alt="logo" />
-                            <MediaQuery query="(min-device-width: 768px)">monPlan</MediaQuery>
+                            <MediaQuery minDeviceWidth={768}>monPlan</MediaQuery>
                         </Menu.Item>
                     </Link>
                     {this.props.showAddUnit &&
                     <Menu.Item onClick={this.props.handleSearchClick} className={this.props.searchVisible ? "active" : ""}>
                         <Icon name="plus" />
-                        <MediaQuery query="(min-device-width: 768px)">Add unit</MediaQuery>
+                        <MediaQuery minDeviceWidth={768}>Add unit</MediaQuery>
                     </Menu.Item>
                     }
                 </Menu.Menu>
                 <Menu.Menu position="right">
-                    {false /* disable status for now */ &&
+                    {this.props.showStatus &&
                     <Popup
-                        id="displayMessage"
-                        trigger={<Menu.Item><MediaQuery query="(min-device-width: 500px)">Status: <span id="statusTag">OK</span></MediaQuery><Icon name="checkmark" color="green" id="statusIcon" /></Menu.Item>}
-                        header="Everything looks good"
-                        content="As you add units, we will inform you of any conflicts, such as missing prerequisites."
-                        />
+                        hoverable
+                        trigger={(
+                            <Menu.Item>
+                                <MediaQuery minDeviceWidth={768}>
+                                    Course status: <span id="statusTag">{this.props.courseErrors.length > 0 ? "ERROR" : "OK"}</span>
+                                </MediaQuery>
+                                <Icon name={this.props.courseErrors.length > 0 ? "remove" : "checkmark"} color={this.props.courseErrors.length > 0 ? "red" : "green"} id="statusIcon" />
+                            </Menu.Item>
+                        )}>
+                        <Popup.Header>
+                            {this.props.courseErrors.length > 0 ? "Errors" : "Everything looks good"}
+                        </Popup.Header>
+                        <Popup.Content>
+                            {content}
+                        </Popup.Content>
+                    </Popup>
                     }
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
                         <Icon name="comment outline" />
@@ -90,7 +104,9 @@ Header.propTypes = {
     handleDocumentClick: PropTypes.func,
     handleSearchClick: PropTypes.func,
     showAddUnit: PropTypes.bool,
-    searchVisible: PropTypes.bool
+    showStatus: PropTypes.bool,
+    searchVisible: PropTypes.bool,
+    courseErrors: PropTypes.array
 };
 
 export default Header;

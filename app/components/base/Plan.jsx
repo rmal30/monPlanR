@@ -55,6 +55,7 @@ class Plan extends Component {
      */
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
+        // this.props.attachGetCourseErrors(this.getCourseErrors);
     }
 
     /**
@@ -101,7 +102,7 @@ class Plan extends Component {
                         custom: true,
                         dragged: true
                     },
-                    focusedUnitCode: "nUnitCode"
+                    focusedUnitCode: nUnitCode
                 });
             } else if(custom) {
                 this.setState({
@@ -258,7 +259,9 @@ class Plan extends Component {
                                      handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      onUnitClick={this.handleUnitDetailClick}
                                      courseToLoad={this.state.courseToLoad}
-                                     courseYear={this.state.courseYear} />
+                                     courseYear={this.state.courseYear}
+                                     attachGetCourseErrors={this.props.attachGetCourseErrors}
+                                     detachGetCourseErrors={this.props.detachGetCourseErrors} />
                 </Container>
                 <MediaQuery minDeviceWidth={768}>
                     <div className="push" />
@@ -277,8 +280,14 @@ Plan.propTypes = {
             endYear: PropTypes.string
         }).isRequired
     }).isRequired,
+
     attachAddToCourse: PropTypes.func,
     detachAddToCourse: PropTypes.func,
+
+    attachGetCourseErrors: PropTypes.func,
+    detachGetCourseErrors: PropTypes.func,
+
+    /* When user clicks on the page */
     handleDocumentClick: PropTypes.func
 };
 

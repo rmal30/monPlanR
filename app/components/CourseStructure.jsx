@@ -56,6 +56,7 @@ class CourseStructure extends Component {
             errorMsg: "",
             errorHeader: ""
         };
+
         let qURL = `${MONPLAN_REMOTE_URL}/basic/teachingperiods`;
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -92,6 +93,8 @@ class CourseStructure extends Component {
         this.showInsertTeachingPeriodsUI = this.showInsertTeachingPeriodsUI.bind(this);
         this.validate = this.validate.bind(this);
         this.processError = this.processError.bind(this);
+
+        this.getCourseErrors = this.getCourseErrors.bind(this);
     }
 
     /**
@@ -187,7 +190,7 @@ class CourseStructure extends Component {
 
                     if (unit !== null) {
                         if (unit.UnitCode === newUnit.UnitCode) {
-                            error.errorMsg = `Unit ${unit.UnitCode} already exists in course plan.`;
+                            error.errorMsg = `Unit ${unit.UnitCode} already exists in your course plan.`;
                             error.errorHeader = "Error adding unit: " + unit.UnitCode;
                             error.isError = true;
                             error.errorArray = ["All"];
@@ -224,6 +227,48 @@ class CourseStructure extends Component {
             }
         }
         return error;
+    }
+
+    /**
+     * Reads in course structure and returns a list of errors.
+     *
+     * @author JXNS, Saurabh Joshi
+     */
+    getCourseErrors() {
+        let errors = [];
+
+        // Finds duplicates
+        const units = this.getListOfUnits().sort((a, b) => {
+            a = a.UnitCode;
+            b = b.UnitCode;
+
+            // Use unicode comparison
+            if(a < b) {
+                return -1;
+            } else if(a === b) {
+                return 0;
+            } else {
+                return 1;
+            }
+        });
+
+        const duplicateUnits = [];
+
+        for(let i = 1; i < units.length; i++) {
+            if(units[i - 1].UnitCode === units[i].UnitCode && duplicateUnits.findIndex(unit => unit.UnitCode === units[i].UnitCode) === -1) {
+                duplicateUnits.push(units[i]);
+            }
+        }
+
+        errors = errors.concat(duplicateUnits.map(duplicateUnit => {
+            return {
+                message: `${duplicateUnit.UnitCode} already exists in your course plan.`,
+                unitIndex: duplicateUnit.unitIndex,
+                teachingPeriodIndex: duplicateUnit.teachingPeriodIndex
+            };
+        }));
+
+        return errors;
     }
 
     /**
@@ -372,6 +417,12 @@ class CourseStructure extends Component {
         if(Home.checkIfCourseStructureIsInLocalStorage()) {
             this.loadCourse();
         }
+
+        this.props.attachGetCourseErrors(this.getCourseErrors);
+    }
+
+    componentWillUnmount() {
+        this.props.detachGetCourseErrors();
     }
 
     /**
@@ -381,6 +432,26 @@ class CourseStructure extends Component {
      */
     componentDidUpdate() {
         this.saveCourse();
+    }
+
+    /**
+     * Returns a list of units from the course structure
+     *
+     * @author Saurabh Joshi
+     * @returns {array}
+     */
+    getListOfUnits() {
+        const { teachingPeriods } = this.state;
+
+        return teachingPeriods.map((ele, teachingPeriodIndex) =>
+            ele.units.map((unit, unitIndex) => {
+                if(unit) {
+                    unit.teachingPeriodIndex = teachingPeriodIndex;
+                    unit.unitIndex = unitIndex;
+
+                    return unit;
+                }
+            }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
     }
 
     /**
@@ -728,9 +799,9 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      * @param {number} teachingPeriod - The teaching period object.
      * @param {number} index - For bookkeeping which teaching period is which.
+     * @param {array} errors - Errors related to the teaching period.
      */
-    renderTeachingPeriod(teachingPeriod, index) {
-
+    renderTeachingPeriod(teachingPeriod, index, errors) {
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
                     index={index}
@@ -751,7 +822,7 @@ class CourseStructure extends Component {
                     handleUnitDetailClick={this.props.onUnitClick}
                     viewUnitDetails={this.props.viewUnitDetails}
                     cancelMoving={this.cancelMoving.bind(this)}
-                    isError={teachingPeriod.isError} />;
+                    errors={errors} />;
     }
 
     /**
@@ -765,6 +836,7 @@ class CourseStructure extends Component {
      * @returns {ReactElement} CourseStructure
      */
     render() {
+        const errors = this.getCourseErrors();
 
         const tableRows = [];
         let year, code, show = false;
@@ -778,7 +850,7 @@ class CourseStructure extends Component {
         for(let i = 0; i <= teachingPeriods.length; i++) {
             show = true;
             if(i !== 0) {
-                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1));
+                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1, errors.filter(err => err.teachingPeriodIndex === i - 1)));
                 year = teachingPeriods[i - 1].year;
 
                 if(!showInsertTeachingPeriods) {
@@ -833,14 +905,15 @@ class CourseStructure extends Component {
 
             if(showInsertTeachingPeriods && show) {
                 tableRows.push(
-                    <InsertTeachingPeriod index={i}
-                                          key={`${i}-insertTeachingPeriod`}
-                                          numberOfUnits={this.state.numberOfUnits}
-                                          insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
-                                          year={year}
-                                          teachingPeriodType="Teaching Period"
-                                          teachingPeriods={this.state.teachingPeriodsData}
-                                          code={code} />
+                    <InsertTeachingPeriod
+                        index={i}
+                        key={`${i}-insertTeachingPeriod`}
+                        numberOfUnits={this.state.numberOfUnits}
+                        insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
+                        year={year}
+                        teachingPeriodType="Teaching Period"
+                        teachingPeriods={this.state.teachingPeriodsData}
+                        code={code} />
                 );
             }
         }
@@ -922,7 +995,7 @@ class CourseStructure extends Component {
                 </MediaQuery>
                 <Table celled fixed striped compact>
                     {this.state.isLoading && <Loader active size="huge" />}
-                    <MediaQuery query="(min-device-width: 768px)">
+                    <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
                                 <Table.HeaderCell>Teaching Period</Table.HeaderCell>
@@ -992,7 +1065,10 @@ CourseStructure.propTypes = {
     onUnitClick: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
-    viewUnitDetails: PropTypes.func
+    viewUnitDetails: PropTypes.func,
+
+    attachGetCourseErrors: PropTypes.func,
+    detachGetCourseErrors: PropTypes.func
 };
 
 export default CourseStructure;
