@@ -63,7 +63,7 @@ function TeachingPeriod(props) {
                 onUnitClick={props.handleUnitDetailClick}
                 viewUnitDetails={props.viewUnitDetails}
                 cancelMoving={props.cancelMoving}
-                errors={props.errors.filter(err => err.unitIndex === index)} />
+                errors={props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)} />
         );
     });
 

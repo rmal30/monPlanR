@@ -296,7 +296,8 @@ Unit.propTypes = {
     isOver: PropTypes.bool.isRequired,
 
     /* Validation */
-    isError: PropTypes.bool
+    isError: PropTypes.bool,
+    errors: PropTypes.array
 };
 
 // https://github.com/gaearon/react-dnd/issues/157

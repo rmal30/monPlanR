@@ -51,10 +51,7 @@ class CourseStructure extends Component {
             isLoading: false,
             unlock: true,
             courseToLoad: this.props.courseToLoad,
-            startYear: startYear || new Date().getFullYear(),
-            isError: false,
-            errorMsg: "",
-            errorHeader: ""
+            startYear: startYear || new Date().getFullYear()
         };
 
         let qURL = `${MONPLAN_REMOTE_URL}/basic/teachingperiods`;
@@ -255,16 +252,23 @@ class CourseStructure extends Component {
         const duplicateUnits = [];
 
         for(let i = 1; i < units.length; i++) {
-            if(units[i - 1].UnitCode === units[i].UnitCode && duplicateUnits.findIndex(unit => unit.UnitCode === units[i].UnitCode) === -1) {
-                duplicateUnits.push(units[i]);
+            if(units[i - 1].UnitCode === units[i].UnitCode) {
+                const index = duplicateUnits.findIndex(unit => unit.UnitCode === units[i].UnitCode);
+                if(index === -1) {
+                    duplicateUnits.push({
+                        UnitCode: units[i].UnitCode,
+                        coordinates: [[units[i - 1].teachingPeriodIndex, units[i - 1].unitIndex], [units[i].teachingPeriodIndex, units[i].unitIndex]]
+                    });
+                } else {
+                    duplicateUnits[index].coordinates.push([units[i].teachingPeriodIndex, units[i].unitIndex]);
+                }
             }
         }
 
         errors = errors.concat(duplicateUnits.map(duplicateUnit => {
             return {
                 message: `${duplicateUnit.UnitCode} already exists in your course plan.`,
-                unitIndex: duplicateUnit.unitIndex,
-                teachingPeriodIndex: duplicateUnit.teachingPeriodIndex
+                coordinates: duplicateUnit.coordinates
             };
         }));
 
@@ -452,6 +456,17 @@ class CourseStructure extends Component {
                     return unit;
                 }
             }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
+    }
+
+    /**
+     * Accumulates the total number of credit points for the course plan.
+     *
+     * @author Saurabh Joshi
+     */
+    accumulateCreditPoints() {
+        const units = this.getListOfUnits();
+
+        return units.reduce((totalCreditPoints, unit) => totalCreditPoints + (unit.CreditPoints || 0), 0);
     }
 
     /**
@@ -802,6 +817,7 @@ class CourseStructure extends Component {
      * @param {array} errors - Errors related to the teaching period.
      */
     renderTeachingPeriod(teachingPeriod, index, errors) {
+        console.log(index, errors);
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
                     index={index}
@@ -837,6 +853,7 @@ class CourseStructure extends Component {
      */
     render() {
         const errors = this.getCourseErrors();
+        console.log("-----");
 
         const tableRows = [];
         let year, code, show = false;
@@ -850,7 +867,11 @@ class CourseStructure extends Component {
         for(let i = 0; i <= teachingPeriods.length; i++) {
             show = true;
             if(i !== 0) {
-                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1, errors.filter(err => err.teachingPeriodIndex === i - 1)));
+                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1, errors.map(err => {
+                    const finalErr = Object.assign({}, err);
+                    finalErr.coordinates = finalErr.coordinates.filter(x => x[0] === i - 1);
+                    return finalErr;
+                }).filter(err => err.coordinates.length > 0)));
                 year = teachingPeriods[i - 1].year;
 
                 if(!showInsertTeachingPeriods) {
