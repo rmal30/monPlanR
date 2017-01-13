@@ -49,4 +49,9 @@ export default class UnitQuery {
         return axios.get(qURL);
     }
 
+    static getCourseInfo(courseCode) {
+        let qURL = `${MONPLAN_REMOTE_URL}/courses/info/${courseCode}`;
+        return axios.get(qURL);
+    }
+
 }

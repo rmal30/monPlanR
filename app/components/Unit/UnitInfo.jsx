@@ -38,7 +38,8 @@ function UnitInfo(props) {
         UnitName: PropTypes.string.isRequired,
         usefulnessScore: PropTypes.number.isRequired,
         prereqs: PropTypes.string,
-        prohibs: PropTypes.string
+        prohibs: PropTypes.string,
+        offeringArray: PropTypes.oneOfType[PropTypes.string, PropTypes.array]
     };
 
     if(props.isLoading) {
@@ -96,7 +97,12 @@ function UnitInfo(props) {
                     </Grid.Column>
 
                     <Grid.Column width={4}>
-                        <SetuRating starRating={props.usefulnessScore} heartRating={props.likeScore} />
+                        <SetuRating 
+                            starRating={props.usefulnessScore} 
+                            heartRating={props.likeScore} 
+                            learnResponseCount={props.learnResponseCount}
+                            enjoyResponseCount={props.enjoyResponseCount} 
+                        />
                         <Divider />
                         <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
                         <Divider />

@@ -23,6 +23,8 @@ export default class UnitDescriptionContainer extends Component {
         let fullText = this.props.fullText;
         let shortText = "";
 
+        console.log(fullText);
+        console.log(maxLength);
         if(!fullText || !fullText.trim()) {
             fullText = undefined;
         } else if (fullText.length > maxLength) {

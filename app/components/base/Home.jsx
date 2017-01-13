@@ -1,7 +1,9 @@
 import React, {Component} from "react";
-import {Button, Container, Icon, Segment, Message} from "semantic-ui-react";
+import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-react";
 import { Link } from "react-router";
+import MediaQuery from "react-responsive";
 
+import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import YearFormContainer from "../../containers/YearFormContainer.jsx";
 
 /**
@@ -42,6 +44,7 @@ class Home extends Component {
         return Array.isArray(teachingPeriods) && teachingPeriods.length > 0 && numberOfUnits && (version || true);
     }
 
+
     /**
     * Handles warning message dismissal
     *
@@ -71,20 +74,50 @@ class Home extends Component {
                     <h1>Welcome to monPlan!</h1>
                         <p>
                             monPlan allows you to plan your course structure whilst you are at
-                            Monash University. We know that choosing units isn't particularly easy, so we've
+                            Monash University. We know thdat choosing units isn't particularly easy, so we've
                             designed a web app that you can use to simplify tasks.
                         </p>
                         {inLocalStorage &&
-                        <Container>
-                            <h2>To continue where you left off:</h2>
-                            <Segment raised>
-                                <Link to="/plan">
-                                    <Button color="green">
-                                        Continue Planning <Icon name="right arrow" />
-                                    </Button>
-                                </Link>
-                            </Segment>
-                        </Container>
+                        
+                    
+                    <MediaQuery maxDeviceWidth={767}>
+                        {mobile => {
+                            if(mobile) {
+                                return (
+                                    <Container>
+                                        <h2>To continue where you left off:</h2>
+                                        <Segment raised>
+                                            <Link to="/plan">
+                                                <Button fluid color="green">
+                                                    Continue Planning <Icon name="right arrow" />
+                                                </Button>
+                                            </Link>
+                                            <Divider horizontal>OR</Divider>
+                                            <ClearCourseModal fluid clearCourse={() => {return localStorage.clear();}}/>
+                                        </Segment>
+                                    </Container>
+                                );
+                            } else {
+                                return (
+                                    <Container>
+                                        <h2>To continue where you left off:</h2>
+                                        <Segment raised>
+                                            <Link to="/plan">
+                                                <Button color="green">
+                                                    Continue Planning <Icon name="right arrow" />
+                                                </Button>
+                                            </Link>
+                                            <ClearCourseModal floated="right" redirect="/" clearCourse={() => {return localStorage.clear();}}/>
+                                        </Segment>
+                                    </Container>
+                                );
+                            }
+                        }
+                    }
+                    </MediaQuery>
+                                
+                                
+                           
                         }
                         {!inLocalStorage &&
                         <Container>

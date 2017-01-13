@@ -33,7 +33,9 @@ export default class UnitInfoContainer extends Component {
             prereqs: "",
             prohibs: "",
             likeScore: 0,
-            learnScore: 0
+            learnScore: 0,
+            learnResponseCount: 0,
+            enjoyResponseCount: 0
 
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
@@ -75,7 +77,10 @@ export default class UnitInfoContainer extends Component {
                             prohibs: unitData.Proh,
                             prereqs: unitData.Preqs,
                             likeScore: unitData.enjoyRating,
-                            learnScore: unitData.learnRating
+                            learnScore: unitData.learnRating,
+                            learnResponseCount: unitData.learnResponse,
+                            enjoyResponseCount: unitData.enjoyResponse
+
                         });
 
                     })
@@ -147,7 +152,9 @@ export default class UnitInfoContainer extends Component {
                             prohibs: unitData.Proh,
                             prereqs: unitData.Preqs,
                             likeScore: unitData.enjoyRating,
-                            learnScore: unitData.learnRating
+                            learnScore: unitData.learnRating,
+                            learnResponseCount: unitData.learnResponse,
+                            enjoyResponseCount: unitData.enjoyResponse
                         });
                     })
                     .catch(error => {
@@ -186,6 +193,8 @@ export default class UnitInfoContainer extends Component {
                 offeringArray={this.state.offeringArray}
                 prohibs={this.state.prohibs}
                 prereqs={this.state.prereqs}
+                learnResponseCount={this.state.learnResponseCount}
+                enjoyResponseCount={this.state.enjoyResponseCount}
             />
         );
     }
