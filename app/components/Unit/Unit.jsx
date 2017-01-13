@@ -183,13 +183,13 @@ class Unit extends React.Component {
      */
     render() {
         const facultyColors = {
-            "Art, Design and Architecture": "black",
+            "Art, Design and Architecture": "pink",
             "Arts": "red",
             "Business and Economics": "teal",
             "Education": "violet",
             "Engineering": "orange",
             "Information Technology": "purple",
-            "Law": "grey",
+            "Law": "brown",
             "Medicine, Nursing and Health Sciences": "blue",
             "Pharmacy and Pharmaceutical Sciences": "olive",
             "Science": "green",
