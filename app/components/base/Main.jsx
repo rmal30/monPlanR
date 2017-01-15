@@ -134,7 +134,7 @@ class Main extends Component {
                         <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />
                     </Sidebar>
                     }
-                    <Sidebar.Pusher dimmed={this.state.menuVisible} onClick={this.handleDocumentClick} style={{height: "100%", overflowY: "auto"}}>
+                    <Sidebar.Pusher id="main-body" dimmed={this.state.menuVisible} onClick={this.handleDocumentClick}>
                         <ReactCSSTransitionGroup
                               transitionName="appear"
                               transitionEnterTimeout={500}

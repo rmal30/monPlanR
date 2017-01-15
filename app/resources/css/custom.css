@@ -79,11 +79,9 @@ html, body {
         flex-wrap: nowrap;
     }
 
-    .main-body {
-        overflow-x: hidden;
-        flex-grow: 1;
+    #main-body {
         overflow-y: auto;
-        min-height: 5em;
+        height: 100%;
     }
 }
 

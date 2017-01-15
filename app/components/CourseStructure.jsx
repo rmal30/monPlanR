@@ -1024,10 +1024,8 @@ CourseStructure.propTypes = {
     totalCost: PropTypes.number.isRequired,
     handleChildUpdateTotals: PropTypes.func.isRequired,
     removeFromCourse: PropTypes.func.isRequired,
-    onUnitClick: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
-    viewUnitDetails: PropTypes.func,
 
     attachGetCourseErrors: PropTypes.func,
     detachGetCourseErrors: PropTypes.func
