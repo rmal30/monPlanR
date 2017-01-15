@@ -42,7 +42,7 @@ class Header extends Component {
                     {this.props.showAddUnit &&
                     <Menu.Item onClick={this.props.handleSearchClick} className={this.props.searchVisible ? "active" : ""}>
                         <Icon name="plus" />
-                        <MediaQuery minDeviceWidth={768}>Add unit</MediaQuery>
+                        Add unit
                     </Menu.Item>
                     }
                 </Menu.Menu>
