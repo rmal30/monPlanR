@@ -208,7 +208,7 @@ class CourseStructure extends Component {
 
                 if (!isValid) {
                     errors.push({
-                        message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr}`,
+                        message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
                         coordinates: [[units[i].teachingPeriodIndex, units[i].unitIndex]]
                     });
                 }
@@ -570,7 +570,7 @@ class CourseStructure extends Component {
     willMoveUnit(teachingPeriodIndex, unitIndex) {
         if (this.props.unitToAdd !== undefined) {
             this.props.cancelAddingToCourse();
-        }    
+        }
 
         this.setState({
             isError: false,
