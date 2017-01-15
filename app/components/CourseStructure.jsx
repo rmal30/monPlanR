@@ -570,10 +570,7 @@ class CourseStructure extends Component {
     willMoveUnit(teachingPeriodIndex, unitIndex) {
         if (this.props.unitToAdd !== undefined) {
             this.props.cancelAddingToCourse();
-        }
-        let focusedUnit = this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex];
-
-        this.props.onUnitClick(focusedUnit.UnitCode, focusedUnit.custom);
+        }    
 
         this.setState({
             isError: false,
