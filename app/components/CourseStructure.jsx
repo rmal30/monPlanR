@@ -178,6 +178,10 @@ class CourseStructure extends Component {
         for(let i = 0; i < units.length; i++) {
             let offerings = units[i].LocationAndTime;
 
+            if(!offerings) {
+                continue;
+            }
+
             const teachingPeriodStr = codeMap[this.state.teachingPeriods[units[i].teachingPeriodIndex].code];
 
             if (teachingPeriodStr !== undefined) {
