@@ -85,6 +85,12 @@ html, body {
     }
 }
 
+.popup ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 1.5em;
+}
+
 .wrapper {
     min-height: 100%;
     height: auto !important;
