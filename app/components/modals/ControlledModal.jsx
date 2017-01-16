@@ -60,8 +60,8 @@ class ControlledModal extends Component {
                    onClose={this.handleClose.bind(this)}>
                 {this.props.children}
                 <Modal.Actions>
-                    {this.props.positiveButton}
                     {closeButton}
+                    {this.props.positiveButton}
                 </Modal.Actions>
             </Modal>
         );
