@@ -140,7 +140,7 @@ html, body {
     min-height: 90px !important;
 }
 
-.unit:hover {
+.unit.draggable:hover {
     box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15) !important;
 }
 

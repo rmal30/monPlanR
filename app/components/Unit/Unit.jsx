@@ -210,6 +210,31 @@ class Unit extends React.Component {
             return null;
         }
 
+        const unit = <UnitDetailModal
+            unitCode={this.props.code}
+            trigger={(
+                <MediaQuery maxDeviceWidth={767}>
+                    {mobile =>
+                        <Message
+                            color={facultyColor}
+                            className={"unit" + (!this.props.viewOnly ? " draggable" : "")}
+                            size="mini">
+                            <Message.Header>
+                                {this.props.code}
+                                {!this.props.viewOnly &&
+                                    <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
+                                        <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                                    </Button.Group>
+                                }
+                            </Message.Header>
+                            {(!this.state.hovering || !this.showMoveUnitUI) &&
+                                `${this.props.name}`
+                            }
+                        </Message>
+                    }
+                </MediaQuery>
+            )} />;
+
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
@@ -233,31 +258,10 @@ class Unit extends React.Component {
                                     }
                                 </div>
                             }
-                            {!this.props.free && !this.props.isDragging &&
-                                connectDragSource(
-                                <div>
-                                    <UnitDetailModal
-                                        unitCode={this.props.code}
-                                        trigger={(
-                                            <Message
-                                                color={facultyColor}
-                                                className="unit"
-                                                size="mini">
-                                                <Message.Header>
-                                                    {this.props.code}
-                                                    <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
-                                                        {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
-                                                        <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
-                                                    </Button.Group>
-                                                </Message.Header>
-                                                {(!this.state.hovering || !this.showMoveUnitUI) &&
-                                                    `${this.props.name}`
-                                                }
-                                            </Message>
-                                        )} />
-                                </div>
-                                )
+                            {!this.props.free && !this.props.viewOnly && !this.props.isDragging &&
+                                connectDragSource(<div>{unit}</div>)
                             }
+                            {!this.props.free && this.props.viewOnly && unit}
                         </td>)
                     );
                 }}
