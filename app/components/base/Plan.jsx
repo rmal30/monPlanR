@@ -8,7 +8,6 @@ import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../CourseStructure.jsx";
 import CourseStatisticGroup from "../Course/CourseStatisticGroup.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
-import UnitDetailModalPopup from "../Unit/UnitDetailModalPopup.jsx";
 import CourseDetailPopup from "../Course/CourseDetailPopup.jsx";
 
 /**
@@ -41,7 +40,6 @@ class Plan extends Component {
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.removeFromCourse = this.removeFromCourse.bind(this);
         this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
-        this.handleUnitDetailClick = this.handleUnitDetailClick.bind(this);
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
         this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
@@ -186,17 +184,6 @@ class Plan extends Component {
     }
 
     /**
-     * handles the updating of unit info button
-     *
-     * @author JXNS, Saurabh Joshi
-     * @param {string} unitCode - The code of the unit
-     * @param {bool} custom - Whether or not the unit is a custom unit.
-     */
-    handleUnitDetailClick(unitCode, custom) {
-        this.setState({focusedUnitCode: unitCode, custom});
-    }
-
-    /**
      * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as
      * a prop
      */
@@ -212,14 +199,9 @@ class Plan extends Component {
      * structure.
      */
     render() {
-        const courseCode = this.state.courseToLoad.split("-")[0]
+        const courseCode = this.state.courseToLoad.split("-")[0];
         const { startYear, endYear } = this.props.location.query;
-        const focused = !!this.state.focusedUnitCode;
-        const unitDetailButton = <Button
-                                    fluid
-                                    disabled={!focused}
-                                    primary>View {this.state.focusedUnitCode || "unit"} details</Button>;
-        
+
         const courseDetailButton = <Button
                                     fluid
                                     disabled={courseCode === ""}
@@ -239,16 +221,13 @@ class Plan extends Component {
                     <Grid reversed="mobile" stackable className="no-print">
                         <Grid.Row>
                             <Grid.Column width="4">
-                                <UnitDetailModalPopup unitCode={this.state.focusedUnitCode} trigger={unitDetailButton} />
-                            </Grid.Column>
-                            <Grid.Column width="4" >
                                 <CourseDetailPopup courseCode={courseCode} trigger={courseDetailButton} />
                             </Grid.Column>
-                            <Grid.Column width="4" >
+                            <Grid.Column width="4">
                                 <LoadCourseMap
                                     onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
-                            <Grid.Column width="4">
+                            <Grid.Column width="4" floated="right">
                                 <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
                             </Grid.Column>
                         </Grid.Row>
@@ -266,7 +245,6 @@ class Plan extends Component {
                                      totalCreditPoints={this.state.totalCredits}
                                      totalCost={this.state.totalCost}
                                      handleChildUpdateTotals={this.handleChildUpdateTotals}
-                                     onUnitClick={this.handleUnitDetailClick}
                                      courseToLoad={this.state.courseToLoad}
                                      courseYear={this.state.courseYear}
                                      attachGetCourseErrors={this.props.attachGetCourseErrors}

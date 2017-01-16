@@ -4,6 +4,8 @@ import MediaQuery from "react-responsive";
 import { DragSource, DropTarget } from "react-dnd";
 import { flow } from "lodash";
 
+import UnitDetailModal from "./UnitDetailModal.jsx";
+
 /**
 * Implements the drag source contract.
 */
@@ -130,7 +132,7 @@ class Unit extends React.Component {
      * then the unit detail button will be updated via the onUnitClick function
      */
     handleClick() {
-        if(!this.props.free) {
+        if(!this.props.free && this.props.onUnitClick) {
             this.props.onUnitClick(this.props.code, this.props.custom);
         }
         if(this.props.free && this.state.hovering && this.props.unitToAdd) {
@@ -234,21 +236,25 @@ class Unit extends React.Component {
                             {!this.props.free && !this.props.isDragging &&
                                 connectDragSource(
                                 <div>
-                                    <Message
-                                        color={facultyColor}
-                                        className="unit"
-                                        size="mini">
-                                        <Message.Header>
-                                            {this.props.code}
-                                            <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
-                                                {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
-                                                <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
-                                            </Button.Group>
-                                        </Message.Header>
-                                        {(!this.state.hovering || !this.showMoveUnitUI) &&
-                                            `${this.props.name}`
-                                        }
-                                    </Message>
+                                    <UnitDetailModal
+                                        unitCode={this.props.code}
+                                        trigger={(
+                                            <Message
+                                                color={facultyColor}
+                                                className="unit"
+                                                size="mini">
+                                                <Message.Header>
+                                                    {this.props.code}
+                                                    <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
+                                                        {false && <Button disabled={true} basic onClick={this.handleDetail.bind(this)} color="blue" icon="info" />}
+                                                        <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                                                    </Button.Group>
+                                                </Message.Header>
+                                                {(!this.state.hovering || !this.showMoveUnitUI) &&
+                                                    `${this.props.name}`
+                                                }
+                                            </Message>
+                                        )} />
                                 </div>
                                 )
                             }

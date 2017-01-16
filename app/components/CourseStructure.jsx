@@ -208,7 +208,7 @@ class CourseStructure extends Component {
 
                 if (!isValid) {
                     errors.push({
-                        message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr}`,
+                        message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
                         coordinates: [[units[i].teachingPeriodIndex, units[i].unitIndex]]
                     });
                 }
@@ -571,9 +571,6 @@ class CourseStructure extends Component {
         if (this.props.unitToAdd !== undefined) {
             this.props.cancelAddingToCourse();
         }
-        let focusedUnit = this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex];
-
-        this.props.onUnitClick(focusedUnit.UnitCode, focusedUnit.custom);
 
         this.setState({
             isError: false,
@@ -1024,10 +1021,8 @@ CourseStructure.propTypes = {
     totalCost: PropTypes.number.isRequired,
     handleChildUpdateTotals: PropTypes.func.isRequired,
     removeFromCourse: PropTypes.func.isRequired,
-    onUnitClick: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
-    viewUnitDetails: PropTypes.func,
 
     attachGetCourseErrors: PropTypes.func,
     detachGetCourseErrors: PropTypes.func

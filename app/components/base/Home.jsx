@@ -74,63 +74,52 @@ class Home extends Component {
                     <h1>Welcome to monPlan!</h1>
                         <p>
                             monPlan allows you to plan your course structure whilst you are at
-                            Monash University. We know thdat choosing units isn't particularly easy, so we've
-                            designed a web app that you can use to simplify tasks.
+                            Monash University. We know that choosing units isn't particularly easy,
+                            so we've designed a web app that you can use to simplify tasks.
                         </p>
                         {inLocalStorage &&
-                        
-                    
-                    <MediaQuery maxDeviceWidth={767}>
-                        {mobile => {
-                            if(mobile) {
-                                return (
-                                    <Container>
-                                        <h2>To continue where you left off:</h2>
-                                        <Segment raised>
-                                            <Link to="/plan">
-                                                <Button fluid color="green">
-                                                    Continue Planning <Icon name="right arrow" />
-                                                </Button>
-                                            </Link>
-                                            <Divider horizontal>OR</Divider>
-                                            <ClearCourseModal fluid clearCourse={() => {return localStorage.clear();}}/>
-                                        </Segment>
-                                    </Container>
-                                );
-                            } else {
-                                return (
-                                    <Container>
-                                        <h2>To continue where you left off:</h2>
-                                        <Segment raised>
-                                            <Link to="/plan">
-                                                <Button color="green">
-                                                    Continue Planning <Icon name="right arrow" />
-                                                </Button>
-                                            </Link>
-                                            <ClearCourseModal floated="right" redirect="/" clearCourse={() => {return localStorage.clear();}}/>
-                                        </Segment>
-                                    </Container>
-                                );
+                            <MediaQuery maxDeviceWidth={767}>
+                                {mobile => {
+                                    if(mobile) {
+                                        return (
+                                            <Container>
+                                                <h2>To continue where you left off:</h2>
+                                                <Segment raised>
+                                                    <Link to="/plan">
+                                                        <Button fluid color="green">
+                                                            Continue Planning <Icon name="right arrow" />
+                                                        </Button>
+                                                    </Link>
+                                                    <Divider horizontal>OR</Divider>
+                                                    <ClearCourseModal fluid clearCourse={() => {return localStorage.clear();}}/>
+                                                </Segment>
+                                            </Container>
+                                        );
+                                    } else {
+                                        return (
+                                            <Container>
+                                                <h2>To continue where you left off:</h2>
+                                                <Segment raised>
+                                                    <Link to="/plan">
+                                                        <Button color="green">
+                                                            Continue Planning <Icon name="right arrow" />
+                                                        </Button>
+                                                    </Link>
+                                                    <ClearCourseModal floated="right" redirect="/" clearCourse={() => {return localStorage.clear();}}/>
+                                                </Segment>
+                                            </Container>
+                                        );
+                                    }
+                                }}
+                                </MediaQuery>
                             }
-                        }
-                    }
-                    </MediaQuery>
-                                
-                                
-                           
-                        }
-                        {!inLocalStorage &&
-                        <Container>
-                            <h2>To begin:</h2>
-                            <YearFormContainer />
-                        </Container>
-                        }
-                    <h4>Disclaimer</h4>
-                    <p className="disclaimer">monPlan is a tool designed to help students to design courses with ease. Our features are designed to assist you in planning your course, including recommending units based off past
-                      SETU results. Since it is only a tool, we recommend you to see your faculty’s course advisor.</p>
-                    <p className="disclaimer">Our fundamental goal is to allow all Monash University students to add any units in any teaching period, for any year. Period.
-                      We place trust in you as a student to plan your own course, and for some quick guidance, we will inform you if there is anything that might be wrong with your course plan.</p>
-                    <p className="disclaimer">Our promise is that we will never restrict you in adding your units to your course, and it is up to you and the course advisors to assist you with your plan.</p>
+                            {!inLocalStorage &&
+                                <Container>
+                                    <h2>To begin:</h2>
+                                    <YearFormContainer />
+                                </Container>
+                            }
+                    <Link to="/disclaimer"><Button style={{marginTop: "1em"}}>View disclaimer</Button></Link>
                     <div className={Home.checkIfCourseStructureIsInLocalStorage() ? "welcomeBackMargin" : "welcomeMargin"} />
                 </div>
             </Container>

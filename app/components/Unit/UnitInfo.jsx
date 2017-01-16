@@ -1,5 +1,7 @@
 import React, { PropTypes } from "react";
 import { Divider, Grid, Statistic, Icon } from "semantic-ui-react";
+import MediaQuery from "react-responsive";
+
 import SetuRating from "./SetuRating.jsx";
 import UnitInfoPlaceholder from "./UnitInfoPlaceholder.jsx";
 import UnitDescriptionContainer from "../../containers/UnitDescriptionContainer.jsx";
@@ -39,7 +41,7 @@ function UnitInfo(props) {
         usefulnessScore: PropTypes.number.isRequired,
         prereqs: PropTypes.string,
         prohibs: PropTypes.string,
-        offeringArray: PropTypes.oneOfType[PropTypes.string, PropTypes.array]
+        offeringArray: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
     };
 
     if(props.isLoading) {
@@ -52,64 +54,94 @@ function UnitInfo(props) {
         );
     } else {
         return (
-            <Grid stackable celled="internally" columns={2}>
-                <Grid.Row>
-                    <Grid.Column width={12}>
-                        <h3>{props.UnitCode + " - " + props.UnitName}</h3>
-                        <p>{props.Faculty}</p>
-                    </Grid.Column>
+            <MediaQuery maxDeviceWidth={767}>
+                {mobile =>
+                    <Grid stackable celled="internally" columns={2}>
+                        {mobile &&
+                            <Grid.Row>
+                                <Grid.Column width={12}>
+                                    <h3>{props.UnitCode + " - " + props.UnitName}</h3>
+                                    <p>{props.Faculty}</p>
+                                </Grid.Column>
 
-                    <Grid.Column width={2}>
-                        <Statistic size="mini">
-                            <Statistic.Value>
-                                <Icon name='student' />
-                                {props.creditPoints}
-                            </Statistic.Value>
-                            <Statistic.Label>Credit Points</Statistic.Label>
-                        </Statistic>
-                    </Grid.Column>
+                                <Grid.Column width={2} textAlign="center">
+                                    <Statistic size="mini">
+                                        <Statistic.Value>
+                                            <Icon name='student' />
+                                            {props.creditPoints}
+                                        </Statistic.Value>
+                                        <Statistic.Label>Credit Points</Statistic.Label>
+                                    </Statistic>
+                                    <Statistic size="mini">
+                                        <Statistic.Value >
+                                            <Icon name='dollar' />
+                                            {props.cost}
+                                        </Statistic.Value>
+                                        <Statistic.Label>Est. Unit Cost</Statistic.Label>
+                                    </Statistic>
+                                </Grid.Column>
+                            </Grid.Row>
+                        }
+                        {!mobile &&
+                            <Grid.Row>
+                                <Grid.Column width={12}>
+                                    <h3>{props.UnitCode + " - " + props.UnitName}</h3>
+                                    <p>{props.Faculty}</p>
+                                </Grid.Column>
 
-                    <Grid.Column width={2}>
-                        <Statistic size="mini">
-                            <Statistic.Value >
-                                <Icon name='dollar' />
-                                {props.cost}
-                            </Statistic.Value>
-                            <Statistic.Label>Est. Unit Cost</Statistic.Label>
-                        </Statistic>
-                    </Grid.Column>
-                </Grid.Row>
+                                <Grid.Column width={2}>
+                                    <Statistic size="mini">
+                                        <Statistic.Value>
+                                            <Icon name='student' />
+                                            {props.creditPoints}
+                                        </Statistic.Value>
+                                        <Statistic.Label>Credit Points</Statistic.Label>
+                                    </Statistic>
+                                </Grid.Column>
 
-                <Grid.Row>
-                    <Grid.Column width={12}>
+                                <Grid.Column width={2}>
+                                    <Statistic size="mini">
+                                        <Statistic.Value >
+                                            <Icon name='dollar' />
+                                            {props.cost}
+                                        </Statistic.Value>
+                                        <Statistic.Label>Est. Unit Cost</Statistic.Label>
+                                    </Statistic>
+                                </Grid.Column>
+                            </Grid.Row>
+                        }
                         <Grid.Row>
-                            <UnitDescriptionContainer
-                                textLength={500}
-                                fullText={props.Synopsis}
-                            />
-                            <Divider />
-                            <OfferingContainer offeringArray={props.offeringArray}/>
-                            <Divider />
-                            {props.prereqs !== "" ? <p>{"Prerequisites: " + props.prereqs}</p> : <p>Prerequisites: None</p>}
-                            {props.prohibs !== "" ? <p>{"Prohibitions: " + props.prohibs}</p> : <p>Prohibitions: None</p>}
-                            {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
-                         </Grid.Row>
-                    </Grid.Column>
+                            <Grid.Column width={12}>
+                                <Grid.Row>
+                                    <UnitDescriptionContainer
+                                        textLength={500}
+                                        fullText={props.Synopsis}
+                                    />
+                                    <Divider />
+                                    <OfferingContainer offeringArray={props.offeringArray}/>
+                                    <Divider />
+                                    {props.prereqs !== "" ? <p>{"Prerequisites: " + props.prereqs}</p> : <p>Prerequisites: None</p>}
+                                    {props.prohibs !== "" ? <p>{"Prohibitions: " + props.prohibs}</p> : <p>Prohibitions: None</p>}
+                                    {false /* disable renderind unit guide link for now */ && <a target="blank" href={"https://unitguidemanager.monash.edu/view?unitCode=" + props.UnitCode + "&tpCode=S1-01&tpYear=2016"}>View unit guide for this unit</a>}
+                                 </Grid.Row>
+                            </Grid.Column>
 
-                    <Grid.Column width={4}>
-                        <SetuRating 
-                            starRating={props.usefulnessScore} 
-                            heartRating={props.likeScore} 
-                            learnResponseCount={props.learnResponseCount}
-                            enjoyResponseCount={props.enjoyResponseCount} 
-                        />
-                        <Divider />
-                        <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
-                        <Divider />
-                        <a target="blank" href={`https://unitguidemanager.monash.edu/refine?searchQuery=${props.UnitCode}`}>{"View unit guides for " +  props.UnitCode + " offerings"}</a>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
+                            <Grid.Column width={4}>
+                                <SetuRating
+                                    starRating={props.usefulnessScore}
+                                    heartRating={props.likeScore}
+                                    learnResponseCount={props.learnResponseCount}
+                                    enjoyResponseCount={props.enjoyResponseCount}
+                                />
+                                <Divider />
+                                <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
+                                <Divider />
+                                <a target="blank" href={`https://unitguidemanager.monash.edu/refine?searchQuery=${props.UnitCode}`}>{"View unit guides for " +  props.UnitCode + " offerings"}</a>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                }
+            </MediaQuery>
         );
     }
 }

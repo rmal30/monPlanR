@@ -49,13 +49,14 @@ class Header extends Component {
                 <Menu.Menu position="right">
                     {this.props.showStatus &&
                     <Popup
-                        hoverable
+                        on="click"
+                        wide
                         trigger={(
                             <Menu.Item>
                                 <MediaQuery minDeviceWidth={768}>
                                     Course status: <span id="statusTag">{this.props.courseErrors.length > 0 ? "ERROR" : "OK"}</span>
                                 </MediaQuery>
-                                <Icon name={this.props.courseErrors.length > 0 ? "remove" : "checkmark"} color={this.props.courseErrors.length > 0 ? "red" : "green"} id="statusIcon" />
+                                <Icon name={this.props.courseErrors.length > 0 ? "remove" : "checkmark"} color={this.props.courseErrors.length > 0 ? "red" : "green"} />
                             </Menu.Item>
                         )}>
                         <Popup.Header>
