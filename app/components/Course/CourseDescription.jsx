@@ -4,8 +4,7 @@ export default class CourseDescription extends Component {
     
     constructor(props) {
         super(props);
-        console.log(this.props.description)
-        let processedDescription = this.processData(this.props.inputString);
+        let processedDescription = this.processData(this.props.description);
         
         this.state = {
             description: processedDescription,
@@ -80,9 +79,9 @@ export default class CourseDescription extends Component {
                 return <h5 key={keyID++}>{item[1].replace("~", " ")}</h5>
             } else if(item[0] === "a"){
                 let list = item[1].map(item => {return <li key={keyID++}>{item.replace("~", " ")}</li>});
-                return <ul>{list}</ul>
+                return <ul key={keyID++}>{list}</ul>
             } else {
-                return <h5>Error displaying some data...</h5>
+                return <h5 key={keyID++}>Error displaying some data...</h5>
             }
         });
         

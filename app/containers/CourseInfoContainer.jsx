@@ -47,7 +47,8 @@ export default class CourseInfoContainer extends Component {
             durationStr: "",
             modeAndLocation: "",
             awards: "",
-            courseDescription: ""
+            courseDescription: "",
+            isLoading: true
         };
     }
 
@@ -55,7 +56,6 @@ export default class CourseInfoContainer extends Component {
         UnitQuery.getCourseInfo(this.props.courseCode)
             .then(response => {
                 let data = response.data;
-                console.log(data)
                 this.setState({
                     courseCode: data.courseCode,
                     courseName: data.courseName,
@@ -65,11 +65,12 @@ export default class CourseInfoContainer extends Component {
                     durationStr: data.courseDuration,
                     modeAndLocation: data.modeLoc,
                     awards: "",
-                    courseDescription: data.courseDescrip
+                    courseDescription: data.courseDescrip,
+                    isLoading: false
                 });
             })
             .catch(error => {
-                console.err(error);
+                console.log("Error loading data for course: " + this.props.courseCode);
             });
     }
 
@@ -77,6 +78,10 @@ export default class CourseInfoContainer extends Component {
      * 
      */
     render() {
-        return <CourseInfo {...this.state} />
+        if (this.state.isLoading) {
+            return <p>Loading...</p>
+        } else {
+            return <CourseInfo {...this.state} />
+        }
     }
 }
