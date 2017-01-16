@@ -1,7 +1,6 @@
 import React, { PropTypes } from "react";
 import { Divider, Grid, Statistic, Icon } from "semantic-ui-react";
-import UnitDescriptionContainer from "../../containers/UnitDescriptionContainer.jsx";
-
+import CourseDescription from "./CourseDescription.jsx";
 /**
  * @author JXNS
  * A simple component that renders course info details, check the proptypes check for full data available
@@ -30,7 +29,8 @@ export default function CourseInfo(props){
             <Grid.Row>
                 <Grid.Column width={12}>
                     <Grid.Row>
-                        <p>{props.courseDescription}</p>
+                        {console.log(props.courseDescription)}
+                        <CourseDescription description={props.courseDescription} /> 
                         <Divider />
                         <b>Duration: </b>
                         <p>{props.durationStr}</p>
@@ -47,9 +47,9 @@ export default function CourseInfo(props){
                     <b>Abbreviated title:</b>
                     <p>{props.abrTitle}</p>
                     <Divider />
-                    <a target="blank" href="#">{"View " + props.courseCode + " handbook entry"}</a>
+                    <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/courses/${props.courseCode}.html`}>{"View " + props.courseCode + " handbook entry"}</a>
                     <Divider />
-                    <a target="blank" href="#">{"View study.monash entry for " +  props.courseCode}</a>
+                    <a target="blank" href={`https://www.study.monash/courses/find-a-course/2017/${props.courseCode}`}>{"View study.monash entry for " +  props.courseCode}</a>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
