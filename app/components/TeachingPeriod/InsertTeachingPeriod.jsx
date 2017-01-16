@@ -55,7 +55,7 @@ const InsertTeachingPeriod = props => {
     }
 
     const triggerButton = (
-        <Button onClick={handleClick} fluid>
+        <Button basic className="additionButton" color="green" onClick={handleClick} fluid>
             <Icon name="plus" /> Insert {name}, {props.year}
         </Button>
     );
