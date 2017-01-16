@@ -9,7 +9,7 @@ import YearCalc from "../../utils/YearCalc.js";
  * This component is displayed when there are no teaching periods in the course
  * structure.
  */
-export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, startYear, changeStartYear, semesterString, insertTeachingPeriod, appendSemester, mobile, noFloat }) {
+export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, startYear, changeStartYear, semesterString, insertTeachingPeriod, appendSemester, mobile, noFloat, viewOnly }) {
     NoTeachingPeriod.propTypes = {
         numberOfUnits: PropTypes.number.isRequired,
         placeholderStartYear: PropTypes.number.isRequired,
@@ -28,25 +28,29 @@ export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, 
               <Header as="h3" icon textAlign="center">
                   <Icon name="calendar" />
                   No teaching periods
-                  <Header.Subheader>
-                      Click add semester button below to get started.
-                  </Header.Subheader>
+                  {!viewOnly &&
+                      <Header.Subheader>
+                          Click add semester button below to get started.
+                      </Header.Subheader>
+                  }
               </Header>
-              <Container textAlign="center">
-                  <Dropdown
-                      onChange={(e, { value }) => changeStartYear(parseInt(value))}
-                      placeholder="Select start year" search selection
-                      value={startYear || ""}
-                      options={YearCalc.getStartYearVals(placeholderStartYear)}/>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <InsertTeachingPeriodButton
-                      semesterString={semesterString}
-                      insert={code => insertTeachingPeriod(0, startYear, code)}
-                      appendSemester={appendSemester}
-                      mobile={mobile}
-                      noFloat={noFloat}
-                      />
-              </Container>
+              {!viewOnly &&
+                  <Container textAlign="center">
+                      <Dropdown
+                          onChange={(e, { value }) => changeStartYear(parseInt(value))}
+                          placeholder="Select start year" search selection
+                          value={startYear || ""}
+                          options={YearCalc.getStartYearVals(placeholderStartYear)}/>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <InsertTeachingPeriodButton
+                          semesterString={semesterString}
+                          insert={code => insertTeachingPeriod(0, startYear, code)}
+                          appendSemester={appendSemester}
+                          mobile={mobile}
+                          noFloat={noFloat}
+                          />
+                  </Container>
+              }
             </Table.Cell>
         </Table.Row>
     );

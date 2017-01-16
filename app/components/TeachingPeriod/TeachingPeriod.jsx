@@ -35,6 +35,7 @@ function TeachingPeriod(props) {
             return (
                 <Unit
                     key={`${props.year}-${props.code}-${index}`}
+                    viewOnly={props.viewOnly}
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
@@ -51,6 +52,7 @@ function TeachingPeriod(props) {
         return (
             <Unit
                 key={`${props.year}-${props.code}-${unit}-${index}`}
+                viewOnly={props.viewOnly}
                 index={index}
                 teachingPeriodIndex={props.index}
                 willMoveUnit={props.willMoveUnit.bind(null, props.index)}
@@ -81,7 +83,7 @@ function TeachingPeriod(props) {
     return (
         <Table.Row>
             <Table.Cell>
-                {!props.showMoveUnitUI &&
+                {!props.showMoveUnitUI && !props.viewOnly &&
                 <ConfirmDeleteTeachingPeriod
                     onDeletePress={props.deleteTeachingPeriod.bind(null, props.index)}
                     units={props.units} />
