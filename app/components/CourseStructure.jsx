@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Icon, Message, Popup, Table, Loader } from "semantic-ui-react";
+import { Button, Container, Icon, Input, Message, Popup, Table, Loader } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 
@@ -50,6 +50,9 @@ class CourseStructure extends Component {
             totalEstimatedCost: this.props.totalCost,
             isLoading: false,
             unlock: true,
+            isUploading: false,
+            uploadingError: false,
+            uploaded: false,
             courseToLoad: this.props.courseToLoad,
             startYear: startYear || new Date().getFullYear()
         };
@@ -89,6 +92,7 @@ class CourseStructure extends Component {
         this.appendSemester = this.appendSemester.bind(this);
         this.showInsertTeachingPeriodsUI = this.showInsertTeachingPeriodsUI.bind(this);
         this.getCourseErrors = this.getCourseErrors.bind(this);
+        this.uploadCourse = this.uploadCourse.bind(this);
     }
 
     /**
@@ -192,6 +196,10 @@ class CourseStructure extends Component {
 
                 for(let k = 0; k < offerings.length; k++) {
                     let locations = offerings[k][1];
+                    if(!locations) {
+                        continue;
+                    }
+
                     for(let l = 0; l < locations.length; l++) {
                         let offering = locations[l];
                         let isMatch = re.test(offering);
@@ -316,6 +324,51 @@ class CourseStructure extends Component {
             startYear,
             version: MONPLAN_VERSION
         }));
+    }
+
+    /**
+     * Uploads course as a snapshot
+     *
+     * @author Saurabh Joshi
+     */
+    uploadCourse() {
+        if(this.state.isUploading) {
+            return;
+        }
+
+        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = this.state;
+
+        this.setState({
+            isUploading: true,
+            uploaded: false,
+            uploadingError: false
+        });
+
+        axios.post(`${MONPLAN_REMOTE_URL}/snaps/`,
+            {
+                "course": {
+                    teachingPeriods,
+                    numberOfUnits,
+                    totalCreditPoints,
+                    totalEstimatedCost,
+                    startYear: startYear || new Date().getFullYear()
+                }
+            })
+            .then(response => {
+                this.setState({
+                    isUploading: false,
+                    uploaded: true,
+                    uploadedCourseID: response.data
+                });
+                console.log(response);
+            })
+            .catch(error => {
+                this.setState({
+                    isUploading: false,
+                    uploadingError: true
+                });
+                console.error(error)
+            });
     }
 
     /**
@@ -999,6 +1052,39 @@ class CourseStructure extends Component {
                                 trigger={<Button primary fluid={mobile} className="no-print">Complete course plan</Button>}
                                 teachingPeriods={this.state.teachingPeriods}
                                 numberOfUnits={this.state.numberOfUnits} />
+                            <Popup
+                                on="click"
+                                trigger={
+                                    (
+                                        <Button
+                                            color={this.state.uploadingError ? "red" : "teal"}
+                                            disabled={this.state.uploaded}
+                                            onClick={this.uploadCourse}
+                                            loading={this.state.isUploading}>
+                                            <Icon name="upload" />
+                                            {this.state.uploaded && "Saved course" || "Save course"}
+                                        </Button>
+                                    )
+                                }>
+                                <Popup.Header>
+                                    {this.state.uploaded && "Saved course"
+                                    || this.state.isUploading && "Saved course..."
+                                    || this.state.uploadingError && "Failed to save course"}
+                                </Popup.Header>
+                                <Popup.Content>
+                                    {this.state.isUploading &&
+                                        "Please wait until course has been saved."
+                                    }
+                                    {this.state.uploaded &&
+                                        <div>
+                                            <Input value={`http://www.monplan.tech/view/${this.state.uploadedCourseID}`} />
+                                        </div>
+                                    }
+                                    {this.state.uploadingError &&
+                                        "Please try again later."
+                                    }
+                                </Popup.Content>
+                            </Popup>
                         </Container>
                     }
                 </MediaQuery>
