@@ -29,7 +29,6 @@ export default function CourseInfo(props){
             <Grid.Row>
                 <Grid.Column width={12}>
                     <Grid.Row>
-                        {console.log(props.courseDescription)}
                         <CourseDescription description={props.courseDescription} /> 
                         <Divider />
                         <b>Duration: </b>

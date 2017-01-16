@@ -21,25 +21,10 @@ export default function CourseDetailPopup({ trigger, courseCode }) {
     const closeTrigger = <Button content="Close" />;
 
     return (
-        <MediaQuery maxDeviceWidth={767}>
-            {mobile => {
-                if(mobile) {
-                    return <ControlledModal
-                                openTrigger={trigger}
-                                closeTrigger={closeTrigger}>
-                                    <CourseInfoContainer courseCode={courseCode} />
-                            </ControlledModal>;
-                } else {
-                    return <Popup
-                        trigger={trigger}
-                        on="click"
-                        positioning="bottom center"
-                        style={{maxWidth: 800}}
-                        basic>
-                            <CourseInfoContainer courseCode={courseCode} />
-                    </Popup>;
-                }
-            }}
-        </MediaQuery>
+        <ControlledModal
+            openTrigger={trigger}
+            closeTrigger={closeTrigger}>
+            <CourseInfoContainer courseCode={courseCode} />
+        </ControlledModal>
     );
 }
