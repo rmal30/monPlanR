@@ -18,7 +18,7 @@ var metaDataPlugin = new webpack.DefinePlugin({
 
 const config = {
     entry: [
-        "./index.jsx"
+        "./app/index.jsx"
     ],
 
     output: {

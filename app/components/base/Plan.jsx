@@ -5,7 +5,7 @@ import MediaQuery from "react-responsive";
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
-import CourseStructure from "../CourseStructure.jsx";
+import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStatisticGroup from "../Course/CourseStatisticGroup.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import CourseDetailPopup from "../Course/CourseDetailPopup.jsx";

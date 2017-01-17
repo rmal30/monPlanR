@@ -144,6 +144,11 @@ html, body {
     box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15) !important;
 }
 
+.additionButton.ui.button.green:hover {
+    background: #16ab39 !important;
+    color: white !important;
+}
+
 .removalButton.ui.button.red:hover {
     background: #DB2828 !important;
     color: white !important;
