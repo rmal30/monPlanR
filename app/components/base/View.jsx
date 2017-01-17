@@ -66,7 +66,10 @@ class View extends Component {
                 <CourseStructure
                     viewOnly
                     switchToEditCourse={this.state.switchToEditCourse}
-                    fetchURL={`${MONPLAN_REMOTE_URL}/snaps/${this.props.params.id}`} />
+                    fetchURL={`${MONPLAN_REMOTE_URL}/snaps/${this.props.params.id}`}
+                    setStatusVisibility={this.props.setStatusVisibility}
+                    updateStatus={this.props.updateStatus}
+                    courseErrors={this.props.courseErrors} />
             </Container>
         );
     }
@@ -75,7 +78,12 @@ class View extends Component {
 View.propTypes = {
     params: PropTypes.shape({
         id: PropTypes.string.isRequired
-    })
+    }),
+
+    /* Validation status */
+    setStatusVisibility: PropTypes.func.isRequired,
+    updateStatus: PropTypes.func.isRequired,
+    courseErrors: PropTypes.array.isRequired
 };
 
 export default View;

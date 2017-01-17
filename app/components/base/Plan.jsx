@@ -247,8 +247,9 @@ class Plan extends Component {
                                      handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      courseToLoad={this.state.courseToLoad}
                                      courseYear={this.state.courseYear}
-                                     attachGetCourseErrors={this.props.attachGetCourseErrors}
-                                     detachGetCourseErrors={this.props.detachGetCourseErrors} />
+                                     setStatusVisibility={this.props.setStatusVisibility}
+                                     updateStatus={this.props.updateStatus}
+                                     courseErrors={this.props.courseErrors} />
                 </Container>
                 <MediaQuery minDeviceWidth={768}>
                     <div className="push" />
@@ -268,11 +269,10 @@ Plan.propTypes = {
         }).isRequired
     }).isRequired,
 
-    attachAddToCourse: PropTypes.func,
-    detachAddToCourse: PropTypes.func,
-
-    attachGetCourseErrors: PropTypes.func,
-    detachGetCourseErrors: PropTypes.func,
+    /* Validation status */
+    setStatusVisibility: PropTypes.func.isRequired,
+    updateStatus: PropTypes.func.isRequired,
+    courseErrors: PropTypes.array.isRequired,
 
     /* When user clicks on the page */
     handleDocumentClick: PropTypes.func

@@ -442,25 +442,26 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      */
     componentWillMount() {
+        this.props.setStatusVisibility(true);
+
         if(this.props.viewOnly) {
             if(this.props.fetchURL) {
                 this.loadCourseFromDatabase();
             }
             return;
         }
+
         if(Home.checkIfCourseStructureIsInLocalStorage()) {
             this.loadCourseFromLocalStorage();
         }
-
-        this.props.attachGetCourseErrors(this.getCourseErrors);
     }
 
     componentWillUnmount() {
+        this.props.setStatusVisibility(false);
+        
         if(this.props.viewOnly) {
             return;
         }
-
-        this.props.detachGetCourseErrors();
     }
 
     /**
@@ -477,6 +478,13 @@ class CourseStructure extends Component {
             this.setState({
                 uploaded: false
             });
+        }
+
+        const currentCourseErrors = this.getCourseErrors();
+
+        // Redux may solve this anti-pattern of diff checks and updating parent component's state
+        if(currentCourseErrors.length !== this.props.courseErrors.length || this.props.courseErrors.reduce((a, err, i) => a || err.message !== currentCourseErrors[i].message, false)) {
+            this.props.updateStatus(currentCourseErrors);
         }
     }
 
@@ -1170,8 +1178,11 @@ CourseStructure.propTypes = {
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
 
-    attachGetCourseErrors: PropTypes.func,
-    detachGetCourseErrors: PropTypes.func,
+    /* Validation */
+    setStatusVisibility: PropTypes.func.isRequired,
+    updateStatus: PropTypes.func.isRequired,
+    /* Used for diff checks */
+    courseErrors: PropTypes.array.isRequired,
 
     viewOnly: PropTypes.bool
 };
