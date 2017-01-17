@@ -35,8 +35,8 @@ class Main extends Component {
         this.state = {
             searchVisible: false,
             addToCourse: null,
-            getCourseErrors: null,
-            courseErrors: null
+            showStatus: false,
+            courseErrors: []
         };
 
         this.handleSearchClick = this.handleSearchClick.bind(this);
@@ -45,8 +45,8 @@ class Main extends Component {
         this.attachAddToCourse = this.attachAddToCourse.bind(this);
         this.detachAddToCourse = this.detachAddToCourse.bind(this);
 
-        this.attachGetCourseErrors = this.attachGetCourseErrors.bind(this);
-        this.detachGetCourseErrors = this.detachGetCourseErrors.bind(this);
+        this.updateStatus = this.updateStatus.bind(this);
+        this.setStatusVisibility = this.setStatusVisibility.bind(this);
     }
 
     /**
@@ -67,22 +67,12 @@ class Main extends Component {
         this.attachAddToCourse(null);
     }
 
-    /**
-     * Attaches getCourseErrors function to the state.
-     *
-     * @author Saurabh Joshi
-     */
-    attachGetCourseErrors(getCourseErrors) {
-        this.setState({ getCourseErrors });
+    setStatusVisibility(showStatus) {
+        this.setState({ showStatus });
     }
 
-    /**
-     * Detaches getCourseErrors function from the state.
-     *
-     * @author Saurabh Joshi
-     */
-    detachGetCourseErrors() {
-        this.attachGetCourseErrors(null);
+    updateStatus(courseErrors) {
+        this.setState({ courseErrors });
     }
 
     /**
@@ -126,9 +116,9 @@ class Main extends Component {
                     searchVisible={this.state.searchVisible}
                     handleDocumentClick={this.handleDocumentClick}
                     showAddUnit={!!this.state.addToCourse}
-                    showStatus={!!this.state.getCourseErrors}
-                    courseErrors={typeof this.state.getCourseErrors === "function" ? this.state.getCourseErrors() : []} />
-                <Sidebar.Pushable >
+                    showStatus={this.state.showStatus}
+                    courseErrors={this.state.courseErrors} />
+                <Sidebar.Pushable>
                     {this.state.addToCourse &&
                     <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.state.searchVisible} vertical>
                         <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />
@@ -146,8 +136,9 @@ class Main extends Component {
                                       handleDocumentClick: this.handleDocumentClick,
                                       attachAddToCourse: this.attachAddToCourse,
                                       detachAddToCourse: this.detachAddToCourse,
-                                      attachGetCourseErrors: this.attachGetCourseErrors,
-                                      detachGetCourseErrors: this.detachGetCourseErrors
+                                      updateStatus: this.updateStatus,
+                                      setStatusVisibility: this.setStatusVisibility,
+                                      courseErrors: this.state.courseErrors
                                   })}
                         </ReactCSSTransitionGroup>
                         <Footer className="footer"/>
