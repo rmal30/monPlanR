@@ -4,17 +4,17 @@ import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
 
-import UnitQuery from "../utils/UnitQuery";
-import CourseTemplate from "../utils/CourseTemplate";
+import UnitQuery from "../../utils/UnitQuery";
+import CourseTemplate from "../../utils/CourseTemplate";
 
-import Home from "./base/Home.jsx";
-import TeachingPeriod from "./TeachingPeriod/TeachingPeriod.jsx";
-import NoTeachingPeriod from "./TeachingPeriod/NoTeachingPeriod.jsx";
-import InsertTeachingPeriod from "./TeachingPeriod/InsertTeachingPeriod.jsx";
-import InsertTeachingPeriodButton from "./TeachingPeriod/InsertTeachingPeriodButton.jsx";
-import CompletedCourseModal from "./modals/CompletedCourseModal.jsx";
-import ClearCourseModal from "./modals/ClearCourseModal.jsx";
-import ConfirmDeleteOverload from "./modals/ConfirmDeleteOverload.jsx";
+import Home from "../base/Home.jsx";
+import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
+import NoTeachingPeriod from "../TeachingPeriod/NoTeachingPeriod.jsx";
+import InsertTeachingPeriod from "../TeachingPeriod/InsertTeachingPeriod.jsx";
+import InsertTeachingPeriodButton from "../TeachingPeriod/InsertTeachingPeriodButton.jsx";
+import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
+import ClearCourseModal from "../modals/ClearCourseModal.jsx";
+import ConfirmDeleteOverload from "../modals/ConfirmDeleteOverload.jsx";
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by

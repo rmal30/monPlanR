@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Container, Divider, Icon, Modal } from "semantic-ui-react";
 
-import CourseStructure from "../CourseStructure.jsx";
+import CourseStructure from "../Course/CourseStructure.jsx";
 import Home from "./Home.jsx";
 import ControlledModal from "../modals/ControlledModal.jsx";
 
