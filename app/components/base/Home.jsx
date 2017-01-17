@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
-
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import YearFormContainer from "../../containers/YearFormContainer.jsx";
 
@@ -59,7 +58,6 @@ class Home extends Component {
      */
     render() {
         const inLocalStorage = Home.checkIfCourseStructureIsInLocalStorage();
-
         return (
             <Container className="ui main text wrapper">
                 <div id="welcome" className="ui container">
