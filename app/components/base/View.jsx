@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Divider, Icon, Modal } from "semantic-ui-react";
+import { Button, Container, Dropdown, Divider, Icon, Modal } from "semantic-ui-react";
 
 import CourseStructure from "../Course/CourseStructure.jsx";
+import Export from "../../utils/Export.js";
 import Home from "./Home.jsx";
 import ControlledModal from "../modals/ControlledModal.jsx";
 
@@ -22,13 +23,14 @@ class View extends Component {
     render() {
         const editCoursePlanButton = <Button
                                         color="teal"
+                                        floated="right"
                                         loading={this.state.switchToEditCourse}
                                         disabled={this.state.switchToEditCourse}
                                         onClick={this.handleEditCoursePlanClick.bind(this)}>
                                         <Icon name="edit" />Edit course plan
                                     </Button>;
         return (
-            <Container style={{margin: "5em 0"}}>
+            <Container text style={{margin: "5em 0"}}>
                 <h1>Viewing course plan</h1>
                 <Divider hidden />
                 {Home.checkIfCourseStructureIsInLocalStorage() &&
@@ -51,6 +53,15 @@ class View extends Component {
                 </ControlledModal>
                 || editCoursePlanButton}
                 <Button color="blue" onClick={() => print()}><Icon name="print" />Print course plan</Button>
+                    <Button.Group secondary>
+                        <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
+                        <Dropdown floating button className="icon">
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => Export.File([], 4, Export.CSV)}>Export as CSV</Dropdown.Item>
+                                <Dropdown.Item onClick={() => Export.File([], 4, Export.JSON)}>Export as JSON</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Button.Group>
                 <Divider />
                 <CourseStructure
                     viewOnly

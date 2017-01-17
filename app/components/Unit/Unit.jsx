@@ -263,7 +263,7 @@ class Unit extends React.Component {
                             {!this.props.free && !this.props.viewOnly && !this.props.isDragging &&
                                 connectDragSource(<div>{unit}</div>)
                             }
-                            {!this.props.free && this.props.viewOnly && unit}
+                            {!this.props.free && this.props.viewOnly && <div>{unit}</div>}
                         </td>)
                     );
                 }}
