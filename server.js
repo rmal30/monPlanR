@@ -13,7 +13,7 @@ var frameguard = require('frameguard');
 var hpkp = require('hpkp');
 var csp = require('helmet-csp');
 
-console.log('Deploying Security Measures')
+console.log('Deploying Security Measures');
 app.use(hidePoweredBy({setTo: 'Coffee'}));
 app.use(nosniff());
 app.use(ienoopen());
@@ -29,13 +29,15 @@ app.use(hpkp({
 }));
 app.use(csp({
   directives: {
-    scriptSrc: ["'self'", "'unsafe-inline'", "www.google-analytics.com"]
+    scriptSrc: ["'self'","'unsafe-inline'", "www.google-analytics.com", "ssl.google-analytics.com"],
+    imgSrc: ["'self'", "www.google-analytics.com", "ssl.google-analytics.com", "stats.g.doubleclick.net"]
   },
   reportOnly: false,
   setAllHeaders: false,
   disabledAndroid: false,
   browserSniff: false
 }))
+console.log('Security Measures Deployed. Compressing and Serving index.html');
 
 app.use(compression())
 
