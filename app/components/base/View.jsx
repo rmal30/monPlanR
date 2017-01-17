@@ -50,6 +50,7 @@ class View extends Component {
                     </Modal.Content>
                 </ControlledModal>
                 || editCoursePlanButton}
+                <Button color="blue" onClick={() => print()}><Icon name="print" />Print course plan</Button>
                 <Divider />
                 <CourseStructure
                     viewOnly
