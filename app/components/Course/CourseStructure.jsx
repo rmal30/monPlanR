@@ -330,7 +330,11 @@ class CourseStructure extends Component {
                     startYear: startYear || new Date().getFullYear()
                 });
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                this.setState({
+                    isLoading: false
+                });
+            });
     }
 
     /**
@@ -1115,7 +1119,7 @@ class CourseStructure extends Component {
                                                 disabled={this.state.isUploading}
                                                 onClick={this.uploadCourseToDatabase}
                                                 loading={this.state.isUploading}>
-                                                <Icon name="upload" />
+                                                <Icon name={this.state.uploaded && "checkmark" || this.state.uploadingError && "x" || "upload"} />
                                                 {this.state.uploaded && "Saved course" || "Save course"}
                                             </Button>
                                         )
