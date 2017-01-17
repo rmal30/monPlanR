@@ -1,8 +1,8 @@
 import React, { PropTypes } from "react";
 import { Button, Dropdown, Header, Icon, Modal } from "semantic-ui-react";
-import fileDownload from "react-file-download";
 
 import ControlledModal from "./ControlledModal.jsx";
+import Export from "../../utils/Export.js";
 
 /**
  * The completed course modal.
@@ -14,48 +14,6 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
         trigger: PropTypes.element.isRequired,
         teachingPeriods: PropTypes.arrayOf(PropTypes.object),
         numberOfUnits: PropTypes.number.isRequired
-    };
-
-    /**
-    * The exporting to CSV code
-    * @author Eric Jiang, Saurabh Joshi
-    */
-    const exportToCSVFile = () => {
-        var csvString = "Year, Teaching Period";
-
-        for (var j = 0; j < numberOfUnits; j++) {
-            csvString += ",Unit" + (parseInt(j, 10)+1);
-        }
-        csvString += "\r\n";
-
-        for (var i = 0; i < teachingPeriods.length; i ++) {
-            var teachingPeriod = teachingPeriods[i];
-            csvString += teachingPeriod.year + "," + teachingPeriod.code + ",";
-
-            var listofUnits = teachingPeriod.units;
-            for(var k = 0; k < numberOfUnits; k++) {
-                var unit = "";
-
-                if(listofUnits[k] === null || listofUnits[k] === undefined || listofUnits[k] === "") {
-                    // do nothing
-                } else {
-                    unit = listofUnits[k].UnitCode;
-                }
-
-                csvString += unit + ",";
-            }
-
-            csvString += "\r\n";
-        }
-
-        fileDownload(csvString, "course-plan.csv");
-    };
-
-    /**
-     * Exports the course plan to JSON format and downloads it
-     */
-    const exportToJSONFile = () => {
-        fileDownload(JSON.stringify({ teachingPeriods, numberOfUnits }), "course-plan.json");
     };
 
     const closeTrigger = <Button content="Close" />;
@@ -81,8 +39,8 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                         <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
                         <Dropdown floating button className="icon">
                             <Dropdown.Menu>
-                                <Dropdown.Item onClick={exportToCSVFile}>Export as CSV</Dropdown.Item>
-                                <Dropdown.Item onClick={exportToJSONFile}>Export as JSON</Dropdown.Item>
+                                <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
+                                <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Button.Group>
