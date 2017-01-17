@@ -27,7 +27,7 @@ class LoadCourseMap extends Component {
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
             year: 0,
             specIsDisabled: true,
-            yearIsDisabled: true,
+            yearIsDisabled: true
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -68,7 +68,11 @@ class LoadCourseMap extends Component {
             CourseCode: "",
             value: "",
             modalOpen: false,
-            disabled: true
+            disabled: true,
+            specIsDisabled: true,
+            yearIsDisabled: true,
+            code: "",
+            year: 0
         });
     }
 
@@ -84,7 +88,9 @@ class LoadCourseMap extends Component {
             modalOpen: false,
             disabled: true,
             specIsDisabled: true,
-            yearIsDisabled: true
+            yearIsDisabled: true,
+            code: "",
+            year: 0
         });
 
     }
