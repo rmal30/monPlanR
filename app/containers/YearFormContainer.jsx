@@ -4,7 +4,6 @@ import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 
 import YearCalc from "../utils/YearCalc.js";
-import Tooltips from "../components/multi/tooltips.jsx";
 
 /**
  * The year form container prompts students to enter in their commercement and
@@ -94,10 +93,10 @@ class YearFormContainer extends Component {
      */
     btnStartPlan() {
         return (
-            <Tooltips
-                title="Start Now"
-                message="Click now to start planning with the current specified start/end years"
-                target={(
+            <Popup
+                header="Start Now"
+                content="Click now to start planning with the current specified start/end years"
+                trigger={(
                     <Button
                         color="green"
                         disabled={this.state.notReadyToSubmit}
@@ -113,11 +112,11 @@ class YearFormContainer extends Component {
      */
     btnEmptyPlan() {
         return (
-            <Tooltips
-                title="Empty Template"
-                message="Click here to start off with an empty template with no teaching periods added"
+            <Popup
+                header="Empty Template"
+                content="Click here to start off with an empty template with no teaching periods added"
                 direction="bottom right"
-                target={<Button>Just start with an empty template <Icon name="right arrow" /></Button>} />
+                trigger={<Button>Just start with an empty template <Icon name="right arrow" /></Button>} />
         );
     }
     /**
