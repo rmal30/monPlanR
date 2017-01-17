@@ -111,7 +111,7 @@ export default class CourseDescription extends Component {
             return (
                 <div>
                     {less}
-                    <a style={{cursor: "pointer"}} onClick={this.handleClick}>Show more</a>
+                    {description.length >= 15 && <a style={{cursor: "pointer"}} onClick={this.handleClick}>Show more</a>}
                 </div>
             );
             }
