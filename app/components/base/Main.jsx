@@ -16,7 +16,6 @@ import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import "../../resources/css/transitions.css";
 
-import FullTestSuite from "../../tests/FullTestSuite";
 
 /**
  * The main layout used for all views.
@@ -40,16 +39,6 @@ class Main extends Component {
             showStatus: false,
             courseErrors: []
         };
-
-
-        /**
-         * Test suite runs by default on refresh, if fed 'silent', 
-         * no console logs will be presented unless a component fails
-         * If fed nothing it will display just output of sucessful reducer 
-         * test groups and if fed "verbose" will output results of each individual 
-         * unit test as well.
-         */
-        FullTestSuite("silent");
 
         this.handleSearchClick = this.handleSearchClick.bind(this);
         this.handleDocumentClick = this.handleDocumentClick.bind(this);
