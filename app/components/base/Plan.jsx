@@ -202,6 +202,8 @@ class Plan extends Component {
         const courseCode = this.state.courseToLoad.split("-")[0];
         const { startYear, endYear } = this.props.location.query;
 
+        let courseToLoad; 
+
         const courseDetailButton = <Button
                                     fluid
                                     disabled={courseCode === ""}

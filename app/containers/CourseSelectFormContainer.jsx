@@ -32,9 +32,9 @@ class CourseSelectFormContainer extends Component {
 
             this.handleChange = this.handleChange.bind(this);
             this.handleResultSelect = this.handleResultSelect.bind(this);
-            this.handleLoadCourse = this.handleLoadCourse.bind(this);
             this.handleSpecialisationSelect = this.handleSpecialisationSelect.bind(this);
             this.handleYearSelect = this.handleYearSelect.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
         }
 
         /**
@@ -50,22 +50,16 @@ class CourseSelectFormContainer extends Component {
                 });
         }
 
-        /**
-         * 
-         */
-        handleLoadCourse() {
-            this.props.onCourseLoad(this.state.code, this.state.year);
-            this.setState({
-                CourseCode: "",
-                value: "",
-                modalOpen: false,
-                disabled: true,
-                specIsDisabled: true,
-                yearIsDisabled: true,
-                code: "",
-                year: 0
-            });
+        handleSubmit(event) {
+            event.preventDefault();
 
+            this.context.router.push({
+                pathname: "/plan",
+                query: {
+                    startYear: this.state.year,
+                    courseToLoad: this.state.code
+                }
+            });
         }
 
         /**
@@ -145,7 +139,7 @@ class CourseSelectFormContainer extends Component {
                     <Button
                         color="green"
                         disabled={!this.state.readyToSubmit}
-                        onClick={this.submitData}>
+                        onClick={this.handleSubmit}>
                             Start Planning <Icon name="right arrow" />
                     </Button>
                 )} />
@@ -235,7 +229,7 @@ class CourseSelectFormContainer extends Component {
                                                 fluid
                                                 color="green"
                                                 disabled={!this.state.readyToSubmit}
-                                                onClick={this.submitData}>
+                                                onClick={this.handleSubmit}>
                                                     Start Planning <Icon name="right arrow" />
                                             </Button>
                                             <Divider horizontal>OR</Divider>
