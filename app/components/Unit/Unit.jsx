@@ -210,29 +210,33 @@ class Unit extends React.Component {
             return null;
         }
 
+        const unitMessage = mobile => (
+            <Message
+                color={facultyColor}
+                className={"unit" + (!this.props.viewOnly ? " draggable" : "")}
+                size="mini">
+                <Message.Header>
+                    {this.props.code}
+                    {!this.props.viewOnly &&
+                        <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
+                            <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                        </Button.Group>
+                    }
+                </Message.Header>
+                {(!this.state.hovering || !this.showMoveUnitUI) &&
+                    `${this.props.name}`
+                }
+            </Message>
+        );
+
         const unit = (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile =>
-                    <UnitDetailModal
-                        unitCode={this.props.code}
-                        trigger={(
-                                <Message
-                                    color={facultyColor}
-                                    className={"unit" + (!this.props.viewOnly ? " draggable" : "")}
-                                    size="mini">
-                                    <Message.Header>
-                                        {this.props.code}
-                                        {!this.props.viewOnly &&
-                                            <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
-                                                <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
-                                            </Button.Group>
-                                        }
-                                    </Message.Header>
-                                    {(!this.state.hovering || !this.showMoveUnitUI) &&
-                                        `${this.props.name}`
-                                    }
-                                </Message>
-                                )} />
+                    this.props.noDetail ? unitMessage(mobile) : (
+                        <UnitDetailModal
+                            unitCode={this.props.code}
+                            trigger={unitMessage(mobile)} />
+                    )
                 }
             </MediaQuery>
         );
@@ -311,7 +315,10 @@ Unit.propTypes = {
     isError: PropTypes.bool,
     errors: PropTypes.array,
 
-    viewOnly: PropTypes.bool
+    viewOnly: PropTypes.bool,
+
+    /* Do not add unit detail modal that triggers upon click */
+    noDetail: PropTypes.bool
 };
 
 // https://github.com/gaearon/react-dnd/issues/157
