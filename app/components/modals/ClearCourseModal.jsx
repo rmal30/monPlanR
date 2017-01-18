@@ -11,7 +11,7 @@ import { Link } from "react-router";
  * reaches the confirmation modal. Useful if course has already been cleared.
  * @param {bool} fluid - Whether or not to set 100% width to the "Clear course"
  * button in the course structure screen (and not the modal).
- * @param {string} redirect - Used to indicate whether a component should re-route to a certain path once cleared, if it is defined the clear course 
+ * @param {string} redirect - Used to indicate whether a component should re-route to a certain path once cleared, if it is defined the clear course
  * button will reroute there
  * @param {string} floated - Used if you want the button to float to left or right
  */
@@ -80,7 +80,7 @@ class ClearCourseModal extends Component {
         return (
             <Modal
                 trigger={
-                    this.props.floated ? 
+                    this.props.floated ?
                     (
                         <Button
                             floated={this.props.floated}
@@ -118,7 +118,7 @@ class ClearCourseModal extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    {this.props.redirect ? <Link to={this.props.redirect}><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link> 
+                    {this.props.redirect ? <Link to={this.props.redirect}><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link>
                                          : <Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>

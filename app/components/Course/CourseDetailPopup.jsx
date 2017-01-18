@@ -1,15 +1,15 @@
 import React, { PropTypes } from "react";
-import { Button, Popup } from "semantic-ui-react";
-import MediaQuery from "react-responsive";
+import { Button, Modal } from "semantic-ui-react";
 
 import ControlledModal from "../modals/ControlledModal.jsx";
 import CourseInfoContainer from "../../containers/CourseInfoContainer.jsx";
 
 /**
+ * This functions exactly like the unitDetailPopup, it renders a modal.
+ * Currently only takes a trigger as a prop which the element that onClick,
+ * opens the modal.
+ *
  * @author JXNS
- * This magical popup functions exactly like the unitDetailPopup, it shows a popup on desktops, while rendering 
- * a modal on mobiles. Currently only takes a trigger as a prop which the element that onClick, opens the 
- * modal/popup
  */
 export default function CourseDetailPopup({ trigger, courseCode }) {
 
@@ -24,7 +24,11 @@ export default function CourseDetailPopup({ trigger, courseCode }) {
         <ControlledModal
             openTrigger={trigger}
             closeTrigger={closeTrigger}>
-            <CourseInfoContainer courseCode={courseCode} />
+            <Modal.Content style={{padding: 0}}>
+                <Modal.Description>
+                    <CourseInfoContainer modal courseCode={courseCode} />
+                </Modal.Description>
+            </Modal.Content>
         </ControlledModal>
     );
 }
