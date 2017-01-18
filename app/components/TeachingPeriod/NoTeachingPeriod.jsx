@@ -19,7 +19,8 @@ export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, 
         insertTeachingPeriod: PropTypes.func.isRequired,
         appendSemester: PropTypes.func.isRequired,
         mobile: PropTypes.bool,
-        noFloat: PropTypes.bool
+        noFloat: PropTypes.bool,
+        viewOnly: PropTypes.bool
     };
 
     return (

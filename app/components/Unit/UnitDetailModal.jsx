@@ -1,6 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Popup } from "semantic-ui-react";
-import MediaQuery from "react-responsive";
+import { Button } from "semantic-ui-react";
 
 import ControlledModal from "../modals/ControlledModal.jsx";
 import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
