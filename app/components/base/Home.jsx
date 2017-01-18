@@ -3,7 +3,7 @@ import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-re
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
-import YearFormContainer from "../../containers/YearFormContainer.jsx";
+import CourseSelectFormContainer from "../../containers/CourseSelectFormContainer.jsx";
 
 /**
  * Home page that is shown to the user when they load the domain.
@@ -114,7 +114,7 @@ class Home extends Component {
                             {!inLocalStorage &&
                                 <Container>
                                     <h2>To begin:</h2>
-                                    <YearFormContainer />
+                                    <CourseSelectFormContainer />
                                 </Container>
                             }
                     <Link to="/disclaimer"><Button style={{marginTop: "1em"}}>View disclaimer</Button></Link>
