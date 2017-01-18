@@ -29,17 +29,16 @@ const testData = {
 };
 
 /**
- * 
+ *
  */
 export default class CourseInfoContainer extends Component {
 
     /**
-     * 
+     *
      */
     constructor(props) {
         super(props);
         this.state = {
-            courseCode: this.props.courseCode,
             courseName: "",
             faculty: "",
             creditPoints: 0,
@@ -53,11 +52,32 @@ export default class CourseInfoContainer extends Component {
     }
 
     componentDidMount() {
-        UnitQuery.getCourseInfo(this.props.courseCode)
+        this.fetchData(this.props.courseCode);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.courseCode !== this.props.courseCode) {
+            this.fetchData(nextProps.courseCode);
+        }
+    }
+
+    fetchData(courseCode) {
+        this.setState({
+            courseName: "",
+            faculty: "",
+            creditPoints: 0,
+            abrTitle: "",
+            durationStr: "",
+            modeAndLocation: "",
+            awards: "",
+            courseDescription: "",
+            isLoading: true
+        });
+
+        UnitQuery.getCourseInfo(courseCode)
             .then(response => {
                 let data = response.data;
                 this.setState({
-                    courseCode: data.courseCode,
                     courseName: data.courseName,
                     faculty: data.mangFac,
                     creditPoints: data.creditPoints,
@@ -75,13 +95,13 @@ export default class CourseInfoContainer extends Component {
     }
 
     /**
-     * 
+     *
      */
     render() {
         if (this.state.isLoading) {
             return <p>Loading...</p>
         } else {
-            return <CourseInfo {...this.state} />
+            return <CourseInfo {...this.state} courseCode={this.props.courseCode} />
         }
     }
 }
