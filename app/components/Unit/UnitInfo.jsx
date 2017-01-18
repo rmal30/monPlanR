@@ -41,7 +41,9 @@ function UnitInfo(props) {
         usefulnessScore: PropTypes.number.isRequired,
         prereqs: PropTypes.string,
         prohibs: PropTypes.string,
-        offeringArray: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+        offeringArray: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+        learnResponseCount: PropTypes.number,
+        enjoyResponseCount: PropTypes.number
     };
 
     if(props.isLoading) {

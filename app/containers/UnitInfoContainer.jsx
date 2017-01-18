@@ -85,7 +85,7 @@ export default class UnitInfoContainer extends Component {
 
                     })
                     .catch(error => {
-                        console.log(error);
+                        console.error(error);
                         
                         this.setState({
                             isLoading: false,
@@ -158,7 +158,7 @@ export default class UnitInfoContainer extends Component {
                         });
                     })
                     .catch(error => {
-                        console.log(error);
+                        console.error(error);
 
                         this.setState({
                             isLoading: false,
