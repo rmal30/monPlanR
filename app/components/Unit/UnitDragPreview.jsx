@@ -11,6 +11,9 @@ import shallowEqual from "../../utils/shallowEqual.js";
 import React, { Component, PropTypes } from "react";
 import DragLayer from "react-dnd/lib/DragLayer";
 
+/**
+ * 
+ */
 function collect (monitor) {
     var item = monitor.getItem();
     return {
@@ -21,6 +24,9 @@ function collect (monitor) {
     };
 }
 
+/*
+
+### THIS FUNCTION IS CURRENTLY NOT USED
 function getItemStyles(currentOffset) {
     if (!currentOffset) {
         return {
@@ -39,19 +45,28 @@ function getItemStyles(currentOffset) {
         WebkitTransform: transform
     };
 }
+*/
 
+/**
+ * 
+ */
 class UnitDragPreview extends Component {
+    /**
+     * 
+     */
     shouldComponentUpdate(nextProps, nextState) {
         return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
     }
 
+    /**
+     * 
+     */
     render() {
-        console.log(this.props);
         const {
-            id,
-            name,
+            //id,
+            //name,
             isDragging,
-            currentOffset
+            //currentOffset
         } = this.props;
 
         if (!isDragging) {

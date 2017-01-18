@@ -406,7 +406,7 @@ class CourseStructure extends Component {
                 this.loadCourseFromAPI(data, year);
             })
             .catch(err => {
-                console.log(err);
+                console.error(err);
 
                 this.setState({
                     isLoading: false,
@@ -415,6 +415,9 @@ class CourseStructure extends Component {
             });
     }
 
+    /**
+     * As the name implies, this loads the course from our API
+     */
     loadCourseFromDatabase() {
         this.setState({
             isLoading: true
@@ -434,6 +437,7 @@ class CourseStructure extends Component {
                 });
             })
             .catch(error => {
+                console.error(error);
                 this.setState({
                     isLoading: false
                 });
@@ -491,7 +495,6 @@ class CourseStructure extends Component {
                     uploaded: true,
                     uploadedCourseID: response.data
                 });
-                console.log(response);
             })
             .catch(error => {
                 this.setState({
@@ -559,6 +562,9 @@ class CourseStructure extends Component {
         }
     }
 
+    /**
+     * @author Saurabh Joshi
+     */
     componentWillUnmount() {
         this.props.setStatusVisibility(false);
 
@@ -1103,9 +1109,12 @@ class CourseStructure extends Component {
                     insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
                     appendSemester={this.appendSemester}
                     noFloat
-                     />);
+            />);
         }
 
+        /**
+         * 
+         */
         const editCoursePlanButton = mobile => <Button
                                         fluid={mobile}
                                         color="teal"
@@ -1338,6 +1347,7 @@ CourseStructure.propTypes = {
     removeFromCourse: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
+    handleEditCoursePlanClick: PropTypes.func,
 
     /* Validation */
     setStatusVisibility: PropTypes.func.isRequired,

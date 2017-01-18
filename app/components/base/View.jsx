@@ -1,16 +1,27 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Divider, Icon } from "semantic-ui-react";
+import { Container, Divider } from "semantic-ui-react";
 
 import CourseStructure from "../Course/CourseStructure.jsx";
 import Home from "./Home.jsx";
 
+/**
+ * 
+ */
 class View extends Component {
+    
+    /**
+     * 
+     */
     constructor(props) {
         super(props);
         this.state = {
             switchToEditCourse: false
         };
     }
+
+    /**
+     * 
+     */
     handleEditCoursePlanClick(confirm) {
         if(!Home.checkIfCourseStructureIsInLocalStorage() || confirm) {
             this.setState({
@@ -18,6 +29,10 @@ class View extends Component {
             });
         }
     }
+
+    /**
+     * 
+     */
     render() {
         return (
             <Container text style={{margin: "5em 0"}}>

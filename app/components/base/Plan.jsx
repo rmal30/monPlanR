@@ -56,11 +56,10 @@ class Plan extends Component {
         this.props.attachAddToCourse(this.addToCourse);
         // this.props.attachGetCourseErrors(this.getCourseErrors);
         const stringifedJSON = localStorage.getItem("courseStructure");
-        const cs = JSON.parse(stringifedJSON)
-        console.log(cs)
+        const cs = JSON.parse(stringifedJSON);
         if(!cs) {
             const {startYear, courseToLoad} = this.props.location.query;
-            this.handleCourseLoad(courseToLoad, startYear);
+            this.handleCourseLoad(courseToLoad, parseInt(startYear, 10));
         }
     }
 
@@ -209,8 +208,6 @@ class Plan extends Component {
         const courseCode = this.state.courseToLoad.split("-")[0];
         const { startYear, endYear } = this.props.location.query;
 
-        let courseToLoad; 
-
         const courseDetailButton = <Button
                                     fluid
                                     disabled={courseCode === ""}
@@ -274,7 +271,9 @@ Plan.propTypes = {
             /* When a student begins their course */
             startYear: PropTypes.string,
             /* When the student is expected to graduate */
-            endYear: PropTypes.string
+            endYear: PropTypes.string,
+            /* What course the student has selected*/
+            courseToLoad: PropTypes.string
         }).isRequired
     }).isRequired,
 

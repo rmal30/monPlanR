@@ -53,7 +53,7 @@
   "scripts": {
     "production": "webpack --progress -p",
     "dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
-    "test": "npm run test:lint && npm run test:unit",
+    "test": "npm run test:unit; npm run test:lint",
     "test:lint": "eslint --ext .jsx --ext .js app",
     "test:unit": "mocha --compilers babel-core/register tests/*.spec.js*",
     "fix": "eslint --ext .jsx --ext .js app --fix",

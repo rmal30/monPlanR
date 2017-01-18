@@ -68,10 +68,16 @@ class Main extends Component {
         this.attachAddToCourse(null);
     }
 
+    /**
+     * Sets the visibility of the error status section
+     */
     setStatusVisibility(showStatus) {
         this.setState({ showStatus });
     }
 
+    /**
+     * Triggers the updating of the error status section
+     */
     updateStatus(courseErrors) {
         this.setState({ courseErrors });
     }
