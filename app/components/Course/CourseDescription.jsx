@@ -1,7 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 
+/**
+ * This serves as the interpreter for the unique and frankly wacky way in which Monash stores it's 
+ * course information strings. Tilde's represent new lines, plus signs represent list items and random 
+ * numbers of equal signs greater than 2 represent headings.
+ * '
+ */
 export default class CourseDescription extends Component {
     
+    /**
+     * We first process the data then pass it into the state
+     */
     constructor(props) {
         super(props);
         let processedDescription = this.processData(this.props.description);
@@ -9,12 +18,18 @@ export default class CourseDescription extends Component {
         this.state = {
             description: processedDescription,
             showingMore: false,
-        }
+        };
 
         this.handleClick = this.handleClick.bind(this);
     }
 
 
+    /**
+     * The 'parser' for the data, it iterates through the string, first seperating into 
+     * paragraphs based where the newlines are (represented by ~)
+     * It then iterates through each character to interpret the types of elements they should render 
+     * as. 
+     */
     processData(inputString){
         let keyID = 0;
         let paragraphArray = inputString.split(". ~");
@@ -50,7 +65,7 @@ export default class CourseDescription extends Component {
                     currentStr = "";
                     array = true;
                 } else if (array && char === "~") {
-                    arrayVal.push(currentStr.replace("~", " "))
+                    arrayVal.push(currentStr.replace("~", " "));
                     currentStr = "";
                     potentialArrayEnd = true;
                 } else if (array && potentialArrayEnd && char !== " " && char !== "+") {
@@ -67,33 +82,41 @@ export default class CourseDescription extends Component {
                 }
             }
             if(currentStr !== "") {
-                description.push(["p", currentStr.replace("~", " ")])
-            };
+                description.push(["p", currentStr.replace("~", " ")]);
+            }
         }
 
-        description = description.map((item, index) => {
+        description = description.map((item) => {
             if(item[0] === "p"){
-                let para = item[1].replace("~", " ")
-                return <p key={keyID++}>{para}</p>
+                let para = item[1].replace("~", " ");
+                return <p key={keyID++}>{para}</p>;
             } else if (item[0] === "h"){
-                return <h5 key={keyID++}>{item[1].replace("~", " ")}</h5>
+                return <h5 key={keyID++}>{item[1].replace("~", " ")}</h5>;
             } else if(item[0] === "a"){
-                let list = item[1].map(item => {return <li key={keyID++}>{item.replace("~", " ")}</li>});
-                return <ul key={keyID++}>{list}</ul>
+                let list = item[1].map(item => {return <li key={keyID++}>{item.replace("~", " ")}</li>;});
+                return <ul key={keyID++}>{list}</ul>;
             } else {
-                return <h5 key={keyID++}>Error displaying some data...</h5>
+                return <h5 key={keyID++}>Error displaying some data...</h5>;
             }
         });
         
-      return description;
+        return description;
     }
 
+    /**
+     * Shows more or less based on state
+     */
     handleClick() {
         let newValue = !this.state.showingMore;
         this.setState({showingMore: newValue});
     }
     
 
+    /**
+     * We don't want to show too much information by default, as the course information writings can be quite 
+     * long. So insteadd we render a show more/less link below the text to let the user decide. If the number of paragraphs
+     * is under a certain number, we don't bother with the show more/less link as it would render no change in text length'
+     */
     render() {
         const { showingMore, description } = this.state;
         let less = description[0];
@@ -106,7 +129,7 @@ export default class CourseDescription extends Component {
                     {description}
                     <a style={{cursor: "pointer"}} onClick={this.handleClick}>Show less</a>
                 </div>
-                );
+            );
         } else {
             return (
                 <div>
@@ -114,7 +137,11 @@ export default class CourseDescription extends Component {
                     {description.length >= 15 && <a style={{cursor: "pointer"}} onClick={this.handleClick}>Show more</a>}
                 </div>
             );
-            }
         }
-
     }
+
+}
+
+CourseDescription.propTypes = {
+    description: PropTypes.string
+};
