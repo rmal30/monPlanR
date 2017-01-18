@@ -269,6 +269,9 @@ Plan.propTypes = {
         }).isRequired
     }).isRequired,
 
+    attachAddToCourse: PropTypes.func.isRequired,
+    detachAddToCourse: PropTypes.func.isRequired,
+
     /* Validation status */
     setStatusVisibility: PropTypes.func.isRequired,
     updateStatus: PropTypes.func.isRequired,
