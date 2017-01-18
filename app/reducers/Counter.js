@@ -1,13 +1,13 @@
 /**
- * The following serves as an example of a reducer coding patter we could follow, 
- * this includes unit testing built in so we 
+ * The Counter reducer is in charge of controlling the state of the cost and credit point 
+ * counters 
  */
-
 const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
     
     const { value } = action; //pull out the value from the payload
 
     switch(action.type) {
+    
         case "INCREMENT_CREDIT_POINTS":
             return Object.assign({}, state, {creditPoints: state.creditPoints + value});
         
@@ -17,9 +17,8 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
             } else {
                 return Object.assign({}, state, {creditPoints: state.creditPoints - value});
             }
-        
         case "INCREMENT_COST":
-            return Object.assign({}, state, {cost: state.cost + value});
+            return (Object.assign({}, state, {cost: state.cost + value}));
         
         case "DECREMENT_COST":
             if(state.cost - value < 0){
@@ -31,6 +30,6 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
         default:
             return state;
     }
-}
+};
 
-export default Counter
+export default Counter;

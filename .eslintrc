@@ -8,7 +8,7 @@
     },
     "rules": {
         "eqeqeq": "error",
-        "indent": "warn",
+        "indent": ["warn", 4, {"SwitchCase": 1}],
         "curly": "warn",
         "quotes": ["warn", "double"],
         "array-bracket-spacing": ["warn", "never"],
