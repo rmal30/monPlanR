@@ -26,6 +26,7 @@ class CourseSelectFormContainer extends Component {
                 year: 0,
                 specIsDisabled: true,
                 yearIsDisabled: true,
+                readyToSubmit: false,
                 courseSelected: false
             };
 
@@ -126,8 +127,10 @@ class CourseSelectFormContainer extends Component {
          */
         handleYearSelect(e, { value }) {
             this.setState({
-                year: value
+                year: value,
+                readyToSubmit: true
             });
+            
         }
 
           /**
@@ -141,7 +144,7 @@ class CourseSelectFormContainer extends Component {
                 trigger={(
                     <Button
                         color="green"
-                        disabled={this.state.specIsDisabled || this.state.yearIsDisabled}
+                        disabled={!this.state.readyToSubmit}
                         onClick={this.submitData}>
                             Start Planning <Icon name="right arrow" />
                     </Button>
@@ -231,7 +234,7 @@ class CourseSelectFormContainer extends Component {
                                             <Button
                                                 fluid
                                                 color="green"
-                                                disabled={this.state.notReadyToSubmit}
+                                                disabled={!this.state.readyToSubmit}
                                                 onClick={this.submitData}>
                                                     Start Planning <Icon name="right arrow" />
                                             </Button>
