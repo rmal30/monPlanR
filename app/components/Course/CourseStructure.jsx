@@ -1106,7 +1106,8 @@ class CourseStructure extends Component {
                      />);
         }
 
-        const editCoursePlanButton = <Button
+        const editCoursePlanButton = mobile => <Button
+                                        fluid={mobile}
                                         color="teal"
                                         floated="right"
                                         loading={this.props.switchToEditCourse}
@@ -1166,52 +1167,63 @@ class CourseStructure extends Component {
                     </span>
                 }
                 {this.props.viewOnly &&
-                    <Container>
-                        {Home.checkIfCourseStructureIsInLocalStorage() &&
-                            <ControlledModal
-                                openTrigger={editCoursePlanButton}
-                                positiveButton={<Button color="red" disabled={this.state.switchToEditCourse} loading={this.state.switchToEditCourse} onClick={() => this.props.handleEditCoursePlanClick(true)}>Discard draft and edit course plan</Button>}
-                                closeTrigger={<Button>Cancel</Button>}>
-                                <Modal.Header>
-                                    Discard draft?
-                                </Modal.Header>
-                                <Modal.Content>
-                                    <Modal.Description>
-                                        <p>
-                                            You have a draft course plan currently saved in
-                                            your browser. Are you sure you want discard your
-                                            draft to load this course plan?
-                                        </p>
-                                    </Modal.Description>
-                                </Modal.Content>
-                            </ControlledModal>
-                        || editCoursePlanButton}
-                        <Button color="blue" onClick={() => print()}><Icon name="print" />Print course plan</Button>
-                            <Button.Group secondary>
-                                <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
-                                <Dropdown floating button className="icon">
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item onClick={() => Export.File(this.state.teachingPeriods, this.state.numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => Export.File(this.state.teachingPeriods, this.state.numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </Button.Group>
-                        <Divider />
-                    </Container>
+                    <MediaQuery maxDeviceWidth={767}>
+                        {mobile =>
+                            <Container>
+                                {Home.checkIfCourseStructureIsInLocalStorage() &&
+                                    <ControlledModal
+                                        openTrigger={editCoursePlanButton(mobile)}
+                                        positiveButton={<Button color="red" disabled={this.state.switchToEditCourse} loading={this.state.switchToEditCourse} onClick={() => this.props.handleEditCoursePlanClick(true)}>Discard draft and edit course plan</Button>}
+                                        closeTrigger={<Button>Cancel</Button>}>
+                                        <Modal.Header>
+                                            Discard draft?
+                                        </Modal.Header>
+                                        <Modal.Content>
+                                            <Modal.Description>
+                                                <p>
+                                                    You have a draft course plan currently saved in
+                                                    your browser. Are you sure you want discard your
+                                                    draft to load this course plan?
+                                                </p>
+                                            </Modal.Description>
+                                        </Modal.Content>
+                                    </ControlledModal>
+                                || editCoursePlanButton(mobile)}
+                                {mobile && <div><br /><br /></div>}
+                                <Button
+                                    fluid={mobile}
+                                    color="blue"
+                                    onClick={() => print()}><Icon name="print" />Print course plan</Button>
+                                {mobile && <br />}
+                                <Button.Group fluid={mobile} secondary>
+                                    <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
+                                    <Dropdown floating button className="icon">
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item onClick={() => Export.File(this.state.teachingPeriods, this.state.numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => Export.File(this.state.teachingPeriods, this.state.numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Button.Group>
+                                <Divider />
+                            </Container>
+                        }
+                    </MediaQuery>
                 }
-                <MediaQuery maxDeviceWidth={767}>
-                    <Popup
-                        trigger={<Button icon="plus" labelPosition="left" className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" fluid content="Add overload column" />}
-                        content="Click this to overload a teaching period."
-                        size='mini'
-                        positioning='bottom center'
-                        />
-                    <ConfirmDeleteOverload
-                        isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0}
-                        getAffectedUnits={this.getAffectedUnits}
-                        mobile
-                        handleRemove={this.decrementNumberOfUnits.bind(this)} />
-                </MediaQuery>
+                {!this.props.viewOnly &&
+                    <MediaQuery maxDeviceWidth={767}>
+                        <Popup
+                            trigger={<Button icon="plus" labelPosition="left" className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" fluid content="Add overload column" />}
+                            content="Click this to overload a teaching period."
+                            size='mini'
+                            positioning='bottom center'
+                            />
+                        <ConfirmDeleteOverload
+                            isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0}
+                            getAffectedUnits={this.getAffectedUnits}
+                            mobile
+                            handleRemove={this.decrementNumberOfUnits.bind(this)} />
+                    </MediaQuery>
+                }
                 <Table celled fixed striped compact>
                     {this.state.isLoading && <Loader active size="huge" />}
                     <MediaQuery minDeviceWidth={768}>
@@ -1264,12 +1276,14 @@ class CourseStructure extends Component {
                                     trigger={<Button primary fluid={mobile} className="no-print">Complete course plan</Button>}
                                     teachingPeriods={this.state.teachingPeriods}
                                     numberOfUnits={this.state.numberOfUnits} />
+                                {mobile && <br />}
                                 <Popup
                                     on="click"
                                     wide
                                     trigger={
                                         (
                                             <Button
+                                                fluid={mobile}
                                                 color={this.state.uploadingError ? "red" : "teal"}
                                                 disabled={this.state.isUploading}
                                                 onClick={this.uploadCourseToDatabase}
