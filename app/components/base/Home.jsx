@@ -3,7 +3,7 @@ import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-re
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
-import CourseSelectFormContainer from "../../containers/CourseSelectFormContainerV2.jsx";
+import CourseSelectFormContainer from "../../containers/CourseSelectFormContainer.jsx";
 
 /**
  * Home page that is shown to the user when they load the domain.
