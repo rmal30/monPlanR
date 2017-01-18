@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import CourseInfo from "../components/Course/CourseInfo.jsx";
 import UnitQuery from "../utils/UnitQuery";
 
-import { Dimmer, Header, Icon, Loader } from "semantic-ui-react";
+import { Dimmer, Header, Icon, Loader, Segment } from "semantic-ui-react";
 
 /**
  * Handles data fetching for course information.
@@ -66,6 +66,9 @@ class CourseInfoContainer extends Component {
         UnitQuery.getCourseInfo(courseCode)
             .then(response => {
                 let data = response.data;
+
+                return;
+
                 this.setState({
                     courseName: data.courseName,
                     faculty: data.mangFac,
@@ -95,23 +98,42 @@ class CourseInfoContainer extends Component {
      */
     render() {
         if (this.state.isLoading) {
-            return (
-                <Dimmer active inverted>
-                    <Loader size="massive" inverted>Loading</Loader>
-                </Dimmer>
-            );
+            if(this.props.modal) {
+                return <Segment textAlign="center"><Header as="h1">Loading...</Header></Segment>;
+            } else {
+                return (
+                    <Dimmer active inverted>
+                        <Loader size="massive" inverted>Loading...</Loader>
+                    </Dimmer>
+                );
+            }
         } else if(this.state.isError) {
-            return (
-                <Dimmer active inverted>
-                    <Header as="h1" icon>
-                        <Icon color="red" name="warning circle" />
-                        Failed to load course
-                        <Header.Subheader>
-                            Please check your connection and try again.
-                        </Header.Subheader>
-                    </Header>
-                </Dimmer>
-            );
+            if(this.props.modal) {
+                return (
+                    <Segment textAlign="center">
+                        <Header as="h1" icon>
+                            <Icon color="red" name="warning circle" />
+                            Failed to load course
+                            <Header.Subheader>
+                                Please check your connection and try again.
+                            </Header.Subheader>
+                        </Header>
+                    </Segment>
+                );
+            } else {
+                return (
+                    <Dimmer active inverted>
+                        <Header as="h1" icon>
+                            <Icon color="red" name="warning circle" />
+                            Failed to load course
+                            <Header.Subheader>
+                                Please check your connection and try again.
+                            </Header.Subheader>
+                        </Header>
+                    </Dimmer>
+                );
+            }
+
         } else {
             return <CourseInfo {...this.state} courseCode={this.props.courseCode} />;
         }
@@ -119,7 +141,8 @@ class CourseInfoContainer extends Component {
 }
 
 CourseInfoContainer.propTypes = {
-    courseCode: PropTypes.string
+    courseCode: PropTypes.string,
+    modal: PropTypes.bool
 };
 
 export default CourseInfoContainer;

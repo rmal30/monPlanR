@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dropdown, Divider, Icon, Input, Message, Modal, Popup, Table, Loader } from "semantic-ui-react";
+import { Button, Container, Dimmer, Divider, Dropdown, Icon, Input, Loader, Message, Modal, Popup, Segment, Table } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
@@ -1233,8 +1233,8 @@ class CourseStructure extends Component {
                             handleRemove={this.decrementNumberOfUnits.bind(this)} />
                     </MediaQuery>
                 }
-                <Table celled fixed striped compact>
-                    {this.state.isLoading && <Loader active size="huge" />}
+                <Dimmer.Dimmable as={Table} celled fixed striped compact>
+                    {this.state.isLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
@@ -1262,7 +1262,7 @@ class CourseStructure extends Component {
                     <Table.Body>
                         {tableRows}
                     </Table.Body>
-                </Table>
+                </Dimmer.Dimmable>
                 {!this.props.viewOnly &&
                     <MediaQuery maxDeviceWidth={767}>
                         {mobile =>
