@@ -30,6 +30,8 @@ class CourseSelectFormContainer extends Component {
                 courseSelected: false
             };
 
+            this.timer = null;
+
             this.handleChange = this.handleChange.bind(this);
             this.handleResultSelect = this.handleResultSelect.bind(this);
             this.handleSpecialisationSelect = this.handleSpecialisationSelect.bind(this);
@@ -48,6 +50,13 @@ class CourseSelectFormContainer extends Component {
                 .catch(err => {
                     console.error(err);
                 });
+        }
+
+        componentWillUnmount() {
+            if(this.timer) {
+                clearTimeout(this.timer);
+                this.timer = null;
+            }
         }
 
         handleSubmit(event) {
@@ -80,7 +89,6 @@ class CourseSelectFormContainer extends Component {
                 };
             });
             this.setState({
-                value: value.title,
                 CourseCode: value.title,
                 specIsDisabled: false,
                 specialisations,
@@ -93,17 +101,32 @@ class CourseSelectFormContainer extends Component {
          * On change to input we run a fuzzy search to get results and process the results into a semantic-ui search
          * friendly form (they require results in the form of title and description)
          */
-        handleChange(e){
-            let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
+        handleChange(e) {
+            if(this.timer) {
+                clearTimeout(this.timer);
+                this.timer = null;
+            }
 
-            results = results.map(item => {
-                return {title: item.courseCode, description: item.courseName, data: item};
-            });
+            const { value } = e.target;
 
-            this.setState({
-                value: e.target.value,
-                results: results
-            });
+            if(!this.state.isLoading) {
+                this.setState({
+                    isLoading: true
+                });
+            }
+
+            this.timer = setTimeout(() => {
+                let results = FuzzySearch.search(value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
+
+                results = results.map(item => {
+                    return {title: item.courseCode, description: item.courseName, data: item};
+                });
+
+                this.setState({
+                    results: results,
+                    isLoading: false
+                });
+            }, 500);
         }
 
         /**
@@ -187,7 +210,6 @@ class CourseSelectFormContainer extends Component {
                             onResultSelect={this.handleResultSelect}
                             onSearchChange={this.handleChange}
                             results={this.state.results}
-                            value={this.state.value}
                             placeholder="Search for your course"
                             selectFirstResult
                             noResultsMessage="No courses found"
@@ -218,16 +240,17 @@ class CourseSelectFormContainer extends Component {
                         <br />
                     </Grid.Column>
                     <MediaQuery maxDeviceWidth={767}>
-                        {mobile => {if (!mobile){
-                            return (
-                                <Grid.Column width={12} style={{height: '500px', overflowY: 'scroll'}}>
-                                    {this.state.courseSelected ? <CourseInfoContainer courseCode={this.state.CourseCode}/> : defaultTemplate}
-                                </Grid.Column>
-                            );
-                        } else {
-                            return null;
+                        {mobile => {
+                            if(!mobile) {
+                                return (
+                                    <Grid.Column width={12} style={{height: 500, overflowY: "auto"}}>
+                                        {this.state.courseSelected ? <CourseInfoContainer courseCode={this.state.CourseCode}/> : defaultTemplate}
+                                    </Grid.Column>
+                                );
+                            } else {
+                                return null;
+                            }
                         }}
-                        }
                     </MediaQuery>
 
                 </Grid>
