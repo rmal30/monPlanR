@@ -131,9 +131,16 @@ class YearFormContainer extends Component {
         // currently using onBlur instead of onChange for faster input, but need to test this to see if it will present an issue later.
 
         return (
+            
+            <Container>
+            <br />
+            <h1>Welcome to monPlan!</h1>
+            <p>
+                
+            </p>
             <Form size="large" error>
                 <Segment raised>
-                    <p>Please enter your commencement and graduation year to get started. This will generate a course structure of semester one
+                    <p>Please enter your commencement and graduation year. This will generate a course structure of semester one
                         and semester two teaching periods.</p>
                     <p>Alternatively, you can start with an empty template if your course structure mostly has non-semester teaching periods.</p>
                     <Form.Group widths="equal">
@@ -203,6 +210,8 @@ class YearFormContainer extends Component {
                     </MediaQuery>
                 </Segment>
             </Form>
+            <div className="yearFormPush" />
+            </Container>
         );
     }
 }

@@ -114,6 +114,10 @@ html, body {
     height: 500px;
 }
 
+.yearFormPush {
+    height: 500px;
+}
+
 .sidebar .item > .header {
     text-align: left;
     margin-top: 1em !important;

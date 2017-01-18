@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup, Search } from "semantic-ui-react";
+import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup, Search, Grid } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import FuzzySearch from "../utils/FuzzySearch";
 import UnitQuery from "../utils/UnitQuery";
-
 import YearCalc from "../utils/YearCalc.js";
-
+import CourseInfoContainer from "./CourseInfoContainer.jsx";
 /**
  *
  */
@@ -26,13 +25,13 @@ class CourseSelectFormContainer extends Component {
                 years: YearCalc.getStartYearVals(this.startYearPlaceholder),
                 year: 0,
                 specIsDisabled: true,
-                yearIsDisabled: true
+                yearIsDisabled: true,
+                courseSelected: false
             };
 
             this.handleChange = this.handleChange.bind(this);
             this.handleResultSelect = this.handleResultSelect.bind(this);
             this.handleLoadCourse = this.handleLoadCourse.bind(this);
-            this.handleCancel = this.handleCancel.bind(this);
             this.handleSpecialisationSelect = this.handleSpecialisationSelect.bind(this);
             this.handleYearSelect = this.handleYearSelect.bind(this);
         }
@@ -51,33 +50,7 @@ class CourseSelectFormContainer extends Component {
         }
 
         /**
-         * Opens the modal
-         */
-        handleOpen() {
-            this.setState({
-                modalOpen: true
-            });
-        }
-
-        /**
-         * Closes the modal
-         */
-        handleCancel() {
-            this.setState({
-                CourseCode: "",
-                value: "",
-                modalOpen: false,
-                disabled: true,
-                specIsDisabled: true,
-                yearIsDisabled: true,
-                code: "",
-                year: 0
-            });
-        }
-
-        /**
-         * Called when the user presses the load course button, we close the modal, reset the component and call the parents
-         * onCourseLoad function, feeding it the courseCode
+         * 
          */
         handleLoadCourse() {
             this.props.onCourseLoad(this.state.code, this.state.year);
@@ -115,7 +88,8 @@ class CourseSelectFormContainer extends Component {
                 value: value.title,
                 CourseCode: value.title,
                 specIsDisabled: false,
-                specialisations
+                specialisations,
+                courseSelected: true
             });
 
         }
@@ -156,6 +130,38 @@ class CourseSelectFormContainer extends Component {
             });
         }
 
+          /**
+     * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
+     */
+    btnStartPlan() {
+        return (
+            <Popup
+                header="Start Now"
+                content="Click now to start planning with the current specified start/end years"
+                trigger={(
+                    <Button
+                        color="green"
+                        disabled={this.state.specIsDisabled || this.state.yearIsDisabled}
+                        onClick={this.submitData}>
+                            Start Planning <Icon name="right arrow" />
+                    </Button>
+                )} />
+        );
+    }
+
+    /**
+     * btnEmptyPlan is a function that returns a tooltipped button for the start year form
+     */
+    btnEmptyPlan() {
+        return (
+            <Popup
+                header="Empty Template"
+                content="Click here to start off with an empty template with no teaching periods added"
+                direction="bottom right"
+                trigger={<Button>Start without selecting course<Icon name="right arrow" /></Button>} />
+        );
+    }
+
         /**
          * Returns a Modal prompting the user to enter which course map they would
          * like to load.
@@ -165,14 +171,9 @@ class CourseSelectFormContainer extends Component {
         render() {
             return (
                 <div>
-                
-                        <Icon name="external square" /> Load Course Map
-                    
-                            <p>
-                                To load a course map, enter your course name and it
-                                will automatically load up a template for you.
-                            </p>
-                        <br />
+                <Grid celled stackable>
+                    <Grid.Column width={4}>
+                        <h4>Find your course:</h4>
                         <Search
                             loading={this.state.isLoading}
                             onResultSelect={this.handleResultSelect}
@@ -185,7 +186,7 @@ class CourseSelectFormContainer extends Component {
                             noResultsDescription="We only store 2017 course maps for most courses across Monash."
                             {...this.props}
                         />
-
+                        <h4>Choose your area of study:</h4>
                         <br />
                         <Dropdown
                             disabled={this.state.specIsDisabled}
@@ -193,21 +194,69 @@ class CourseSelectFormContainer extends Component {
                             search
                             selection
                             options={this.state.specialisations}
-                            onChange={this.handleSpecialisationSelect}/>
+                            onChange={this.handleSpecialisationSelect}
+                        />
                         <br />
-                        <br />
-                        <p>
-                            Please note that all course maps are for students who
-                            commence their course in 2017, so your course map may
-                            differ if you started your course before 2017.
-                        </p>
+                        <h4>Select your start year:</h4>
                         <Dropdown
                             disabled={this.state.yearIsDisabled}
                             placeholder='Select Starting Year'
                             search
                             selection
                             options={this.state.years}
-                            onChange={this.handleYearSelect}/>
+                            onChange={this.handleYearSelect}
+                        />
+                        <br />
+                        <br />
+                    </Grid.Column>
+                    <MediaQuery maxDeviceWidth={767}>
+                        {mobile => {if (!mobile){
+                            return (
+                                <Grid.Column width={12} style={{height: '500px', overflowY: 'scroll'}}>
+                                    {this.state.courseSelected ? <CourseInfoContainer courseCode={this.state.CourseCode}/> : <p>Still need to select course...</p>}
+                                </Grid.Column>
+                            );
+                        } else {
+                            return null;
+                        }}
+                        }
+                    </MediaQuery>
+                    
+                </Grid>
+                <MediaQuery maxDeviceWidth={767}>
+                            {mobile => {
+                                if(mobile) {
+                                    return (
+                                        <Container>
+                                            <Button
+                                                fluid
+                                                color="green"
+                                                disabled={this.state.notReadyToSubmit}
+                                                onClick={this.submitData}>
+                                                    Start Planning <Icon name="right arrow" />
+                                            </Button>
+                                            <Divider horizontal>OR</Divider>
+                                            <Link to="/yearForm">
+                                                <Button fluid>
+                                                    Start without selecting course
+                                                </Button>
+                                            </Link>
+                                        </Container>
+                                    );
+                                } else {
+                                    return (
+                                        <Button.Group>
+                                            {this.btnStartPlan()}
+                                            <Button.Or />
+                                            <Link to="/yearForm">
+                                                {this.btnEmptyPlan()}
+                                            </Link>
+                                        </Button.Group>
+                                    );
+                                }
+                            }
+                        }
+                </MediaQuery>
                 </div>
             );
         }

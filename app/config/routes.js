@@ -14,7 +14,7 @@ import MissingPage from "../components/base/404.jsx";
 export default (
     <Route path="/" component={Main}>
         <IndexRoute component={Home} />
-        <Route path="yearSelect" component={YearFormContainer} />
+        <Route path="yearForm" component={YearFormContainer} />
         <Route path="plan(/?courseDetails)" component={Plan} handler={Home} />
         <Route path="view/:id" component={View} />
         <Route path="disclaimer" component={Disclaimer} />

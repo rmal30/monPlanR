@@ -117,7 +117,6 @@ class Home extends Component {
                                     <CourseSelectFormContainer />
                                 </Container>
                             }
-                    <Link to="/disclaimer"><Button style={{marginTop: "1em"}}>View disclaimer</Button></Link>
                     <div className={Home.checkIfCourseStructureIsInLocalStorage() ? "welcomeBackMargin" : "welcomeMargin"} />
                 </div>
             </Container>
