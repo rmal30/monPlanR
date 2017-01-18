@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup, Search, Grid } from "semantic-ui-react";
+import { Button, Divider, Dropdown, Container, Form, Header, Icon, Segment, Popup, Search, Grid } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import FuzzySearch from "../utils/FuzzySearch";
@@ -124,7 +124,7 @@ class CourseSelectFormContainer extends Component {
                 year: value,
                 readyToSubmit: true
             });
-            
+
         }
 
           /**
@@ -166,6 +166,17 @@ class CourseSelectFormContainer extends Component {
          * @returns {Modal}
          */
         render() {
+            const defaultTemplate = (
+                <Container>
+                    <br />
+                    <Header as="h1" icon textAlign="center">
+                        <Icon name="graduation" />
+                        Select a course
+                        <Header.Subheader>Course details will be shown here</Header.Subheader>
+                    </Header>
+                </Container>
+            );
+
             return (
                 <div>
                 <Grid celled stackable>
@@ -210,7 +221,7 @@ class CourseSelectFormContainer extends Component {
                         {mobile => {if (!mobile){
                             return (
                                 <Grid.Column width={12} style={{height: '500px', overflowY: 'scroll'}}>
-                                    {this.state.courseSelected ? <CourseInfoContainer courseCode={this.state.CourseCode}/> : <p>Still need to select course...</p>}
+                                    {this.state.courseSelected ? <CourseInfoContainer courseCode={this.state.CourseCode}/> : defaultTemplate}
                                 </Grid.Column>
                             );
                         } else {
@@ -218,7 +229,7 @@ class CourseSelectFormContainer extends Component {
                         }}
                         }
                     </MediaQuery>
-                    
+
                 </Grid>
                 <MediaQuery maxDeviceWidth={767}>
                             {mobile => {
