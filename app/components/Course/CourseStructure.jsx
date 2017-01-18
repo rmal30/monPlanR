@@ -232,6 +232,13 @@ class CourseStructure extends Component {
         return errors;
     }
 
+    /**
+     * [teachingPeriodIndex, unitIndex]
+     * If null is specified, then it highlights everything
+     * e.g. [0, null] highlights all units in first teaching period
+     * e.g. [null, 4] highlights all units in fourth Column
+     * e.g. [null, null] highlights all units in course plan.
+     */
     invalidCoordinatesForTempUnit() {
         let tempUnit;
         let duplicateGraceFlag = false;
@@ -246,14 +253,10 @@ class CourseStructure extends Component {
 
         const { teachingPeriods } = this.state;
 
-        const allCoordinates = [];
-
         let duplicateFound = false;
 
         for(let i = 0; i < teachingPeriods.length; i++) {
             for(let j = 0; j < teachingPeriods[i].units.length; j++) {
-                allCoordinates.push([i, j]);
-
                 if(!duplicateFound) {
                     if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].UnitCode === tempUnit.UnitCode) {
                         if(duplicateGraceFlag) {
@@ -268,10 +271,65 @@ class CourseStructure extends Component {
         }
 
         if(duplicateFound) {
-            return allCoordinates;
+            return [[null, null]];
         }
 
-        return [];
+        // Check if unit in the teaching period is being offered
+        let codeMap = {
+            "FY-01": "Full year",
+            "S1-01": "First semester",
+            "S2-01": "Second semester",
+            "SSA-02": "Summer semester A",
+            "SSB-01": "Summer semester B",
+            "WS-01": "Winter semester"
+        };
+
+
+        let offerings = tempUnit.LocationAndTime;
+
+        if(!offerings) {
+            return [];
+        }
+
+        const coordinates = [];
+
+        for(let i = 0; i < this.state.teachingPeriods.length; i++) {
+
+            const teachingPeriodStr = codeMap[this.state.teachingPeriods[i].code];
+
+            if (teachingPeriodStr !== undefined) {
+                // semester we're checking against is covered by mapping'
+                let re = new RegExp(teachingPeriodStr);
+
+                let isValid = false;
+
+                for(let k = 0; k < offerings.length; k++) {
+                    let locations = offerings[k][1];
+                    if(!locations) {
+                        continue;
+                    }
+
+                    for(let l = 0; l < locations.length; l++) {
+                        let offering = locations[l];
+                        let isMatch = re.test(offering);
+
+                        if(isMatch) {
+                            isValid = true;
+                            break;
+                        }
+                    }
+                    if(isValid) {
+                        break;
+                    }
+                }
+
+                if (!isValid) {
+                    coordinates.push([i, null]);
+                }
+            }
+        }
+
+        return coordinates;
     }
 
     /**
@@ -927,8 +985,6 @@ class CourseStructure extends Component {
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units}
-                    handleUnitDetailClick={this.props.onUnitClick}
-                    viewUnitDetails={this.props.viewUnitDetails}
                     cancelMoving={this.cancelMoving.bind(this)}
                     errors={errors}
                     tempInvalidCoordinates={tempInvalidCoordinates} />;
@@ -965,7 +1021,7 @@ class CourseStructure extends Component {
                     const finalErr = Object.assign({}, err);
                     finalErr.coordinates = finalErr.coordinates.filter(x => x[0] === i - 1);
                     return finalErr;
-                }).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1)));
+                }).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null)));
                 year = teachingPeriods[i - 1].year;
 
                 if(!showInsertTeachingPeriods) {
