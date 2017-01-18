@@ -6,7 +6,6 @@ import CourseDescription from "./CourseDescription.jsx";
  * A simple component that renders course info details, check the proptypes check for full data available
  */
 export default function CourseInfo(props){
-    let keyVal = 0;
     return (
         <Grid stackable celled="internally" columns={2}>
             <Grid.Row>

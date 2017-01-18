@@ -49,6 +49,10 @@ export default class UnitQuery {
         return axios.get(qURL);
     }
 
+    /**
+     * Get the information for a given course code + area of study code
+     * @param {string} courseCode - the coursecode to query against
+     */
     static getCourseInfo(courseCode) {
         let qURL = `${MONPLAN_REMOTE_URL}/courses/info/${courseCode}`;
         return axios.get(qURL);

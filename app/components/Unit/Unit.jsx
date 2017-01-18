@@ -210,6 +210,9 @@ class Unit extends React.Component {
             return null;
         }
 
+        /**
+         * Creates unit message
+         */
         const unitMessage = mobile => (
             <Message
                 color={facultyColor}

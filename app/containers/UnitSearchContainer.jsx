@@ -135,18 +135,18 @@ class UnitSearchContainer extends Component {
      */
     onKeyDown(e) {
         switch(e.keyCode) {
-        case 13: // Enter
-            this.selectSearchResult();
-            e.preventDefault();
-            break;
-        case 38: // Up
-            this.moveUpSearchResult();
-            e.preventDefault();
-            break;
-        case 40: // Down
-            this.moveDownSearchResult();
-            e.preventDefault();
-            break;
+            case 13: // Enter
+                this.selectSearchResult();
+                e.preventDefault();
+                break;
+            case 38: // Up
+                this.moveUpSearchResult();
+                e.preventDefault();
+                break;
+            case 40: // Down
+                this.moveDownSearchResult();
+                e.preventDefault();
+                break;
         }
     }
 

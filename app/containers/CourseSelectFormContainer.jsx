@@ -8,8 +8,16 @@ import YearCalc from "../utils/YearCalc.js";
 import CourseInfoContainer from "./CourseInfoContainer.jsx";
 
 
+
+
+/**
+ * Handles the data manipulation of the entry course select form
+ */
 class CourseSelectFormContainer extends Component {
 
+    /**
+     * constructs the form, gets the valid selectable dates
+     */
     constructor() {
         super();
         this.startYearPlaceholder = new Date().getFullYear() + 1;
@@ -51,6 +59,10 @@ class CourseSelectFormContainer extends Component {
             });
     }
 
+    /**
+     * Setting a timer helps reduce lag, but when component is unmounting we have to remove 
+     * the timer
+     */
     componentWillUnmount() {
         if(this.timer) {
             clearTimeout(this.timer);
@@ -58,6 +70,9 @@ class CourseSelectFormContainer extends Component {
         }
     }
 
+    /**
+     * handles the submission of the entire form
+     */
     handleSubmit(event) {
         event.preventDefault();
 
