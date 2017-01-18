@@ -1,5 +1,4 @@
 import CourseStructure from "../app/components/Course/CourseStructure.jsx";
-import FullTestSuite from "../app/tests/FullTestSuite";
 import expect from 'expect';
 import deepFreeze from 'deep-freeze';
 import Counter from "../app/reducers/Counter";
@@ -56,13 +55,8 @@ describe("REDUCER: Counter", () => {
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
         })
-    })
 
-    /**
-     * 
-     */
-    describe("ACTION: DECREMENT_CREDIT_POINTS", () => {
-        it("Should decrement the credit point state to 0 if a value give is larger than the current credit point value", () => {
+        it("Should decrement the credit point state to 0 if a value given is larger than the current credit point value", () => {
             const stateBefore = {cost: 40, creditPoints: 50};
             const action = {
                 type: "DECREMENT_CREDIT_POINTS",
@@ -128,13 +122,8 @@ describe("REDUCER: Counter", () => {
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
         })
-    })
-
-    /**
-     * 
-     */
-    describe("ACTION: DECREMENT_COST", () => {
-        it("Should decrement the cost state to 0 if a value give is larger than the current credit point value", () => {
+        
+        it("Should decrement the cost state to 0 if a value given is larger than the current credit point value", () => {
             const stateBefore = {cost: 50, creditPoints: 40};
             const action = {
                 type: "DECREMENT_COST",

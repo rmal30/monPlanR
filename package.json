@@ -55,12 +55,11 @@
     "dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "eslint --ext .jsx --ext .js app",
-    "test:unit": "mocha --compilers babel-core/register tests/*.spec.jsx",
+    "test:unit": "mocha --compilers babel-core/register tests/*.spec.js*",
     "fix": "eslint --ext .jsx --ext .js app --fix",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
     "start:prod": "webpack --progress -p && node server.js",
-    "start": "if-env NODE_ENV=\"production\" && npm run start:prod || npm run dev",
-    "unittest": "babel app/tests/FullTestSuite.js --out-file app/tests/test.js && node app/tests/test.js"
+    "start": "if-env NODE_ENV=\"production\" && npm run start:prod || npm run dev"
   },
   "repository": {
     "type": "git",
