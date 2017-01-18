@@ -22,6 +22,8 @@ chmod +x ./start-prod.sh
 ./start-prod.sh
 ```
 
+Note to enable HTTPS you **must** have a Private key (named _server.key_) and a TLS/SSL Certificate within a folder named _ssl_ in the root directory
+
 ## Test
 To test the code for any syntaxical or stylistic errors/warnings, as well as unit testing:
 ```
