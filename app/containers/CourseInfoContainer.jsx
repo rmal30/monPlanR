@@ -67,8 +67,6 @@ class CourseInfoContainer extends Component {
             .then(response => {
                 let data = response.data;
 
-                return;
-
                 this.setState({
                     courseName: data.courseName,
                     faculty: data.mangFac,

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dimmer, Divider, Dropdown, Icon, Input, Loader, Message, Modal, Popup, Segment, Table } from "semantic-ui-react";
+import { Button, Container, Dimmer, Divider, Dropdown, Icon, Input, Loader, Message, Modal, Popup, Table } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
@@ -1113,7 +1113,7 @@ class CourseStructure extends Component {
         }
 
         /**
-         * 
+         *
          */
         const editCoursePlanButton = mobile => <Button
                                         fluid={mobile}
