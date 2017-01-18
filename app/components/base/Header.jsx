@@ -52,11 +52,11 @@ class Header extends Component {
                         on="click"
                         wide
                         trigger={(
-                            <Menu.Item>
+                            <Menu.Item style={{borderBottom: this.props.courseErrors.length > 0 ? "0.4em solid #FF695E" : "0.4em solid #2ECC40", transition: "all 0.2s ease"}}>
                                 <MediaQuery minDeviceWidth={768}>
-                                    Course status: <span id="statusTag">{this.props.courseErrors.length > 0 ? this.props.courseErrors.length + " error" + (this.props.courseErrors.length > 1 ? "s" : "") : "OK"}</span>
-                                </MediaQuery>
-                                <Icon name={this.props.courseErrors.length > 0 ? "remove" : "checkmark"} color={this.props.courseErrors.length > 0 ? "red" : "green"} />
+                                    Course status:&nbsp;<span id="statusTag">{this.props.courseErrors.length > 0 ? this.props.courseErrors.length + " error" + (this.props.courseErrors.length > 1 ? "s" : "") : "OK"}</span>
+                            </MediaQuery>&nbsp;
+                                <Icon name={this.props.courseErrors.length > 0 ? "remove" : "checkmark"} inverted color={this.props.courseErrors.length > 0 ? "red" : "green"} />
                             </Menu.Item>
                         )}>
                         <Popup.Header>
