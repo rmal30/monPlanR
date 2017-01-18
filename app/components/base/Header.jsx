@@ -28,7 +28,7 @@ class Header extends Component {
      */
     render() {
         let content = this.props.courseErrors.length > 0
-            ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as missing prerequisites.";
+            ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as duplicate units.";
 
         return (
             <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick} style={{borderRadius: 0}}>
