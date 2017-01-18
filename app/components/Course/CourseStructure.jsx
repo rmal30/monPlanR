@@ -229,6 +229,48 @@ class CourseStructure extends Component {
         return errors;
     }
 
+    invalidCoordinatesForTempUnit() {
+        let tempUnit;
+        let duplicateGraceFlag = false;
+        if(this.state.showMoveUnitUI) {
+            tempUnit = this.state.unitToBeMoved;
+            duplicateGraceFlag = true;
+        } else if(this.props.unitToAdd) {
+            tempUnit = this.props.unitToAdd;
+        } else {
+            return [];
+        }
+
+        const { teachingPeriods } = this.state;
+
+        const allCoordinates = [];
+
+        let duplicateFound = false;
+
+        for(let i = 0; i < teachingPeriods.length; i++) {
+            for(let j = 0; j < teachingPeriods[i].units.length; j++) {
+                allCoordinates.push([i, j]);
+
+                if(!duplicateFound) {
+                    if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].UnitCode === tempUnit.UnitCode) {
+                        if(duplicateGraceFlag) {
+                            duplicateGraceFlag = false;
+                        } else {
+                            // Found duplicate, invalidate all coordinates
+                            duplicateFound = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(duplicateFound) {
+            return allCoordinates;
+        }
+
+        return [];
+    }
+
     /**
      * Generates a course structure of semester one and semester two teaching
      * periods, given start year and end year.
@@ -395,7 +437,7 @@ class CourseStructure extends Component {
                     isUploading: false,
                     uploadingError: true
                 });
-                console.error(error)
+                console.error(error);
             });
     }
 
@@ -458,7 +500,7 @@ class CourseStructure extends Component {
 
     componentWillUnmount() {
         this.props.setStatusVisibility(false);
-        
+
         if(this.props.viewOnly) {
             return;
         }
@@ -483,7 +525,7 @@ class CourseStructure extends Component {
         const currentCourseErrors = this.getCourseErrors();
 
         // Redux may solve this anti-pattern of diff checks and updating parent component's state
-        if(currentCourseErrors.length !== this.props.courseErrors.length || this.props.courseErrors.reduce((a, err, i) => a || err.message !== currentCourseErrors[i].message, false)) {
+        if(currentCourseErrors.length !== this.props.courseErrors.length || this.props.courseErrors.reduce((a, err, i) => a || err.message !== currentCourseErrors[i].message || err.coordinates.length !== currentCourseErrors[i].coordinates.length, false)) {
             this.props.updateStatus(currentCourseErrors);
         }
     }
@@ -500,10 +542,10 @@ class CourseStructure extends Component {
         return teachingPeriods.map((ele, teachingPeriodIndex) =>
             ele.units.map((unit, unitIndex) => {
                 if(unit) {
-                    unit.teachingPeriodIndex = teachingPeriodIndex;
-                    unit.unitIndex = unitIndex;
-
-                    return unit;
+                    return Object.assign({}, unit, {
+                        teachingPeriodIndex,
+                        unitIndex
+                    });
                 }
             }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
     }
@@ -863,7 +905,7 @@ class CourseStructure extends Component {
      * @param {number} index - For bookkeeping which teaching period is which.
      * @param {array} errors - Errors related to the teaching period.
      */
-    renderTeachingPeriod(teachingPeriod, index, errors) {
+    renderTeachingPeriod(teachingPeriod, index, errors, tempInvalidCoordinates) {
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
                     viewOnly={this.props.viewOnly}
@@ -885,7 +927,8 @@ class CourseStructure extends Component {
                     handleUnitDetailClick={this.props.onUnitClick}
                     viewUnitDetails={this.props.viewUnitDetails}
                     cancelMoving={this.cancelMoving.bind(this)}
-                    errors={errors} />;
+                    errors={errors}
+                    tempInvalidCoordinates={tempInvalidCoordinates} />;
     }
 
     /**
@@ -899,7 +942,9 @@ class CourseStructure extends Component {
      * @returns {ReactElement} CourseStructure
      */
     render() {
+        // do not use this.props.courseErrors as it may hold an outdated version, as the diff checks only looks at the messages
         const errors = this.getCourseErrors();
+        const tempInvalidCoordinates = this.invalidCoordinatesForTempUnit();
 
         const tableRows = [];
         let year, code, show = false;
@@ -917,7 +962,7 @@ class CourseStructure extends Component {
                     const finalErr = Object.assign({}, err);
                     finalErr.coordinates = finalErr.coordinates.filter(x => x[0] === i - 1);
                     return finalErr;
-                }).filter(err => err.coordinates.length > 0)));
+                }).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1)));
                 year = teachingPeriods[i - 1].year;
 
                 if(!showInsertTeachingPeriods) {
@@ -1184,7 +1229,9 @@ CourseStructure.propTypes = {
     /* Used for diff checks */
     courseErrors: PropTypes.array.isRequired,
 
-    viewOnly: PropTypes.bool
+    viewOnly: PropTypes.bool,
+    switchToEditCourse: PropTypes.bool,
+    fetchURL: PropTypes.string
 };
 
 export default CourseStructure;

@@ -24,7 +24,9 @@ function TeachingPeriod(props) {
         units: PropTypes.array.isRequired,
         showMoveUnitUI: PropTypes.bool.isRequired,
         viewUnitDetails: PropTypes.func,
-        deleteTeachingPeriod: PropTypes.func.isRequired
+        deleteTeachingPeriod: PropTypes.func.isRequired,
+
+        viewOnly: PropTypes.bool
     };
 
     let firstFreeUnit = true;
@@ -46,7 +48,7 @@ function TeachingPeriod(props) {
                     unitToAdd={props.unitToAdd}
                     showMoveUnitUI={props.showMoveUnitUI}
                     onUnitClick={props.handleUnitDetailClick}
-                    isError={props.isError} />
+                    isError={props.tempInvalidCoordinates.filter(xs => xs[1] === index).length > 0} />
             );
         }
         return (
@@ -65,7 +67,8 @@ function TeachingPeriod(props) {
                 onUnitClick={props.handleUnitDetailClick}
                 viewUnitDetails={props.viewUnitDetails}
                 cancelMoving={props.cancelMoving}
-                errors={props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)} />
+                errors={props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)}
+                isError={props.tempInvalidCoordinates.filter(xs => xs[1] === index).length > 0} />
         );
     });
 
