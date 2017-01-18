@@ -231,34 +231,44 @@ class CourseSelectFormContainer extends Component {
         return (
             <div>
                 <Grid celled stackable>
-                    <Grid.Row>
-                        <Step.Group fluid>
-                            <Step
-                                active={!this.state.courseSelected}
-                                completed={this.state.courseSelected}
-                                title="Search a Course"
-                                description="Find a course using search"
-                                icon="search"/>
-                            <Step
-                                active={this.state.courseSelected && this.state.yearIsDisabled}
-                                completed={!this.state.yearIsDisabled}
-                                title="Choose an Area of Study"
-                                description="Choose one that sounds interesting to you"
-                                icon="mouse pointer" />
-                            <Step
-                                active={!this.state.yearIsDisabled && !this.state.readyToSubmit}
-                                completed={this.state.readyToSubmit}
-                                title="Select Start year"
-                                description="Select year that you started"
-                                icon="calendar" />
-                            <Step
-                                active={this.state.readyToSubmit}
-                                completed={this.state.readyToSubmit}
-                                title="Ready to Go!"
-                                description="Click 'Start Planning' to begin"
-                                icon="rocket" />
-                        </Step.Group>
-                    </Grid.Row>
+                    <MediaQuery maxDeviceWidth={767}>
+                        {mobile => {
+                            if(mobile) {
+                                return (null);
+                            } else {
+                                return (
+                                    <Grid.Row>
+                                        <Step.Group fluid>
+                                            <Step
+                                                active={!this.state.courseSelected}
+                                                completed={this.state.courseSelected}
+                                                title="Search a Course"
+                                                description="Find a course using search"
+                                                icon="search"/>
+                                            <Step
+                                                active={this.state.courseSelected && this.state.yearIsDisabled}
+                                                completed={!this.state.yearIsDisabled}
+                                                title="Choose an Area of Study"
+                                                description="Choose one that sounds interesting to you"
+                                                icon="mouse pointer" />
+                                            <Step
+                                                active={!this.state.yearIsDisabled && !this.state.readyToSubmit}
+                                                completed={this.state.readyToSubmit}
+                                                title="Select Start year"
+                                                description="Select year that you started"
+                                                icon="calendar" />
+                                            <Step
+                                                active={this.state.readyToSubmit}
+                                                completed={this.state.readyToSubmit}
+                                                title="Ready to Go!"
+                                                description="Click 'Start Planning' to begin"
+                                                icon="rocket" />
+                                        </Step.Group>
+                                    </Grid.Row>
+                                );
+                            }
+                        }}
+                        </MediaQuery>
                     <Grid.Column width={4}>
                         <h4>Find your course:</h4>
                         <Search
