@@ -55,6 +55,13 @@ class Plan extends Component {
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
         // this.props.attachGetCourseErrors(this.getCourseErrors);
+        const stringifedJSON = localStorage.getItem("courseStructure");
+        const cs = JSON.parse(stringifedJSON)
+        console.log(cs)
+        if(!cs) {
+            const {startYear, courseToLoad} = this.props.location.query;
+            this.handleCourseLoad(courseToLoad, startYear);
+        }
     }
 
     /**
