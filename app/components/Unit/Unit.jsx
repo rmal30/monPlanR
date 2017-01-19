@@ -248,10 +248,13 @@ class Unit extends React.Component {
         );
 
         const unitPlaceholder = (
-            <div style={{minHeight: 90, border: "0.1em dashed #ccc", borderRadius: 5, padding: "1em"}}>
-                <h3>{this.props.code}</h3>
-                <p>{this.props.name}</p>
-            </div>
+            <Message
+                className="unit"
+                size="mini"
+                style={{background: "transparent", borderStyle: "dashed", borderColor: "#ccc", boxShadow: "none"}}>
+                <Message.Header>{this.props.code}</Message.Header>
+                {this.props.name}
+            </Message>
         );
 
         return (
