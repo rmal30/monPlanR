@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Icon, Statistic } from "semantic-ui-react";
+import { Icon, Statistic, Popup } from "semantic-ui-react";
 
 /**
  * This currently is a component that renders the statistics for cost and credit points
@@ -22,7 +22,13 @@ function CourseStatisticGroup(props) {
                     <Icon name='student' />
                     {props.currentCreditPoints}
                 </Statistic.Value>
-                <Statistic.Label>Credit Points</Statistic.Label>
+                <Popup
+                  trigger={<Statistic.Label>Credit Points</Statistic.Label>}
+                  header="Total Credit Points"
+                  content="This estimate is the total amount of credit points that could be earnt of the current current course for students"
+                  on="hover"
+                  positioning="bottom right"
+                />
             </Statistic>
 
             <Statistic>
@@ -30,7 +36,13 @@ function CourseStatisticGroup(props) {
                     <Icon name='dollar' />
                     {props.currentEstCost}
                 </Statistic.Value>
-                <Statistic.Label>Total Est. Cost</Statistic.Label>
+                <Popup
+                  trigger={<Statistic.Label>Total Est. Cost</Statistic.Label>}
+                  header="Est. Cost for Commonwealth Supported Place Students"
+                  content="This estimate is the total cost of the current course if taken in 2017 for CSP Domestic Students."
+                  on="hover"
+                  positioning="bottom left"
+                />
             </Statistic>
         </Statistic.Group>
     );
