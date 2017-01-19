@@ -123,8 +123,8 @@ class CourseStructure extends Component {
         }
 
         this.setState({
-            totalCreditPoints: nextProps.totalCreditPoints,
-            totalEstimatedCost: nextProps.totalCost
+            totalCreditPoints: nextProps.totalCreditPoints || this.state.totalCreditPoints,
+            totalEstimatedCost: nextProps.totalCost || this.state.totalEstimatedCost
         });
 
     }
@@ -426,6 +426,8 @@ class CourseStructure extends Component {
         axios.get(this.props.fetchURL)
             .then(response => {
                 const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = response.data.snapshotData;
+
+                this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
 
                 this.setState({
                     teachingPeriods,
