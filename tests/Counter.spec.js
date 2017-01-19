@@ -1,8 +1,7 @@
-import CourseStructure from "../app/components/Course/CourseStructure.jsx";
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
+import expect from "expect";
+import deepFreeze from "deep-freeze";
 import Counter from "../app/reducers/Counter";
-
+import { describe, it } from "mocha";
 
 /**
  * 
@@ -20,9 +19,9 @@ describe("REDUCER: Counter", () => {
                 value: 1,
             };
             const stateAfter = {
-                    cost: 2,
-                    creditPoints: 1
-                };
+                cost: 2,
+                creditPoints: 1
+            };
             
             deepFreeze(stateBefore);
             deepFreeze(action);
@@ -30,8 +29,8 @@ describe("REDUCER: Counter", () => {
             expect(
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
-        })
-    })
+        });
+    });
 
     /**
      * 
@@ -44,9 +43,9 @@ describe("REDUCER: Counter", () => {
                 value: 10,
             };
             const stateAfter = {
-                    cost: 40,
-                    creditPoints: 40
-                };
+                cost: 40,
+                creditPoints: 40
+            };
             
             deepFreeze(stateBefore);
             deepFreeze(action);
@@ -54,7 +53,7 @@ describe("REDUCER: Counter", () => {
             expect(
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
-        })
+        });
 
         it("Should decrement the credit point state to 0 if a value given is larger than the current credit point value", () => {
             const stateBefore = {cost: 40, creditPoints: 50};
@@ -63,9 +62,9 @@ describe("REDUCER: Counter", () => {
                 value: 51,
             };
             const stateAfter = {
-                    cost: 40,
-                    creditPoints: 0
-                };
+                cost: 40,
+                creditPoints: 0
+            };
             
             deepFreeze(stateBefore);
             deepFreeze(action);
@@ -73,8 +72,8 @@ describe("REDUCER: Counter", () => {
             expect(
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
-        })
-    })
+        });
+    });
 
     /**
      * 
@@ -87,9 +86,9 @@ describe("REDUCER: Counter", () => {
                 value: 1,
             };
             const stateAfter = {
-                    cost: 21,
-                    creditPoints: 13
-                };
+                cost: 21,
+                creditPoints: 13
+            };
             
             deepFreeze(stateBefore);
             deepFreeze(action);
@@ -97,8 +96,8 @@ describe("REDUCER: Counter", () => {
             expect(
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
-        })
-    })
+        });
+    });
 
     /**
      * 
@@ -111,9 +110,9 @@ describe("REDUCER: Counter", () => {
                 value: 10,
             };
             const stateAfter = {
-                    cost: 40,
-                    creditPoints: 40
-                };
+                cost: 40,
+                creditPoints: 40
+            };
             
             deepFreeze(stateBefore);
             deepFreeze(action);
@@ -121,7 +120,7 @@ describe("REDUCER: Counter", () => {
             expect(
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
-        })
+        });
         
         it("Should decrement the cost state to 0 if a value given is larger than the current credit point value", () => {
             const stateBefore = {cost: 50, creditPoints: 40};
@@ -130,9 +129,9 @@ describe("REDUCER: Counter", () => {
                 value: 51,
             };
             const stateAfter = {
-                    cost: 0,
-                    creditPoints: 40
-                };
+                cost: 0,
+                creditPoints: 40
+            };
             
             deepFreeze(stateBefore);
             deepFreeze(action);
@@ -140,6 +139,6 @@ describe("REDUCER: Counter", () => {
             expect(
                 Counter(stateBefore, action)
             ).toEqual(stateAfter);
-        })
-    })
-})
+        });
+    });
+});
