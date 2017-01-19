@@ -71,6 +71,22 @@ class ClearCourseModal extends Component {
     }
 
     /**
+     * Clears the course and then closes the modal.
+     */
+    handleEnterPress(e) {
+      if(e.keyCode === 13 && !this.state.disabled){
+        console.log(e)
+        this.props.clearCourse();
+        this.handleClose();
+        if(this.props.redirect){
+          this.context.router.push({
+            pathname: this.props.redirect
+          })
+        }
+      }
+    }
+
+    /**
      * Returns a Modal asking the user if they really want to clear their course
      * plan.
      *
@@ -113,7 +129,7 @@ class ClearCourseModal extends Component {
                     <Modal.Description>
                         <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
                         structure will be cleared.</p>
-                    <Input onChange={this.handleChange.bind(this)} />
+                    <Input onChange={this.handleChange.bind(this)} onKeyDown={this.handleEnterPress.bind(this)} />
                     </Modal.Description>
                 </Modal.Content>
 
@@ -135,5 +151,7 @@ ClearCourseModal.propTypes = {
     floated: PropTypes.string
 };
 
-
+ClearCourseModal.contextTypes = {
+    router: React.PropTypes.object.isRequired
+}
 export default ClearCourseModal;
