@@ -36,7 +36,6 @@ class Main extends Component {
         this.state = {
             searchVisible: false,
             addToCourse: null,
-            showStatus: false,
             courseErrors: []
         };
 
@@ -47,7 +46,6 @@ class Main extends Component {
         this.detachAddToCourse = this.detachAddToCourse.bind(this);
 
         this.updateStatus = this.updateStatus.bind(this);
-        this.setStatusVisibility = this.setStatusVisibility.bind(this);
     }
 
     /**
@@ -66,13 +64,6 @@ class Main extends Component {
      */
     detachAddToCourse() {
         this.attachAddToCourse(null);
-    }
-
-    /**
-     * Sets the visibility of the error status section
-     */
-    setStatusVisibility(showStatus) {
-        this.setState({ showStatus });
     }
 
     /**
@@ -122,8 +113,8 @@ class Main extends Component {
                     handleSearchClick={this.handleSearchClick}
                     searchVisible={this.state.searchVisible}
                     handleDocumentClick={this.handleDocumentClick}
-                    showAddUnit={!!this.state.addToCourse}
-                    showStatus={this.state.showStatus}
+                    showAddUnit={!!this.state.addToCourse && this.props.children.props.route.showAddUnit}
+                    showStatus={this.props.children.props.route.showStatus}
                     courseErrors={this.state.courseErrors} />
                 <Sidebar.Pushable>
                     {this.state.addToCourse &&
@@ -144,7 +135,6 @@ class Main extends Component {
                                       attachAddToCourse: this.attachAddToCourse,
                                       detachAddToCourse: this.detachAddToCourse,
                                       updateStatus: this.updateStatus,
-                                      setStatusVisibility: this.setStatusVisibility,
                                       courseErrors: this.state.courseErrors
                                   })}
                         </ReactCSSTransitionGroup>

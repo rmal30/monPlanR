@@ -5,12 +5,12 @@ import CourseStructure from "../Course/CourseStructure.jsx";
 import Home from "./Home.jsx";
 
 /**
- * 
+ *
  */
 class View extends Component {
-    
+
     /**
-     * 
+     *
      */
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ class View extends Component {
     }
 
     /**
-     * 
+     *
      */
     handleEditCoursePlanClick(confirm) {
         if(!Home.checkIfCourseStructureIsInLocalStorage() || confirm) {
@@ -31,7 +31,7 @@ class View extends Component {
     }
 
     /**
-     * 
+     *
      */
     render() {
         return (
@@ -43,7 +43,6 @@ class View extends Component {
                     switchToEditCourse={this.state.switchToEditCourse}
                     handleEditCoursePlanClick={this.handleEditCoursePlanClick.bind(this)}
                     fetchURL={`${MONPLAN_REMOTE_URL}/snaps/${this.props.params.id}`}
-                    setStatusVisibility={this.props.setStatusVisibility}
                     updateStatus={this.props.updateStatus}
                     courseErrors={this.props.courseErrors} />
             </Container>
@@ -57,7 +56,6 @@ View.propTypes = {
     }),
 
     /* Validation status */
-    setStatusVisibility: PropTypes.func.isRequired,
     updateStatus: PropTypes.func.isRequired,
     courseErrors: PropTypes.array.isRequired
 };

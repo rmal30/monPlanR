@@ -52,7 +52,18 @@ class ControlledModal extends Component {
             trigger = undefined;
         }
 
+        const self = this;
+
         const closeButton = React.cloneElement(this.props.closeTrigger, {onClick: this.handleClose.bind(this)});
+        const positiveButton = this.props.positiveButton && React.cloneElement(this.props.positiveButton, {
+            onClick(e) {
+                if(self.props.positiveButton.props.onClick) {
+                    self.props.positiveButton.props.onClick(e);
+                }
+
+                self.handleClose.bind(this);
+            }
+        });
 
         return (
             <Modal trigger={trigger}
@@ -61,7 +72,7 @@ class ControlledModal extends Component {
                 {this.props.children}
                 <Modal.Actions>
                     {closeButton}
-                    {this.props.positiveButton}
+                    {positiveButton}
                 </Modal.Actions>
             </Modal>
         );
