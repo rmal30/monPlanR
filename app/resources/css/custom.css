@@ -158,6 +158,11 @@ html, body {
     color: white !important;
 }
 
+.infoButton.ui.button.blue:hover {
+    background: #2185D0 !important;
+    color: white !important;
+}
+
 /* Adds margin in between a button and a dropdown */
 .buttons > .dropdown {
     margin-left: 0.1em !important;
