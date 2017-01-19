@@ -26,7 +26,7 @@ function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, addUnit, un
     const searchResult = (
         <Unit
             basic
-            noDetail
+            detailButton
             newUnit
             willAddUnit={willAddUnit}
             addUnit={addUnit}

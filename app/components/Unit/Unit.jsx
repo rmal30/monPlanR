@@ -225,8 +225,13 @@ class Unit extends React.Component {
                 <Message.Header>
                     {this.props.code}
                     {!this.props.viewOnly &&
-                        <Button.Group className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI && !this.props.basic ? "visible" : "hidden" }}>
-                            <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" />
+                        <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })} className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
+                            <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
+                            {this.props.detailButton &&
+                                <UnitDetailModal
+                                    unitCode={this.props.code}
+                                    trigger={<Button basic className="infoButton" color="blue" icon="info" />} />
+                            }
                         </Button.Group>
                     }
                 </Message.Header>
@@ -239,7 +244,7 @@ class Unit extends React.Component {
         const unit = (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile =>
-                    this.props.noDetail ? unitMessage(mobile) : (
+                    this.props.detailButton ? unitMessage(mobile) : (
                         <UnitDetailModal
                             unitCode={this.props.code}
                             trigger={unitMessage(mobile)} />
@@ -282,7 +287,7 @@ class Unit extends React.Component {
                                 </div>
                             }
                             {!this.props.free && !this.props.viewOnly && !this.props.isDragging &&
-                                (this.props.placeholder ? unitPlaceholder : connectDragSource(<div>{unit}</div>))
+                                (this.props.placeholder ? unitPlaceholder : this.state.overInput ? <div>{unit}</div> : connectDragSource(<div>{unit}</div>))
                             }
                             {!this.props.free && this.props.viewOnly &&
                                 (this.props.placeholder ? unitPlaceholder : <div>{unit}</div>)
@@ -337,8 +342,8 @@ Unit.propTypes = {
 
     viewOnly: PropTypes.bool,
 
-    /* Do not add unit detail modal that triggers upon click */
-    noDetail: PropTypes.bool
+    /* Switch to detail button for viewing unit details */
+    detailButton: PropTypes.bool
 };
 
 // https://github.com/gaearon/react-dnd/issues/157
