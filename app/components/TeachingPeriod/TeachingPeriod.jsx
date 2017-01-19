@@ -26,7 +26,7 @@ function TeachingPeriod(props) {
         showMoveUnitUI: PropTypes.bool.isRequired,
         viewUnitDetails: PropTypes.func,
         deleteTeachingPeriod: PropTypes.func.isRequired,
-        
+
         viewOnly: PropTypes.bool
     };
 
@@ -59,6 +59,8 @@ function TeachingPeriod(props) {
                 viewOnly={props.viewOnly}
                 index={index}
                 teachingPeriodIndex={props.index}
+                addUnit={props.addUnit.bind(this, props.index)}
+                unitToAdd={props.unitToAdd}
                 willMoveUnit={props.willMoveUnit.bind(null, props.index)}
                 deleteUnit={props.deleteUnit.bind(null, props.index)}
                 showMoveUnitUI={props.showMoveUnitUI}
@@ -66,6 +68,7 @@ function TeachingPeriod(props) {
                 code={unit.UnitCode}
                 name={unit.UnitName}
                 faculty={unit.Faculty}
+                placeholder={unit.placeholder}
                 onUnitClick={props.handleUnitDetailClick}
                 viewUnitDetails={props.viewUnitDetails}
                 cancelMoving={props.cancelMoving}

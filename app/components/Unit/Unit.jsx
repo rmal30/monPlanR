@@ -35,12 +35,15 @@ const unitTarget = {
         if(props.free) {
             if(props.addUnit && props.unitToAdd) {
                 props.addUnit(props.index, props.unitToAdd);
-            } else {
+            } else if(props.showMoveUnitUI) {
                 props.moveUnit(props.index);
             }
-        } else {
+        } else if(props.showMoveUnitUI) {
             props.swapUnit(props.index);
+        } else if(props.placeholder && props.addUnit && props.unitToAdd) {
+            props.addUnit(props.index, props.unitToAdd);
         }
+
         return {};
     }
 };
@@ -135,7 +138,7 @@ class Unit extends React.Component {
         if(!this.props.free && this.props.onUnitClick) {
             this.props.onUnitClick(this.props.code, this.props.custom);
         }
-        if(this.props.free && this.state.hovering && this.props.unitToAdd) {
+        if((this.props.free || this.props.placeholder) && this.state.hovering && this.props.unitToAdd) {
             this.props.addUnit(this.props.index, this.props.unitToAdd);
         }
     }
@@ -244,6 +247,16 @@ class Unit extends React.Component {
             </MediaQuery>
         );
 
+        const unitPlaceholder = (
+            <Message
+                className="unit"
+                size="mini"
+                style={{background: "transparent", borderStyle: "dashed", borderColor: "#ccc", boxShadow: "none"}}>
+                <Message.Header>{this.props.code}</Message.Header>
+                {this.props.name}
+            </Message>
+        );
+
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
@@ -251,7 +264,7 @@ class Unit extends React.Component {
                         connectDropTarget(
                         <td
                             style={{ backgroundColor: (this.props.isError || (this.props.errors && this.props.errors.length > 0)) ? "#ffe7e7" : "white"}}
-                            className={(isOver || this.state.hovering && this.props.free && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
+                            className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
                             onMouseLeave={this.handleMouseLeave.bind(this)}
@@ -268,9 +281,11 @@ class Unit extends React.Component {
                                 </div>
                             }
                             {!this.props.free && !this.props.viewOnly && !this.props.isDragging &&
-                                connectDragSource(<div>{unit}</div>)
+                                (this.props.placeholder ? unitPlaceholder : connectDragSource(<div>{unit}</div>))
                             }
-                            {!this.props.free && this.props.viewOnly && <div>{unit}</div>}
+                            {!this.props.free && this.props.viewOnly &&
+                                (this.props.placeholder ? unitPlaceholder : <div>{unit}</div>)
+                            }
                         </td>)
                     );
                 }}
@@ -288,6 +303,7 @@ Unit.propTypes = {
     code: PropTypes.string,
     name: PropTypes.string,
     faculty: PropTypes.string,
+    placeholder: PropTypes.bool,
 
     unitToAdd: PropTypes.shape({
         UnitName: PropTypes.string,
