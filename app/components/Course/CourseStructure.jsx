@@ -453,6 +453,7 @@ class CourseStructure extends Component {
      */
     saveCourseToLocalStorage() {
         const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = this.state;
+
         localStorage.setItem("courseStructure", JSON.stringify({
             teachingPeriods,
             numberOfUnits,

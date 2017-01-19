@@ -45,6 +45,25 @@ class Plan extends Component {
         this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
 
+
+    /**
+     * Checks if there is anything saved to local storage, and if so, whether
+     * or not teaching periods list is empty. This is used for checking if
+     * a user has anything saved to their browser.
+     *
+     * @return {string|boolean} savedVersionNumber/courseStructureDoesExist
+     */
+    checkIfCourseStructureIsInLocalStorage() {
+        const stringifedJSON = localStorage.getItem("courseStructure");
+        if(stringifedJSON === null) {
+            return false;
+        }
+
+        const { teachingPeriods, numberOfUnits, version } = JSON.parse(stringifedJSON);
+
+        return Array.isArray(teachingPeriods) && teachingPeriods.length > 0 && numberOfUnits && (version || true);
+    }
+
     /**
      * A workaround that is a React anti-pattern. It attaches add to course menu
      * callback function, which is called when the user clicks the "+ Add unit"
@@ -56,12 +75,13 @@ class Plan extends Component {
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
         // this.props.attachGetCourseErrors(this.getCourseErrors);
-        const stringifedJSON = localStorage.getItem("courseStructure");
-        const cs = JSON.parse(stringifedJSON);
-        if(!cs) {
+        let courseInLS = this.checkIfCourseStructureIsInLocalStorage();
+        
+        if(!courseInLS) {
             const {startYear, courseToLoad} = this.props.location.query;
             this.handleCourseLoad(courseToLoad, parseInt(startYear, 10));
         }
+        
     }
 
     /**
@@ -206,7 +226,10 @@ class Plan extends Component {
      * structure.
      */
     render() {
-        const courseCode = this.state.courseToLoad.split("-")[0];
+        let courseCode = "";
+        if(this.state.courseToLoad){
+            courseCode = this.state.courseToLoad.split("-")[0];
+        }
         const { startYear, endYear } = this.props.location.query;
 
         const courseDetailButton = <Button
