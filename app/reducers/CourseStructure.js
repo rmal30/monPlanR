@@ -18,10 +18,20 @@ const CourseStructure = (state = {teachingPeriods: [], units: 4}, action) => {
             );
             
         case "REMOVE_TEACHING_PERIOD":
-            return state;
+            return Object.assign({}, state, 
+                {teachingPeriods: [
+                    ...state.teachingPeriods.slice(0, action.index),
+                    ...state.teachingPeriods.slice(action.index + 1)
+                ]}
+            );
         
         case "ADD_TEACHING_PERIOD":
-            return state;
+            return Object.assign({}, state, 
+                {teachingPeriods: [
+                    {year: action.year, code: action.code, units: []},
+                    ...state.teachingPeriods
+                ]}
+            );
         
         case "INCREASE_LOAD":
             return state;
