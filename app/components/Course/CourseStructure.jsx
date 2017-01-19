@@ -155,7 +155,7 @@ class CourseStructure extends Component {
         const duplicateUnits = [];
 
         for(let i = 1; i < units.length; i++) {
-            if(units[i - 1].UnitCode === units[i].UnitCode) {
+            if(units[i - 1].UnitCode === units[i].UnitCode && !units[i - 1].placeholder) {
                 const index = duplicateUnits.findIndex(unit => unit.UnitCode === units[i].UnitCode);
                 if(index === -1) {
                     duplicateUnits.push({
@@ -258,7 +258,7 @@ class CourseStructure extends Component {
         for(let i = 0; i < teachingPeriods.length; i++) {
             for(let j = 0; j < teachingPeriods[i].units.length; j++) {
                 if(!duplicateFound) {
-                    if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].UnitCode === tempUnit.UnitCode) {
+                    if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].UnitCode === tempUnit.UnitCode && !teachingPeriods[i].units[j].placeholder) {
                         if(duplicateGraceFlag) {
                             duplicateGraceFlag = false;
                         } else {
@@ -839,8 +839,10 @@ class CourseStructure extends Component {
     swapUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
         const temp = teachingPeriods[teachingPeriodIndex].units[unitIndex];
+
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]];
-        teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = temp;
+        teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = !temp.placeholder ? temp : null;
+
         this.setState({
             showMoveUnitUI: false,
             originalPosition: undefined,
