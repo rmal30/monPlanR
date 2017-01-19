@@ -15,8 +15,8 @@ export default (
     <Route path="/" component={Main}>
         <IndexRoute component={Home} />
         <Route path="yearForm" component={YearFormContainer} />
-        <Route path="plan(/?courseDetails)" component={Plan} handler={Home} />
-        <Route path="view/:id" component={View} />
+        <Route path="plan(/?courseDetails)" component={Plan} handler={Home} showAddUnit showStatus />
+        <Route path="view/:id" component={View} showStatus />
         <Route path="disclaimer" component={Disclaimer} />
         <Route path="*" component={MissingPage} />
     </Route>

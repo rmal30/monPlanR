@@ -547,9 +547,7 @@ class CourseStructure extends Component {
      *
      * @author Saurabh Joshi
      */
-    componentWillMount() {
-        this.props.setStatusVisibility(true);
-
+    componentDidMount() {
         if(this.props.viewOnly) {
             if(this.props.fetchURL) {
                 this.loadCourseFromDatabase();
@@ -566,8 +564,6 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      */
     componentWillUnmount() {
-        this.props.setStatusVisibility(false);
-
         if(this.props.viewOnly) {
             return;
         }
@@ -1352,7 +1348,6 @@ CourseStructure.propTypes = {
     handleEditCoursePlanClick: PropTypes.func,
 
     /* Validation */
-    setStatusVisibility: PropTypes.func.isRequired,
     updateStatus: PropTypes.func.isRequired,
     /* Used for diff checks */
     courseErrors: PropTypes.array.isRequired,

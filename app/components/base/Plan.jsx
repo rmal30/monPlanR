@@ -23,6 +23,7 @@ class Plan extends Component {
      */
     constructor(props) {
         super(props);
+
         this.state = {
             unitToAdd: undefined,
             showAddToCourseUI: false,
@@ -253,7 +254,6 @@ class Plan extends Component {
                                      handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      courseToLoad={this.state.courseToLoad}
                                      courseYear={this.state.courseYear}
-                                     setStatusVisibility={this.props.setStatusVisibility}
                                      updateStatus={this.props.updateStatus}
                                      courseErrors={this.props.courseErrors} />
                 </Container>
@@ -281,7 +281,6 @@ Plan.propTypes = {
     detachAddToCourse: PropTypes.func.isRequired,
 
     /* Validation status */
-    setStatusVisibility: PropTypes.func.isRequired,
     updateStatus: PropTypes.func.isRequired,
     courseErrors: PropTypes.array.isRequired,
 
