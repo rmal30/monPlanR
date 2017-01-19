@@ -133,11 +133,6 @@ class YearFormContainer extends Component {
         return (
 
             <Container>
-            <br />
-            <h1>Welcome to monPlan!</h1>
-            <p>
-
-            </p>
             <Form size="large" error>
                 <Segment raised>
                     <p>Please enter your commencement and graduation year. This will generate a course structure of semester one
@@ -210,7 +205,6 @@ class YearFormContainer extends Component {
                     </MediaQuery>
                 </Segment>
             </Form>
-            <div className="yearFormPush" />
             </Container>
         );
     }
