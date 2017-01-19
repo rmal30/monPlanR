@@ -218,6 +218,7 @@ class Unit extends React.Component {
          */
         const unitMessage = mobile => (
             <Message
+                style={{cursor: "pointer"}}
                 color={facultyColor}
                 className={"unit" + (!this.props.viewOnly ? " draggable" : "")}
                 size="mini">

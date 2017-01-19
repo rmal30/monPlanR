@@ -1,27 +1,77 @@
-import React from "react";
-import {expect} from "chai";
-import {shallow, mount, render} from "enzyme";
+import expect from "expect";
+import deepFreeze from "deep-freeze";
+import CourseStructure from "../app/reducers/CourseStructure";
+import { describe, it } from "mocha";
 
-import CourseStructure from "../app/components/Course/CourseStructure.jsx";
-import {Button, Container, Message, Table} from "semantic-ui-react";
 
-/*
-describe("CourseStructure", function() {
-    it("should have a Container and a Table", function() {
-        const wrapper = shallow(<CourseStructure />);
-        expect(wrapper.containsMatchingElement(Container)).to.be.true;
-        expect(wrapper.containsMatchingElement(Table)).to.be.true;
+describe("REDUCER: CourseStructure", () => {
+    describe("ACTION: INSERT_TEACHING_PERIOD", () => {
+        it("Should insert a teaching period with the given info correctly into middle of array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [] }, 
+                    { year: 2019, code: "S2-01", units: [] }
+                ], 
+                units: 4
+            };
+
+            const action = {
+                type: "INSERT_TEACHING_PERIOD",
+                year: 2018,
+                code: "S2-01",
+                index: 1
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [] },
+                    { year: 2018, code: "S2-01", units: [] }, 
+                    { year: 2019, code: "S2-01", units: [] }
+                ], 
+                units: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+            
+        });
+        
+        it("Should insert a teaching period with the given info correctly into start of array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [] }, 
+                    { year: 2019, code: "S2-01", units: [] }
+                ], 
+                units: 4
+            };
+
+            const action = {
+                type: "INSERT_TEACHING_PERIOD",
+                year: 2016,
+                code: "S2-01",
+                index: 0
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2016, code: "S2-01", units: [] },
+                    { year: 2017, code: "S2-01", units: [] }, 
+                    { year: 2019, code: "S2-01", units: [] }
+                ], 
+                units: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+            
+        });
     });
-
-    it("should have an add teaching period button", function() {
-        const wrapper = shallow(<CourseStructure />);
-        expect(wrapper.containsMatchingElement(Button.Group)).to.be.true;
-        expect(wrapper.find(Button.Group)).to.have.length(1);
-        expect(wrapper.find(Button.Group).find(Button)).to.have.length(1);
-        /* Test does not fail
-        expect(wrapper.containsMatchingElement(Message)).to.equal.true;
-        wrapper.find(Button.Group).find(Button).simulate("click");
-        expect(wrapper.containsMatchingElement(Message)).to.equal.true;
-        */
-//    });
-//});
+});
