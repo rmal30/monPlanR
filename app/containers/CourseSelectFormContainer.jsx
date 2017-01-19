@@ -60,7 +60,7 @@ class CourseSelectFormContainer extends Component {
     }
 
     /**
-     * Setting a timer helps reduce lag, but when component is unmounting we have to remove 
+     * Setting a timer helps reduce lag, but when component is unmounting we have to remove
      * the timer
      */
     componentWillUnmount() {
@@ -238,7 +238,8 @@ class CourseSelectFormContainer extends Component {
                             } else {
                                 return (
                                     <Grid.Row>
-                                        <Step.Group fluid>
+                                      <div style={{overflowX: "auto"}}>
+                                        <Step.Group>
                                             <Step
                                                 active={!this.state.courseSelected}
                                                 completed={this.state.courseSelected}
@@ -264,12 +265,14 @@ class CourseSelectFormContainer extends Component {
                                                 description="Click 'Start Planning' to begin"
                                                 icon="rocket" />
                                         </Step.Group>
+                                      </div>
                                     </Grid.Row>
                                 );
                             }
                         }}
                         </MediaQuery>
                     <Grid.Column width={4}>
+                      <div style={{overflowX:"auto"}}>
                         <h4>Find your course:</h4>
                         <Search
                             loading={this.state.isLoading}
@@ -282,6 +285,7 @@ class CourseSelectFormContainer extends Component {
                             noResultsMessage="No courses found"
                             noResultsDescription="We only store 2017 course maps for most courses across Monash."
                             {...this.props}
+                            fluid
                         />
                         <h4>Choose your area of study:</h4>
                         <br />
@@ -292,6 +296,7 @@ class CourseSelectFormContainer extends Component {
                             selection
                             options={this.state.specialisations}
                             onChange={this.handleSpecialisationSelect}
+                            fluid
                         />
                         <br />
                         <h4>Select your start year:</h4>
@@ -302,9 +307,11 @@ class CourseSelectFormContainer extends Component {
                             selection
                             options={this.state.years}
                             onChange={this.handleYearSelect}
+                            fluid
                         />
                         <br />
                         <br />
+                      </div>
                     </Grid.Column>
                     <MediaQuery maxDeviceWidth={767}>
                         {mobile => {

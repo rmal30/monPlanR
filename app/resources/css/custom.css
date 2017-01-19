@@ -163,3 +163,7 @@ html, body {
     margin-left: 0.1em !important;
     text-align: center;
 }
+
+.ui.icon.input input{
+  width:100% !important;
+}
