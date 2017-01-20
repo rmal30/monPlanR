@@ -47,7 +47,7 @@ const CourseStructure = (state = {teachingPeriods: [], units: 4}, action) => {
         case "DECREASE_STUDY_LOAD":
             if(state.units <= 4) {
                 return Object.assign({}, state, {
-                    units: 3
+                    units: 4
                 });
             } else {
                 return Object.assign({}, state, {
