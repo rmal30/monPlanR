@@ -927,29 +927,31 @@ class CourseStructure extends Component {
 
     /**
      * Removes a column from the course structure.
+     *
+     * @author JXNS, Saurabh Joshi
      */
     decrementNumberOfUnits() {
         if(this.state.numberOfUnits > this.minNumberOfUnits) {
             const teachingPeriods = this.state.teachingPeriods.slice();
 
-            let { totalCreditPoints, totalEstimatedCost } = this.state;
-            let unitIndex = this.state.numberOfUnits - 1;
+            let { totalCreditPoints, totalEstimatedCost, numberOfUnits } = this.state;
 
-            for (let i=0; i < this.state.teachingPeriods.length; i++) {
-                let unit = this.state.teachingPeriods[i].units[unitIndex];
+            teachingPeriods.forEach(teachingPeriod => {
+                const unit = teachingPeriod.units[numberOfUnits - 1];
+
                 if (unit !== null && unit !== undefined) {
                     totalCreditPoints -= unit.CreditPoints;
                     totalEstimatedCost -= unit.Cost;
                 }
-            }
+
+                teachingPeriod.units = teachingPeriod.units.slice(0, -1);
+            });
+
             this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
 
-            for(let i = 0; i < teachingPeriods.length; i++) {
-                teachingPeriods[i].units.pop();
-            }
-
             this.setState({
-                numberOfUnits: this.state.numberOfUnits - 1
+                numberOfUnits: this.state.numberOfUnits - 1,
+                teachingPeriods
             });
         }
     }
