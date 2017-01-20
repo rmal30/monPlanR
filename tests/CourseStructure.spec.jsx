@@ -266,4 +266,209 @@ describe("REDUCER: CourseStructure", () => {
         });
     });
 
+    describe("ACTION: ADD_UNIT", () => {
+        it("Should add a unit correctly to the start of an array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+            
+            const action = {
+                type: "ADD_UNIT",
+                tpIndex: 0,
+                unitIndex: 0,
+                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [{unitCode: "XXX0001", unitName: "Test Unit"}, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+
+        it("Should add a unit correctly to the middle of an array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+            
+            const action = {
+                type: "ADD_UNIT",
+                tpIndex: 1,
+                unitIndex: 1,
+                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+
+        it("Should add a unit correctly to the end of an array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+            
+            const action = {
+                type: "ADD_UNIT",
+                tpIndex: 2,
+                unitIndex: 3,
+                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
+                ], 
+                numberOfUnits: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: REMOVE_UNIT", () => {
+        it("Should remove a unit correctly frpm the start of an array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [{unitCode: "XXX0001", unitName: "Test Unit"}, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+            
+            const action = {
+                type: "REMOVE_UNIT",
+                tpIndex: 0,
+                unitIndex: 0
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+
+        it("Should remove a unit correctly from the middle of an array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+            
+            const action = {
+                type: "REMOVE_UNIT",
+                tpIndex: 1,
+                unitIndex: 1
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+
+        it("Should remove a unit correctly from the end of an array", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
+                ], 
+                numberOfUnits: 4
+            };
+            
+            const action = {
+                type: "REMOVE_UNIT",
+                tpIndex: 2,
+                unitIndex: 3
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ], 
+                numberOfUnits: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
 });

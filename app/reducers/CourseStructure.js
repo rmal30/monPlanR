@@ -118,9 +118,9 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
                             {},
                             tp,
                             {units: [
-                                ...state.units.slice(0, action.unitIndex),
+                                ...tp.units.slice(0, action.unitIndex),
                                 action.unit,
-                                ...state.units.slice(action.index + 1)
+                                ...tp.units.slice(action.unitIndex + 1)
                             ]}
                         );
                     } else {
@@ -145,9 +145,9 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
                             {},
                             tp,
                             {units: [
-                                ...state.units.slice(0, action.unitIndex),
+                                ...tp.units.slice(0, action.unitIndex),
                                 null,
-                                ...state.units.slice(action.index + 1)
+                                ...tp.units.slice(action.unitIndex + 1)
                             ]}
                         );
                     } else {
