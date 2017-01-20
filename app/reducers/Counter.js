@@ -75,7 +75,7 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 cost: 0,
                 creditPoints: 0
             };
-            
+        
         default:
             return state;
     }

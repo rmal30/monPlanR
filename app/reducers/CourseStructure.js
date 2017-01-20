@@ -106,6 +106,57 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
             }
         
         /*
+            Adds a unit with the given details to course structure at the given location
+        */
+        case "ADD_UNIT":
+            return Object.assign(
+                {},
+                state,
+                {teachingPeriods: state.teachingPeriods.map((tp, index) => {
+                    if (index === action.tpIndex) {
+                        return Object.assign(
+                            {},
+                            tp,
+                            {units: [
+                                ...state.units.slice(0, action.unitIndex),
+                                action.unit,
+                                ...state.units.slice(action.index + 1)
+                            ]}
+                        );
+                    } else {
+                        return tp;
+                    }
+                })}
+            );
+        
+        /*
+            Removes a unit at the given location from the course structure, 
+            first it finds the tp by finding array item at state.tpIndex, 
+            then it returns a unit array with the object at that location overwritten with 
+            null
+        */
+        case "REMOVE_UNIT":
+            return Object.assign(
+                {},
+                state,
+                {teachingPeriods: state.teachingPeriods.map((tp, index) => {
+                    if (index === action.tpIndex) {
+                        return Object.assign(
+                            {},
+                            tp,
+                            {units: [
+                                ...state.units.slice(0, action.unitIndex),
+                                null,
+                                ...state.units.slice(action.index + 1)
+                            ]}
+                        );
+                    } else {
+                        return tp;
+                    }
+                })}
+            );
+        
+        /*
             Resets the data structure to it's basic form, perhaps worth just returning state, but depends if the base state ever becomes more complex
         */
         case "CLEAR_COURSE":

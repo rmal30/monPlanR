@@ -265,4 +265,5 @@ describe("REDUCER: CourseStructure", () => {
             ).toEqual(stateAfter);
         });
     });
+
 });
