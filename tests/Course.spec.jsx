@@ -1,6 +1,6 @@
 import expect from "expect";
 import deepFreeze from "deep-freeze";
-import CourseStructure from "../app/reducers/CourseStructure";
+import Course from "../app/reducers/Course";
 import { describe, it } from "mocha";
 
 
@@ -36,7 +36,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
             
         });
@@ -70,7 +70,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
             
         });
@@ -100,7 +100,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
         it("Should remove a teaching period at the start of the array", () => {
@@ -126,7 +126,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
     });
@@ -156,7 +156,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
     });
@@ -177,7 +177,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
 
@@ -196,7 +196,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
     });
@@ -217,7 +217,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
 
@@ -236,7 +236,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
     });
@@ -261,7 +261,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
     });
@@ -297,7 +297,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
 
@@ -331,7 +331,7 @@ describe("REDUCER: CourseStructure", () => {
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
 
@@ -363,9 +363,8 @@ describe("REDUCER: CourseStructure", () => {
 
             deepFreeze(stateBefore);
             deepFreeze(action);
-Jt and I were ubering as well so if you're going from your mom's or dad's, it'll work
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
     });
@@ -400,7 +399,7 @@ Jt and I were ubering as well so if you're going from your mom's or dad's, it'll
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
 
@@ -433,7 +432,7 @@ Jt and I were ubering as well so if you're going from your mom's or dad's, it'll
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
 
@@ -466,7 +465,7 @@ Jt and I were ubering as well so if you're going from your mom's or dad's, it'll
             deepFreeze(action);
 
             expect(
-                CourseStructure(stateBefore, action)
+                Course(stateBefore, action)
             ).toEqual(stateAfter);
         });
     });
