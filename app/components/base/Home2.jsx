@@ -63,13 +63,11 @@ class Home extends Component {
     * @author Eric Jiang
     */
     switchBetweenForms() {
-      if(this.state.showYearSelect){
-        this.setState({ showYearSelect: false});
-        console.log(this.state.showYearSelect);
-      } else {
-        this.setState({ showYearSelect: true});
-        console.log(this.state.showYearSelect);
-      }
+        if(this.state.showYearSelect){
+            this.setState({ showYearSelect: false});
+        } else {
+            this.setState({ showYearSelect: true});
+        }
     }
 
     /**
