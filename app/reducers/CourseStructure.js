@@ -33,11 +33,28 @@ const CourseStructure = (state = {teachingPeriods: [], units: 4}, action) => {
                 ]}
             );
         
-        case "INCREASE_LOAD":
-            return state;
+        case "INCREASE_STUDY_LOAD":
+            if(state.units >= 6) {
+                return Object.assign({}, state, {
+                    units: 6
+                });
+            } else {
+                return Object.assign({}, state, {
+                    units: state.units + 1
+                });
+            }
+            
         
-        case "DECREASE_LOAD":
-            return state;
+        case "DECREASE_STUDY_LOAD":
+            if(state.units <= 4) {
+                return Object.assign({}, state, {
+                    units: 4
+                });
+            } else {
+                return Object.assign({}, state, {
+                    units: state.units - 1
+                });
+            }
 
         default:
             return state;
