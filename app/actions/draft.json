@@ -1,8 +1,5 @@
 [
     {
-        "type": "ADD_TEACHING_PERIOD"
-    },
-    {
         "type": "WILL_ADD_UNIT",
         "custom": [false, true]
     },
@@ -23,18 +20,6 @@
         "type": "CANCEL_MOVE_UNIT"
     },
     {
-        "type": "DELETE_UNIT"
-    },
-    {
-        "type": "DELETE_TEACHING_PERIOD"
-    },
-    {
-        "type": "INSERT_TEACHING_PERIOD"
-    },
-    {
-        "type": "APPEND_SEMESTER"
-    },
-    {
         "type": "FETCH_UNIT_DETAILS"
     },
     {
@@ -50,34 +35,12 @@
         "type": "SELECT_UNIT_SEARCH_RESULT"
     },
     {
-        "type": "ADD_OVERLOAD_COLUMN"
-    },
-    {
-        "type": "REMOVE_OVERLOAD_COLUMN"
-    },
-    {
-        "type": "INCREMENT_CREDIT_POINTS"
-    },
-    {
-        "type": "DECREMENT_CREDIT_POINTS"
-    },
-    {
-        "type": "INCREMENT_COST"
-    },
-    {
-        "type": "DECREMENT_COST"
-    },
-    {
         "type": "LOAD_COURSE",
         "source": ["APITemplate", "localStorage", "DatabaseSnapshot"]
     },
     {
         "type": "SAVE_COURSE",
         "destination": ["localStorage", "DatabaseSnapshot"]
-    },
-    {
-        "type": "CLEAR_COURSE",
-        "confirm": [false, true]
     },
     {
         "type": "COMPLETE_COURSE"

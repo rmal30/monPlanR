@@ -363,7 +363,7 @@ describe("REDUCER: CourseStructure", () => {
 
             deepFreeze(stateBefore);
             deepFreeze(action);
-
+Jt and I were ubering as well so if you're going from your mom's or dad's, it'll work
             expect(
                 CourseStructure(stateBefore, action)
             ).toEqual(stateAfter);
