@@ -74,16 +74,15 @@ class ClearCourseModal extends Component {
      * Clears the course and then closes the modal.
      */
     handleEnterPress(e) {
-      if(e.keyCode === 13 && !this.state.disabled){
-        console.log(e)
-        this.props.clearCourse();
-        this.handleClose();
-        if(this.props.redirect){
-          this.context.router.push({
-            pathname: this.props.redirect
-          })
+        if(e.keyCode === 13 && !this.state.disabled){
+            this.props.clearCourse();
+            this.handleClose();
+            if(this.props.redirect){
+                this.context.router.push({
+                    pathname: this.props.redirect
+                });
+            }
         }
-      }
     }
 
     /**
@@ -153,5 +152,6 @@ ClearCourseModal.propTypes = {
 
 ClearCourseModal.contextTypes = {
     router: React.PropTypes.object.isRequired
-}
+};
+
 export default ClearCourseModal;

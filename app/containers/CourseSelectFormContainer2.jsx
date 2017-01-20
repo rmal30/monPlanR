@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Button, Divider, Dropdown, Container, Header, Icon, Step, Popup, Search, Grid } from "semantic-ui-react";
-import { Link } from "react-router";
+import { Button, Dropdown, Container, Header, Icon, Step, Popup, Search, Grid } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import FuzzySearch from "../utils/FuzzySearch";
 import UnitQuery from "../utils/UnitQuery";
