@@ -27,6 +27,12 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 return Object.assign({}, state, {cost: state.cost - value});
             }
         
+        case "CLEAR_COURSE":
+            return {
+                cost: 0,
+                creditPoints: 0
+            };
+            
         default:
             return state;
     }

@@ -141,4 +141,21 @@ describe("REDUCER: Counter", () => {
             ).toEqual(stateAfter);
         });
     });
+
+    describe("ACTION: CLEAR_COURSE", () => {
+        it("Should reset the cost and credit point counters to 0", () => {
+            const stateBefore = {cost: 50, creditPoints: 40};
+            const action = {
+                type: "CLEAR_COURSE"
+            };
+            const stateAfter = {cost: 0, creditPoints: 0};
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Counter(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });

@@ -240,4 +240,29 @@ describe("REDUCER: CourseStructure", () => {
             ).toEqual(stateAfter);
         });
     });
+
+    describe("ACTION: CLEAR_COURSE", () => {
+        it("Should remove all teaching periods and set the amount of units to 4", () => {
+            const stateBefore = {
+                teachingPeriods: [{ year: 2018, code: "S2-01", units: [] }], 
+                units: 5
+            };
+            
+            const action = {
+                type: "CLEAR_COURSE"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [],
+                units: 4
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });

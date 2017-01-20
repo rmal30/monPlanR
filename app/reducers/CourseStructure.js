@@ -54,7 +54,13 @@ const CourseStructure = (state = {teachingPeriods: [], units: 4}, action) => {
                     units: state.units - 1
                 });
             }
-
+        
+        case "CLEAR_COURSE":
+            return {
+                teachingPeriods: [],
+                units: 4
+            };
+        
         default:
             return state;
     }
