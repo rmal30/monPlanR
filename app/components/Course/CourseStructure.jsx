@@ -146,11 +146,12 @@ class CourseStructure extends Component {
             browserHistory.push("/plan");
         }
 
+        /*
         this.setState({
             totalCreditPoints: nextProps.totalCreditPoints || this.state.totalCreditPoints,
             totalEstimatedCost: nextProps.totalCost || this.state.totalEstimatedCost
         });
-
+        */
     }
 
     /**
@@ -478,13 +479,13 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      */
     saveCourseToLocalStorage() {
-        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = this.state;
+        const { teachingPeriods, numberOfUnits, startYear } = this.state;
 
         localStorage.setItem("courseStructure", JSON.stringify({
             teachingPeriods,
             numberOfUnits,
-            totalCreditPoints,
-            totalEstimatedCost,
+            totalCreditPoints: this.props.counter.creditPoints,
+            totalEstimatedCost: this.props.counter.cost,
             startYear,
             version: MONPLAN_VERSION
         }));
