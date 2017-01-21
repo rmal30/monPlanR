@@ -29,10 +29,3 @@ export const decrementCost = (amount) => {
         value: amount
     };
 };
-
-// CLEAR_COURSE
-export const clearCourse = () => {
-    return {
-        type: "CLEAR_COURSE"
-    };
-};
