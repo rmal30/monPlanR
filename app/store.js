@@ -4,6 +4,7 @@ import { browserHistory } from "react-router";
 
 import appReducer from "./reducers/Index";
 
+
 const store = createStore(appReducer);
 
 // Named export the history to use 

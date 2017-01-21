@@ -5,8 +5,8 @@ import Counter from "./Counter";
 import Course from "./Course";
 
 const appReducer = combineReducers({
-    Counter,
     Course,
+    Counter,
     routing: routerReducer
 });
 

@@ -135,7 +135,8 @@ class Main extends Component {
                                       attachAddToCourse: this.attachAddToCourse,
                                       detachAddToCourse: this.detachAddToCourse,
                                       updateStatus: this.updateStatus,
-                                      courseErrors: this.state.courseErrors
+                                      courseErrors: this.state.courseErrors,
+
                                   })}
                         </ReactCSSTransitionGroup>
                         <Footer className="footer"/>
@@ -151,4 +152,4 @@ Main.propTypes = {
     location: PropTypes.object
 };
 
-export default DragDropContext(HTML5Backend)(Main);
+export default Main;
