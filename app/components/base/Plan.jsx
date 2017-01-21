@@ -6,7 +6,7 @@ import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStatisticGroup from "../Course/CourseStatisticGroup.jsx";
+import CourseStatisticGroupWrapper from "../../wrappers/CourseStatisticGroupWrapper";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import CourseDetailPopup from "../Course/CourseDetailPopup.jsx";
 
@@ -39,8 +39,6 @@ class Plan extends Component {
 
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
-        this.removeFromCourse = this.removeFromCourse.bind(this);
-        this.handleChildUpdateTotals = this.handleChildUpdateTotals.bind(this);
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
         this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
@@ -163,18 +161,6 @@ class Plan extends Component {
         });
     }
 
-    /**
-     * Handles the removal of a unit and updates the totals.
-     */
-    removeFromCourse(unit) {
-        let newCred = this.state.totalCredits - unit.CreditPoints;
-        let newCost = this.state.totalCost - unit.Cost;
-
-        this.setState({
-            totalCredits: newCred,
-            totalCost: newCost
-        });
-    }
 
     /**
      * Handles the cancellation of adding a unit to course
@@ -188,27 +174,13 @@ class Plan extends Component {
     /**
      * Turns off add unit UI, also updated running course totals
      */
-    doneAddingToCourse(unit) {
-        let newCred = this.state.totalCredits + unit.CreditPoints;
-        let newCost = this.state.totalCost + unit.Cost;
+    doneAddingToCourse() {
 
         this.setState({
-            totalCredits: newCred,
-            totalCost: newCost,
             unitToAdd: undefined
         });
     }
 
-    /**
-     * On occasion, such as loading from local storage, a child component may need to update the totals without the parent being aware
-     * this function is passed down, and it is the child components responsibity to call this function in these situations.
-     */
-    handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
-        this.setState({
-            totalCredits: totalCreditPoints,
-            totalCost: totalEstimatedCost
-        });
-    }
 
     /**
      * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as
@@ -258,7 +230,7 @@ class Plan extends Component {
                                     onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
                             <Grid.Column width="4" floated="right">
-                                <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
+                                <CourseStatisticGroupWrapper />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -272,9 +244,6 @@ class Plan extends Component {
                                      cancelAddingToCourse={this.cancelAddingToCourse}
                                      removeFromCourse={this.removeFromCourse}
                                      unitToAdd={this.state.unitToAdd}
-                                     totalCreditPoints={this.state.totalCredits}
-                                     totalCost={this.state.totalCost}
-                                     handleChildUpdateTotals={this.handleChildUpdateTotals}
                                      courseToLoad={this.state.courseToLoad}
                                      courseYear={this.state.courseYear}
                                      updateStatus={this.props.updateStatus}

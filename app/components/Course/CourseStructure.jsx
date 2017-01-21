@@ -19,6 +19,32 @@ import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import ConfirmDeleteOverload from "../modals/ConfirmDeleteOverload.jsx";
 
+
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as counterActions from "../../actions/CounterActions";
+import * as courseActions from "../../actions/CourseActions";
+//import { DragDropContext } from "react-dnd";
+//import HTML5Backend from "react-dnd-html5-backend";
+// import TouchBackend from "react-dnd-touch-backend";
+
+const mapStateToProps = (state) => {
+    return {
+        course: state.Course,
+        counter: state.Counter
+    };
+};
+
+const actionBundle = Object.assign({}, counterActions, courseActions);
+// Can feed it as many actions as needed
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(actionBundle, dispatch);
+};
+
+
+//const App = DragDropContext(HTML5Backend)(Main);
+
+
 /**
  * CourseStructure holds a table that allows students to plan their courses by
  * adding, moving and deleting units. It also holds action and status components
@@ -50,8 +76,6 @@ class CourseStructure extends Component {
             teachingPeriodsData: null,
             showMoveUnitUI: false,
             unitToBeMoved: undefined,
-            totalCreditPoints: this.props.totalCreditPoints,
-            totalEstimatedCost: this.props.totalCost,
             isLoading: false,
             unlock: true,
             isUploading: false,
@@ -388,7 +412,8 @@ class CourseStructure extends Component {
             unlock: true
         });
 
-        this.props.handleChildUpdateTotals(result.newCP, result.newCost);
+        this.props.incrementCost(result.newCost);
+        this.props.incrementCreditPoints(result.newCP);
 
     }
 
@@ -400,6 +425,7 @@ class CourseStructure extends Component {
     courseLoad(courseCode, year) {
         this.setState({isLoading: true});
         this.clearCourse();
+        this.props.clearCourse(); //confusing I know, but this is the redux function passed through
         UnitQuery.getCourseData(courseCode)
             .then(response => {
                 let data = response.data;
@@ -427,8 +453,8 @@ class CourseStructure extends Component {
             .then(response => {
                 const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = response.data.snapshotData;
 
-                this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
-
+                this.props.incrementCost(totalEstimatedCost);
+                this.props.incrementCreditPoints(totalCreditPoints);
                 this.setState({
                     teachingPeriods,
                     numberOfUnits,
@@ -518,6 +544,10 @@ class CourseStructure extends Component {
 
         if(stringifedJSON) {
             const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = JSON.parse(stringifedJSON);
+            
+            this.props.incrementCost(totalEstimatedCost);
+            this.props.incrementCreditPoints(totalCreditPoints);
+            
             this.setState({
                 teachingPeriods,
                 numberOfUnits,
@@ -526,7 +556,6 @@ class CourseStructure extends Component {
                 startYear: startYear || new Date().getFullYear()
             });
 
-            this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
         }
     }
 
@@ -542,7 +571,7 @@ class CourseStructure extends Component {
             totalCreditPoints: 0,
             totalEstimatedCost: 0
         });
-        this.props.handleChildUpdateTotals(0, 0);
+        this.props.clearCourse();
     }
 
     /**
@@ -553,12 +582,14 @@ class CourseStructure extends Component {
     componentDidMount() {
         if(this.props.viewOnly) {
             if(this.props.fetchURL) {
+                this.props.clearCourse();
                 this.loadCourseFromDatabase();
             }
             return;
         }
 
         if(Home.checkIfCourseStructureIsInLocalStorage()) {
+            this.props.clearCourse();
             this.loadCourseFromLocalStorage();
         }
     }
@@ -773,6 +804,8 @@ class CourseStructure extends Component {
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitToAdd;
         this.setState({ teachingPeriods });
         this.props.doneAddingToCourse(unitToAdd);
+        this.props.incrementCreditPoints(unitToAdd.CreditPoints);
+        this.props.incrementCost(unitToAdd.Cost);
     }
 
     /**
@@ -861,17 +894,14 @@ class CourseStructure extends Component {
             ...this.state.teachingPeriods.slice(index + 1)
         ];
 
-        let { totalCreditPoints, totalEstimatedCost } = this.state;
-
         for (let i=0; i < this.state.teachingPeriods[index].units.length; i++) {
             let unit = this.state.teachingPeriods[index].units[i];
             if (unit !== null && unit !== undefined) {
-                totalCreditPoints -= unit.CreditPoints;
-                totalEstimatedCost -= unit.Cost;
+                this.props.decrementCreditPoints(unit.CreditPoints);
+                this.props.decrementCost(unit.Cost);
             }
         }
 
-        this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
         this.setState({ teachingPeriods });
     }
 
@@ -885,8 +915,10 @@ class CourseStructure extends Component {
      */
     deleteUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
-        this.props.removeFromCourse(teachingPeriods[teachingPeriodIndex].units[unitIndex]);
-        teachingPeriods[teachingPeriodIndex].units[unitIndex] = undefined;
+        const unitToRemove = teachingPeriods[teachingPeriodIndex].units[unitIndex];
+        this.props.decrementCost(unitToRemove.Cost);
+        this.props.decrementCreditPoints(unitToRemove.CreditPoints);
+        teachingPeriods[teachingPeriodIndex].units[unitIndex] = null;
         this.setState({ teachingPeriods });
     }
 
@@ -934,20 +966,20 @@ class CourseStructure extends Component {
         if(this.state.numberOfUnits > this.minNumberOfUnits) {
             const teachingPeriods = this.state.teachingPeriods.slice();
 
-            let { totalCreditPoints, totalEstimatedCost, numberOfUnits } = this.state;
+            let { numberOfUnits } = this.state;
 
             teachingPeriods.forEach(teachingPeriod => {
                 const unit = teachingPeriod.units[numberOfUnits - 1];
 
                 if (unit !== null && unit !== undefined) {
-                    totalCreditPoints -= unit.CreditPoints;
-                    totalEstimatedCost -= unit.Cost;
+                    this.props.decrementCreditPoints(unit.CreditPoints);
+                    this.props.decrementCost(unit.Cost);
                 }
 
                 teachingPeriod.units = teachingPeriod.units.slice(0, -1);
             });
 
-            this.props.handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost);
+            
 
             this.setState({
                 numberOfUnits: this.state.numberOfUnits - 1,
@@ -1346,7 +1378,6 @@ CourseStructure.propTypes = {
     doneAddingToCourse: PropTypes.func,
     totalCreditPoints: PropTypes.number.isRequired,
     totalCost: PropTypes.number.isRequired,
-    handleChildUpdateTotals: PropTypes.func,
     removeFromCourse: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
@@ -1362,4 +1393,5 @@ CourseStructure.propTypes = {
     fetchURL: PropTypes.string
 };
 
-export default CourseStructure;
+//export default CourseStructure;
+export default connect(mapStateToProps, mapDispatchToProps)(CourseStructure);

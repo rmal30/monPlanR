@@ -5,14 +5,14 @@ import { Icon, Statistic, Popup } from "semantic-ui-react";
  * This currently is a component that renders the statistics for cost and credit points
  * @author JXNS
  *
- * @param {number} currentCreditPoints - A number representing the toal sum of credit points accumulated from a course
- * @param {number} currentEstCost - A number representing the current total estimated cost of a degree
+ * @param {number} creditPoints - A number representing the toal sum of credit points accumulated from a course
+ * @param {number} cost - A number representing the current total estimated cost of a degree
  */
 function CourseStatisticGroup(props) {
 
     CourseStatisticGroup.propTypes = {
-        currentCreditPoints: PropTypes.number.isRequired,
-        currentEstCost: PropTypes.number.isRequired
+        creditPoints: PropTypes.number.isRequired,
+        cost: PropTypes.number.isRequired
     };
 
     return (
@@ -20,7 +20,7 @@ function CourseStatisticGroup(props) {
             <Statistic>
                 <Statistic.Value>
                     <Icon name='student' />
-                    {props.currentCreditPoints}
+                    {props.creditPoints}
                 </Statistic.Value>
                 <Popup
                   trigger={<Statistic.Label>Credit Points</Statistic.Label>}
@@ -34,7 +34,7 @@ function CourseStatisticGroup(props) {
             <Statistic>
                 <Statistic.Value >
                     <Icon name='dollar' />
-                    {props.currentEstCost}
+                    {props.cost}
                 </Statistic.Value>
                 <Popup
                   trigger={<Statistic.Label>Total Est. Cost</Statistic.Label>}

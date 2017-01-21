@@ -1,6 +1,7 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as courseActions from "../../actions/CourseActions";
+import * as counterActions from "../../actions/CounterActions";
 import Main from "./Main.jsx";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
@@ -13,8 +14,9 @@ const mapStateToProps = (state) => {
     };
 };
 
+// Can feed it as many actions as needed
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(courseActions, dispatch);
+    return bindActionCreators(courseActions, counterActions, dispatch);
 };
 
 
