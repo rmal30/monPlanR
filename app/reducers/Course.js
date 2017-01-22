@@ -7,7 +7,18 @@
  * I will not pretend that these action handlers follow a strictly consistent contract with the functions that call them,
  * but in general they will trust that they are being called correctly to reduce complexity (not checking for index out of bounds errors etc)
  */
-const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action) => {
+const CourseStructure = (
+    state = {
+        teachingPeriods: [], 
+        numberOfUnits: 4,
+        courseTemplateLoadError: false,
+        courseInfoLoadError: false,
+        unitLoadError: false,
+        unitLoading: false,
+        courseLoading: false,
+        data: null
+
+    }, action) => {
     
     switch(action.type) {
 
@@ -166,40 +177,67 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
             };
         
         case "FETCH_COURSE_INFO_PENDING":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: true}
+            );
         
         case "FETCH_COURSE_INFO_FULFILLED":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseInfoLoadError: false, data: action.payload}
+            );
 
         case "FETCH_COURSE_INFO_REJECTED":
-            return state;
-        
-        case "FETCH_COURSE_FROM_LOCALSTORAGE_PENDING":
-            return state;
-        
-        case "FETCH_COURSE_FROM_LOCALSTORAGE_FULFILLED":
-            return state;
-        
-        case "FETCH_COURSE_FROM_LOCALSTORAGE_REJECTED":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseInfoLoadError: true, data: null}
+            );
         
         case "FETCH_COURSE_TEMPLATE_PENDING":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: true}
+            );
         
         case "FETCH_COURSE_TEMPLATE_FULFILLED":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseTemplateLoadError: false, data: action.payload}
+            );
         
         case "FETCH_COURSE_TEMPLATE_REJECTED":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseTemplateLoadError: true, data: null}
+            );
         
         case "FETCH_UNIT_INFO_PENDING":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {unitLoading: true}
+            );
         
         case "FETCH_UNIT_INFO_FULFILLED":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {unitLoading: false, unitLoadError: false, data: action.payload}
+            );
         
         case "FETCH_UNIT_INFO_REJECTED":
-            return state;
+            return Object.assign(
+                {},
+                state,
+                {unitLoading: false, unitLoadError: true, data: null}
+            );
         
         default:
             return state;

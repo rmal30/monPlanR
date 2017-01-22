@@ -470,4 +470,339 @@ describe("REDUCER: CourseStructure", () => {
         });
     });
 
+    describe("ACTION: FETCH_COURSE_INFO_PENDING", () =>{
+        it("Should correctly show that the course info is loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_COURSE_INFO_PENDING"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: true,
+                data: null
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_COURSE_INFO_FULFILLED", () => {
+        it("Should correctly return the payload and show that it is no longer loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: true,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_COURSE_INFO_FULFILLED",
+                payload: "Fake Course Data"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: "Fake Course Data"
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_COURSE_INFO_REJECTED", () => {
+        it("Should correctly show that the course info fetch failed and show that it is no longer loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: true,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_COURSE_INFO_REJECTED"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: true,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: null
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_COURSE_TEMPLATE_PENDING", () => {
+        it("Should correctly show that the course template is loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_COURSE_TEMPLATE_PENDING"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: true,
+                data: null
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_COURSE_TEMPLATE_FULFILLED", () => {
+        it("Should correctly return the payload and show that it is no longer loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: true,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_COURSE_TEMPLATE_FULFILLED",
+                payload: "Fake Course Template"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: "Fake Course Template"
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_COURSE_TEMPLATE_REJECTED", () => {
+        it("Should correctly show that the course template fetch failed and show that it is no longer loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: true,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_COURSE_TEMPLATE_REJECTED"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: true,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: null
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_UNIT_INFO_PENDING", () => {
+        it("Should correctly show that the unit info is loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_UNIT_INFO_PENDING"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: true,
+                courseLoading: false,
+                data: null
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_UNIT_INFO_FULFILLED", () => {
+        it("Should correctly return the payload and show that it is no longer loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: true,
+                courseLoading: false,
+                data: null
+            };  
+
+            const action = {
+                type: "FETCH_UNIT_INFO_FULFILLED",
+                payload: "Fake Unit Info"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: false,
+                courseLoading: false,
+                data: "Fake Unit Info"
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_UNIT_INFO_REJECTED", () => {
+        it("Should correctly show that the unit info fetch failed and show that it is no longer loading", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: true,
+                courseLoading: false,
+                data: null
+            };
+
+            const action = {
+                type: "FETCH_UNIT_INFO_REJECTED"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: true,
+                unitLoading: false,
+                courseLoading: false,
+                data: null
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Course(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });
