@@ -67,19 +67,25 @@ class CourseStructure extends Component {
         this.maxNumberOfUnits = 6;
 
         this.state = {
+            /* Data state */
             numberOfUnits: 4,
-            showInsertTeachingPeriods: false,
             teachingPeriods: this.generateCourse(startYear, endYear),
+
+            startYear: startYear || new Date().getFullYear(),
+
+            /* UI state */
+            showInsertTeachingPeriods: false,
             teachingPeriodsData: null,
             showMoveUnitUI: false,
             unitToBeMoved: undefined,
             isLoading: false,
             unlock: true,
+
             isUploading: false,
             uploadingError: false,
             uploaded: false,
-            courseToLoad: this.props.courseToLoad,
-            startYear: startYear || new Date().getFullYear()
+
+            courseToLoad: this.props.courseToLoad
         };
 
         // Fetch common teaching periods to get names for each teaching period code.
@@ -352,7 +358,7 @@ class CourseStructure extends Component {
      * periods, given start year and end year.
      *
      * @author Eric Jiang, Saurabh Joshi
-     * @param {number} startYear - When the student commerces their course.
+     * @param {number} startYear - When the student commences their course.
      * @param {number} endYear - When the student is expected to graduate.
      */
     generateCourse(startYear, endYear) {
