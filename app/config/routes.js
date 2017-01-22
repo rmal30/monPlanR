@@ -4,7 +4,7 @@ import { Route, IndexRoute } from "react-router";
 /* Components import here */
 import Main from "../components/base/Main.jsx";
 import Home from "../components/base/Home.jsx";
-import Plan from "../components/base/Plan2.jsx";
+import Plan from "../components/base/Plan.jsx";
 import Disclaimer from "../components/base/Disclaimer.jsx";
 import View from "../components/base/View.jsx";
 import YearFormContainer from "../containers/YearFormContainer.jsx";
