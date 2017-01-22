@@ -1,21 +1,44 @@
+// Dependency imports
 import React, { Component, PropTypes } from "react";
-
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-// import TouchBackend from "react-dnd-touch-backend";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import "../../resources/css/transitions.css"; // What is this...?
 
+// UI framework imports
+import { Menu, Sidebar } from "semantic-ui-react";
+
+// Local component imports
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 
-import { Menu, Sidebar } from "semantic-ui-react";
-
+//Local container imports
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
-// import UnitDragPreview from "../Unit/UnitDragPreview.jsx";
 
-/* These imports handle the smooth transitioning between app views */
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import "../../resources/css/transitions.css";
+// Redux actions import
+import * as courseActions from "../../actions/CourseActions";
+import * as counterActions from "../../actions/CounterActions";
 
+
+/**
+ * Redux binding for main, this passes in the state as props to the main component via connect method at the bottom
+ */
+const mapStateToProps = (state) => {
+    return {
+        course: state.Course,
+        counter: state.Counter
+    };
+};
+
+/**
+ * Redux bindings for functions, passes the action creators through with dispatch built in
+ */
+const mapDispatchToProps = (dispatch) => {
+    const actionBundle = Object.assign({}, courseActions, counterActions);
+    return bindActionCreators(actionBundle, dispatch);
+};
 
 /**
  * The main layout used for all views.
@@ -135,7 +158,8 @@ class Main extends Component {
                                       attachAddToCourse: this.attachAddToCourse,
                                       detachAddToCourse: this.detachAddToCourse,
                                       updateStatus: this.updateStatus,
-                                      courseErrors: this.state.courseErrors
+                                      courseErrors: this.state.courseErrors,
+
                                   })}
                         </ReactCSSTransitionGroup>
                         <Footer className="footer"/>
@@ -151,4 +175,12 @@ Main.propTypes = {
     location: PropTypes.object
 };
 
-export default DragDropContext(HTML5Backend)(Main);
+
+/**
+ * THIS IS IMPORTANT
+ * To ensure that redux connect plays well with react drag and drop (which also uses connect), 
+ * we need to first connect the main app with drag and drop, then we take the connected dnd version and 
+ * connect it again through the redux. 
+ */
+const App = DragDropContext(HTML5Backend)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,9 +1,13 @@
 import React from "react";
 import { render } from "react-dom";
-import { Router, browserHistory } from "react-router";
+import { Router } from "react-router";
+import { Provider } from "react-redux";
 
 import routes from "./config/routes";
+import store, { history } from "./store";
 
 render((
-    <Router routes={routes} history={browserHistory} />
+    <Provider store={store}>
+        <Router routes={routes} history={history} />
+    </Provider>
     ), document.getElementById("app"));
