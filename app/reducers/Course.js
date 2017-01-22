@@ -165,6 +165,42 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
                 numberOfUnits: 4
             };
         
+        case "FETCH_COURSE_INFO_PENDING":
+            return state;
+        
+        case "FETCH_COURSE_INFO_FULFILLED":
+            return state;
+
+        case "FETCH_COURSE_INFO_REJECTED":
+            return state;
+        
+        case "FETCH_COURSE_FROM_LOCALSTORAGE_PENDING":
+            return state;
+        
+        case "FETCH_COURSE_FROM_LOCALSTORAGE_FULFILLED":
+            return state;
+        
+        case "FETCH_COURSE_FROM_LOCALSTORAGE_REJECTED":
+            return state;
+        
+        case "FETCH_COURSE_TEMPLATE_PENDING":
+            return state;
+        
+        case "FETCH_COURSE_TEMPLATE_FULFILLED":
+            return state;
+        
+        case "FETCH_COURSE_TEMPLATE_REJECTED":
+            return state;
+        
+        case "FETCH_UNIT_INFO_PENDING":
+            return state;
+        
+        case "FETCH_UNIT_INFO_FULFILLED":
+            return state;
+        
+        case "FETCH_UNIT_INFO_REJECTED":
+            return state;
+        
         default:
             return state;
     }

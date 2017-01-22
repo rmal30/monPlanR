@@ -1,11 +1,29 @@
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { syncHistoryWithStore } from "react-router-redux";
 import { browserHistory } from "react-router";
-
+import logger from "redux-logger";
+import promise from "redux-promise-middleware";
 import appReducer from "./reducers/Index";
 
 
-const store = createStore(appReducer);
+/**
+ * Promise middle ware is used a little differently
+ * 
+ * The initial action should dispatch an action with a payload of a promise
+ * 
+ * like:
+ *      store.dispatch({
+ *          type: "FOO"
+ *          payload: axios.get("""")
+ * })
+ * 
+ * This then broken up into 
+ * FOO_PENDING
+ * FOO_FULFILLED
+ * FOO_REJECTED
+ */
+const middleware = applyMiddleware(promise(), logger());
+const store = createStore(appReducer, middleware);
 
 // Named export the history to use 
 export const history = syncHistoryWithStore(browserHistory, store);

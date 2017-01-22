@@ -1376,7 +1376,6 @@ CourseStructure.propTypes = {
     }),
     addToCourse: PropTypes.func,
     doneAddingToCourse: PropTypes.func,
-    removeFromCourse: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
     handleEditCoursePlanClick: PropTypes.func,

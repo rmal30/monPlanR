@@ -269,12 +269,12 @@ Plan.propTypes = {
         }).isRequired
     }).isRequired,
 
-    attachAddToCourse: PropTypes.func.isRequired,
-    detachAddToCourse: PropTypes.func.isRequired,
+    attachAddToCourse: PropTypes.func,
+    detachAddToCourse: PropTypes.func,
 
     /* Validation status */
-    updateStatus: PropTypes.func.isRequired,
-    courseErrors: PropTypes.array.isRequired,
+    updateStatus: PropTypes.func,
+    courseErrors: PropTypes.array,
 
     /* When user clicks on the page */
     handleDocumentClick: PropTypes.func
