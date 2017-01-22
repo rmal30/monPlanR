@@ -24,26 +24,25 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as counterActions from "../../actions/CounterActions";
 import * as courseActions from "../../actions/CourseActions";
-//import { DragDropContext } from "react-dnd";
-//import HTML5Backend from "react-dnd-html5-backend";
-// import TouchBackend from "react-dnd-touch-backend";
 
+
+/**
+ * Set up any props you want course structure to be passed here
+ */
 const mapStateToProps = (state) => {
     return {
-        course: state.Course,
-        counter: state.Counter
+        creditPoints: state.Counter.creditPoints,
+        cost: state.Counter.cost
     };
 };
 
-const actionBundle = Object.assign({}, counterActions, courseActions);
-// Can feed it as many actions as needed
+/**
+ * Set up any functions from the action creators you want to pass in
+ */
 const mapDispatchToProps = (dispatch) => {
+    const actionBundle = Object.assign({}, counterActions, courseActions);
     return bindActionCreators(actionBundle, dispatch);
 };
-
-
-//const App = DragDropContext(HTML5Backend)(Main);
-
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
@@ -484,8 +483,8 @@ class CourseStructure extends Component {
         localStorage.setItem("courseStructure", JSON.stringify({
             teachingPeriods,
             numberOfUnits,
-            totalCreditPoints: this.props.counter.creditPoints,
-            totalEstimatedCost: this.props.counter.cost,
+            totalCreditPoints: this.props.creditPoints,
+            totalEstimatedCost: this.props.cost,
             startYear,
             version: MONPLAN_VERSION
         }));
@@ -1377,12 +1376,20 @@ CourseStructure.propTypes = {
     }),
     addToCourse: PropTypes.func,
     doneAddingToCourse: PropTypes.func,
-    totalCreditPoints: PropTypes.number.isRequired,
-    totalCost: PropTypes.number.isRequired,
     removeFromCourse: PropTypes.func.isRequired,
     cancelAddingToCourse: PropTypes.func,
     courseToLoad: PropTypes.string,
     handleEditCoursePlanClick: PropTypes.func,
+
+    /* Redux functions */
+    creditPoints: PropTypes.number,
+    cost: PropTypes.number,
+    incrementCost: PropTypes.func,
+    incrementCreditPoints: PropTypes.func,
+    clearCourse: PropTypes.func,
+    decrementCost: PropTypes.func,
+    decrementCreditPoints: PropTypes.func,
+
 
     /* Validation */
     updateStatus: PropTypes.func.isRequired,
