@@ -22,9 +22,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as counterActions from "../../actions/CounterActions";
 import * as courseActions from "../../actions/CourseActions";
-lkjdaghahngalag
 
-ssss
 /**
  * Set up any props you want course structure to be passed here
  */
