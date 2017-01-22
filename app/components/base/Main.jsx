@@ -1,14 +1,23 @@
+// Dependency imports
 import React, { Component, PropTypes } from "react";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import Header from "./Header.jsx";
-import Footer from "./Footer.jsx";
-import { Menu, Sidebar } from "semantic-ui-react";
-import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import "../../resources/css/transitions.css";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import "../../resources/css/transitions.css"; // What is this...?
+
+// UI framework imports
+import { Menu, Sidebar } from "semantic-ui-react";
+
+// Local component imports
+import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
+
+//Local container imports
+import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
+
+// Redux actions import
 import * as courseActions from "../../actions/CourseActions";
 import * as counterActions from "../../actions/CounterActions";
 
