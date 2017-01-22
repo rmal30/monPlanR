@@ -1,22 +1,20 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dimmer, Divider, Dropdown, Icon, Input, Loader, Message, Modal, Popup, Table } from "semantic-ui-react";
+import { Button, Container, Dimmer, Icon, Loader, Popup, Table } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
 
+import LocalStorage from "../../utils/LocalStorage.js";
 import UnitQuery from "../../utils/UnitQuery";
 import CourseTemplate from "../../utils/CourseTemplate";
-import Export from "../../utils/Export.js";
 
-import ControlledModal from "../modals/ControlledModal.jsx";
+import CourseViewActions from "./CourseViewActions.jsx";
+import CourseEditActions from "./CourseEditActions.jsx";
+import CourseMessage from "./CourseMessage.jsx";
 
-import Home from "../base/Home.jsx";
 import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriod from "../TeachingPeriod/NoTeachingPeriod.jsx";
 import InsertTeachingPeriod from "../TeachingPeriod/InsertTeachingPeriod.jsx";
-import InsertTeachingPeriodButton from "../TeachingPeriod/InsertTeachingPeriodButton.jsx";
-import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
-import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import ConfirmDeleteOverload from "../modals/ConfirmDeleteOverload.jsx";
 
 
@@ -29,7 +27,7 @@ import * as courseActions from "../../actions/CourseActions";
 /**
  * Set up any props you want course structure to be passed here
  */
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         creditPoints: state.Counter.creditPoints,
         cost: state.Counter.cost
@@ -39,7 +37,7 @@ const mapStateToProps = (state) => {
 /**
  * Set up any functions from the action creators you want to pass in
  */
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     const actionBundle = Object.assign({}, counterActions, courseActions);
     return bindActionCreators(actionBundle, dispatch);
 };
@@ -69,25 +67,29 @@ class CourseStructure extends Component {
         this.maxNumberOfUnits = 6;
 
         this.state = {
+            /* Data state */
             numberOfUnits: 4,
-            showInsertTeachingPeriods: false,
             teachingPeriods: this.generateCourse(startYear, endYear),
+
+            startYear: startYear || new Date().getFullYear(),
+
+            /* UI state */
+            showInsertTeachingPeriods: false,
             teachingPeriodsData: null,
             showMoveUnitUI: false,
             unitToBeMoved: undefined,
             isLoading: false,
             unlock: true,
+
             isUploading: false,
             uploadingError: false,
             uploaded: false,
-            courseToLoad: this.props.courseToLoad,
-            startYear: startYear || new Date().getFullYear()
+
+            courseToLoad: this.props.courseToLoad
         };
 
-        let qURL = `${MONPLAN_REMOTE_URL}/basic/teachingperiods`;
-
         // Fetch common teaching periods to get names for each teaching period code.
-        axios.get(qURL)
+        axios.get(`${MONPLAN_REMOTE_URL}/basic/teachingperiods`)
              .then(response => {
                  /**
                   * Compares start teaching period date between two teaching periods.
@@ -118,6 +120,8 @@ class CourseStructure extends Component {
         this.getQuickSemesterString = this.getQuickSemesterString.bind(this);
         this.appendSemester = this.appendSemester.bind(this);
         this.showInsertTeachingPeriodsUI = this.showInsertTeachingPeriodsUI.bind(this);
+        this.hideInsertTeachingPeriodsUI = this.hideInsertTeachingPeriodsUI.bind(this);
+        this.clearCourse = this.clearCourse.bind(this);
         this.getCourseErrors = this.getCourseErrors.bind(this);
         this.uploadCourseToDatabase = this.uploadCourseToDatabase.bind(this);
     }
@@ -144,13 +148,6 @@ class CourseStructure extends Component {
             this.saveCourseToLocalStorage();
             browserHistory.push("/plan");
         }
-
-        /*
-        this.setState({
-            totalCreditPoints: nextProps.totalCreditPoints || this.state.totalCreditPoints,
-            totalEstimatedCost: nextProps.totalCost || this.state.totalEstimatedCost
-        });
-        */
     }
 
     /**
@@ -361,7 +358,7 @@ class CourseStructure extends Component {
      * periods, given start year and end year.
      *
      * @author Eric Jiang, Saurabh Joshi
-     * @param {number} startYear - When the student commerces their course.
+     * @param {number} startYear - When the student commences their course.
      * @param {number} endYear - When the student is expected to graduate.
      */
     generateCourse(startYear, endYear) {
@@ -377,15 +374,13 @@ class CourseStructure extends Component {
                 const semesterOneTeachingPeriod = {
                     year,
                     code: "S1-01",
-                    units: new Array(4).fill(null),
-                    isError: false
+                    units: new Array(4).fill(null)
                 };
 
                 const semesterTwoTeachingPeriod = {
                     year,
                     code: "S2-01",
-                    units: new Array(4).fill(null),
-                    isError: false
+                    units: new Array(4).fill(null)
                 };
 
                 arr.push(semesterOneTeachingPeriod);
@@ -500,7 +495,7 @@ class CourseStructure extends Component {
             return;
         }
 
-        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = this.state;
+        const { teachingPeriods, numberOfUnits, startYear } = this.state;
 
         this.setState({
             isUploading: true,
@@ -513,8 +508,8 @@ class CourseStructure extends Component {
                 "course": {
                     teachingPeriods,
                     numberOfUnits,
-                    totalCreditPoints,
-                    totalEstimatedCost,
+                    totalCreditPoints: this.props.creditPoints,
+                    totalEstimatedCost: this.props.cost,
                     startYear: startYear || new Date().getFullYear()
                 }
             })
@@ -544,10 +539,10 @@ class CourseStructure extends Component {
 
         if(stringifedJSON) {
             const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = JSON.parse(stringifedJSON);
-            
+
             this.props.incrementCost(totalEstimatedCost);
             this.props.incrementCreditPoints(totalCreditPoints);
-            
+
             this.setState({
                 teachingPeriods,
                 numberOfUnits,
@@ -588,7 +583,7 @@ class CourseStructure extends Component {
             return;
         }
 
-        if(Home.checkIfCourseStructureIsInLocalStorage()) {
+        if(LocalStorage.doesCourseStructureExist()) {
             this.props.clearCourse();
             this.loadCourseFromLocalStorage();
         }
@@ -648,17 +643,6 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Accumulates the total number of credit points for the course plan.
-     *
-     * @author Saurabh Joshi
-     */
-    accumulateCreditPoints() {
-        const units = this.getListOfUnits();
-
-        return units.reduce((totalCreditPoints, unit) => totalCreditPoints + (unit.CreditPoints || 0), 0);
-    }
-
-    /**
      * Displays add teaching period buttons in between the teaching period
      * table rows.
      *
@@ -699,8 +683,7 @@ class CourseStructure extends Component {
             {
                 code,
                 year,
-                units: new Array(this.state.numberOfUnits).fill(null),
-                isError: false
+                units: new Array(this.state.numberOfUnits).fill(null)
             },
             ...this.state.teachingPeriods.slice(index)
         ];
@@ -719,15 +702,15 @@ class CourseStructure extends Component {
     nextSemester() {
         const index = this.state.teachingPeriods.length;
         let year = this.state.startYear;
-        let s1Code = "S1-01";
-        let s2Code = "S2-01";
+        const s1Code = "S1-01";
+        const s2Code = "S2-01";
 
         let code = s1Code;
 
         const { teachingPeriods, teachingPeriodsData } = this.state;
 
         if(!teachingPeriodsData) {
-            return { index, year, code, isError: false };
+            return { index, year, code };
         }
 
         if(index > 0) {
@@ -746,7 +729,7 @@ class CourseStructure extends Component {
             }
         }
 
-        return { index, year, code, teachingPeriodsData };
+        return { index, year, code };
     }
 
     /**
@@ -767,7 +750,8 @@ class CourseStructure extends Component {
      * @author Saurabh Joshi
      */
     getQuickSemesterString() {
-        const { teachingPeriodsData, year, code } = this.nextSemester();
+        const { year, code } = this.nextSemester();
+        const { teachingPeriodsData } = this.state;
 
         let teachingPeriodName = code;
 
@@ -821,7 +805,6 @@ class CourseStructure extends Component {
         }
 
         this.setState({
-            isError: false,
             showMoveUnitUI: true,
             originalPosition: [teachingPeriodIndex, unitIndex],
             unitToBeMoved: this.state.teachingPeriods[teachingPeriodIndex].units[unitIndex]
@@ -835,7 +818,7 @@ class CourseStructure extends Component {
      */
     cancelMoving() {
         this.setState({
-            showMoveUnitUI: false,
+            showMoveUnitUI: false
         });
     }
 
@@ -848,10 +831,13 @@ class CourseStructure extends Component {
      */
     moveUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
+
         if(this.state.originalPosition) {
             teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = null;
         }
+
         teachingPeriods[teachingPeriodIndex].units[unitIndex] = this.state.unitToBeMoved;
+
         this.setState({
             showMoveUnitUI: false,
             originalPosition: null,
@@ -894,13 +880,10 @@ class CourseStructure extends Component {
             ...this.state.teachingPeriods.slice(index + 1)
         ];
 
-        for (let i=0; i < this.state.teachingPeriods[index].units.length; i++) {
-            let unit = this.state.teachingPeriods[index].units[i];
-            if (unit !== null && unit !== undefined) {
-                this.props.decrementCreditPoints(unit.CreditPoints);
-                this.props.decrementCost(unit.Cost);
-            }
-        }
+        this.getListOfUnits().forEach(unit => {
+            this.props.decrementCreditPoints(unit.CreditPoints);
+            this.props.decrementCost(unit.Cost);
+        });
 
         this.setState({ teachingPeriods });
     }
@@ -916,28 +899,53 @@ class CourseStructure extends Component {
     deleteUnit(teachingPeriodIndex, unitIndex) {
         const { teachingPeriods } = this.state;
         const unitToRemove = teachingPeriods[teachingPeriodIndex].units[unitIndex];
+
         this.props.decrementCost(unitToRemove.Cost);
         this.props.decrementCreditPoints(unitToRemove.CreditPoints);
-        teachingPeriods[teachingPeriodIndex].units[unitIndex] = null;
-        this.setState({ teachingPeriods });
+
+        const updatedTeachingPeriod = Object.assign(
+            {},
+            teachingPeriods[teachingPeriodIndex],
+            {
+                units: [
+                    ...teachingPeriods[teachingPeriodIndex].units.slice(0, unitIndex),
+                    null,
+                    ...teachingPeriods[teachingPeriodIndex].units.slice(unitIndex + 1)
+                ]
+            }
+        );
+
+        this.setState({
+            teachingPeriods: [
+                ...teachingPeriods.slice(0, teachingPeriodIndex),
+                updatedTeachingPeriod,
+                ...teachingPeriods.slice(teachingPeriodIndex + 1)
+            ]
+        });
     }
 
     /**
      * Adds a column to the course structure.
      */
     incrementNumberOfUnits() {
-        const teachingPeriods = this.state.teachingPeriods.slice();
-
-        if(this.state.numberOfUnits < this.maxNumberOfUnits) {
-            for(let i = 0; i < teachingPeriods.length; i++) {
-                teachingPeriods[i].units.push(null);
-            }
-
-            this.setState({
-                numberOfUnits: this.state.numberOfUnits + 1,
-                teachingPeriods
-            });
+        if(this.state.numberOfUnits >= this.maxNumberOfUnits) {
+            return;
         }
+
+        const { teachingPeriods } = this.state;
+        teachingPeriods.map(teachingPeriod => {
+            return Object.assign({},
+                teachingPeriod,
+                {
+                    units: [...teachingPeriod.units, null]
+                }
+            );
+        });
+
+        this.setState({
+            numberOfUnits: this.state.numberOfUnits + 1,
+            teachingPeriods
+        });
     }
 
     /**
@@ -947,7 +955,7 @@ class CourseStructure extends Component {
         const teachingPeriods = this.state.teachingPeriods.slice();
         let unitIndex = this.state.numberOfUnits - 1;
         let unitArray = [];
-        for(let i=0; i < teachingPeriods.length; i++) {
+        for(let i = 0; i < teachingPeriods.length; i++) {
             let item = teachingPeriods[i].units[unitIndex];
             if (item !== null && item !== undefined) {
                 unitArray.push(item.UnitCode + " - " + item.UnitName);
@@ -979,7 +987,7 @@ class CourseStructure extends Component {
                 teachingPeriod.units = teachingPeriod.units.slice(0, -1);
             });
 
-            
+
 
             this.setState({
                 numberOfUnits: this.state.numberOfUnits - 1,
@@ -1048,7 +1056,7 @@ class CourseStructure extends Component {
 
         const tableRows = [];
         let year, code, show = false;
-        let areThereNoTeachingPeriods = false;
+
         const { teachingPeriodToInsertCode, teachingPeriods, teachingPeriodsData, showInsertTeachingPeriods } = this.state;
         if(showInsertTeachingPeriods) {
             year = this.state.startYear || new Date().getFullYear();
@@ -1131,7 +1139,6 @@ class CourseStructure extends Component {
         }
 
         if(this.state.teachingPeriods.length === 0) {
-            areThereNoTeachingPeriods = true;
             tableRows.push(
                 <NoTeachingPeriod
                     key="no-teaching-period"
@@ -1147,111 +1154,28 @@ class CourseStructure extends Component {
             />);
         }
 
-        /**
-         *
-         */
-        const editCoursePlanButton = mobile => <Button
-                                        fluid={mobile}
-                                        color="teal"
-                                        floated="right"
-                                        loading={this.props.switchToEditCourse}
-                                        disabled={this.props.switchToEditCourse}
-                                        onClick={this.props.handleEditCoursePlanClick}>
-                                        <Icon name="edit" />Edit course plan
-                                    </Button>;
-
         return (
             <Container>
                 {!this.props.viewOnly &&
-                    <span>
-                        {this.state.isError &&
-                            <Message negative className="no-print">
-                                <Message.Header>
-                                   {this.state.errorHeader}
-                                </Message.Header>
-                                <p>
-                                    {this.state.errorMsg}
-                                </p>
-                            </Message>
-                        }
-                        {!this.state.showMoveUnitUI && !this.props.unitToAdd &&
-                            <Message className="no-print">
-                                <Message.Header>
-                                    Ready to add units to course plan
-                                </Message.Header>
-                                <p>
-                                    Search for units by clicking the plus icon in the header, then place it in your course plan.
-                                </p>
-                            </Message>
-                        }
-                        {this.props.unitToAdd && !this.state.showMoveUnitUI && !this.state.isError &&
-                            <Message
-                                positive
-                                className="no-print"
-                                onDismiss={this.props.cancelAddingToCourse}>
-                                <Message.Header>
-                                    Adding {this.props.unitToAdd.UnitCode}
-                                </Message.Header>
-                                <p>
-                                    Select a table cell in your course structure to insert {this.props.unitToAdd.UnitCode}.
-                                </p>
-                            </Message>
-                        }
-                        {this.state.showMoveUnitUI &&
-                            <Message info className="no-print">
-                                <Message.Header>
-                                    Moving {this.state.unitToBeMoved.UnitCode}
-                                </Message.Header>
-                                <p>
-                                    Drop into a table cell in your course structure to move {this.state.unitToBeMoved.UnitCode}.
-                                    Dropping into a table cell where there is already an occupied unit will swap the units.
-                                </p>
-                            </Message>
-                        }
-                    </span>
+                    <CourseMessage
+                        isError={this.state.isError}
+                        errorHeader={this.state.errorHeader}
+                        errorMsg={this.state.errorMsg}
+
+                        unitToAdd={this.props.unitToAdd}
+                        showMoveUnitUI={this.state.showMoveUnitUI}
+                        unitToBeMoved={this.state.unitToBeMoved}
+
+                        cancelAddingToCourse={this.props.cancelAddingToCourse}
+                        />
                 }
                 {this.props.viewOnly &&
-                    <MediaQuery maxDeviceWidth={767}>
-                        {mobile =>
-                            <Container>
-                                {Home.checkIfCourseStructureIsInLocalStorage() &&
-                                    <ControlledModal
-                                        openTrigger={editCoursePlanButton(mobile)}
-                                        positiveButton={<Button color="red" disabled={this.state.switchToEditCourse} loading={this.state.switchToEditCourse} onClick={() => this.props.handleEditCoursePlanClick(true)}>Discard draft and edit course plan</Button>}
-                                        closeTrigger={<Button>Cancel</Button>}>
-                                        <Modal.Header>
-                                            Discard draft?
-                                        </Modal.Header>
-                                        <Modal.Content>
-                                            <Modal.Description>
-                                                <p>
-                                                    You have a draft course plan currently saved in
-                                                    your browser. Are you sure you want discard your
-                                                    draft to load this course plan?
-                                                </p>
-                                            </Modal.Description>
-                                        </Modal.Content>
-                                    </ControlledModal>
-                                || editCoursePlanButton(mobile)}
-                                {mobile && <div><br /><br /></div>}
-                                <Button
-                                    fluid={mobile}
-                                    color="blue"
-                                    onClick={() => print()}><Icon name="print" />Print course plan</Button>
-                                {mobile && <br />}
-                                <Button.Group fluid={mobile} secondary>
-                                    <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
-                                    <Dropdown floating button className="icon">
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => Export.File(this.state.teachingPeriods, this.state.numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
-                                            <Dropdown.Item onClick={() => Export.File(this.state.teachingPeriods, this.state.numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Button.Group>
-                                <Divider />
-                            </Container>
-                        }
-                    </MediaQuery>
+                    <CourseViewActions
+                        switchToEditCourse={this.state.switchToEditCourse}
+                        handleEditCoursePlanClick={this.props.handleEditCoursePlanClick}
+                        teachingPeriods={this.state.teachingPeriods}
+                        numberOfUnits={this.state.numberOfUnits}
+                        />
                 }
                 {!this.props.viewOnly &&
                     <MediaQuery maxDeviceWidth={767}>
@@ -1299,67 +1223,23 @@ class CourseStructure extends Component {
                     </Table.Body>
                 </Dimmer.Dimmable>
                 {!this.props.viewOnly &&
-                    <MediaQuery maxDeviceWidth={767}>
-                        {mobile =>
-                            <Container>
-                                {!this.state.showInsertTeachingPeriods && !areThereNoTeachingPeriods &&
-                                <InsertTeachingPeriodButton
-                                    semesterString={this.getQuickSemesterString()}
-                                    insert={this.showInsertTeachingPeriodsUI}
-                                    appendSemester={this.appendSemester}
-                                    mobile={mobile}
-                                    />
-                                }
-                                {this.state.showInsertTeachingPeriods &&
-                                <Button fluid={mobile} className="no-print" floated={mobile ? "" : "right"} onClick={this.hideInsertTeachingPeriodsUI.bind(this)}>Cancel</Button>
-                                }
-                                {mobile && <div><br /></div>}
-                                <ClearCourseModal disabled={this.state.teachingPeriods.length === 0} fluid={mobile} clearCourse={this.clearCourse.bind(this)} />
-                                {mobile && <br />}
-                                <CompletedCourseModal
-                                    trigger={<Button primary fluid={mobile} className="no-print">Complete course plan</Button>}
-                                    teachingPeriods={this.state.teachingPeriods}
-                                    numberOfUnits={this.state.numberOfUnits} />
-                                {mobile && <br />}
-                                <Popup
-                                    on="click"
-                                    wide
-                                    trigger={
-                                        (
-                                            <Button
-                                                fluid={mobile}
-                                                color={this.state.uploadingError ? "red" : "teal"}
-                                                disabled={this.state.isUploading}
-                                                onClick={this.uploadCourseToDatabase}
-                                                loading={this.state.isUploading}>
-                                                <Icon name={this.state.uploaded && "checkmark" || this.state.uploadingError && "x" || "upload"} />
-                                                {this.state.uploaded && "Saved course" || "Save course"}
-                                            </Button>
-                                        )
-                                    }>
-                                    <Popup.Header>
-                                        {this.state.uploaded && "Saved course"
-                                        || this.state.isUploading && "Saved course..."
-                                        || this.state.uploadingError && "Failed to save course"}
-                                    </Popup.Header>
-                                    <Popup.Content>
-                                        {this.state.isUploading &&
-                                            "Please wait until course has been saved."
-                                        }
-                                        {this.state.uploaded &&
-                                            <div>
-                                                <p>Copy and visit the link below to view your saved course plan.</p>
-                                                <Input onFocus={e => e.target.select()} fluid value={`${window.location.origin}/view/${this.state.uploadedCourseID}`} />
-                                            </div>
-                                        }
-                                        {this.state.uploadingError &&
-                                            "Please try again later."
-                                        }
-                                    </Popup.Content>
-                                </Popup>
-                            </Container>
-                        }
-                    </MediaQuery>
+                    <CourseEditActions
+                        showInsertTeachingPeriods={this.state.showInsertTeachingPeriods}
+                        showInsertTeachingPeriodsUI={this.showInsertTeachingPeriodsUI}
+                        hideInsertTeachingPeriodsUI={this.hideInsertTeachingPeriodsUI}
+
+                        teachingPeriods={this.state.teachingPeriods}
+                        numberOfUnits={this.state.numberOfUnits}
+                        appendSemester={this.appendSemester}
+                        clearCourse={this.clearCourse}
+                        semesterString={this.getQuickSemesterString()}
+
+                        isUploading={this.state.isUploading}
+                        uploaded={this.state.uploaded}
+                        uploadingError={this.state.uploadingError}
+                        uploadedCourseID={this.state.uploadedCourseID}
+                        uploadCourseToDatabase={this.uploadCourseToDatabase}
+                         />
                 }
             </Container>
         );
@@ -1401,5 +1281,4 @@ CourseStructure.propTypes = {
     fetchURL: PropTypes.string
 };
 
-//export default CourseStructure;
 export default connect(mapStateToProps, mapDispatchToProps)(CourseStructure);

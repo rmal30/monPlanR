@@ -80,3 +80,14 @@ export const clearCourse = () => {
         type: "CLEAR_COURSE"
     };
 };
+
+/**
+ * GENERATE_COURSE
+ */
+export const generateCourse = (startYear, endYear) => {
+    return {
+        type: "GENERATE_COURSE",
+        startYear,
+        endYear
+    };
+};
