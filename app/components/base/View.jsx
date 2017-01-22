@@ -3,7 +3,7 @@ import { Container, Divider, Grid } from "semantic-ui-react";
 
 import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStatisticGroup from "../Course/CourseStatisticGroup.jsx";
-import Home from "./Home.jsx";
+import LocalStorage from "../../utils/LocalStorage.js";
 
 /**
  *
@@ -37,7 +37,7 @@ class View extends Component {
      *
      */
     handleEditCoursePlanClick(confirm) {
-        if(!Home.checkIfCourseStructureIsInLocalStorage() || confirm) {
+        if(!LocalStorage.doesCourseStructureExist() || confirm) {
             this.setState({
                 switchToEditCourse: true
             });

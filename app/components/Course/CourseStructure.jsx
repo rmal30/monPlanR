@@ -4,10 +4,9 @@ import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
 
+import LocalStorage from "../../utils/LocalStorage.js";
 import UnitQuery from "../../utils/UnitQuery";
 import CourseTemplate from "../../utils/CourseTemplate";
-
-import Home from "../base/Home.jsx";
 
 import CourseViewActions from "./CourseViewActions.jsx";
 import CourseEditActions from "./CourseEditActions.jsx";
@@ -578,7 +577,7 @@ class CourseStructure extends Component {
             return;
         }
 
-        if(Home.checkIfCourseStructureIsInLocalStorage()) {
+        if(LocalStorage.doesCourseStructureExist()) {
             this.props.clearCourse();
             this.loadCourseFromLocalStorage();
         }

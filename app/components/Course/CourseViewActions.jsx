@@ -4,7 +4,7 @@ import MediaQuery from "react-responsive";
 import { Button, Container, Divider, Dropdown, Icon, Modal } from "semantic-ui-react";
 import ControlledModal from "../modals/ControlledModal.jsx";
 
-import Home from "../base/Home.jsx";
+import LocalStorage from "../../utils/LocalStorage.js";
 import Export from "../../utils/Export.js";
 
 /**
@@ -38,7 +38,7 @@ export default function CourseViewActions(props) {
         <MediaQuery maxDeviceWidth={767}>
             {mobile =>
                 <Container>
-                    {Home.checkIfCourseStructureIsInLocalStorage() &&
+                    {LocalStorage.doesCourseStructureExist() &&
                         <ControlledModal
                             openTrigger={editCoursePlanButton(mobile)}
                             positiveButton={(
