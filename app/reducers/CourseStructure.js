@@ -34,8 +34,8 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
         */
         case "REMOVE_TEACHING_PERIOD":
             return Object.assign(
-                {},
-                state,
+                {}, 
+                state, 
                 {teachingPeriods: [
                     ...state.teachingPeriods.slice(0, action.index),
                     ...state.teachingPeriods.slice(action.index + 1)
@@ -63,8 +63,8 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
         case "INCREASE_STUDY_LOAD":
             if(state.numberOfUnits >= 6) {
                 return Object.assign(
-                    {},
-                    state,
+                    {}, 
+                    state, 
                     {numberOfUnits: 6}
                 );
             } else {
@@ -78,10 +78,10 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
                             tp,
                             {units: [...tp.units, null]}
                         );
-                    })}
+                    })} 
                 );
             }
-
+        
         /*
             Decreases the number of units a student can take in all of the teaching periods. If the number of units is already at it's min
             it will stop the state from being broken, otherwise it will decrease the number by one and also remove the last unit from each teaching array
@@ -131,7 +131,7 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
                     }
                 })}
             );
-
+  
         /*
             Removes a unit at the given location from the course structure,
             first it finds the tp by finding array item at state.tpIndex,
@@ -167,7 +167,70 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
                 teachingPeriods: [],
                 numberOfUnits: 4
             };
+        
+        case "FETCH_COURSE_INFO_PENDING":
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: true}
+            );
+        
+        case "FETCH_COURSE_INFO_FULFILLED":
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseInfoLoadError: false, data: action.payload}
+            );
 
+        case "FETCH_COURSE_INFO_REJECTED":
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseInfoLoadError: true, data: null}
+            );
+        
+        case "FETCH_COURSE_TEMPLATE_PENDING":
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: true}
+            );
+        
+        case "FETCH_COURSE_TEMPLATE_FULFILLED":
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseTemplateLoadError: false, data: action.payload}
+            );
+        
+        case "FETCH_COURSE_TEMPLATE_REJECTED":
+            return Object.assign(
+                {},
+                state,
+                {courseLoading: false, courseTemplateLoadError: true, data: null}
+            );
+        
+        case "FETCH_UNIT_INFO_PENDING":
+            return Object.assign(
+                {},
+                state,
+                {unitLoading: true}
+            );
+        
+        case "FETCH_UNIT_INFO_FULFILLED":
+            return Object.assign(
+                {},
+                state,
+                {unitLoading: false, unitLoadError: false, data: action.payload}
+            );
+        
+        case "FETCH_UNIT_INFO_REJECTED":
+            return Object.assign(
+                {},
+                state,
+                {unitLoading: false, unitLoadError: true, data: null}
+            );
+        
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year
