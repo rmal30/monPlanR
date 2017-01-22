@@ -27,7 +27,7 @@ import * as counterActions from "../../actions/CounterActions";
  */
 const mapStateToProps = (state) => {
     return {
-        course: state.Course,
+        courseStructure: state.CourseStructure,
         counter: state.Counter
     };
 };
@@ -178,9 +178,9 @@ Main.propTypes = {
 
 /**
  * THIS IS IMPORTANT
- * To ensure that redux connect plays well with react drag and drop (which also uses connect), 
- * we need to first connect the main app with drag and drop, then we take the connected dnd version and 
- * connect it again through the redux. 
+ * To ensure that redux connect plays well with react drag and drop (which also uses connect),
+ * we need to first connect the main app with drag and drop, then we take the connected dnd version and
+ * connect it again through the redux.
  */
 const App = DragDropContext(HTML5Backend)(Main);
 export default connect(mapStateToProps, mapDispatchToProps)(App);
