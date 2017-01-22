@@ -932,13 +932,13 @@ class CourseStructure extends Component {
             return;
         }
 
-        const { teachingPeriods } = this.state;
-        teachingPeriods.map(teachingPeriod => {
-            return Object.assign({},
+        
+        let { teachingPeriods } = this.state;
+        teachingPeriods = teachingPeriods.map(teachingPeriod => {
+            return Object.assign(
+                {},
                 teachingPeriod,
-                {
-                    units: [...teachingPeriod.units, null]
-                }
+                {units: [...teachingPeriod.units, null]}
             );
         });
 
@@ -972,11 +972,11 @@ class CourseStructure extends Component {
      */
     decrementNumberOfUnits() {
         if(this.state.numberOfUnits > this.minNumberOfUnits) {
-            const teachingPeriods = this.state.teachingPeriods.slice();
+            let teachingPeriods = this.state.teachingPeriods;
 
             let { numberOfUnits } = this.state;
 
-            teachingPeriods.forEach(teachingPeriod => {
+            teachingPeriods = teachingPeriods.map(teachingPeriod => {
                 const unit = teachingPeriod.units[numberOfUnits - 1];
 
                 if (unit !== null && unit !== undefined) {
@@ -985,6 +985,7 @@ class CourseStructure extends Component {
                 }
 
                 teachingPeriod.units = teachingPeriod.units.slice(0, -1);
+                return teachingPeriod;
             });
 
 
