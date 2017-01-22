@@ -5,6 +5,7 @@ import MediaQuery from "react-responsive";
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
+import LocalStorage from "../../utils/LocalStorage";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStatisticGroupWrapper from "../../wrappers/CourseStatisticGroupWrapper";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
@@ -43,25 +44,6 @@ class Plan extends Component {
         this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
 
-
-    /**
-     * Checks if there is anything saved to local storage, and if so, whether
-     * or not teaching periods list is empty. This is used for checking if
-     * a user has anything saved to their browser.
-     *
-     * @return {string|boolean} savedVersionNumber/courseStructureDoesExist
-     */
-    checkIfCourseStructureIsInLocalStorage() {
-        const stringifedJSON = localStorage.getItem("courseStructure");
-        if(stringifedJSON === null) {
-            return false;
-        }
-
-        const { teachingPeriods, numberOfUnits, version } = JSON.parse(stringifedJSON);
-
-        return Array.isArray(teachingPeriods) && teachingPeriods.length > 0 && numberOfUnits && (version || true);
-    }
-
     /**
      * A workaround that is a React anti-pattern. It attaches add to course menu
      * callback function, which is called when the user clicks the "+ Add unit"
@@ -72,14 +54,13 @@ class Plan extends Component {
      */
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
-        // this.props.attachGetCourseErrors(this.getCourseErrors);
-        let courseInLS = this.checkIfCourseStructureIsInLocalStorage();
-        
+        let courseInLS = LocalStorage.doesCourseStructureExist();
+
         if(!courseInLS) {
-            const {startYear, courseToLoad} = this.props.location.query;
+            const { startYear, courseToLoad } = this.props.location.query;
             this.handleCourseLoad(courseToLoad, parseInt(startYear, 10));
         }
-        
+
     }
 
     /**
@@ -199,15 +180,20 @@ class Plan extends Component {
      */
     render() {
         let courseCode = "";
-        if(this.state.courseToLoad){
+        if(this.state.courseToLoad) {
             courseCode = this.state.courseToLoad.split("-")[0];
         }
         const { startYear, endYear } = this.props.location.query;
 
-        const courseDetailButton = <Button
-                                    fluid
-                                    disabled={courseCode === ""}
-                                    primary>View {courseCode !== "" ? courseCode : "course"} details</Button>;
+        const courseDetailButton = (
+            <Button
+                fluid
+                disabled={courseCode === ""}
+                primary>
+                View {courseCode !== "" ? courseCode : "course"} details
+            </Button>
+        );
+        
         return (
             <div className="wrapper">
                 {this.state.customUnitCode &&

@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CourseSelectFormContainer from "../../containers/CourseSelectFormContainer.jsx";
+import LocalStorage from "../../utils/LocalStorage.js";
 
 /**
  * Home page that is shown to the user when they load the domain.
@@ -25,24 +26,6 @@ class Home extends Component {
         this.handleDismiss = this.handleDismiss.bind(this);
     }
 
-    /**
-     * Checks if there is anything saved to local storage, and if so, whether
-     * or not teaching periods list is empty. This is used for checking if
-     * a user has anything saved to their browser.
-     *
-     * @return {string|boolean} savedVersionNumber/courseStructureDoesExist
-     */
-    static checkIfCourseStructureIsInLocalStorage() {
-        const stringifedJSON = localStorage.getItem("courseStructure");
-        if(stringifedJSON === null) {
-            return false;
-        }
-
-        const { teachingPeriods, numberOfUnits, version } = JSON.parse(stringifedJSON);
-
-        return Array.isArray(teachingPeriods) && teachingPeriods.length > 0 && numberOfUnits && (version || true);
-    }
-
 
     /**
     * Handles warning message dismissal
@@ -57,7 +40,8 @@ class Home extends Component {
      * Renders the welcome page, with a form and a disclaimer.
      */
     render() {
-        const inLocalStorage = Home.checkIfCourseStructureIsInLocalStorage();
+        const inLocalStorage = LocalStorage.doesCourseStructureExist();
+
         return (
             <Container className="ui main text wrapper">
                 <div id="welcome" className="ui container">
@@ -117,7 +101,7 @@ class Home extends Component {
                                     <CourseSelectFormContainer />
                                 </Container>
                             }
-                    <div className={Home.checkIfCourseStructureIsInLocalStorage() ? "welcomeBackMargin" : "welcomeMargin"} />
+                    <div className={inLocalStorage ? "welcomeBackMargin" : "welcomeMargin"} />
                 </div>
             </Container>
         );

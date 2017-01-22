@@ -1,7 +1,7 @@
 /**
  * INCREMENT_CREDIT_POINTS
  */
-export const incrementCreditPoints = (amount) => {
+export const incrementCreditPoints = amount => {
     return {
         type: "INCREMENT_CREDIT_POINTS",
         value: amount
@@ -11,7 +11,7 @@ export const incrementCreditPoints = (amount) => {
 /**
  * DECREMENT_CREDIT_POINTS
  */
-export const decrementCreditPoints = (amount) => {
+export const decrementCreditPoints = amount => {
     return {
         type: "DECREMENT_CREDIT_POINTS",
         value: amount
@@ -21,7 +21,7 @@ export const decrementCreditPoints = (amount) => {
 /**
  * INCREMENT_COST
  */
-export const incrementCost = (amount) => {
+export const incrementCost = amount => {
     return {
         type: "INCREMENT_COST",
         value: amount
@@ -31,11 +31,9 @@ export const incrementCost = (amount) => {
 /**
  * DECREMENT_COST
  */
-export const decrementCost = (amount) => {
+export const decrementCost = amount => {
     return {
         type: "DECREMENT_COST",
         value: amount
     };
 };
-
-

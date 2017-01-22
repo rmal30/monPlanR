@@ -29,6 +29,7 @@
     "react-router-redux": "^4.0.7",
     "react-scroll": "^1.4.5",
     "react-sticky": "^5.0.5",
+    "react-sticky-box": "^0.5.1",
     "redux": "^3.6.0",
     "redux-promise-middleware": "^4.2.0",
     "semantic-ui-css": "^2.2.4",
@@ -61,12 +62,12 @@
     "dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
     "test": "npm run test:unit; npm run test:lint",
     "test:lint": "eslint --ext .jsx --ext .js app",
-    "test:unit": "mocha --compilers babel-core/register tests/*.spec.js*",
+    "test:unit": "mocha --compilers babel-core/register test/**/*.spec.js*",
     "fix": "eslint --ext .jsx --ext .js app --fix",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
     "start:prod": "webpack --progress -p && node server.js",
     "start": "if-env NODE_ENV=\"production\" && npm run start:prod || npm run dev",
-    "unittest": "mocha -C --compilers babel-core/register tests/*.spec.js*"
+    "unittest": "mocha -C --compilers babel-core/register test/**/*.spec.js*"
   },
   "repository": {
     "type": "git",

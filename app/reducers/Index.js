@@ -2,10 +2,10 @@ import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
 
 import Counter from "./Counter";
-import Course from "./Course";
+import CourseStructure from "./CourseStructure";
 
 const appReducer = combineReducers({
-    Course,
+    CourseStructure,
     Counter,
     routing: routerReducer
 });
