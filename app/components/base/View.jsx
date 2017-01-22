@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Container, Divider, Grid } from "semantic-ui-react";
 
 import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStatisticGroup from "../Course/CourseStatisticGroup.jsx";
+import CourseStatisticGroupWrapper from "../../wrappers/CourseStatisticGroupWrapper";
 import LocalStorage from "../../utils/LocalStorage.js";
 
 /**
@@ -20,17 +20,6 @@ class View extends Component {
             totalCredits: 0,
             totalCost: 0
         };
-    }
-
-    /**
-     * On occasion, such as loading from local storage, a child component may need to update the totals without the parent being aware
-     * this function is passed down, and it is the child components responsibity to call this function in these situations.
-     */
-    handleChildUpdateTotals(totalCreditPoints, totalEstimatedCost) {
-        this.setState({
-            totalCredits: totalCreditPoints,
-            totalCost: totalEstimatedCost
-        });
     }
 
     /**
@@ -55,7 +44,7 @@ class View extends Component {
                         <h1>Viewing course plan</h1>
                     </Grid.Column>
                     <Grid.Column floated="right" width={5}>
-                        <CourseStatisticGroup currentCreditPoints={this.state.totalCredits} currentEstCost={this.state.totalCost} />
+                        <CourseStatisticGroupWrapper />
                     </Grid.Column>
                 </Grid>
                 <Divider hidden />
@@ -63,7 +52,6 @@ class View extends Component {
                     viewOnly
                     switchToEditCourse={this.state.switchToEditCourse}
                     handleEditCoursePlanClick={this.handleEditCoursePlanClick.bind(this)}
-                    handleChildUpdateTotals={this.handleChildUpdateTotals.bind(this)}
                     fetchURL={`${MONPLAN_REMOTE_URL}/snaps/${this.props.params.id}`}
                     updateStatus={this.props.updateStatus}
                     courseErrors={this.props.courseErrors} />

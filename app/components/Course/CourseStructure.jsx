@@ -495,7 +495,7 @@ class CourseStructure extends Component {
             return;
         }
 
-        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = this.state;
+        const { teachingPeriods, numberOfUnits, startYear } = this.state;
 
         this.setState({
             isUploading: true,
@@ -508,8 +508,8 @@ class CourseStructure extends Component {
                 "course": {
                     teachingPeriods,
                     numberOfUnits,
-                    totalCreditPoints,
-                    totalEstimatedCost,
+                    totalCreditPoints: this.props.creditPoints,
+                    totalEstimatedCost: this.props.cost,
                     startYear: startYear || new Date().getFullYear()
                 }
             })
