@@ -40,7 +40,9 @@ export default class UnitInfoContainer extends Component {
         };
         this.handleCollapseClick = this.handleCollapseClick.bind(this);
     }
+    
 
+    
     /**
      * @author JXNS
      * Currently a bit of a workaround for making this play nice with both the unit detail button and the
@@ -102,6 +104,7 @@ export default class UnitInfoContainer extends Component {
             }
         }
     }
+    
 
     /**
      * When the collapse button is clicked, the collapse bool must be changed from true to false, or false to true depending on whether
@@ -114,61 +117,6 @@ export default class UnitInfoContainer extends Component {
             collapse: newState
         });
     }
-
-    /**
-     * The unitSelected function is called whenever a new unit is selected.
-     * @author JXNS
-     * @param {string} nUnitCode - the new unit code selected by the child component, this code is used as the query param for the api call.
-     */
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.newUnit !== undefined) {
-            let nUnitCode = nextProps.newUnit.UnitCode;
-
-            if(this.state.isFirstSearch) {
-                this.setState({collapse: false});
-            }
-
-            this.setState({
-                isLoading: true,
-                isFirstSearch: false
-            });
-
-            UnitQuery.getExtendedUnitData(nUnitCode)
-                    .then(unitDataResp => {
-                        let unitData = unitDataResp.data;
-
-                        unitData.Cost = CostCalc.calculateCost(unitData.SCABand, unitData.CreditPoints);
-
-                        this.setState({
-                            isLoading: false,
-                            UnitCode: nUnitCode,
-                            UnitName: unitData.UnitName,
-                            Faculty: unitData.Faculty,
-                            Synopsis: unitData.Sypnosis,
-                            error: false,
-                            currentCreditPoints: unitData.CreditPoints,
-                            currentEstCost: unitData.Cost,
-                            offeringArray: unitData.LocationAndTime,
-                            prohibs: unitData.Proh,
-                            prereqs: unitData.Preqs,
-                            likeScore: unitData.enjoyRating,
-                            learnScore: unitData.learnRating,
-                            learnResponseCount: unitData.learnResponse,
-                            enjoyResponseCount: unitData.enjoyResponse
-                        });
-                    })
-                    .catch(error => {
-                        console.error(error);
-
-                        this.setState({
-                            isLoading: false,
-                            UnitCode: nUnitCode,
-                            error: true,
-                        });
-                    });
-        }
-    }
-
 
     /**
      * The component currently returns both the unitsearch and unitInfo components with all the gathered state.

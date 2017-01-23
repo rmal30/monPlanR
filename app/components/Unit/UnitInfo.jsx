@@ -11,12 +11,10 @@ import OfferingContainer from "../../containers/OfferingContainer.jsx";
 * This component displays the unit info for a selected unit in the form of a collapsable tray.
 * @author JXNS
 *
-* @param {boolean} collapse - A true/false value representing whether the component is in collpased state or not.
 * @param {string} Faculty - The faculty a unit belongs to.
 * @param {number} likeScore - A score between 0 and 5 representing how much the students enjoyed a unit.
 * @param {boolean} isDisabled - A value representing whether the collapse button should be disabled, only necessary for before first search.
 * @param {boolean} isLoading - Whether or not to display loading UI.
-* @param {function} onCollapseClick - A function called when the prop collapses (in this case used to control the data and state of container parent).
 * @param {string} Synopsis - A short description of the unit.
 * @param {string} UnitCode - The unit's associated unit code.
 * @param {string} UnitName - The unit's associated unit name.
@@ -26,7 +24,6 @@ import OfferingContainer from "../../containers/OfferingContainer.jsx";
 function UnitInfo(props) {
 
     UnitInfo.propTypes = {
-        collapse: PropTypes.bool.isRequired,
         cost: PropTypes.number.isRequired,
         creditPoints: PropTypes.number.isRequired,
         error: PropTypes.bool.isRequired,
@@ -34,7 +31,6 @@ function UnitInfo(props) {
         likeScore: PropTypes.number.isRequired,
         isDisabled: PropTypes.bool.isRequired,
         isLoading: PropTypes.bool,
-        onCollapseClick: PropTypes.func,
         Synopsis: PropTypes.string,
         UnitCode: PropTypes.string.isRequired,
         UnitName: PropTypes.string.isRequired,

@@ -770,7 +770,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                unitInfo: null
             };
 
             const action = {
@@ -785,7 +785,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                data: null
+                unitInfo: null
             };
 
             deepFreeze(stateBefore);
@@ -807,12 +807,12 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                data: null
+                unitInfo: null
             };  
 
             const action = {
                 type: "FETCH_UNIT_INFO_FULFILLED",
-                payload: "Fake Unit Info"
+                payload: {data: "Fake Unit Info"}
             };
 
             const stateAfter = {
@@ -823,7 +823,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: "Fake Unit Info"
+                unitInfo: "Fake Unit Info"
             };
 
             deepFreeze(stateBefore);
@@ -845,7 +845,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                data: null
+                unitInfo: null
             };
 
             const action = {
@@ -860,7 +860,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: true,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                unitInfo: null
             };
 
             deepFreeze(stateBefore);

@@ -1,0 +1,51 @@
+import axios from "axios";
+
+/**
+ * FETCH_COURSE_INFO
+ */
+export const fetchCourseInfo = (courseCode) => {
+    return {
+        type: "FETCH_COURSE_INFO",
+        payload: axios.get(`${MONPLAN_REMOTE_URL}/courses/info/${courseCode}`)
+    };
+};
+
+/**
+ * FETCH_COURSE_TEMPLATE
+ */
+export const fetchCourseTemplate = (courseCode) => {
+    return {
+        type: "FETCH_COURSE_TEMPLATE",
+        payload: axios.get(`${MONPLAN_REMOTE_URL}/courses/${courseCode}`)
+    };
+};
+
+/**
+ * FETCH_UNIT_INFO
+ */
+export const fetchUnitInfo = (unitCode) => {
+    return {
+        type: "FETCH_COURSE_TEMPLATE",
+        payload: axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
+    };
+};
+
+/**
+ * FETCH_UNITS
+ */
+export const fetchUnits = () => {
+    return {
+        type: "FETCH_UNITS",
+        payload: axios.get(`${MONPLAN_REMOTE_URL}/basic/units`)
+    };
+};
+
+/**
+ * FETCH_COURSES
+ */
+export const fetchCourses = () => {
+    return {
+        type: "FETCH_COURSES",
+        payload: axios.get(`${MONPLAN_REMOTE_URL}/basic/courses`)
+    };
+};

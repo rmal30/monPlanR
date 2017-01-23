@@ -10,7 +10,22 @@
  * will trust that they are being called correctly to reduce complexity (not
  * checking for index out of bounds errors etc).
  */
-const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action) => {
+const defaultState = {
+    teachingPeriods: [], 
+    numberOfUnits: 4,
+    courseLoading: false,
+    unitLoading: false,
+    unitLoadError: false,
+    courseInfoLoadError: false,
+    courseTemplateLoadError: false,
+    data: null,
+    unitInfo: null
+};
+
+/**
+ * Course structure reducer
+ */
+const CourseStructure = (state = defaultState, action) => {
 
     switch(action.type) {
 
@@ -214,21 +229,21 @@ const CourseStructure = (state = {teachingPeriods: [], numberOfUnits: 4}, action
             return Object.assign(
                 {},
                 state,
-                {unitLoading: true}
+                {unitLoading: true, unitLoadError: false}
             );
         
         case "FETCH_UNIT_INFO_FULFILLED":
             return Object.assign(
                 {},
                 state,
-                {unitLoading: false, unitLoadError: false, data: action.payload}
+                {unitLoading: false, unitInfo: action.payload.data}
             );
         
         case "FETCH_UNIT_INFO_REJECTED":
             return Object.assign(
                 {},
                 state,
-                {unitLoading: false, unitLoadError: true, data: null}
+                {unitLoading: false, unitLoadError: true, unitInfo: null}
             );
         
         /**
