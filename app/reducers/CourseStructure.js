@@ -237,7 +237,7 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {unitLoading: false, unitInfo: action.payload.data}
+                {unitLoading: false, unitInfo: action.payload.data, focusedUnitCode: action.unitCode}
             );
         
         case "FETCH_UNIT_INFO_REJECTED":

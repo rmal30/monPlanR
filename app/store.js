@@ -4,6 +4,7 @@ import { syncHistoryWithStore } from "react-router-redux";
 import { browserHistory } from "react-router";
 import logger from "redux-logger";
 import promise from "redux-promise-middleware";
+import thunk from "redux-thunk";
 import appReducer from "./reducers/Index";
 
 
@@ -24,7 +25,7 @@ import appReducer from "./reducers/Index";
  * FOO_REJECTED
  */
 const store = createStore(appReducer, composeWithDevTools(
-    applyMiddleware(promise(), logger())));
+    applyMiddleware(promise(), logger(), thunk)));
 
 // Named export the history to use 
 export const history = syncHistoryWithStore(browserHistory, store);
