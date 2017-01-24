@@ -855,7 +855,8 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const action = {
-                type: "FETCH_UNIT_INFO_REJECTED"
+                type: "FETCH_UNIT_INFO_REJECTED",
+                payload: "Error Msg"
             };
 
             const stateAfter = {
