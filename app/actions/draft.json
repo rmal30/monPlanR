@@ -20,12 +20,6 @@
         "type": "CANCEL_MOVE_UNIT"
     },
     {
-        "type": "FETCH_UNIT_DETAILS"
-    },
-    {
-        "type": "FETCH_COURSE_DETAILS"
-    },
-    {
         "type": "SEARCH_COURSES"
     },
     {
