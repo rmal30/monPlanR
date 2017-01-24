@@ -770,7 +770,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                unitInfo: null
+                unitInfo: null,
+                focusedUnitCode: null
             };
 
             const action = {
@@ -785,7 +786,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                unitInfo: null
+                unitInfo: null,
+                focusedUnitCode: null
             };
 
             deepFreeze(stateBefore);
