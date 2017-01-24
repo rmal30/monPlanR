@@ -25,7 +25,7 @@ export const fetchCourseTemplate = (courseCode) => {
  */
 export const fetchUnitInfo = (unitCode) => {
     return {
-        type: "FETCH_COURSE_TEMPLATE",
+        type: "FETCH_UNIT_INFO",
         payload: axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
     };
 };

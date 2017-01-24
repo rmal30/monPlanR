@@ -2,9 +2,21 @@ import React, { PropTypes } from "react";
 import { Button, Message, Header, Icon } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { DragSource, DropTarget } from "react-dnd";
-import { flow } from "lodash";
 
 import UnitDetailModal from "./UnitDetailModal.jsx";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as dataFetchActions from "../../actions/DataFetchActions";
+
+
+/**
+ * Set up any functions from the action creators you want to pass in
+ */
+const mapDispatchToProps = dispatch => {
+    const actionBundle = Object.assign({}, dataFetchActions);
+    return bindActionCreators(actionBundle, dispatch);
+};
+
 
 /**
 * Implements the drag source contract.
@@ -229,6 +241,7 @@ class Unit extends React.Component {
                             <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
                             {this.props.detailButton &&
                                 <UnitDetailModal
+                                    onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
                                     unitCode={this.props.code}
                                     trigger={<Button basic className="infoButton" color="blue" icon="info" />} />
                             }
@@ -246,6 +259,7 @@ class Unit extends React.Component {
                 {mobile =>
                     this.props.detailButton ? unitMessage(mobile) : (
                         <UnitDetailModal
+                            onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
                             unitCode={this.props.code}
                             trigger={unitMessage(mobile)} />
                     )
@@ -343,12 +357,21 @@ Unit.propTypes = {
     viewOnly: PropTypes.bool,
 
     /* Switch to detail button for viewing unit details */
-    detailButton: PropTypes.bool
+    detailButton: PropTypes.bool,
+
+    /* Redux action creators */
+    fetchUnitInfo: PropTypes.func
 };
 
 // https://github.com/gaearon/react-dnd/issues/157
 
-export default flow(
-    DragSource("unit", unitSource, collectSource),
-    DropTarget("unit", unitTarget, collectTarget)
-)(Unit);
+/**
+ * For some reason flow wasnt working
+ * TODO: Find out why this combination of connects + having the onClick handler be an anonymous 
+ * arrow function works specifically
+ */
+const unit = connect(null, mapDispatchToProps)(Unit);
+const dragNdrop =  DropTarget("unit", unitTarget, collectTarget)(unit);
+export default DragSource("unit", unitSource, collectSource)(dragNdrop);
+
+

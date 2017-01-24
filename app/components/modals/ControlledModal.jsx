@@ -68,6 +68,7 @@ class ControlledModal extends Component {
         return (
             <Modal trigger={trigger}
                    open={this.state.modalOpen}
+                   onOpen={this.props.onClick}
                    onClose={this.handleClose.bind(this)}>
                 {this.props.children}
                 <Modal.Actions>
@@ -85,7 +86,8 @@ ControlledModal.propTypes = {
     positiveButton: PropTypes.element,
     defaultOpen: PropTypes.bool,
     onClose: PropTypes.func,
-    children: PropTypes.node
+    children: PropTypes.node,
+    onClick: PropTypes.func
 };
 
 export default ControlledModal;

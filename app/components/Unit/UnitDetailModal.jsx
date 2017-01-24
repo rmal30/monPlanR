@@ -2,8 +2,8 @@ import React, { PropTypes } from "react";
 import { Button } from "semantic-ui-react";
 
 import ControlledModal from "../modals/ControlledModal.jsx";
-import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
 
+import UnitInfoWrapper from "../../wrappers/UnitInfoWrapper";
 /**
  * Unit detail is a component that shows the unit information.
  * @author JXNS, Saurabh Joshi
@@ -13,19 +13,21 @@ import UnitInfoContainer from "../../containers/UnitInfoContainer.jsx";
  * @param {string} custom - If custom, hide some features of unit details, and do not perform a query.
  * @returns {ControlledModal}
  */
-export default function UnitDetailModal({ trigger, unitCode, custom }) {
+export default function UnitDetailModal({ trigger, onClick }) {
 
     UnitDetailModal.propTypes = {
         trigger: PropTypes.element.isRequired,
         unitCode: PropTypes.string,
-        custom: PropTypes.bool
+        custom: PropTypes.bool,
+        onClick: PropTypes.func
     };
 
     const closeTrigger = <Button content="Close" />;
 
     return <ControlledModal
+                onClick={onClick}
                 openTrigger={trigger}
                 closeTrigger={closeTrigger}>
-                    {unitCode ? <UnitInfoContainer nUnitCode={unitCode} custom={custom} /> : <UnitInfoContainer />}
+                <UnitInfoWrapper />
             </ControlledModal>;
 }

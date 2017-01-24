@@ -19,7 +19,8 @@ const defaultState = {
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     data: null,
-    unitInfo: null
+    unitInfo: null,
+    focusedUnitCode: null
 };
 
 /**

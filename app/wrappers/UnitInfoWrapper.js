@@ -1,13 +1,16 @@
 import { connect } from "react-redux";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
+import CostCalc from "../utils/CostCalc";
 
 /**
  * Course statistic group just needs the cost and credit points from the state
  */
 const mapStateToProps = (state) => {
     const { unitInfo, unitLoadError, unitLoading, focusedUnitCode} = state.CourseStructure;
+    //const cost = CostCalc.calculateCost(unitInfo.SCABand, unitInfo.CreditPoints);
+
     return {
-        //cost: unitInfo.cost,
+        cost: CostCalc.calculateCost(unitInfo.SCABand, unitInfo.CreditPoints),
         creditPoints: unitInfo.CreditPoints,
         error: unitLoadError,
         Faculty: unitInfo.Faculty,
