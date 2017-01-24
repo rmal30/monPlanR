@@ -17,11 +17,12 @@ class UnitInfoContainer extends Component {
      * The basic logic for which view to render
      */
     render() {
+        const { error, isLoading } = this.props;
 
-        if(this.props.error) {
-            return <UnitInfoPlaceholder />;
-        
-        } else if (this.props.isLoading) {
+        if(error) {
+            return <UnitInfoPlaceholder  error={true} />;
+
+        } else if (isLoading) {
             return <UnitInfoPlaceholder />;
         
         } else {

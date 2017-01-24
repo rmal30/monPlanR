@@ -1,14 +1,26 @@
-import React from "react";
-import { Grid, Image, Loader, Rating, Divider } from "semantic-ui-react";
+import React, { PropTypes } from "react";
+import { Grid, Image, Loader, Rating, Divider, Dimmer, Header, Icon } from "semantic-ui-react";
 
 /**
  * This is the placeholder component that is shown when unit information is loading (being fetched). It shows the same structure
  * as a populated UnitInfo component, but replaces the data with grey bars.
  * @author JXNS
  */
-function UnitInfoPlaceholder() {
+const UnitInfoPlaceholder = ({ error }) => {
     return (
-        <Grid celled="internally" stackable columns={2}>
+        <Dimmer.Dimmable dimmed active blurring as={Grid} celled="internally" stackable columns={2}>
+            <Dimmer active inverted>
+                {!error && <Loader active size="huge" />}
+                {error &&
+                    <Header as="h2" icon>
+                        <Icon name="remove circle" />
+                        Failed to fetch unit details
+                        <Header.Subheader>
+                            {error}
+                        </Header.Subheader>
+                    </Header>
+                }
+            </Dimmer>
             <Grid.Row>
                 <Grid.Column width={12}>
                     <Image src='../resources/img/loaders/header.png' />
@@ -52,9 +64,13 @@ function UnitInfoPlaceholder() {
                     <Image src='../resources/img/loaders/smallText.png' />
                 </Grid.Column>
             </Grid.Row>
-            
-        </Grid>
+        </Dimmer.Dimmable>
     );
-}
+};
 
 export default UnitInfoPlaceholder;
+
+//PropTypes declaration
+UnitInfoPlaceholder.propTypes = {
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
+};
