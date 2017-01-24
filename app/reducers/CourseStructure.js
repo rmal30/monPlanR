@@ -244,7 +244,7 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {unitLoading: false, unitLoadError: true, unitInfo: null}
+                {unitLoading: false, unitLoadError: true, focusedUnitCode: null, }
             );
         
         /**
