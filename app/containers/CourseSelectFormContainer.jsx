@@ -238,7 +238,7 @@ class CourseSelectFormContainer extends Component {
                             } else {
                                 return (
                                     <Grid.Row>
-                                      <div style={{overflowX: "auto"}}>
+                                      <div>
                                         <Step.Group>
                                             <Step
                                                 active={!this.state.courseSelected}
@@ -272,7 +272,7 @@ class CourseSelectFormContainer extends Component {
                         }}
                         </MediaQuery>
                     <Grid.Column width={4}>
-                      <div style={{overflowX:"auto"}}>
+                      <div>
                         <h4>Find your course:</h4>
                         <Search
                             loading={this.state.isLoading}

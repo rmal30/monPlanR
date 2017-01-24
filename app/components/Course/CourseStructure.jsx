@@ -130,7 +130,7 @@ class CourseStructure extends Component {
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
-        if (nextProps.courseToLoad !== "" && this.state.unlock && nextProps.courseYear) {
+        if (nextProps.courseToLoad && this.state.unlock && nextProps.courseYear) {
             if (nextProps.courseToLoad !== this.state.courseToLoad) {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
                 this.courseLoad(nextProps.courseToLoad, nextProps.courseYear);
@@ -931,7 +931,7 @@ class CourseStructure extends Component {
             return;
         }
 
-        
+
         let { teachingPeriods } = this.state;
         teachingPeriods = teachingPeriods.map(teachingPeriod => {
             return Object.assign(
