@@ -34,6 +34,7 @@
     "react-sticky-box": "^0.5.1",
     "redux": "^3.6.0",
     "redux-promise-middleware": "^4.2.0",
+    "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.4",
     "semantic-ui-react": "^0.63.4",
     "babel-cli": "^6.18.0",
@@ -44,6 +45,7 @@
     "react-addons-test-utils": "^15.4.1",
     "redux-logger": "^2.7.4",
     "redux-promise-middleware": "^4.2.0",
+    "redux-devtools-extension": "^1.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "css-loader": "^0.25.0",
@@ -56,8 +58,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.8.0",
     "jsdom": "^9.8.3",
-    "mocha": "^3.2.0",
-    "webpack-dev-server": "^1.16.2"
+    "mocha": "^3.2.0"
   },
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",

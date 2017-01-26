@@ -11,6 +11,5 @@ const mapStateToProps = (state) => {
     };
 };
 
-
-const CourseStatisticGroupWrapper = connect(mapStateToProps)(CourseStatisticGroup);
-export default CourseStatisticGroupWrapper;
+const CourseStatisticGroupContainer = connect(mapStateToProps)(CourseStatisticGroup);
+export default CourseStatisticGroupContainer;

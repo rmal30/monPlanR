@@ -770,7 +770,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                unitInfo: null
+                unitInfo: null,
+                focusedUnitCode: null
             };
 
             const action = {
@@ -785,7 +786,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                unitInfo: null
+                unitInfo: null,
+                focusedUnitCode: null
             };
 
             deepFreeze(stateBefore);
@@ -807,12 +809,14 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                unitInfo: null
+                unitInfo: null,
+                focusedUnitCode: null
             };  
 
             const action = {
                 type: "FETCH_UNIT_INFO_FULFILLED",
-                payload: {data: "Fake Unit Info"}
+                payload: {data: "Fake Unit Info"},
+                unitCode: "FAKE1001"
             };
 
             const stateAfter = {
@@ -823,7 +827,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                unitInfo: "Fake Unit Info"
+                unitInfo: "Fake Unit Info",
+                focusedUnitCode: "FAKE1001"
             };
 
             deepFreeze(stateBefore);
@@ -845,11 +850,13 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                unitInfo: null
+                unitInfo: null,
+                focusedUnitCode: "FAKE1001"
             };
 
             const action = {
-                type: "FETCH_UNIT_INFO_REJECTED"
+                type: "FETCH_UNIT_INFO_REJECTED",
+                payload: "Error Msg"
             };
 
             const stateAfter = {
@@ -860,7 +867,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: true,
                 unitLoading: false,
                 courseLoading: false,
-                unitInfo: null
+                unitInfo: null,
+                focusedUnitCode: "FAKE1001"
             };
 
             deepFreeze(stateBefore);

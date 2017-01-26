@@ -15,7 +15,6 @@ export default class UnitQuery {
 
     /**
      * Retrieves information about a single unit remotely.
-
      * @param {string} UnitCode - The unit code to retrieve more information about.
      */
     static getExtendedUnitData(UnitCode) {
