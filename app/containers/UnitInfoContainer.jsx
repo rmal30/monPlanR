@@ -40,7 +40,7 @@ const mapStateToProps = (state) => {
     return {
         cost: CostCalc.calculateCost(unitInfo.SCABand, unitInfo.CreditPoints),
         creditPoints: unitInfo.CreditPoints,
-        error: unitLoadError,
+        error: unitLoadError, 
         Faculty: unitInfo.Faculty,
         likeScore: unitInfo.enjoyRating,
         isLoading: unitLoading,

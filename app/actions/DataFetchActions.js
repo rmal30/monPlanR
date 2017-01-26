@@ -4,9 +4,25 @@ import axios from "axios";
  * FETCH_COURSE_INFO
  */
 export const fetchCourseInfo = (courseCode) => {
-    return {
-        type: "FETCH_COURSE_INFO",
-        payload: axios.get(`${MONPLAN_REMOTE_URL}/courses/info/${courseCode}`)
+
+    return function(dispatch){
+        dispatch({
+            type: "FETCH_COURSE_INFO_PENDING"
+        });
+        axios.get(`${MONPLAN_REMOTE_URL}/courses/info/${courseCode}`)
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_COURSE_INFO_FULFILLED",
+                    payload: resp,
+                    courseCode
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_COURSE_INFO_REJECTED",
+                    payload: err
+                });
+            });
     };
 };
 
