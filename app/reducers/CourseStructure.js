@@ -19,7 +19,22 @@ const defaultState = {
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     data: null,
-    unitInfo: null
+    unitInfo: {
+        cost: 0,
+        creditPoints: 0,
+        Faculty: "",
+        likeScore: 0,
+        Synopsis: "",
+        UnitName: "",
+        usefulnessScore: 0,
+        prereqs: "",
+        prohibs: "",
+        offeringArray: "",
+        learnResponseCount: 0,
+        enjoyResponseCount: 0,
+        SCABand: 0
+    },
+    focusedUnitCode: null
 };
 
 /**
@@ -178,10 +193,11 @@ const CourseStructure = (state = defaultState, action) => {
             Resets the data structure to it's basic form, perhaps worth just returning state, but depends if the base state ever becomes more complex
         */
         case "CLEAR_COURSE":
-            return {
-                teachingPeriods: [],
-                numberOfUnits: 4
-            };
+            return Object.assign(
+                {},
+                state,
+                {teachingPeriods: [], numberOfUnits: 4}
+            );
         
         case "FETCH_COURSE_INFO_PENDING":
             return Object.assign(
@@ -236,14 +252,14 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {unitLoading: false, unitInfo: action.payload.data}
+                {unitLoading: false, unitInfo: action.payload.data, focusedUnitCode: action.unitCode}
             );
         
         case "FETCH_UNIT_INFO_REJECTED":
             return Object.assign(
                 {},
                 state,
-                {unitLoading: false, unitLoadError: true, unitInfo: null}
+                {unitLoading: false, unitLoadError: true }
             );
         
         /**
