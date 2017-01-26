@@ -19,7 +19,20 @@ const defaultState = {
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     data: null,
-    unitInfo: null,
+    unitInfo: {
+        cost: 0,
+        creditPoints: 0,
+        Faculty: "",
+        likeScore: 0,
+        Synopsis: "",
+        UnitName: "",
+        usefulnessScore: 0,
+        prereqs: "",
+        prohibs: "",
+        offeringArray: "",
+        learnResponseCount: 0,
+        enjoyResponseCount: 0
+    },
     focusedUnitCode: null
 };
 
