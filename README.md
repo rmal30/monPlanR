@@ -18,8 +18,7 @@ npm start
 ```
 Optionally if you wish to build a production distribution to test on a server or for whatever reason, you can build a dist and host via:
 ```
-chmod +x ./start-prod.sh
-./start-prod.sh
+NODE_ENV=production PORT=8080 node start
 ```
 
 Note to enable HTTPS you **must** have a Private key (named _server.key_) and a TLS/SSL Certificate within a folder named _ssl_ in the root directory

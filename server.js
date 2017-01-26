@@ -69,9 +69,9 @@ app.get("*", function (req, res) {
 
 console.log("Initialising Normal HTTP Server");
 var httpServer = http.createServer(app);
-httpServer.listen(80);
+httpServer.listen(process.env.PORT || 8080);
 
-if(enableSSL){
+if(enableSSL) {
     console.log("Initialising HTTPS Server");
     var httpsServer = https.createServer(credentials, app);
     httpsServer.listen(443);
