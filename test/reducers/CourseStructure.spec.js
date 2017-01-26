@@ -546,7 +546,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                courseInfo: null
             };
 
             const action = {
@@ -561,7 +561,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                courseInfo: null
             };
 
             deepFreeze(stateBefore);
@@ -583,12 +583,14 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                focusedCourse: null,
+                courseInfo: null
             };
 
             const action = {
                 type: "FETCH_COURSE_INFO_FULFILLED",
-                payload: "Fake Course Data"
+                payload: {data: "Fake Course Data"},
+                courseCode: "COURSE101"
             };
 
             const stateAfter = {
@@ -599,7 +601,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: "Fake Course Data"
+                courseInfo: "Fake Course Data",
+                focusedCourse: "COURSE101"
             };
 
             deepFreeze(stateBefore);
@@ -621,7 +624,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                courseInfo: null
             };
 
             const action = {
@@ -636,7 +639,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                courseInfo: null
             };
 
             deepFreeze(stateBefore);
