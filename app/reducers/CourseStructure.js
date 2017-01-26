@@ -31,7 +31,8 @@ const defaultState = {
         prohibs: "",
         offeringArray: "",
         learnResponseCount: 0,
-        enjoyResponseCount: 0
+        enjoyResponseCount: 0,
+        SCABand: 0
     },
     focusedUnitCode: null
 };
@@ -192,10 +193,11 @@ const CourseStructure = (state = defaultState, action) => {
             Resets the data structure to it's basic form, perhaps worth just returning state, but depends if the base state ever becomes more complex
         */
         case "CLEAR_COURSE":
-            return {
-                teachingPeriods: [],
-                numberOfUnits: 4
-            };
+            return Object.assign(
+                {},
+                state,
+                {teachingPeriods: [], numberOfUnits: 4}
+            );
         
         case "FETCH_COURSE_INFO_PENDING":
             return Object.assign(
