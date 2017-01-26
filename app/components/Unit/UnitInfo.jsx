@@ -117,7 +117,6 @@ UnitInfo.propTypes = {
     error: PropTypes.bool.isRequired,
     Faculty: PropTypes.string.isRequired,
     likeScore: PropTypes.number.isRequired,
-    isDisabled: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool,
     Synopsis: PropTypes.string,
     UnitCode: PropTypes.string.isRequired,

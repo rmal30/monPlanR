@@ -8,16 +8,13 @@ import { Grid, Image, Loader, Rating, Divider, Dimmer, Header, Icon } from "sema
  */
 const UnitInfoPlaceholder = ({ error }) => {
     return (
-        <Dimmer.Dimmable dimmed active blurring as={Grid} celled="internally" stackable columns={2}>
+        <Dimmer.Dimmable dimmed blurring as={Grid} celled="internally" stackable columns={2}>
             <Dimmer active inverted>
                 {!error && <Loader active size="huge" />}
                 {error &&
                     <Header as="h2" icon>
                         <Icon name="remove circle" />
                         Failed to fetch unit details
-                        <Header.Subheader>
-                            {error}
-                        </Header.Subheader>
                     </Header>
                 }
             </Dimmer>
@@ -26,7 +23,6 @@ const UnitInfoPlaceholder = ({ error }) => {
                     <Image src='../resources/img/loaders/header.png' />
                     <br />
                     <Image src='../resources/img/loaders/smallText.png' />
-                    <Loader active size="huge" />
                 </Grid.Column>
 
                 <Grid.Column width={2}>
