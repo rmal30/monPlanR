@@ -1,0 +1,5 @@
+runtime: nodejs
+env: flex
+
+resources:
+  memory_gb: 1.2
