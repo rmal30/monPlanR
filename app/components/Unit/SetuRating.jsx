@@ -34,6 +34,7 @@ function SetuRating(props) {
                             </span>
                             <span style={{display: "inline-block"}}>
                                 <p>I enjoyed the unit</p>
+
                                 <Rating icon='heart' defaultRating={(noEnjoyResponses || isNaN(props.heartRating)) ? 0 : Math.round(props.heartRating)} maxRating={5} disabled/>
                                 {(noEnjoyResponses || isNaN(props.heartRating)) ? <p>(No responses yet)</p> : <p>({props.heartRating.toFixed(2)}/5) - {props.enjoyResponseCount} responses</p>}
                             </span>

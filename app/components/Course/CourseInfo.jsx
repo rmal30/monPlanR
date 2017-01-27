@@ -10,8 +10,9 @@ export default function CourseInfo(props){
         <Grid stackable celled="internally" columns={2}>
             <Grid.Row>
                 <Grid.Column width={12}>
-                    <h3>{props.courseCode + " - " + props.courseName}</h3>
-                    <p>{"Managing faculty: " + props.faculty}</p>
+                    <h3>{props.courseCode + " - " + props.courseName} </h3>
+                    <i>{props.abrTitle}</i>
+                    <p><b>Managing faculty:</b>  {props.faculty}</p>
                 </Grid.Column>
 
                 <Grid.Column width={4}>
@@ -28,22 +29,22 @@ export default function CourseInfo(props){
             <Grid.Row>
                 <Grid.Column width={12}>
                     <Grid.Row>
-                        <CourseDescription description={props.courseDescription} /> 
-                        <Divider />
-                        <b>Duration: </b>
-                        <p>{props.durationStr}</p>
-                        <Divider />
-                        <b>Mode and location:</b>
-                        <p>{props.modeAndLocation}</p>
-                        <Divider />
-                        <b>Awards: </b>
-                        <p>{props.awards}</p>
+                        <CourseDescription description={props.courseDescription} />
                     </Grid.Row>
                 </Grid.Column>
 
                 <Grid.Column width={4}>
-                    <b>Abbreviated title:</b>
-                    <p>{props.abrTitle}</p>
+                    <Icon name="time" />
+                    <b>Duration of Course: </b>
+                    <p><i>{props.durationStr}</i></p>
+                    <Divider />
+                    <Icon name="pin" />
+                    <b>Mode and location:</b>
+                    <p><i>{props.modeAndLocation}</i></p>
+                    <Divider />
+                    <Icon name="student" />
+                    <b>Awards: </b>
+                    <p><i>{props.awards.length !== 0 ? props.awards : "No Awards Available"}</i></p>
                     <Divider />
                     <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/courses/${props.courseCode}.html`}>{"View " + props.courseCode + " handbook entry"}</a>
                     <Divider />
@@ -63,5 +64,5 @@ CourseInfo.propTypes = {
     durationStr: PropTypes.string,
     modeAndLocation: PropTypes.string,
     awards: PropTypes.string,
-    abrTitle: PropTypes.string    
+    abrTitle: PropTypes.string
 };
