@@ -5,7 +5,7 @@ import axios from "axios";
  */
 export const fetchCourseInfo = (courseCode) => {
 
-    return function(dispatch){
+    return function (dispatch) {
         dispatch({
             type: "FETCH_COURSE_INFO_PENDING"
         });
@@ -40,7 +40,7 @@ export const fetchCourseTemplate = (courseCode) => {
  * FETCH_UNIT_INFO
  */
 export const fetchUnitInfo = (unitCode) => {
-    return function(dispatch){
+    return function (dispatch) {
         dispatch({
             type: "FETCH_UNIT_INFO_PENDING"
         });

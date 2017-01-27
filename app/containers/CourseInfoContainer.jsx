@@ -1,19 +1,20 @@
 import React, { PropTypes } from "react";
-import CourseInfo from "../components/Course/CourseInfo.jsx";
 import { connect } from "react-redux";
 
+import CourseInfo from "../components/Course/CourseInfo.jsx";
+import CourseInfoPlaceholder from "../components/Course/CourseInfoPlaceholder.jsx";
 
 /**
  * Handles data fetching for course information.
  */
 const CourseInfoContainer = (props) => {
-    
-    const { isLoading, error } = props; 
-    
+
+    const { isLoading, error } = props;
+
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <CourseInfoPlaceholder />;
     } else if (error) {
-        return <p>Error...</p>;
+        return <CourseInfoPlaceholder error={true} />;
     } else {
         return <CourseInfo {...props} />;
     }
@@ -24,7 +25,7 @@ const CourseInfoContainer = (props) => {
  */
 const mapStateToProps = (state) => {
     const { courseInfo, courseInfoLoadError, courseLoading, focusedCourse} = state.CourseStructure;
-    
+
     return {
         isLoading: courseLoading,
         error: courseInfoLoadError,
@@ -33,7 +34,7 @@ const mapStateToProps = (state) => {
         faculty: courseInfo.faculty,
         creditPoints: courseInfo.creditPoints,
         courseDescription: courseInfo.courseDescription,
-        durationStr: courseInfo.string,
+        durationStr: courseInfo.durationStr,
         modeAndLocation: courseInfo.modeAndLocation,
         awards: courseInfo.awards,
         abrTitle: courseInfo.abrTitle
