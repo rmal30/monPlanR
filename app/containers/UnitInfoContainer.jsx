@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import React, { Component, PropTypes } from "react";
+import React, { PropTypes } from "react";
 import UnitInfo from "../components/Unit/UnitInfo.jsx";
 import UnitInfoPlaceholder from "../components/Unit/UnitInfoPlaceholder.jsx";
 import CostCalc from "../utils/CostCalc";
@@ -11,25 +11,19 @@ import CostCalc from "../utils/CostCalc";
  * 
  * @author JXNS
  */
-class UnitInfoContainer extends Component {
+const UnitInfoContainer = (props) => {
     
-    /**
-     * The basic logic for which view to render
-     */
-    render() {
-        const { error, isLoading } = this.props;
-
-        if(error) {
-            return <UnitInfoPlaceholder  error={true} />;
-
-        } else if (isLoading) {
-            return <UnitInfoPlaceholder />;
-        
-        } else {
-            return <UnitInfo {...this.props} />;
-        }
+    const { error, isLoading } = props;
+    
+    if(error) {
+        return <UnitInfoPlaceholder  error={true} />;
+    } else if (isLoading) {
+        return <UnitInfoPlaceholder />;
+    
+    } else {
+        return <UnitInfo {...props} />;
     }
-}
+};
 
 /**
  * Grabs the data from the redux store
