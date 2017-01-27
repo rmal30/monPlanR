@@ -22,7 +22,7 @@ const config = {
     ],
 
     output: {
-        path: __dirname + "/dist",
+        path: __dirname + "/dist/public",
         filename: "bundle.js",
         publicPath: "/"
     },

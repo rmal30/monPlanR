@@ -64,10 +64,10 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
 
-    "build:prod": "rm -rf dist/ && mkdir dist && mkdir dist/public && cp -a app/resources/. dist/public/ && cp -a server/. dist && NODE_ENV=production webpack --progress -p",
+    "build:prod": "sh ./pre_build_prod_server.sh && NODE_ENV=production webpack --progress -p",
     "start:prod": "npm run build:prod && node dist/server.js",
 
-    "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
+    "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
 
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
 
