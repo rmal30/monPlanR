@@ -21,7 +21,7 @@ export default function Footer() {
                     </Container>
                 </Grid.Column>
                 <Grid.Column  textAlign="center">
-                    <img className="logo" src="/resources/img/monash.png" alt="logo" />
+                    <img className="logo" src="/img/monash.png" alt="logo" />
                     <p>Copyright &copy; Monash University 2016</p>
                 </Grid.Column>
               </Grid.Row>

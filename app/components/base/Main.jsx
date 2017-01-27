@@ -5,7 +5,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import "../../resources/css/transitions.css"; // What is this...?
+import "../../public/css/transitions.css"; // What is this...?
 
 // UI framework imports
 import { Menu, Sidebar } from "semantic-ui-react";
