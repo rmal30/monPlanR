@@ -35,7 +35,7 @@ class Header extends Component {
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
-                            <img className="logo" src="/resources/img/logo.png" alt="logo" />
+                            <img className="logo" src="/img/logo.png" alt="logo" />
                             <MediaQuery minDeviceWidth={768}>monPlan</MediaQuery>
                         </Menu.Item>
                     </Link>

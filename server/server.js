@@ -60,11 +60,11 @@ console.log("Security Measures Deployed. Compressing and Serving index.html");
 app.use(compression());
 
 // serve our static stuff like index.css
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // send all requests to index.html so browserHistory works
 app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "dist", "index.html"));
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 console.log("Initialising Normal HTTP Server");
