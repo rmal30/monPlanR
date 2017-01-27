@@ -22,8 +22,51 @@ Optionally if you wish to build a production distribution to test on a server or
 NODE_ENV=production PORT=8080 npm start
 ```
 
+## When code builds
+In the development version, `app/public` acts as a static directory for
+`webpack-dev-server`.
+
+In the production version, `pre_build_prod_server.sh`
+copies the necessary files from `server/.` and the static directory `app/public`, and pastes them into `dist` folder.
+
+Here are some nice file tree diagrams explaining what happens in the pre-build production process:
+
+```
+Source of copy:
+-----------------
+- app
+  \- public
+- server
+  |- app.yaml
+  |- package.json
+  \- server.js
+
+Destination of copy:
+-----------------
+- dist
+  |- public
+  |- app.yaml
+  |- package.json
+  \- server.js
+```
+
+Note: There is a file called `server/package.json`. All it does is that it only provides packages necessary to run `server/server.js` once the copying phase has been completed.
+
+The reason for having two `package.json` files is that servers tend to be slower than desktops/laptops when building code, and so it makes sense to build it here rather than over there. Having two `package.json` files is not ideal, and we would like a one `package.json` file solution.
+
+Due to how the build is setup, you only need to modify `/path/to/monPlanR/package.json` file unless you are adding/removing dependencies for `server/server.js` file.
+
+## Google App Engine
+To deploy this web app to Google App Engine:
+```
+cd /path/to/monPlanR
+npm run build:prod
+cd dist
+gcloud app deploy
+```
+
 ## HTTPS
-If you want the production server to handle HTTPS, you **must** have a private key (named _server.key_) and a TLS/SSL certificate in a folder with path `/path/to/monPlanR/ssl`. Then follow instructions on running the production server as per usual, and the server will load the key and certificate up before running the app on port `443`.
+If you want the production server to handle HTTPS, you **must** have a private key (named _server.key_) and a TLS/SSL certificate in a folder with path `/path/to/monPlanR/server/ssl`. Then follow instructions on running the production server as per usual, and the server will load the key and certificate up before running the app on port `443`.
 
 ## Test
 To test the code for any syntaxical or stylistic errors/warnings, as well as unit testing:
