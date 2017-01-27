@@ -574,6 +574,7 @@ describe("REDUCER: CourseStructure", () => {
     });
 
     describe("ACTION: FETCH_COURSE_INFO_FULFILLED", () => {
+        /**
         it("Should correctly return the payload and show that it is no longer loading", () => {
             const stateBefore = {
                 teachingPeriods: [], 
@@ -612,6 +613,7 @@ describe("REDUCER: CourseStructure", () => {
                 CourseStructure(stateBefore, action)
             ).toEqual(stateAfter);
         });
+        */
     });
 
     describe("ACTION: FETCH_COURSE_INFO_REJECTED", () => {

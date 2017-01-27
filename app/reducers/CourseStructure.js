@@ -35,7 +35,6 @@ const defaultState = {
         SCABand: 0
     },
     courseInfo: {
-        courseCode: "",
         courseName: "",
         faculty: "",
         creditPoints: 0,
@@ -222,7 +221,19 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {courseLoading: false, courseInfo: action.payload.data, focusedCourse: action.courseCode}
+                {courseLoading: false, focusedCourse: action.courseCode, courseInfo: Object.assign(
+                    {},
+                    {
+                        courseName: action.payload.data.courseName,
+                        faculty: action.payload.data.mangFac,
+                        creditPoints: action.payload.data.creditPoints,
+                        courseDescription: action.payload.data.courseDescrip,
+                        durationStr: action.payload.data.courseDuration,
+                        modeAndLocation: action.payload.data.modeLoc,
+                        awards: action.payload.data.courseAward,
+                        abrTitle: action.payload.data.abrevTitle
+                    }
+                )}
             );
 
         case "FETCH_COURSE_INFO_REJECTED":
