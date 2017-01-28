@@ -39,7 +39,8 @@ class UnitSearchResultsContainer extends Component {
     render() {
         if(this.props.empty) {
             return (
-                <div style={{lineHeight: 1.5}}>
+                <div style={{lineHeight: 1.5, marginTop: "1em"}}>
+                    <Header as="h2">Add unit</Header>
                     To begin, please type in a unit name or unit code in the search bar.
                     <br /><br />
                     If the unit is not in our search results, then you can instead add a custom unit

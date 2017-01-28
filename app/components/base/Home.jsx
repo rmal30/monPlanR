@@ -43,7 +43,7 @@ class Home extends Component {
         const inLocalStorage = LocalStorage.doesCourseStructureExist();
 
         return (
-            <Container className="ui main text wrapper">
+            <Container className="ui main text">
                 <div id="welcome" className="ui container">
                     {this.state.showMessage && inLocalStorage !== false && inLocalStorage !== MONPLAN_VERSION &&
                         <Message
@@ -101,7 +101,6 @@ class Home extends Component {
                                     <CourseSelectFormContainer />
                                 </Container>
                             }
-                    <div className={inLocalStorage ? "welcomeBackMargin" : "welcomeMargin"} />
                 </div>
             </Container>
         );

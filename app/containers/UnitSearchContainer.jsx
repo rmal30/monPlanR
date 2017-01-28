@@ -139,6 +139,10 @@ class UnitSearchContainer extends Component {
                 this.selectSearchResult();
                 e.preventDefault();
                 break;
+            case 27: // Escape
+                this.props.close();
+                e.preventDefault();
+                break;
             case 38: // Up
                 this.moveUpSearchResult();
                 e.preventDefault();
@@ -235,7 +239,8 @@ class UnitSearchContainer extends Component {
 
 UnitSearchContainer.propTypes = {
     addToCourse: PropTypes.func,
-    searchVisible: PropTypes.bool
+    searchVisible: PropTypes.bool,
+    close: PropTypes.bool
 };
 
 export default UnitSearchContainer;

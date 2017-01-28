@@ -30,6 +30,15 @@ class ClearCourseModal extends Component {
     }
 
     /**
+     * Focus on input once component is displayed.
+     */
+    componentDidUpdate(prevProps, prevState) {
+        if(!prevState.modalOpen && this.state.modalOpen) {
+            this.input.focus();
+        }
+    }
+
+    /**
      * Checks if string in input tag is "clear", and if so, enables the confirm
      * clear course button.
      *
@@ -128,7 +137,9 @@ class ClearCourseModal extends Component {
                     <Modal.Description>
                         <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
                         structure will be cleared.</p>
-                    <Input onChange={this.handleChange.bind(this)} onKeyDown={this.handleEnterPress.bind(this)} />
+                        <div className="ui input">
+                            <input type="text" ref={input => this.input = input} onChange={this.handleChange.bind(this)} onKeyDown={this.handleEnterPress.bind(this)} />
+                        </div>
                     </Modal.Description>
                 </Modal.Content>
 

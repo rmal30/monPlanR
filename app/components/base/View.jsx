@@ -38,7 +38,7 @@ class View extends Component {
      */
     render() {
         return (
-            <Container text style={{margin: "5em 0"}}>
+            <Container text className="main">
                 <Grid stackable>
                     <Grid.Column floated="left" width={5}>
                         <h1>Viewing course plan</h1>
