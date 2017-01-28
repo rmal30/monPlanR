@@ -7,7 +7,7 @@ import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStatisticGroupWrapper from "../../wrappers/CourseStatisticGroupWrapper";
+import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import CourseInfoButtonContainer from "../../containers/CourseInfoButtonContainer.jsx";
 
@@ -179,10 +179,6 @@ class Plan extends Component {
      * structure.
      */
     render() {
-        let courseCode = "";
-        if(this.state.courseToLoad) {
-            courseCode = this.state.courseToLoad.split("-")[0];
-        }
         const { startYear, endYear } = this.props.location.query;
 
         
@@ -201,14 +197,13 @@ class Plan extends Component {
                     <Grid reversed="mobile" stackable className="no-print">
                         <Grid.Row>
                             <Grid.Column width="4">
-                                <CourseInfoButtonContainer courseCode={courseCode}/>
+                                <CourseInfoButtonContainer />
                             </Grid.Column>
                             <Grid.Column width="4">
-                                <LoadCourseMap
-                                    onCourseLoad={this.handleCourseLoad} />
+                                <LoadCourseMap onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
                             <Grid.Column width="4" floated="right">
-                                <CourseStatisticGroupWrapper />
+                                <CourseStatisticGroupContainer />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
