@@ -574,7 +574,6 @@ describe("REDUCER: CourseStructure", () => {
     });
 
     describe("ACTION: FETCH_COURSE_INFO_FULFILLED", () => {
-        /**
         it("Should correctly return the payload and show that it is no longer loading", () => {
             const stateBefore = {
                 teachingPeriods: [], 
@@ -590,7 +589,16 @@ describe("REDUCER: CourseStructure", () => {
 
             const action = {
                 type: "FETCH_COURSE_INFO_FULFILLED",
-                payload: {data: "Fake Course Data"},
+                payload: {data: {
+                    courseName: "Test Course",
+                    mangFac: "Test Faculty",
+                    creditPoints: 100,
+                    courseDescrip: "Test Description",
+                    courseDuration: "Test Duration",
+                    modeLoc: "Test mode and location",
+                    courseAward: "Test awards",
+                    abrevTitle: "Test abreviated title"
+                }},
                 courseCode: "COURSE101"
             };
 
@@ -602,7 +610,16 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                courseInfo: "Fake Course Data",
+                courseInfo: {
+                    courseName: "Test Course",
+                    faculty: "Test Faculty",
+                    creditPoints: 100,
+                    courseDescription: "Test Description",
+                    durationStr: "Test Duration",
+                    modeAndLocation: "Test mode and location",
+                    awards: "Test awards",
+                    abrTitle: "Test abreviated title"
+                },
                 focusedCourse: "COURSE101"
             };
 
@@ -613,7 +630,6 @@ describe("REDUCER: CourseStructure", () => {
                 CourseStructure(stateBefore, action)
             ).toEqual(stateAfter);
         });
-        */
     });
 
     describe("ACTION: FETCH_COURSE_INFO_REJECTED", () => {
