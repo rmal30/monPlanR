@@ -60,8 +60,8 @@ class UnitSearchContainer extends Component {
     /**
      * If sidebar becomes visible, then focus and select the search bar.
      */
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.searchVisible) {
+    componentDidUpdate(prevProps) {
+        if(!prevProps.searchVisible && this.props.searchVisible) {
             this.searchInput.focus();
             this.searchInput.select();
         }
@@ -240,7 +240,7 @@ class UnitSearchContainer extends Component {
 UnitSearchContainer.propTypes = {
     addToCourse: PropTypes.func,
     searchVisible: PropTypes.bool,
-    close: PropTypes.bool
+    close: PropTypes.func
 };
 
 export default UnitSearchContainer;
