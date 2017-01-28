@@ -240,7 +240,7 @@ class UnitSearchContainer extends Component {
 UnitSearchContainer.propTypes = {
     addToCourse: PropTypes.func,
     searchVisible: PropTypes.bool,
-    close: PropTypes.bool
+    close: PropTypes.func
 };
 
 export default UnitSearchContainer;
