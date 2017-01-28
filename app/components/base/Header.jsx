@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
+import { Button, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { Link } from "react-router";
 
@@ -40,9 +40,11 @@ class Header extends Component {
                         </Menu.Item>
                     </Link>
                     {this.props.showAddUnit &&
-                    <Menu.Item onClick={this.props.handleSearchClick} className={this.props.searchVisible ? "active" : ""}>
-                        <Icon name="plus" />
-                        Add unit
+                    <Menu.Item>
+                        <Button icon color="green" onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }} className={this.props.searchVisible ? "active" : ""}>
+                            <Icon name="plus" />
+                            <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;Add unit</MediaQuery>
+                        </Button>
                     </Menu.Item>
                     }
                 </Menu.Menu>
