@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Container, Grid } from "semantic-ui-react";
-import MediaQuery from "react-responsive";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
