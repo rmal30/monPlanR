@@ -19,7 +19,6 @@ const UnitInfoContainer = (props) => {
         return <UnitInfoPlaceholder  error={true} />;
     } else if (isLoading) {
         return <UnitInfoPlaceholder />;
-    
     } else {
         return <UnitInfo {...props} />;
     }

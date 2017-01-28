@@ -7,7 +7,7 @@ import { Divider, Grid, Icon, Image, Dimmer, Loader, Header } from "semantic-ui-
  */
 const CourseInfoPlaceholder = ({ error }) => {
     return (
-        <Dimmer.Dimmable dimmmed blurring as={Grid} celled="internally" stackable columns={2}>
+        <Dimmer.Dimmable dimmed blurring as={Grid} celled="internally" stackable columns={2}>
             <Dimmer active inverted>
             {!error && <Loader active size="huge" />}
                 {error &&
@@ -17,6 +17,7 @@ const CourseInfoPlaceholder = ({ error }) => {
                     </Header>
                 }
             </Dimmer>
+            
             <Grid.Row>
                 <Grid.Column width={12}>
                     <Image src='../resources/img/loaders/header.png' />
