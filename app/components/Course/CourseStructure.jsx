@@ -242,7 +242,7 @@ class CourseStructure extends Component {
 
                 if (!isValid) {
                     errors.push({
-                        message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
+                        message: `${units[i].UnitCode} may not be offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}.`,
                         coordinates: [[units[i].teachingPeriodIndex, units[i].unitIndex]]
                     });
                 }
