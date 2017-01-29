@@ -20,39 +20,39 @@ const CourseInfoPlaceholder = ({ error }) => {
             
             <Grid.Row>
                 <Grid.Column width={12}>
-                    <Image src='../resources/img/loaders/header.png' />
+                    <Image src='../img/loaders/header.png' />
                     <br />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                 </Grid.Column>
 
                 <Grid.Column width={4}>
-                    <Image src='../resources/img/loaders/square.png' />
+                    <Image src='../img/loaders/square.png' />
                 </Grid.Column>
             </Grid.Row>
 
             <Grid.Row>
                 <Grid.Column width={12}>
                     <Grid.Row>
-                        <Image src='../resources/img/loaders/paragraph.png' />
+                        <Image src='../img/loaders/paragraph.png' />
                         <Divider />
-                        <Image src='../resources/img/loaders/smallText.png' />
-                        <Image src='../resources/img/loaders/smallText.png' />
+                        <Image src='../img/loaders/smallText.png' />
+                        <Image src='../img/loaders/smallText.png' />
                         <Divider />
-                        <Image src='../resources/img/loaders/smallText.png' />
-                        <Image src='../resources/img/loaders/smallText.png' />
+                        <Image src='../img/loaders/smallText.png' />
+                        <Image src='../img/loaders/smallText.png' />
                         <Divider />
-                        <Image src='../resources/img/loaders/smallText.png' />
-                        <Image src='../resources/img/loaders/smallText.png' />
+                        <Image src='../img/loaders/smallText.png' />
+                        <Image src='../img/loaders/smallText.png' />
                     </Grid.Row>
                 </Grid.Column>
 
                 <Grid.Column width={4}>
-                    <Image src='../resources/img/loaders/smallText.png' />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                     <Divider />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                     <Divider />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                 </Grid.Column>
             </Grid.Row>
         </Dimmer.Dimmable>
