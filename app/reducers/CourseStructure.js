@@ -34,7 +34,18 @@ const defaultState = {
         enjoyResponseCount: 0,
         SCABand: 0
     },
-    focusedUnitCode: null
+    courseInfo: {
+        courseName: "",
+        faculty: "",
+        creditPoints: 0,
+        courseDescription: "",
+        durationStr: "",
+        modeAndLocation: "",
+        awards: "",
+        abrTitle: ""
+    },
+    focusedUnitCode: null,
+    focusedCourse: null
 };
 
 /**
@@ -203,21 +214,33 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {courseLoading: true}
+                {courseLoading: true, courseInfoLoadError: false}
             );
         
         case "FETCH_COURSE_INFO_FULFILLED":
             return Object.assign(
                 {},
                 state,
-                {courseLoading: false, courseInfoLoadError: false, data: action.payload}
+                {courseLoading: false, focusedCourse: action.courseCode, courseInfo: Object.assign(
+                    {},
+                    {
+                        courseName: action.payload.data.courseName,
+                        faculty: action.payload.data.mangFac,
+                        creditPoints: action.payload.data.creditPoints,
+                        courseDescription: action.payload.data.courseDescrip,
+                        durationStr: action.payload.data.courseDuration,
+                        modeAndLocation: action.payload.data.modeLoc,
+                        awards: action.payload.data.courseAward,
+                        abrTitle: action.payload.data.abrevTitle
+                    }
+                )}
             );
 
         case "FETCH_COURSE_INFO_REJECTED":
             return Object.assign(
                 {},
                 state,
-                {courseLoading: false, courseInfoLoadError: true, data: null}
+                {courseLoading: false, courseInfoLoadError: true}
             );
         
         case "FETCH_COURSE_TEMPLATE_PENDING":

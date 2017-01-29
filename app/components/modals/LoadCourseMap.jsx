@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Icon, Modal, Search, Dropdown } from "semantic-ui-react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as dataFetchActions from "../../actions/DataFetchActions";
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitQuery from "../../utils/UnitQuery";
 import YearCalc from "../../utils/YearCalc";
@@ -82,6 +84,7 @@ class LoadCourseMap extends Component {
      */
     handleLoadCourse() {
         this.props.onCourseLoad(this.state.code, this.state.year);
+        this.props.fetchCourseInfo(this.state.CourseCode);
         this.setState({
             CourseCode: "",
             value: "",
@@ -232,9 +235,17 @@ class LoadCourseMap extends Component {
     }
 }
 
-LoadCourseMap.propTypes = {
-    CourseCode: PropTypes.string,
-    onCourseLoad: PropTypes.func
+/**
+ * Grab redux functions
+ */
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(dataFetchActions, dispatch);
 };
 
-export default LoadCourseMap;
+LoadCourseMap.propTypes = {
+    CourseCode: PropTypes.string,
+    onCourseLoad: PropTypes.func,
+    fetchCourseInfo: PropTypes.func
+};
+
+export default connect(null, mapDispatchToProps)(LoadCourseMap);

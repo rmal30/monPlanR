@@ -1,7 +1,11 @@
-import React, { Component } from "react";
+import React, { PropTypes, Component } from "react";
 import { Button, Divider, Dropdown, Container, Header, Icon, Step, Popup, Search, Grid } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as dataFetchActions from "../actions/DataFetchActions";
+
 import FuzzySearch from "../utils/FuzzySearch";
 import UnitQuery from "../utils/UnitQuery";
 import YearCalc from "../utils/YearCalc.js";
@@ -74,7 +78,7 @@ class CourseSelectFormContainer extends Component {
      */
     handleSubmit(event) {
         event.preventDefault();
-
+        this.props.fetchCourseInfo(this.state.CourseCode);
         this.context.router.push({
             pathname: "/plan",
             query: {
@@ -370,8 +374,19 @@ class CourseSelectFormContainer extends Component {
     }
 }
 
-CourseSelectFormContainer.contextTypes = {
-    router: React.PropTypes.object.isRequired
+/**
+ * Maps the necessary actions to form for submission
+ */
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(dataFetchActions, dispatch);
 };
 
-export default CourseSelectFormContainer;
+export default connect(null, mapDispatchToProps)(CourseSelectFormContainer);
+
+CourseSelectFormContainer.contextTypes = {
+    router: PropTypes.object.isRequired,
+};
+
+CourseSelectFormContainer.propTypes = {
+    fetchCourseInfo: PropTypes.func
+};

@@ -546,7 +546,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                courseInfo: null
             };
 
             const action = {
@@ -561,7 +561,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                courseInfo: null
             };
 
             deepFreeze(stateBefore);
@@ -583,12 +583,23 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                focusedCourse: null,
+                courseInfo: null
             };
 
             const action = {
                 type: "FETCH_COURSE_INFO_FULFILLED",
-                payload: "Fake Course Data"
+                payload: {data: {
+                    courseName: "Test Course",
+                    mangFac: "Test Faculty",
+                    creditPoints: 100,
+                    courseDescrip: "Test Description",
+                    courseDuration: "Test Duration",
+                    modeLoc: "Test mode and location",
+                    courseAward: "Test awards",
+                    abrevTitle: "Test abreviated title"
+                }},
+                courseCode: "COURSE101"
             };
 
             const stateAfter = {
@@ -599,7 +610,17 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: "Fake Course Data"
+                courseInfo: {
+                    courseName: "Test Course",
+                    faculty: "Test Faculty",
+                    creditPoints: 100,
+                    courseDescription: "Test Description",
+                    durationStr: "Test Duration",
+                    modeAndLocation: "Test mode and location",
+                    awards: "Test awards",
+                    abrTitle: "Test abreviated title"
+                },
+                focusedCourse: "COURSE101"
             };
 
             deepFreeze(stateBefore);
@@ -621,7 +642,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                courseInfo: null
             };
 
             const action = {
@@ -636,7 +657,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                courseInfo: null
             };
 
             deepFreeze(stateBefore);

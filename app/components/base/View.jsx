@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Container, Divider, Grid } from "semantic-ui-react";
 
 import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStatisticGroupWrapper from "../../wrappers/CourseStatisticGroupWrapper";
+import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
 import LocalStorage from "../../utils/LocalStorage.js";
 
 /**
@@ -44,7 +44,7 @@ class View extends Component {
                         <h1>Viewing course plan</h1>
                     </Grid.Column>
                     <Grid.Column floated="right" width={5}>
-                        <CourseStatisticGroupWrapper />
+                        <CourseStatisticGroupContainer />
                     </Grid.Column>
                 </Grid>
                 <Divider hidden />

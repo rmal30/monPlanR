@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Grid } from "semantic-ui-react";
+import { Container, Grid } from "semantic-ui-react";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStatisticGroupWrapper from "../../wrappers/CourseStatisticGroupWrapper";
+import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
-import CourseDetailPopup from "../Course/CourseDetailPopup.jsx";
+import CourseInfoButtonContainer from "../../containers/CourseInfoButtonContainer.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -178,19 +178,7 @@ class Plan extends Component {
      * structure.
      */
     render() {
-        let courseCode = "";
-        if(this.state.courseToLoad) {
-            courseCode = this.state.courseToLoad.split("-")[0];
-        }
         const { startYear, endYear } = this.props.location.query;
-
-        const courseDetailButton = (
-            <Button
-                fluid
-                disabled={courseCode === ""}>
-                View {courseCode !== "" ? courseCode : "course"} details
-            </Button>
-        );
 
         return (
             <div>
@@ -207,14 +195,13 @@ class Plan extends Component {
                     <Grid reversed="mobile" stackable className="no-print">
                         <Grid.Row>
                             <Grid.Column width="4">
-                                <CourseDetailPopup courseCode={courseCode} trigger={courseDetailButton} />
+                                <CourseInfoButtonContainer />
                             </Grid.Column>
                             <Grid.Column width="4">
-                                <LoadCourseMap
-                                    onCourseLoad={this.handleCourseLoad} />
+                                <LoadCourseMap onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
                             <Grid.Column width="4" floated="right">
-                                <CourseStatisticGroupWrapper />
+                                <CourseStatisticGroupContainer />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
