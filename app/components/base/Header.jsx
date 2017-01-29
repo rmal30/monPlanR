@@ -41,9 +41,9 @@ class Header extends Component {
                     </Link>
                     {this.props.showAddUnit &&
                     <Menu.Item>
-                        <Button icon color="green" onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }} className={this.props.searchVisible ? "active" : ""}>
-                            <Icon name="plus" />
-                            <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;Add unit</MediaQuery>
+                        <Button icon color={this.props.searchVisible ? undefined : "green"} onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }}>
+                            <Icon name={this.props.searchVisible ? "x" : "plus"} />
+                            <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
                         </Button>
                     </Menu.Item>
                     }

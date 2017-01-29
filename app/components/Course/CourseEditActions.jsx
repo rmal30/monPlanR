@@ -33,7 +33,7 @@ export default function CourseEditActions(props) {
     return (
         <MediaQuery maxDeviceWidth={767}>
             {mobile =>
-                <Container>
+                <Container className="no-print" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderRadius: "0.5em 0.5em 0 0", borderTop: "0.1em solid #005d95"} : {}}>
                     {
                         !props.showInsertTeachingPeriods &&
                         props.teachingPeriods.length > 0 &&
@@ -42,6 +42,7 @@ export default function CourseEditActions(props) {
                             insert={props.showInsertTeachingPeriodsUI}
                             appendSemester={props.appendSemester}
                             mobile={mobile}
+                            bottom
                             />
                     }
                     {props.showInsertTeachingPeriods &&
@@ -61,9 +62,8 @@ export default function CourseEditActions(props) {
                         trigger={(
                             <Button
                                 primary
-                                fluid={mobile}
-                                className="no-print">
-                                Complete course plan
+                                fluid={mobile}>
+                                Finish planning
                             </Button>
                         )}
                         teachingPeriods={props.teachingPeriods}
