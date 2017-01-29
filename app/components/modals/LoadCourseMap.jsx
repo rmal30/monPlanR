@@ -167,8 +167,6 @@ class LoadCourseMap extends Component {
         return (
             <Modal trigger={(
                     <Button
-                        className="no-print"
-                        color="green"
                         fluid
                         onClick={this.handleOpen.bind(this)}>
                         Load Course Map

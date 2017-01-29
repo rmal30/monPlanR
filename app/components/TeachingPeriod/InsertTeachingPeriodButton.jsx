@@ -6,20 +6,21 @@ import { Button, Dropdown, Icon } from "semantic-ui-react";
  * semesters, as well as giving the option to add other teaching periods such as
  * summer semesters.
  */
-export default function InsertTeachingPeriodButton({ semesterString, insert, appendSemester, mobile, noFloat }) {
+export default function InsertTeachingPeriodButton({ semesterString, insert, appendSemester, mobile, noFloat, bottom }) {
     InsertTeachingPeriodButton.propTypes = {
         semesterString: PropTypes.string.isRequired,
         insert: PropTypes.func.isRequired,
         appendSemester: PropTypes.func.isRequired,
         mobile: PropTypes.bool,
-        noFloat: PropTypes.bool
+        noFloat: PropTypes.bool,
+        bottom: PropTypes.bool
     };
 
     return (
         <Button.Group color="green" fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
             <Button onClick={appendSemester}><Icon name="add square"/>Add {semesterString}</Button>
-            <Dropdown floating button className="icon">
-                <Dropdown.Menu>
+            <Dropdown floating button className="icon" icon={bottom ? "caret up" : "caret down"}>
+                <Dropdown.Menu style={bottom ? {top: "auto", bottom: "120%"} : {}}>
                     <Dropdown.Item onClick={insert.bind(null, "S1-01")}>Insert Semester 1</Dropdown.Item>
                     <Dropdown.Item onClick={insert.bind(null, "S2-01")}>Insert Semester 2</Dropdown.Item>
                     <Dropdown.Item onClick={insert.bind(null, "SSA-02")}>Insert Summer Semester A</Dropdown.Item>
