@@ -20,44 +20,44 @@ const UnitInfoPlaceholder = ({ error }) => {
             </Dimmer>
             <Grid.Row>
                 <Grid.Column width={12}>
-                    <Image src='../resources/img/loaders/header.png' />
+                    <Image src='../img/loaders/header.png' />
                     <br />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                 </Grid.Column>
 
                 <Grid.Column width={2}>
-                    <Image src='../resources/img/loaders/square.png' />
+                    <Image src='../img/loaders/square.png' />
                 </Grid.Column>
 
                 <Grid.Column width={2}>
-                    <Image src='../resources/img/loaders/square.png' />
+                    <Image src='../img/loaders/square.png' />
                 </Grid.Column>
             </Grid.Row>
             
             
             <Grid.Row>
                  <Grid.Column width={12}>
-                    <Image src='../resources/img/loaders/medium-paragraph.png' />
+                    <Image src='../img/loaders/medium-paragraph.png' />
                     <Divider />
-                    <Image src='../resources/img/loaders/short-paragraph.png' />
+                    <Image src='../img/loaders/short-paragraph.png' />
                     <Divider />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                     <br />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                  </Grid.Column>
                 
                 <Grid.Column width={4}>
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                     <br />
                     <Rating icon='star' defaultRating={0} maxRating={5} disabled/>
                     <hr />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                     <br />
                     <Rating icon='heart' defaultRating={0} maxRating={5} disabled/>
                     <Divider />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                     <Divider />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                 </Grid.Column>
             </Grid.Row>
         </Dimmer.Dimmable>
