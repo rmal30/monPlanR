@@ -110,13 +110,15 @@ html, body {
 
 .sidebar .message {
     font-size: 1em !important;
-    width: 265px;
-    min-height: 90px;
 }
 
 
 .sidebar {
     overflow-x: hidden;
+}
+
+.sidebar td {
+    display: block;
 }
 
 .sidebar .active.item {
