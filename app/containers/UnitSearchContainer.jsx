@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import UnitQuery from "../utils/UnitQuery";
-import { Menu } from "semantic-ui-react";
+import { Button, Menu } from "semantic-ui-react";
 
 import FuzzySearch from "../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
@@ -160,6 +160,7 @@ class UnitSearchContainer extends Component {
      */
     handleSearchChange(e) {
         const { value } = e.target;
+        let draggableCustomUnitExists = false;
 
         if(this.state.timeoutValue) {
             clearTimeout(this.state.timeoutValue);
@@ -173,7 +174,9 @@ class UnitSearchContainer extends Component {
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
 
             if(results.filter(result => result.item.UnitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
-                // Show custom unit
+                // Show custom draggable unit
+                draggableCustomUnitExists = true;
+
                 const customUnit = {
                     item: {
                         UnitCode: value.trim().toUpperCase(),
@@ -204,11 +207,17 @@ class UnitSearchContainer extends Component {
             this.setState({
                 isLoading: false,
                 searchResults: reducedResults,
+                showAddCustomUnitButton: !!value && !draggableCustomUnitExists,
+                value,
                 empty: !value
             });
         }, 200);
 
-        this.setState({ isLoading: true, searchResultIndex: 0, timeoutValue });
+        this.setState({
+            isLoading: true,
+            searchResultIndex: 0,
+            timeoutValue
+        });
     }
 
     /**
@@ -230,7 +239,9 @@ class UnitSearchContainer extends Component {
                         <i className="search icon" />
                     </div>
                 </Menu.Item>
-
+                {this.state.showAddCustomUnitButton &&
+                    <Button onClick={() => this.props.addToCourse(this.state.value, true)} fluid>Add custom unit</Button>
+                }
                 <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
             </Menu.Item>
         );
