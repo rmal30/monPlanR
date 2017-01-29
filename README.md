@@ -27,7 +27,7 @@ In the development version, `app/public` acts as a static directory for
 `webpack-dev-server`.
 
 In the production version, `pre_build_prod_server.sh`
-copies the necessary files from `server/.` and the static directory `app/public`, and pastes them into `dist` folder.
+copies all files from `server/.` and the static directory `app/public`, and pastes them into `dist` folder.
 
 Here are some nice file tree diagrams explaining what happens in the pre-build production process:
 
