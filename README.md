@@ -1,5 +1,5 @@
 # monPlan [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
-### **[Start planning your course today](http://www.monplan.tech)**
+### **[ ![Logo](https://raw.githubusercontent.com/MonashUnitPlanner/monPlanR/master/app/public/favicon.ico) Start planning your course today](http://www.monplan.tech)**
 _Built by Josh Nelsson-Smith, Saurabh Joshi and Eric Jiang_
 
 **monPlan** is a course planner for Monash students.
@@ -65,20 +65,20 @@ cd dist
 gcloud app deploy
 ```
 
-## HTTPS
+## Setup HTTPS on production server
 If you want the production server to handle HTTPS, you **must** have a private key (named _server.key_) and a TLS/SSL certificate in a folder with path `/path/to/monPlanR/server/ssl`. Then follow instructions on running the production server as per usual, and the server will load the key and certificate up before running the app on port `443`.
 
-## Test
+## Testing code
 To test the code for any syntaxical or stylistic errors/warnings, as well as unit testing:
 ```
 npm test
 ```
-# Documentation
+## Documentation
 Currently we use jsdoc to document our code, which you can view it here: https://doclets.io/MonashUnitPlanner/monPlanR
 
 If you want to, you can also build documentation:
 ```
 npm run jsdoc
 ```
-# License
+## License
 View `LICENSE` file to see our MIT license.
