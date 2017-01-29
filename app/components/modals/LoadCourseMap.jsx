@@ -168,6 +168,7 @@ class LoadCourseMap extends Component {
             <Modal trigger={(
                     <Button
                         fluid
+                        primary
                         onClick={this.handleOpen.bind(this)}>
                         Load Course Map
                     </Button>

@@ -187,8 +187,7 @@ class Plan extends Component {
         const courseDetailButton = (
             <Button
                 fluid
-                disabled={courseCode === ""}
-                primary>
+                disabled={courseCode === ""}>
                 View {courseCode !== "" ? courseCode : "course"} details
             </Button>
         );

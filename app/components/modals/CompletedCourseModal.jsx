@@ -3,17 +3,24 @@ import { Button, Dropdown, Header, Icon, Modal } from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 import Export from "../../utils/Export.js";
+import SaveButton from "../Course/SaveButton.jsx";
 
 /**
  * The completed course modal.
  *
  * @author Saurabh Joshi
  */
-export default function CompletedCourseModal({ trigger, teachingPeriods, numberOfUnits }) {
+export default function CompletedCourseModal({ trigger, teachingPeriods, numberOfUnits, isUploading, uploadingError, uploaded, uploadCourseToDatabase, uploadedCourseID }) {
     CompletedCourseModal.propTypes = {
         trigger: PropTypes.element.isRequired,
         teachingPeriods: PropTypes.arrayOf(PropTypes.object),
-        numberOfUnits: PropTypes.number.isRequired
+        numberOfUnits: PropTypes.number.isRequired,
+
+        isUploading: PropTypes.bool,
+        uploaded: PropTypes.bool,
+        uploadingError: PropTypes.bool,
+        uploadCourseToDatabase: PropTypes.func.isRequired,
+        uploadedCourseID: PropTypes.string
     };
 
     const closeTrigger = <Button content="Close" />;
@@ -22,7 +29,7 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
             <Modal.Header>
-                <Icon name="checked calendar" />Well done on planning your course
+                <Icon name="checked calendar" />Well done on planning your course (so far)
             </Modal.Header>
             <Modal.Content>
                 <Modal.Description>
@@ -44,6 +51,14 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                             </Dropdown.Menu>
                         </Dropdown>
                     </Button.Group>
+                    &nbsp;
+                    <SaveButton
+                        isUploading={isUploading}
+                        uploadingError={uploadingError}
+                        uploaded={uploaded}
+                        uploadCourseToDatabase={uploadCourseToDatabase}
+                        uploadedCourseID={uploadedCourseID}
+                        />
                     <Header>2. Place it somewhere</Header>
                     <p>
                         You can place your course plan somewhere, whether it is a printed
