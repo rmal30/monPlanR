@@ -29,7 +29,7 @@ export const fetchCourseInfo = (courseCode) => {
 /**
  * FETCH_COURSE_TEMPLATE
  */
-export const submitCourseForm = ({courseCode, startYear, courseID}) => {
+export const submitCourseForm = (courseCode, startYear, courseID) => {
     return function (dispatch) {
         dispatch({
             type: "SUBMIT_COURSE_FORM",
