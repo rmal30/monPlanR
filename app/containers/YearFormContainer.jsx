@@ -16,7 +16,7 @@ class YearFormContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.startYearPlaceholder = new Date().getFullYear() + 1;
+        this.startYearPlaceholder = new Date().getFullYear();
         this.endYearPlaceholder = this.startYearPlaceholder + 3;
 
         this.state = {
@@ -138,11 +138,11 @@ class YearFormContainer extends Component {
             <p>
 
             </p>
-            <Form size="large" error>
-                <Segment raised>
-                    <p>Please enter your commencement and graduation year. This will generate a course structure of semester one
-                        and semester two teaching periods.</p>
-                    <p>Alternatively, you can start with an empty template if your course structure mostly has non-semester teaching periods.</p>
+            <Segment raised>
+                <p>Please enter your commencement and graduation year. This will generate a course structure of semester one
+                    and semester two teaching periods.</p>
+                <p>Alternatively, you can start with an empty template if your course structure mostly has non-semester teaching periods.</p>
+                <Form size="huge">
                     <Form.Group widths="equal">
                         <Form.Field>
                             <label>Start Year:</label>
@@ -196,20 +196,23 @@ class YearFormContainer extends Component {
                                 );
                             } else {
                                 return (
-                                    <Button.Group>
-                                        {this.btnStartPlan()}
-                                        <Button.Or />
-                                        <Link to="/plan">
-                                            {this.btnEmptyPlan()}
-                                        </Link>
-                                    </Button.Group>
+                                    <Container textAlign="center">
+                                        <br />
+                                        <Button.Group size="huge">
+                                            {this.btnStartPlan()}
+                                            <Button.Or />
+                                            <Link to="/plan">
+                                                {this.btnEmptyPlan()}
+                                            </Link>
+                                        </Button.Group>
+                                    </Container>
                                 );
                             }
                         }
                     }
                     </MediaQuery>
-                </Segment>
-            </Form>
+                </Form>
+            </Segment>
             <div className="yearFormPush" />
             </Container>
         );
