@@ -1,8 +1,11 @@
-import React, { Component } from "react";
+import React, { Component,PropTypes } from "react";
 import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import * as courseActions from "../actions/CourseActions";
 import YearCalc from "../utils/YearCalc.js";
 
 /**
@@ -78,6 +81,8 @@ class YearFormContainer extends Component {
         event.preventDefault();
 
         const { startYear, endYear } = this.state;
+
+        this.props.submitYearForm(startYear, endYear);
 
         this.context.router.push({
             pathname: "/plan",
@@ -216,9 +221,20 @@ class YearFormContainer extends Component {
     }
 }
 
-
-YearFormContainer.contextTypes = {
-    router: React.PropTypes.object.isRequired
+/**
+ * bind all course actions, but really all we need is the submitYearForm action
+ */
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(courseActions, dispatch);
 };
 
-export default YearFormContainer;
+
+export default connect(null, mapDispatchToProps)(YearFormContainer);
+
+YearFormContainer.contextTypes = {
+    router: PropTypes.object.isRequired
+};
+
+YearFormContainer.propTypes = {
+    submitYearForm: PropTypes.func
+};

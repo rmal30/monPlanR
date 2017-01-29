@@ -29,7 +29,9 @@ import * as courseActions from "../../actions/CourseActions";
 const mapStateToProps = state => {
     return {
         creditPoints: state.Counter.creditPoints,
-        cost: state.Counter.cost
+        cost: state.Counter.cost,
+        startYear: state.CourseStructure.startYear,
+        endYear: state.CourseStructure.endYear
     };
 };
 
@@ -70,7 +72,7 @@ class CourseStructure extends Component {
             numberOfUnits: 4,
             teachingPeriods: this.generateCourse(startYear, endYear),
 
-            startYear: startYear || new Date().getFullYear(),
+            startYear: startYear,
 
             /* UI state */
             showInsertTeachingPeriods: false,

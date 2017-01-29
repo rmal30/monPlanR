@@ -91,3 +91,15 @@ export const generateCourse = (startYear, endYear) => {
         endYear
     };
 };
+
+
+/**
+ * SUBMIT_YEAR_FORM
+ */
+export const submitYearForm = (startYear, endYear) => {
+    return {
+        type: "SUBMIT_YEAR_FORM",
+        startYear,
+        endYear
+    };
+};

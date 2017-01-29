@@ -178,7 +178,6 @@ class Plan extends Component {
      * structure.
      */
     render() {
-        const { startYear, endYear } = this.props.location.query;
 
         return (
             <div>
@@ -208,17 +207,16 @@ class Plan extends Component {
                 </Container>
 
                 <Container className="main text">
-                    <CourseStructure startYear={parseInt(startYear)}
-                                     endYear={parseInt(endYear)}
-                                     addToCourse={this.addToCourse}
-                                     doneAddingToCourse={this.doneAddingToCourse}
-                                     cancelAddingToCourse={this.cancelAddingToCourse}
-                                     removeFromCourse={this.removeFromCourse}
-                                     unitToAdd={this.state.unitToAdd}
-                                     courseToLoad={this.state.courseToLoad}
-                                     courseYear={this.state.courseYear}
-                                     updateStatus={this.props.updateStatus}
-                                     courseErrors={this.props.courseErrors} />
+                    <CourseStructure
+                        addToCourse={this.addToCourse}
+                        doneAddingToCourse={this.doneAddingToCourse}
+                        cancelAddingToCourse={this.cancelAddingToCourse}
+                        removeFromCourse={this.removeFromCourse}
+                        unitToAdd={this.state.unitToAdd}
+                        courseToLoad={this.state.courseToLoad}
+                        courseYear={this.state.courseYear}
+                        updateStatus={this.props.updateStatus}
+                        courseErrors={this.props.courseErrors} />
                 </Container>
             </div>
         );
