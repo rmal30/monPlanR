@@ -29,10 +29,29 @@ export const fetchCourseInfo = (courseCode) => {
 /**
  * FETCH_COURSE_TEMPLATE
  */
-export const fetchCourseTemplate = (courseCode) => {
-    return {
-        type: "FETCH_COURSE_TEMPLATE",
-        payload: axios.get(`${MONPLAN_REMOTE_URL}/courses/${courseCode}`)
+export const submitCourseForm = ({courseCode, startYear, courseID}) => {
+    return function (dispatch) {
+        dispatch({
+            type: "SUBMIT_COURSE_FORM",
+            startYear,
+            courseCode
+        });
+        dispatch({
+            type: "FETCH_COURSE_TEMPLATE_PENDING"
+        });
+        axios.get(`${MONPLAN_REMOTE_URL}/courses/${courseID}`)
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_COURSE_TEMPLATE_FULFILLED",
+                    payload: resp
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_COURSE_TEMPLATE_REJECTED",
+                    payload: err
+                });
+            });
     };
 };
 

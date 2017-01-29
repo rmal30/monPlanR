@@ -19,6 +19,7 @@ const defaultState = {
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     data: null,
+
     unitInfo: {
         cost: 0,
         creditPoints: 0,
@@ -34,6 +35,7 @@ const defaultState = {
         enjoyResponseCount: 0,
         SCABand: 0
     },
+
     courseInfo: {
         courseName: "",
         faculty: "",
@@ -44,8 +46,11 @@ const defaultState = {
         awards: "",
         abrTitle: ""
     },
+
     focusedUnitCode: null,
-    focusedCourse: null
+    focusedCourse: null,
+    startYear: new Date().getFullYear(), //Default to the current year
+    endYear: new Date().getFullYear() + 4 //4 years is avg degree length
 };
 
 /**
@@ -283,6 +288,20 @@ const CourseStructure = (state = defaultState, action) => {
                 {},
                 state,
                 {unitLoading: false, unitLoadError: true }
+            );
+
+        case "SUBMIT_COURSE_FORM":
+            return Object.assign(
+                {},
+                state,
+                {startYear: action.startYear, focusedCourse: action.courseCode}
+            );
+
+        case "SUBMIT_YEAR_FORM":
+            return Object.assign(
+                {},
+                state,
+                {startYear: action.startYear, endYear: action.endYear}
             );
         
         /**
