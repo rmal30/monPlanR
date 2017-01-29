@@ -5,7 +5,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import "../../resources/css/transitions.css"; // What is this...?
+import "../../public/css/transitions.css"; // What is this...?
 
 // UI framework imports
 import { Menu, Sidebar } from "semantic-ui-react";
@@ -142,7 +142,10 @@ class Main extends Component {
                 <Sidebar.Pushable>
                     {this.state.addToCourse &&
                     <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.state.searchVisible} vertical>
-                        <UnitSearchContainer addToCourse={this.state.addToCourse} searchVisible={this.state.searchVisible} />
+                        <UnitSearchContainer
+                            addToCourse={this.state.addToCourse}
+                            searchVisible={this.state.searchVisible}
+                            close={this.handleDocumentClick} />
                     </Sidebar>
                     }
                     <Sidebar.Pusher id="main-body" dimmed={this.state.menuVisible} onClick={this.handleDocumentClick}>

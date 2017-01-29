@@ -1,5 +1,6 @@
 # monPlan [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
-### **[Start planning your course today](http://www.monplan.tech)**
+### **[ ![Logo](https://raw.githubusercontent.com/MonashUnitPlanner/monPlanR/master/app/public/favicon.ico) Start planning your course today](http://www.monplan.tech)**
+_Built by Josh Nelsson-Smith, Saurabh Joshi and Eric Jiang_
 
 **monPlan** is a course planner for Monash students.
 
@@ -21,42 +22,63 @@ Optionally if you wish to build a production distribution to test on a server or
 NODE_ENV=production PORT=8080 npm start
 ```
 
-## HTTPS
-If you want the production server to handle HTTPS, you **must** have a private key (named _server.key_) and a TLS/SSL certificate in a folder with path `/path/to/monPlanR/ssl`. Then follow instructions on running the production server as per usual, and the server will load the key and certificate up before running the app on port `443`.
+## When code builds
+In the development version, `app/public` acts as a static directory for
+`webpack-dev-server`.
 
-## Test
+In the production version, `pre_build_prod_server.sh`
+copies all files from `server/.` and the static directory `app/public`, and pastes them into `dist` folder.
+
+Here are some nice file tree diagrams explaining what happens in the pre-build production process:
+
+```
+Source of copy:
+-----------------
+- app
+  \- public
+- server
+  |- app.yaml
+  |- package.json
+  \- server.js
+
+Destination of copy:
+-----------------
+- dist
+  |- public
+  |- app.yaml
+  |- package.json
+  \- server.js
+```
+
+Note: There is a file called `server/package.json`. All it does is that it only provides packages necessary to run `server/server.js` once the copying phase has been completed.
+
+The reason for having two `package.json` files is that servers tend to be slower than desktops/laptops when building code, and so it makes sense to build it here rather than over there. Having two `package.json` files is not ideal, and we would like a one `package.json` file solution.
+
+Due to how the build is setup, you only need to modify `/path/to/monPlanR/package.json` file unless you are adding/removing dependencies for `server/server.js` file.
+
+## Google App Engine
+To deploy this web app to Google App Engine:
+```
+cd /path/to/monPlanR
+npm run build:prod
+cd dist
+gcloud app deploy
+```
+
+## Setup HTTPS on production server
+If you want the production server to handle HTTPS, you **must** have a private key (named _server.key_) and a TLS/SSL certificate in a folder with path `/path/to/monPlanR/server/ssl`. Then follow instructions on running the production server as per usual, and the server will load the key and certificate up before running the app on port `443`.
+
+## Testing code
 To test the code for any syntaxical or stylistic errors/warnings, as well as unit testing:
 ```
 npm test
 ```
-# Documentation
+## Documentation
 Currently we use jsdoc to document our code, which you can view it here: https://doclets.io/MonashUnitPlanner/monPlanR
 
 If you want to, you can also build documentation:
 ```
 npm run jsdoc
 ```
-# License
-MIT License
-
-Copyright (c) 2016 eSolutions (Monash University)
-
-_Built by Saurabh Joshi, Josh Nelsson-Smith, Eric Jiang_
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## License
+View `LICENSE` file to see our MIT license.

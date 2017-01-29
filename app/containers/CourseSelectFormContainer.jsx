@@ -34,15 +34,14 @@ class CourseSelectFormContainer extends Component {
             specialisations: [],
             code: "",
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
-            year: 0,
+            year: (this.startYearPlaceholder - 1),
+            currentYear: (this.startYearPlaceholder - 1),
             specIsDisabled: true,
             yearIsDisabled: true,
             readyToSubmit: false,
             courseSelected: false
         };
-
         this.timer = null;
-
         this.handleChange = this.handleChange.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSpecialisationSelect = this.handleSpecialisationSelect.bind(this);
@@ -155,6 +154,11 @@ class CourseSelectFormContainer extends Component {
             code: value,
             yearIsDisabled: false
         });
+        if(this.state.year.length !== 0){
+            this.setState({
+                readyToSubmit: true
+            });
+        }
     }
 
     /**
@@ -210,7 +214,7 @@ class CourseSelectFormContainer extends Component {
             yearIsDisabled: true,
             readyToSubmit: false,
             courseSelected: false,
-            year: 0
+            year: (this.state.currentYear)
         });
     }
 
@@ -285,7 +289,6 @@ class CourseSelectFormContainer extends Component {
                             onFocus={this.handleReSelect.bind(this)}
                             results={this.state.results}
                             placeholder="Search for your course"
-                            selectFirstResult
                             noResultsMessage="No courses found"
                             noResultsDescription="We only store 2017 course maps for most courses across Monash."
                             {...this.props}
@@ -312,6 +315,7 @@ class CourseSelectFormContainer extends Component {
                             options={this.state.years}
                             onChange={this.handleYearSelect}
                             fluid
+                            value={this.state.currentYear}
                         />
                         <br />
                         <br />

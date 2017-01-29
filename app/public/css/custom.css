@@ -22,8 +22,11 @@ body {
 .ui.footer.segment {
     padding: 3em 0em;
     background-color: #005d95;
-
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 0;
 }
+
 .display-none {
     display: none;
 }
@@ -82,6 +85,13 @@ html, body {
     #main-body {
         overflow-y: auto;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #main-body > span {
+        flex: 1;
+        margin-bottom: 10em;
     }
 }
 
@@ -89,33 +99,6 @@ html, body {
     margin: 0;
     padding: 0;
     padding-left: 1.5em;
-}
-
-.wrapper {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    padding-bottom: 5em;
-}
-
-.welcomeMargin {
-    height: 30px;
-}
-
-.welcomeBackMargin {
-    height: 220px;
-}
-
-.push {
-    height: 200px;
-}
-
-.push404 {
-    height: 500px;
-}
-
-.yearFormPush {
-    height: 500px;
 }
 
 .sidebar .item > .header {
@@ -148,27 +131,12 @@ html, body {
     box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15) !important;
 }
 
-.additionButton.ui.button.green:hover {
-    background: #16ab39 !important;
-    color: white !important;
-}
-
-.removalButton.ui.button.red:hover {
-    background: #DB2828 !important;
-    color: white !important;
-}
-
-.infoButton.ui.button.blue:hover {
-    background: #2185D0 !important;
-    color: white !important;
-}
-
 /* Adds margin in between a button and a dropdown */
 .buttons > .dropdown {
     margin-left: 0.1em !important;
     text-align: center;
 }
 
-.ui.icon.input input{
-  width:100% !important;
+.ui.icon.input input {
+    width:100% !important;
 }

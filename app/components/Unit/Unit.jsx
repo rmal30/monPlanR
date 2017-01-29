@@ -238,12 +238,12 @@ class Unit extends React.Component {
                     {this.props.code}
                     {!this.props.viewOnly &&
                         <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })} className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
-                            <Button basic className="removalButton" onClick={this.handleDelete.bind(this)} color="red" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
+                            <Button inverted onClick={this.handleDelete.bind(this)} color="red" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
                             {this.props.detailButton &&
                                 <UnitDetailModal
                                     onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
                                     unitCode={this.props.code}
-                                    trigger={<Button basic className="infoButton" color="blue" icon="info" />} />
+                                    trigger={<Button inverted color="blue" icon="info" />} />
                             }
                         </Button.Group>
                     }
@@ -367,11 +367,9 @@ Unit.propTypes = {
 
 /**
  * For some reason flow wasnt working
- * TODO: Find out why this combination of connects + having the onClick handler be an anonymous 
+ * TODO: Find out why this combination of connects + having the onClick handler be an anonymous
  * arrow function works specifically
  */
 const unit = connect(null, mapDispatchToProps)(Unit);
 const dragNdrop =  DropTarget("unit", unitTarget, collectTarget)(unit);
 export default DragSource("unit", unitSource, collectSource)(dragNdrop);
-
-

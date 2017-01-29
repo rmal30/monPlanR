@@ -52,14 +52,15 @@ export default function CourseViewActions(props) {
                             )}
                             closeTrigger={<Button>Cancel</Button>}>
                             <Modal.Header>
-                                Discard draft?
+                                Are you sure you want to edit this course?
                             </Modal.Header>
                             <Modal.Content>
                                 <Modal.Description>
                                     <p>
-                                        You have a draft course plan currently saved in
-                                        your browser. Are you sure you want discard your
-                                        draft to load this course plan?
+                                        You have an existing draft course plan
+                                        stored in your browser. Do you want to
+                                        discard the draft and edit this one
+                                        instead?
                                     </p>
                                 </Modal.Description>
                             </Modal.Content>

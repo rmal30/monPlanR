@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from "react";
 import { Container, Grid } from "semantic-ui-react";
-import MediaQuery from "react-responsive";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
@@ -181,9 +180,8 @@ class Plan extends Component {
     render() {
         const { startYear, endYear } = this.props.location.query;
 
-        
         return (
-            <div className="wrapper">
+            <div>
                 {this.state.customUnitCode &&
                     <CustomUnitModal
                         UnitCode={this.state.customUnitCode}
@@ -222,9 +220,6 @@ class Plan extends Component {
                                      updateStatus={this.props.updateStatus}
                                      courseErrors={this.props.courseErrors} />
                 </Container>
-                <MediaQuery minDeviceWidth={768}>
-                    <div className="push" />
-                </MediaQuery>
             </div>
         );
     }

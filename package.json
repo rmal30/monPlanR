@@ -1,20 +1,22 @@
 {
   "name": "monPlanR",
-  "version": "0.3.0-preview-test",
+  "version": "0.3.0-preview",
   "description": "A course planning tool designed by Monash students for Monash students.",
   "main": "./app/index.jsx",
   "engines": {
     "node": ">=4.2.6"
   },
   "dependencies": {
-    "axios": "^0.14.0",
-    "compression": "^1.6.2",
-    "deep-freeze": "0.0.1",
-    "expect": "^1.20.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
+    "compression": "^1.6.2",
+    "helmet": "^3.4.0"
+  },
+  "devDependencies": {
+    "axios": "^0.14.0",
+    "deep-freeze": "0.0.1",
+    "expect": "^1.20.2",
     "fuse.js": "^2.6.1",
-    "helmet": "^3.4.0",
     "if-env": "^1.0.0",
     "lodash": "^4.17.2",
     "object-assign": "^4.1.1",
@@ -49,9 +51,8 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "css-loader": "^0.25.0",
-    "html-webpack-plugin": "^2.22.0"
-  },
-  "devDependencies": {
+    "html-webpack-plugin": "^2.22.0",
+
     "chai": "^3.5.0",
     "enzyme": "^2.6.0",
     "eslint": "^3.11.1",
@@ -63,10 +64,10 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
 
-    "build:prod": "rm -rf dist/ && mkdir dist && cp -r app/resources/ dist/ && cp app/favicon.ico dist/ && webpack --progress -p",
-    "start:prod": "npm run build:prod && node server.js",
+    "build:prod": "sh ./pre_build_prod_server.sh && NODE_ENV=production webpack --progress -p",
+    "start:prod": "npm run build:prod && node dist/server.js",
 
-    "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/ --history-api-fallback",
+    "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
 
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
 

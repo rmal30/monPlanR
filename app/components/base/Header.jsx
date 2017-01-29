@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
+import { Button, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { Link } from "react-router";
 
@@ -35,14 +35,16 @@ class Header extends Component {
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
-                            <img className="logo" src="/resources/img/logo.png" alt="logo" />
+                            <img className="logo" src="/img/logo.png" alt="logo" />
                             <MediaQuery minDeviceWidth={768}>monPlan</MediaQuery>
                         </Menu.Item>
                     </Link>
                     {this.props.showAddUnit &&
-                    <Menu.Item onClick={this.props.handleSearchClick} className={this.props.searchVisible ? "active" : ""}>
-                        <Icon name="plus" />
-                        Add unit
+                    <Menu.Item>
+                        <Button icon color={this.props.searchVisible ? undefined : "green"} onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }}>
+                            <Icon name={this.props.searchVisible ? "x" : "plus"} />
+                            <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
+                        </Button>
                     </Menu.Item>
                     }
                 </Menu.Menu>

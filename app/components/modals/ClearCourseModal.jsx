@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Icon, Input, Modal } from "semantic-ui-react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 import { Link } from "react-router";
 /**
  * A modal used specifically for students who wish to clear their course.
@@ -27,6 +27,15 @@ class ClearCourseModal extends Component {
             modalOpen: false,
             disabled: true
         };
+    }
+
+    /**
+     * Focus on input once component is displayed.
+     */
+    componentDidUpdate(prevProps, prevState) {
+        if(!prevState.modalOpen && this.state.modalOpen) {
+            this.input.focus();
+        }
     }
 
     /**
@@ -128,7 +137,9 @@ class ClearCourseModal extends Component {
                     <Modal.Description>
                         <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
                         structure will be cleared.</p>
-                    <Input onChange={this.handleChange.bind(this)} onKeyDown={this.handleEnterPress.bind(this)} />
+                        <div className="ui input">
+                            <input type="text" ref={input => this.input = input} onChange={this.handleChange.bind(this)} onKeyDown={this.handleEnterPress.bind(this)} />
+                        </div>
                     </Modal.Description>
                 </Modal.Content>
 
