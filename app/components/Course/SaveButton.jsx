@@ -1,6 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Icon, Input, Popup } from "semantic-ui-react";
-
+import { Button, Icon, Input, Popup, Divider } from "semantic-ui-react";
 /**
  * Save button generates a snapshot upon click, and gives a link back to the
  * user so that they can view the snapshot anywhere.
@@ -21,6 +20,7 @@ export default function SaveButton({ isUploading, uploaded, uploadingError, uplo
         <Popup
             on="click"
             wide
+            positioning="top left"
             trigger={
                 (
                     <Button
@@ -35,8 +35,8 @@ export default function SaveButton({ isUploading, uploaded, uploadingError, uplo
                 )
             }>
             <Popup.Header>
-                {uploaded && "Saved course"
-                || isUploading && "Saved course..."
+                {uploaded && "Course saved!"
+                || isUploading && "Saving course..."
                 || uploadingError && "Failed to save course"}
             </Popup.Header>
             <Popup.Content>
@@ -45,7 +45,24 @@ export default function SaveButton({ isUploading, uploaded, uploadingError, uplo
                 }
                 {uploaded &&
                     <div>
-                        <p>Copy and visit the link below to view your saved course plan.</p>
+                        <Divider />
+                        <p>You can also share your course plan across many social media channels. Otherwise you can copy the link and come back to your plan later.</p>
+                        <div>
+                          <a href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
+                            <Button circular color='facebook' icon='facebook' />
+                          </a>
+                          <a href={`https://www.twitter.com/intent/tweet?url=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
+                            <Button circular color='twitter' icon='twitter' />
+                          </a>
+                          <a href={`https://plus.google.com/share?url=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
+                            <Button circular color='google plus' icon='google plus' />
+                          </a>
+                          <a href={`mailto:?subject=monPlan&body=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
+                            <Button circular color='google plus' icon='mail' />
+                          </a>
+                        </div>
+                        <Divider />
+                        <b>If you just want to bookmark the link, copy and paste the link below to your Bookmarks Manager</b>
                         <Input
                             readOnly
                             fluid

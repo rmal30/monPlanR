@@ -19,7 +19,7 @@ export default function InsertTeachingPeriodButton({ semesterString, insert, app
     return (
         <Button.Group color="green" fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
             <Button onClick={appendSemester}><Icon name="add square"/>Add {semesterString}</Button>
-            <Dropdown floating button className="icon" icon={bottom ? "caret up" : "caret down"}>
+            <Dropdown floating button className="icon" icon={bottom ? "caret up" : "caret down"} label="Add Custom Semester">
                 <Dropdown.Menu style={bottom ? {top: "auto", bottom: "120%"} : {}}>
                     <Dropdown.Item onClick={insert.bind(null, "S1-01")}>Insert Semester 1</Dropdown.Item>
                     <Dropdown.Item onClick={insert.bind(null, "S2-01")}>Insert Semester 2</Dropdown.Item>
