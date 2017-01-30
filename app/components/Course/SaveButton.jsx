@@ -51,7 +51,7 @@ export default function SaveButton({ isUploading, uploaded, uploadingError, uplo
                           <a href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
                             <Button circular color='facebook' icon='facebook' />
                           </a>
-                          <a href={`https://www.twitter.com/intent/tweet?url=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
+                          <a href={`https://www.twitter.com/intent/tweet?url=${window.location.origin}/view/${uploadedCourseID}&text=Check out my course plan!`} target="_blank">
                             <Button circular color='twitter' icon='twitter' />
                           </a>
                           <a href={`https://plus.google.com/share?url=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
