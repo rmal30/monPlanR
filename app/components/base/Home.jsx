@@ -3,7 +3,7 @@ import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-re
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
-import CourseSelectFormContainer from "../../containers/CourseSelectFormContainer.jsx";
+import CourseSelectFormContainer from "../../containers/Forms/CourseSelectFormContainer.jsx";
 import LocalStorage from "../../utils/LocalStorage.js";
 
 /**

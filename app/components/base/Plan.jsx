@@ -7,9 +7,9 @@ import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 //import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStructure from "../Course/newCourseStructure.jsx";
-import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
+import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
-import CourseInfoButtonContainer from "../../containers/CourseInfoButtonContainer.jsx";
+import CourseInfoButtonContainer from "../../containers/Buttons/CourseInfoButtonContainer.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and

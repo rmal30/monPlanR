@@ -15,7 +15,7 @@ import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 
 //Local container imports
-import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
+import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
 
 // Redux actions import
 import * as courseActions from "../../actions/CourseActions";

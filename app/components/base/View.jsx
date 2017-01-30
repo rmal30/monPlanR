@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Container, Divider, Grid } from "semantic-ui-react";
 
 import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
+import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
 import LocalStorage from "../../utils/LocalStorage.js";
 
 /**

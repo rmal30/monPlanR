@@ -3,7 +3,7 @@ import { Button } from "semantic-ui-react";
 
 import ControlledModal from "../modals/ControlledModal.jsx";
 
-import UnitInfoWrapper from "../../containers/UnitInfoContainer.jsx";
+import UnitInfoWrapper from "../../containers/Unit/UnitInfoContainer.jsx";
 /**
  * Unit detail is a component that shows the unit information.
  * @author JXNS, Saurabh Joshi

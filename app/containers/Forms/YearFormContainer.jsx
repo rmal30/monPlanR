@@ -3,7 +3,7 @@ import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup } from
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 
-import YearCalc from "../utils/YearCalc.js";
+import YearCalc from "../../utils/YearCalc.js";
 
 /**
  * The year form container prompts students to enter in their commercement and

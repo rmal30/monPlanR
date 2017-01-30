@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from "react";
-import UnitQuery from "../utils/UnitQuery";
+import UnitQuery from "../../utils/UnitQuery";
 import { Button, Menu } from "semantic-ui-react";
 
-import FuzzySearch from "../utils/FuzzySearch";
+import FuzzySearch from "../../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
 
 /**
