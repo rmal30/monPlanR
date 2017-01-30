@@ -13,12 +13,13 @@
 const defaultState = {
     teachingPeriods: [], 
     numberOfUnits: 4,
+    courseInfoLoading: false,
     courseLoading: false,
     unitLoading: false,
     unitLoadError: false,
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
-    data: null,
+    courseTemplateData: null,
 
     unitInfo: {
         cost: 0,
@@ -219,14 +220,14 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {courseLoading: true, courseInfoLoadError: false}
+                {courseInfoLoading: true, courseInfoLoadError: false}
             );
         
         case "FETCH_COURSE_INFO_FULFILLED":
             return Object.assign(
                 {},
                 state,
-                {courseLoading: false, focusedCourse: action.courseCode, courseInfo: Object.assign(
+                {courseInfoLoading: false, focusedCourse: action.courseCode, courseInfo: Object.assign(
                     {},
                     {
                         courseName: action.payload.data.courseName,
@@ -245,7 +246,7 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {courseLoading: false, courseInfoLoadError: true}
+                {courseInfoLoading: false, courseInfoLoadError: true}
             );
         
         case "FETCH_COURSE_TEMPLATE_PENDING":
@@ -259,14 +260,14 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {courseLoading: false, courseTemplateLoadError: false, data: action.payload}
+                {courseLoading: false, courseTemplateLoadError: false, courseTemplateData: action.payload.data}
             );
         
         case "FETCH_COURSE_TEMPLATE_REJECTED":
             return Object.assign(
                 {},
                 state,
-                {courseLoading: false, courseTemplateLoadError: true, data: null}
+                {courseLoading: false, courseTemplateLoadError: true, courseTemplateData: null}
             );
         
         case "FETCH_UNIT_INFO_PENDING":

@@ -83,8 +83,11 @@ class LoadCourseMap extends Component {
      * onCourseLoad function, feeding it the courseCode
      */
     handleLoadCourse() {
-        this.props.onCourseLoad(this.state.code, this.state.year);
-        this.props.fetchCourseInfo(this.state.CourseCode);
+        const { CourseCode, code, year} = this.state;
+        this.props.onCourseLoad(code, year);
+        this.props.fetchCourseInfo(CourseCode);
+        this.props.submitCourseForm(CourseCode, year, code);
+       
         this.setState({
             CourseCode: "",
             value: "",
@@ -245,7 +248,8 @@ const mapDispatchToProps = (dispatch) => {
 LoadCourseMap.propTypes = {
     CourseCode: PropTypes.string,
     onCourseLoad: PropTypes.func,
-    fetchCourseInfo: PropTypes.func
+    fetchCourseInfo: PropTypes.func,
+    submitCourseForm: PropTypes.func
 };
 
 export default connect(null, mapDispatchToProps)(LoadCourseMap);
