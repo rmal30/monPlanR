@@ -57,11 +57,13 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                         </Dropdown>
                     </Button.Group>
                     <Divider />
-                    <Header>2. Save and/or Share it</Header>
+                    <Header>2. Save and/or share it</Header>
                     <p>
-                        Your course plan can also be uploaded to our servers, you'll recieve
-                        a link to your plan. You can either save it for future use, otherwise
-                        share it with your friends on Facebook, Twitter, Google+ and much more
+                        Your course plan can also be uploaded to our servers,
+                        where you will receive a link to your plan. You can
+                        either save it for future use, or you can share it with
+                        your friends on social media or to your course advisor
+                        via email.
                     </p>
                     <SaveButton
                         isUploading={isUploading}
@@ -73,9 +75,10 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                     <Divider />
                     <Header>3. Visit this site every now and then</Header>
                     <p>
-                        Your course plan is saved to your browser, so if you want to
-                        see your course plan again, come back to this website and
-                        make changes whenever necessary.
+                        Your course plan is automatically saved to your
+                        browser, so if you want to see your course plan again,
+                        come back to this website and make changes whenever
+                        necessary.
                     </p>
                 </Modal.Description>
             </Modal.Content>
