@@ -545,7 +545,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfoLoadError: false,
                 unitLoadError: false,
                 unitLoading: false,
-                courseLoading: false,
+                courseInfoLoading: false,
                 courseInfo: null
             };
 
@@ -560,7 +560,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfoLoadError: false,
                 unitLoadError: false,
                 unitLoading: false,
-                courseLoading: true,
+                courseInfoLoading: true,
                 courseInfo: null
             };
 
@@ -582,7 +582,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfoLoadError: false,
                 unitLoadError: false,
                 unitLoading: false,
-                courseLoading: true,
+                courseInfoLoading: true,
                 focusedCourse: null,
                 courseInfo: null
             };
@@ -609,7 +609,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfoLoadError: false,
                 unitLoadError: false,
                 unitLoading: false,
-                courseLoading: false,
+                courseInfoLoading: false,
                 courseInfo: {
                     courseName: "Test Course",
                     faculty: "Test Faculty",
@@ -641,7 +641,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfoLoadError: false,
                 unitLoadError: false,
                 unitLoading: false,
-                courseLoading: true,
+                courseInfoLoading: true,
                 courseInfo: null
             };
 
@@ -656,7 +656,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfoLoadError: true,
                 unitLoadError: false,
                 unitLoading: false,
-                courseLoading: false,
+                courseInfoLoading: false,
                 courseInfo: null
             };
 
@@ -679,7 +679,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                courseTemplateData: null
             };
 
             const action = {
@@ -694,7 +694,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                courseTemplateData: null
             };
 
             deepFreeze(stateBefore);
@@ -716,12 +716,12 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                courseTemplateData: null
             };
 
             const action = {
                 type: "FETCH_COURSE_TEMPLATE_FULFILLED",
-                payload: "Fake Course Template"
+                payload: {data: "Fake Course Template"}
             };
 
             const stateAfter = {
@@ -732,7 +732,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: "Fake Course Template"
+                courseTemplateData: "Fake Course Template"
             };
 
             deepFreeze(stateBefore);
@@ -754,7 +754,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: true,
-                data: null
+                courseTemplateData: null
             };
 
             const action = {
@@ -769,7 +769,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                data: null
+                courseTemplateData: null
             };
 
             deepFreeze(stateBefore);
@@ -890,6 +890,100 @@ describe("REDUCER: CourseStructure", () => {
                 courseLoading: false,
                 unitInfo: null,
                 focusedUnitCode: "FAKE1001"
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: SUBMIT_COURSE_FORM", () => {
+        it("Should accurately set the start year and the focused course on submission", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: true,
+                courseLoading: false,
+                unitInfo: null,
+                focusedUnitCode: "FAKE1001",
+                focusedCourse: null,
+                startYear: 2016,
+                endYear: 2020
+            };
+
+            const action = {
+                type: "SUBMIT_COURSE_FORM",
+                startYear: 2020,
+                courseCode: "TEST1001"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: true,
+                courseLoading: false,
+                unitInfo: null,
+                focusedUnitCode: "FAKE1001",
+                focusedCourse: "TEST1001",
+                startYear: 2020,
+                endYear: 2020
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                CourseStructure(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: SUBMIT_YEAR_FORM", () => {
+        it("Should accurately set the start year and end year on submission", () => {
+            const stateBefore = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: true,
+                courseLoading: false,
+                unitInfo: null,
+                focusedUnitCode: "FAKE1001",
+                focusedCourse: null,
+                startYear: 2016,
+                endYear: 2020
+            };
+
+            const action = {
+                type: "SUBMIT_YEAR_FORM",
+                startYear: 2020,
+                endYear: 2025
+            };
+
+            const stateAfter = {
+                teachingPeriods: [], 
+                numberOfUnits: 4,
+                courseTemplateLoadError: false,
+                courseInfoLoadError: false,
+                unitLoadError: false,
+                unitLoading: true,
+                courseLoading: false,
+                unitInfo: null,
+                focusedUnitCode: "FAKE1001",
+                focusedCourse: null,
+                startYear: 2020,
+                endYear: 2025
             };
 
             deepFreeze(stateBefore);

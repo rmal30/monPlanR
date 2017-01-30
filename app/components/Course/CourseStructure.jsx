@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dimmer, Icon, Loader, Popup, Table } from "semantic-ui-react";
+import { Button, Container, Dimmer, Icon, Popup, Table, Loader } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
@@ -23,23 +23,7 @@ import { connect } from "react-redux";
 import * as counterActions from "../../actions/CounterActions";
 import * as courseActions from "../../actions/CourseActions";
 
-/**
- * Set up any props you want course structure to be passed here
- */
-const mapStateToProps = state => {
-    return {
-        creditPoints: state.Counter.creditPoints,
-        cost: state.Counter.cost
-    };
-};
 
-/**
- * Set up any functions from the action creators you want to pass in
- */
-const mapDispatchToProps = dispatch => {
-    const actionBundle = Object.assign({}, counterActions, courseActions);
-    return bindActionCreators(actionBundle, dispatch);
-};
 
 /**
  * CourseStructure holds a table that allows students to plan their courses by
@@ -70,7 +54,7 @@ class CourseStructure extends Component {
             numberOfUnits: 4,
             teachingPeriods: this.generateCourse(startYear, endYear),
 
-            startYear: startYear || new Date().getFullYear(),
+            startYear: startYear,
 
             /* UI state */
             showInsertTeachingPeriods: false,
@@ -412,6 +396,24 @@ class CourseStructure extends Component {
     }
 
     /**
+     * Processes a course template loaded from redux
+     */
+    loadCourseTemplate() {
+        setTimeout(() => {
+            const { clearCourse, courseTemplateData, startYear } = this.props;
+            this.clearCourse();
+            clearCourse(); //redux function passed through
+            let courseTemplate = CourseTemplate.parse(courseTemplateData, startYear);
+            this.setState({
+                teachingPeriods: courseTemplate.newTeachingPeriods,
+                numberOfUnits: courseTemplate.overLoadNumber
+            });
+            
+            this.props.incrementCost(courseTemplate.newCost);
+            this.props.incrementCreditPoints(courseTemplate.newCP);
+        }, 1000);
+    }
+    /**
      * on call will load the course from API with the given course code,
      * note that if there is an error, we turn off the loader and unlock the lock so
      * the user can make another request
@@ -585,6 +587,8 @@ class CourseStructure extends Component {
         if(LocalStorage.doesCourseStructureExist()) {
             this.props.clearCourse();
             this.loadCourseFromLocalStorage();
+        } else {
+            this.loadCourseTemplate();
         }
     }
 
@@ -1193,7 +1197,7 @@ class CourseStructure extends Component {
                     </MediaQuery>
                 }
                 <Dimmer.Dimmable as={Table} celled fixed striped compact>
-                    {this.state.isLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
+                    {this.props.courseLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
@@ -1246,6 +1250,30 @@ class CourseStructure extends Component {
     }
 }
 
+/**
+ * Set up any props you want course structure to be passed here
+ */
+const mapStateToProps = state => {
+    return {
+        creditPoints: state.Counter.creditPoints,
+        cost: state.Counter.cost,
+        startYear: state.CourseStructure.startYear,
+        endYear: state.CourseStructure.endYear,
+        courseTemplateData: state.CourseStructure.courseTemplateData,
+        courseLoading: state.CourseStructure.courseLoading
+    };
+};
+
+/**
+ * Set up any functions from the action creators you want to pass in
+ */
+const mapDispatchToProps = dispatch => {
+    const actionBundle = Object.assign({}, counterActions, courseActions);
+    return bindActionCreators(actionBundle, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseStructure);
+
 CourseStructure.propTypes = {
     startYear: PropTypes.number,
     endYear: PropTypes.number,
@@ -1268,6 +1296,8 @@ CourseStructure.propTypes = {
     clearCourse: PropTypes.func,
     decrementCost: PropTypes.func,
     decrementCreditPoints: PropTypes.func,
+    courseTemplateData: PropTypes.object,
+    courseLoading: PropTypes.bool,
 
 
     /* Validation */
@@ -1279,5 +1309,3 @@ CourseStructure.propTypes = {
     switchToEditCourse: PropTypes.bool,
     fetchURL: PropTypes.string
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(CourseStructure);
