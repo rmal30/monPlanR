@@ -124,6 +124,10 @@ html, body {
     display: block;
 }
 
+.ui.yellow.button, .ui.yellow.button:hover {
+    color: black;
+}
+
 .sidebar .active.item {
     background: #E0E0E0 !important;
 }
