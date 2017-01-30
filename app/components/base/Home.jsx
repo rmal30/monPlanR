@@ -73,7 +73,7 @@ class Home extends Component {
                                                         </Button>
                                                     </Link>
                                                     <Divider horizontal inverted>OR</Divider>
-                                                    <ClearCourseModal fluid clearCourse={() => {return localStorage.clear();}}/>
+                                                    <ClearCourseModal fluid redirect="/" clearCourse={() => {return localStorage.clear();}}/>
                                                 </Segment>
                                             </Container>
                                         );
@@ -81,7 +81,7 @@ class Home extends Component {
                                         return (
                                             <Container textAlign="center">
                                                 <Segment basic>
-                                                    <Button.Group inverted size="huge">
+                                                    <Button.Group inverted size="big">
                                                         <Link to="/plan">
                                                             <Button color="yellow">
                                                                 Continue planning <Icon name="right arrow" />

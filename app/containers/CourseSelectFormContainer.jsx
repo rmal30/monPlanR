@@ -263,7 +263,7 @@ class CourseSelectFormContainer extends Component {
                             {mobile && (
                                     <Container>
                                         {this.btnStartPlan(true)}
-                                        <Divider horizontal>OR</Divider>
+                                        <Divider horizontal inverted>OR</Divider>
                                         <Link to="/yearForm">
                                             {this.btnEmptyPlan(true)}
                                         </Link>
