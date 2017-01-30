@@ -13,8 +13,8 @@ import MissingPage from "../components/base/404.jsx";
 
 export default (
     <Route path="/" component={Main}>
-        <IndexRoute component={Home} />
-        <Route path="yearForm" component={YearFormContainer} />
+        <IndexRoute darkBackground component={Home} />
+        <Route path="yearForm" darkBackground component={YearFormContainer} />
         <Route path="plan(/?courseDetails)" component={Plan} handler={Home} showAddUnit showStatus />
         <Route path="view/:id" component={View} showStatus />
         <Route path="disclaimer" component={Disclaimer} />

@@ -91,7 +91,10 @@ html, body {
 
     #main-body > span {
         flex: 1;
-        margin-bottom: 10em;
+    }
+
+    #main-body .main.container {
+        padding-bottom: 5em;
     }
 }
 

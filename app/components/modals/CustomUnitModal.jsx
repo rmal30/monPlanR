@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Form, Select, Modal } from "semantic-ui-react";
+import { Button, Container, Form, Select, Modal } from "semantic-ui-react";
 
-import UnitInfo from "../Unit/UnitInfo.jsx";
+import Unit from "../Unit/Unit.jsx";
 import ControlledModal from "./ControlledModal.jsx";
 import CostCalc from "../../utils/CostCalc.js";
 
@@ -21,9 +21,9 @@ class CustomUnitModal extends Component {
         this.defaultCreditPoints = 6;
 
         this.scaBandOptions = [
-            {value: 1, text: "1"},
-            {value: 2, text: "2"},
-            {value: 3, text: "3"},
+            {value: 1, text: "1 - Law, Dentistry, Medicine, Veterinary Science, Accounting, Commerce, Administration, Economics"},
+            {value: 2, text: "2 - Computing, Built Environment, Health, Engineering, Surveying, Agriculture, Mathematics, Statistics, Science"},
+            {value: 3, text: "3 - Humanities, Behavioural Science, Social Studies, Clinical Psychology, Foreign Languages, Visual and Performing Arts, Education, Nursing"},
         ];
 
         this.facultyOptions = [
@@ -135,7 +135,7 @@ class CustomUnitModal extends Component {
      * @returns {ReactElement} ControlledModal
      */
     render() {
-        const { UnitCode, UnitName, Faculty, SCABand, CreditPoints } = this.state;
+        const { UnitCode, UnitName, Faculty } = this.state;
         const closeTrigger = <Button content="Cancel" />;
 
         return (
@@ -169,17 +169,17 @@ class CustomUnitModal extends Component {
                             </Form.Group>
                             <Form.Field onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
                         </Form>
-                        <b>Preview:</b>
-                        <UnitInfo
-                            collapse={false}
-                            cost={CostCalc.calculateCost(SCABand, CreditPoints)}
-                            creditPoints={CreditPoints}
-                            error={false}
-                            Faculty={Faculty}
-                            isDisabled={false}
-                            UnitCode={UnitCode}
-                            UnitName={UnitName}
-                             />
+                        <Container class="preview">
+                            <b>Preview:</b>
+                            <Unit
+                                detailButton
+                                basic
+                                viewOnly
+                                code={UnitCode}
+                                name={UnitName}
+                                faculty={Faculty}
+                                />
+                        </Container>
                     </Modal.Description>
                 </Modal.Content>
             </ControlledModal>
