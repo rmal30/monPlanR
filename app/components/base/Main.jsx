@@ -148,7 +148,11 @@ class Main extends Component {
                             close={this.handleDocumentClick} />
                     </Sidebar>
                     }
-                    <Sidebar.Pusher id="main-body" dimmed={this.state.menuVisible} onClick={this.handleDocumentClick}>
+                    <Sidebar.Pusher
+                        id="main-body"
+                        dimmed={this.state.menuVisible}
+                        style={{backgroundColor: this.props.children.props.route.darkBackground ? "#004E7B" : "white"}}
+                        onClick={this.handleDocumentClick}>
                         <ReactCSSTransitionGroup
                               transitionName="appear"
                               transitionEnterTimeout={500}

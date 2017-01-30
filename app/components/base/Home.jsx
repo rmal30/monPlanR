@@ -26,7 +26,6 @@ class Home extends Component {
         this.handleDismiss = this.handleDismiss.bind(this);
     }
 
-
     /**
     * Handles warning message dismissal
     *
@@ -43,21 +42,23 @@ class Home extends Component {
         const inLocalStorage = LocalStorage.doesCourseStructureExist();
 
         return (
-            <Container className="ui main text">
-                <div id="welcome" className="ui container">
-                    {this.state.showMessage && inLocalStorage !== false && inLocalStorage !== MONPLAN_VERSION &&
-                        <Message
-                            icon="warning sign"
-                            negative
-                            header="Please clear course plan"
-                            content="In order for the website to function fully, please click 'Clear Course' upon entering the planning page."
-                            onDismiss={this.handleDismiss} />
-                    }
-                    <h1>Welcome to monPlan!</h1>
-                        <p>
-                            monPlan allows you to plan your course structure whilst you are at
-                            Monash University. We know that choosing units isn't particularly easy,
-                            so we've designed a web app that you can use to simplify tasks.
+            <div style={{color: "white", padding: "1em 0"}}>
+                <Container className="ui main text">
+                    <div id="welcome" className="ui container">
+                        {this.state.showMessage && inLocalStorage !== false && inLocalStorage !== MONPLAN_VERSION &&
+                            <Message
+                                icon="warning sign"
+                                negative
+                                header="Please clear course plan"
+                                content="In order for the website to function fully, please click 'Clear Course' upon entering the planning page."
+                                onDismiss={this.handleDismiss} />
+                        }
+                        {!(this.state.showMessage && inLocalStorage !== false && inLocalStorage !== MONPLAN_VERSION) &&
+                            <div style={{padding: "2.5em"}}></div>
+                        }
+                        <h1 style={{textAlign: "center", fontSize: "3em"}}>monPlan</h1>
+                        <p style={{textAlign: "center", fontSize: "1.5em"}}>
+                            Planning your course at Monash is now easier than ever.
                         </p>
                         {inLocalStorage &&
                             <MediaQuery maxDeviceWidth={767}>
@@ -65,44 +66,45 @@ class Home extends Component {
                                     if(mobile) {
                                         return (
                                             <Container>
-                                                <h2>To continue where you left off:</h2>
-                                                <Segment raised>
+                                                <Segment basic>
                                                     <Link to="/plan">
-                                                        <Button fluid color="green">
+                                                        <Button fluid color="yellow">
                                                             Continue Planning <Icon name="right arrow" />
                                                         </Button>
                                                     </Link>
-                                                    <Divider horizontal>OR</Divider>
+                                                    <Divider horizontal inverted>OR</Divider>
                                                     <ClearCourseModal fluid clearCourse={() => {return localStorage.clear();}}/>
                                                 </Segment>
                                             </Container>
                                         );
                                     } else {
                                         return (
-                                            <Container>
-                                                <h2>To continue where you left off:</h2>
-                                                <Segment raised>
-                                                    <Link to="/plan">
-                                                        <Button color="green">
-                                                            Continue Planning <Icon name="right arrow" />
-                                                        </Button>
-                                                    </Link>
-                                                    <ClearCourseModal floated="right" redirect="/" clearCourse={() => {return localStorage.clear();}}/>
+                                            <Container textAlign="center">
+                                                <Segment basic>
+                                                    <Button.Group inverted size="huge">
+                                                        <Link to="/plan">
+                                                            <Button color="yellow">
+                                                                Continue planning <Icon name="right arrow" />
+                                                            </Button>
+                                                        </Link>
+                                                        <Button.Or />
+                                                        <ClearCourseModal redirect="/" clearCourse={() => {return localStorage.clear();}}/>
+                                                    </Button.Group>
                                                 </Segment>
                                             </Container>
                                         );
                                     }
                                 }}
-                                </MediaQuery>
-                            }
-                            {!inLocalStorage &&
-                                <Container>
-                                    <h2>To begin:</h2>
-                                    <CourseSelectFormContainer />
-                                </Container>
-                            }
-                </div>
-            </Container>
+                            </MediaQuery>
+                        }
+                        {!inLocalStorage &&
+                            <Container>
+                                <CourseSelectFormContainer />
+                            </Container>
+                        }
+                    </div>
+                </Container>
+            </div>
         );
     }
 }

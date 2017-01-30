@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Divider, Rating } from "semantic-ui-react";
+import { Divider, Icon, Rating } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 
 /**
@@ -28,12 +28,12 @@ function SetuRating(props) {
                     return (
                         <div id="setu-rating">
                             <span style={{display: "inline-block", marginRight: "2em"}}>
-                                <p>I learnt a lot</p>
+                                <p><Icon name={isNaN(props.starRating) || props.starRating >= 2.5 && "book" || "remove circle"} /> I learnt a lot</p>
                                 <Rating icon='star' defaultRating={(noLearnResponses || isNaN(props.starRating)) ? 0 : Math.round(props.starRating)} maxRating={5} disabled/>
                                 {(noLearnResponses || isNaN(props.starRating)) ? <p>(No responses yet)</p> : <p>({props.starRating.toFixed(2)}/5) - {props.learnResponseCount} responses</p>}
                             </span>
                             <span style={{display: "inline-block"}}>
-                                <p>I enjoyed the unit</p>
+                                <p><Icon name={isNaN(props.heartRating) || props.heartRating >= 2.5 && "thumbs up" || "thumbs down"} /> I enjoyed the unit</p>
 
                                 <Rating icon='heart' defaultRating={(noEnjoyResponses || isNaN(props.heartRating)) ? 0 : Math.round(props.heartRating)} maxRating={5} disabled/>
                                 {(noEnjoyResponses || isNaN(props.heartRating)) ? <p>(No responses yet)</p> : <p>({props.heartRating.toFixed(2)}/5) - {props.enjoyResponseCount} responses</p>}
@@ -43,11 +43,11 @@ function SetuRating(props) {
                 } else {
                     return (
                         <div id="setu-rating">
-                            <p>I learnt a lot</p>
+                            <p><Icon name={isNaN(props.starRating) || props.starRating >= 2.5 && "book" || "remove circle"} /> I learnt a lot</p>
                             <Rating icon='star' defaultRating={(noLearnResponses || isNaN(props.starRating)) ? 0 : Math.round(props.starRating)} maxRating={5} disabled/>
                             {(noLearnResponses || isNaN(props.starRating)) ? <p>(No responses yet)</p> : <p>({props.starRating.toFixed(2)}/5) - {props.learnResponseCount} responses</p>}
                             <Divider />
-                            <p>I enjoyed the unit</p>
+                            <p><Icon name={isNaN(props.heartRating) || props.heartRating >= 2.5 && "thumbs up" || "thumbs down"} /> I enjoyed the unit</p>
                             <Rating icon='heart' defaultRating={(noEnjoyResponses || isNaN(props.heartRating)) ? 0 : Math.round(props.heartRating)} maxRating={5} disabled/>
                             {(noEnjoyResponses || isNaN(props.heartRating)) ? <p>(No responses yet)</p> : <p>({props.heartRating.toFixed(2)}/5) - {props.enjoyResponseCount} responses</p>}
                         </div>

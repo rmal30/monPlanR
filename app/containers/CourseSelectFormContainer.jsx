@@ -37,7 +37,6 @@ class CourseSelectFormContainer extends Component {
             currentYear: (this.startYearPlaceholder - 1),
             specIsDisabled: true,
             yearIsDisabled: true,
-            readyToSubmit: false,
             courseSelected: false
         };
         this.timer = null;
@@ -178,32 +177,29 @@ class CourseSelectFormContainer extends Component {
           /**
      * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
      */
-    btnStartPlan() {
+    btnStartPlan(mobile) {
         return (
-            <Popup
-                header="Start Now"
-                content="Click now to start planning with the current specified start/end years"
-                trigger={(
-                    <Button
-                        color="green"
-                        disabled={!this.state.readyToSubmit}
-                        onClick={this.handleSubmit}>
-                            Start Planning <Icon name="right arrow" />
-                    </Button>
-                )} />
+            <Button
+                fluid={mobile}
+                color="yellow"
+                style={{backgroundColor: "#fdb515"}}
+                disabled={this.state.yearIsDisabled || this.state.specIsDisabled || !this.state.courseSelected}
+                onClick={this.handleSubmit}>
+                    Start Planning <Icon name="right arrow" />
+            </Button>
         );
     }
 
     /**
      * btnEmptyPlan is a function that returns a tooltipped button for the start year form
      */
-    btnEmptyPlan() {
+    btnEmptyPlan(mobile) {
         return (
-            <Popup
-                header="Empty Template"
-                content="Click here to start off with an empty template with no teaching periods added"
-                direction="bottom right"
-                trigger={<Button>Start without selecting course<Icon name="right arrow" /></Button>} />
+            <Button
+                fluid={mobile}>
+                Start without selecting course
+                {!mobile && <Icon name="right arrow" />}
+            </Button>
         );
     }
 
@@ -215,7 +211,6 @@ class CourseSelectFormContainer extends Component {
             isLoading: false,
             specIsDisabled: true,
             yearIsDisabled: true,
-            readyToSubmit: false,
             courseSelected: false,
             year: (this.state.currentYear)
         });
@@ -229,30 +224,27 @@ class CourseSelectFormContainer extends Component {
      */
     render() {
         return (
-            <Segment>
+            <Segment basic>
                 <MediaQuery maxDeviceWidth={767}>
                     {mobile =>
-                        <Form size={!mobile ? "huge" : undefined}>
+                        <Form size={!mobile ? "big" : undefined}>
                             <Form.Group widths="equal">
                                 <Form.Field>
-                                    <label>Find your course:</label>
-                                        <Search
-                                            label=""
-                                            loading={this.state.isLoading}
-                                            onResultSelect={this.handleResultSelect}
-                                            onSearchChange={this.handleChange}
-                                            onFocus={this.handleReSelect.bind(this)}
-                                            results={this.state.results}
-                                            placeholder="Search for your course"
-                                            noResultsMessage="No courses found"
-                                            noResultsDescription="We only store 2017 course maps for most courses across Monash."
-                                            {...this.props}
-                                            fluid
-                                        />
+                                    <Search
+                                        label=""
+                                        loading={this.state.isLoading}
+                                        onResultSelect={this.handleResultSelect}
+                                        onSearchChange={this.handleChange}
+                                        onFocus={this.handleReSelect.bind(this)}
+                                        results={this.state.results}
+                                        placeholder="Search for your course"
+                                        noResultsMessage="No courses found"
+                                        noResultsDescription="We only store 2017 course maps for most courses across Monash."
+                                        {...this.props}
+                                        fluid
+                                    />
                                 </Form.Field>
                                 <Form.Dropdown
-                                    label="Choose your area of study:"
-                                    disabled={this.state.specIsDisabled}
                                     placeholder='Select Specialisation'
                                     search
                                     selection
@@ -260,8 +252,6 @@ class CourseSelectFormContainer extends Component {
                                     onChange={this.handleSpecialisationSelect}
                                 />
                                 <Form.Dropdown
-                                    label="Select your start year:"
-                                    disabled={this.state.yearIsDisabled}
                                     placeholder='Select Starting Year'
                                     search
                                     selection
@@ -272,29 +262,28 @@ class CourseSelectFormContainer extends Component {
 
                             {mobile && (
                                     <Container>
-                                        <Button
-                                            fluid
-                                            color="green"
-                                            disabled={!this.state.readyToSubmit}
-                                            onClick={this.handleSubmit}>
-                                                Start Planning <Icon name="right arrow" />
-                                        </Button>
+                                        {this.btnStartPlan(true)}
                                         <Divider horizontal>OR</Divider>
                                         <Link to="/yearForm">
-                                            <Button fluid>
-                                                Start without selecting course
-                                            </Button>
+                                            {this.btnEmptyPlan(true)}
                                         </Link>
                                     </Container>
                             )}
                             {!mobile && (
-                                    <Container textAlign="center">
+                                    <Container textAlign="right">
                                         <br />
-                                        <Button.Group size="huge">
-                                            {this.btnStartPlan()}
+                                        <Button.Group size="big">
+                                            <Popup
+                                                header="Start Now"
+                                                content="Click now to start planning with the current specified start/end years"
+                                                trigger={this.btnStartPlan()} />
                                             <Button.Or />
                                             <Link to="/yearForm">
-                                                {this.btnEmptyPlan()}
+                                                <Popup
+                                                    header="Empty Template"
+                                                    content="Click here to start off with an empty template with no teaching periods added"
+                                                    direction="bottom right"
+                                                    trigger={this.btnEmptyPlan()} />
                                             </Link>
                                         </Button.Group>
                                     </Container>
