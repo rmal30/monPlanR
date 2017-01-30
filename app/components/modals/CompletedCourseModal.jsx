@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Dropdown, Header, Icon, Modal } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon, Modal,Divider } from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 import Export from "../../utils/Export.js";
@@ -41,6 +41,11 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                         advisor will help speed up the process on whether or not
                         you can follow it.
                     </p>
+                    <p>
+                        You can also place your course plan somewhere, whether it is a printed
+                        document or an exported digital copy. You can import your
+                        course plan into a spreadsheet program if you export it as a CSV file.
+                    </p>
                     <Button primary onClick={() => print()}><Icon name="print" />Print course plan</Button>
                     <Button.Group secondary>
                         <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
@@ -51,7 +56,13 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                             </Dropdown.Menu>
                         </Dropdown>
                     </Button.Group>
-                    &nbsp;
+                    <Divider />
+                    <Header>2. Save and/or Share it</Header>
+                    <p>
+                        Your course plan can also be uploaded to our servers, you'll recieve
+                        a link to your plan. You can either save it for future use, otherwise
+                        share it with your friends on Facebook, Twitter, Google+ and much more
+                    </p>
                     <SaveButton
                         isUploading={isUploading}
                         uploadingError={uploadingError}
@@ -59,12 +70,7 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                         uploadCourseToDatabase={uploadCourseToDatabase}
                         uploadedCourseID={uploadedCourseID}
                         />
-                    <Header>2. Place it somewhere</Header>
-                    <p>
-                        You can place your course plan somewhere, whether it is a printed
-                        document or an exported digital copy. You can import your
-                        course plan into a spreadsheet program if you export it as a CSV file.
-                    </p>
+                    <Divider />
                     <Header>3. Visit this site every now and then</Header>
                     <p>
                         Your course plan is saved to your browser, so if you want to

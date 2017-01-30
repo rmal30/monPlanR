@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from "react";
-import { Button, Divider, Dropdown, Container, Header, Icon, Step, Popup, Search, Grid } from "semantic-ui-react";
+import { Button, Container, Divider, Form, Icon, Popup, Search, Segment } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
@@ -9,7 +9,6 @@ import * as dataFetchActions from "../actions/DataFetchActions";
 import FuzzySearch from "../utils/FuzzySearch";
 import UnitQuery from "../utils/UnitQuery";
 import YearCalc from "../utils/YearCalc.js";
-import CourseInfoContainer from "./CourseInfoContainer.jsx";
 
 
 
@@ -24,7 +23,7 @@ class CourseSelectFormContainer extends Component {
      */
     constructor() {
         super();
-        this.startYearPlaceholder = new Date().getFullYear() + 1;
+        this.startYearPlaceholder = new Date().getFullYear();
         this.state = {
             CourseCode: "",
             data: {},
@@ -229,151 +228,82 @@ class CourseSelectFormContainer extends Component {
      * @returns {Modal}
      */
     render() {
-        const defaultTemplate = (
-            <Container>
-                <br />
-                <Header as="h1" icon textAlign="center">
-                    <Icon name="graduation" />
-                    Select a course
-                    <Header.Subheader>Course details will be shown here</Header.Subheader>
-                </Header>
-            </Container>
-        );
-
         return (
-            <div>
-                <Grid celled stackable>
-                    <MediaQuery maxDeviceWidth={767}>
-                        {mobile => {
-                            if(mobile) {
-                                return (null);
-                            } else {
-                                return (
-                                    <Grid.Row>
-                                      <div>
-                                        <Step.Group>
-                                            <Step
-                                                active={!this.state.courseSelected}
-                                                completed={this.state.courseSelected}
-                                                title="Search a Course"
-                                                description="Find a course using search"
-                                                icon="search"/>
-                                            <Step
-                                                active={this.state.courseSelected && this.state.yearIsDisabled}
-                                                completed={!this.state.yearIsDisabled}
-                                                title="Choose an Area of Study"
-                                                description="Choose one that sounds interesting to you"
-                                                icon="mouse pointer" />
-                                            <Step
-                                                active={!this.state.yearIsDisabled && !this.state.readyToSubmit}
-                                                completed={this.state.readyToSubmit}
-                                                title="Select Start year"
-                                                description="Select year that you started"
-                                                icon="calendar" />
-                                            <Step
-                                                active={this.state.readyToSubmit}
-                                                completed={this.state.readyToSubmit}
-                                                title="Ready to Go!"
-                                                description="Click 'Start Planning' to begin"
-                                                icon="rocket" />
-                                        </Step.Group>
-                                      </div>
-                                    </Grid.Row>
-                                );
-                            }
-                        }}
-                        </MediaQuery>
-                    <Grid.Column width={4}>
-                      <div>
-                        <h4>Find your course:</h4>
-                        <Search
-                            loading={this.state.isLoading}
-                            onResultSelect={this.handleResultSelect}
-                            onSearchChange={this.handleChange}
-                            onFocus={this.handleReSelect.bind(this)}
-                            results={this.state.results}
-                            placeholder="Search for your course"
-                            noResultsMessage="No courses found"
-                            noResultsDescription="We only store 2017 course maps for most courses across Monash."
-                            {...this.props}
-                            fluid
-                        />
-                        <h4>Choose your area of study:</h4>
-                        <br />
-                        <Dropdown
-                            disabled={this.state.specIsDisabled}
-                            placeholder='Select Specialisation'
-                            search
-                            selection
-                            options={this.state.specialisations}
-                            onChange={this.handleSpecialisationSelect}
-                            fluid
-                        />
-                        <br />
-                        <h4>Select your start year:</h4>
-                        <Dropdown
-                            disabled={this.state.yearIsDisabled}
-                            placeholder='Select Starting Year'
-                            search
-                            selection
-                            options={this.state.years}
-                            onChange={this.handleYearSelect}
-                            fluid
-                            value={this.state.currentYear}
-                        />
-                        <br />
-                        <br />
-                      </div>
-                    </Grid.Column>
-                    <MediaQuery maxDeviceWidth={767}>
-                        {mobile => {
-                            if(!mobile) {
-                                return (
-                                    <Grid.Column width={12} style={{height: 500, overflowY: "auto"}}>
-                                        {this.state.courseSelected ? <CourseInfoContainer courseCode={this.state.CourseCode}/> : defaultTemplate}
-                                    </Grid.Column>
-                                );
-                            } else {
-                                return null;
-                            }
-                        }}
-                    </MediaQuery>
-
-                </Grid>
+            <Segment>
                 <MediaQuery maxDeviceWidth={767}>
-                    {mobile => {
-                        if(mobile) {
-                            return (
-                                <Container>
-                                    <Button
-                                        fluid
-                                        color="green"
-                                        disabled={!this.state.readyToSubmit}
-                                        onClick={this.handleSubmit}>
-                                            Start Planning <Icon name="right arrow" />
-                                    </Button>
-                                    <Divider horizontal>OR</Divider>
-                                    <Link to="/yearForm">
-                                        <Button fluid>
-                                            Start without selecting course
+                    {mobile =>
+                        <Form size={!mobile ? "huge" : undefined}>
+                            <Form.Group widths="equal">
+                                <Form.Field>
+                                    <label>Find your course:</label>
+                                        <Search
+                                            label=""
+                                            loading={this.state.isLoading}
+                                            onResultSelect={this.handleResultSelect}
+                                            onSearchChange={this.handleChange}
+                                            onFocus={this.handleReSelect.bind(this)}
+                                            results={this.state.results}
+                                            placeholder="Search for your course"
+                                            noResultsMessage="No courses found"
+                                            noResultsDescription="We only store 2017 course maps for most courses across Monash."
+                                            {...this.props}
+                                            fluid
+                                        />
+                                </Form.Field>
+                                <Form.Dropdown
+                                    label="Choose your area of study:"
+                                    disabled={this.state.specIsDisabled}
+                                    placeholder='Select Specialisation'
+                                    search
+                                    selection
+                                    options={this.state.specialisations}
+                                    onChange={this.handleSpecialisationSelect}
+                                />
+                                <Form.Dropdown
+                                    label="Select your start year:"
+                                    disabled={this.state.yearIsDisabled}
+                                    placeholder='Select Starting Year'
+                                    search
+                                    selection
+                                    options={this.state.years}
+                                    onChange={this.handleYearSelect}
+                                />
+                            </Form.Group>
+
+                            {mobile && (
+                                    <Container>
+                                        <Button
+                                            fluid
+                                            color="green"
+                                            disabled={!this.state.readyToSubmit}
+                                            onClick={this.handleSubmit}>
+                                                Start Planning <Icon name="right arrow" />
                                         </Button>
-                                    </Link>
-                                </Container>
-                            );
-                        } else {
-                            return (
-                                <Button.Group>
-                                    {this.btnStartPlan()}
-                                    <Button.Or />
-                                    <Link to="/yearForm">
-                                        {this.btnEmptyPlan()}
-                                    </Link>
-                                </Button.Group>
-                            );
-                        }
-                    }}
+                                        <Divider horizontal>OR</Divider>
+                                        <Link to="/yearForm">
+                                            <Button fluid>
+                                                Start without selecting course
+                                            </Button>
+                                        </Link>
+                                    </Container>
+                            )}
+                            {!mobile && (
+                                    <Container textAlign="center">
+                                        <br />
+                                        <Button.Group size="huge">
+                                            {this.btnStartPlan()}
+                                            <Button.Or />
+                                            <Link to="/yearForm">
+                                                {this.btnEmptyPlan()}
+                                            </Link>
+                                        </Button.Group>
+                                    </Container>
+                                )
+                            }
+                        </Form>
+                    }
                 </MediaQuery>
-            </div>
+            </Segment>
         );
     }
 }

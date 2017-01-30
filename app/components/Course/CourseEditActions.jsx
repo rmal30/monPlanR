@@ -63,7 +63,7 @@ export default function CourseEditActions(props) {
                             <Button
                                 primary
                                 fluid={mobile}>
-                                Finish planning
+                                Finished planning for now?
                             </Button>
                         )}
                         teachingPeriods={props.teachingPeriods}

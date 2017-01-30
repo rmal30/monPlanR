@@ -14,7 +14,13 @@ export default class YearCalc {
         const max = parseInt(initialVal, 10) + 10;
         const validStartYears = [];
 
-        for(let i=min; i <= max; i++) {
+        for(let i = max - 9; i >= min; i--) {
+            validStartYears.push(
+                { text: i.toString(), value: i}
+            );
+        }
+
+        for(let i = max - 8; i <= max; i++) {
             validStartYears.push(
                 { text: i.toString(), value: i}
             );
