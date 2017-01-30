@@ -75,17 +75,13 @@ class CourseSelectFormContainer extends Component {
      * handles the submission of the entire form
      */
     handleSubmit(event) {
-        const { CourseCode, year, code } = this.state;
-        const { fetchCourseInfo, submitCourseForm } = this.props;
-        
         event.preventDefault();
-        fetchCourseInfo(CourseCode);
-        submitCourseForm(CourseCode, year, code);
+        this.props.fetchCourseInfo(this.state.CourseCode);
         this.context.router.push({
             pathname: "/plan",
             query: {
-                startYear: year,
-                courseToLoad: code
+                startYear: this.state.year,
+                courseToLoad: this.state.code
             }
         });
     }
@@ -230,19 +226,19 @@ class CourseSelectFormContainer extends Component {
                         <Form size={!mobile ? "big" : undefined}>
                             <Form.Group widths="equal">
                                 <Form.Field>
-                                    <Search
-                                        label=""
-                                        loading={this.state.isLoading}
-                                        onResultSelect={this.handleResultSelect}
-                                        onSearchChange={this.handleChange}
-                                        onFocus={this.handleReSelect.bind(this)}
-                                        results={this.state.results}
-                                        placeholder="Search for your course"
-                                        noResultsMessage="No courses found"
-                                        noResultsDescription="We only store 2017 course maps for most courses across Monash."
-                                        {...this.props}
-                                        fluid
-                                    />
+                                        <Search
+                                            label=""
+                                            loading={this.state.isLoading}
+                                            onResultSelect={this.handleResultSelect}
+                                            onSearchChange={this.handleChange}
+                                            onFocus={this.handleReSelect.bind(this)}
+                                            results={this.state.results}
+                                            placeholder="Search for your course"
+                                            noResultsMessage="No courses found"
+                                            noResultsDescription="We only store 2017 course maps for most courses across Monash."
+                                            {...this.props}
+                                            fluid
+                                        />
                                 </Form.Field>
                                 <Form.Dropdown
                                     placeholder='Select Specialisation'
@@ -311,6 +307,5 @@ CourseSelectFormContainer.contextTypes = {
 };
 
 CourseSelectFormContainer.propTypes = {
-    fetchCourseInfo: PropTypes.func,
-    submitCourseForm: PropTypes.func
+    fetchCourseInfo: PropTypes.func
 };
