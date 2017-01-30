@@ -4,6 +4,7 @@ import { Container, Grid } from "semantic-ui-react";
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
+import LocalStorage from "../../utils/LocalStorage";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
@@ -52,6 +53,12 @@ class Plan extends Component {
      */
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
+        let courseInLS = LocalStorage.doesCourseStructureExist();
+
+        if(!courseInLS) {
+            const { startYear, courseToLoad } = this.props.location.query;
+            this.handleCourseLoad(courseToLoad, parseInt(startYear, 10));
+        }
 
     }
 
@@ -171,6 +178,7 @@ class Plan extends Component {
      * structure.
      */
     render() {
+        const { startYear, endYear } = this.props.location.query;
 
         return (
             <div>
@@ -200,16 +208,17 @@ class Plan extends Component {
                 </Container>
 
                 <Container className="main text">
-                    <CourseStructure
-                        addToCourse={this.addToCourse}
-                        doneAddingToCourse={this.doneAddingToCourse}
-                        cancelAddingToCourse={this.cancelAddingToCourse}
-                        removeFromCourse={this.removeFromCourse}
-                        unitToAdd={this.state.unitToAdd}
-                        courseToLoad={this.state.courseToLoad}
-                        courseYear={this.state.courseYear}
-                        updateStatus={this.props.updateStatus}
-                        courseErrors={this.props.courseErrors} />
+                    <CourseStructure startYear={parseInt(startYear)}
+                                     endYear={parseInt(endYear)}
+                                     addToCourse={this.addToCourse}
+                                     doneAddingToCourse={this.doneAddingToCourse}
+                                     cancelAddingToCourse={this.cancelAddingToCourse}
+                                     removeFromCourse={this.removeFromCourse}
+                                     unitToAdd={this.state.unitToAdd}
+                                     courseToLoad={this.state.courseToLoad}
+                                     courseYear={this.state.courseYear}
+                                     updateStatus={this.props.updateStatus}
+                                     courseErrors={this.props.courseErrors} />
                 </Container>
             </div>
         );
