@@ -54,8 +54,14 @@ export default function CourseEditActions(props) {
                     }
                     {mobile && <div><br /></div>}
                     <ClearCourseModal
-                        disabled={props.teachingPeriods.length === 0}
-                        fluid={mobile}
+                        trigger={
+                            <Button
+                                disabled={props.teachingPeriods.length === 0}
+                                fluid={mobile}
+                                color="red">
+                                Clear course
+                            </Button>
+                        }
                         clearCourse={props.clearCourse.bind(props)} />
                     {mobile && <br />}
                     <CompletedCourseModal
