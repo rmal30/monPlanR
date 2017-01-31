@@ -61,8 +61,8 @@ const InsertTeachingPeriod = props => {
     );
 
     return (
-        <Table.Row className="no-print">
-            <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1}>
+        <Table.Row className="no-print" style={{backgroundColor: "#007ba7"}}>
+            <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1} style={{backgroundColor: "#007ba7"}}>
                 {triggerButton}
                 {false &&
                 <Popup hoverable flowing trigger={triggerButton}>

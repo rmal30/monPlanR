@@ -110,7 +110,7 @@ class ClearCourseModal extends Component {
         }
 
         return (
-            <Modal
+            <ModaL
                 trigger={trigger}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>

@@ -24,14 +24,14 @@ export default function NoTeachingPeriod({ numberOfUnits, placeholderStartYear, 
     };
 
     return (
-        <Table.Row>
+        <Table.Row className="noteachingperiods">
             <Table.Cell colSpan={numberOfUnits + 1} style={{overflow: "visible"}}>
               <Header as="h3" icon textAlign="center">
                   <Icon name="calendar" />
                   No teaching periods
                   {!viewOnly &&
                       <Header.Subheader>
-                          Click add semester button below to get started.
+                          Click the add semester button below to get started.
                       </Header.Subheader>
                   }
               </Header>

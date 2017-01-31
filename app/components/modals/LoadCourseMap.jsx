@@ -87,7 +87,7 @@ class LoadCourseMap extends Component {
         this.props.onCourseLoad(code, year);
         this.props.fetchCourseInfo(CourseCode);
         this.props.submitCourseForm(CourseCode, year, code);
-       
+
         this.setState({
             CourseCode: "",
             value: "",
@@ -174,7 +174,8 @@ class LoadCourseMap extends Component {
             <Modal trigger={(
                     <Button
                         fluid
-                        onClick={this.handleOpen.bind(this)}>
+                        onClick={this.handleOpen.bind(this)}
+                        className="btnwhite">
                         Load Course Map
                     </Button>
                 )}

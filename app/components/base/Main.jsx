@@ -151,7 +151,7 @@ class Main extends Component {
                     <Sidebar.Pusher
                         id="main-body"
                         dimmed={this.state.menuVisible}
-                        style={{backgroundColor: this.props.children.props.route.darkBackground ? "#004E7B" : "white"}}
+                        style={{backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"}}
                         onClick={this.handleDocumentClick}>
                         <ReactCSSTransitionGroup
                               transitionName="appear"

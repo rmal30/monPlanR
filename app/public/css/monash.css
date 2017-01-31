@@ -1,0 +1,189 @@
+/*
+* Monash Getting Started Colours Scheme CSS
+*/
+
+/* Header, Footers and Toolbar CSS Property*/
+.toolbars{
+  background-color: #006cab !important;
+  color: white !important
+}
+
+.toolbarsDark{
+  background-color: #004973 !important;
+  color: white !important;
+  border: 1px solid #004973 !important;
+  box-shadow: -1px 1px #004973,
+    -2px 2px #004973,
+    -3px 3px #004973 !important;
+  width: 100% !important;
+  border-radius: 0px !important;
+  left: 0;
+}
+
+
+/* Buttons */
+.btncancel {
+  background-color: #FF1923 !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btncancel:hover {
+  background-color: #CC141C !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btnmainblue {
+  background-color: #006cab !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btnmainblue:hover {
+  background-color: #004973 !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btnlightblue {
+  background-color: #009fdb !important;
+  color: white !important;
+  border-radius: 0px !important;
+  border-color: #009fdb !important
+}
+
+.btnlightblue * {
+  background-color: #009fdb !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btnlightblue:disabled {
+  background-color: #26677f !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btnlightblue:hover {
+  background-color: #007ba7 !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btndarkblue {
+  background-color: #003c5b !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btndarkblue:hover {
+  background-color: #002639 !important;
+  color: white !important;
+  border-radius: 0px !important
+}
+
+.btnwhite {
+  background-color: #fff !important;
+  color: black !important;
+  border-radius: 0px !important
+}
+
+.btnwhite:hover {
+  background-color: #b0b0b0 !important;
+  color: black !important;
+  border-radius: 0px !important
+}
+
+.btnorange {
+  background-color: #FDB515 !important;
+  color: black !important;
+  border-radius: 0px !important
+}
+
+.btnorange:hover {
+  background-color: #fff !important;
+  color: black !important;
+  border-radius: 0px !important
+}
+
+.btnorange:disabled {
+  background-color: #fff !important;
+  color: #b0b0b0 !important;
+  border-radius: 0px !important
+}
+
+/*
+* Course Stats
+*/
+.statsGroupRow {
+  background-color: #FDB515 !important;
+  padding: 10px !important;
+  margin-right: -0.5rem !important;
+}
+
+/*
+* Course Structure CSS Styling for Table and other Components
+*/
+.monTableHeader {
+  background-color: #006cab !important;
+  color: white !important
+}
+
+.coursetable {
+  border-radius: 0px !important;
+  border-color: #003c5b !important;
+  color: #fff !important
+}
+
+.coursetable * {
+  border-radius: 0px !important;
+}
+
+.coursetable > thead > tr > th {
+  border-color: #006cab !important;
+  background-color: #006cab !important;
+  color: white !important
+}
+
+.coursetable > tbody > *  {
+  border-color: #007ba7 !important;
+  background-color: #007ba7 !important;
+  color: white !important
+}
+
+.noteachingperiods > *  > h3 {
+  color: white !important
+}
+.noteachingperiods > *  > h3 *{
+  color: white !important
+}
+
+.hoverCell {
+  background-color: #007cc5 !important;
+}
+
+/* UI Messages */
+.ui.message {
+
+}
+
+.ui.message.positive {
+  border-color: #26677F !important;
+  background-color: #26677F !important;
+  color: white !important
+}
+
+.ui.message.positive * {
+  color: white !important
+}
+
+/* Course Status */
+.status {
+  border-bottom: 0.4em solid #009fdb;
+  transition: all 0.2s ease
+}
+.status.error {
+  border-bottom: 0.4em solid #FF1923;
+  transition: all 0.2s ease
+}

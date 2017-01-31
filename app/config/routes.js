@@ -15,7 +15,7 @@ export default (
     <Route path="/" component={Main}>
         <IndexRoute darkBackground component={Home} />
         <Route path="yearForm" darkBackground component={YearFormContainer} />
-        <Route path="plan(/?courseDetails)" component={Plan} handler={Home} showAddUnit showStatus />
+        <Route path="plan(/?courseDetails)" darkBackground component={Plan} handler={Home} showAddUnit showStatus />
         <Route path="view/:id" component={View} showStatus />
         <Route path="disclaimer" component={Disclaimer} />
         <Route path="*" component={MissingPage} />

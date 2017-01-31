@@ -31,7 +31,7 @@ class Header extends Component {
             ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as duplicate units.";
 
         return (
-            <Menu inverted compact className="no-print nav" onClick={this.props.handleDocumentClick} style={{borderRadius: 0}}>
+            <Menu inverted compact className="no-print nav toolbars" onClick={this.props.handleDocumentClick} style={{borderRadius: 0}}>
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
@@ -41,9 +41,10 @@ class Header extends Component {
                     </Link>
                     {this.props.showAddUnit &&
                     <Menu.Item>
-                        <Button icon color={this.props.searchVisible ? undefined : "green"} onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }}>
+                        <Button icon style={this.props.searchVisible ? {backgroundColor: "#FF1923", color: "white", borderRadius: "0px"} : {backgroundColor: "#009fdb", color: "white", borderRadius: "0px"}}
+                            onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }}>
                             <Icon name={this.props.searchVisible ? "x" : "plus"} />
-                            <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
+                            <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
                         </Button>
                     </Menu.Item>
                     }
@@ -54,7 +55,7 @@ class Header extends Component {
                         on="click"
                         wide
                         trigger={(
-                            <Menu.Item style={{borderBottom: this.props.courseErrors.length > 0 ? "0.4em solid #FF695E" : "0.4em solid #2ECC40", transition: "all 0.2s ease"}}>
+                            <Menu.Item className={this.props.courseErrors.length > 0 ? "status error" : "status"}>
                                 <MediaQuery minDeviceWidth={768}>
                                     Course status:&nbsp;<span id="statusTag">{this.props.courseErrors.length > 0 ? this.props.courseErrors.length + " error" + (this.props.courseErrors.length > 1 ? "s" : "") : "OK"}</span>
                             </MediaQuery>&nbsp;

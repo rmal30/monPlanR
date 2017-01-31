@@ -71,18 +71,19 @@ class Home extends Component {
                                                 </Button>
                                             </Link>
                                             <br /><br /><br />
-                                            <ClearCourseModal
-                                                trigger={
-                                                    <span style={{fontSize: "1.2em"}}>
+                                          <span style={{fontSize: "1.2em"}}>
                                                         You can also
                                                         {mobile && <br />}
                                                         &nbsp;
-                                                        <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan</a>.
-                                                    </span>
+                                                        <ClearCourseModal
+                                                trigger={
+                                                    <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan</a>.
                                                 }
                                                 redirect="/"
                                                 clearCourse={() => {return localStorage.clear();}}
                                                 />
+                                           </span>
+                                            
                                         </Segment>
                                     </Container>
                                 }
