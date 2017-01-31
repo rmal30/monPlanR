@@ -42,7 +42,6 @@ class Plan extends Component {
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
         this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
-
     /**
      * A workaround that is a React anti-pattern. It attaches add to course menu
      * callback function, which is called when the user clicks the "+ Add unit"
