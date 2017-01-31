@@ -12,7 +12,6 @@ import { Menu, Sidebar } from "semantic-ui-react";
 
 // Local component imports
 import Header from "./Header.jsx";
-import Footer from "./Footer.jsx";
 
 //Local container imports
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
@@ -169,7 +168,6 @@ class Main extends Component {
 
                                   })}
                         </ReactCSSTransitionGroup>
-                        <Footer className="footer"/>
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
             </div>

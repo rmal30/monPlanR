@@ -239,7 +239,7 @@ class Unit extends React.Component {
                     {!this.props.viewOnly &&
                         <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })}
                           className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
-                            <Button inverted onClick={this.handleDelete.bind(this)} className="btncancel" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
+                            <Button onClick={this.handleDelete.bind(this)} className="btncancel" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
                             {this.props.detailButton &&
                                 <UnitDetailModal
                                     onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
@@ -256,15 +256,15 @@ class Unit extends React.Component {
                 <br/>
                 <div style={{bottom: "0", textAlign:"right"}}>
                     <Popup
-                        trigger={(this.props.isError || (this.props.errors && this.props.errors.length > 0)) &&
-                                <Icon name="warning sign" color="white" size="large" />
+                        trigger={(this.props.errors && this.props.errors.length > 0) &&
+                                <Icon name="warning sign" size="large" />
                         }
                         positioning="bottom left"
                         size="mini"
                         >
                     <Popup.Header>The following problems were discovered</Popup.Header>
                     <Popup.Content>
-                        <ul>{this.props.errors.map((error, index) => <li key={index}>{error.message}</li>)}</ul>
+                        <ul>{(this.props.errors && this.props.errors.length > 0) && this.props.errors.map((error, index) => <li key={index}>{error.message}</li>)}</ul>
                     </Popup.Content>
                     </Popup>
                 </div>
