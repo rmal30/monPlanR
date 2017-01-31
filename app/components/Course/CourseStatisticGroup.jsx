@@ -17,17 +17,17 @@ function CourseStatisticGroup(props) {
     };
 
     return (
-          <Grid style={{marginRight: "-0.5rem !important"}}>
-            <Grid.Row className="statsGroupRow" style={{marginRight: "-0.5rem !important"}}>
+          <Grid textAlign="center">
+            <Grid.Row className="statsGroupRow">
               <Grid.Column width={8}>
-                <Statistic size='tiny'>
+                <Statistic size="mini">
                     <Statistic.Value>
                         <Icon name='student' />
                         {props.creditPoints}
                     </Statistic.Value>
                     <Popup
-                      trigger={<Statistic.Label>Credit Points</Statistic.Label>}
-                      header="Total Credit Points"
+                      trigger={<Statistic.Label>Total credit points</Statistic.Label>}
+                      header="Current credit points"
                       content="This estimate is the total amount of credit points that could be earnt of the current current course for students"
                       on="hover"
                       positioning="bottom right"
@@ -35,15 +35,15 @@ function CourseStatisticGroup(props) {
                 </Statistic>
               </Grid.Column>
               <Grid.Column width={8}>
-                <Statistic size='tiny'>
+                <Statistic size="mini">
                     <Statistic.Value >
                         <Icon name='dollar' />
                         {props.cost}
                     </Statistic.Value>
                     <Popup
-                      trigger={<Statistic.Label>Total Est. Cost</Statistic.Label>}
-                      header="Est. Cost for Commonwealth Supported Place Students"
-                      content="This estimate is the total cost of the current course if taken in 2017 for CSP Domestic Students."
+                      trigger={<Statistic.Label>Total est. cost</Statistic.Label>}
+                      header="Estimated cost for CSP students"
+                      content="This estimate is the total cost of the current course if taken in 2017 for Commonwealth Supported Place (domestic) students."
                       on="hover"
                       positioning="bottom left"
                     />

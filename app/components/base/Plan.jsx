@@ -6,7 +6,6 @@ import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import CourseInfoButtonContainer from "../../containers/CourseInfoButtonContainer.jsx";
 
@@ -198,9 +197,6 @@ class Plan extends Component {
                             </Grid.Column>
                             <Grid.Column width="4">
                                 <LoadCourseMap onCourseLoad={this.handleCourseLoad} />
-                            </Grid.Column>
-                            <Grid.Column width="4" floated="right">
-                                <CourseStatisticGroupContainer />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
+import { Button, Divider, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { Link } from "react-router";
 
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
+import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
 // import SettingsModal from "../modals/settings.jsx";
 
 
@@ -52,7 +53,8 @@ class Header extends Component {
                 <Menu.Menu position="right">
                     {this.props.showStatus &&
                     <Popup
-                        on="click"
+                        on="hover"
+                        hoverable
                         wide
                         trigger={(
                             <Menu.Item className={this.props.courseErrors.length > 0 ? "status error" : "status"}>
@@ -63,10 +65,12 @@ class Header extends Component {
                             </Menu.Item>
                         )}>
                         <Popup.Header>
-                            {this.props.courseErrors.length > 0 ? "Errors" : "Everything looks good"}
+                            {this.props.courseErrors.length > 0 ? "The following problems were discovered" : "Everything looks good"}
                         </Popup.Header>
                         <Popup.Content>
                             {content}
+                            <Divider />
+                            <CourseStatisticGroupContainer />
                         </Popup.Content>
                     </Popup>
                     }
