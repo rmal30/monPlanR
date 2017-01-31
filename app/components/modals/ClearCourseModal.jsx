@@ -101,33 +101,17 @@ class ClearCourseModal extends Component {
      * @return {Modal}
      */
     render() {
+        let trigger;
+
+        if(this.props.trigger) {
+            trigger = React.cloneElement(this.props.trigger, {onClick: this.handleOpen.bind(this)});
+        } else {
+            trigger = undefined;
+        }
+
         return (
-            <Modal
-                trigger={
-                    this.props.floated ?
-                    (
-                        <Button
-                            floated={this.props.floated}
-                            className="no-print btncancel"
-                            disabled={this.props.disabled}
-                            fluid={this.props.fluid}
-                            color="red"
-                            onClick={this.handleOpen.bind(this)}>
-                            Clear current pla
-                        </Button>
-                     )
-                     :
-                    (
-                        <Button
-                            className="no-print btncancel"
-                            disabled={this.props.disabled}
-                            fluid={this.props.fluid}
-                            color="red"
-                            onClick={this.handleOpen.bind(this)}>
-                            Clear current plan
-                        </Button>
-                     )
-            }
+            <ModaL
+                trigger={trigger}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
                 <Modal.Header>
@@ -155,10 +139,8 @@ class ClearCourseModal extends Component {
 
 ClearCourseModal.propTypes = {
     clearCourse: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    fluid: PropTypes.bool,
     redirect: PropTypes.string,
-    floated: PropTypes.string
+    trigger: PropTypes.element
 };
 
 ClearCourseModal.contextTypes = {

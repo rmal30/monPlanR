@@ -53,6 +53,18 @@ export default function CourseEditActions(props) {
                             onClick={props.hideInsertTeachingPeriodsUI.bind(props)}>Cancel</Button>
                     }
                     {mobile && <div><br /></div>}
+                    <ClearCourseModal
+                        trigger={
+                            <Button
+                                disabled={props.teachingPeriods.length === 0}
+                                fluid={mobile}
+                                className="btncancel"
+                                color="red">
+                                Clear course
+                            </Button>
+                        }
+                        clearCourse={props.clearCourse.bind(props)} />
+                    {mobile && <br />}
                     <CompletedCourseModal
                         trigger={(
                             <Button
@@ -71,11 +83,6 @@ export default function CourseEditActions(props) {
                         uploadCourseToDatabase={props.uploadCourseToDatabase}
                         uploadedCourseID={props.uploadedCourseID}
                          />
-                    {mobile && <br />}
-                    <ClearCourseModal
-                        disabled={props.teachingPeriods.length === 0}
-                        fluid={mobile}
-                        clearCourse={props.clearCourse.bind(props)} />
                 </Container>
             }
         </MediaQuery>

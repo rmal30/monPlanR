@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Container, Icon, Segment, Message, Divider} from "semantic-ui-react";
+import {Button, Container, Icon, Segment, Message } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
@@ -62,39 +62,31 @@ class Home extends Component {
                         </p>
                         {inLocalStorage &&
                             <MediaQuery maxDeviceWidth={767}>
-                                {mobile => {
-                                    if(mobile) {
-                                        return (
-                                            <Container>
-                                                <Segment basic>
-                                                    <Link to="/plan">
-                                                        <Button fluid className="btnorange">
-                                                            Continue Planning <Icon name="right arrow" />
-                                                        </Button>
-                                                    </Link>
-                                                    <Divider horizontal inverted>OR</Divider>
-                                                    <ClearCourseModal fluid redirect="/" clearCourse={() => {return localStorage.clear();}}/>
-                                                </Segment>
-                                            </Container>
-                                        );
-                                    } else {
-                                        return (
-                                            <Container textAlign="center">
-                                                <Segment basic>
-                                                    <Button.Group inverted size="big">
-                                                        <Link to="/plan">
-                                                            <Button className="btnorange">
-                                                                Continue planning <Icon name="right arrow" />
-                                                            </Button>
-                                                        </Link>
-                                                        <Button.Or />
-                                                        <ClearCourseModal redirect="/" clearCourse={() => {return localStorage.clear();}}/>
-                                                    </Button.Group>
-                                                </Segment>
-                                            </Container>
-                                        );
-                                    }
-                                }}
+                                {mobile =>
+                                    <Container textAlign="center">
+                                        <Segment basic>
+                                            <Link to="/plan">
+                                                <Button size="big" color="yellow">
+                                                    Continue planning <Icon name="right arrow" />
+                                                </Button>
+                                            </Link>
+                                            <br /><br /><br />
+                                          <span style={{fontSize: "1.2em"}}>
+                                                        You can also
+                                                        {mobile && <br />}
+                                                        &nbsp;
+                                                        <ClearCourseModal
+                                                trigger={
+                                                    <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan</a>.
+                                                }
+                                                redirect="/"
+                                                clearCourse={() => {return localStorage.clear();}}
+                                                />
+                                           </span>
+                                            
+                                        </Segment>
+                                    </Container>
+                                }
                             </MediaQuery>
                         }
                         {!inLocalStorage &&
