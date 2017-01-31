@@ -48,6 +48,8 @@ const defaultState = {
         abrTitle: ""
     },
 
+    showInsertUI: true,
+
     focusedUnitCode: null,
     focusedCourse: null,
     startYear: new Date().getFullYear(), //Default to the current year
@@ -80,6 +82,8 @@ const CourseStructure = (state = defaultState, action) => {
             Removes a teaching period located at the given index
         */
         case "REMOVE_TEACHING_PERIOD":
+
+            
             return Object.assign(
                 {}, 
                 state, 
@@ -303,6 +307,13 @@ const CourseStructure = (state = defaultState, action) => {
                 {},
                 state,
                 {startYear: action.startYear, endYear: action.endYear}
+            );
+
+        case "CHANGE_START_YEAR":
+            return Object.assign(
+                {},
+                state,
+                {startYear: action.year}
             );
         
         /**

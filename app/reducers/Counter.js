@@ -75,9 +75,30 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 cost: 0,
                 creditPoints: 0
             };
+
+        
+        case "REMOVE_TEACHING_PERIOD":
+            return {
+                cost: action.tp.reduce((prev, next) => {
+                    if (next === null) {
+                        return prev;
+                    } else {
+                        return prev - next.cost;
+                    }
+                }, state.cost),
+                creditPoints: action.tp.reduce((prev, next) => {
+                    if (next === null) {
+                        return prev;
+                    } else {
+                        return prev - next.creditPoints;
+                    }
+                }, state.creditPoints)
+            };
         
         default:
             return state;
+
+            
     }
 };
 

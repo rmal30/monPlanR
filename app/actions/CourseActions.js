@@ -13,10 +13,11 @@ export const insertTeachingPeriod = (index, year, code) => {
 /**
  * REMOVE_TEACHING_PERIOD
  */
-export const removeTeachingPeriod = (index) => {
+export const removeTeachingPeriod = (index, tp) => {
     return {
         type: "REMOVE_TEACHING_PERIOD",
-        index
+        index,
+        tp
     };
 };
 
@@ -25,7 +26,7 @@ export const removeTeachingPeriod = (index) => {
  */
 export const addTeachingPeriod = (year, code) => {
     return {
-        type: "ADD_TEACHING_PERIOD",
+        type: "APPEND_TEACHING_PERIOD",
         year,
         code
     };
@@ -101,5 +102,16 @@ export const submitYearForm = (startYear, endYear) => {
         type: "SUBMIT_YEAR_FORM",
         startYear,
         endYear
+    };
+};
+
+
+/**
+ * CHANGE_START_YEAR
+ */
+export const changeStartYear = (year) => {
+    return {
+        type: "CHANGE_START_YEAR",
+        year
     };
 };

@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
  */
 const mapStateToProps = (state) => {
     const { teachingPeriods, numberOfUnits } = state.CourseStructure;
-    let shouldBeDisabled = teachingPeriods.length === 0 || numberOfUnits === 6;
+    let shouldBeDisabled = (numberOfUnits === 6 || teachingPeriods.length === 0);
     
     return {
         isDisabled: shouldBeDisabled

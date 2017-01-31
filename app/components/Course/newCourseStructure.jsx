@@ -7,14 +7,18 @@ import { browserHistory } from "react-router";
 import LocalStorage from "../../utils/LocalStorage.js";
 import UnitQuery from "../../utils/UnitQuery";
 import CourseTemplate from "../../utils/CourseTemplate";
-import OverloadButtonContainer from "../../containers/Buttons/OverloadButtonContainer.jsx";
-import UnderloadButtonContainer from "../../containers/Buttons/UnderloadButtonContainer.jsx";
+
+
 import CourseViewActions from "./CourseViewActions.jsx";
+import CourseEditActions from "./CourseEditActions.jsx";
 import CourseMessage from "./CourseMessage.jsx";
 
 import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
-import NoTeachingPeriod from "../TeachingPeriod/NoTeachingPeriod.jsx";
+import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachingPeriodContainer.jsx";
 import InsertTeachingPeriod from "../TeachingPeriod/InsertTeachingPeriod.jsx";
+import OverloadButtonContainer from "../../containers/Buttons/OverloadButtonContainer.jsx";
+import UnderloadButtonContainer from "../../containers/Buttons/UnderloadButtonContainer.jsx";
+
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -29,9 +33,7 @@ const mapStateToProps = state => {
         creditPoints: state.Counter.creditPoints,
         cost: state.Counter.cost,
         teachingPeriods: state.CourseStructure.teachingPeriods,
-        numberOfUnits: state.CourseStructure.numberOfUnits,
-        startYear: state.CourseStructure.startYear,
-        endYear: state.CourseStructure.endYear
+        numberOfUnits: state.CourseStructure.numberOfUnits
     };
 };
 
@@ -62,7 +64,11 @@ class CourseStructure extends Component {
     constructor(props) {
         super(props);
 
+        const { startYear } = this.props;
+
         this.state = {
+            startYear: startYear || new Date().getFullYear(),
+
             /* UI state */
             showInsertTeachingPeriods: false,
             teachingPeriodsData: null,
@@ -673,7 +679,7 @@ class CourseStructure extends Component {
             {
                 code,
                 year,
-                units: new Array(this.state.numberOfUnits).fill(null)
+                units: new Array(this.props.numberOfUnits).fill(null)
             },
             ...this.props.teachingPeriods.slice(index)
         ];
@@ -697,7 +703,8 @@ class CourseStructure extends Component {
 
         let code = s1Code;
 
-        const { teachingPeriods, teachingPeriodsData } = this.state;
+        const { teachingPeriods } = this.props;
+        const { teachingPeriodsData } = this.state;
 
         if(!teachingPeriodsData) {
             return { index, year, code };
@@ -918,7 +925,7 @@ class CourseStructure extends Component {
      * Adds a column to the course structure.
      */
     incrementNumberOfUnits() {
-        if(this.state.numberOfUnits >= this.maxNumberOfUnits) {
+        if(this.props.numberOfUnits >= this.maxNumberOfUnits) {
             return;
         }
 
@@ -933,7 +940,7 @@ class CourseStructure extends Component {
         });
 
         this.setState({
-            numberOfUnits: this.state.numberOfUnits + 1,
+            numberOfUnits: this.props.numberOfUnits + 1,
             teachingPeriods
         });
     }
@@ -943,7 +950,7 @@ class CourseStructure extends Component {
      */
     getAffectedUnits() {
         const teachingPeriods = this.props.teachingPeriods.slice();
-        let unitIndex = this.state.numberOfUnits - 1;
+        let unitIndex = this.props.numberOfUnits - 1;
         let unitArray = [];
         for(let i = 0; i < teachingPeriods.length; i++) {
             let item = teachingPeriods[i].units[unitIndex];
@@ -961,10 +968,10 @@ class CourseStructure extends Component {
      * @author JXNS, Saurabh Joshi
      */
     decrementNumberOfUnits() {
-        if(this.state.numberOfUnits > this.minNumberOfUnits) {
+        if(this.props.numberOfUnits > this.minNumberOfUnits) {
             let teachingPeriods = this.props.teachingPeriods;
 
-            let { numberOfUnits } = this.state;
+            let { numberOfUnits } = this.props;
 
             teachingPeriods = teachingPeriods.map(teachingPeriod => {
                 const unit = teachingPeriod.units[numberOfUnits - 1];
@@ -981,7 +988,7 @@ class CourseStructure extends Component {
 
 
             this.setState({
-                numberOfUnits: this.state.numberOfUnits - 1,
+                numberOfUnits: this.props.numberOfUnits - 1,
                 teachingPeriods
             });
         }
@@ -1014,7 +1021,7 @@ class CourseStructure extends Component {
                     year={teachingPeriod.year}
                     code={teachingPeriod.code}
                     data={this.state.teachingPeriodsData}
-                    numberOfUnits={this.state.numberOfUnits}
+                    numberOfUnits={this.props.numberOfUnits}
                     deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
                     addUnit={this.addUnit.bind(this)}
                     moveUnit={this.moveUnit.bind(this)}
@@ -1048,8 +1055,8 @@ class CourseStructure extends Component {
         const tableRows = [];
         let year, code, show = false;
 
-        const { teachingPeriodToInsertCode, teachingPeriodsData, showInsertTeachingPeriods } = this.state;
         const { teachingPeriods } = this.props;
+        const { teachingPeriodToInsertCode, teachingPeriodsData, showInsertTeachingPeriods } = this.state;
         if(showInsertTeachingPeriods) {
             year = this.state.startYear || new Date().getFullYear();
             code = teachingPeriodToInsertCode;
@@ -1120,7 +1127,7 @@ class CourseStructure extends Component {
                     <InsertTeachingPeriod
                         index={i}
                         key={`${i}-insertTeachingPeriod`}
-                        numberOfUnits={this.state.numberOfUnits}
+                        numberOfUnits={this.props.numberOfUnits}
                         insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
                         year={year}
                         teachingPeriodType="Teaching Period"
@@ -1132,13 +1139,13 @@ class CourseStructure extends Component {
 
         if(this.props.teachingPeriods.length === 0) {
             tableRows.push(
-                <NoTeachingPeriod
+                <NoTeachingPeriodContainer
                     key="no-teaching-period"
                     viewOnly={this.props.viewOnly}
                     startYear={this.state.startYear}
                     placeholderStartYear={new Date().getFullYear()}
                     changeStartYear={this.changeStartYear}
-                    numberOfUnits={this.state.numberOfUnits}
+                    numberOfUnits={this.props.numberOfUnits}
                     semesterString={this.getQuickSemesterString()}
                     insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
                     appendSemester={this.appendSemester}
@@ -1166,13 +1173,13 @@ class CourseStructure extends Component {
                         switchToEditCourse={this.state.switchToEditCourse}
                         handleEditCoursePlanClick={this.props.handleEditCoursePlanClick}
                         teachingPeriods={this.props.teachingPeriods}
-                        numberOfUnits={this.state.numberOfUnits}
+                        numberOfUnits={this.props.numberOfUnits}
                         />
                 }
                 {!this.props.viewOnly &&
                     <MediaQuery maxDeviceWidth={767}>
                         <OverloadButtonContainer />
-                        <UnderloadButtonContainer mobile={true} />
+                        <UnderloadButtonContainer />
                     </MediaQuery>
                 }
                 <Dimmer.Dimmable as={Table} celled fixed striped compact>
@@ -1181,12 +1188,12 @@ class CourseStructure extends Component {
                         <Table.Header>
                             <Table.Row textAlign="center">
                                 <Table.HeaderCell>Teaching Period</Table.HeaderCell>
-                                <Table.HeaderCell colSpan={this.state.numberOfUnits}>
+                                <Table.HeaderCell colSpan={this.props.numberOfUnits}>
                                     Units
                                     {!this.props.viewOnly &&
                                         <span>
                                             <OverloadButtonContainer />
-                                            <UnderloadButtonContainer mobile={false}/>
+                                            <UnderloadButtonContainer />
                                         </span>
                                     }
                                 </Table.HeaderCell>
@@ -1197,6 +1204,25 @@ class CourseStructure extends Component {
                         {tableRows}
                     </Table.Body>
                 </Dimmer.Dimmable>
+                {!this.props.viewOnly &&
+                    <CourseEditActions
+                        showInsertTeachingPeriods={this.state.showInsertTeachingPeriods}
+                        showInsertTeachingPeriodsUI={this.showInsertTeachingPeriodsUI}
+                        hideInsertTeachingPeriodsUI={this.hideInsertTeachingPeriodsUI}
+
+                        teachingPeriods={this.props.teachingPeriods}
+                        numberOfUnits={this.props.numberOfUnits}
+                        appendSemester={this.appendSemester}
+                        clearCourse={this.clearCourse}
+                        semesterString={this.getQuickSemesterString()}
+
+                        isUploading={this.state.isUploading}
+                        uploaded={this.state.uploaded}
+                        uploadingError={this.state.uploadingError}
+                        uploadedCourseID={this.state.uploadedCourseID}
+                        uploadCourseToDatabase={this.uploadCourseToDatabase}
+                         />
+                }
             </Container>
         );
     }
@@ -1225,6 +1251,7 @@ CourseStructure.propTypes = {
     decrementCost: PropTypes.func,
     decrementCreditPoints: PropTypes.func,
     teachingPeriods: PropTypes.array,
+    numberOfUnits: PropTypes.number,
 
 
     /* Validation */

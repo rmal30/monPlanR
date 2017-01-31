@@ -158,4 +158,23 @@ describe("REDUCER: Counter", () => {
             ).toEqual(stateAfter);
         });
     });
+
+    describe("ACTION: REMOVE_TEACHING_PERIOD", () => {
+        it("Should correctly go through and decrement the counters for each value ", () => {
+            const stateBefore = {cost: 50, creditPoints: 40};
+            const action = {
+                type: "REMOVE_TEACHING_PERIOD",
+                tp: [null, {cost: 2, creditPoints: 20}, {cost: 5, creditPoints: 10}, null]
+            };
+            const stateAfter = {cost: 43, creditPoints: 10};
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Counter(stateBefore, action)
+            ).toEqual(stateAfter);
+
+        });
+    });
 });
