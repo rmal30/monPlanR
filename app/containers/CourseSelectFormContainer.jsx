@@ -34,7 +34,6 @@ class CourseSelectFormContainer extends Component {
             code: "",
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
             year: (this.startYearPlaceholder - 1),
-            currentYear: (this.startYearPlaceholder - 1),
             specIsDisabled: true,
             yearIsDisabled: true,
             courseSelected: false
@@ -141,6 +140,11 @@ class CourseSelectFormContainer extends Component {
             readyToSubmit: !this.state.yearIsDisabled,
             yearIsDisabled: false,
         });
+        if(this.state.year){
+            this.setState({
+                readyToSubmit: true
+            });
+        }
     }
 
     /**
@@ -151,10 +155,9 @@ class CourseSelectFormContainer extends Component {
             year: value,
             readyToSubmit: true
         });
-
     }
 
-          /**
+    /**
      * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
      */
     btnStartPlan(mobile) {
@@ -224,6 +227,7 @@ class CourseSelectFormContainer extends Component {
                                     selection
                                     options={this.state.years}
                                     onChange={this.handleYearSelect}
+                                    value={this.state.year}
                                 />
                             </Form.Group>
 

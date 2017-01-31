@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Message, Header, Icon } from "semantic-ui-react";
+import { Button, Message, Header, Icon, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { DragSource, DropTarget } from "react-dnd";
 
@@ -239,7 +239,7 @@ class Unit extends React.Component {
                     {!this.props.viewOnly &&
                         <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })}
                           className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
-                            <Button inverted onClick={this.handleDelete.bind(this)} color="red" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
+                            <Button inverted onClick={this.handleDelete.bind(this)} className="btncancel" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
                             {this.props.detailButton &&
                                 <UnitDetailModal
                                     onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
@@ -248,10 +248,26 @@ class Unit extends React.Component {
                             }
                         </Button.Group>
                     }
+
                 </Message.Header>
                 {(!this.state.hovering || !this.showMoveUnitUI) &&
                     `${this.props.name}`
                 }
+                <br/>
+                <div style={{bottom: "0", textAlign:"right"}}>
+                    <Popup
+                        trigger={(this.props.isError || (this.props.errors && this.props.errors.length > 0)) &&
+                                <Icon name="warning sign" color="white" size="large" />
+                        }
+                        positioning="bottom left"
+                        size="mini"
+                        >
+                    <Popup.Header>The following problems were discovered</Popup.Header>
+                    <Popup.Content>
+                        <ul>{this.props.errors.map((error, index) => <li key={index}>{error.message}</li>)}</ul>
+                    </Popup.Content>
+                    </Popup>
+                </div>
             </Message>
         );
 
@@ -270,9 +286,8 @@ class Unit extends React.Component {
 
         const unitPlaceholder = (
             <Message
-                className="unit"
-                size="mini"
-                style={{background: "transparent", borderStyle: "dashed", borderColor: "#ccc", boxShadow: "none"}}>
+                className="unit placeholder"
+                size="mini">
                 <Message.Header>{this.props.code}</Message.Header>
                 {this.props.name}
             </Message>
@@ -284,8 +299,9 @@ class Unit extends React.Component {
                     return (
                         connectDropTarget(
                         <td
-                            style={{ backgroundColor: (this.props.isError || (this.props.errors && this.props.errors.length > 0)) ? "#ffe7e7" : "transparent"}}
-                            className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
+                            className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : "" +
+                                        (this.props.isError || (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
+                            }
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
                             onMouseLeave={this.handleMouseLeave.bind(this)}

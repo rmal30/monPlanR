@@ -108,9 +108,8 @@ class ClearCourseModal extends Component {
         } else {
             trigger = undefined;
         }
-
         return (
-            <Modal>
+            <Modal
                 trigger={trigger}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
@@ -140,7 +139,7 @@ class ClearCourseModal extends Component {
 ClearCourseModal.propTypes = {
     clearCourse: PropTypes.func.isRequired,
     redirect: PropTypes.string,
-    trigger: PropTypes.element
+    trigger: PropTypes.node.isRequired
 };
 
 ClearCourseModal.contextTypes = {
