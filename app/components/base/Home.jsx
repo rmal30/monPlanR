@@ -77,13 +77,13 @@ class Home extends Component {
                                                         &nbsp;
                                                         <ClearCourseModal
                                                 trigger={
-                                                    <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan</a>.
+                                                    <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan.</a>
                                                 }
                                                 redirect="/"
                                                 clearCourse={() => {return localStorage.clear();}}
                                                 />
                                            </span>
-                                            
+
                                         </Segment>
                                     </Container>
                                 }
