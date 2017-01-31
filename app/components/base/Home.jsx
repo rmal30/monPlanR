@@ -6,6 +6,7 @@ import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CourseSelectFormContainer from "../../containers/CourseSelectFormContainer.jsx";
 import LocalStorage from "../../utils/LocalStorage.js";
 
+import Copyright from "../../containers/copyright.jsx";
 /**
  * Home page that is shown to the user when they load the domain.
  *
@@ -96,6 +97,7 @@ class Home extends Component {
                         }
                     </div>
                 </Container>
+                <Copyright className="footer"/>
             </div>
         );
     }
