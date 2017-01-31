@@ -35,7 +35,7 @@ const mapStateToProps = (state) => {
  * Redux bindings for functions, passes the action creators through with dispatch built in
  */
 const mapDispatchToProps = (dispatch) => {
-    const actionBundle = Object.assign({}, courseActions, counterActions);
+    const actionBundle = {...courseActions, ...counterActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 

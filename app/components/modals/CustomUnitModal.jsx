@@ -119,7 +119,13 @@ class CustomUnitModal extends Component {
      */
     addCustomUnitToCourse() {
         const { SCABand, CreditPoints } = this.state;
-        this.props.addCustomUnitToCourse(Object.assign({}, this.state, {Cost: CostCalc.calculateCost(SCABand, CreditPoints), position: this.props.position}));
+
+        this.props.addCustomUnitToCourse({
+            ...this.state,
+            Cost: CostCalc.calculateCost(SCABand, CreditPoints),
+            position: this.props.position
+        });
+
         this.props.cancelAddingCustomUnitToCourse();
     }
 
