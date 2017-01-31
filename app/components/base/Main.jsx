@@ -12,6 +12,7 @@ import { Menu, Sidebar } from "semantic-ui-react";
 
 // Local component imports
 import Header from "./Header.jsx";
+import Footer from "../../containers/copyright.jsx";
 
 //Local container imports
 import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
@@ -68,6 +69,7 @@ class Main extends Component {
         this.detachAddToCourse = this.detachAddToCourse.bind(this);
 
         this.updateStatus = this.updateStatus.bind(this);
+
     }
 
     /**
@@ -168,6 +170,7 @@ class Main extends Component {
 
                                   })}
                         </ReactCSSTransitionGroup>
+                        {!this.props.children.props.route.noFooter && <Footer className="footer"/>}
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
             </div>

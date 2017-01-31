@@ -178,7 +178,8 @@ class CourseSelectFormContainer extends Component {
     btnEmptyPlan(mobile) {
         return (
             <Button
-                fluid={mobile}>
+                fluid={mobile}
+                className="btnempty">
                 Start without selecting course
                 {!mobile && <Icon name="right arrow" />}
             </Button>
