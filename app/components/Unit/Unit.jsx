@@ -13,7 +13,7 @@ import * as dataFetchActions from "../../actions/DataFetchActions";
  * Set up any functions from the action creators you want to pass in
  */
 const mapDispatchToProps = dispatch => {
-    const actionBundle = Object.assign({}, dataFetchActions);
+    const actionBundle = {...dataFetchActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 

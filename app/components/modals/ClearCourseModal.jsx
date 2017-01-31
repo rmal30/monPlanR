@@ -118,10 +118,17 @@ class ClearCourseModal extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
-                        structure will be cleared.</p>
+                        <p>
+                            To clear course, type "clear" into the input box.
+                            After doing this, click "Clear Course" and your
+                            course plan will be cleared.
+                        </p>
                         <div className="ui input">
-                            <input type="text" ref={input => this.input = input} onChange={this.handleChange.bind(this)} onKeyDown={this.handleEnterPress.bind(this)} />
+                            <input
+                                type="text"
+                                ref={input => this.input = input}
+                                onChange={this.handleChange.bind(this)}
+                                onKeyDown={this.handleEnterPress.bind(this)} />
                         </div>
                     </Modal.Description>
                 </Modal.Content>

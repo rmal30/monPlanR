@@ -23,7 +23,7 @@ class SettingsModal extends Component {
         };
 
         // Set up currentPreferences
-        this.prefs = Object.assign({}, this.defaultPrefs);
+        this.prefs = {...this.defaultPrefs};
     }
 
     /**
