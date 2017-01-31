@@ -115,7 +115,7 @@ class YearFormContainer extends Component {
                 content="Click here to start off with an empty template with no teaching periods added"
                 direction="bottom right"
                 trigger={
-                    <Button>
+                    <Button className="btnempty">
                         Just start with an empty template <Icon name="right arrow" />
                     </Button>} />
         );

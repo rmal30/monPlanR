@@ -116,9 +116,20 @@
 }
 
 .btnempty{
-  background-color: #fff !important;
-  color: #b0b0b0 !important;
+  background-color: #235974 !important;
+  color: #d5d5d5 !important;
   border-radius: 0px !important
+}
+
+.btnempty:hover{
+  background-color: #54798b !important;
+  color: #ffffff !important;
+  border-radius: 0px !important
+}
+
+.ui.buttons .or:before {
+    background-color: rgb(0, 60, 91)!important;
+    color: white!important
 }
 /*
 * Course Stats
@@ -166,7 +177,11 @@
 }
 
 .ui.celled.table tr td {
-    padding: 7.5px
+    padding: 7.5px !important;
+    border-right: 1px dashed grey !important;
+    border-bottom: 1px dashed grey !important;
+    border-left: 1px dashed grey !important;
+
 }
 
 .noteachingperiods > *  > h3 > * {
