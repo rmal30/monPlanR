@@ -90,7 +90,7 @@ function TeachingPeriod(props) {
     }
 
     return (
-        <Table.Row style={{backgroundColor: "#005d95", color: "white"}}>
+        <Table.Row style={{color: "black"}}>
             <Table.Cell>
                 {!props.showMoveUnitUI && !props.viewOnly &&
                 <ConfirmDeleteTeachingPeriod

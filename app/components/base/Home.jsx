@@ -66,23 +66,23 @@ class Home extends Component {
                                     <Container textAlign="center">
                                         <Segment basic>
                                             <Link to="/plan">
-                                                <Button size="big" color="yellow">
+                                                <Button size="big" className="btnorange">
                                                     Continue planning <Icon name="right arrow" />
                                                 </Button>
                                             </Link>
                                             <br /><br /><br />
-                                          <span style={{fontSize: "1.2em"}}>
-                                                        You can also
-                                                        {mobile && <br />}
-                                                        &nbsp;
-                                                        <ClearCourseModal
-                                                trigger={
-                                                    <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan.</a>
-                                                }
-                                                redirect="/"
-                                                clearCourse={() => {return localStorage.clear();}}
+                                            <span style={{fontSize: "1.2em"}}>
+                                                You can also
+                                                {mobile && <br />}
+                                                &nbsp;
+                                                <ClearCourseModal
+                                                    trigger={
+                                                        <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan.</a>
+                                                    }
+                                                    redirect="/"
+                                                    clearCourse={() => {return localStorage.clear();}}
                                                 />
-                                           </span>
+                                             </span>
 
                                         </Segment>
                                     </Container>

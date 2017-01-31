@@ -66,7 +66,7 @@
 
     "build:prod": "sh ./pre_build_prod_server.sh && NODE_ENV=production webpack --progress -p",
     "start:prod": "npm run build:prod && node dist/server.js",
-
+    "deploy": "npm run build:prod && cd dist && gcloud app deploy",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
 
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
