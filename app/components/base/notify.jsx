@@ -1,5 +1,4 @@
 import React , {Component, PropTypes} from "react";
-import { Button } from "semantic-ui-react";
 import NotificationSystem from "react-notification-system";
 
 /**
@@ -31,6 +30,9 @@ class Notify extends Component {
         this.addNotification = this.addNotification.bind(this);
     }
 
+    /**
+    * Does a addNotifaction Call on mounting of component
+    */
     componentDidMount(){
         this._notificationSystem = this.refs.notificationSystem;
         this.addNotification("Ready to add units to course plan", "Search for units by clicking the plus icon in the header, then place it in your course plan.", "info", 0);
@@ -38,6 +40,9 @@ class Notify extends Component {
 
     }
 
+    /**
+    * Main addNotifaction Call on mounting of component
+    */
     addNotification(title, message, level, dismiss=5){
         this._notificationSystem.addNotification({
             title: title,
@@ -47,6 +52,9 @@ class Notify extends Component {
         });
     }
 
+    /**
+    *   Main render method
+    */
     render(){
         return (
             <div>
