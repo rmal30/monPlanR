@@ -32,28 +32,28 @@ const UI = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {showMovingUnitUI: true}
+                {showAddingUnitUI: true}
             );
         
         case "HIDE_ADD_UNIT_UI":
             return Object.assign(
                 {},
                 state,
-                {showMovingUnitUI: false}
+                {showAddingUnitUI: false}
             );
         
         case "SHOW_MOVE_UNIT_UI":
             return Object.assign(
                 {},
                 state,
-                {showAddingUnitUI: true}
+                {showMovingUnitUI: true}
             );
         
         case "HIDE_MOVE_UNIT_UI":
             return Object.assign(
                 {},
                 state,
-                {showAddingUnitUI: false}
+                {showMovingUnitUI: false}
             );
 
         

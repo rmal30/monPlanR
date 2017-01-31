@@ -111,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);
 };
 
+
 export default connect(null, mapDispatchToProps)(TeachingPeriod);
 
 

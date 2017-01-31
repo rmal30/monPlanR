@@ -20,6 +20,11 @@ const defaultState = {
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     courseTemplateData: null,
+    semesterString: "add semester...",
+    teachingPeriodData: null,
+    teachingPeriodsDataLoading: false,
+    teachingPeriodsDataError: false,
+    teachingPeriodCodeToInsert: null,
 
     unitInfo: {
         cost: 0,
@@ -231,8 +236,8 @@ const CourseStructure = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {courseInfoLoading: false, focusedCourse: action.courseCode, courseInfo: Object.assign(
-                    {},
+                {courseInfoLoading: false, focusedCourse: action.courseCode, 
+                    courseInfo:
                     {
                         courseName: action.payload.data.courseName,
                         faculty: action.payload.data.mangFac,
@@ -243,7 +248,7 @@ const CourseStructure = (state = defaultState, action) => {
                         awards: action.payload.data.courseAward,
                         abrTitle: action.payload.data.abrevTitle
                     }
-                )}
+                }
             );
 
         case "FETCH_COURSE_INFO_REJECTED":
@@ -295,6 +300,38 @@ const CourseStructure = (state = defaultState, action) => {
                 {unitLoading: false, unitLoadError: true }
             );
 
+        
+        case "FETCH_TEACHING_PERIODS_PENDING":
+            return Object.assign(
+                {},
+                state,
+                {
+                    teachingPeriodsDataLoading: true,
+                    teachingPeriodsDataError: false
+                }
+            );
+        
+        case "FETCH_TEACHING_PERIODS_FULFILLED":
+            return Object.assign(
+                {},
+                state,
+                {
+                    teachingPeriodData: action.payload,
+                    teachingPeriodsDataLoading: false,
+                }
+            );
+        
+        case "FETCH_TEACHING_PERIODS_REJECTED":
+            return Object.assign(
+                {},
+                state,
+                {
+                    teachingPeriodData: null,
+                    teachingPeriodsDataLoading: false,
+                    teachingPeriodsDataError: true
+                }
+            );
+
         case "SUBMIT_COURSE_FORM":
             return Object.assign(
                 {},
@@ -314,6 +351,13 @@ const CourseStructure = (state = defaultState, action) => {
                 {},
                 state,
                 {startYear: action.year}
+            );
+
+        case "SHOW_INSERT_TEACHING_PERIOD_UI":
+            return Object.assign(
+                {},
+                state,
+                {teachingPeriodCodeToInsert: action.tpCode}
             );
         
         /**

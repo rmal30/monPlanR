@@ -80,6 +80,48 @@ export const fetchUnitInfo = (unitCode) => {
     };
 };
 
+
+/**
+ * Fetches teaching period string list from API, note that there is no guarantee the teaching periods 
+ * will be ordered correctly so we sort them before using them in the state
+ */
+export const fetchTeachingPeriods = () => {
+    return function (dispatch) {
+        dispatch({
+            type: "FETCH_TEACHING_PERIODS_PENDING"
+        });
+        axios.get(`${MONPLAN_REMOTE_URL}/basic/teachingperiods`)
+             .then(response => {
+                 /**
+                  * Compares start teaching period date between two teaching periods.
+                  *
+                  * @param {object} a - The first teaching period.
+                  * @param {object} b - The second teaching period.
+                  * Grabbing the common teaching periods and sorting
+                  */
+                 function compareDate(a, b) {
+                     return Math.sign(new Date(...a.split("/").reverse()) - new Date(...b.split("/").reverse()));
+                 }
+
+                 response.data.sort(
+                     (a, b) => compareDate(a.startDate, b.startDate) !== 0 ? compareDate(a.startDate, b.startDate) : compareDate(b.endDate, a.endDate)
+                 );
+
+                 dispatch({
+                     type: "FETCH_TEACHING_PERIODS_FULFILLED",
+                     payload: response.data
+                 });
+             })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_TEACHING_PERIODS_REJECTED",
+                    payload: err
+                });
+            });
+    };
+};
+
+
 /**
  * FETCH_UNITS
  */

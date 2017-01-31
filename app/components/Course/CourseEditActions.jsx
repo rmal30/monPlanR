@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import MediaQuery from "react-responsive";
 import { Button, Container } from "semantic-ui-react";
 
-import InsertTeachingPeriodButton from "../TeachingPeriod/InsertTeachingPeriodButton.jsx";
+import InsertTeachingPeriodButtonContainer from "../../containers/Buttons/InsertTeachingPeriodButtonContainer.jsx";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
 
@@ -37,13 +37,7 @@ export default function CourseEditActions(props) {
                     {
                         !props.showInsertTeachingPeriods &&
                         props.teachingPeriods.length > 0 &&
-                        <InsertTeachingPeriodButton
-                            semesterString={props.semesterString}
-                            insert={props.showInsertTeachingPeriodsUI}
-                            appendSemester={props.appendSemester}
-                            mobile={mobile}
-                            bottom
-                            />
+                        <InsertTeachingPeriodButtonContainer mobile={mobile} bottom />
                     }
                     {props.showInsertTeachingPeriods &&
                         <Button
