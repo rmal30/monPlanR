@@ -96,7 +96,7 @@ class YearFormContainer extends Component {
                 content="Click now to start planning with the current specified start/end years"
                 trigger={(
                     <Button
-                        color="yellow"
+                        className="btnorange"
                         disabled={!this.state.readyToSubmit}
                         onClick={this.submitData}>
                             Start Planning <Icon name="right arrow" />
@@ -114,7 +114,10 @@ class YearFormContainer extends Component {
                 header="Empty Template"
                 content="Click here to start off with an empty template with no teaching periods added"
                 direction="bottom right"
-                trigger={<Button>Just start with an empty template <Icon name="right arrow" /></Button>} />
+                trigger={
+                    <Button>
+                        Just start with an empty template <Icon name="right arrow" />
+                    </Button>} />
         );
     }
     /**
