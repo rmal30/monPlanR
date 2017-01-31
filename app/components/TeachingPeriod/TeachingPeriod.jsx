@@ -1,6 +1,9 @@
 import React, { PropTypes } from "react";
 import { Table } from "semantic-ui-react";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as courseActions from "../../actions/CourseActions";
 
 import ConfirmDeleteTeachingPeriod from "../modals/ConfirmDeleteTeachingPeriod.jsx";
 import Unit from "../Unit/Unit.jsx";
@@ -25,7 +28,7 @@ function TeachingPeriod(props) {
         unitToAdd: PropTypes.object,
         showMoveUnitUI: PropTypes.bool.isRequired,
         viewUnitDetails: PropTypes.func,
-        deleteTeachingPeriod: PropTypes.func.isRequired,
+        removeTeachingPeriod: PropTypes.func,
 
         viewOnly: PropTypes.bool
     };
@@ -93,7 +96,7 @@ function TeachingPeriod(props) {
             <Table.Cell>
                 {!props.showMoveUnitUI && !props.viewOnly &&
                 <ConfirmDeleteTeachingPeriod
-                    onDeletePress={props.deleteTeachingPeriod.bind(null, props.index)}
+                    onDeletePress={() => {props.removeTeachingPeriod(props.index, props.units);}}
                     units={props.units} />
                 }
                 {teachingPeriodName}, {props.year}
@@ -103,7 +106,12 @@ function TeachingPeriod(props) {
     );
 }
 
-export default TeachingPeriod;
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(courseActions, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(TeachingPeriod);
 
 
 // <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />

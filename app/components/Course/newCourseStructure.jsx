@@ -1022,7 +1022,6 @@ class CourseStructure extends Component {
                     code={teachingPeriod.code}
                     data={this.state.teachingPeriodsData}
                     numberOfUnits={this.props.numberOfUnits}
-                    deleteTeachingPeriod={this.deleteTeachingPeriod.bind(this)}
                     addUnit={this.addUnit.bind(this)}
                     moveUnit={this.moveUnit.bind(this)}
                     swapUnit={this.swapUnit.bind(this)}
