@@ -68,7 +68,7 @@ class Home extends Component {
                                             <Container>
                                                 <Segment basic>
                                                     <Link to="/plan">
-                                                        <Button fluid color="yellow">
+                                                        <Button fluid className="btnorange">
                                                             Continue Planning <Icon name="right arrow" />
                                                         </Button>
                                                     </Link>
@@ -83,7 +83,7 @@ class Home extends Component {
                                                 <Segment basic>
                                                     <Button.Group inverted size="big">
                                                         <Link to="/plan">
-                                                            <Button color="yellow">
+                                                            <Button className="btnorange">
                                                                 Continue planning <Icon name="right arrow" />
                                                             </Button>
                                                         </Link>

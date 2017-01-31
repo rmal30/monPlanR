@@ -177,8 +177,7 @@ class CourseSelectFormContainer extends Component {
         return (
             <Button
                 fluid={mobile}
-                color="yellow"
-                style={{backgroundColor: "#fdb515"}}
+                className="btnorange"
                 disabled={this.state.yearIsDisabled || this.state.specIsDisabled || !this.state.courseSelected}
                 onClick={this.handleSubmit}>
                     Start Planning <Icon name="right arrow" />

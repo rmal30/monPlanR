@@ -13,6 +13,7 @@ const CourseInfoButtonContainer = ({ courseCode }) => {
             <Button
                 fluid
                 disabled={courseCode === "" || courseCode === null}
+                className="btnlightblue"
                 primary>
                 View {courseCode !== "" ? courseCode : "course"} details
             </Button>

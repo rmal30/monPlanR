@@ -1192,7 +1192,7 @@ class CourseStructure extends Component {
                             handleRemove={this.decrementNumberOfUnits.bind(this)} />
                     </MediaQuery>
                 }
-                <Dimmer.Dimmable as={Table} celled fixed striped compact>
+                <Dimmer.Dimmable as={Table} celled fixed striped compact className="coursetable">
                     {this.state.isLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>

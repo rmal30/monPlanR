@@ -108,23 +108,23 @@ class ClearCourseModal extends Component {
                     (
                         <Button
                             floated={this.props.floated}
-                            className="no-print"
+                            className="no-print btncancel"
                             disabled={this.props.disabled}
                             fluid={this.props.fluid}
                             color="red"
                             onClick={this.handleOpen.bind(this)}>
-                            Clear course
+                            Clear current pla
                         </Button>
                      )
                      :
                     (
                         <Button
-                            className="no-print"
+                            className="no-print btncancel"
                             disabled={this.props.disabled}
                             fluid={this.props.fluid}
                             color="red"
                             onClick={this.handleOpen.bind(this)}>
-                            Clear course
+                            Clear current plan
                         </Button>
                      )
             }

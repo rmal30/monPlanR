@@ -201,7 +201,7 @@ class Unit extends React.Component {
     render() {
         const facultyColors = {
             "Art, Design and Architecture": "pink",
-            "Arts": "red",
+            "Arts": "black",
             "Business and Economics": "teal",
             "Education": "violet",
             "Engineering": "orange",
@@ -237,7 +237,8 @@ class Unit extends React.Component {
                 <Message.Header>
                     {this.props.code}
                     {!this.props.viewOnly &&
-                        <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })} className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
+                        <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })}
+                          className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
                             <Button inverted onClick={this.handleDelete.bind(this)} color="red" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
                             {this.props.detailButton &&
                                 <UnitDetailModal
@@ -283,7 +284,7 @@ class Unit extends React.Component {
                     return (
                         connectDropTarget(
                         <td
-                            style={{ backgroundColor: (this.props.isError || (this.props.errors && this.props.errors.length > 0)) ? "#ffe7e7" : "white"}}
+                            style={{ backgroundColor: (this.props.isError || (this.props.errors && this.props.errors.length > 0)) ? "#ffe7e7" : "transparent"}}
                             className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}

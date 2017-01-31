@@ -33,7 +33,7 @@ export default function CourseEditActions(props) {
     return (
         <MediaQuery maxDeviceWidth={767}>
             {mobile =>
-                <Container className="no-print" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderRadius: "0.5em 0.5em 0 0", borderTop: "0.1em solid #005d95"} : {}}>
+                <Container className="no-print toolbarsDark" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderTop: "0.1em solid #005d95"} : {}}>
                     {
                         !props.showInsertTeachingPeriods &&
                         props.teachingPeriods.length > 0 &&
@@ -53,16 +53,12 @@ export default function CourseEditActions(props) {
                             onClick={props.hideInsertTeachingPeriodsUI.bind(props)}>Cancel</Button>
                     }
                     {mobile && <div><br /></div>}
-                    <ClearCourseModal
-                        disabled={props.teachingPeriods.length === 0}
-                        fluid={mobile}
-                        clearCourse={props.clearCourse.bind(props)} />
-                    {mobile && <br />}
                     <CompletedCourseModal
                         trigger={(
                             <Button
                                 primary
-                                fluid={mobile}>
+                                fluid={mobile}
+                                className="btnlightblue">
                                 Finished planning for now?
                             </Button>
                         )}
@@ -75,6 +71,11 @@ export default function CourseEditActions(props) {
                         uploadCourseToDatabase={props.uploadCourseToDatabase}
                         uploadedCourseID={props.uploadedCourseID}
                          />
+                    {mobile && <br />}
+                    <ClearCourseModal
+                        disabled={props.teachingPeriods.length === 0}
+                        fluid={mobile}
+                        clearCourse={props.clearCourse.bind(props)} />
                 </Container>
             }
         </MediaQuery>
