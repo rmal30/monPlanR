@@ -37,7 +37,7 @@ const mapStateToProps = state => {
  * Set up any functions from the action creators you want to pass in
  */
 const mapDispatchToProps = dispatch => {
-    const actionBundle = Object.assign({}, counterActions, courseActions);
+    const actionBundle = {...counterActions, ...courseActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -633,12 +633,14 @@ class CourseStructure extends Component {
         return teachingPeriods.map((ele, teachingPeriodIndex) =>
             ele.units.map((unit, unitIndex) => {
                 if(unit) {
-                    return Object.assign({}, unit, {
+                    return {
+                        ...unit,
                         teachingPeriodIndex,
                         unitIndex
-                    });
+                    };
                 }
-            }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
+            }).filter(unit => unit)
+        ).reduce((units, list) => units.concat(list), []);
     }
 
     /**
@@ -902,17 +904,14 @@ class CourseStructure extends Component {
         this.props.decrementCost(unitToRemove.Cost);
         this.props.decrementCreditPoints(unitToRemove.CreditPoints);
 
-        const updatedTeachingPeriod = Object.assign(
-            {},
-            teachingPeriods[teachingPeriodIndex],
-            {
-                units: [
-                    ...teachingPeriods[teachingPeriodIndex].units.slice(0, unitIndex),
-                    null,
-                    ...teachingPeriods[teachingPeriodIndex].units.slice(unitIndex + 1)
-                ]
-            }
-        );
+        const updatedTeachingPeriod = {
+            ...teachingPeriods[teachingPeriodIndex],
+            units: [
+                ...teachingPeriods[teachingPeriodIndex].units.slice(0, unitIndex),
+                null,
+                ...teachingPeriods[teachingPeriodIndex].units.slice(unitIndex + 1)
+            ]
+        };
 
         this.setState({
             teachingPeriods: [
@@ -927,23 +926,18 @@ class CourseStructure extends Component {
      * Adds a column to the course structure.
      */
     incrementNumberOfUnits() {
-        if(this.state.numberOfUnits >= this.maxNumberOfUnits) {
+        let { numberOfUnits, teachingPeriods } = this.state;
+
+        if(numberOfUnits >= this.maxNumberOfUnits) {
             return;
         }
 
-
-        let { teachingPeriods } = this.state;
-        teachingPeriods = teachingPeriods.map(teachingPeriod => {
-            return Object.assign(
-                {},
-                teachingPeriod,
-                {units: [...teachingPeriod.units, null]}
-            );
-        });
-
         this.setState({
-            numberOfUnits: this.state.numberOfUnits + 1,
-            teachingPeriods
+            numberOfUnits: numberOfUnits + 1,
+            teachingPeriods: teachingPeriods.map(teachingPeriod => ({
+                ...teachingPeriod,
+                units: [...teachingPeriod.units, null]
+            }))
         });
     }
 
@@ -1066,11 +1060,12 @@ class CourseStructure extends Component {
         for(let i = 0; i <= teachingPeriods.length; i++) {
             show = true;
             if(i !== 0) {
-                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1, errors.map(err => {
-                    const finalErr = Object.assign({}, err);
-                    finalErr.coordinates = finalErr.coordinates.filter(x => x[0] === i - 1);
-                    return finalErr;
-                }).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null)));
+                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1, errors.map(err =>
+                    ({
+                        ...err,
+                        coordinates: err.coordinates.filter(x => x[0] === i - 1)
+                    })
+                ).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null)));
                 year = teachingPeriods[i - 1].year;
 
                 if(!showInsertTeachingPeriods) {
