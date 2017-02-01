@@ -1,3 +1,6 @@
+import chai from "chai";
+import chaiEnzyme from "chai-enzyme";
+import { describe, it } from "mocha";
 import { jsdom } from "jsdom";
 
 const exposedProperties = ["window", "navigator", "document"];
@@ -16,4 +19,9 @@ global.navigator = {
     userAgent: "node.js"
 };
 
-const documentRef = document;
+chai.use(chaiEnzyme());
+
+global.describe = describe;
+global.it = it;
+global.expect = chai.expect;
+global.documentRef = document;
