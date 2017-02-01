@@ -5,7 +5,10 @@ import { bindActionCreators } from "redux";
 
 import * as dataFetchActions from "../../actions/DataFetchActions";
 
-
+/**
+ * Handles the data for the SaveButton component, this allows the component to be 'self-contained'
+ * via the container interface, making usage of the component easy
+ */
 const SaveButtonContainer = (props) => {
 
     const {
@@ -19,6 +22,10 @@ const SaveButtonContainer = (props) => {
         courseSnapShotUploadData
         } = props;
 
+
+    /**
+     * Save course to database uses the redux function to handle everything
+     */
     const uploadCourseToDatabase = () => {
         props.uploadCourseSnap(teachingPeriods, numberOfUnits, creditPoints, cost, startYear);
     };
@@ -33,6 +40,10 @@ const SaveButtonContainer = (props) => {
     );
 };
 
+/**
+ * Perhpas a little dodgy but we feed not only the courseSnpashot tracking variables from 
+ * redux as props, but also the teaching period data that is used in the upload course snap function
+ */
 const mapStateToProps = (state) => {
     return {
         teachingPeriods: state.CourseStructure.teachingPeriods,
@@ -45,6 +56,9 @@ const mapStateToProps = (state) => {
     };
 };
 
+/**
+ * grabs the dataFetchActions from redux so it can use uploadCoursesnap function
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(dataFetchActions, dispatch);
 };

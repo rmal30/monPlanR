@@ -107,12 +107,11 @@ function TeachingPeriod(props) {
 }
 
 
+/**
+ * All teaching period currently needs are course actions such as remove teaching period
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);
 };
 
-
 export default connect(null, mapDispatchToProps)(TeachingPeriod);
-
-
-// <Button basic className="no-print" floated="right" onClick={props.deleteTeachingPeriod.bind(null, props.index)} size="tiny" color="red" icon="close" />
