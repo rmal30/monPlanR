@@ -15,16 +15,29 @@ import { getQuickSemesterString } from "../utils/NextSemesterString";
 const defaultState = {
     teachingPeriods: [], 
     numberOfUnits: 4,
+    
     courseInfoLoading: false,
     courseLoading: false,
+    
     unitLoading: false,
     unitLoadError: false,
+    
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     courseTemplateData: null,
+    
+    courseSnapshotLoading: false,
+    courseSnapshotLoadError: false,
+    courseSnapshotData: null,
+
+    courseSnapshotUploading: false,
+    courseSnapshotUploadError: false,
+    courseSnapShotUploadData: null,
+
     teachingPeriodData: null,
     teachingPeriodsDataLoading: false,
     teachingPeriodsDataError: false,
+    
     teachingPeriodCodeToInsert: null,
     nextSemesterString: null,
 
@@ -383,6 +396,69 @@ const CourseStructure = (state = defaultState, action) => {
                 {numberOfUnits: action.value}
             );
         
+        case "UPLOAD_COURSE_SNAPSHOT_PENDING":
+            return Object.assign(
+                {},
+                state,
+                {
+                    courseSnapshotUploading: true,
+                    courseSnapshotUploadError: false,
+                }
+            );
+        
+        case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":
+            return Object.assign(
+                {},
+                state,
+                {
+                    courseSnapshotUploading: false,
+                    courseSnapShotUploadData: action.payload,
+                }
+            );
+        
+        case "UPLOAD_COURSE_SNAPSHOT_REJECTED":
+            return Object.assign(
+                {},
+                state,
+                {
+                    courseSnapshotUploading: false,
+                    courseSnapshotUploadError: true,
+                    courseSnapShotUploadData: null,
+                }
+            );
+        
+        case "FETCH_COURSE_SNAPSHOT_PENDING":
+            return Object.assign(
+                {},
+                state,
+                {
+                    courseSnapshotLoading: true,
+                    courseSnapshotLoadError: false,
+                }
+            );
+        
+        case "FETCH_COURSE_SNAPSHOT_FULFILLED":
+            return Object.assign(
+                {},
+                state,
+                {
+                    courseSnapshotLoading: false,
+                    courseSnapshotData: action.payload
+                }
+            );
+        
+        case "FETCH_COURSE_SNAPSHOT_REJECTED":
+            return Object.assign(
+                {},
+                state,
+                {
+                    courseSnapshotLoading: false,
+                    courseSnapshotLoadError: true,
+                    courseSnapshotData: null                    
+                    
+                }
+            );
+
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year

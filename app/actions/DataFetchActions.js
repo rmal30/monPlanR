@@ -170,3 +170,87 @@ export const fetchCourses = () => {
         payload: axios.get(`${MONPLAN_REMOTE_URL}/basic/courses`)
     };
 };
+
+
+export const loadCourseSnap = (snapID) => {
+    
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_COURSE_SNAPSHOT_PENDING"
+        });
+
+        axios.get(`${MONPLAN_REMOTE_URL}/snaps/${snapID}`)
+            .then(resp => {
+                const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = resp.data.snapshotData;
+                
+                dispatch({
+                    type: "FETCH_COURSE_SNAPSHOT_FULFILLED",
+                    payload: resp
+                });
+                
+                dispatch({
+                    type: "LOAD_NEW_TEACHING_PERIODS",
+                    value: teachingPeriods
+                });
+                
+                dispatch({
+                    type: "GET_NEW_NUMBER_OF_UNITS",
+                    value: numberOfUnits
+                });
+
+                dispatch({
+                    type: "CHANGE_START_YEAR",
+                    year: startYear
+                });
+                
+                dispatch({
+                    type: "INCREMENT_CREDIT_POINTS",
+                    value: totalCreditPoints
+                });
+                
+                dispatch({
+                    type: "INCREMENT_COST",
+                    value: totalEstimatedCost
+                });
+                
+                dispatch({
+                    type: "GET_NEXT_SEMESTER_STRING"
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: "FETCH_COURSE_SNAPSHOT_REJECTED"
+                });
+            });
+    };
+};
+
+export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, cost, startYear) => {
+    return function(dispatch) {
+        dispatch({
+            type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
+        });
+        axios.post(`${MONPLAN_REMOTE_URL}/snaps/`,
+            {
+                "course": {
+                    teachingPeriods,
+                    numberOfUnits,
+                    totalCreditPoints: creditPoints,
+                    totalEstimatedCost: cost,
+                    startYear: startYear || new Date().getFullYear()
+                }
+            })
+            .then(response => {
+                dispatch({
+                    type: "UPLOAD_COURSE_SNAPSHOT_FULFILLED",
+                    payload: response.data //The course id that was uploaded
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: "UPLOAD_COURSE_SNAPSHOT_REJECTED"
+                });
+            });
+        
+    };
+};

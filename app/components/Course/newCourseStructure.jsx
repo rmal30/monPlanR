@@ -1,13 +1,9 @@
 import React, { Component, PropTypes } from "react";
 import { Container, Dimmer, Loader, Table } from "semantic-ui-react";
-import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
 
 import LocalStorage from "../../utils/LocalStorage.js";
-import UnitQuery from "../../utils/UnitQuery";
-import CourseTemplate from "../../utils/CourseTemplate";
-
 
 import CourseViewActions from "./CourseViewActions.jsx";
 import CourseEditActions from "./CourseEditActions.jsx";
@@ -88,18 +84,12 @@ class CourseStructure extends Component {
             isUploading: false,
             uploadingError: false,
             uploaded: false,
-
             courseToLoad: this.props.courseToLoad
         };
         
 
-        this.generateCourse = this.generateCourse.bind(this);
         this.getAffectedUnits = this.getAffectedUnits.bind(this);
-        this.loadCourseFromAPI = this.loadCourseFromAPI.bind(this);
-        this.courseLoad = this.courseLoad.bind(this);
-        this.changeStartYear = this.changeStartYear.bind(this);
         this.getCourseErrors = this.getCourseErrors.bind(this);
-        this.uploadCourseToDatabase = this.uploadCourseToDatabase.bind(this);
     }
 
     /**
@@ -331,163 +321,8 @@ class CourseStructure extends Component {
         return coordinates;
     }
 
-    /**
-     * Generates a course structure of semester one and semester two teaching
-     * periods, given start year and end year.
-     *
-     * @author Eric Jiang, Saurabh Joshi
-     * @param {number} startYear - When the student commences their course.
-     * @param {number} endYear - When the student is expected to graduate.
-     */
-    generateCourse(startYear, endYear) {
-        if(endYear - startYear > 12 || startYear === null || endYear === null) {
-            // Assumes a four year course beginning this year.
-            startYear = new Date().getFullYear();
-            endYear = startYear + 3;
-        }
 
-        if(startYear <= endYear) { // Prevents from going into an endless for loop
-            const arr = [];
-            for(let year = startYear; year <= endYear; year++) {
-                const semesterOneTeachingPeriod = {
-                    year,
-                    code: "S1-01",
-                    units: new Array(4).fill(null)
-                };
-
-                const semesterTwoTeachingPeriod = {
-                    year,
-                    code: "S2-01",
-                    units: new Array(4).fill(null)
-                };
-
-                arr.push(semesterOneTeachingPeriod);
-                arr.push(semesterTwoTeachingPeriod);
-            }
-
-            return arr;
-        }
-
-        return [];
-    }
-
-    /**
-     * Once the data is grabbed from API this will process it
-     * TODO: rename to more descriptive name like "processCourseLoadedFromAPI"
-     */
-    loadCourseFromAPI(data, year) {
-        let result = CourseTemplate.parse(data, year);
-
-        this.setState({
-            isLoading: false,
-            teachingPeriods: result.newTeachingPeriods,
-            numberOfUnits: result.overLoadNumber,
-            unlock: true
-        });
-        
-        this.props.incrementCost(result.newCost);
-        this.props.incrementCreditPoints(result.newCP);
-
-    }
-
-    /**
-     * on call will load the course from API with the given course code,
-     * note that if there is an error, we turn off the loader and unlock the lock so
-     * the user can make another request
-     */
-    courseLoad(courseCode, year) {
-        this.setState({isLoading: true});
-        this.props.clearCourse(); //confusing I know, but this is the redux function passed through
-        UnitQuery.getCourseData(courseCode)
-            .then(response => {
-                let data = response.data;
-                this.loadCourseFromAPI(data, year);
-            })
-            .catch(err => {
-                console.error(err);
-
-                this.setState({
-                    isLoading: false,
-                    unlock: true
-                });
-            });
-    }
-
-    /**
-     * As the name implies, this loads the course from our API
-     */
-    loadCourseFromDatabase() {
-        this.setState({
-            isLoading: true
-        });
-
-        axios.get(this.props.fetchURL)
-            .then(response => {
-                const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = response.data.snapshotData;
-
-                this.props.incrementCost(totalEstimatedCost);
-                this.props.incrementCreditPoints(totalCreditPoints);
-                this.setState({
-                    teachingPeriods,
-                    numberOfUnits,
-                    totalCreditPoints,
-                    totalEstimatedCost,
-                    isLoading: false,
-                    startYear: startYear || new Date().getFullYear()
-                });
-            })
-            .catch(error => {
-                console.error(error);
-                this.setState({
-                    isLoading: false
-                });
-            });
-    }
-
-
-    /**
-     * Uploads course as a snapshot
-     *
-     * @author Saurabh Joshi
-     */
-    uploadCourseToDatabase() {
-        if(this.state.isUploading || this.state.uploaded) {
-            return;
-        }
-
-        const { teachingPeriods, numberOfUnits, startYear } = this.state;
-
-        this.setState({
-            isUploading: true,
-            uploaded: false,
-            uploadingError: false
-        });
-
-        axios.post(`${MONPLAN_REMOTE_URL}/snaps/`,
-            {
-                "course": {
-                    teachingPeriods,
-                    numberOfUnits,
-                    totalCreditPoints: this.props.creditPoints,
-                    totalEstimatedCost: this.props.cost,
-                    startYear: startYear || new Date().getFullYear()
-                }
-            })
-            .then(response => {
-                this.setState({
-                    isUploading: false,
-                    uploaded: true,
-                    uploadedCourseID: response.data
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    isUploading: false,
-                    uploadingError: true
-                });
-                console.error(error);
-            });
-    }
+    
 
     /**
      * Loads course if it exists.
@@ -718,16 +553,6 @@ class CourseStructure extends Component {
         }
 
         return unitArray;
-    }
-
-    /**
-     * Changes start year for no teaching period component.
-     *
-     * @author Saurabh Joshi
-     * @param {number} startYear - When student commences their course
-     */
-    changeStartYear(startYear) {
-        this.setState({ startYear });
     }
 
     /**
