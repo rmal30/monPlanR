@@ -158,6 +158,9 @@ export const getNextSemesterString = () => {
 };
 
 
+/**
+ * Uses a thunk and loads and processes the course data from localStorage
+ */
 export const loadCourseFromLocalStorage = () => {
     return function(dispatch) {
         const stringifedJSON = localStorage.getItem("courseStructure");
@@ -194,6 +197,11 @@ export const loadCourseFromLocalStorage = () => {
     };
 };
 
+
+/**
+ * All this does is interact with local storage, the action is not strictly necessary, as the reducer doesn't handle it
+ * But I argue for debugging purposes it's useful to be able to track when the save course action is firing
+ */
 export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYear, creditPoints, cost) => {
     return function(dispatch) {
         localStorage.setItem("courseStructure", JSON.stringify({
