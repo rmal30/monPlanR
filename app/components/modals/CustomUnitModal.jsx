@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Form, Select, Modal } from "semantic-ui-react";
+import { Button, Container, Form, Select, Modal, Icon } from "semantic-ui-react";
 
 import Unit from "../Unit/Unit.jsx";
 import ControlledModal from "./ControlledModal.jsx";
@@ -142,7 +142,7 @@ class CustomUnitModal extends Component {
      */
     render() {
         const { UnitCode, UnitName, Faculty } = this.state;
-        const closeTrigger = <Button content="Cancel" />;
+        const closeTrigger = <Button content="Cancel" className="btncancel" />;
 
         return (
             <ControlledModal
@@ -150,7 +150,8 @@ class CustomUnitModal extends Component {
                 positiveButton={(
                     <Button
                         disabled={!this.formIsValid.call(this)}
-                        color="green"
+                        color="yellow"
+                        className="btnmainblue"
                         onClick={this.addCustomUnitToCourse.bind(this)}
                         floated="right">
                             Add {UnitCode}
@@ -158,8 +159,9 @@ class CustomUnitModal extends Component {
                 )}
                 onClose={this.onClose.bind(this)}
                 closeTrigger={closeTrigger}>
-                <Modal.Header>
-                    Creating custom unit...
+                <Modal.Header className="header-primary">
+                    <Icon name="write" />
+                    Create custom unit
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>

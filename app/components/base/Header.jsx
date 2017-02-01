@@ -42,7 +42,7 @@ class Header extends Component {
                     </Link>
                     {this.props.showAddUnit &&
                     <Menu.Item>
-                        <Button icon style={this.props.searchVisible ? {backgroundColor: "#FF1923", color: "white", borderRadius: "0px"} : {backgroundColor: "#009fdb", color: "white", borderRadius: "0px"}}
+                        <Button icon className={this.props.searchVisible ? "btncancel": "btnlightblue"}
                             onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }}>
                             <Icon name={this.props.searchVisible ? "x" : "plus"} />
                             <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
@@ -70,6 +70,7 @@ class Header extends Component {
                         <Popup.Content>
                             {content}
                             <Divider />
+                            <h4>Your current plan:</h4>
                             <CourseStatisticGroupContainer />
                         </Popup.Content>
                     </Popup>

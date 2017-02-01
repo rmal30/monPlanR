@@ -4,127 +4,157 @@
 
 /* Header, Footers and Toolbar CSS Property*/
 .toolbars{
-  background-color: #006cab !important;
-  color: white !important
+    background-color: #006cab !important;
+    color: white !important
 }
 
 .toolbarsDark{
-  background-color: #29678A !important;
-  color: white !important;
-  border: 1px solid #29678A !important;
-  box-shadow: -1px 1px #29678A,
+    background-color: #29678A !important;
+    color: white !important;
+    border: 1px solid #29678A !important;
+    box-shadow: -1px 1px #29678A,
     -2px 2px #29678A,
     -3px 3px #29678A !important;
-  width: 100% !important;
-  border-radius: 0px !important;
-  left: 0;
+    width: 100% !important;
+    border-radius: 0px !important;
+    left: 0;
 }
 
+/* Modals */
+.header-primary {
+    background-color: #006cab !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-secondary {
+    background-color: #009fdb !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-tertiary {
+    background-color: #003c5b !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-danger {
+    background-color: #BF131A !important;
+    color: white !important;
+    border-radius: 0px !important
+}
 
 /* Buttons */
 .btncancel {
-  background-color: #FF1923 !important;
-  color: white !important;
-  border-radius: 0px !important;
-  border-color: #FF1923 !important
+    background-color: #FF1923 !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #FF1923 !important
 }
 
 .btncancel:hover {
-  background-color: #CC141C !important;
-  color: white !important;
-  border-radius: 0px !important;
-  border-color: #CC141C !important
+    background-color: #CC141C !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #CC141C !important
 }
 
 .btnmainblue {
-  background-color: #006cab !important;
-  color: white !important;
-  border-radius: 0px !important
+    background-color: #006cab !important;
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .btnmainblue:hover {
-  background-color: #004973 !important;
-  color: white !important;
-  border-radius: 0px !important
+    background-color: #004973 !important;
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .btnlightblue {
-  background-color: #009fdb !important;
-  color: white !important;
-  border-radius: 0px !important;
-  border-color: #009fdb !important
+    background-color: #009fdb !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #009fdb !important
 }
 
 .btnlightblue * {
-  background-color: #009fdb !important;
-  color: white !important;
-  border-radius: 0px !important
+    background-color: #009fdb !important;
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .btnlightblue:disabled {
-  background-color: #26677f !important;
-  color: white !important;
-  border-radius: 0px !important
+    background-color: #26677f !important;
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .btnlightblue:hover {
-  background-color: #007ba7 !important;
-  color: white !important;
-  border-radius: 0px !important
+    background-color: #007ba7 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btnlightblue:hover * {
+    background-color: #007ba7 !important;
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .btndarkblue {
-  background-color: #003c5b !important;
-  color: white !important;
-  border-radius: 0px !important
+    background-color: #003c5b !important;
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .btndarkblue:hover {
-  background-color: #002639 !important;
-  color: white !important;
-  border-radius: 0px !important
+    background-color: #004468 !important;
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .btnwhite {
-  background-color: #fff !important;
-  color: black !important;
-  border-radius: 0px !important
+    background-color: #fff !important;
+    color: black !important;
+    border-radius: 0px !important
 }
 
 .btnwhite:hover {
-  background-color: #b0b0b0 !important;
-  color: black !important;
-  border-radius: 0px !important
+    background-color: #b0b0b0 !important;
+    color: black !important;
+    border-radius: 0px !important
 }
 
 .btnorange {
-  background-color: #FDB515 !important;
-  color: black !important;
-  border-radius: 0px !important
+    background-color: #FDB515 !important;
+    color: black !important;
+    border-radius: 0px !important
 }
 
 .btnorange:hover {
-  background-color: #fff !important;
-  color: black !important;
-  border-radius: 0px !important
+    background-color: #fff !important;
+    color: black !important;
+    border-radius: 0px !important
 }
 
 .btnorange:disabled {
-  background-color: #fff !important;
-  color: #b0b0b0 !important;
-  border-radius: 0px !important
+    background-color: #fff !important;
+    color: #b0b0b0 !important;
+    border-radius: 0px !important
 }
 
 .btnempty{
-  background-color: #235974 !important;
-  color: #d5d5d5 !important;
-  border-radius: 0px !important
+    background-color: #235974 !important;
+    color: #d5d5d5 !important;
+    border-radius: 0px !important
 }
 
 .btnempty:hover{
-  background-color: #54798b !important;
-  color: #ffffff !important;
-  border-radius: 0px !important
+    background-color: #54798b !important;
+    color: #ffffff !important;
+    border-radius: 0px !important
 }
 
 .ui.buttons .or:before {
@@ -135,11 +165,11 @@
 * Course Stats
 */
 .statsGroupRow {
-  padding: 10px !important;
-  margin-right: -0.5rem !important;
+    padding: 10px !important;
+    margin-right: -0.5rem !important;
 }
 .statsGroupRow > .eight.wide.column > .ui.tiny.statistic > * {
-  color: #003c5b !important;
+    color: #003c5b !important;
 }
 /*
 * Course Structure CSS Styling for Table and other Components
@@ -150,50 +180,55 @@
 
 
 .monTableHeader {
-  background-color: #006cab !important;
-  color: white !important
+    background-color: #006cab !important;
+    color: white !important
 }
 
 .coursetable {
-  border-radius: 0px !important;
-  border-color: transparent !important;
-  color: transparent !important
+    border-radius: 0px !important;
+    border-color: transparent !important;
+    color: transparent !important
 }
 
 .coursetable * {
-  border-radius: 0px !important;
+    border-radius: 0px !important;
 }
 
 .coursetable > thead > tr > th {
-  border-color: #006cab !important;
-  background-color: #006cab !important;
-  color: white !important
+    border-color: #006cab !important;
+    background-color: #006cab !important;
+    color: white !important
 }
 
-.coursetable > tbody > *  {
-  border-color: #007ba7 !important;
-  background-color: transparent !important;
-  color: white !important
+.coursetable > tbody > tr:nth-child(odd)  {
+    border-color: #f2f2f2  !important;
+    background-color: #f2f2f2 !important;
+    color: black !important
+}
+
+.coursetable > tbody > tr:nth-child(even)  {
+    border-color: white !important;
+    background-color: white !important;
+    color: black !important
 }
 
 .ui.celled.table tr td {
     padding: 7.5px !important;
-    border-right: 1px dashed grey !important;
-    border-bottom: 1px dashed grey !important;
-    border-left: 1px dashed grey !important;
-
+    border-right: 1px dashed #C0C0C0 !important;
+    border-bottom: 1px dashed #C0C0C0 !important;
+    border-left: 1px dashed #C0C0C0 !important;
 }
 
 .noteachingperiods > *  > h3 > * {
-  color: white !important
+    color: black !important
 }
 
 .noteachingperiods > *  > h3 {
-  color: white !important
+    color: black !important
 }
 
 .hoverCell {
-  background-color: #007cc5 !important;
+    background-color: rgba(0,84,133,0.7) !important;
 }
 
 /* UI Messages */
@@ -201,45 +236,50 @@
     border-radius: 0px !important
 }
 
+.warningicon {
+    color: #F2711C !important;
+}
+
 .ui.message.positive {
-  border-color: #26677F !important;
-  background-color: #26677F !important;
-  color: white !important;
-  box-shadow: 0px 0px 0px 0px #26677F inset, 0px 0px 0px 0px rgba(0,0,0,0) !important;
-  border-radius: 0px !important
+    border-color: #26677F !important;
+    background-color: #26677F !important;
+    color: white !important;
+    box-shadow: 0px 0px 0px 0px #26677F inset, 0px 0px 0px 0px rgba(0,0,0,0) !important;
+    border-radius: 0px !important
 }
 
 .ui.message.positive * {
-  color: white !important
+    color: white !important
 }
 
 .ui.message.negative {
-  border-color: #FF1923 !important;
-  background-color: #FF1923 !important;
-  color: white !important;
-  box-shadow: 0px 0px 0px 0px #FF1923 inset, 0px 0px 0px 0px rgba(0,0,0,0) !important;
-  border-radius: 0px !important
+    border-color: #FF1923 !important;
+    background-color: #FF1923 !important;
+    color: white !important;
+    box-shadow: 0px 0px 0px 0px #FF1923 inset, 0px 0px 0px 0px rgba(0,0,0,0) !important;
+    border-radius: 0px !important
 }
 
 .ui.message.negative * {
-  color: white !important
+    color: white !important
 }
 
 
 /* Course Status */
 .status {
-  border-bottom: 0.4em solid #009fdb;
-  transition: all 0.2s ease
+    border-bottom: 0.4em solid #47C0BC !important;
+    transition: all 0.2s ease !important
 }
 .status.error {
-  border-bottom: 0.4em solid #FF1923;
-  transition: all 0.2s ease
+    border-bottom: 0.4em solid #FF1923 !important;
+    transition: all 0.2s ease !important
 }
+.status.error > div > i {
+    color: #FF1923 !important
+}
+
 .ui.table td.active{
-    background-color: #15a5da !important;
-}
-.ui.table td.error{
-    background-color: rgba(255,25,35, 0.9) !important;
+    background-color: #e7e7e7 !important;
 }
 
 /* Placeholder Units */
@@ -274,6 +314,8 @@
     background-color: #FFFAF3;
     color: #573A08
 }
+
+
 
 .ui.warning.message,.ui.attached.warning.message {
     box-shadow: 0px 0px 0px 1px #C9BA9B inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
@@ -375,13 +417,7 @@
 }
 
 .ui.blue.message {
-    color: #DFF0FF;
-    background-color: #2185D0;
-    box-shadow: 0px 0px 0px 1px #2185D0 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.blue.message .header {
-    color: #DFF0FF
+    border-width: 1px !important;
 }
 
 .ui.violet.message {

@@ -175,7 +175,7 @@ class LoadCourseMap extends Component {
                     <Button
                         fluid
                         onClick={this.handleOpen.bind(this)}
-                        className="btnwhite">
+                        className="btnlightblue">
                         Load Course Map
                     </Button>
                 )}
