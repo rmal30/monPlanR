@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Dropdown, Header, Icon, Modal,Divider, Grid } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon, Modal, Grid } from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 import Export from "../../utils/Export.js";
