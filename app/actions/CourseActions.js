@@ -115,10 +115,17 @@ export const generateCourse = (startYear, endYear) => {
  * SUBMIT_YEAR_FORM
  */
 export const submitYearForm = (startYear, endYear) => {
-    return {
-        type: "SUBMIT_YEAR_FORM",
-        startYear,
-        endYear
+    return function(dispatch) {
+        dispatch({
+            type: "SUBMIT_YEAR_FORM",
+            startYear,
+            endYear
+        });
+        dispatch({
+            type: "GENERATE_COURSE",
+            startYear,
+            endYear
+        });
     };
 };
 

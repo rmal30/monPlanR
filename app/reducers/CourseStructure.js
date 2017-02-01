@@ -414,16 +414,18 @@ const CourseStructure = (state = defaultState, action) => {
                     teachingPeriods.push(semesterTwoTeachingPeriod);
                 }
 
-                return {
-                    teachingPeriods,
-                    numberOfUnits: 4
-                };
+                return Object.assign(
+                    {},
+                    state,
+                    {teachingPeriods, numberOfUnits: 4}
+                );
             }
 
-            return {
-                teachingPeriods: [],
-                numberOfUnits: 4
-            };
+            return Object.assign(
+                {},
+                state,
+                {teachingPeriods: [], numberOfUnits: 4}
+            );
         }
 
         default:
