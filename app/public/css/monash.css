@@ -66,6 +66,25 @@
 .drpdown * {
     border-radius: 0px !important
 }
+
+/* Placeholder (Input, Search, etc. ) colours */
+::-webkit-input-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+:-moz-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+::-moz-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+::-ms-input-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+
 /* Buttons */
 .btnmainblue {
     background-color: #006cab !important;

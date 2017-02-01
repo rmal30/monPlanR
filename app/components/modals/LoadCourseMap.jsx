@@ -192,7 +192,7 @@ class LoadCourseMap extends Component {
                         </p>
                     <br />
                     <Search
-                        className="srch dark"
+                        className="srch"
                         loading={this.state.isLoading}
                         onResultSelect={this.handleResultSelect}
                         onSearchChange={this.handleChange}
@@ -207,6 +207,7 @@ class LoadCourseMap extends Component {
 
                     <br />
                     <Dropdown
+                        className="drpdown"
                         disabled={this.state.specIsDisabled}
                         placeholder='Select Specialisation'
                         search
@@ -221,6 +222,7 @@ class LoadCourseMap extends Component {
                         differ if you started your course before 2017.
                     </p>
                     <Dropdown
+                        className="drpdown"
                         disabled={this.state.yearIsDisabled}
                         placeholder='Select Starting Year'
                         search
