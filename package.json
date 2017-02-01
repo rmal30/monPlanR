@@ -72,10 +72,10 @@
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
     "test": "npm run test:unit; npm run test:lint",
-    "test:lint": "eslint --ext .jsx --ext .js app",
+    "test:lint": "eslint --ext .jsx --ext .js app test",
     "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
     "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
-    "fix": "eslint --ext .jsx --ext .js app --fix"
+    "fix": "eslint --ext .jsx --ext .js app test --fix"
   },
   "repository": {
     "type": "git",
