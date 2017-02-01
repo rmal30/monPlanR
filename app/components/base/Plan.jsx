@@ -7,7 +7,6 @@ import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
-import CourseInfoButtonContainer from "../../containers/CourseInfoButtonContainer.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -193,7 +192,6 @@ class Plan extends Component {
                     <Grid reversed="mobile" stackable className="no-print">
                         <Grid.Row>
                             <Grid.Column width="4">
-                                <CourseInfoButtonContainer />
                             </Grid.Column>
                             <Grid.Column width="4">
                                 <LoadCourseMap onCourseLoad={this.handleCourseLoad} />

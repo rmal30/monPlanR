@@ -21,16 +21,6 @@
 }
 
 
-/* Sidebar */
-.sidebar {
-    background-color: #003c5b !important;
-    border-radius: 0px !important
-}
-
-.sidebar.instructions {
-    color: white !important;
-}
-
 /* Buttons */
 .btncancel {
     background-color: #FF1923 !important;

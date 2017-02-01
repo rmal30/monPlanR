@@ -5,6 +5,7 @@ import { Button, Container } from "semantic-ui-react";
 import InsertTeachingPeriodButton from "../TeachingPeriod/InsertTeachingPeriodButton.jsx";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
+import CourseInfoButtonContainer from "../../containers/CourseInfoButtonContainer.jsx";
 
 /**
  * Course edit actions gives students the ability to clear their course,
@@ -58,7 +59,7 @@ export default function CourseEditActions(props) {
                             <Button
                                 disabled={props.teachingPeriods.length === 0}
                                 fluid={mobile}
-                                className="btncancel"
+                                className="btnorange"
                                 color="red">
                                 Clear course
                             </Button>
@@ -70,7 +71,7 @@ export default function CourseEditActions(props) {
                             <Button
                                 primary
                                 fluid={mobile}
-                                className="btnlightblue">
+                                className="btndarkblue">
                                 Finished planning for now?
                             </Button>
                         )}
@@ -83,6 +84,8 @@ export default function CourseEditActions(props) {
                         uploadCourseToDatabase={props.uploadCourseToDatabase}
                         uploadedCourseID={props.uploadedCourseID}
                          />
+                    {mobile && <br />}
+                    <CourseInfoButtonContainer />
                 </Container>
             }
         </MediaQuery>
