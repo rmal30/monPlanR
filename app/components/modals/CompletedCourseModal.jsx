@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Dropdown, Header, Icon, Modal,Divider } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon, Modal,Divider, Grid } from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 import Export from "../../utils/Export.js";
@@ -35,50 +35,54 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                 <Modal.Description>
                     There are several things you can do next:
                     <br />
-                    <Header>1. Print it and/or Export it</Header>
-                    <p>
-                        You can print your course plan then showing it to your course
-                        advisor will help speed up the process on whether or not
-                        you can follow it, otherwise put it with your enrolment papers.
-                    </p>
-                    <p>
-                        Otherwise, you can also export a digital copy, as a PDF file or as a CSV file.
-                        Did you can that you can  import your course plan into a spreadsheet program if you export it as a CSV file.
-                    </p>
-                    <Button primary onClick={() => print()}><Icon name="print" />Print course plan</Button>
-                    <Button.Group secondary>
-                        <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
-                        <Dropdown floating button className="icon">
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
-                                <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Button.Group>
-                    <Divider />
-                    <Header>2. Save and/or share it</Header>
-                    <p>
-                        Your course plan can also be uploaded to our servers,
-                        where you will receive a link to your plan. You can
-                        either save it for future use, or you can share it with
-                        your friends on social media or to your course advisor
-                        via email.
-                    </p>
-                    <SaveButton
-                        isUploading={isUploading}
-                        uploadingError={uploadingError}
-                        uploaded={uploaded}
-                        uploadCourseToDatabase={uploadCourseToDatabase}
-                        uploadedCourseID={uploadedCourseID}
-                        />
-                    <Divider />
-                    <Header>3. Visit this site every now and then</Header>
-                    <p>
-                        Your course plan is automatically saved to your
-                        browser, so if you want to see your course plan again,
-                        come back to this website and make changes whenever
-                        necessary.
-                    </p>
+                    <br />
+                    <Grid celled="internally">
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Header><Icon name="print" /> Print it</Header>
+                                <p>
+                                    You can print your course plan then showing it to your course
+                                    advisor.
+                                </p>
+                                <Button primary onClick={() => print()} className="btnmainblue"><Icon name="print" />Print course plan</Button>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header><Icon name="download" /> Export it</Header>
+                                <p>You can also export it as a CSV and/or JSON for use in other software such as Excel.</p>
+                                <Button.Group secondary>
+                                    <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
+                                    <Dropdown floating button className="icon">
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Button.Group>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                            <Header><Icon name="share" /> Save or share it</Header>
+                            <p>
+                                Save your course online and Grab a link. Save it for future use on any device, otherwse share it.
+                            </p>
+                            <SaveButton
+                                isUploading={isUploading}
+                                uploadingError={uploadingError}
+                                uploaded={uploaded}
+                                uploadCourseToDatabase={uploadCourseToDatabase}
+                                uploadedCourseID={uploadedCourseID}
+                                />
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                            <Header><Icon name="repeat" />  Visit this site every now and then</Header>
+                            <p>
+                                Otherwise, come back on your same device (it's saved in your browser!) every few months to modify your plan.
+                            </p>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+
                 </Modal.Description>
             </Modal.Content>
         </ControlledModal>
