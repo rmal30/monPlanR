@@ -243,7 +243,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
             .then(response => {
                 dispatch({
                     type: "UPLOAD_COURSE_SNAPSHOT_FULFILLED",
-                    payload: response.data //The course id that was uploaded
+                    payload: response //The course id that was uploaded
                 });
             })
             .catch(() => {

@@ -3,24 +3,19 @@ import { Button, Dropdown, Header, Icon, Modal,Divider } from "semantic-ui-react
 
 import ControlledModal from "./ControlledModal.jsx";
 import Export from "../../utils/Export.js";
-import SaveButton from "../Course/SaveButton.jsx";
+import SaveButtonContainer from "../../containers/Buttons/SaveButtonContainer.jsx";
 
 /**
  * The completed course modal.
  *
  * @author Saurabh Joshi
  */
-export default function CompletedCourseModal({ trigger, teachingPeriods, numberOfUnits, isUploading, uploadingError, uploaded, uploadCourseToDatabase, uploadedCourseID }) {
+export default function CompletedCourseModal({ trigger, teachingPeriods, numberOfUnits }) {
     CompletedCourseModal.propTypes = {
         trigger: PropTypes.element.isRequired,
         teachingPeriods: PropTypes.arrayOf(PropTypes.object),
         numberOfUnits: PropTypes.number.isRequired,
 
-        isUploading: PropTypes.bool,
-        uploaded: PropTypes.bool,
-        uploadingError: PropTypes.bool,
-        uploadCourseToDatabase: PropTypes.func.isRequired,
-        uploadedCourseID: PropTypes.string
     };
 
     const closeTrigger = <Button content="Close" />;
@@ -63,13 +58,7 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                         a link to your plan. You can either save it for future use, otherwise
                         share it with your friends on Facebook, Twitter, Google+ and much more
                     </p>
-                    <SaveButton
-                        isUploading={isUploading}
-                        uploadingError={uploadingError}
-                        uploaded={uploaded}
-                        uploadCourseToDatabase={uploadCourseToDatabase}
-                        uploadedCourseID={uploadedCourseID}
-                        />
+                    <SaveButtonContainer />
                     <Divider />
                     <Header>3. Visit this site every now and then</Header>
                     <p>

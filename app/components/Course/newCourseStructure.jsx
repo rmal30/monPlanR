@@ -22,6 +22,7 @@ import * as counterActions from "../../actions/CounterActions";
 import * as courseActions from "../../actions/CourseActions";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as uiActions from "../../actions/UIActions";
+
 /**
  * Set up any props you want course structure to be passed here
  */
@@ -746,13 +747,7 @@ class CourseStructure extends Component {
                         numberOfUnits={this.props.numberOfUnits}
                         appendSemester={this.appendSemester}
                         clearCourse={this.props.clearCourse}
-
-                        isUploading={this.state.isUploading}
-                        uploaded={this.state.uploaded}
-                        uploadingError={this.state.uploadingError}
-                        uploadedCourseID={this.state.uploadedCourseID}
-                        uploadCourseToDatabase={this.uploadCourseToDatabase}
-                         />
+                        />
                 }
             </Container>
         );
