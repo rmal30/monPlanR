@@ -181,8 +181,8 @@ class LoadCourseMap extends Component {
                 )}
                 open={this.state.modalOpen}
                 onClose={this.handleCancel}>
-                <Modal.Header>
-                    <Icon name="external square" /> Load Course Map
+                <Modal.Header className="header-tertiary">
+                    <Icon name="upload" /> Load a Course Map
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
@@ -192,6 +192,7 @@ class LoadCourseMap extends Component {
                         </p>
                     <br />
                     <Search
+                        className="srch dark"
                         loading={this.state.isLoading}
                         onResultSelect={this.handleResultSelect}
                         onSearchChange={this.handleChange}
@@ -230,8 +231,9 @@ class LoadCourseMap extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    {this.state.CourseCode === "" ? <Button disabled color="green">Load Course Map</Button> : <Button disabled={this.state.code === "" || !this.state.year} onClick={this.handleLoadCourse} color="green">Load {this.state.CourseCode} Map</Button>}
-                    <Button onClick={this.handleCancel}>Cancel</Button>
+                    <Button onClick={this.handleCancel} className="btnlightcancel">Cancel</Button>
+                    {this.state.CourseCode === "" ? <Button disabled className="btndarkblue">Load Course Map</Button>
+                        : <Button disabled={this.state.code === "" || !this.state.year} onClick={this.handleLoadCourse} className="btndarkblue">Load {this.state.CourseCode} Map</Button>}
                 </Modal.Actions>
             </Modal>
         );

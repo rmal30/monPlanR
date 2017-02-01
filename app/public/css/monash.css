@@ -9,12 +9,12 @@
 }
 
 .toolbarsDark{
-    background-color: #29678A !important;
+    background-color: #006cab !important;
     color: white !important;
-    border: 1px solid #29678A !important;
-    box-shadow: -1px 1px #29678A,
-    -2px 2px #29678A,
-    -3px 3px #29678A !important;
+    border: 1px solid #006cab !important;
+    box-shadow: -1px 1px #006cab,
+    -2px 2px #006cab,
+    -3px 3px #006cab !important;
     width: 100% !important;
     border-radius: 0px !important;
     left: 0;
@@ -44,22 +44,29 @@
     color: white !important;
     border-radius: 0px !important
 }
-
+/* User Inputs, Search */
+.srch * {
+    border-radius: 0px !important
+}
+.srch.dark *{
+    background-color: #003c5b !important;
+    color: white !important;
+}
+.srch.main *{
+    background-color: #006cab !important;
+    color: white !important;
+}
+.srch.light *{
+    background-color: #009fdb !important;
+    color: white !important;
+}
+.drpdown {
+    border-radius: 0px !important
+}
+.drpdown * {
+    border-radius: 0px !important
+}
 /* Buttons */
-.btncancel {
-    background-color: #FF1923 !important;
-    color: white !important;
-    border-radius: 0px !important;
-    border-color: #FF1923 !important
-}
-
-.btncancel:hover {
-    background-color: #CC141C !important;
-    color: white !important;
-    border-radius: 0px !important;
-    border-color: #CC141C !important
-}
-
 .btnmainblue {
     background-color: #006cab !important;
     color: white !important;
@@ -145,6 +152,34 @@
     border-radius: 0px !important
 }
 
+.btncancel {
+    background-color: #FF1923 !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #FF1923 !important
+}
+
+.btncancel:hover {
+    background-color: #CC141C !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #CC141C !important
+}
+
+.btnlightcancel {
+    background-color: #727272 !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #727272 !important
+}
+
+.btnlightcancel:hover {
+    background-color: #595959 !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #595959 !important
+}
+
 .btnempty{
     background-color: #235974 !important;
     color: #d5d5d5 !important;
@@ -161,6 +196,7 @@
     background-color: rgb(0, 60, 91)!important;
     color: white!important
 }
+
 /*
 * Course Stats
 */
@@ -171,6 +207,7 @@
 .statsGroupRow > .eight.wide.column > .ui.tiny.statistic > * {
     color: #003c5b !important;
 }
+
 /*
 * Course Structure CSS Styling for Table and other Components
 */
