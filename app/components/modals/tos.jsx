@@ -13,12 +13,12 @@ export default function tos({ trigger }) {
         trigger: PropTypes.element.isRequired
     };
 
-    const closeTrigger = <Button content="OK" positive icon="checkmark" labelPosition="right" />;
+    const closeTrigger = <Button className="btnlightblue" content="OK" positive icon="checkmark" labelPosition="right" />;
     return (
         <ControlledModal
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
-            <Modal.Header>
+            <Modal.Header className="header-secondary">
                 <Icon name="users" /> Terms of Use Agreement
             </Modal.Header>
             <Modal.Content>

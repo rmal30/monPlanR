@@ -13,12 +13,12 @@ export default function privacy({ trigger }) {
         trigger: PropTypes.element.isRequired
     };
 
-    const closeTrigger = <Button content="OK, I've got it" positive icon="checkmark" labelPosition="right" />;
+    const closeTrigger = <Button content="OK, I've got it" className="btnlightblue" icon="checkmark" labelPosition="right" />;
     return (
         <ControlledModal
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
-            <Modal.Header>
+            <Modal.Header className="header-primary">
                 <Icon name="privacy" />
                 Privacy Policy
             </Modal.Header>

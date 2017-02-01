@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Form, Select, Modal } from "semantic-ui-react";
+import { Button, Container, Form, Select, Modal, Icon } from "semantic-ui-react";
 
 import Unit from "../Unit/Unit.jsx";
 import ControlledModal from "./ControlledModal.jsx";
@@ -159,8 +159,9 @@ class CustomUnitModal extends Component {
                 )}
                 onClose={this.onClose.bind(this)}
                 closeTrigger={closeTrigger}>
-                <Modal.Header>
-                    Creating custom unit...
+                <Modal.Header className="header-primary">
+                    <Icon name="write" />
+                    Create custom unit
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
