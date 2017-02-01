@@ -412,7 +412,7 @@ const CourseStructure = (state = defaultState, action) => {
                 state,
                 {
                     courseSnapshotUploading: false,
-                    courseSnapShotUploadData: action.payload,
+                    courseSnapShotUploadData: action.payload.data,
                 }
             );
         
@@ -443,7 +443,7 @@ const CourseStructure = (state = defaultState, action) => {
                 state,
                 {
                     courseSnapshotLoading: false,
-                    courseSnapshotData: action.payload
+                    courseSnapshotData: action.payload.data
                 }
             );
         
