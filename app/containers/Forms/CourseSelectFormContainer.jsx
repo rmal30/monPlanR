@@ -235,7 +235,6 @@ class CourseSelectFormContainer extends Component {
                                             placeholder="Search for your course"
                                             noResultsMessage="No courses found"
                                             noResultsDescription="We only store 2017 course maps for most courses across Monash."
-                                            {...this.props}
                                             fluid
                                         />
                                 </Form.Field>
