@@ -21,7 +21,7 @@ export default function CourseEditActions(props) {
         numberOfUnits: PropTypes.number,
         appendSemester: PropTypes.func,
         clearCourse: PropTypes.func,
-        semesterString: PropTypes.string,
+        nextSemesterString: PropTypes.string,
 
         isUploading: PropTypes.bool,
         uploaded: PropTypes.bool,

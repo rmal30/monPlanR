@@ -1,3 +1,5 @@
+import { getQuickSemesterString } from "../utils/NextSemesterString";
+
 /**
  * @author JXNS, Saurabh Joshi
  * The CourseStructure reducer is the most complex state to manage as it forms
@@ -20,11 +22,11 @@ const defaultState = {
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     courseTemplateData: null,
-    semesterString: "add semester...",
     teachingPeriodData: null,
     teachingPeriodsDataLoading: false,
     teachingPeriodsDataError: false,
     teachingPeriodCodeToInsert: null,
+    nextSemesterString: null,
 
     unitInfo: {
         cost: 0,
@@ -359,6 +361,13 @@ const CourseStructure = (state = defaultState, action) => {
                 state,
                 {teachingPeriodCodeToInsert: action.tpCode}
             );
+
+        case "GET_NEXT_SEMESTER_STRING":
+            return Object.assign(
+                {},
+                state,
+                {nextSemesterString: getQuickSemesterString(state.teachingPeriods, state.startYear, state.teachingPeriodData)}
+            );
         
         /**
          * Generates a course structure of semester one and semester two teaching
@@ -407,5 +416,8 @@ const CourseStructure = (state = defaultState, action) => {
             return state;
     }
 };
+
+
+
 
 export default CourseStructure;

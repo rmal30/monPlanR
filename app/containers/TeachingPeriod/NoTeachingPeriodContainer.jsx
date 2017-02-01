@@ -16,10 +16,9 @@ const NoTeachingPeriodContainer = (props) => {
     const 
         {   
             numberOfUnits,
-            semesterString, 
+            nextSemesterString, 
             viewOnly,
             startYear,
-            placeholderStartYear,
             mobile,
             noFloat
         } = props;
@@ -54,10 +53,10 @@ const NoTeachingPeriodContainer = (props) => {
                           onChange={(e, { value }) => handleChangeYear(parseInt(value))}
                           placeholder="Select start year" search selection
                           value={startYear || ""}
-                          options={YearCalc.getStartYearVals(placeholderStartYear)}/>
+                          options={YearCalc.getStartYearVals(startYear)}/>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <InsertTeachingPeriodButton
-                          semesterString={semesterString}
+                          semesterString={nextSemesterString}
                           insert={code => handleInsertSemester(code)}
                           appendSemester={handleAppendSemester}
                           mobile={mobile}
@@ -76,7 +75,9 @@ const NoTeachingPeriodContainer = (props) => {
 const mapStateToProps = (state) => {
     return {
         numberOfUnits: state.CourseStructure.numberOfUnits,
-        startYear: state.CourseStructure.startYear
+        startYear: state.CourseStructure.startYear,
+        nextSemesterString: state.CourseStructure.nextSemesterString
+        
     };
 };
 
@@ -92,10 +93,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(NoTeachingPeriodCont
 
 NoTeachingPeriodContainer.propTypes = {
     numberOfUnits: PropTypes.number.isRequired,
-    placeholderStartYear: PropTypes.number.isRequired,
     startYear: PropTypes.number,
     changeStartYear: PropTypes.func.isRequired,
-    semesterString: PropTypes.string.isRequired,
+    nextSemesterString: PropTypes.string.isRequired,
     insertTeachingPeriod: PropTypes.func.isRequired,
     appendSemester: PropTypes.func.isRequired,
     mobile: PropTypes.bool,

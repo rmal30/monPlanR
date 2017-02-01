@@ -9,11 +9,11 @@ import InsertTeachingPeriodButton from "../../components/TeachingPeriod/InsertTe
  * 
  */
 const InsertTeachingPeriodButtonContainer = (props) => {
-    const { semesterString, showInsertTeachingPeriodUI, addTeachingPeriod, mobile, bottom } = props;
+    const { nextSemesterString, showInsertTeachingPeriodUI, addTeachingPeriod, mobile, bottom } = props;
     
     return (
         <InsertTeachingPeriodButton
-            semesterString={semesterString}
+            semesterString={nextSemesterString}
             insert={showInsertTeachingPeriodUI}
             appendSemester={addTeachingPeriod}
             mobile={mobile}
@@ -27,7 +27,7 @@ const InsertTeachingPeriodButtonContainer = (props) => {
  */
 const mapStateToProps = (state) => { 
     return {
-        semesterString: state.CourseStructure.semesterString
+        nextSemesterString: state.CourseStructure.nextSemesterString
     };
 };
 
@@ -45,7 +45,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(InsertTeachingPeriod
 InsertTeachingPeriodButtonContainer.propTypes = {
     showInsertTeachingPeriodUI: PropTypes.func,
     addTeachingPeriod: PropTypes.func,
-    semesterString: PropTypes.string,
+    nextSemesterString: PropTypes.string,
     mobile: PropTypes.bool,
     bottom: PropTypes.bool
 };

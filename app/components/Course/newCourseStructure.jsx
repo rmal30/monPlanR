@@ -36,7 +36,8 @@ const mapStateToProps = state => {
         teachingPeriods: state.CourseStructure.teachingPeriods,
         numberOfUnits: state.CourseStructure.numberOfUnits,
         teachingPeriodData: state.CourseStructure.teachingPeriodData,
-        teachingPeriodToInsertCode: state.CourseStructure.teachingPeriodToInsertCode
+        teachingPeriodToInsertCode: state.CourseStructure.teachingPeriodToInsertCode,
+        nextSemesterString: state.CourseStructure.nextSemesterString
     };
 };
 
@@ -89,16 +90,13 @@ class CourseStructure extends Component {
 
             courseToLoad: this.props.courseToLoad
         };
-
-        this.props.fetchTeachingPeriods(); // grabs teaching period strings from API
+        
 
         this.generateCourse = this.generateCourse.bind(this);
         this.getAffectedUnits = this.getAffectedUnits.bind(this);
         this.loadCourseFromAPI = this.loadCourseFromAPI.bind(this);
         this.courseLoad = this.courseLoad.bind(this);
-        this.nextSemester = this.nextSemester.bind(this);
         this.changeStartYear = this.changeStartYear.bind(this);
-        this.getQuickSemesterString = this.getQuickSemesterString.bind(this);
         this.getCourseErrors = this.getCourseErrors.bind(this);
         this.uploadCourseToDatabase = this.uploadCourseToDatabase.bind(this);
     }
@@ -108,6 +106,7 @@ class CourseStructure extends Component {
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
+        
         if (nextProps.courseToLoad && this.state.unlock && nextProps.courseYear) {
             if (nextProps.courseToLoad !== this.state.courseToLoad) {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
@@ -603,69 +602,7 @@ class CourseStructure extends Component {
             }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
     }
 
-    /**
-     * Gets the next semester in the list of teaching periods.
-     *
-     * @author Saurabh Joshi
-     */
-    nextSemester() {
-        const index = this.props.teachingPeriods.length;
-        let year = this.state.startYear;
-        const s1Code = "S1-01";
-        const s2Code = "S2-01";
-
-        let code = s1Code;
-
-        const { teachingPeriods } = this.props;
-        const { teachingPeriodData } = this.props;
-
-        if(!teachingPeriodData) {
-            return { index, year, code };
-        }
-
-        if(index > 0) {
-            const startIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriods[index - 1].code);
-            const s1middleIndex = teachingPeriodData.findIndex(ele => ele.code === s1Code);
-            const s2middleIndex = teachingPeriodData.findIndex(ele => ele.code === s2Code);
-
-            year = teachingPeriods[index - 1].year;
-
-            if(startIndex < s1middleIndex) {
-                // do nothing
-            } else if(startIndex < s2middleIndex) {
-                code = s2Code;
-            } else if(startIndex >= s1middleIndex) {
-                year ++;
-            }
-        }
-
-        return { index, year, code };
-    }
-
-
-    /**
-     * Gets the quick semester append string to be displayed on the button.
-     *
-     * @author Saurabh Joshi
-     */
-    getQuickSemesterString() {
-        const { year, code } = this.nextSemester();
-        const { teachingPeriodData } = this.props;
-
-        let teachingPeriodName = code;
-
-        if(teachingPeriodData) {
-            const teachingPeriod = teachingPeriodData.find((element) =>
-                element.code === code
-            );
-
-            if(teachingPeriod !== undefined) {
-                teachingPeriodName = teachingPeriod.name || code;
-            }
-        }
-
-        return `${teachingPeriodName}, ${year}`;
-    }
+    
 
     /**
      * Inserts unit into course structure.
@@ -969,11 +906,8 @@ class CourseStructure extends Component {
                 <NoTeachingPeriodContainer
                     key="no-teaching-period"
                     viewOnly={this.props.viewOnly}
-                    startYear={this.state.startYear}
-                    placeholderStartYear={new Date().getFullYear()}
-                    changeStartYear={this.changeStartYear}
                     numberOfUnits={this.props.numberOfUnits}
-                    semesterString={this.getQuickSemesterString()}
+                    semesterString={this.props.nextSemesterString}
                     insertTeachingPeriod={this.props.insertTeachingPeriod.bind(this)}
                     appendSemester={this.props.addTeachingPeriod.bind(this)}
                     noFloat
@@ -1041,7 +975,7 @@ class CourseStructure extends Component {
                         numberOfUnits={this.props.numberOfUnits}
                         appendSemester={this.appendSemester}
                         clearCourse={this.props.clearCourse}
-                        semesterString={this.getQuickSemesterString()}
+                        semesterString={this.props.nextSemesterString}
 
                         isUploading={this.state.isUploading}
                         uploaded={this.state.uploaded}
@@ -1085,7 +1019,8 @@ CourseStructure.propTypes = {
     addTeachingPeriod: PropTypes.func,
     showInsertTeachingPeriodUI: PropTypes.func,
     hideInsertTeachingPeriodUI: PropTypes.func,
-
+    getNextSemesterString: PropTypes.func,
+    nextSemesterString: PropTypes.string,
 
     /* Validation */
     updateStatus: PropTypes.func.isRequired,

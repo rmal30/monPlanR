@@ -2,11 +2,16 @@
  * INSERT_TEACHING_PERIOD
  */
 export const insertTeachingPeriod = (index, year, code) => {
-    return {
-        type: "INSERT_TEACHING_PERIOD",
-        index,
-        year,
-        code
+    return function (dispatch) {
+        dispatch({
+            type: "INSERT_TEACHING_PERIOD",
+            index,
+            year,
+            code
+        });
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
     };
 };
 
@@ -14,10 +19,16 @@ export const insertTeachingPeriod = (index, year, code) => {
  * REMOVE_TEACHING_PERIOD
  */
 export const removeTeachingPeriod = (index, tp) => {
-    return {
-        type: "REMOVE_TEACHING_PERIOD",
-        index,
-        tp
+    return function (dispatch) {
+        dispatch({
+            type: "REMOVE_TEACHING_PERIOD",
+            index,
+            tp
+        });
+
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
     };
 };
 
@@ -25,10 +36,16 @@ export const removeTeachingPeriod = (index, tp) => {
  * ADD_TEACHING_PERIOD
  */
 export const addTeachingPeriod = (year, code) => {
-    return {
-        type: "APPEND_TEACHING_PERIOD",
-        year,
-        code
+    return function (dispatch) {
+        dispatch({
+            type: "APPEND_TEACHING_PERIOD",
+            year,
+            code
+        });
+
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
     };
 };
 
@@ -113,5 +130,14 @@ export const changeStartYear = (year) => {
     return {
         type: "CHANGE_START_YEAR",
         year
+    };
+};
+
+/**
+ * GET_NEXT_SEMESTER_STRING
+ */
+export const getNextSemesterString = () => {
+    return {
+        type: "GET_NEXT_SEMESTER_STRING"
     };
 };

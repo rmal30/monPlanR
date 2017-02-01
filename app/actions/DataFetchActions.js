@@ -111,6 +111,10 @@ export const fetchTeachingPeriods = () => {
                      type: "FETCH_TEACHING_PERIODS_FULFILLED",
                      payload: response.data
                  });
+
+                 dispatch({
+                     type: "GET_NEXT_SEMESTER_STRING"
+                 });
              })
             .catch(err => {
                 dispatch({
