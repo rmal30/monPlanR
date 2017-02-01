@@ -23,7 +23,7 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
         uploadedCourseID: PropTypes.string
     };
 
-    const closeTrigger = <Button content="Close" className="btnmainblue" />;
+    const closeTrigger = <Button content="Close" className="btnlightcancel" />;
     return (
         <ControlledModal
                openTrigger={trigger}
@@ -44,14 +44,14 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                                     You can print your course plan then showing it to your course
                                     advisor.
                                 </p>
-                                <Button primary onClick={() => print()} className="btnmainblue"><Icon name="print" />Print course plan</Button>
+                                <Button primary onClick={() => print()} className="btnorange"><Icon name="print" />Print course plan</Button>
                             </Grid.Column>
                             <Grid.Column width={8}>
                                 <Header><Icon name="download" /> Export it</Header>
                                 <p>You can also export it as a CSV and/or JSON for use in other software such as Excel.</p>
                                 <Button.Group secondary>
-                                    <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
-                                    <Dropdown floating button className="icon">
+                                    <Button className="btndarkblue" onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
+                                    <Dropdown floating button className="icon btndarkblue">
                                         <Dropdown.Menu>
                                             <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
                                             <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>

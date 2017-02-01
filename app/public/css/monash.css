@@ -48,6 +48,9 @@
 .srch * {
     border-radius: 0px !important
 }
+.srch:hover{
+    border-color: rgba(34,36,38, 0.35) !important
+}
 .srch.dark *{
     background-color: #003c5b !important;
     color: white !important;
