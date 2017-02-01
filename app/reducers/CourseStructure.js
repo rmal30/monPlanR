@@ -368,6 +368,20 @@ const CourseStructure = (state = defaultState, action) => {
                 state,
                 {nextSemesterString: getQuickSemesterString(state.teachingPeriods, state.startYear, state.teachingPeriodData)}
             );
+
+        case "LOAD_NEW_TEACHING_PERIODS":
+            return Object.assign(
+                {},
+                state,
+                {teachingPeriods: action.value}
+            );
+
+        case "GET_NEW_NUMBER_OF_UNITS":
+            return Object.assign(
+                {},
+                state,
+                {numberOfUnits: action.value}
+            );
         
         /**
          * Generates a course structure of semester one and semester two teaching

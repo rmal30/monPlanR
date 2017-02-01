@@ -382,7 +382,7 @@ class CourseStructure extends Component {
             numberOfUnits: result.overLoadNumber,
             unlock: true
         });
-
+        
         this.props.incrementCost(result.newCost);
         this.props.incrementCreditPoints(result.newCP);
 
@@ -975,7 +975,6 @@ class CourseStructure extends Component {
                         numberOfUnits={this.props.numberOfUnits}
                         appendSemester={this.appendSemester}
                         clearCourse={this.props.clearCourse}
-                        semesterString={this.props.nextSemesterString}
 
                         isUploading={this.state.isUploading}
                         uploaded={this.state.uploaded}

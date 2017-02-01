@@ -76,13 +76,12 @@ class CourseSelectFormContainer extends Component {
      */
     handleSubmit(event) {
         event.preventDefault();
-        this.props.fetchCourseInfo(this.state.CourseCode);
+        const { CourseCode, year, code } = this.state;
+        this.props.fetchCourseInfo(CourseCode);
+        this.props.submitCourseForm(CourseCode, year, code);
+        
         this.context.router.push({
-            pathname: "/plan",
-            query: {
-                startYear: this.state.year,
-                courseToLoad: this.state.code
-            }
+            pathname: "/plan"
         });
     }
 
@@ -307,5 +306,6 @@ CourseSelectFormContainer.contextTypes = {
 };
 
 CourseSelectFormContainer.propTypes = {
-    fetchCourseInfo: PropTypes.func
+    fetchCourseInfo: PropTypes.func,
+    submitCourseForm: PropTypes.func
 };

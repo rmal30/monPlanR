@@ -1,4 +1,5 @@
 import axios from "axios";
+import CourseTemplate from "../utils/CourseTemplate";
 
 /**
  * FETCH_COURSE_INFO
@@ -44,6 +45,27 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                 dispatch({
                     type: "FETCH_COURSE_TEMPLATE_FULFILLED",
                     payload: resp
+                });
+                
+                const result = CourseTemplate.parse(resp.data, startYear);
+
+                dispatch({
+                    type: "LOAD_NEW_TEACHING_PERIODS",
+                    value: result.newTeachingPeriods
+                });
+
+                dispatch({
+                    type: "GET_NEW_NUMBER_OF_UNITS",
+                    value: result.overLoadNumber
+                });
+
+                dispatch({
+                    type: "INCREMENT_CREDIT_POINTS",
+                    value: result.newCP
+                });
+                dispatch({
+                    type: "INCREMENT_COST",
+                    value: result.newCost
                 });
             })
             .catch(err => {
