@@ -86,7 +86,7 @@
 }
 
 .btndarkblue:hover {
-    background-color: #002639 !important;
+    background-color: #004468 !important;
     color: white !important;
     border-radius: 0px !important
 }
@@ -177,31 +177,30 @@
 }
 
 .coursetable > tbody > tr:nth-child(odd)  {
-    border-color: #007CC4 !important;
-    background-color: #007CC4 !important;
-    color: white !important
+    border-color: #f2f2f2  !important;
+    background-color: #f2f2f2 !important;
+    color: black !important
 }
 
 .coursetable > tbody > tr:nth-child(even)  {
-    border-color: #007ba7 !important;
-    background-color: #007ba7 !important;
-    color: white !important
+    border-color: white !important;
+    background-color: white !important;
+    color: black !important
 }
 
 .ui.celled.table tr td {
     padding: 7.5px !important;
-    border-right: 1px dashed white !important;
-    border-bottom: 1px dashed white !important;
-    border-left: 1px dashed white !important;
-
+    border-right: 1px dashed #C0C0C0 !important;
+    border-bottom: 1px dashed #C0C0C0 !important;
+    border-left: 1px dashed #C0C0C0 !important;
 }
 
 .noteachingperiods > *  > h3 > * {
-    color: white !important
+    color: black !important
 }
 
 .noteachingperiods > *  > h3 {
-    color: white !important
+    color: black !important
 }
 
 .hoverCell {

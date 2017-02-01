@@ -114,7 +114,7 @@ class ClearCourseModal extends Component {
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
                 <Modal.Header>
-                    <Icon name="trash" /> Clear Course
+                    <Icon name="trash" /> Clear plan
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>

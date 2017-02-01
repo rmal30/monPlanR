@@ -61,7 +61,7 @@ export default function CourseEditActions(props) {
                                 fluid={mobile}
                                 className="btnorange"
                                 color="red">
-                                Clear course
+                                Clear plan
                             </Button>
                         }
                         clearCourse={props.clearCourse.bind(props)} />
