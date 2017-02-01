@@ -172,6 +172,9 @@ export const fetchCourses = () => {
 };
 
 
+/**
+ * When given a course ID it will load a course snapshot from the API and process it
+ */
 export const loadCourseSnap = (snapID) => {
     
     return function(dispatch) {
@@ -225,6 +228,10 @@ export const loadCourseSnap = (snapID) => {
     };
 };
 
+/**
+ * Uploads the given course structure to the snapshot API and when sucessful, returns
+ * the data with the unique ID linking to the snap
+ */
 export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, cost, startYear) => {
     return function(dispatch) {
         dispatch({
