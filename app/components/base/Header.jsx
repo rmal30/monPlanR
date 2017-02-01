@@ -70,6 +70,7 @@ class Header extends Component {
                         <Popup.Content>
                             {content}
                             <Divider />
+                            <h4>Your current current plan:</h4>
                             <CourseStatisticGroupContainer />
                         </Popup.Content>
                     </Popup>
