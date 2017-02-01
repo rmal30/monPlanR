@@ -154,4 +154,62 @@ describe("REDUCER: UI", () => {
             ).toEqual(stateAfter);
         });
     });
+
+
+    describe("ACTION: SET_COURSE_READ_ONLY", () => {
+        it("Should set the course to read only correctly", () => {
+            const stateBefore = {
+                showInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                readOnly: false
+            };
+
+            const action = {
+                type: "SET_COURSE_READ_ONLY"
+            };
+
+            const stateAfter = {
+                showInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                readOnly: true
+                
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+        
+
+    describe("ACTION: SET_COURSE_READ_AND_WRITE", () => {
+        it("Should set the course to allow edits correctly", () => {
+            const stateBefore = {
+                showInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                readOnly: true
+            };
+
+            const action = {
+                type: "SET_COURSE_READ_AND_WRITE"
+            };
+
+            const stateAfter = {
+                showInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                readOnly: false
+                
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });

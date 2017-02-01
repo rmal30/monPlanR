@@ -2,7 +2,8 @@
 const defaultState = {
     showInsertTeachingPeriodUI: false,
     showMovingUnitUI: false,
-    showAddingUnitUI: false
+    showAddingUnitUI: false,
+    readOnly: false
 };
 
 /**
@@ -56,6 +57,19 @@ const UI = (state = defaultState, action) => {
                 {showMovingUnitUI: false}
             );
 
+        case "SET_COURSE_READ_ONLY":
+            return Object.assign(
+                {},
+                state,
+                {readOnly: true}
+            );
+
+        case "SET_COURSE_READ_AND_WRITE":
+            return Object.assign(
+                {},
+                state,
+                {readOnly: false}
+            );
         
         default:
             return state;

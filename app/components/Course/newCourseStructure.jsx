@@ -70,20 +70,11 @@ class CourseStructure extends Component {
     constructor(props) {
         super(props);
 
-        const { startYear } = this.props;
-
         this.state = {
-            startYear: startYear || new Date().getFullYear(),
-
             /* UI state */
             showInsertTeachingPeriods: false,
             showMoveUnitUI: false,
             unitToBeMoved: undefined,
-            isLoading: false,
-            unlock: true,
-            isUploading: false,
-            uploadingError: false,
-            uploaded: false,
             courseToLoad: this.props.courseToLoad
         };
         
@@ -358,16 +349,10 @@ class CourseStructure extends Component {
      *
      * @author Saurabh Joshi
      */
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         if(!this.props.viewOnly) {
             const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
             saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
-        }
-
-        if(prevState.uploaded && this.state.uploaded) {
-            this.setState({
-                uploaded: false
-            });
         }
 
         const currentCourseErrors = this.getCourseErrors();
