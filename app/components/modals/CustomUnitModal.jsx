@@ -142,7 +142,7 @@ class CustomUnitModal extends Component {
      */
     render() {
         const { UnitCode, UnitName, Faculty } = this.state;
-        const closeTrigger = <Button content="Cancel" />;
+        const closeTrigger = <Button content="Cancel" className="btncancel" />;
 
         return (
             <ControlledModal
@@ -150,7 +150,8 @@ class CustomUnitModal extends Component {
                 positiveButton={(
                     <Button
                         disabled={!this.formIsValid.call(this)}
-                        color="green"
+                        color="yellow"
+                        className="btnmainblue"
                         onClick={this.addCustomUnitToCourse.bind(this)}
                         floated="right">
                             Add {UnitCode}

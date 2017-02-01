@@ -46,7 +46,7 @@ class UnitSearchResultsContainer extends Component {
                     If the unit is not in our search results, then you can instead add a custom unit
                     by clicking the buttom below.
                     <br /><br />
-                    <Button onClick={this.willAddUnit.bind(this, null, true)} fluid>Add custom unit</Button>
+                    <Button className="btnmainblue" onClick={this.willAddUnit.bind(this, null, true)} fluid>Add custom unit</Button>
                 </div>
             );
         }
