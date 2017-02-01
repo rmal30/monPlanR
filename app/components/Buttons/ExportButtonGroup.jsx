@@ -1,6 +1,11 @@
 import React, { PropTypes } from "react";
 import { Button, Dropdown, Icon } from "semantic-ui-react";
 
+
+/**
+ * @author JXNS
+ * Simple component returning the buttons to export a course as pdf, csv or json
+ */
 const ExportButtonGroup = (props) => {
     const { onExportAsCSV, onExportAsJSON, onExportAsPDF } = props;
     
