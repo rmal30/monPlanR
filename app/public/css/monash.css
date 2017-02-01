@@ -255,10 +255,7 @@
 }
 
 .ui.table td.active{
-    background-color: rgba(0,84,133,0.7) !important;
-}
-.ui.table td.error{
-    background-color: rgba(255,25,35, 0.6) !important;
+    background-color: #e7e7e7 !important;
 }
 
 /* Placeholder Units */
