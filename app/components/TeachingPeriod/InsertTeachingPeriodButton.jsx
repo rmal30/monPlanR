@@ -8,7 +8,7 @@ import { Button, Dropdown, Icon } from "semantic-ui-react";
  */
 export default function InsertTeachingPeriodButton({ semesterString, insert, appendSemester, mobile, noFloat, bottom }) {
     InsertTeachingPeriodButton.propTypes = {
-        semesterString: PropTypes.string.isRequired,
+        semesterString: PropTypes.string,
         insert: PropTypes.func.isRequired,
         appendSemester: PropTypes.func.isRequired,
         mobile: PropTypes.bool,
@@ -16,6 +16,9 @@ export default function InsertTeachingPeriodButton({ semesterString, insert, app
         bottom: PropTypes.bool
     };
 
+    if(semesterString === null) {
+        semesterString = "Add Semester 1, 2016";
+    }
     return (
         <Button.Group color="green" fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
             <Button onClick={appendSemester}><Icon name="add square"/>Add {semesterString}</Button>

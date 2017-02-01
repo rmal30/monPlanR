@@ -15,13 +15,14 @@ import YearCalc from "../../utils/YearCalc.js";
 const NoTeachingPeriodContainer = (props) => {
     const 
         {   
-            numberOfUnits,
-            nextSemesterString, 
+            numberOfUnits, 
             viewOnly,
             startYear,
             mobile,
             noFloat
         } = props;
+
+    let { nextSemesterString } = props; 
 
     const handleInsertSemester = (code) => {
         props.insertTeachingPeriod(0, startYear, code);
@@ -35,6 +36,10 @@ const NoTeachingPeriodContainer = (props) => {
         props.changeStartYear(year);
     };
 
+
+    if (nextSemesterString === null){
+        nextSemesterString =  "Semester 1, 2016";
+    }
     return (
         <Table.Row>
             <Table.Cell colSpan={numberOfUnits + 1} style={{overflow: "visible"}}>
@@ -95,7 +100,7 @@ NoTeachingPeriodContainer.propTypes = {
     numberOfUnits: PropTypes.number.isRequired,
     startYear: PropTypes.number,
     changeStartYear: PropTypes.func.isRequired,
-    nextSemesterString: PropTypes.string.isRequired,
+    nextSemesterString: PropTypes.string,
     insertTeachingPeriod: PropTypes.func.isRequired,
     appendSemester: PropTypes.func.isRequired,
     mobile: PropTypes.bool,

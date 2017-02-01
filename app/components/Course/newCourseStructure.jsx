@@ -37,7 +37,8 @@ const mapStateToProps = state => {
         numberOfUnits: state.CourseStructure.numberOfUnits,
         teachingPeriodData: state.CourseStructure.teachingPeriodData,
         teachingPeriodToInsertCode: state.CourseStructure.teachingPeriodToInsertCode,
-        nextSemesterString: state.CourseStructure.nextSemesterString
+        nextSemesterString: state.CourseStructure.nextSemesterString,
+        courseLoading: state.CourseStructure.courseLoading
     };
 };
 
@@ -121,7 +122,8 @@ class CourseStructure extends Component {
         }
 
         if(this.props.viewOnly && !this.props.switchToEditCourse && nextProps.switchToEditCourse) {
-            this.saveCourseToLocalStorage();
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
             browserHistory.push("/plan");
         }
     }
@@ -442,23 +444,6 @@ class CourseStructure extends Component {
             });
     }
 
-    /**
-     * Saves list of teaching periods to local storage.
-     *
-     * @author Saurabh Joshi
-     */
-    saveCourseToLocalStorage() {
-        const { teachingPeriods, numberOfUnits, startYear } = this.state;
-
-        localStorage.setItem("courseStructure", JSON.stringify({
-            teachingPeriods,
-            numberOfUnits,
-            totalCreditPoints: this.props.creditPoints,
-            totalEstimatedCost: this.props.cost,
-            startYear,
-            version: MONPLAN_VERSION
-        }));
-    }
 
     /**
      * Uploads course as a snapshot
@@ -505,31 +490,6 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Loads list of teaching periods from local storage.
-     *
-     * @author Saurabh Joshi
-     */
-    loadCourseFromLocalStorage() {
-        const stringifedJSON = localStorage.getItem("courseStructure");
-
-        if(stringifedJSON) {
-            const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = JSON.parse(stringifedJSON);
-
-            this.props.incrementCost(totalEstimatedCost);
-            this.props.incrementCreditPoints(totalCreditPoints);
-
-            this.setState({
-                teachingPeriods,
-                numberOfUnits,
-                totalCreditPoints,
-                totalEstimatedCost,
-                startYear: startYear || new Date().getFullYear()
-            });
-
-        }
-    }
-
-    /**
      * Loads course if it exists.
      *
      * @author Saurabh Joshi
@@ -545,7 +505,7 @@ class CourseStructure extends Component {
 
         if(LocalStorage.doesCourseStructureExist()) {
             this.props.clearCourse();
-            this.loadCourseFromLocalStorage();
+            this.props.loadCourseFromLocalStorage();
         }
     }
 
@@ -565,7 +525,8 @@ class CourseStructure extends Component {
      */
     componentDidUpdate(prevProps, prevState) {
         if(!this.props.viewOnly) {
-            this.saveCourseToLocalStorage();
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
         }
 
         if(prevState.uploaded && this.state.uploaded) {
@@ -944,7 +905,7 @@ class CourseStructure extends Component {
                     </MediaQuery>
                 }
                 <Dimmer.Dimmable as={Table} celled fixed striped compact>
-                    {this.state.isLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
+                    {this.props.courseLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
@@ -1020,6 +981,9 @@ CourseStructure.propTypes = {
     hideInsertTeachingPeriodUI: PropTypes.func,
     getNextSemesterString: PropTypes.func,
     nextSemesterString: PropTypes.string,
+    courseLoading: PropTypes.bool,
+    loadCourseFromLocalStorage: PropTypes.func,
+    saveCourseToLocalStorage: PropTypes.func,
 
     /* Validation */
     updateStatus: PropTypes.func.isRequired,

@@ -67,6 +67,9 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                     type: "INCREMENT_COST",
                     value: result.newCost
                 });
+                dispatch({
+                    type: "GET_NEXT_SEMESTER_STRING"
+                });
             })
             .catch(err => {
                 dispatch({

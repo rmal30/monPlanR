@@ -126,6 +126,9 @@ export const submitYearForm = (startYear, endYear) => {
             startYear,
             endYear
         });
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
     };
 };
 
@@ -134,9 +137,14 @@ export const submitYearForm = (startYear, endYear) => {
  * CHANGE_START_YEAR
  */
 export const changeStartYear = (year) => {
-    return {
-        type: "CHANGE_START_YEAR",
-        year
+    return function(dispatch) {
+        dispatch({
+            type: "CHANGE_START_YEAR",
+            year
+        });
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
     };
 };
 
@@ -146,5 +154,60 @@ export const changeStartYear = (year) => {
 export const getNextSemesterString = () => {
     return {
         type: "GET_NEXT_SEMESTER_STRING"
+    };
+};
+
+
+export const loadCourseFromLocalStorage = () => {
+    return function(dispatch) {
+        const stringifedJSON = localStorage.getItem("courseStructure");
+        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = JSON.parse(stringifedJSON);
+
+        dispatch({
+            type: "LOAD_NEW_TEACHING_PERIODS",
+            value: teachingPeriods
+        });
+
+        dispatch({
+            type: "GET_NEW_NUMBER_OF_UNITS",
+            value: numberOfUnits
+        });
+
+        dispatch({
+            type: "CHANGE_START_YEAR",
+            year: (parseInt(startYear, 10) || new Date().getFullYear())
+        });
+
+        dispatch({
+            type: "INCREMENT_CREDIT_POINTS",
+            value: totalCreditPoints
+        });
+
+        dispatch({
+            type: "INCREMENT_COST",
+            value: totalEstimatedCost
+        });
+
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
+    };
+};
+
+export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYear, creditPoints, cost) => {
+    return function(dispatch) {
+        localStorage.setItem("courseStructure", JSON.stringify({
+            teachingPeriods,
+            numberOfUnits,
+            totalCreditPoints: creditPoints,
+            totalEstimatedCost: cost,
+            startYear,
+            version: MONPLAN_VERSION
+        }));
+
+        /**Perhaps bad practice but only exists to notify devs that a save occured */
+        dispatch({
+            type: "SAVED_COURSE_TO_LOCALSTORAGE"
+        });
     };
 };
