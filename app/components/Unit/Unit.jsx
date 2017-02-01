@@ -81,12 +81,12 @@ function collectTarget(connect, monitor) {
 }
 
 /**
-* Unit component
+* Unit component. Class is exported for unit testing.
 *
 * @class
 * @extends React.Component
 */
-class Unit extends React.Component {
+export class Unit extends React.Component {
     /**
     * State should only hold additional unit information.
     * CourseStructure component stores only the unit code to reduce space
