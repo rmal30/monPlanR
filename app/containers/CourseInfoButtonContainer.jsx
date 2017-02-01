@@ -12,7 +12,7 @@ const CourseInfoButtonContainer = ({ courseCode }) => {
     const courseDetailButton = (
             <Button
                 disabled={courseCode === "" || courseCode === null}
-                className="btnlightblue"
+                className="btndarkblue"
                 primary>
                 View {courseCode !== "" ? courseCode : "course"} details
             </Button>

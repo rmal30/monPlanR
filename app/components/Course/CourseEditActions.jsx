@@ -59,7 +59,7 @@ export default function CourseEditActions(props) {
                             <Button
                                 disabled={props.teachingPeriods.length === 0}
                                 fluid={mobile}
-                                className="btnorange"
+                                className="btncancel"
                                 color="red">
                                 Clear plan
                             </Button>

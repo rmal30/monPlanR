@@ -42,7 +42,7 @@ class Header extends Component {
                     </Link>
                     {this.props.showAddUnit &&
                     <Menu.Item>
-                        <Button icon className={this.props.searchVisible ? "btncancel": "btnorange"}
+                        <Button icon className={this.props.searchVisible ? "btncancel": "btnlightblue"}
                             onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }}>
                             <Icon name={this.props.searchVisible ? "x" : "plus"} />
                             <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
