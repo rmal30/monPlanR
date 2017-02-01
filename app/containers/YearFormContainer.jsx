@@ -152,6 +152,7 @@ class YearFormContainer extends Component {
                                             on="focus"
                                             trigger={<Dropdown
                                                         onChange={this.handleUpdateStartYear}
+                                                        className="drpdown"
                                                         placeholder="Select start year" fluid search selection
                                                         options={this.validStartYears}/>}
                                         />
@@ -164,6 +165,7 @@ class YearFormContainer extends Component {
                                             on="focus"
                                             trigger={<Dropdown
                                                         onChange={this.handleUpdateEndYear}
+                                                        className="drpdown"
                                                         placeholder="Select end year" fluid search selection
                                                         options={this.validEndYears}
                                                         disabled={this.state.endYearDisabled}/>}

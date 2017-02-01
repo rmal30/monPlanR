@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Container, Dimmer, Icon, Loader, Popup, Table } from "semantic-ui-react";
+import { Button, Container, Dimmer, Icon, Loader, Popup, Table, Segment } from "semantic-ui-react";
 import axios from "axios";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
@@ -1192,23 +1192,25 @@ class CourseStructure extends Component {
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
-                                <Table.HeaderCell>Teaching Period</Table.HeaderCell>
+                                <Table.HeaderCell><Segment style={{backgroundColor: "transparent", color: "inherit", boxShadow: "0px 0px 0px 0 #006cab", border: "#006cab"}}>Teaching Period</Segment></Table.HeaderCell>
                                 <Table.HeaderCell colSpan={this.state.numberOfUnits}>
-                                    Units
-                                    {!this.props.viewOnly &&
-                                        <span>
-                                            <Popup
-                                                trigger={<Button icon className="no-print btnlightblue" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"><Icon name='plus' /> Overload</Button>}
-                                                content="Click this to overload a teaching period."
-                                                size='mini'
-                                                positioning='bottom center'
-                                                />
-                                            <ConfirmDeleteOverload
-                                                isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0}
-                                                getAffectedUnits={this.getAffectedUnits}
-                                                handleRemove={this.decrementNumberOfUnits.bind(this)} />
-                                        </span>
-                                    }
+                                    <Segment style={{backgroundColor: "transparent", color: "inherit", boxShadow: "0px 0px 0px 0 #006cab", border: "#006cab"}}>
+                                        Units
+                                        {!this.props.viewOnly &&
+                                            <span style={{position: "relative", top: "50%", transform: "translateY(50%)"}}>
+                                                <Popup
+                                                    trigger={<Button style={{position: "relative", top: "50%", transform: "translateY(-25%)"}} icon className="no-print btnlightblue" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"><Icon name='plus' /> Overload</Button>}
+                                                    content="Click this to overload a teaching period."
+                                                    size='mini'
+                                                    positioning='bottom center'
+                                                    />
+                                                <ConfirmDeleteOverload
+                                                    isDisabled={this.state.numberOfUnits <= this.minNumberOfUnits || this.state.teachingPeriods.length === 0}
+                                                    getAffectedUnits={this.getAffectedUnits}
+                                                    handleRemove={this.decrementNumberOfUnits.bind(this)} />
+                                            </span>
+                                        }
+                                    </Segment>
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>

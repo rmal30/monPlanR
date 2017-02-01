@@ -201,6 +201,7 @@ class CourseSelectFormContainer extends Component {
                             <Form.Group widths="equal">
                                 <Form.Field>
                                         <Search
+                                            className="srch"
                                             label=""
                                             loading={this.state.isLoading}
                                             onResultSelect={this.handleResultSelect}
@@ -215,6 +216,7 @@ class CourseSelectFormContainer extends Component {
                                 </Form.Field>
                                 <Form.Dropdown
                                     placeholder='Select specialisation'
+                                    className="drpdown"
                                     disabled={this.state.specIsDisabled}
                                     search
                                     selection
@@ -223,6 +225,7 @@ class CourseSelectFormContainer extends Component {
                                 />
                                 <Form.Dropdown
                                     placeholder='Select starting year'
+                                    className="drpdown"
                                     disabled={this.state.yearIsDisabled}
                                     search
                                     selection

@@ -28,7 +28,8 @@ export default function SaveButton({ isUploading, uploaded, uploadingError, uplo
                         color={uploadingError ? "red" : "teal"}
                         disabled={isUploading}
                         onClick={uploadCourseToDatabase}
-                        loading={isUploading}>
+                        loading={isUploading}
+                        className="btnorange">
                         <Icon name={uploaded && "checkmark" || uploadingError && "x" || "upload"} />
                         {uploaded && "Saved course" || "Save course"}
                     </Button>
