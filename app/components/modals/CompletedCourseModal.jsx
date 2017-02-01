@@ -23,12 +23,12 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
         uploadedCourseID: PropTypes.string
     };
 
-    const closeTrigger = <Button content="Close" />;
+    const closeTrigger = <Button content="Close" className="btnmainblue" />;
     return (
         <ControlledModal
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
-            <Modal.Header>
+            <Modal.Header className="header-primary">
                 <Icon name="checked calendar" />Congratulations on planning your course (so far)
             </Modal.Header>
             <Modal.Content>

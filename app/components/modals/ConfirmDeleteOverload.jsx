@@ -70,7 +70,7 @@ export default class ConfirmDeleteOverload extends Component {
                 <Modal
                     open={this.state.open}
                     size="small">
-                    <Modal.Header>
+                    <Modal.Header className="header-danger">
                         <p><Icon name="trash" />Are you sure you want to remove overload column?</p>
                     </Modal.Header>
                     <Modal.Content>{message}</Modal.Content>

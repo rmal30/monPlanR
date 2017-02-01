@@ -113,7 +113,7 @@ class ClearCourseModal extends Component {
                 trigger={trigger}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
-                <Modal.Header>
+                <Modal.Header className="header-danger">
                     <Icon name="trash" /> Clear plan
                 </Modal.Header>
                 <Modal.Content>
@@ -135,7 +135,7 @@ class ClearCourseModal extends Component {
 
                 <Modal.Actions>
                     {this.props.redirect ? <Link to={this.props.redirect}><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link>
-                                         : <Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
+                                         : <Button color="red" className="btncancel" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>

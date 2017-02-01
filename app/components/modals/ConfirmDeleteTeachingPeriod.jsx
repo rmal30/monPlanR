@@ -81,13 +81,13 @@ export default class ConfirmDeleteTeachingPeriod extends Component {
                 <Modal
                     open={this.state.open}
                     size="small">
-                    <Modal.Header>
+                    <Modal.Header className="header-danger">
                         <p><Icon name="trash" />Are you sure you want to remove this teaching period?</p>
                     </Modal.Header>
                     <Modal.Content>{message}</Modal.Content>
                     <Modal.Actions>
-                        <Button color='red' floated={"right"} onClick={this.handleConfirm}>Remove Teaching Period</Button>
-                        <Button onClick={this.handleCancel}>Cancel</Button>
+                        <Button className="btncancel" floated={"right"} onClick={this.handleConfirm}>Remove Teaching Period</Button>
+                        <Button style={{borderRadius: "0px !important"}} onClick={this.handleCancel}>Cancel</Button>
                     </Modal.Actions>
                 </Modal>
             );

@@ -20,6 +20,30 @@
     left: 0;
 }
 
+/* Modals */
+.header-primary {
+    background-color: #006cab !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-secondary {
+    background-color: #009fdb !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-tertiary {
+    background-color: #003c5b !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-danger {
+    background-color: #BF131A !important;
+    color: white !important;
+    border-radius: 0px !important
+}
 
 /* Buttons */
 .btncancel {
