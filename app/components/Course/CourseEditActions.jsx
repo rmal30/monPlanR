@@ -18,16 +18,9 @@ export default function CourseEditActions(props) {
         hideInsertTeachingPeriodsUI: PropTypes.func,
 
         teachingPeriods: PropTypes.array,
-        numberOfUnits: PropTypes.number,
         appendSemester: PropTypes.func,
         clearCourse: PropTypes.func,
-        nextSemesterString: PropTypes.string,
 
-        isUploading: PropTypes.bool,
-        uploaded: PropTypes.bool,
-        uploadingError: PropTypes.bool,
-        uploadedCourseID: PropTypes.string,
-        uploadCourseToDatabase: PropTypes.func
     };
 
     return (
@@ -60,15 +53,7 @@ export default function CourseEditActions(props) {
                                 Finished planning for now?
                             </Button>
                         )}
-                        teachingPeriods={props.teachingPeriods}
-                        numberOfUnits={props.numberOfUnits}
-
-                        isUploading={props.isUploading}
-                        uploadingError={props.uploadingError}
-                        uploaded={props.uploaded}
-                        uploadCourseToDatabase={props.uploadCourseToDatabase}
-                        uploadedCourseID={props.uploadedCourseID}
-                         />
+                    />
                 </Container>
             }
         </MediaQuery>

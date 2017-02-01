@@ -742,9 +742,7 @@ class CourseStructure extends Component {
                         showInsertTeachingPeriods={this.state.showInsertTeachingPeriods}
                         showInsertTeachingPeriodsUI={this.props.showInsertTeachingPeriodUI}
                         hideInsertTeachingPeriodsUI={this.props.hideInsertTeachingPeriodUI}
-
                         teachingPeriods={this.props.teachingPeriods}
-                        numberOfUnits={this.props.numberOfUnits}
                         appendSemester={this.appendSemester}
                         clearCourse={this.props.clearCourse}
                         />
