@@ -1175,7 +1175,7 @@ class CourseStructure extends Component {
                 {!this.props.viewOnly &&
                     <MediaQuery maxDeviceWidth={767}>
                         <Popup
-                            trigger={<Button icon="plus" labelPosition="left" className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" fluid content="Add overload column" />}
+                            trigger={<Button icon="plus" labelPosition="left" className="btnorange no-print"  disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} fluid content="Add overload column" />}
                             content="Click this to overload a teaching period."
                             size='mini'
                             positioning='bottom center'
@@ -1198,7 +1198,7 @@ class CourseStructure extends Component {
                                     {!this.props.viewOnly &&
                                         <span>
                                             <Popup
-                                                trigger={<Button icon className="no-print" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"><Icon name='plus' /> Overload</Button>}
+                                                trigger={<Button icon className="no-print btnlightblue" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"><Icon name='plus' /> Overload</Button>}
                                                 content="Click this to overload a teaching period."
                                                 size='mini'
                                                 positioning='bottom center'

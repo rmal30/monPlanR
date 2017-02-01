@@ -83,7 +83,7 @@ export default class ConfirmDeleteOverload extends Component {
         } else {
             return (
                 <Popup
-                    trigger={<Button icon="minus" labelPosition={this.props.mobile ? "left" : undefined} className="no-print" disabled={this.props.isDisabled}  onClick={this.handlePress} color="red" floated={!this.props.mobile ? "right" : undefined} fluid={this.props.mobile} content={this.props.mobile ? "Remove overload column" : ""} />}
+                    trigger={<Button icon="minus" labelPosition={this.props.mobile ? "left" : undefined} className="no-print btnorange" disabled={this.props.isDisabled}  onClick={this.handlePress} color="red" floated={!this.props.mobile ? "right" : undefined} fluid={this.props.mobile} content={this.props.mobile ? "Remove overload column" : ""} />}
                     content="Removes last column from your course plan."
                     size='mini'
                     positioning='bottom center'
