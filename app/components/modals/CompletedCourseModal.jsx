@@ -29,22 +29,21 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
             <Modal.Header>
-                <Icon name="checked calendar" />Well done on planning your course (so far)
+                <Icon name="checked calendar" />Congratulations on planning your course (so far)
             </Modal.Header>
             <Modal.Content>
                 <Modal.Description>
                     There are several things you can do next:
                     <br />
-                    <Header>1. Take it to your course advisor</Header>
+                    <Header>1. Print it and/or Export it</Header>
                     <p>
-                        Printing your course plan then showing it to your course
+                        You can print your course plan then showing it to your course
                         advisor will help speed up the process on whether or not
-                        you can follow it.
+                        you can follow it, otherwise put it with your enrolment papers.
                     </p>
                     <p>
-                        You can also place your course plan somewhere, whether it is a printed
-                        document or an exported digital copy. You can import your
-                        course plan into a spreadsheet program if you export it as a CSV file.
+                        Otherwise, you can also export a digital copy, as a PDF file or as a CSV file.
+                        Did you can that you can  import your course plan into a spreadsheet program if you export it as a CSV file.
                     </p>
                     <Button primary onClick={() => print()}><Icon name="print" />Print course plan</Button>
                     <Button.Group secondary>

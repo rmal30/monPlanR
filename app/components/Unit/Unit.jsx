@@ -200,17 +200,17 @@ class Unit extends React.Component {
      */
     render() {
         const facultyColors = {
-            "Art, Design and Architecture": "pink",
-            "Arts": "black",
-            "Business and Economics": "teal",
-            "Education": "violet",
-            "Engineering": "orange",
-            "Information Technology": "purple",
-            "Law": "brown",
+            "Art, Design and Architecture": "blue",
+            "Arts": "blue",
+            "Business and Economics": "blue",
+            "Education": "blue",
+            "Engineering": "blue",
+            "Information Technology": "blue",
+            "Law": "blue",
             "Medicine, Nursing and Health Sciences": "blue",
-            "Pharmacy and Pharmaceutical Sciences": "olive",
-            "Science": "green",
-            "All": "yellow"
+            "Pharmacy and Pharmaceutical Sciences": "blue",
+            "Science": "blue",
+            "All": "blue"
         };
 
         let facultyColor = undefined;
@@ -244,20 +244,20 @@ class Unit extends React.Component {
                                 <UnitDetailModal
                                     onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
                                     unitCode={this.props.code}
-                                    trigger={<Button inverted color="blue" icon="info" />} />
+                                    trigger={<Button className="btnlightblue" color="blue" icon="info" />} />
                             }
                         </Button.Group>
                     }
 
                 </Message.Header>
-                {(!this.state.hovering || !this.showMoveUnitUI) &&
+                <i>{(!this.state.hovering || !this.showMoveUnitUI) &&
                     `${this.props.name}`
-                }
+                }</i>
                 <br/>
                 <div style={{bottom: "0", textAlign:"right"}}>
                     <Popup
                         trigger={(this.props.errors && this.props.errors.length > 0) &&
-                                <Icon name="warning sign" size="large" />
+                                <Icon inverted color="red" name="warning" size="large" />
                         }
                         positioning="bottom left"
                         size="mini"

@@ -36,14 +36,15 @@ class Notify extends Component {
     componentDidMount(){
         this._notificationSystem = this.refs.notificationSystem;
         this.addNotification("Ready to add units to course plan", "Search for units by clicking the plus icon in the header, then place it in your course plan.", "info", 0);
-        this.addNotification("Adding " , "Select a table cell in your course structure to insert", "info");
-
+        this.addNotification("Adding " , "Select a table cell in your course structure to insert", "success");
+        this.addNotification("Moving " , "Drop into a table cell in your course structure to move {props.unitToBeMoved.UnitCode}. Dropping into a table cell where there is already an occupied unit will swap the units.", "warning");
+        this.addNotification("Error " , "I'm afraid I can't let you do that Saurabh", "error");
     }
 
     /**
     * Main addNotifaction Call on mounting of component
     */
-    addNotification(title, message, level, dismiss=5){
+    addNotification(title, message, level, dismiss=10){
         this._notificationSystem.addNotification({
             title: title,
             message: message,

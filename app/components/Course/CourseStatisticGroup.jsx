@@ -19,23 +19,22 @@ function CourseStatisticGroup(props) {
     return (
           <Grid textAlign="center">
             <Grid.Row className="statsGroupRow">
-              <Grid.Column width={8}>
-                <Statistic size="mini">
+                <Statistic size="mini" horizontal>
                     <Statistic.Value>
-                        <Icon name='student' />
-                        {props.creditPoints}
+                        <Icon name='student' />&nbsp;
+                         {props.creditPoints}
                     </Statistic.Value>
                     <Popup
-                      trigger={<Statistic.Label>Total credit points</Statistic.Label>}
+                      trigger={<Statistic.Label>Credit points</Statistic.Label>}
                       header="Current credit points"
                       content="This estimate is the total amount of credit points that could be earnt of the current current course for students"
                       on="hover"
                       positioning="bottom right"
                     />
                 </Statistic>
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <Statistic size="mini">
+            </Grid.Row>
+            <Grid.Row>
+                <Statistic size="mini" horizontal>
                     <Statistic.Value >
                         <Icon name='dollar' />
                         {props.cost}
@@ -47,8 +46,7 @@ function CourseStatisticGroup(props) {
                       on="hover"
                       positioning="bottom left"
                     />
-                </Statistic>
-              </Grid.Column>
+            </Statistic>
             </Grid.Row>
           </Grid>
     );
