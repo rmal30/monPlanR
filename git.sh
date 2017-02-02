@@ -7,8 +7,8 @@ rm -rf mochawesome-reports/
 echo "Builing Unit Test Report"
 mocha --compilers babel-core/register test/**/*.spec.js* --reporter mochawesome
 echo "Renaming Files"
-mv mochawesome-reports doc
-cd doc
+mv mochawesome-reports docs
+cd docs
 mv mochawesome.html index.html
 echo "Deploying to Git using lazy git"
 lazy git
