@@ -36,7 +36,7 @@ export default function CompletedCourseModal({ trigger }) {
                                     You can print your course plan then showing it to your course
                                     advisor.
                                 </p>
-                                <Button primary onClick={() => print()} className="btnorange"><Icon name="print" />Print course plan</Button>
+                                <Button primary onClick={() => print()} className="btnmainblue"><Icon name="print" />Print course plan</Button>
                             </Grid.Column>
                             <Grid.Column width={8}>
                                 <Header><Icon name="download" /> Export it</Header>
