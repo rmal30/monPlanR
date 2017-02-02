@@ -3,6 +3,16 @@ import deepFreeze from "deep-freeze";
 import CourseStructure from "../../app/reducers/CourseStructure";
 import { describe, it } from "mocha";
 
+/**
+ * The test function that will run for each
+ */
+const test = (stateBefore, action, stateAfter) => {
+    deepFreeze(stateBefore);
+    deepFreeze(action);
+    expect(
+        CourseStructure(stateBefore, action)
+    ).toEqual(stateAfter);
+};
 
 describe("REDUCER: CourseStructure", () => {
 
@@ -32,12 +42,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
 
         });
 
@@ -66,12 +71,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
 
         });
     });
@@ -97,11 +97,8 @@ describe("REDUCER: CourseStructure", () => {
                 ],
                 numberOfUnits: 4
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            
+            test(stateBefore, action, stateAfter);
         });
         it("Should remove a teaching period at the start of the array", () => {
             const stateBefore = {
@@ -123,11 +120,7 @@ describe("REDUCER: CourseStructure", () => {
                 ],
                 numberOfUnits: 4
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -153,11 +146,7 @@ describe("REDUCER: CourseStructure", () => {
                 ],
                 numberOfUnits: 4
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -174,11 +163,7 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null] }],
                 numberOfUnits: 5
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
 
         it("Should not increase the study load if the study load is 6 or greater", () => {
@@ -193,11 +178,7 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null, null] }],
                 numberOfUnits: 6
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -214,11 +195,7 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null] }],
                 numberOfUnits: 4
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
 
         it("Should not decrease the study load if the study load is 4 or less", () => {
@@ -233,11 +210,7 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null] }],
                 numberOfUnits: 4
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -257,12 +230,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -293,12 +261,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
 
         it("Should add a unit correctly to the middle of an array", () => {
@@ -327,12 +290,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
 
         it("Should add a unit correctly to the end of an array", () => {
@@ -361,11 +319,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -395,12 +349,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
 
         it("Should remove a unit correctly from the middle of an array", () => {
@@ -428,12 +377,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
 
         it("Should remove a unit correctly from the end of an array", () => {
@@ -461,12 +405,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -495,12 +434,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
 
         it("Should return an empty course structure with invalid start and end years.", () => {
@@ -527,12 +461,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -564,12 +493,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfo: null
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -623,12 +547,7 @@ describe("REDUCER: CourseStructure", () => {
                 focusedCourse: "COURSE101"
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -660,12 +579,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfo: null
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -697,12 +611,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseTemplateData: null
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -735,12 +644,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseTemplateData: "Fake Course Template"
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -772,12 +676,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseTemplateData: null
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -811,12 +710,7 @@ describe("REDUCER: CourseStructure", () => {
                 focusedUnitCode: null
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -852,12 +746,7 @@ describe("REDUCER: CourseStructure", () => {
                 focusedUnitCode: "FAKE1001"
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -892,12 +781,7 @@ describe("REDUCER: CourseStructure", () => {
                 focusedUnitCode: "FAKE1001"
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -939,12 +823,7 @@ describe("REDUCER: CourseStructure", () => {
                 endYear: 2020
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
@@ -986,13 +865,259 @@ describe("REDUCER: CourseStructure", () => {
                 endYear: 2025
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                CourseStructure(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(stateBefore, action, stateAfter);
         });
     });
 
+
+    describe("ACTION: FETCH_TEACHING_PERIODS_PENDING", () => {
+        it("Should correctly handle  of teaching periods data", () => {
+            const stateBefore = {
+                teachingPeriodData: null,
+                teachingPeriodsDataLoading: false,
+                teachingPeriodsDataError: false
+            };
+
+            const action = {
+                type: "FETCH_TEACHING_PERIODS_PENDING"
+            };
+
+            const stateAfter = {
+                teachingPeriodData: null,
+                teachingPeriodsDataLoading: true,
+                teachingPeriodsDataError: false
+            };
+
+            test(stateBefore, action, stateAfter);     
+        });
+    });
+    
+    describe("ACTION: FETCH_TEACHING_PERIODS_FULFILLED", () => {
+        it("Should correctly handle  of teaching periods data", () => {
+            const stateBefore = {
+                teachingPeriodData: null,
+                teachingPeriodsDataLoading: true,
+                teachingPeriodsDataError: false
+            };
+
+            const action = {
+                type: "FETCH_TEACHING_PERIODS_FULFILLED",
+                payload: "Teaching period strings"
+            };
+
+            const stateAfter = {
+                teachingPeriodData: "Teaching period strings",
+                teachingPeriodsDataLoading: false,
+                teachingPeriodsDataError: false
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+    
+    describe("ACTION: FETCH_TEACHING_PERIODS_REJECTED", () => {
+        it("Should correctly handle  of teaching periods data", () => {
+            const stateBefore = {
+                teachingPeriodData: null,
+                teachingPeriodsDataLoading: true,
+                teachingPeriodsDataError: false
+            };
+
+            const action = {
+                type: "FETCH_TEACHING_PERIODS_REJECTED"
+            };
+
+            const stateAfter = {
+                teachingPeriodData: null,
+                teachingPeriodsDataLoading: false,
+                teachingPeriodsDataError: true
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: SHOW_INSERT_TEACHING_PERIOD_UI", () => {
+        it("Should set the teaching period code to insert value correctly", () => {
+            const stateBefore = {
+                teachingPeriodCodeToInsert: null,
+                testParam1: 1,
+                testParam2: "test"
+            };
+
+            const action = {
+                type: "SHOW_INSERT_TEACHING_PERIOD_UI",
+                tpCode: "S1-02"
+            };
+
+            const stateAfter = {
+                teachingPeriodCodeToInsert: "S1-02",
+                testParam1: 1,
+                testParam2: "test"
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: UPLOAD_COURSE_SNAPSHOT_PENDING", () => {
+        it("Should handle the initiation of a course snapshot upload correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotUploading: false,
+                courseSnapshotUploadError: true,
+                courseSnapShotUploadData: null
+            };
+
+            const action = {
+                type: "UPLOAD_COURSE_SNAPSHOT_PENDING",
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotUploading: true,
+                courseSnapshotUploadError: false,
+                courseSnapShotUploadData: null
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+    
+    describe("ACTION: UPLOAD_COURSE_SNAPSHOT_FULFILLED", () => {
+        it("Should handle the successful upload of a course snapshot correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotUploading: true,
+                courseSnapshotUploadError: false,
+                courseSnapShotUploadData: null
+            };
+
+            const action = {
+                type: "UPLOAD_COURSE_SNAPSHOT_FULFILLED",
+                payload: {data: "upload string"}
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotUploading: false,
+                courseSnapshotUploadError: false,
+                courseSnapShotUploadData: "upload string"
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+    
+    describe("ACTION: UPLOAD_COURSE_SNAPSHOT_REJECTED", () => {
+        it("Should do handle the rejected upload of a course snapshot correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotUploading: true,
+                courseSnapshotUploadError: false,
+                courseSnapShotUploadData: null
+            };
+
+            const action = {
+                type: "UPLOAD_COURSE_SNAPSHOT_REJECTED",
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotUploading: false,
+                courseSnapshotUploadError: true,
+                courseSnapShotUploadData: null
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    
+    describe("ACTION: FETCH_COURSE_SNAPSHOT_PENDING", () => {
+        it("Should begin fetching a course snapshot correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotLoading: false,
+                courseSnapshotLoadError: true,
+                courseSnapshotData: null,
+            };
+
+            const action = {
+                type: "FETCH_COURSE_SNAPSHOT_PENDING",
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotLoading: true,
+                courseSnapshotLoadError: false,
+                courseSnapshotData: null,
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+    
+    describe("ACTION: FETCH_COURSE_SNAPSHOT_FULFILLED", () => {
+        it("Should handle a successful course snapshot fetch correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotLoading: true,
+                courseSnapshotLoadError: false,
+                courseSnapshotData: null,
+            };
+
+            const action = {
+                type: "FETCH_COURSE_SNAPSHOT_FULFILLED",
+                payload: {data: "Snap data"}
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotLoading: false,
+                courseSnapshotLoadError: false,
+                courseSnapshotData: "Snap data",
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+    
+    describe("ACTION: FETCH_COURSE_SNAPSHOT_REJECTED", () => {
+        it("Should handle a rejected course snapshot fetch correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotLoading: true,
+                courseSnapshotLoadError: false,
+                courseSnapshotData: null,
+            };
+
+            const action = {
+                type: "FETCH_COURSE_SNAPSHOT_REJECTED",
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                courseSnapshotLoading: false,
+                courseSnapshotLoadError: true,
+                courseSnapshotData: null,
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+    
 });
+

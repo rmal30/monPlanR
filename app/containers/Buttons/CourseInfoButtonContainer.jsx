@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import CourseDetailPopup from "../components/Course/CourseDetailPopup.jsx";
+import CourseDetailPopup from "../../components/Course/CourseDetailPopup.jsx";
 import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 

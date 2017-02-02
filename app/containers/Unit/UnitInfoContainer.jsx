@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import React, { PropTypes } from "react";
-import UnitInfo from "../components/Unit/UnitInfo.jsx";
-import UnitInfoPlaceholder from "../components/Unit/UnitInfoPlaceholder.jsx";
-import CostCalc from "../utils/CostCalc";
+import UnitInfo from "../../components/Unit/UnitInfo.jsx";
+import UnitInfoPlaceholder from "../../components/Unit/UnitInfoPlaceholder.jsx";
+import CostCalc from "../../utils/CostCalc";
 
 /**
  * A unit information container. This container grabs the data required for a unit info view from 

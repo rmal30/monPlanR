@@ -5,7 +5,7 @@ import { Link } from "react-router";
 
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
-import CourseStatisticGroupContainer from "../../containers/CourseStatisticGroupContainer";
+import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
 // import SettingsModal from "../modals/settings.jsx";
 
 

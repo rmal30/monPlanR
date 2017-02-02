@@ -3,8 +3,8 @@ import { Divider, Grid, Statistic, Icon } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 
 import SetuRating from "./SetuRating.jsx";
-import UnitDescriptionContainer from "../../containers/UnitDescriptionContainer.jsx";
-import OfferingContainer from "../../containers/OfferingContainer.jsx";
+import UnitDescriptionContainer from "../../containers/Unit/UnitDescriptionContainer.jsx";
+import OfferingContainer from "../../containers/Unit/OfferingContainer.jsx";
 
 /**
 * This component displays the unit info for a selected unit in the form of a collapsable tray.

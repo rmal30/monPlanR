@@ -15,11 +15,12 @@ import Header from "./Header.jsx";
 import Footer from "../../containers/copyright.jsx";
 
 //Local container imports
-import UnitSearchContainer from "../../containers/UnitSearchContainer.jsx";
+import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
 
 // Redux actions import
 import * as courseActions from "../../actions/CourseActions";
 import * as counterActions from "../../actions/CounterActions";
+import * as dataFetchActions from "../../actions/DataFetchActions";
 
 
 /**
@@ -36,7 +37,7 @@ const mapStateToProps = (state) => {
  * Redux bindings for functions, passes the action creators through with dispatch built in
  */
 const mapDispatchToProps = (dispatch) => {
-    const actionBundle = {...courseActions, ...counterActions};
+    const actionBundle = {...courseActions, ...counterActions, ...dataFetchActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -69,6 +70,8 @@ class Main extends Component {
         this.detachAddToCourse = this.detachAddToCourse.bind(this);
 
         this.updateStatus = this.updateStatus.bind(this);
+
+        this.props.fetchTeachingPeriods(); // grabs teaching period strings from API
 
     }
 
@@ -180,7 +183,8 @@ class Main extends Component {
 
 Main.propTypes = {
     children: PropTypes.element.isRequired,
-    location: PropTypes.object
+    location: PropTypes.object,
+    fetchTeachingPeriods: PropTypes.func
 };
 
 

@@ -84,7 +84,6 @@ class LoadCourseMap extends Component {
      */
     handleLoadCourse() {
         const { CourseCode, code, year} = this.state;
-        this.props.onCourseLoad(code, year);
         this.props.fetchCourseInfo(CourseCode);
         this.props.submitCourseForm(CourseCode, year, code);
 

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import CourseStatisticGroup from "../components/Course/CourseStatisticGroup.jsx";
+import CourseStatisticGroup from "../../components/Course/CourseStatisticGroup.jsx";
 
 /**
  * Course statistic group just needs the cost and credit points from the state

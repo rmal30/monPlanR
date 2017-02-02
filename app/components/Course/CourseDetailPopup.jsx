@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { Button, Modal } from "semantic-ui-react";
 
 import ControlledModal from "../modals/ControlledModal.jsx";
-import CourseInfoContainer from "../../containers/CourseInfoContainer.jsx";
+import CourseInfoContainer from "../../containers/Course/CourseInfoContainer.jsx";
 
 /**
  * This functions exactly like the unitDetailPopup, it renders a modal.

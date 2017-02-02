@@ -5,7 +5,6 @@
 * @author Eric Jiang
 * @return year
 */
-
 export default function ShowYear(){
     var currentTime = new Date();
     var currentMonth = currentTime.getMonth() + 1;

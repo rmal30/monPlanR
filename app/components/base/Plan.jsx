@@ -5,9 +5,11 @@ import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
+//import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import NotificationContainer from "../../containers/NotificationContainer.jsx";
+
 
 /**
  * The plan component is the main page of the app, where students can add and

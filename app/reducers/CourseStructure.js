@@ -1,3 +1,5 @@
+import { getQuickSemesterString } from "../utils/NextSemesterString";
+
 /**
  * @author JXNS, Saurabh Joshi
  * The CourseStructure reducer is the most complex state to manage as it forms
@@ -13,13 +15,31 @@
 const defaultState = {
     teachingPeriods: [],
     numberOfUnits: 4,
+    
     courseInfoLoading: false,
     courseLoading: false,
+    
     unitLoading: false,
     unitLoadError: false,
+    
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     courseTemplateData: null,
+    
+    courseSnapshotLoading: false,
+    courseSnapshotLoadError: false,
+    courseSnapshotData: null,
+
+    courseSnapshotUploading: false,
+    courseSnapshotUploadError: false,
+    courseSnapShotUploadData: null,
+
+    teachingPeriodData: null,
+    teachingPeriodsDataLoading: false,
+    teachingPeriodsDataError: false,
+    
+    teachingPeriodCodeToInsert: null,
+    nextSemesterString: null,
 
     unitInfo: {
         cost: 0,
@@ -282,6 +302,29 @@ const CourseStructure = (state = defaultState, action) => {
                 unitLoadError: true
             };
 
+        
+        case "FETCH_TEACHING_PERIODS_PENDING":
+            return {
+                ...state,
+                teachingPeriodsDataLoading: true,
+                teachingPeriodsDataError: false
+            };
+        
+        case "FETCH_TEACHING_PERIODS_FULFILLED":
+            return {
+                ...state,
+                teachingPeriodData: action.payload,
+                teachingPeriodsDataLoading: false,
+            };
+        
+        case "FETCH_TEACHING_PERIODS_REJECTED":
+            return {
+                ...state,
+                teachingPeriodData: null,
+                teachingPeriodsDataLoading: false,
+                teachingPeriodsDataError: true
+            };
+
         case "SUBMIT_COURSE_FORM":
             return {
                 ...state,
@@ -292,8 +335,82 @@ const CourseStructure = (state = defaultState, action) => {
         case "SUBMIT_YEAR_FORM":
             return {
                 ...state,
-                startYear: action.startYear,
+                startYear: action.startYear, 
                 endYear: action.endYear
+            };
+
+        case "CHANGE_START_YEAR":
+            return {
+                ...state,
+                startYear: action.year
+            };
+
+        case "SHOW_INSERT_TEACHING_PERIOD_UI":
+            return {
+                ...state,
+                teachingPeriodCodeToInsert: action.tpCode
+            };
+
+        case "GET_NEXT_SEMESTER_STRING":
+            return {
+                ...state,
+                nextSemesterString: getQuickSemesterString(state.teachingPeriods, state.startYear, state.teachingPeriodData)
+            };
+
+        case "LOAD_NEW_TEACHING_PERIODS":
+            return {
+                ...state,
+                teachingPeriods: action.value
+            };
+
+        case "GET_NEW_NUMBER_OF_UNITS":
+            return {
+                ...state,
+                numberOfUnits: action.value
+            };
+        
+        case "UPLOAD_COURSE_SNAPSHOT_PENDING":
+            return {
+                ...state,
+                courseSnapshotUploading: true,
+                courseSnapshotUploadError: false,
+            };
+        
+        case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":
+            return {
+                ...state,
+                courseSnapshotUploading: false,
+                courseSnapShotUploadData: action.payload.data,
+            };
+        
+        case "UPLOAD_COURSE_SNAPSHOT_REJECTED":
+            return {
+                ...state,
+                courseSnapshotUploading: false,
+                courseSnapshotUploadError: true,
+                courseSnapShotUploadData: null,
+            };
+        
+        case "FETCH_COURSE_SNAPSHOT_PENDING":
+            return {
+                ...state,
+                courseSnapshotLoading: true,
+                courseSnapshotLoadError: false,
+            };
+        
+        case "FETCH_COURSE_SNAPSHOT_FULFILLED":
+            return {
+                ...state,
+                courseSnapshotLoading: false,
+                courseSnapshotData: action.payload.data
+            };
+        
+        case "FETCH_COURSE_SNAPSHOT_REJECTED":
+            return {
+                ...state,
+                courseSnapshotLoading: false,
+                courseSnapshotLoadError: true,
+                courseSnapshotData: null                    
             };
 
         /**
@@ -328,12 +445,14 @@ const CourseStructure = (state = defaultState, action) => {
                 }
 
                 return {
-                    teachingPeriods,
+                    ...state,
+                    teachingPeriods, 
                     numberOfUnits: 4
                 };
             }
 
             return {
+                ...state,
                 teachingPeriods: [],
                 numberOfUnits: 4
             };
@@ -343,5 +462,8 @@ const CourseStructure = (state = defaultState, action) => {
             return state;
     }
 };
+
+
+
 
 export default CourseStructure;

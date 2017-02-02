@@ -1,26 +1,18 @@
 import React, { PropTypes } from "react";
-import { Button, Dropdown, Header, Icon, Modal, Grid } from "semantic-ui-react";
+import { Button, Header, Icon, Modal, Grid } from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
-import Export from "../../utils/Export.js";
-import SaveButton from "../Course/SaveButton.jsx";
+import SaveButtonContainer from "../../containers/Buttons/SaveButtonContainer.jsx";
+import ExportButtonGroupContainer from "../../containers/Buttons/ExportButtonGroupContainer.jsx";
 
 /**
  * The completed course modal.
  *
  * @author Saurabh Joshi
  */
-export default function CompletedCourseModal({ trigger, teachingPeriods, numberOfUnits, isUploading, uploadingError, uploaded, uploadCourseToDatabase, uploadedCourseID }) {
+export default function CompletedCourseModal({ trigger }) {
     CompletedCourseModal.propTypes = {
         trigger: PropTypes.element.isRequired,
-        teachingPeriods: PropTypes.arrayOf(PropTypes.object),
-        numberOfUnits: PropTypes.number.isRequired,
-
-        isUploading: PropTypes.bool,
-        uploaded: PropTypes.bool,
-        uploadingError: PropTypes.bool,
-        uploadCourseToDatabase: PropTypes.func.isRequired,
-        uploadedCourseID: PropTypes.string
     };
 
     const closeTrigger = <Button content="Close" className="btnlightcancel" />;
@@ -49,15 +41,7 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                             <Grid.Column width={8}>
                                 <Header><Icon name="download" /> Export it</Header>
                                 <p>You can also export it as a CSV and/or JSON for use in other software such as Excel.</p>
-                                <Button.Group secondary>
-                                    <Button className="btndarkblue" onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
-                                    <Dropdown floating button className="icon btndarkblue">
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.CSV)}>Export as CSV</Dropdown.Item>
-                                            <Dropdown.Item onClick={() => Export.File(teachingPeriods, numberOfUnits, Export.JSON)}>Export as JSON</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Button.Group>
+                                <ExportButtonGroupContainer />
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -66,13 +50,7 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                             <p>
                                 Save your course online and Grab a link. Save it for future use on any device, otherwse share it.
                             </p>
-                            <SaveButton
-                                isUploading={isUploading}
-                                uploadingError={uploadingError}
-                                uploaded={uploaded}
-                                uploadCourseToDatabase={uploadCourseToDatabase}
-                                uploadedCourseID={uploadedCourseID}
-                                />
+                            <SaveButtonContainer />
                             </Grid.Column>
                             <Grid.Column width={8}>
                             <Header><Icon name="repeat" />  Visit this site every now and then</Header>
@@ -82,7 +60,6 @@ export default function CompletedCourseModal({ trigger, teachingPeriods, numberO
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-
                 </Modal.Description>
             </Modal.Content>
         </ControlledModal>

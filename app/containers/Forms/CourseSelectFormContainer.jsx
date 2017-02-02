@@ -4,11 +4,11 @@ import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as dataFetchActions from "../actions/DataFetchActions";
+import * as dataFetchActions from "../../actions/DataFetchActions";
 
-import FuzzySearch from "../utils/FuzzySearch";
-import UnitQuery from "../utils/UnitQuery";
-import YearCalc from "../utils/YearCalc.js";
+import FuzzySearch from "../../utils/FuzzySearch";
+import UnitQuery from "../../utils/UnitQuery";
+import YearCalc from "../../utils/YearCalc.js";
 
 
 
@@ -75,13 +75,12 @@ class CourseSelectFormContainer extends Component {
      */
     handleSubmit(event) {
         event.preventDefault();
-        this.props.fetchCourseInfo(this.state.CourseCode);
+        const { CourseCode, year, code } = this.state;
+        this.props.fetchCourseInfo(CourseCode);
+        this.props.submitCourseForm(CourseCode, year, code);
+        
         this.context.router.push({
-            pathname: "/plan",
-            query: {
-                startYear: this.state.year,
-                courseToLoad: this.state.code
-            }
+            pathname: "/plan"
         });
     }
 
@@ -210,7 +209,6 @@ class CourseSelectFormContainer extends Component {
                                             placeholder="Search for your course"
                                             noResultsMessage="No courses found"
                                             noResultsDescription="We only store 2017 course maps for most courses across Monash."
-                                            {...this.props}
                                             fluid
                                         />
                                 </Form.Field>
@@ -279,5 +277,6 @@ CourseSelectFormContainer.contextTypes = {
 };
 
 CourseSelectFormContainer.propTypes = {
-    fetchCourseInfo: PropTypes.func
+    fetchCourseInfo: PropTypes.func,
+    submitCourseForm: PropTypes.func
 };

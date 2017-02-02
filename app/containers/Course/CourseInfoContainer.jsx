@@ -1,8 +1,8 @@
 import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 
-import CourseInfo from "../components/Course/CourseInfo.jsx";
-import CourseInfoPlaceholder from "../components/Course/CourseInfoPlaceholder.jsx";
+import CourseInfo from "../../components/Course/CourseInfo.jsx";
+import CourseInfoPlaceholder from "../../components/Course/CourseInfoPlaceholder.jsx";
 
 /**
  * Handles data fetching for course information.

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Header, Menu } from "semantic-ui-react";
 
-import UnitSearchResult from "../components/Unit/UnitSearchResult.jsx";
+import UnitSearchResult from "../../components/Unit/UnitSearchResult.jsx";
 
 /**
  * Displays a list of units if there are search results.
