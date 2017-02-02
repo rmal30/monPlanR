@@ -3,10 +3,12 @@ import { routerReducer } from "react-router-redux";
 
 import Counter from "./Counter";
 import CourseStructure from "./CourseStructure";
+import Notifications from "./Notifications";
 
 const appReducer = combineReducers({
     CourseStructure,
     Counter,
+    Notifications,
     routing: routerReducer
 });
 
