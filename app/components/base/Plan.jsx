@@ -7,6 +7,7 @@ import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
+import NotificationContainer from "../../containers/NotificationContainer.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -179,6 +180,7 @@ class Plan extends Component {
 
         return (
             <div>
+                <NotificationContainer />
                 {this.state.customUnitCode &&
                     <CustomUnitModal
                         UnitCode={this.state.customUnitCode}

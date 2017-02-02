@@ -71,7 +71,7 @@
     "deploy": "npm test && npm run build:prod && cd dist && gcloud app deploy",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
-    "test": "npm run test:unit; npm run test:lint",
+    "test": "EXIT_STATUS=0; npm run test:unit || EXIT_STATUS=$?; npm run test:lint || EXIT_STATUS=$?; exit $EXIT_STATUS",
     "test:lint": "eslint --ext .jsx --ext .js app test",
     "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
     "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
