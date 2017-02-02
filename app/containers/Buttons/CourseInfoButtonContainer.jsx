@@ -7,10 +7,11 @@ import { connect } from "react-redux";
 /**
  * Testing
  */
-const CourseInfoButtonContainer = ({ courseCode }) => {
+const CourseInfoButtonContainer = ({ courseCode, mobile }) => {
 
     const courseDetailButton = (
             <Button
+                fluid={mobile}
                 disabled={courseCode === "" || courseCode === null}
                 className="btndarkblue"
                 primary>
@@ -36,5 +37,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps)(CourseInfoButtonContainer);
 
 CourseInfoButtonContainer.propTypes = {
-    courseCode: PropTypes.string
+    courseCode: PropTypes.string,
+    mobile: PropTypes.bool
 };

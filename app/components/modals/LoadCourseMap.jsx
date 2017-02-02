@@ -32,9 +32,9 @@ class LoadCourseMap extends Component {
             yearIsDisabled: true
         };
 
+        this.handleLoadCourse = this.handleLoadCourse.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
-        this.handleLoadCourse = this.handleLoadCourse.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSpecialisationSelect = this.handleSpecialisationSelect.bind(this);
         this.handleYearSelect = this.handleYearSelect.bind(this);
@@ -172,7 +172,7 @@ class LoadCourseMap extends Component {
         return (
             <Modal trigger={(
                     <Button
-                        fluid
+                        fluid={this.props.mobile}
                         onClick={this.handleOpen.bind(this)}
                         className="btnlightblue">
                         Load Course Map
@@ -201,7 +201,6 @@ class LoadCourseMap extends Component {
                         selectFirstResult
                         noResultsMessage="No courses found"
                         noResultsDescription="We only store 2017 course maps for most courses across Monash."
-                        {...this.props}
                     />
 
                     <br />
@@ -252,7 +251,8 @@ LoadCourseMap.propTypes = {
     CourseCode: PropTypes.string,
     onCourseLoad: PropTypes.func,
     fetchCourseInfo: PropTypes.func,
-    submitCourseForm: PropTypes.func
+    submitCourseForm: PropTypes.func,
+    mobile: PropTypes.bool
 };
 
 export default connect(null, mapDispatchToProps)(LoadCourseMap);

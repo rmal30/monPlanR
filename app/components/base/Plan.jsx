@@ -7,7 +7,6 @@ import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 //import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStructure from "../Course/CourseStructure.jsx";
-import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import NotificationContainer from "../../containers/NotificationContainer.jsx";
 
 
@@ -41,7 +40,6 @@ class Plan extends Component {
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
-        this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
     /**
      * A workaround that is a React anti-pattern. It attaches add to course menu
@@ -163,17 +161,6 @@ class Plan extends Component {
 
 
     /**
-     * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as
-     * a prop
-     */
-    handleCourseLoad(courseCode, courseYear) {
-        this.setState({
-            courseToLoad: courseCode,
-            courseYear
-        });
-    }
-
-    /**
      * Returns a container of grid of a single row, holding the course
      * structure.
      */
@@ -196,7 +183,6 @@ class Plan extends Component {
                             <Grid.Column width="4">
                             </Grid.Column>
                             <Grid.Column width="4">
-                                <LoadCourseMap onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
