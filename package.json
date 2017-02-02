@@ -24,6 +24,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-2": "^6.22.0",
     "chai": "^3.5.0",
+    "chai-enzyme": "^0.6.1",
     "css-loader": "^0.25.0",
     "deep-freeze": "0.0.1",
     "enzyme": "^2.6.0",
@@ -72,11 +73,10 @@
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
     "test": "npm run test:unit; npm run test:lint",
-    "test:report": "npm run test:unit; npm run test:lint",
-    "test:lint": "eslint --ext .jsx --ext .js app",
-    "test:unit": "mocha --compilers babel-core/register test/**/*.spec.js*",
+    "test:lint": "eslint --ext .jsx --ext .js app test",
+    "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
     "test:unitReport": "sh ./git.sh" ,
-    "unittest": "mocha -C --compilers babel-core/register test/**/*.spec.js*",
+    "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
     "fix": "eslint --ext .jsx --ext .js app --fix"
   },
   "repository": {
