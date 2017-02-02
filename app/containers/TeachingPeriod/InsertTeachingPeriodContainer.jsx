@@ -10,9 +10,16 @@ import { getSemesterString } from "../../utils/NextSemesterString";
 import InsertTeachingPeriod from "../../components/TeachingPeriod/InsertTeachingPeriod.jsx";
 
 
+/**
+ * Container for a insert teaching period thing
+ */
 const InsertTeachingPeriodContainer = (props) => {
     let { index, year, numberOfUnits, teachingPeriodData, teachingPeriodCodeToInsert} = props;
 
+    /** 
+     * When teaching period insert is clicked, we insert it via redux function and 
+     * then hide the insert teaching period UI
+     */
     const handleInsertTeachingPeriod = () => {
         props.insertTeachingPeriod(index, year, teachingPeriodCodeToInsert);
         props.hideInsertTeachingPeriodUI();  
@@ -32,7 +39,9 @@ const InsertTeachingPeriodContainer = (props) => {
     );
 };
 
-
+/**
+ * inject the necessary props from redux store
+ */
 const mapStateToProps = (state) => {
     return {
         numberOfUnits: state.CourseStructure.numberOfUnits,
@@ -41,6 +50,9 @@ const mapStateToProps = (state) => {
     };
 };
 
+/**
+ * inject the necessary functions from redux store
+ */
 const mapDispatchToProps = (dispatch) => {
     const actionBundle = Object.assign({}, courseActions, uiActions);
     return bindActionCreators(actionBundle, dispatch);

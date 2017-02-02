@@ -54,6 +54,9 @@ export const getQuickSemesterString = (teachingPeriods, startYear, teachingPerio
     return `${teachingPeriodName}, ${year}`;
 };
 
+/**
+ * generates any semester string given a year and a teaching period code to check teachingperioddata against
+ */
 export const getSemesterString = (year, teachingPeriodData, code) => {
     
     let teachingPeriodName = code;
