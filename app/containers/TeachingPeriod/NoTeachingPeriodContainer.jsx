@@ -24,14 +24,23 @@ const NoTeachingPeriodContainer = (props) => {
 
     let { nextSemesterString } = props; 
 
+    /**
+     * Pulls function from redux, inserting a semester
+     */
     const handleInsertSemester = (code) => {
         props.insertTeachingPeriod(0, startYear, code);
     };
 
+    /**
+     * Pulls a function from redux for adding a semester to the end of the array
+     */
     const handleAppendSemester = () => {
         props.addTeachingPeriod(startYear, "S1-01"); //hardcoded until we deal with the generate next add thing
     };
     
+    /**
+     * Pulls a function from redux handling the changing of the start year
+     */
     const handleChangeYear = (year) => {
         props.changeStartYear(year);
     };
@@ -75,7 +84,7 @@ const NoTeachingPeriodContainer = (props) => {
 };
 
 /**
- * 
+ * grabs the necessary props from redux store
  */
 const mapStateToProps = (state) => {
     return {
@@ -87,7 +96,7 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * 
+ * grabs functions necessary
  */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);

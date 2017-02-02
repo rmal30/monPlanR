@@ -208,6 +208,9 @@ class YearFormContainer extends Component {
     }
 }
 
+/**
+ * Year form container needs the redux function for submiting a year form
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);
 };

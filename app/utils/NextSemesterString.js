@@ -1,7 +1,7 @@
 /**
     * Gets the next semester in the list of teaching periods.
     *
-    * @author Saurabh Joshi
+    * @author Saurabh Joshi, JXNS
 */
 export const nextSemester = (teachingPeriods, startYear, teachingPeriodData) => {
     const index = teachingPeriods.length;
@@ -33,6 +33,9 @@ export const nextSemester = (teachingPeriods, startYear, teachingPeriodData) => 
     return { index, year, code };
 };
 
+/**
+ * @author Saurabh Joshi, JXNS
+ */
 export const getQuickSemesterString = (teachingPeriods, startYear, teachingPeriodData) =>  {
     const { year, code } = nextSemester(teachingPeriods, startYear, teachingPeriodData);
 
