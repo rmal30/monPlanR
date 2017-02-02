@@ -7,7 +7,8 @@ import CourseStatisticGroup from "../../components/Course/CourseStatisticGroup.j
 const mapStateToProps = (state) => {
     return {
         cost: state.Counter.cost,
-        creditPoints: state.Counter.creditPoints
+        creditPoints: state.Counter.creditPoints,
+        requiredCreditPoints: state.CourseStructure.courseInfo.creditPoints
     };
 };
 
