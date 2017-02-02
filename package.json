@@ -11,6 +11,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "helmet": "^3.4.0",
+    "mochawesome": "^2.0.2",
     "react-notification-system": "^0.2.11"
   },
   "devDependencies": {
@@ -74,8 +75,9 @@
     "test": "npm run test:unit; npm run test:lint",
     "test:lint": "eslint --ext .jsx --ext .js app test",
     "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
+    "test:unitReport": "sh ./git.sh" ,
     "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
-    "fix": "eslint --ext .jsx --ext .js app test --fix"
+    "fix": "eslint --ext .jsx --ext .js app --fix"
   },
   "repository": {
     "type": "git",
