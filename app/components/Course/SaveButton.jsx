@@ -16,7 +16,7 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
     };
 
     let uploaded = !(isUploading || uploadingError);
-    
+
     return (
         <Popup
             on="click"
@@ -30,7 +30,7 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
                         disabled={isUploading}
                         onClick={uploadCourseToDatabase}
                         loading={isUploading}
-                        className="btnorange">
+                        className="btnmainblue">
                         <Icon name={uploaded && "checkmark" || uploadingError && "x" || "upload"} />
                         {uploaded && "Saved course" || "Save course"}
                     </Button>
