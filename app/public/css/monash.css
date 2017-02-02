@@ -1,0 +1,365 @@
+/*
+* Monash Getting Started Colours Scheme CSS
+*/
+
+/* Header, Footers and Toolbar CSS Property*/
+.toolbars{
+    width: 100% !important;
+    left: 0;
+    background-color: #006cab !important;
+    color: white !important
+}
+
+.toolbars.dark{
+    background-color: #006cab !important;
+    color: white !important;
+    border: 1px solid #006cab !important;
+    box-shadow: -1px 1px #006cab,
+    -2px 2px #006cab,
+    -3px 3px #006cab !important;
+    width: 100% !important;
+    border-radius: 0px !important;
+    left: 0;
+}
+
+.missingPage {
+    min-height: 100%;
+    min-width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover !important;
+    background-position: center !important;
+    background-color: rgba(52,52,52,0) !important;
+}
+
+.missingPage > * {
+    color: white !important
+}
+
+/* Modals */
+.header-primary {
+    background-color: #006cab !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-secondary {
+    background-color: #009fdb !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-tertiary {
+    background-color: #003c5b !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.header-danger {
+    background-color: #BF131A !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+/* User Inputs, Search */
+.srch * {
+    border-radius: 0px !important
+}
+.srch:hover{
+    border-color: rgba(34,36,38, 0.35) !important
+}
+.srch.dark *{
+    background-color: #003c5b !important;
+    color: white !important;
+}
+.srch.main *{
+    background-color: #006cab !important;
+    color: white !important;
+}
+.srch.light *{
+    background-color: #009fdb !important;
+    color: white !important;
+}
+.drpdown {
+    border-radius: 0px !important
+}
+.drpdown * {
+    border-radius: 0px !important
+}
+
+/* Placeholder (Input, Search, etc. ) colours */
+::-webkit-input-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+:-moz-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+::-moz-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+::-ms-input-placeholder {
+    color: #727272 !important;
+    opacity: 0.9 !important
+}
+
+/* Buttons */
+.btnmainblue {
+    background-color: #006cab !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btnmainblue:hover {
+    background-color: #004973 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btnlightblue {
+    background-color: #009fdb !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #009fdb !important
+}
+
+.btnlightblue * {
+    background-color: #009fdb !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btnlightblue:disabled {
+    background-color: #26677f !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btnlightblue:hover {
+    background-color: #007ba7 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btnlightblue:hover * {
+    background-color: #007ba7 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btndarkblue {
+    background-color: #003c5b !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btndarkblue:hover {
+    background-color: #004468 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+.btnwhite {
+    background-color: #fff !important;
+    color: black !important;
+    border-radius: 0px !important
+}
+
+.btnwhite:hover {
+    background-color: #b0b0b0 !important;
+    color: black !important;
+    border-radius: 0px !important
+}
+
+.btnorange {
+    background-color: #FDB515 !important;
+    color: black !important;
+    border-radius: 0px !important
+}
+
+.btnorange:hover {
+    background-color: #fff !important;
+    color: black !important;
+    border-radius: 0px !important
+}
+
+.btnorange:disabled {
+    background-color: #fff !important;
+    color: #b0b0b0 !important;
+    border-radius: 0px !important
+}
+
+.btncancel {
+    background-color: #FF1923 !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #FF1923 !important
+}
+
+.btncancel:hover {
+    background-color: #CC141C !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #CC141C !important
+}
+
+.btnlightcancel {
+    background-color: #727272 !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #727272 !important
+}
+
+.btnlightcancel:hover {
+    background-color: #595959 !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-color: #595959 !important
+}
+
+.btnempty{
+    background-color: #235974 !important;
+    color: #d5d5d5 !important;
+    border-radius: 0px !important
+}
+
+.btnempty:hover{
+    background-color: #54798b !important;
+    color: #ffffff !important;
+    border-radius: 0px !important
+}
+
+.ui.buttons .or:before {
+    background-color: rgb(0, 60, 91)!important;
+    color: white!important
+}
+
+/*
+* Course Stats
+*/
+.statsGroupRow {
+    padding: 10px !important;
+    margin-right: -0.5rem !important;
+}
+.statsGroupRow > .eight.wide.column > .ui.tiny.statistic > * {
+    color: #003c5b !important;
+}
+
+/*
+* Course Structure CSS Styling for Table and other Components
+*/
+.ui.table{
+    background-color: transparent
+}
+
+.coursetable {
+    border-radius: 0px !important;
+    border-color: transparent !important;
+    color: transparent !important
+}
+
+.coursetable * {
+    border-radius: 0px !important;
+}
+
+/* Table Header */
+.coursetable > thead > tr > th {
+    border-color: #006cab !important;
+    background-color: #006cab !important;
+    color: white !important
+}
+
+.coursetable > thead > tr > th > *{
+    border-color: #006cab !important;
+    background-color: transparent !important;
+    color: white !important;
+    box-shadow: 0px 0px 0px 0 #006cab !important;
+    border: #006cab !important
+}
+
+.unitControl {
+    position: relative !important;
+    top: 50% !important;
+    transform: translateY(50%) !important
+}
+
+.unitControl > * {
+    position: relative !important;
+    top: 50% !important;
+    transform: translateY(-25%) !important
+}
+
+/* Course Body Table */
+.coursetable > tbody > tr:nth-child(odd)  {
+    border-color: #f2f2f2  !important;
+    background-color: #f2f2f2 !important;
+    color: black !important
+}
+
+.coursetable > tbody > tr:nth-child(even)  {
+    border-color: white !important;
+    background-color: white !important;
+    color: black !important
+}
+
+.ui.celled.table tr td {
+    padding: 7.5px !important;
+    border-right: 1px dashed #C0C0C0 !important;
+    border-bottom: 1px dashed #C0C0C0 !important;
+    border-left: 1px dashed #C0C0C0 !important;
+}
+
+/* No Teaching Periods */
+.noteachingperiods > *  > h3 > * {
+    color: black !important
+}
+
+.noteachingperiods > *  > h3 {
+    color: black !important
+}
+
+/* User Actions (table) */
+.hoverCell {
+    background-color: rgba(0,84,133,0.7) !important;
+}
+
+
+.ui.table td.active{
+    background-color: #e7e7e7 !important;
+}
+
+/*  Units */
+.placeholder {
+    background-color: transparent !important;
+    border-style: dashed !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+    color: #888 !important
+}
+
+.warningicon { /*Warning Icon in Units*/
+    color: #F2711C !important;
+}
+
+/**
+* UI Messages
+*/
+.ui.message {
+    border-radius: 0px !important
+}
+
+/* Course Status */
+.status {
+    border-bottom: 0.4em solid #47C0BC !important;
+    transition: all 0.2s ease !important
+}
+
+.status.error {
+    border-bottom: 0.4em solid #FF1923 !important;
+    transition: all 0.2s ease !important
+}
+
+.status.error > div > i {
+    color: #FF1923 !important
+}

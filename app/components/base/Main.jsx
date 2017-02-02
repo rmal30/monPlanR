@@ -12,7 +12,7 @@ import { Menu, Sidebar } from "semantic-ui-react";
 
 // Local component imports
 import Header from "./Header.jsx";
-import Footer from "./Footer.jsx";
+import Footer from "../../containers/copyright.jsx";
 
 //Local container imports
 import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
@@ -37,7 +37,7 @@ const mapStateToProps = (state) => {
  * Redux bindings for functions, passes the action creators through with dispatch built in
  */
 const mapDispatchToProps = (dispatch) => {
-    const actionBundle = Object.assign({}, courseActions, counterActions, dataFetchActions);
+    const actionBundle = {...courseActions, ...counterActions, ...dataFetchActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -155,7 +155,7 @@ class Main extends Component {
                     <Sidebar.Pusher
                         id="main-body"
                         dimmed={this.state.menuVisible}
-                        style={{backgroundColor: this.props.children.props.route.darkBackground ? "#004E7B" : "white"}}
+                        style={{backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"}}
                         onClick={this.handleDocumentClick}>
                         <ReactCSSTransitionGroup
                               transitionName="appear"
@@ -173,7 +173,7 @@ class Main extends Component {
 
                                   })}
                         </ReactCSSTransitionGroup>
-                        <Footer className="footer"/>
+                        {!this.props.children.props.route.noFooter && <Footer className="footer"/>}
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
             </div>

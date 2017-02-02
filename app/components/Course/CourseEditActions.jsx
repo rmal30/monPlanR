@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import InsertTeachingPeriodButtonContainer from "../../containers/Buttons/InsertTeachingPeriodButtonContainer.jsx";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
+import CourseInfoButtonContainer from "../../containers/Buttons/CourseInfoButtonContainer.jsx";
 
 import * as courseActions from "../../actions/CourseActions";
 
@@ -25,7 +26,7 @@ const CourseEditActions = (props) => {
     return (
         <MediaQuery maxDeviceWidth={767}>
             {mobile =>
-                <Container className="no-print" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderRadius: "0.5em 0.5em 0 0", borderTop: "0.1em solid #005d95"} : {}}>
+                <Container className="no-print toolbars" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderRadius: "0.5em 0.5em 0 0", borderTop: "0.1em solid #005d95"} : {}}>
                     { props.teachingPeriods.length > 0 &&
                         <InsertTeachingPeriodButtonContainer mobile={mobile} bottom />
                     }   
@@ -33,13 +34,25 @@ const CourseEditActions = (props) => {
                     {mobile && <div><br /></div>}
                     
                     <ClearCourseModal
-                        disabled={props.teachingPeriods.length === 0}
-                        fluid={mobile}
+                        trigger={
+                            <Button
+                                disabled={props.teachingPeriods.length === 0}
+                                fluid={mobile}
+                                className="btncancel"
+                                color="red">
+                                Clear plan
+                            </Button>
+                        }
                         clearCourse={props.clearCourse.bind(props)} />
                     
                     {mobile && <br />}
                     
                     <CompletedCourseModal trigger={CompletedCourseModalTrigger(mobile)} />
+
+                    {mobile && <br />}
+                    
+                    <CourseInfoButtonContainer />
+
                 </Container>
             }
         </MediaQuery>

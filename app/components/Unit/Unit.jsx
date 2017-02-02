@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Message, Header, Icon } from "semantic-ui-react";
+import { Button, Message, Header, Icon, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { DragSource, DropTarget } from "react-dnd";
 
@@ -13,7 +13,7 @@ import * as dataFetchActions from "../../actions/DataFetchActions";
  * Set up any functions from the action creators you want to pass in
  */
 const mapDispatchToProps = dispatch => {
-    const actionBundle = Object.assign({}, dataFetchActions);
+    const actionBundle = {...dataFetchActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -81,12 +81,12 @@ function collectTarget(connect, monitor) {
 }
 
 /**
-* Unit component
+* Unit component. Class is exported for unit testing.
 *
 * @class
 * @extends React.Component
 */
-class Unit extends React.Component {
+export class Unit extends React.Component {
     /**
     * State should only hold additional unit information.
     * CourseStructure component stores only the unit code to reduce space
@@ -200,17 +200,17 @@ class Unit extends React.Component {
      */
     render() {
         const facultyColors = {
-            "Art, Design and Architecture": "pink",
-            "Arts": "red",
-            "Business and Economics": "teal",
-            "Education": "violet",
-            "Engineering": "orange",
-            "Information Technology": "purple",
-            "Law": "brown",
+            "Art, Design and Architecture": "blue",
+            "Arts": "blue",
+            "Business and Economics": "blue",
+            "Education": "blue",
+            "Engineering": "blue",
+            "Information Technology": "blue",
+            "Law": "blue",
             "Medicine, Nursing and Health Sciences": "blue",
-            "Pharmacy and Pharmaceutical Sciences": "olive",
-            "Science": "green",
-            "All": "yellow"
+            "Pharmacy and Pharmaceutical Sciences": "blue",
+            "Science": "blue",
+            "All": "blue"
         };
 
         let facultyColor = undefined;
@@ -237,20 +237,37 @@ class Unit extends React.Component {
                 <Message.Header>
                     {this.props.code}
                     {!this.props.viewOnly &&
-                        <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })} className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
-                            <Button inverted onClick={this.handleDelete.bind(this)} color="red" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
+                        <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })}
+                          className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
+                            <Button onClick={this.handleDelete.bind(this)} className="btncancel" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
                             {this.props.detailButton &&
                                 <UnitDetailModal
                                     onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
                                     unitCode={this.props.code}
-                                    trigger={<Button inverted color="blue" icon="info" />} />
+                                    trigger={<Button className="btnlightblue" color="blue" icon="info" />} />
                             }
                         </Button.Group>
                     }
+
                 </Message.Header>
-                {(!this.state.hovering || !this.showMoveUnitUI) &&
+                <i>{(!this.state.hovering || !this.showMoveUnitUI) &&
                     `${this.props.name}`
-                }
+                }</i>
+                <br/>
+                <div style={{bottom: "0", textAlign:"right"}}>
+                    <Popup
+                        trigger={(this.props.errors && this.props.errors.length > 0) &&
+                                <Icon inverted color="red" name="warning" size="large" />
+                        }
+                        positioning="bottom left"
+                        size="mini"
+                        >
+                    <Popup.Header>The following problems were discovered</Popup.Header>
+                    <Popup.Content>
+                        <ul>{(this.props.errors && this.props.errors.length > 0) && this.props.errors.map((error, index) => <li key={index}>{error.message}</li>)}</ul>
+                    </Popup.Content>
+                    </Popup>
+                </div>
             </Message>
         );
 
@@ -269,9 +286,8 @@ class Unit extends React.Component {
 
         const unitPlaceholder = (
             <Message
-                className="unit"
-                size="mini"
-                style={{background: "transparent", borderStyle: "dashed", borderColor: "#ccc", boxShadow: "none"}}>
+                className="unit placeholder"
+                size="mini">
                 <Message.Header>{this.props.code}</Message.Header>
                 {this.props.name}
             </Message>
@@ -283,8 +299,9 @@ class Unit extends React.Component {
                     return (
                         connectDropTarget(
                         <td
-                            style={{ backgroundColor: (this.props.isError || (this.props.errors && this.props.errors.length > 0)) ? "#ffe7e7" : "white"}}
-                            className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : ""}
+                            className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : "" +
+                                        (this.props.isError || (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
+                            }
                             onMouseEnter={this.handleMouseEnter.bind(this)}
                             onMouseMove={this.handleMouseMove.bind(this)}
                             onMouseLeave={this.handleMouseLeave.bind(this)}

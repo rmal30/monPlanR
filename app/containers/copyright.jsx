@@ -6,7 +6,7 @@ import {Container, Header, Segment, Grid} from "semantic-ui-react";
  */
 export default function Footer() {
     return (
-        <Segment inverted attached="bottom" className="footer stackable no-print">
+        <Segment inverted attached="bottom" className="footer stackable no-print toolbars">
             <Grid columns={4} stackable>
               <Grid.Row>
                 <Grid.Column>
@@ -22,7 +22,8 @@ export default function Footer() {
                 </Grid.Column>
                 <Grid.Column  textAlign="center">
                     <img className="logo" src="/img/monash.png" alt="logo" />
-                    <p>Copyright &copy; Monash University 2016</p>
+                    <p>Copyright &copy; Monash University {new Date().getFullYear()}</p>
+                    <i>Built by the monPlan Team</i>
                 </Grid.Column>
               </Grid.Row>
             <Grid.Column>

@@ -76,7 +76,8 @@ function TeachingPeriod(props) {
                 viewUnitDetails={props.viewUnitDetails}
                 cancelMoving={props.cancelMoving}
                 errors={(props.showMoveUnitUI || props.unitToAdd) ? [] : props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)}
-                isError={isError} />
+                isError={isError}
+                />
         );
     });
 
@@ -92,7 +93,7 @@ function TeachingPeriod(props) {
     }
 
     return (
-        <Table.Row>
+        <Table.Row style={{color: "black"}}>
             <Table.Cell>
                 {!props.showMoveUnitUI && !props.viewOnly &&
                 <ConfirmDeleteTeachingPeriod

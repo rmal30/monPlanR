@@ -3,7 +3,8 @@
         "ecmaVersion": 6,
         "sourceType": "module",
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
+            "experimentalObjectRestSpread": true
         }
     },
     "rules": {
@@ -23,13 +24,15 @@
                 "ArrowFunctionExpression": true
             }
         }],
-        "semi": "error"
+        "semi": "error",
+        "prefer-object-spread/prefer-object-spread": "error"
     },
     "globals": {
         "MONPLAN_DESCRIPITON": true,
         "MONPLAN_VERSION": true,
         "MONPLAN_AUTHOR": true,
-        "MONPLAN_REMOTE_URL": true
+        "MONPLAN_REMOTE_URL": true,
+        "expect": true
     },
     "env": {
         "es6": true,
@@ -37,7 +40,8 @@
         "node": true
     },
     "plugins": [
-        "react"
+        "react",
+        "prefer-object-spread"
     ],
     "extends": ["eslint:recommended", "plugin:react/recommended"]
 }

@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from "react";
-import { Button, Container, Divider, Form, Icon, Popup, Search, Segment } from "semantic-ui-react";
+import { Button, Container, Divider, Form, Icon, Search, Segment } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
@@ -34,7 +34,6 @@ class CourseSelectFormContainer extends Component {
             code: "",
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
             year: (this.startYearPlaceholder - 1),
-            currentYear: (this.startYearPlaceholder - 1),
             specIsDisabled: true,
             yearIsDisabled: true,
             courseSelected: false
@@ -86,13 +85,6 @@ class CourseSelectFormContainer extends Component {
     }
 
     /**
-     * Clears the course and then closes the modal.
-     */
-    handleClick() {
-        this.handleClose();
-    }
-
-    /**
      * When a value is selected, we updated the prompt to show the title and save the coursecode to the state
      */
     handleResultSelect(e, value) {
@@ -106,7 +98,8 @@ class CourseSelectFormContainer extends Component {
             CourseCode: value.title,
             specIsDisabled: false,
             specialisations,
-            courseSelected: true
+            courseSelected: true,
+            readyToSubmit: this.state.CourseCode === value.title
         });
 
     }
@@ -122,12 +115,6 @@ class CourseSelectFormContainer extends Component {
         }
 
         const { value } = e.target;
-
-        if(!this.state.isLoading) {
-            this.setState({
-                isLoading: true
-            });
-        }
 
         this.timer = setTimeout(() => {
             let results = FuzzySearch.search(value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
@@ -149,9 +136,10 @@ class CourseSelectFormContainer extends Component {
     handleSpecialisationSelect(e, { value }) {
         this.setState({
             code: value,
-            yearIsDisabled: false
+            readyToSubmit: !this.state.yearIsDisabled,
+            yearIsDisabled: false,
         });
-        if(this.state.year.length !== 0){
+        if(this.state.year){
             this.setState({
                 readyToSubmit: true
             });
@@ -166,19 +154,17 @@ class CourseSelectFormContainer extends Component {
             year: value,
             readyToSubmit: true
         });
-
     }
 
-          /**
+    /**
      * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
      */
     btnStartPlan(mobile) {
         return (
             <Button
                 fluid={mobile}
-                color="yellow"
-                style={{backgroundColor: "#fdb515"}}
-                disabled={this.state.yearIsDisabled || this.state.specIsDisabled || !this.state.courseSelected}
+                className="btnorange"
+                disabled={!this.state.readyToSubmit}
                 onClick={this.handleSubmit}>
                     Start Planning <Icon name="right arrow" />
             </Button>
@@ -191,24 +177,12 @@ class CourseSelectFormContainer extends Component {
     btnEmptyPlan(mobile) {
         return (
             <Button
-                fluid={mobile}>
+                fluid={mobile}
+                className="btnempty">
                 Start without selecting course
                 {!mobile && <Icon name="right arrow" />}
             </Button>
         );
-    }
-
-    /**
-     * Partially resets the component when user focuses on course search input again.
-     */
-    handleReSelect() {
-        this.setState({
-            isLoading: false,
-            specIsDisabled: true,
-            yearIsDisabled: true,
-            courseSelected: false,
-            year: (this.state.currentYear)
-        });
     }
 
     /**
@@ -226,11 +200,11 @@ class CourseSelectFormContainer extends Component {
                             <Form.Group widths="equal">
                                 <Form.Field>
                                         <Search
+                                            className="srch"
                                             label=""
                                             loading={this.state.isLoading}
                                             onResultSelect={this.handleResultSelect}
                                             onSearchChange={this.handleChange}
-                                            onFocus={this.handleReSelect.bind(this)}
                                             results={this.state.results}
                                             placeholder="Search for your course"
                                             noResultsMessage="No courses found"
@@ -239,18 +213,23 @@ class CourseSelectFormContainer extends Component {
                                         />
                                 </Form.Field>
                                 <Form.Dropdown
-                                    placeholder='Select Specialisation'
+                                    placeholder='Select specialisation'
+                                    className="drpdown"
+                                    disabled={this.state.specIsDisabled}
                                     search
                                     selection
                                     options={this.state.specialisations}
                                     onChange={this.handleSpecialisationSelect}
                                 />
                                 <Form.Dropdown
-                                    placeholder='Select Starting Year'
+                                    placeholder='Select starting year'
+                                    className="drpdown"
+                                    disabled={this.state.yearIsDisabled}
                                     search
                                     selection
                                     options={this.state.years}
                                     onChange={this.handleYearSelect}
+                                    value={this.state.year}
                                 />
                             </Form.Group>
 
@@ -267,17 +246,10 @@ class CourseSelectFormContainer extends Component {
                                     <Container textAlign="right">
                                         <br />
                                         <Button.Group size="big">
-                                            <Popup
-                                                header="Start Now"
-                                                content="Click now to start planning with the current specified start/end years"
-                                                trigger={this.btnStartPlan()} />
+                                            {this.btnStartPlan()}
                                             <Button.Or />
                                             <Link to="/yearForm">
-                                                <Popup
-                                                    header="Empty Template"
-                                                    content="Click here to start off with an empty template with no teaching periods added"
-                                                    direction="bottom right"
-                                                    trigger={this.btnEmptyPlan()} />
+                                            {this.btnEmptyPlan()}
                                             </Link>
                                         </Button.Group>
                                     </Container>

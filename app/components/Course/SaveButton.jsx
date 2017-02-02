@@ -20,7 +20,7 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
     return (
         <Popup
             on="click"
-            wide
+            style={{width: 300}}
             positioning="top left"
             trigger={
                 (
@@ -29,7 +29,8 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
                         color={uploadingError ? "red" : "teal"}
                         disabled={isUploading}
                         onClick={uploadCourseToDatabase}
-                        loading={isUploading}>
+                        loading={isUploading}
+                        className="btnorange">
                         <Icon name={uploaded && "checkmark" || uploadingError && "x" || "upload"} />
                         {uploaded && "Saved course" || "Save course"}
                     </Button>
@@ -46,8 +47,15 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
                 }
                 {uploaded &&
                     <div>
+                        <p>
+                            Copy and visit the link below to view your course plan.
+                        </p>
+                        <Input
+                            readOnly
+                            fluid
+                            onFocus={e => e.target.select()}
+                            value={`${window.location.origin}/view/${uploadedCourseID}`} />
                         <Divider />
-                        <p>You can also share your course plan across many social media channels. Otherwise you can copy the link and come back to your plan later.</p>
                         <div>
                           <a href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.origin}/view/${uploadedCourseID}`} target="_blank">
                             <Button circular color='facebook' icon='facebook' />
@@ -62,13 +70,6 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
                             <Button circular color='google plus' icon='mail' />
                           </a>
                         </div>
-                        <Divider />
-                        <b>If you just want to bookmark the link, copy and paste the link below to your Bookmarks Manager</b>
-                        <Input
-                            readOnly
-                            fluid
-                            onFocus={e => e.target.select()}
-                            value={`${window.location.origin}/view/${uploadedCourseID}`} />
                     </div>
                 }
                 {uploadingError &&

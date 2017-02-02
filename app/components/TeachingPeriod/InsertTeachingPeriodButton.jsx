@@ -16,13 +16,14 @@ export default function InsertTeachingPeriodButton({ semesterString, insert, add
         bottom: PropTypes.bool
     };
 
+
     if(semesterString === null) {
         semesterString = "Add Semester 1, 2016";
     }
     return (
-        <Button.Group color="green" fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
-            <Button onClick={addSemester}><Icon name="add square"/>Add {semesterString}</Button>
-            <Dropdown floating button className="icon" icon={bottom ? "caret up" : "caret down"} label="Add Custom Semester">
+        <Button.Group fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
+            <Button className="btnorange" onClick={addSemester}><Icon name="add square"/>Add {semesterString}</Button>
+            <Dropdown floating button className="icon btnorange" icon={bottom ? "caret up" : "caret down"} label="Add Custom Semester">
                 <Dropdown.Menu style={bottom ? {top: "auto", bottom: "120%"} : {}}>
                     <Dropdown.Item onClick={insert.bind(null, "S1-01")}>Insert Semester 1</Dropdown.Item>
                     <Dropdown.Item onClick={insert.bind(null, "S2-01")}>Insert Semester 2</Dropdown.Item>

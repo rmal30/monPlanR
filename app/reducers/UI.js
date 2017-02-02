@@ -16,60 +16,52 @@ const UI = (state = defaultState, action) => {
     switch (action.type) {
         
         case "SHOW_INSERT_TEACHING_PERIOD_UI":
-            return Object.assign(
-                {},
-                state,
-                {showingInsertTeachingPeriodUI: true}
-            );
+            return {
+                ...state,
+                showingInsertTeachingPeriodUI: true
+            };
         
         case "HIDE_INSERT_TEACHING_PERIOD_UI":
-            return Object.assign(
-                {},
-                state,
-                {showingInsertTeachingPeriodUI: false}
-            );
+            return {
+                ...state,
+                showingInsertTeachingPeriodUI: false
+            };
         
         case "SHOW_ADD_UNIT_UI":
-            return Object.assign(
-                {},
-                state,
-                {showAddingUnitUI: true}
-            );
+            return {
+                ...state,
+                showAddingUnitUI: true
+            };
         
         case "HIDE_ADD_UNIT_UI":
-            return Object.assign(
-                {},
-                state,
-                {showAddingUnitUI: false}
-            );
+            return {
+                ...state,
+                showAddingUnitUI: false
+            };
         
         case "SHOW_MOVE_UNIT_UI":
-            return Object.assign(
-                {},
-                state,
-                {showMovingUnitUI: true}
-            );
+            return {
+                ...state,
+                showMovingUnitUI: true
+            };
         
         case "HIDE_MOVE_UNIT_UI":
-            return Object.assign(
-                {},
-                state,
-                {showMovingUnitUI: false}
-            );
+            return {
+                ...state,
+                showMovingUnitUI: false
+            };
 
         case "SET_COURSE_READ_ONLY":
-            return Object.assign(
-                {},
-                state,
-                {readOnly: true}
-            );
+            return {
+                ...state,
+                readOnly: true
+            };
 
         case "SET_COURSE_READ_AND_WRITE":
-            return Object.assign(
-                {},
-                state,
-                {readOnly: false}
-            );
+            return {
+                ...state,
+                readOnly: false
+            };
         
         default:
             return state;

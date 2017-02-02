@@ -192,16 +192,13 @@ class UnitSearchContainer extends Component {
 
             reducedResults = reducedResults.map(({ item }) =>
                 // TODO: Find way to avoid workaround that fixes unknown key bug by setting childKey attribute.
-                Object.assign(
-                    {},
-                    {
-                        childKey: `${item.UnitCode}`,
-                        UnitName: item.UnitName,
-                        UnitCode: item.UnitCode,
-                        Faculty: item.Faculty,
-                        custom: item.custom || false
-                    }
-                )
+                ({
+                    childKey: `${item.UnitCode}`,
+                    UnitName: item.UnitName,
+                    UnitCode: item.UnitCode,
+                    Faculty: item.Faculty,
+                    custom: item.custom || false
+                })
             );
 
             this.setState({

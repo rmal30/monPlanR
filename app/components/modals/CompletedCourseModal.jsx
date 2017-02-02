@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Header, Icon, Modal,Divider } from "semantic-ui-react";
+import { Button, Header, Icon, Modal, Grid } from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 import SaveButtonContainer from "../../containers/Buttons/SaveButtonContainer.jsx";
@@ -15,46 +15,51 @@ export default function CompletedCourseModal({ trigger }) {
         trigger: PropTypes.element.isRequired,
     };
 
-    const closeTrigger = <Button content="Close" />;
+    const closeTrigger = <Button content="Close" className="btnlightcancel" />;
     return (
         <ControlledModal
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
-            <Modal.Header>
-                <Icon name="checked calendar" />Well done on planning your course (so far)
+            <Modal.Header className="header-primary">
+                <Icon name="checked calendar" />Congratulations on planning your course (so far)
             </Modal.Header>
             <Modal.Content>
                 <Modal.Description>
                     There are several things you can do next:
                     <br />
-                    <Header>1. Take it to your course advisor</Header>
-                    <p>
-                        Printing your course plan then showing it to your course
-                        advisor will help speed up the process on whether or not
-                        you can follow it.
-                    </p>
-                    <p>
-                        You can also place your course plan somewhere, whether it is a printed
-                        document or an exported digital copy. You can import your
-                        course plan into a spreadsheet program if you export it as a CSV file.
-                    </p>
-                    <Button primary onClick={() => print()}><Icon name="print" />Print course plan</Button>
-                    <ExportButtonGroupContainer />
-                    <Divider />
-                    <Header>2. Save and/or Share it</Header>
-                    <p>
-                        Your course plan can also be uploaded to our servers, you'll recieve
-                        a link to your plan. You can either save it for future use, otherwise
-                        share it with your friends on Facebook, Twitter, Google+ and much more
-                    </p>
-                    <SaveButtonContainer />
-                    <Divider />
-                    <Header>3. Visit this site every now and then</Header>
-                    <p>
-                        Your course plan is saved to your browser, so if you want to
-                        see your course plan again, come back to this website and
-                        make changes whenever necessary.
-                    </p>
+                    <br />
+                    <Grid celled="internally">
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Header><Icon name="print" /> Print it</Header>
+                                <p>
+                                    You can print your course plan then showing it to your course
+                                    advisor.
+                                </p>
+                                <Button primary onClick={() => print()} className="btnorange"><Icon name="print" />Print course plan</Button>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header><Icon name="download" /> Export it</Header>
+                                <p>You can also export it as a CSV and/or JSON for use in other software such as Excel.</p>
+                                <ExportButtonGroupContainer />
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                            <Header><Icon name="share" /> Save or share it</Header>
+                            <p>
+                                Save your course online and Grab a link. Save it for future use on any device, otherwse share it.
+                            </p>
+                            <SaveButtonContainer />
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                            <Header><Icon name="repeat" />  Visit this site every now and then</Header>
+                            <p>
+                                Otherwise, come back on your same device (it's saved in your browser!) every few months to modify your plan.
+                            </p>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Modal.Description>
             </Modal.Content>
         </ControlledModal>

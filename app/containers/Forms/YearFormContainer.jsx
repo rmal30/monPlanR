@@ -20,24 +20,20 @@ class YearFormContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.startYearPlaceholder = new Date().getFullYear();
-        this.endYearPlaceholder = this.startYearPlaceholder + 3;
-
         this.state = {
-            startYear: this.startYearPlaceholder,
-            endYear: this.endYearPlaceholder,
+            startYear: null,
             startYearErrorMessage: "",
             isStartYearError: false,
             endYearErrorMessage: "",
             endYearDisabled: true,
-            notReadyToSubmit: true
+            readyToSubmit: false
         };
 
         this.submitData = this.submitData.bind(this);
         this.handleUpdateStartYear = this.handleUpdateStartYear.bind(this);
         this.handleUpdateEndYear = this.handleUpdateEndYear.bind(this);
 
-        this.validStartYears = YearCalc.getStartYearVals(this.startYearPlaceholder);
+        this.validStartYears = YearCalc.getStartYearVals(new Date().getFullYear());
         this.validEndYears = [];
 
     }
@@ -52,9 +48,11 @@ class YearFormContainer extends Component {
         const selectedStartYear = value;
 
         this.validEndYears = YearCalc.getEndYearVals(selectedStartYear);
+
         this.setState({
             startYear: selectedStartYear,
-            endYearDisabled: false
+            endYearDisabled: false,
+            readyToSubmit: this.state.endYear && value < this.state.endYear
         });
     }
 
@@ -71,7 +69,7 @@ class YearFormContainer extends Component {
 
         this.setState({
             endYear: selectedEndYear,
-            notReadyToSubmit: false
+            readyToSubmit: true
         });
     }
 
@@ -99,8 +97,8 @@ class YearFormContainer extends Component {
                 content="Click now to start planning with the current specified start/end years"
                 trigger={(
                     <Button
-                        color="yellow"
-                        disabled={this.state.notReadyToSubmit}
+                        className="btnorange"
+                        disabled={!this.state.readyToSubmit}
                         onClick={this.submitData}>
                             Start Planning <Icon name="right arrow" />
                     </Button>
@@ -117,7 +115,10 @@ class YearFormContainer extends Component {
                 header="Empty Template"
                 content="Click here to start off with an empty template with no teaching periods added"
                 direction="bottom right"
-                trigger={<Button>Just start with an empty template <Icon name="right arrow" /></Button>} />
+                trigger={
+                    <Button className="btnempty">
+                        Just start with an empty template <Icon name="right arrow" />
+                    </Button>} />
         );
     }
     /**
@@ -152,6 +153,7 @@ class YearFormContainer extends Component {
                                             on="focus"
                                             trigger={<Dropdown
                                                         onChange={this.handleUpdateStartYear}
+                                                        className="drpdown"
                                                         placeholder="Select start year" fluid search selection
                                                         options={this.validStartYears}/>}
                                         />
@@ -164,6 +166,7 @@ class YearFormContainer extends Component {
                                             on="focus"
                                             trigger={<Dropdown
                                                         onChange={this.handleUpdateEndYear}
+                                                        className="drpdown"
                                                         placeholder="Select end year" fluid search selection
                                                         options={this.validEndYears}
                                                         disabled={this.state.endYearDisabled}/>}
@@ -175,7 +178,7 @@ class YearFormContainer extends Component {
                                         <Button
                                             fluid
                                             color="yellow"
-                                            disabled={this.state.notReadyToSubmit}
+                                            disabled={!this.state.readyToSubmit}
                                             onClick={this.submitData}>
                                                 Start Planning <Icon name="right arrow" />
                                         </Button>

@@ -67,7 +67,7 @@ const mapStateToProps = (state) => {
  * 
  */
 const mapDispatchToProps = (dispatch) => {
-    const actionBundle = Object.assign({}, courseActions, uiActions);
+    const actionBundle = {...courseActions, ...uiActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 

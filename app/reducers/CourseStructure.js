@@ -13,7 +13,7 @@ import { getQuickSemesterString } from "../utils/NextSemesterString";
  * checking for index out of bounds errors etc).
  */
 const defaultState = {
-    teachingPeriods: [], 
+    teachingPeriods: [],
     numberOfUnits: 4,
     
     courseInfoLoading: false,
@@ -86,43 +86,42 @@ const CourseStructure = (state = defaultState, action) => {
             unit to the end of the array called "ADD_TEACHING_PERIOD"
         */
         case "INSERT_TEACHING_PERIOD":
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriods: [
+            return {
+                ...state,
+                teachingPeriods: [
                     ...state.teachingPeriods.slice(0, action.index),
                     {year: action.year, code: action.code, units: new Array(state.numberOfUnits).fill(null)},
                     ...state.teachingPeriods.slice(action.index)
-                ]}
-            );
+                ]
+            };
 
         /*
             Removes a teaching period located at the given index
         */
         case "REMOVE_TEACHING_PERIOD":
-
-            
-            return Object.assign(
-                {}, 
-                state, 
-                {teachingPeriods: [
+            return {
+                ...state,
+                teachingPeriods: [
                     ...state.teachingPeriods.slice(0, action.index),
                     ...state.teachingPeriods.slice(action.index + 1)
-                ]}
-            );
+                ]
+            };
 
         /*
             Appends a teaching period to the end of the array with the given data
         */
         case "APPEND_TEACHING_PERIOD":
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriods: [
+            return {
+                ...state,
+                teachingPeriods: [
                     ...state.teachingPeriods,
-                    {year: action.year, code: action.code, units: new Array(state.numberOfUnits).fill(null)}
-                ]}
-            );
+                    {
+                        year: action.year,
+                        code: action.code,
+                        units: new Array(state.numberOfUnits).fill(null)
+                    }
+                ]
+            };
 
         /*
             Increases the number of units a student can take in all of the teaching periods. If the number of units is already at it's max
@@ -131,76 +130,68 @@ const CourseStructure = (state = defaultState, action) => {
         */
         case "INCREASE_STUDY_LOAD":
             if(state.numberOfUnits >= 6) {
-                return Object.assign(
-                    {}, 
-                    state, 
-                    {numberOfUnits: 6}
-                );
+                return {
+                    ...state,
+                    numberOfUnits: 6
+                };
             } else {
-                return Object.assign(
-                    {},
-                    state,
-                    {numberOfUnits: state.numberOfUnits + 1},
-                    {teachingPeriods: state.teachingPeriods.map(tp => {
-                        return Object.assign(
-                            {},
-                            tp,
-                            {units: [...tp.units, null]}
-                        );
-                    })} 
-                );
+                return {
+                    ...state,
+                    numberOfUnits: state.numberOfUnits + 1,
+                    teachingPeriods: state.teachingPeriods.map(tp => {
+                        return {
+                            ...tp,
+                            units: [...tp.units, null]
+                        };
+                    })
+                };
             }
-        
+
         /*
             Decreases the number of units a student can take in all of the teaching periods. If the number of units is already at it's min
             it will stop the state from being broken, otherwise it will decrease the number by one and also remove the last unit from each teaching array
         */
         case "DECREASE_STUDY_LOAD":
             if(state.numberOfUnits <= 4) {
-                return Object.assign(
-                    {},
-                    state,
-                    {numberOfUnits: 4}
-                );
+                return {
+                    ...state,
+                    numberOfUnits: 4
+                };
             } else {
-                return Object.assign(
-                    {},
-                    state,
-                    {numberOfUnits: state.numberOfUnits - 1},
-                    {teachingPeriods: state.teachingPeriods.map(tp => {
-                        return Object.assign(
-                            {},
-                            tp,
-                            {units: tp.units.slice(0, state.numberOfUnits-1)}
-                        );
-                    })}
-                );
+                return {
+                    ...state,
+                    numberOfUnits: state.numberOfUnits - 1,
+                    teachingPeriods: state.teachingPeriods.map(tp => {
+                        return {
+                            ...tp,
+                            units: tp.units.slice(0, state.numberOfUnits - 1)
+                        };
+                    })
+                };
             }
 
         /*
             Adds a unit with the given details to course structure at the given location
         */
         case "ADD_UNIT":
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriods: state.teachingPeriods.map((tp, index) => {
+            return {
+                ...state,
+                teachingPeriods: state.teachingPeriods.map((tp, index) => {
                     if (index === action.tpIndex) {
-                        return Object.assign(
-                            {},
-                            tp,
-                            {units: [
+                        return {
+                            ...tp,
+                            units: [
                                 ...tp.units.slice(0, action.unitIndex),
                                 action.unit,
                                 ...tp.units.slice(action.unitIndex + 1)
-                            ]}
-                        );
-                    } else {
-                        return tp;
+                            ]
+                        };
                     }
-                })}
-            );
-  
+
+                    return tp;
+                })
+            };
+
         /*
             Removes a unit at the given location from the course structure,
             first it finds the tp by finding array item at state.tpIndex,
@@ -208,254 +199,219 @@ const CourseStructure = (state = defaultState, action) => {
             null
         */
         case "REMOVE_UNIT":
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriods: state.teachingPeriods.map((tp, index) => {
+            return {
+                ...state,
+                teachingPeriods: state.teachingPeriods.map((tp, index) => {
                     if (index === action.tpIndex) {
-                        return Object.assign(
-                            {},
-                            tp,
-                            {units: [
+                        return {
+                            ...tp,
+                            units: [
                                 ...tp.units.slice(0, action.unitIndex),
                                 null,
                                 ...tp.units.slice(action.unitIndex + 1)
-                            ]}
-                        );
-                    } else {
-                        return tp;
+                            ]
+                        };
                     }
-                })}
-            );
+
+                    return tp;
+                })
+            };
 
         /*
             Resets the data structure to it's basic form, perhaps worth just returning state, but depends if the base state ever becomes more complex
         */
         case "CLEAR_COURSE":
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriods: [], numberOfUnits: 4}
-            );
-        
+            return {
+                ...state,
+                teachingPeriods: [],
+                numberOfUnits: 4
+            };
+
         case "FETCH_COURSE_INFO_PENDING":
-            return Object.assign(
-                {},
-                state,
-                {courseInfoLoading: true, courseInfoLoadError: false}
-            );
-        
+            return {
+                ...state,
+                courseInfoLoading: true,
+                courseInfoLoadError: false
+            };
+
         case "FETCH_COURSE_INFO_FULFILLED":
-            return Object.assign(
-                {},
-                state,
-                {courseInfoLoading: false, focusedCourse: action.courseCode, 
-                    courseInfo:
-                    {
-                        courseName: action.payload.data.courseName,
-                        faculty: action.payload.data.mangFac,
-                        creditPoints: action.payload.data.creditPoints,
-                        courseDescription: action.payload.data.courseDescrip,
-                        durationStr: action.payload.data.courseDuration,
-                        modeAndLocation: action.payload.data.modeLoc,
-                        awards: action.payload.data.courseAward,
-                        abrTitle: action.payload.data.abrevTitle
-                    }
+            return {
+                ...state,
+                courseInfoLoading: false,
+                focusedCourse: action.courseCode,
+                courseInfo: {
+                    courseName: action.payload.data.courseName,
+                    faculty: action.payload.data.mangFac,
+                    creditPoints: action.payload.data.creditPoints,
+                    courseDescription: action.payload.data.courseDescrip,
+                    durationStr: action.payload.data.courseDuration,
+                    modeAndLocation: action.payload.data.modeLoc,
+                    awards: action.payload.data.courseAward,
+                    abrTitle: action.payload.data.abrevTitle
                 }
-            );
+            };
 
         case "FETCH_COURSE_INFO_REJECTED":
-            return Object.assign(
-                {},
-                state,
-                {courseInfoLoading: false, courseInfoLoadError: true}
-            );
-        
+            return {
+                ...state,
+                courseInfoLoading: false,
+                courseInfoLoadError: true
+            };
+
         case "FETCH_COURSE_TEMPLATE_PENDING":
-            return Object.assign(
-                {},
-                state,
-                {courseLoading: true}
-            );
-        
+            return {
+                ...state,
+                courseLoading: true
+            };
+
         case "FETCH_COURSE_TEMPLATE_FULFILLED":
-            return Object.assign(
-                {},
-                state,
-                {courseLoading: false, courseTemplateLoadError: false, courseTemplateData: action.payload.data}
-            );
-        
+            return {
+                ...state,
+                courseLoading: false,
+                courseTemplateLoadError: false,
+                courseTemplateData: action.payload.data
+            };
+
         case "FETCH_COURSE_TEMPLATE_REJECTED":
-            return Object.assign(
-                {},
-                state,
-                {courseLoading: false, courseTemplateLoadError: true, courseTemplateData: null}
-            );
-        
+            return {
+                ...state,
+                courseLoading: false,
+                courseTemplateLoadError: true,
+                courseTemplateData: null
+            };
+
         case "FETCH_UNIT_INFO_PENDING":
-            return Object.assign(
-                {},
-                state,
-                {unitLoading: true, unitLoadError: false}
-            );
-        
+            return {
+                ...state,
+                unitLoading: true,
+                unitLoadError: false
+            };
+
         case "FETCH_UNIT_INFO_FULFILLED":
-            return Object.assign(
-                {},
-                state,
-                {unitLoading: false, unitInfo: action.payload.data, focusedUnitCode: action.unitCode}
-            );
-        
+            return {
+                ...state,
+                unitLoading: false,
+                unitInfo: action.payload.data,
+                focusedUnitCode: action.unitCode
+            };
+
         case "FETCH_UNIT_INFO_REJECTED":
-            return Object.assign(
-                {},
-                state,
-                {unitLoading: false, unitLoadError: true }
-            );
+            return {
+                ...state,
+                unitLoading: false,
+                unitLoadError: true
+            };
 
         
         case "FETCH_TEACHING_PERIODS_PENDING":
-            return Object.assign(
-                {},
-                state,
-                {
-                    teachingPeriodsDataLoading: true,
-                    teachingPeriodsDataError: false
-                }
-            );
+            return {
+                ...state,
+                teachingPeriodsDataLoading: true,
+                teachingPeriodsDataError: false
+            };
         
         case "FETCH_TEACHING_PERIODS_FULFILLED":
-            return Object.assign(
-                {},
-                state,
-                {
-                    teachingPeriodData: action.payload,
-                    teachingPeriodsDataLoading: false,
-                }
-            );
+            return {
+                ...state,
+                teachingPeriodData: action.payload,
+                teachingPeriodsDataLoading: false,
+            };
         
         case "FETCH_TEACHING_PERIODS_REJECTED":
-            return Object.assign(
-                {},
-                state,
-                {
-                    teachingPeriodData: null,
-                    teachingPeriodsDataLoading: false,
-                    teachingPeriodsDataError: true
-                }
-            );
+            return {
+                ...state,
+                teachingPeriodData: null,
+                teachingPeriodsDataLoading: false,
+                teachingPeriodsDataError: true
+            };
 
         case "SUBMIT_COURSE_FORM":
-            return Object.assign(
-                {},
-                state,
-                {startYear: action.startYear, focusedCourse: action.courseCode}
-            );
+            return {
+                ...state,
+                startYear: action.startYear,
+                focusedCourse: action.courseCode
+            };
 
         case "SUBMIT_YEAR_FORM":
-            return Object.assign(
-                {},
-                state,
-                {startYear: action.startYear, endYear: action.endYear}
-            );
+            return {
+                ...state,
+                startYear: action.startYear, 
+                endYear: action.endYear
+            };
 
         case "CHANGE_START_YEAR":
-            return Object.assign(
-                {},
-                state,
-                {startYear: action.year}
-            );
+            return {
+                ...state,
+                startYear: action.year
+            };
 
         case "SHOW_INSERT_TEACHING_PERIOD_UI":
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriodCodeToInsert: action.tpCode}
-            );
+            return {
+                ...state,
+                teachingPeriodCodeToInsert: action.tpCode
+            };
 
         case "GET_NEXT_SEMESTER_STRING":
-            return Object.assign(
-                {},
-                state,
-                {nextSemesterString: getQuickSemesterString(state.teachingPeriods, state.startYear, state.teachingPeriodData)}
-            );
+            return {
+                ...state,
+                nextSemesterString: getQuickSemesterString(state.teachingPeriods, state.startYear, state.teachingPeriodData)
+            };
 
         case "LOAD_NEW_TEACHING_PERIODS":
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriods: action.value}
-            );
+            return {
+                ...state,
+                teachingPeriods: action.value
+            };
 
         case "GET_NEW_NUMBER_OF_UNITS":
-            return Object.assign(
-                {},
-                state,
-                {numberOfUnits: action.value}
-            );
+            return {
+                ...state,
+                numberOfUnits: action.value
+            };
         
         case "UPLOAD_COURSE_SNAPSHOT_PENDING":
-            return Object.assign(
-                {},
-                state,
-                {
-                    courseSnapshotUploading: true,
-                    courseSnapshotUploadError: false,
-                }
-            );
+            return {
+                ...state,
+                courseSnapshotUploading: true,
+                courseSnapshotUploadError: false,
+            };
         
         case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":
-            return Object.assign(
-                {},
-                state,
-                {
-                    courseSnapshotUploading: false,
-                    courseSnapShotUploadData: action.payload.data,
-                }
-            );
+            return {
+                ...state,
+                courseSnapshotUploading: false,
+                courseSnapShotUploadData: action.payload.data,
+            };
         
         case "UPLOAD_COURSE_SNAPSHOT_REJECTED":
-            return Object.assign(
-                {},
-                state,
-                {
-                    courseSnapshotUploading: false,
-                    courseSnapshotUploadError: true,
-                    courseSnapShotUploadData: null,
-                }
-            );
+            return {
+                ...state,
+                courseSnapshotUploading: false,
+                courseSnapshotUploadError: true,
+                courseSnapShotUploadData: null,
+            };
         
         case "FETCH_COURSE_SNAPSHOT_PENDING":
-            return Object.assign(
-                {},
-                state,
-                {
-                    courseSnapshotLoading: true,
-                    courseSnapshotLoadError: false,
-                }
-            );
+            return {
+                ...state,
+                courseSnapshotLoading: true,
+                courseSnapshotLoadError: false,
+            };
         
         case "FETCH_COURSE_SNAPSHOT_FULFILLED":
-            return Object.assign(
-                {},
-                state,
-                {
-                    courseSnapshotLoading: false,
-                    courseSnapshotData: action.payload.data
-                }
-            );
+            return {
+                ...state,
+                courseSnapshotLoading: false,
+                courseSnapshotData: action.payload.data
+            };
         
         case "FETCH_COURSE_SNAPSHOT_REJECTED":
-            return Object.assign(
-                {},
-                state,
-                {
-                    courseSnapshotLoading: false,
-                    courseSnapshotLoadError: true,
-                    courseSnapshotData: null                    
-                    
-                }
-            );
+            return {
+                ...state,
+                courseSnapshotLoading: false,
+                courseSnapshotLoadError: true,
+                courseSnapshotData: null                    
+            };
 
         /**
          * Generates a course structure of semester one and semester two teaching
@@ -488,18 +444,18 @@ const CourseStructure = (state = defaultState, action) => {
                     teachingPeriods.push(semesterTwoTeachingPeriod);
                 }
 
-                return Object.assign(
-                    {},
-                    state,
-                    {teachingPeriods, numberOfUnits: 4}
-                );
+                return {
+                    ...state,
+                    teachingPeriods, 
+                    numberOfUnits: 4
+                };
             }
 
-            return Object.assign(
-                {},
-                state,
-                {teachingPeriods: [], numberOfUnits: 4}
-            );
+            return {
+                ...state,
+                teachingPeriods: [],
+                numberOfUnits: 4
+            };
         }
 
         default:

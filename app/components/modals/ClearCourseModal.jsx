@@ -101,51 +101,41 @@ class ClearCourseModal extends Component {
      * @return {Modal}
      */
     render() {
+        let trigger;
+
+        if(this.props.trigger) {
+            trigger = React.cloneElement(this.props.trigger, {onClick: this.handleOpen.bind(this)});
+        } else {
+            trigger = undefined;
+        }
         return (
             <Modal
-                trigger={
-                    this.props.floated ?
-                    (
-                        <Button
-                            floated={this.props.floated}
-                            className="no-print"
-                            disabled={this.props.disabled}
-                            fluid={this.props.fluid}
-                            color="red"
-                            onClick={this.handleOpen.bind(this)}>
-                            Clear course
-                        </Button>
-                     )
-                     :
-                    (
-                        <Button
-                            className="no-print"
-                            disabled={this.props.disabled}
-                            fluid={this.props.fluid}
-                            color="red"
-                            onClick={this.handleOpen.bind(this)}>
-                            Clear course
-                        </Button>
-                     )
-            }
+                trigger={trigger}
                 open={this.state.modalOpen}
                 onClose={this.handleClose.bind(this)}>
-                <Modal.Header>
-                    <Icon name="trash" /> Clear Course
+                <Modal.Header className="header-danger">
+                    <Icon name="trash" /> Clear plan
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <p>To clear course, type "clear" into the input box. After doing this, click "Clear Course" and your course
-                        structure will be cleared.</p>
+                        <p>
+                            To clear course, type "clear" into the input box.
+                            After doing this, click "Clear Course" and your
+                            course plan will be cleared.
+                        </p>
                         <div className="ui input">
-                            <input type="text" ref={input => this.input = input} onChange={this.handleChange.bind(this)} onKeyDown={this.handleEnterPress.bind(this)} />
+                            <input
+                                type="text"
+                                ref={input => this.input = input}
+                                onChange={this.handleChange.bind(this)}
+                                onKeyDown={this.handleEnterPress.bind(this)} />
                         </div>
                     </Modal.Description>
                 </Modal.Content>
 
                 <Modal.Actions>
                     {this.props.redirect ? <Link to={this.props.redirect}><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link>
-                                         : <Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
+                                         : <Button color="red" className="btncancel" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
                     <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
@@ -155,10 +145,8 @@ class ClearCourseModal extends Component {
 
 ClearCourseModal.propTypes = {
     clearCourse: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    fluid: PropTypes.bool,
     redirect: PropTypes.string,
-    floated: PropTypes.string
+    trigger: PropTypes.node.isRequired
 };
 
 ClearCourseModal.contextTypes = {

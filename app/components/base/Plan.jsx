@@ -6,10 +6,10 @@ import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
 import LocalStorage from "../../utils/LocalStorage";
 //import CourseStructure from "../Course/CourseStructure.jsx";
-import CourseStructure from "../Course/newCourseStructure.jsx";
-import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
+import CourseStructure from "../Course/CourseStructure.jsx";
 import LoadCourseMap from "../modals/LoadCourseMap.jsx";
-import CourseInfoButtonContainer from "../../containers/Buttons/CourseInfoButtonContainer.jsx";
+import NotificationContainer from "../../containers/NotificationContainer.jsx";
+
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -43,7 +43,6 @@ class Plan extends Component {
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
         this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
-
     /**
      * A workaround that is a React anti-pattern. It attaches add to course menu
      * callback function, which is called when the user clicks the "+ Add unit"
@@ -183,6 +182,7 @@ class Plan extends Component {
 
         return (
             <div>
+                <NotificationContainer />
                 {this.state.customUnitCode &&
                     <CustomUnitModal
                         UnitCode={this.state.customUnitCode}
@@ -196,13 +196,9 @@ class Plan extends Component {
                     <Grid reversed="mobile" stackable className="no-print">
                         <Grid.Row>
                             <Grid.Column width="4">
-                                <CourseInfoButtonContainer />
                             </Grid.Column>
                             <Grid.Column width="4">
                                 <LoadCourseMap onCourseLoad={this.handleCourseLoad} />
-                            </Grid.Column>
-                            <Grid.Column width="4" floated="right">
-                                <CourseStatisticGroupContainer />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
