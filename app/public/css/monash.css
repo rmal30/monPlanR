@@ -4,6 +4,8 @@
 
 /* Header, Footers and Toolbar CSS Property*/
 .toolbars{
+    width: 100% !important;
+    left: 0;
     background-color: #006cab !important;
     color: white !important
 }
