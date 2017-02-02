@@ -19,7 +19,9 @@ const NoTeachingPeriodContainer = (props) => {
             viewOnly,
             startYear,
             mobile,
-            noFloat
+            noFloat,
+            teachingPeriods,
+            teachingPeriodData
         } = props;
 
     let { nextSemesterString } = props; 
@@ -35,7 +37,7 @@ const NoTeachingPeriodContainer = (props) => {
      * Pulls a function from redux for adding a semester to the end of the array
      */
     const handleAppendSemester = () => {
-        props.addTeachingPeriod(startYear, "S1-01"); //hardcoded until we deal with the generate next add thing
+        props.addTeachingPeriod(teachingPeriods, startYear, teachingPeriodData);
     };
     
     /**
@@ -72,7 +74,7 @@ const NoTeachingPeriodContainer = (props) => {
                       <InsertTeachingPeriodButton
                           semesterString={nextSemesterString}
                           insert={code => handleInsertSemester(code)}
-                          appendSemester={handleAppendSemester}
+                          addSemester={handleAppendSemester}
                           mobile={mobile}
                           noFloat={noFloat}
                           />
@@ -90,7 +92,9 @@ const mapStateToProps = (state) => {
     return {
         numberOfUnits: state.CourseStructure.numberOfUnits,
         startYear: state.CourseStructure.startYear,
-        nextSemesterString: state.CourseStructure.nextSemesterString
+        nextSemesterString: state.CourseStructure.nextSemesterString,
+        teachingPeriods: state.CourseStructure.teachingPeriods,
+        teachingPeriodData: state.CourseStructure.teachingPeriodData
         
     };
 };
@@ -111,8 +115,10 @@ NoTeachingPeriodContainer.propTypes = {
     changeStartYear: PropTypes.func.isRequired,
     nextSemesterString: PropTypes.string,
     insertTeachingPeriod: PropTypes.func.isRequired,
-    appendSemester: PropTypes.func.isRequired,
+    addTeachingPeriod: PropTypes.func.isRequired,
     mobile: PropTypes.bool,
     noFloat: PropTypes.bool,
-    viewOnly: PropTypes.bool
+    viewOnly: PropTypes.bool,
+    teachingPeriods: PropTypes.array,
+    teachingPeriodData: PropTypes.array
 };

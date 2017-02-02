@@ -1,3 +1,5 @@
+import { nextSemester } from "../utils/NextSemesterString";
+
 /**
  * INSERT_TEACHING_PERIOD
  */
@@ -35,8 +37,11 @@ export const removeTeachingPeriod = (index, tp) => {
 /**
  * ADD_TEACHING_PERIOD
  */
-export const addTeachingPeriod = (year, code) => {
+export const addTeachingPeriod = (teachingPeriods, startYear, teachingPeriodData) => {
     return function (dispatch) {
+
+        const { year, code } = nextSemester(teachingPeriods, startYear, teachingPeriodData);
+
         dispatch({
             type: "APPEND_TEACHING_PERIOD",
             year,

@@ -1,6 +1,6 @@
 
 const defaultState = {
-    showInsertTeachingPeriodUI: false,
+    showingInsertTeachingPeriodUI: false,
     showMovingUnitUI: false,
     showAddingUnitUI: false,
     readOnly: false
@@ -19,14 +19,14 @@ const UI = (state = defaultState, action) => {
             return Object.assign(
                 {},
                 state,
-                {showInsertTeachingPeriodUI: true}
+                {showingInsertTeachingPeriodUI: true}
             );
         
         case "HIDE_INSERT_TEACHING_PERIOD_UI":
             return Object.assign(
                 {},
                 state,
-                {showInsertTeachingPeriodUI: false}
+                {showingInsertTeachingPeriodUI: false}
             );
         
         case "SHOW_ADD_UNIT_UI":

@@ -11,7 +11,7 @@ import CourseMessage from "./CourseMessage.jsx";
 
 import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachingPeriodContainer.jsx";
-import InsertTeachingPeriod from "../TeachingPeriod/InsertTeachingPeriod.jsx";
+import InsertTeachingPeriodContainer from "../../containers/TeachingPeriod/InsertTeachingPeriodContainer.jsx";
 import OverloadButtonContainer from "../../containers/Buttons/OverloadButtonContainer.jsx";
 import UnderloadButtonContainer from "../../containers/Buttons/UnderloadButtonContainer.jsx";
 
@@ -33,9 +33,10 @@ const mapStateToProps = state => {
         teachingPeriods: state.CourseStructure.teachingPeriods,
         numberOfUnits: state.CourseStructure.numberOfUnits,
         teachingPeriodData: state.CourseStructure.teachingPeriodData,
-        teachingPeriodToInsertCode: state.CourseStructure.teachingPeriodToInsertCode,
         nextSemesterString: state.CourseStructure.nextSemesterString,
-        courseLoading: state.CourseStructure.courseLoading
+        courseLoading: state.CourseStructure.courseLoading,
+        teachingPeriodCodeToInsert: state.CourseStructure.teachingPeriodCodeToInsert,
+        showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI
     };
 };
 
@@ -73,7 +74,6 @@ class CourseStructure extends Component {
 
         this.state = {
             /* UI state */
-            showInsertTeachingPeriods: false,
             showMoveUnitUI: false,
             unitToBeMoved: undefined,
             courseToLoad: this.props.courseToLoad
@@ -589,13 +589,11 @@ class CourseStructure extends Component {
         const tempInvalidCoordinates = this.invalidCoordinatesForTempUnit();
 
         const tableRows = [];
-        let year, code, show = false;
+        let year, show = false;
 
-        const { teachingPeriods, teachingPeriodData } = this.props;
-        const { teachingPeriodToInsertCode, showInsertTeachingPeriods } = this.state;
-        if(showInsertTeachingPeriods) {
+        const { teachingPeriods, teachingPeriodData, showingInsertTeachingPeriodUI, teachingPeriodCodeToInsert } = this.props;
+        if(showingInsertTeachingPeriodUI) {
             year = this.state.startYear || new Date().getFullYear();
-            code = teachingPeriodToInsertCode;
         }
 
         for(let i = 0; i <= teachingPeriods.length; i++) {
@@ -608,13 +606,13 @@ class CourseStructure extends Component {
                 }).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null)));
                 year = teachingPeriods[i - 1].year;
 
-                if(!showInsertTeachingPeriods) {
+                if(!showingInsertTeachingPeriodUI) {
                     continue;
                 }
 
                 if(i !== teachingPeriods.length) {
                     const startIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriods[i - 1].code);
-                    const middleIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriodToInsertCode);
+                    const middleIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriodCodeToInsert);
                     const endIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriods[i].code);
 
                     if(startIndex !== -1 && endIndex !== -1) {
@@ -635,7 +633,7 @@ class CourseStructure extends Component {
                     }
                 } else {
                     const startIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriods[i - 1].code);
-                    const middleIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriodToInsertCode);
+                    const middleIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriodCodeToInsert);
 
                     year = teachingPeriods[i - 1].year;
 
@@ -643,8 +641,8 @@ class CourseStructure extends Component {
                         year ++;
                     }
                 }
-            } else if(showInsertTeachingPeriods && teachingPeriods.length > 0) {
-                const middleIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriodToInsertCode);
+            } else if(showingInsertTeachingPeriodUI && teachingPeriods.length > 0) {
+                const middleIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriodCodeToInsert);
                 const endIndex = teachingPeriodData.findIndex(ele => ele.code === teachingPeriods[i].code);
 
                 year = teachingPeriods[i].year;
@@ -652,23 +650,19 @@ class CourseStructure extends Component {
                 if(middleIndex >= endIndex) {
                     year --;
                 }
-            } else if(showInsertTeachingPeriods && teachingPeriods.length === 0) {
+            } else if(showingInsertTeachingPeriodUI && teachingPeriods.length === 0) {
                 // don't do anything
             } else {
                 continue;
             }
 
-            if(showInsertTeachingPeriods && show) {
+            if(showingInsertTeachingPeriodUI && show) {
                 tableRows.push(
-                    <InsertTeachingPeriod
+                    <InsertTeachingPeriodContainer
                         index={i}
                         key={`${i}-insertTeachingPeriod`}
-                        numberOfUnits={this.props.numberOfUnits}
-                        insertTeachingPeriod={this.insertTeachingPeriod.bind(this)}
                         year={year}
-                        teachingPeriodType="Teaching Period"
-                        teachingPeriods={this.props.teachingPeriodData}
-                        code={code} />
+                    />
                 );
             }
         }
@@ -678,10 +672,6 @@ class CourseStructure extends Component {
                 <NoTeachingPeriodContainer
                     key="no-teaching-period"
                     viewOnly={this.props.viewOnly}
-                    numberOfUnits={this.props.numberOfUnits}
-                    semesterString={this.props.nextSemesterString}
-                    insertTeachingPeriod={this.props.insertTeachingPeriod.bind(this)}
-                    appendSemester={this.props.addTeachingPeriod.bind(this)}
                     noFloat
             />);
         }
@@ -738,14 +728,7 @@ class CourseStructure extends Component {
                     </Table.Body>
                 </Dimmer.Dimmable>
                 {!this.props.viewOnly &&
-                    <CourseEditActions
-                        showInsertTeachingPeriods={this.state.showInsertTeachingPeriods}
-                        showInsertTeachingPeriodsUI={this.props.showInsertTeachingPeriodUI}
-                        hideInsertTeachingPeriodsUI={this.props.hideInsertTeachingPeriodUI}
-                        teachingPeriods={this.props.teachingPeriods}
-                        appendSemester={this.appendSemester}
-                        clearCourse={this.props.clearCourse}
-                        />
+                    <CourseEditActions />
                 }
             </Container>
         );
@@ -787,6 +770,8 @@ CourseStructure.propTypes = {
     courseLoading: PropTypes.bool,
     loadCourseFromLocalStorage: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
+    showingInsertTeachingPeriodUI: PropTypes.bool,
+    teachingPeriodCodeToInsert: PropTypes.string,
 
     /* Validation */
     updateStatus: PropTypes.func.isRequired,

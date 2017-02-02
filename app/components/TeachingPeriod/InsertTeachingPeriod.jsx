@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Button, Icon, Form, Popup, Table } from "semantic-ui-react";
+import { Button, Icon, Popup, Table } from "semantic-ui-react";
 
 /**
  * InsertTeachingPeriod allows students to insert teaching periods into their
@@ -11,35 +11,25 @@ import { Button, Icon, Form, Popup, Table } from "semantic-ui-react";
  */
 const InsertTeachingPeriod = (props) => {
 
-    let { year, code, handleClick, handleYearChange, handleCodeChange, colspanVal, name } = props;
+    let { onInsertTeachingPeriod, numberOfUnits, tpString } = props;
 
     const triggerButton = (
-        <Button inverted color="green" onClick={handleClick} fluid>
-            <Icon name="plus" /> Insert {name}, {year}
+        <Button inverted color="green" onClick={onInsertTeachingPeriod} fluid>
+            <Icon name="plus" /> Insert {tpString}
         </Button>
     );
 
     return (
         <Table.Row className="no-print">
-            <Table.Cell textAlign="center" colSpan={colspanVal}>
+            <Table.Cell textAlign="center" colSpan={numberOfUnits + 1}>
                 {triggerButton}
                 {false &&
                 <Popup 
                     hoverable 
                     flowing 
-                    trigger={<Button inverted color="green" onClick={handleClick} fluid>
-                                <Icon name="plus" /> Insert {name}, {year}
+                    trigger={<Button inverted color="green" onClick={onInsertTeachingPeriod} fluid>
+                                <Icon name="plus" /> Insert {tpString}
                              </Button>}>
-                    <Form onSubmit={e => e.preventDefault()}>
-                        <Form.Field>
-                            <label>Year: </label>
-                            <input onChange={handleYearChange} placeholder={year} />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Code: </label>
-                            <input onChange={handleCodeChange} placeholder={code} />
-                        </Form.Field>
-                    </Form>
                 </Popup>
                 }
             </Table.Cell>
@@ -50,11 +40,7 @@ const InsertTeachingPeriod = (props) => {
 export default InsertTeachingPeriod;
 
 InsertTeachingPeriod.propTypes = {
-    year: PropTypes.number.isRequired,
-    code: PropTypes.string.isRequired,
-    handleClick: PropTypes.func,
-    handleYearChange: PropTypes.func,
-    handleCodeChange: PropTypes.func,
-    colspanVal: PropTypes.number,
-    name: PropTypes.string
+    tpString: PropTypes.string,
+    numberOfUnits: PropTypes.number,
+    onInsertTeachingPeriod: PropTypes.func
 };

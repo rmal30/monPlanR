@@ -68,8 +68,6 @@ const defaultState = {
         abrTitle: ""
     },
 
-    showInsertUI: true,
-
     focusedUnitCode: null,
     focusedCourse: null,
     startYear: new Date().getFullYear(), //Default to the current year

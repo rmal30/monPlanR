@@ -53,3 +53,20 @@ export const getQuickSemesterString = (teachingPeriods, startYear, teachingPerio
 
     return `${teachingPeriodName}, ${year}`;
 };
+
+export const getSemesterString = (year, teachingPeriodData, code) => {
+    
+    let teachingPeriodName = code;
+    
+    if(teachingPeriodData) {
+        const teachingPeriod = teachingPeriodData.find((element) =>
+            element.code === code
+        );
+
+        if(teachingPeriod !== undefined) {
+            teachingPeriodName = teachingPeriod.name || code;
+        }
+    }
+
+    return `${teachingPeriodName}, ${year}`;
+};
