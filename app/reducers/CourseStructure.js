@@ -32,7 +32,8 @@ const defaultState = {
 
     courseSnapshotUploading: false,
     courseSnapshotUploadError: false,
-    courseSnapShotUploadData: null,
+    courseSnapshotUploadData: null,
+    courseSnapshotUploadSucessful: false,
 
     teachingPeriodData: null,
     teachingPeriodsDataLoading: false,
@@ -374,13 +375,16 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 courseSnapshotUploading: true,
                 courseSnapshotUploadError: false,
+                courseSnapshotUploadSucessful: false
             };
         
         case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":
             return {
                 ...state,
                 courseSnapshotUploading: false,
-                courseSnapShotUploadData: action.payload.data,
+                courseSnapshotUploadData: action.payload.data,
+                courseSnapshotUploadSucessful: true
+                
             };
         
         case "UPLOAD_COURSE_SNAPSHOT_REJECTED":
@@ -388,7 +392,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 courseSnapshotUploading: false,
                 courseSnapshotUploadError: true,
-                courseSnapShotUploadData: null,
+                courseSnapshotUploadData: null
             };
         
         case "FETCH_COURSE_SNAPSHOT_PENDING":

@@ -19,7 +19,8 @@ const SaveButtonContainer = (props) => {
         startYear, 
         courseSnapshotUploading,
         courseSnapshotUploadError,
-        courseSnapShotUploadData
+        courseSnapshotUploadData,
+        courseSnapshotUploadSucessful
         } = props;
 
 
@@ -32,11 +33,12 @@ const SaveButtonContainer = (props) => {
 
 
     return (
-        <SaveButton 
+        <SaveButton
+            uploaded={courseSnapshotUploadSucessful} 
             isUploading={courseSnapshotUploading}
             uploadingError={courseSnapshotUploadError}
             uploadCourseToDatabase={uploadCourseToDatabase}
-            uploadedCourseID={courseSnapShotUploadData}/>
+            uploadedCourseID={courseSnapshotUploadData}/>
     );
 };
 
@@ -52,7 +54,8 @@ const mapStateToProps = (state) => {
         courseSnapshotUploading: state.CourseStructure.courseSnapshotUploading,
         courseSnapshotUploadError: state.CourseStructure.courseSnapshotUploadError,
         cost: state.Counter.cost,
-        courseSnapShotUploadData: state.CourseStructure.courseSnapShotUploadData
+        courseSnapshotUploadData: state.CourseStructure.courseSnapshotUploadData,
+        courseSnapshotUploadSucessful: state.CourseStructure.courseSnapshotUploadSucessful
     };
 };
 
@@ -75,6 +78,7 @@ SaveButtonContainer.propTypes = {
     courseSnapshotUploadError: PropTypes.bool,
     uploadCourseSnap: PropTypes.func,
     cost: PropTypes.number,
-    courseSnapShotUploadData: PropTypes.object
+    courseSnapshotUploadData: PropTypes.string,
+    courseSnapshotUploadSucessful: PropTypes.bool
     
 };

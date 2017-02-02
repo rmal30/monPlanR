@@ -52,7 +52,7 @@ class View extends Component {
                     viewOnly
                     switchToEditCourse={this.state.switchToEditCourse}
                     handleEditCoursePlanClick={this.handleEditCoursePlanClick.bind(this)}
-                    fetchURL={`${MONPLAN_REMOTE_URL}/snaps/${this.props.params.id}`}
+                    snapID={this.props.params.id}
                     updateStatus={this.props.updateStatus}
                     courseErrors={this.props.courseErrors} />
             </Container>

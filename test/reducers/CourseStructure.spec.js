@@ -967,7 +967,8 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test",
                 courseSnapshotUploading: false,
                 courseSnapshotUploadError: true,
-                courseSnapShotUploadData: null
+                courseSnapshotUploadData: null,
+                courseSnapshotUploadSucessful: true
             };
 
             const action = {
@@ -979,7 +980,8 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test",
                 courseSnapshotUploading: true,
                 courseSnapshotUploadError: false,
-                courseSnapShotUploadData: null
+                courseSnapshotUploadData: null,
+                courseSnapshotUploadSucessful: false
             };
 
             test(stateBefore, action, stateAfter);
@@ -993,7 +995,8 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test",
                 courseSnapshotUploading: true,
                 courseSnapshotUploadError: false,
-                courseSnapShotUploadData: null
+                courseSnapshotUploadData: null,
+                courseSnapshotUploadSucessful: false
             };
 
             const action = {
@@ -1006,7 +1009,8 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test",
                 courseSnapshotUploading: false,
                 courseSnapshotUploadError: false,
-                courseSnapShotUploadData: "upload string"
+                courseSnapshotUploadData: "upload string",
+                courseSnapshotUploadSucessful: true
             };
 
             test(stateBefore, action, stateAfter);
@@ -1020,7 +1024,8 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test",
                 courseSnapshotUploading: true,
                 courseSnapshotUploadError: false,
-                courseSnapShotUploadData: null
+                courseSnapshotUploadData: null,
+                courseSnapshotUploadSucessful: false
             };
 
             const action = {
@@ -1032,7 +1037,8 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test",
                 courseSnapshotUploading: false,
                 courseSnapshotUploadError: true,
-                courseSnapShotUploadData: null
+                courseSnapshotUploadData: null,
+                courseSnapshotUploadSucessful: false
             };
 
             test(stateBefore, action, stateAfter);
