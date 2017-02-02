@@ -75,15 +75,15 @@ export default class ConfirmDeleteOverload extends Component {
                     </Modal.Header>
                     <Modal.Content>{message}</Modal.Content>
                     <Modal.Actions>
-                        <Button color='red' floated="right" onClick={this.handleConfirm}>Remove Column</Button>
-                        <Button onClick={this.handleCancel}>Cancel</Button>
+                        <Button className="btncancel" color='red' floated="right" onClick={this.handleConfirm}>Remove Column</Button>
+                        <Button className="btnlightcancel" onClick={this.handleCancel}>Cancel</Button>
                     </Modal.Actions>
                 </Modal>
             );
         } else {
             return (
                 <Popup
-                    trigger={<Button icon="minus" style={{position: "relative", top: "50%", transform: "translateY(-25%)"}} labelPosition={this.props.mobile ? "left" : undefined} className="no-print btncancel" disabled={this.props.isDisabled}  onClick={this.handlePress} color="red" floated={!this.props.mobile ? "right" : undefined} fluid={this.props.mobile} content={this.props.mobile ? "Remove overload column" : ""} />}
+                    trigger={<Button icon="minus" labelPosition={this.props.mobile ? "left" : undefined} className="no-print btncancel" disabled={this.props.isDisabled}  onClick={this.handlePress} color="red" floated={!this.props.mobile ? "right" : undefined} fluid={this.props.mobile} content={this.props.mobile ? "Remove overload column" : ""} />}
                     content="Removes last column from your course plan."
                     size='mini'
                     positioning='bottom center'

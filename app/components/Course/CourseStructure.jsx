@@ -1192,14 +1192,14 @@ class CourseStructure extends Component {
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
-                                <Table.HeaderCell><Segment style={{backgroundColor: "transparent", color: "inherit", boxShadow: "0px 0px 0px 0 #006cab", border: "#006cab"}}>Teaching Period</Segment></Table.HeaderCell>
+                                <Table.HeaderCell><Segment>Teaching Period</Segment></Table.HeaderCell>
                                 <Table.HeaderCell colSpan={this.state.numberOfUnits}>
-                                    <Segment style={{backgroundColor: "transparent", color: "inherit", boxShadow: "0px 0px 0px 0 #006cab", border: "#006cab"}}>
+                                    <Segment>
                                         Units
                                         {!this.props.viewOnly &&
-                                            <span style={{position: "relative", top: "50%", transform: "translateY(50%)"}}>
+                                            <span className="unitControl">
                                                 <Popup
-                                                    trigger={<Button style={{position: "relative", top: "50%", transform: "translateY(-25%)"}} icon className="no-print btnlightblue" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"><Icon name='plus' /> Overload</Button>}
+                                                    trigger={<Button icon className="no-print btnlightblue" disabled={this.state.numberOfUnits >= this.maxNumberOfUnits || this.state.teachingPeriods.length === 0} onClick={this.incrementNumberOfUnits.bind(this)} color="green" floated="right"><Icon name='plus' /> Overload</Button>}
                                                     content="Click this to overload a teaching period."
                                                     size='mini'
                                                     positioning='bottom center'

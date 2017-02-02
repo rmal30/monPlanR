@@ -8,7 +8,7 @@
     color: white !important
 }
 
-.toolbarsDark{
+.toolbars.dark{
     background-color: #006cab !important;
     color: white !important;
     border: 1px solid #006cab !important;
@@ -18,6 +18,19 @@
     width: 100% !important;
     border-radius: 0px !important;
     left: 0;
+}
+
+.missingPage {
+    min-height: 100%;
+    min-width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover !important;
+    background-position: center !important;
+    background-color: rgba(52,52,52,0) !important;
+}
+
+.missingPage > * {
+    color: white !important
 }
 
 /* Modals */
@@ -44,6 +57,7 @@
     color: white !important;
     border-radius: 0px !important
 }
+
 /* User Inputs, Search */
 .srch * {
     border-radius: 0px !important
@@ -237,12 +251,6 @@
     background-color: transparent
 }
 
-
-.monTableHeader {
-    background-color: #006cab !important;
-    color: white !important
-}
-
 .coursetable {
     border-radius: 0px !important;
     border-color: transparent !important;
@@ -253,12 +261,34 @@
     border-radius: 0px !important;
 }
 
+/* Table Header */
 .coursetable > thead > tr > th {
     border-color: #006cab !important;
     background-color: #006cab !important;
     color: white !important
 }
 
+.coursetable > thead > tr > th > *{
+    border-color: #006cab !important;
+    background-color: transparent !important;
+    color: white !important;
+    box-shadow: 0px 0px 0px 0 #006cab !important;
+    border: #006cab !important
+}
+
+.unitControl {
+    position: relative !important;
+    top: 50% !important;
+    transform: translateY(50%) !important
+}
+
+.unitControl > * {
+    position: relative !important;
+    top: 50% !important;
+    transform: translateY(-25%) !important
+}
+
+/* Course Body Table */
 .coursetable > tbody > tr:nth-child(odd)  {
     border-color: #f2f2f2  !important;
     background-color: #f2f2f2 !important;
@@ -278,6 +308,7 @@
     border-left: 1px dashed #C0C0C0 !important;
 }
 
+/* No Teaching Periods */
 .noteachingperiods > *  > h3 > * {
     color: black !important
 }
@@ -286,62 +317,17 @@
     color: black !important
 }
 
+/* User Actions (table) */
 .hoverCell {
     background-color: rgba(0,84,133,0.7) !important;
 }
 
-/* UI Messages */
-.ui.message {
-    border-radius: 0px !important
-}
-
-.warningicon {
-    color: #F2711C !important;
-}
-
-.ui.message.positive {
-    border-color: #26677F !important;
-    background-color: #26677F !important;
-    color: white !important;
-    box-shadow: 0px 0px 0px 0px #26677F inset, 0px 0px 0px 0px rgba(0,0,0,0) !important;
-    border-radius: 0px !important
-}
-
-.ui.message.positive * {
-    color: white !important
-}
-
-.ui.message.negative {
-    border-color: #FF1923 !important;
-    background-color: #FF1923 !important;
-    color: white !important;
-    box-shadow: 0px 0px 0px 0px #FF1923 inset, 0px 0px 0px 0px rgba(0,0,0,0) !important;
-    border-radius: 0px !important
-}
-
-.ui.message.negative * {
-    color: white !important
-}
-
-
-/* Course Status */
-.status {
-    border-bottom: 0.4em solid #47C0BC !important;
-    transition: all 0.2s ease !important
-}
-.status.error {
-    border-bottom: 0.4em solid #FF1923 !important;
-    transition: all 0.2s ease !important
-}
-.status.error > div > i {
-    color: #FF1923 !important
-}
 
 .ui.table td.active{
     background-color: #e7e7e7 !important;
 }
 
-/* Placeholder Units */
+/*  Units */
 .placeholder {
     background-color: transparent !important;
     border-style: dashed !important;
@@ -350,171 +336,28 @@
     color: #888 !important
 }
 
-/* Faculties */
-.ui.black.message {
-    background-color: #1B1C1D;
-    color: rgba(255, 255, 255, 0.9)
+.warningicon { /*Warning Icon in Units*/
+    color: #F2711C !important;
 }
 
-.ui.info.message {
-    color: #F8FFFF;
-    background-color: #276F86
+/**
+* UI Messages
+*/
+.ui.message {
+    border-radius: 0px !important
 }
 
-.ui.info.message,.ui.attached.info.message {
-    box-shadow: 0px 0px 0px 1px #A9D5DE inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
+/* Course Status */
+.status {
+    border-bottom: 0.4em solid #47C0BC !important;
+    transition: all 0.2s ease !important
 }
 
-.ui.info.message .header {
-    color: #0E566C
+.status.error {
+    border-bottom: 0.4em solid #FF1923 !important;
+    transition: all 0.2s ease !important
 }
 
-.ui.warning.message {
-    background-color: #FFFAF3;
-    color: #573A08
-}
-
-
-
-.ui.warning.message,.ui.attached.warning.message {
-    box-shadow: 0px 0px 0px 1px #C9BA9B inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.warning.message .header {
-    color: #794B02
-}
-
-.ui.error.message {
-    background-color: #FFF6F6;
-    color: #9F3A38
-}
-
-.ui.error.message,.ui.attached.error.message {
-    box-shadow: 0px 0px 0px 1px #E0B4B4 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.error.message .header {
-    color: #912D2B
-}
-
-.ui.success.message {
-    background-color: #FCFFF5;
-    color: #2C662D
-}
-
-.ui.success.message,.ui.attached.success.message {
-    box-shadow: 0px 0px 0px 1px #A3C293 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.success.message .header {
-    color: #1A531B
-}
-
-.ui.inverted.message,.ui.black.message {
-    background-color: #1B1C1D;
-    color: rgba(255, 255, 255, 0.9)
-}
-
-.ui.red.message {
-    color: #FFE8E6;
-    background-color: #DB2828;
-    box-shadow: 0px 0px 0px 1px #FFE8E6 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.red.message .header {
-    color: #FFE8E6 !important;
-}
-
-.ui.orange.message {
-    color: #FFEDDE;
-    background-color: #F2711C;
-    box-shadow: 0px 0px 0px 1px #F2711C inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.orange.message .header {
-    color: #FFEDDE
-}
-
-.ui.yellow.message {
-    background-color: #FFF8DB;
-    color: #B58105;
-    box-shadow: 0px 0px 0px 1px #B58105 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.yellow.message .header {
-    color: #9c6f04
-}
-
-.ui.olive.message {
-    color: #FBFDEF;
-    background-color: #8ABC1E;
-    box-shadow: 0px 0px 0px 1px #8ABC1E inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.olive.message .header {
-    color: #FBFDEF
-}
-
-.ui.green.message {
-    color: #E5F9E7;
-    background-color: #1EBC30;
-    box-shadow: 0px 0px 0px 1px #1aa62a inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.green.message .header {
-    color: #E5F9E7
-}
-
-.ui.teal.message {
-    color: #E1F7F7;
-    background-color: #10A3A3;
-    box-shadow: 0px 0px 0px 1px #10A3A3 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.teal.message .header {
-    color: #E1F7F7
-}
-
-.ui.blue.message {
-    border-width: 1px !important;
-}
-
-.ui.violet.message {
-    color: #EAE7FF;
-    background-color: #6435C9;
-    box-shadow: 0px 0px 0px 1px #6435C9 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.violet.message .header {
-    color: #EAE7FF
-}
-
-.ui.purple.message {
-    color: #F6E7FF;
-    background-color: #A333C8;
-    box-shadow: 0px 0px 0px 1px #A333C8 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.purple.message .header {
-    color: #F6E7FF
-}
-
-.ui.pink.message {
-    color: #FFE3FB;
-    background-color: #E03997;
-    box-shadow: 0px 0px 0px 1px #E03997 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.pink.message .header {
-    color: #FFE3FB
-}
-
-.ui.brown.message {
-    color: #F1E2D3;
-    background-color: #A5673F;
-    box-shadow: 0px 0px 0px 1px #A5673F inset, 0px 0px 0px 0px rgba(0, 0, 0, 0)
-}
-
-.ui.brown.message .header {
-    color: #F1E2D3
+.status.error > div > i {
+    color: #FF1923 !important
 }
