@@ -11,4 +11,6 @@ mv mochawesome-reports docs
 cd docs
 mv mochawesome.html index.html
 echo "Deploying to Git using lazy git"
-lazy git
+git add .
+git commit -a
+git push

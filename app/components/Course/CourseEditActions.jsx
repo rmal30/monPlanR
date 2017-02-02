@@ -34,7 +34,7 @@ export default function CourseEditActions(props) {
     return (
         <MediaQuery maxDeviceWidth={767}>
             {mobile =>
-                <Container className="no-print toolbarsDark" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderTop: "0.1em solid #005d95"} : {}}>
+                <Container className="no-print toolbars" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderTop: "0.1em solid #005d95"} : {}}>
                     {
                         !props.showInsertTeachingPeriods &&
                         props.teachingPeriods.length > 0 &&
