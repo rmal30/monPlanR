@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import { Icon, Message, Divider } from "semantic-ui-react";
+import { Icon, Message } from "semantic-ui-react";
 
 /**
  * A notification is a message for the reader to see.
