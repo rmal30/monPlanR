@@ -28,19 +28,30 @@ export default function CompletedCourseModal({ trigger }) {
                     There are several things you can do next:
                     <br />
                     <br />
-                    <Grid celled="internally">
+                    <Grid relaxed stackable celled="internally">
                         <Grid.Row>
                             <Grid.Column width={8}>
                                 <Header><Icon name="print" /> Print it</Header>
                                 <p>
-                                    You can print your course plan then showing it to your course
-                                    advisor.
+                                    You can print your course plan and show it
+                                    to your course advisor.
                                 </p>
-                                <Button primary onClick={() => print()} className="btnmainblue"><Icon name="print" />Print course plan</Button>
+                                <Button
+                                    primary
+                                    onClick={() => print()}
+                                    className="btnmainblue">
+                                    <Icon name="print" />Print course plan
+                                </Button>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <Header><Icon name="download" /> Export it</Header>
-                                <p>You can also export it as a CSV and/or JSON for use in other software such as Excel.</p>
+                                <Header>
+                                    <Icon name="download" /> Export it
+                                </Header>
+                                <p>
+                                    You can also export it as a CSV file for
+                                    use in other software such as
+                                    Excel.
+                                </p>
                                 <ExportButtonGroupContainer />
                             </Grid.Column>
                         </Grid.Row>
@@ -48,14 +59,17 @@ export default function CompletedCourseModal({ trigger }) {
                             <Grid.Column width={8}>
                             <Header><Icon name="share" /> Save or share it</Header>
                             <p>
-                                Save your course online and Grab a link. Save it for future use on any device, otherwse share it.
+                                Save your course online and bookmark the link
+                                for future use on any device. You can also
+                                share your course plan.
                             </p>
                             <SaveButtonContainer />
                             </Grid.Column>
                             <Grid.Column width={8}>
-                            <Header><Icon name="repeat" />  Visit this site every now and then</Header>
+                            <Header><Icon name="repeat" /> Visit this site every now and then</Header>
                             <p>
-                                Otherwise, come back on your same device (it's saved in your browser!) every few months to modify your plan.
+                                Otherwise, come back to this site in your same
+                                browser to modify your draft plan.
                             </p>
                             </Grid.Column>
                         </Grid.Row>

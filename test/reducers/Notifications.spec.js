@@ -3,7 +3,7 @@ import deepFreeze from "deep-freeze";
 import Notifications from "../../app/reducers/Notifications";
 import { describe, it } from "mocha";
 
-describe("REDUCER: CourseStructure", () => {
+describe("REDUCER: Notifications", () => {
     describe("ACTION: ADD_NOTIFICATION", () => {
         it("should insert a notification from an empty list", () => {
             const stateBefore = {

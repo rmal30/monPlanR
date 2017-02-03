@@ -4,7 +4,6 @@
  */
 
 import Unit from "./Unit.jsx";
-import shallowEqual from "../../utils/shallowEqual.js";
 
 "use strict";
 
@@ -12,7 +11,7 @@ import React, { Component, PropTypes } from "react";
 import DragLayer from "react-dnd/lib/DragLayer";
 
 /**
- * 
+ *
  */
 function collect (monitor) {
     var item = monitor.getItem();
@@ -48,18 +47,11 @@ function getItemStyles(currentOffset) {
 */
 
 /**
- * 
+ *
  */
 class UnitDragPreview extends Component {
     /**
-     * 
-     */
-    shouldComponentUpdate(nextProps, nextState) {
-        return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
-    }
-
-    /**
-     * 
+     *
      */
     render() {
         const {
