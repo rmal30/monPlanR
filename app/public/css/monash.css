@@ -37,6 +37,10 @@
 }
 
 /* Modals */
+.ui.modal {
+    border-radius: 0px !important
+}
+
 .header-primary {
     background-color: #006cab !important;
     color: white !important;
@@ -61,6 +65,77 @@
     border-radius: 0px !important
 }
 
+/* Headers for Unit Info based off Faculties */
+.header.ada {
+    background-color: #393838 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.all {
+    background: #00C9FF;
+    background: -webkit-linear-gradient(to right, #00C9FF, #92F29D);
+    background: linear-gradient(to right, #00C9FF, #92F29D);
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.arts {
+    background-color: #911C11 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.buseco {
+    background-color: #008194 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.edu {
+    background-color: #9E0039 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.eng {
+    background-color: #E98E05 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.fit {
+    background-color: #653579 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.law {
+    background-color: #968D81 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.med {
+    background-color: #2C7DAF !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.pha {
+    background-color: #9AA71D !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+.header.sci {
+    background-color: #004c36 !important;
+    color: white !important;
+    border-radius: 0px !important
+}
+
+/* Quick Info Column on Unit Info */
+.quickInfo {
+    box-shadow: -1px -1px 0px 0px #D4D4D5 !important;
+    padding: 5px !important;
+    text-align: center !important;
+}
+.quickInfo > .ui.statistic{
+    margin: 0.25rem 0rem !important;
+}
+.quickInfo > .ui.divider{
+    margin: 0.25rem 0rem !important;
+}
 /* User Inputs, Search */
 .srch * {
     border-radius: 0px !important
