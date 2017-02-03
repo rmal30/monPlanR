@@ -194,4 +194,44 @@ describe("REDUCER: Counter", () => {
 
         });
     });
+
+    describe("ACTION: REMOVE_UNIT", () => {
+        it("Should correctly decrement the counters based on the given units creditpoints and cost", () => {
+            const stateBefore = {cost: 50, creditPoints: 40};
+            
+            const action = {
+                type: "REMOVE_UNIT",
+                cost: 20,
+                creditPoints: 20
+            };
+            
+            const stateAfter = {cost: 30, creditPoints: 20};
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Counter(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+
+        it("Should not decrement the counters below 0", () => {
+            const stateBefore = {cost: 10, creditPoints: 10};
+            
+            const action = {
+                type: "REMOVE_UNIT",
+                cost: 20,
+                creditPoints: 20
+            };
+            
+            const stateAfter = {cost: 0, creditPoints: 0};
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Counter(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });

@@ -77,6 +77,12 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                     }
                 }, state.creditPoints),
             };
+
+        case "REMOVE_UNIT":
+            return {
+                cost: Math.max(0, state.cost - action.cost),
+                creditPoints: Math.max(0, state.creditPoints - action.creditPoints)
+            };
         
         default:
             return state;

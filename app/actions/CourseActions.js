@@ -87,11 +87,13 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
 /**
  * REMOVE_UNIT
  */
-export const removeUnit = (tpIndex, unitIndex) => {
+export const removeUnit = (tpIndex, unitIndex, creditPoints, cost) => {
     return {
         type: "REMOVE_UNIT",
         tpIndex,
-        unitIndex
+        unitIndex,
+        creditPoints,
+        cost
     };
 };
 
