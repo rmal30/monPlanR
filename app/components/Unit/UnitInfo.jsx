@@ -36,7 +36,7 @@ const UnitInfo = (props) => {
     };
 
     const facultyClass = facultyMap[props.Faculty];
-
+    
     return (
             <Grid stackable celled="internally" columns={2}>
                 <Grid.Row className={"header " + facultyClass}>
