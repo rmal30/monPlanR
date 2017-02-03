@@ -136,7 +136,7 @@ class ClearCourseModal extends Component {
                 <Modal.Actions>
                     {this.props.redirect ? <Link to={this.props.redirect}><Button color="red" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button></Link>
                                          : <Button color="red" className="btncancel" disabled={this.state.disabled} floated="right" onClick={this.handleClick.bind(this)}>Clear Course</Button> }
-                    <Button onClick={this.handleClose.bind(this)}>Cancel</Button>
+                    <Button className="btnlightcancel" onClick={this.handleClose.bind(this)}>Cancel</Button>
                 </Modal.Actions>
             </Modal>
         );

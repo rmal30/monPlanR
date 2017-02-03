@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-
+import {Icon} from "semantic-ui-react";
 /**
  * Offering container returns the formatted unit offering/location data
  *
@@ -44,7 +44,7 @@ class OfferingContainer extends Component {
             return (
                 <div>
                 {this.state.offeringArray.map(item => {
-                    return (<p key={item}><b>{item[0]}</b>{": " + item[1].join(", ")}</p>);
+                    return (<p key={item}><Icon name="pin" /><b>{item[0]}</b>{": " }<Icon name="time" />{item[1].join(", ")}</p>);
                 })}
                 </div>
             );
