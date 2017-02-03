@@ -15,6 +15,8 @@ import { getQuickSemesterString } from "../utils/NextSemesterString";
 const defaultState = {
     teachingPeriods: [],
     numberOfUnits: 4,
+
+    affectedUnits: [],
     
     courseInfoLoading: false,
     courseLoading: false,
@@ -415,6 +417,31 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotLoading: false,
                 courseSnapshotLoadError: true,
                 courseSnapshotData: null                    
+            };
+
+        case "GET_AFFECTED_UNITS_IN_OVERLOAD_COLUMN":
+            return {
+                ...state,
+                affectedUnits: state.teachingPeriods.reduce((result, tp) => {
+                    let unit = tp.units[action.index];
+                    if (unit !== null && unit !== undefined) {
+                        return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                    } else {
+                        return result;
+                    }
+                }, [])
+            };
+
+        case "GET_AFFECTED_UNITS_IN_TEACHING_PERIOD_ROW":
+            return {
+                ...state,
+                affectedUnits: state.teachingPeriods[action.index].units.reduce((result, unit) => {
+                    if (unit !== null && unit !== undefined) {
+                        return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                    } else {
+                        return result;
+                    }
+                }, [])
             };
 
         /**

@@ -70,6 +70,8 @@ function TeachingPeriod(props) {
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}
                 name={unit.UnitName}
+                creditPoints={unit.CreditPoints}
+                cost={unit.Cost}
                 faculty={unit.Faculty}
                 placeholder={unit.placeholder}
                 onUnitClick={props.handleUnitDetailClick}

@@ -7,13 +7,14 @@ import UnitDetailModal from "./UnitDetailModal.jsx";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
+import * as courseActions from "../../actions/CourseActions";
 
 
 /**
  * Set up any functions from the action creators you want to pass in
  */
 const mapDispatchToProps = dispatch => {
-    const actionBundle = {...dataFetchActions};
+    const actionBundle = {...dataFetchActions, ...courseActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -190,7 +191,7 @@ export class Unit extends React.Component {
             return;
         }
 
-        this.props.deleteUnit(this.props.index);
+        this.props.removeUnit(this.props.teachingPeriodIndex, this.props.index, this.props.creditPoints, this.props.cost);
     }
 
     /**
@@ -377,7 +378,12 @@ Unit.propTypes = {
     detailButton: PropTypes.bool,
 
     /* Redux action creators */
-    fetchUnitInfo: PropTypes.func
+    fetchUnitInfo: PropTypes.func,
+    removeUnit: PropTypes.func,
+
+    teachingPeriodIndex: PropTypes.number,
+    creditPoints: PropTypes.number,
+    cost: PropTypes.number
 };
 
 // https://github.com/gaearon/react-dnd/issues/157

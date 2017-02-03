@@ -1125,5 +1125,73 @@ describe("REDUCER: CourseStructure", () => {
         });
     });
     
+
+    describe("ACTION: GET_AFFECTED_UNITS_IN_OVERLOAD_COLUMN", () => {
+        it("Should correctly return an array of affected units in a given column", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                affectedUnits: [],
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null, {UnitCode: "FIT1001", UnitName: "Test A"}] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null, {UnitCode: "FIT1002", UnitName: "Test B"}] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null, null] },
+                    { year: 2021, code: "S2-01", units: [null, null, null, null, {UnitCode: "FIT1003", UnitName: "Test C"}] }
+                ]
+                
+            };
+
+            const action = {
+                type: "GET_AFFECTED_UNITS_IN_OVERLOAD_COLUMN",
+                index: 4
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                affectedUnits: ["FIT1001 - Test A", "FIT1002 - Test B", "FIT1003 - Test C"],
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null, {UnitCode: "FIT1001", UnitName: "Test A"}] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null, {UnitCode: "FIT1002", UnitName: "Test B"}] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null, null] },
+                    { year: 2021, code: "S2-01", units: [null, null, null, null, {UnitCode: "FIT1003", UnitName: "Test C"}] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: GET_AFFECTED_UNITS_IN_TEACHING_PERIOD_ROW", () => {
+        it("Should correctly return an array of affected units in a given teaching period row", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                affectedUnits: [],
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [{UnitCode: "FIT1001", UnitName: "Test A"}, null, {UnitCode: "FIT1002", UnitName: "Test B"}, null, {UnitCode: "FIT1003", UnitName: "Test C"}] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null, null] }
+                ]
+                
+            };
+
+            const action = {
+                type: "GET_AFFECTED_UNITS_IN_TEACHING_PERIOD_ROW",
+                index: 0
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                affectedUnits: ["FIT1001 - Test A", "FIT1002 - Test B", "FIT1003 - Test C"],
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [{UnitCode: "FIT1001", UnitName: "Test A"}, null, {UnitCode: "FIT1002", UnitName: "Test B"}, null, {UnitCode: "FIT1003", UnitName: "Test C"}] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
 });
 

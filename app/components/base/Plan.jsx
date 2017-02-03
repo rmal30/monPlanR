@@ -4,7 +4,6 @@ import { Container, Grid } from "semantic-ui-react";
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
-import LocalStorage from "../../utils/LocalStorage";
 //import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import NotificationContainer from "../../containers/NotificationContainer.jsx";
@@ -51,13 +50,6 @@ class Plan extends Component {
      */
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
-        let courseInLS = LocalStorage.doesCourseStructureExist();
-
-        if(!courseInLS) {
-            const { startYear, courseToLoad } = this.props.location.query;
-            this.handleCourseLoad(courseToLoad, parseInt(startYear, 10));
-        }
-
     }
 
     /**
