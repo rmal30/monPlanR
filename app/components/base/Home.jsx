@@ -59,7 +59,7 @@ class Home extends Component {
                         <h1 style={{textAlign: "center", fontSize: "3em"}}>{inLocalStorage ? "Welcome back" : "Welcome to monPlan"}</h1>
                         <p style={{textAlign: "center", fontSize: "1.5em"}}>
                             <i>
-                                {inLocalStorage ? "You can continue planning your course by clicking the button below" : "Planning your studies at Monash University is now easier than ever."}
+                                {inLocalStorage ? "You can continue planning your course by clicking the button below." : "Planning your studies at Monash University is now easier than ever."}
                             </i>
                         </p>
                         {inLocalStorage &&
@@ -79,11 +79,11 @@ class Home extends Component {
                                                 &nbsp;
                                                 <ClearCourseModal
                                                     trigger={
-                                                        <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan.</a>
+                                                        <a style={{color: "white", textDecoration: "underline"}} href="#">clear your course plan</a>
                                                     }
                                                     redirect="/"
                                                     clearCourse={() => {return localStorage.clear();}}
-                                                />
+                                                />.
                                              </span>
 
                                         </Segment>
@@ -96,8 +96,9 @@ class Home extends Component {
                                 <CourseSelectFormContainer />
                             </Container>
                         }
-                        <Container style={{textAlign:"center"}}>
-                            You can also view our <Disclaimer trigger={<a style={{cursor: "help", color: "white", textDecoration: "underline"}}>Discaimer</a>} />
+                        <Container textAlign="center">
+                            <br />
+                            You can also view our <Disclaimer trigger={<a style={{cursor: "help", color: "white", textDecoration: "underline"}}>disclaimer</a>} />.
                         </Container>
                     </div>
                 </Container>
