@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Container, Dimmer, Loader, Table } from "semantic-ui-react";
+import { Container, Dimmer, Loader, Table, Segment } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { browserHistory } from "react-router";
 
@@ -44,9 +44,9 @@ const mapStateToProps = state => {
  * Set up any functions from the action creators you want to pass in
  */
 const mapDispatchToProps = dispatch => {
-    const actionBundle = { 
-        ...counterActions, 
-        ...courseActions, 
+    const actionBundle = {
+        ...counterActions,
+        ...courseActions,
         ...dataFetchActions,
         ...uiActions};
     return bindActionCreators(actionBundle, dispatch);
@@ -77,7 +77,7 @@ class CourseStructure extends Component {
             unitToBeMoved: undefined,
             courseToLoad: this.props.courseToLoad
         };
-        
+
 
         this.getAffectedUnits = this.getAffectedUnits.bind(this);
         this.getCourseErrors = this.getCourseErrors.bind(this);
@@ -88,7 +88,7 @@ class CourseStructure extends Component {
      * it keeps the totals updated.
      */
     componentWillReceiveProps(nextProps) {
-        
+
         if (nextProps.courseToLoad && this.state.unlock && nextProps.courseYear) {
             if (nextProps.courseToLoad !== this.state.courseToLoad) {
                 this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
@@ -313,7 +313,7 @@ class CourseStructure extends Component {
     }
 
 
-    
+
 
     /**
      * Loads course if it exists.
@@ -384,7 +384,7 @@ class CourseStructure extends Component {
             }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
     }
 
-    
+
 
     /**
      * Inserts unit into course structure.
@@ -703,21 +703,30 @@ class CourseStructure extends Component {
                         <UnderloadButtonContainer />
                     </MediaQuery>
                 }
-                <Dimmer.Dimmable as={Table} celled fixed striped compact>
+                <Dimmer.Dimmable as={Table} className="coursetable" celled fixed striped compact>
                     {this.props.courseLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
-                                <Table.HeaderCell>Teaching Period</Table.HeaderCell>
-                                <Table.HeaderCell colSpan={this.props.numberOfUnits}>
-                                    Units
-                                    {!this.props.viewOnly &&
-                                        <span>
-                                            <OverloadButtonContainer />
-                                            <UnderloadButtonContainer />
-                                        </span>
-                                    }
-                                </Table.HeaderCell>
+                                    <Table.HeaderCell>
+                                        <Segment>
+                                            Teaching Period
+                                        </Segment>
+                                    </Table.HeaderCell>
+
+
+                                    <Table.HeaderCell colSpan={this.props.numberOfUnits}>
+                                        <Segment>
+                                            Units
+                                            {!this.props.viewOnly &&
+                                                <span className="unitControl">
+                                                    <OverloadButtonContainer />
+                                                    <UnderloadButtonContainer />
+                                                </span>
+                                            }
+                                        </Segment>
+                                    </Table.HeaderCell>
+
                             </Table.Row>
                         </Table.Header>
                     </MediaQuery>

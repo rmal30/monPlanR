@@ -21,18 +21,18 @@ const CourseEditActions = (props) => {
     /**
      * Generates a the button for triggering the completed course modal
      */
-    const CompletedCourseModalTrigger = (mobile) => {return (<Button primary fluid={mobile}>Finished planning for now?</Button>);};
-    
+    const CompletedCourseModalTrigger = (mobile) => {return (<Button primary className="btnlightblue" fluid={mobile}>Finished planning for now?</Button>);};
+
     return (
         <MediaQuery maxDeviceWidth={767}>
             {mobile =>
                 <Container className="no-print toolbars" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderRadius: "0.5em 0.5em 0 0", borderTop: "0.1em solid #005d95"} : {}}>
                     { props.teachingPeriods.length > 0 &&
                         <InsertTeachingPeriodButtonContainer mobile={mobile} bottom />
-                    }   
-                    
+                    }
+
                     {mobile && <div><br /></div>}
-                    
+
                     <ClearCourseModal
                         trigger={
                             <Button
@@ -44,13 +44,13 @@ const CourseEditActions = (props) => {
                             </Button>
                         }
                         clearCourse={props.clearCourse.bind(props)} />
-                    
+
                     {mobile && <br />}
-                    
+
                     <CompletedCourseModal trigger={CompletedCourseModalTrigger(mobile)} />
 
                     {mobile && <br />}
-                    
+
                     <CourseInfoButtonContainer />
 
                 </Container>
@@ -72,7 +72,7 @@ const mapStateToProps = (state) => {
  * Gives the component it's needed clear Course function
  */
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(courseActions, dispatch);    
+    return bindActionCreators(courseActions, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseEditActions);

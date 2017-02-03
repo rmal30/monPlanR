@@ -39,9 +39,9 @@ export default function CompletedCourseModal({ trigger }) {
                                 <Button
                                     primary
                                     onClick={() => print()}
-                                    className="btnorange">
+                                    className="btnmainblue">
                                     <Icon name="print" />Print course plan
-                                    </Button>
+                                </Button>
                             </Grid.Column>
                             <Grid.Column width={8}>
                                 <Header>

@@ -10,10 +10,11 @@ echo "Renaming Files for gh-pages"
 mv mochawesome-reports docs
 cd docs
 mv mochawesome.html index.html
-echo "Deploying to Git using git add . and git commit"
-
+echo "Report Ready. Preparing for Git"
+echo "cd back to Main directory"
+cd ..
+echo "Using Git to Add and Commit"
 git add .
-
 git commit -a
 echo "pushing to origin using git push"
 git push

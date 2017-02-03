@@ -7,7 +7,8 @@
     width: 100% !important;
     left: 0;
     background-color: #006cab !important;
-    color: white !important
+    color: white !important;
+    border-radius: 0px !important
 }
 
 .toolbars.dark{
@@ -102,6 +103,50 @@
 ::-ms-input-placeholder {
     color: #727272 !important;
     opacity: 0.9 !important
+}
+/* Animations */
+@-webkit-keyframes slide {
+    0% {right: -300px;}
+    100% {right: 0px;}
+}
+
+@keyframes slide {
+    0% {right: -300px;}
+    100% {right: 0px;}
+}
+
+/* Notifications */
+.notify {
+    min-width: 300px !important;
+    max-width: 450px !important;
+    animation: slide 0.75s!important;
+    -webkit-animation: slide 0.75s!important;
+}
+
+.notify.info {
+    background-color: #3583B1 !important;
+    color: white !important;
+    border-radius: 0.5px #2D7097 !important
+}
+.notify.info *{
+    color: white !important;
+}
+.notify.info > .ui.divider {
+    border-top: 0.25px solid white !important;
+    border-bottom: 0.25px solid white !important;
+}
+
+.notify.error {
+    background-color: #FFCBCE !important;
+    color: #FF323B !important;
+    border-radius: 0.5px #FF1923 !important
+}
+.notify.error *{
+    color: #FF323B !important;
+}
+.notify.error > .ui.divider {
+    border-top: 0.25px solid white !important;
+    border-bottom: 0.25px solid white !important;
 }
 
 /* Buttons */
@@ -305,9 +350,11 @@
 
 .ui.celled.table tr td {
     padding: 7.5px !important;
-    border-right: 1px dashed #C0C0C0 !important;
-    border-bottom: 1px dashed #C0C0C0 !important;
-    border-left: 1px dashed #C0C0C0 !important;
+    border: 0.5px ridge #808080 !important;
+}
+
+.coursetable > tbody > tr > .unit.error {
+    background-color: #FFCBCE !important;
 }
 
 /* No Teaching Periods */

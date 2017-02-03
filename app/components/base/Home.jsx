@@ -5,7 +5,7 @@ import MediaQuery from "react-responsive";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CourseSelectFormContainer from "../../containers/Forms/CourseSelectFormContainer.jsx";
 import LocalStorage from "../../utils/LocalStorage.js";
-
+import Disclaimer from "../modals/disclaimer.jsx";
 /**
  * Home page that is shown to the user when they load the domain.
  *
@@ -56,9 +56,11 @@ class Home extends Component {
                         {!(this.state.showMessage && inLocalStorage !== false && inLocalStorage !== MONPLAN_VERSION) &&
                             <div style={{padding: "2.5em"}}></div>
                         }
-                        <h1 style={{textAlign: "center", fontSize: "3em"}}>monPlan</h1>
+                        <h1 style={{textAlign: "center", fontSize: "3em"}}>{inLocalStorage ? "Welcome back" : "Welcome to monPlan"}</h1>
                         <p style={{textAlign: "center", fontSize: "1.5em"}}>
-                            Planning your course at Monash is now easier than ever.
+                            <i>
+                                {inLocalStorage ? "You can continue planning your course by clicking the button below" : "Planning your studies at Monash University is now easier than ever."}
+                            </i>
                         </p>
                         {inLocalStorage &&
                             <MediaQuery maxDeviceWidth={767}>
@@ -94,6 +96,9 @@ class Home extends Component {
                                 <CourseSelectFormContainer />
                             </Container>
                         }
+                        <Container style={{textAlign:"center"}}>
+                            You can also view our <Disclaimer trigger={<a style={{cursor: "help", color: "white", textDecoration: "underline"}}>Discaimer</a>} />
+                        </Container>
                     </div>
                 </Container>
             </div>
