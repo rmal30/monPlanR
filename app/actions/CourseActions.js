@@ -20,12 +20,12 @@ export const insertTeachingPeriod = (index, year, code) => {
 /**
  * REMOVE_TEACHING_PERIOD
  */
-export const removeTeachingPeriod = (index, tp) => {
+export const removeTeachingPeriod = (index, units) => {
     return function (dispatch) {
         dispatch({
             type: "REMOVE_TEACHING_PERIOD",
             index,
-            tp
+            units
         });
 
         dispatch({
@@ -204,6 +204,53 @@ export const loadCourseFromLocalStorage = () => {
     };
 };
 
+/**
+ * Gets the units that would be affected by the deletion of a column
+ */
+export const getAffectedUnitsInColumn = (index) => {
+    return {
+        type: "GET_AFFECTED_UNITS_IN_OVERLOAD_COLUMN",
+        index
+    };
+};
+
+
+export const attemptToDeleteTeachingPeriod = (index, units) => {
+    return function(dispatch) {
+        let affectedUnits = units.reduce((result, unit) => {
+            if (unit !== null && unit !== undefined) {
+                return result.concat(unit.UnitCode + " - " + unit.UnitName);
+            } else {
+                return result;
+            }
+        }, []);
+        
+        if (affectedUnits.length > 0){
+            dispatch({
+                type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
+            });
+            dispatch({
+                type: "UPDATE_AFFECTED_UNITS",
+                affectedUnits
+            });
+        } else {
+            dispatch({
+                type: "REMOVE_TEACHING_PERIOD",
+                index,
+                units
+            });
+        }
+    };
+};
+/**
+ * Gets the units that would be affected by the deletion of a row
+ */
+export const getAffectedUnitsInRow = (index) => {
+    return {
+        type: "GET_AFFECTED_UNITS_IN_TEACHING_PERIOD_ROW",
+        index
+    };
+};
 
 /**
  * All this does is interact with local storage, the action is not strictly necessary, as the reducer doesn't handle it

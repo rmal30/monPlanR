@@ -444,6 +444,12 @@ const CourseStructure = (state = defaultState, action) => {
                 }, [])
             };
 
+        case "UPDATE_AFFECTED_UNITS":
+            return {
+                ...state,
+                affectedUnits: action.affectedUnits
+            };
+
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year

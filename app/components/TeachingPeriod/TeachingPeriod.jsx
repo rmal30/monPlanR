@@ -29,6 +29,7 @@ function TeachingPeriod(props) {
         showMoveUnitUI: PropTypes.bool.isRequired,
         viewUnitDetails: PropTypes.func,
         removeTeachingPeriod: PropTypes.func,
+        getAffectedUnitsInRow: PropTypes.func,
 
         viewOnly: PropTypes.bool
     };
@@ -98,9 +99,7 @@ function TeachingPeriod(props) {
         <Table.Row style={{color: "black"}}>
             <Table.Cell>
                 {!props.showMoveUnitUI && !props.viewOnly &&
-                <ConfirmDeleteTeachingPeriod
-                    onDeletePress={() => {props.removeTeachingPeriod(props.index, props.units);}}
-                    units={props.units} />
+                <ConfirmDeleteTeachingPeriod index={props.index} units={props.units} />
                 }
                 {teachingPeriodName}, {props.year}
             </Table.Cell>

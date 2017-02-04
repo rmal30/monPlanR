@@ -52,3 +52,21 @@ export const hideMoveUnitUI = () => {
         type: "HIDE_MOVE_UNIT_UI"
     };
 };
+
+/**
+ * shows the confirm delete teaching period modal
+ */
+export const showConfirmDeleteTeachingPeriodUI = () => {
+    return {
+        type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
+    };
+};
+
+/**
+ * hides the confirm delete teaching period modal
+ */
+export const hideConfirmDeleteTeachingPeriodUI = () => {
+    return {
+        type: "HIDE_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
+    };
+};
