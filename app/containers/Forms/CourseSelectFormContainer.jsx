@@ -78,7 +78,7 @@ class CourseSelectFormContainer extends Component {
         const { CourseCode, year, code } = this.state;
         this.props.fetchCourseInfo(CourseCode);
         this.props.submitCourseForm(CourseCode, year, code);
-        
+
         this.context.router.push({
             pathname: "/plan"
         });
@@ -117,7 +117,7 @@ class CourseSelectFormContainer extends Component {
         const { value } = e.target;
 
         this.timer = setTimeout(() => {
-            let results = FuzzySearch.search(value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
+            let results = FuzzySearch.search(value, this.state.data, 5, ["courseCode", "courseName"], 400).map(current => {return current.item;});
 
             results = results.map(item => {
                 return {title: item.courseCode, description: item.courseName, data: item};

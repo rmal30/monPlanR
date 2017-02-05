@@ -81,7 +81,7 @@ class Header extends Component {
                     </Menu.Item>
                     <MediaQuery maxDeviceWidth={767}>
                         {mobile =>
-                            <Dropdown floating text={!mobile ? "Help" : ""} icon={mobile ? "options" : "caret down"} className="item">
+                            <Dropdown floating text={!mobile ? "About" : ""} icon={mobile ? "options" : "caret down"} className="item">
                                 <Dropdown.Menu>
                                     {false /* disable access to app settings for now */ &&
                                     <div className="pleaseRemoveOnceYouEnableThis">

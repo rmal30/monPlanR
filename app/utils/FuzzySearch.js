@@ -13,15 +13,17 @@ export default class FuzzySearch {
      * @param {integer} numberOfResults - the number of results you want to return
      * @param {array} searchKeys - an array of strings that should be attibutes of your data objects, these keys will be searched against in the data set for matches
      *                             to the searchTarget
+     * @param {integer} distance - the distance (allows more accurate search)
+     * @filter {array} filter - the Filter Array
      */
-    static search(searchTarget, data, numberOfResults, searchKeys) {
+    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter=[]) {
         if(searchTarget !== null || searchTarget !== "") {
             var options = {
                 include: ["score"],
                 shouldSort: true,
                 threshold: 0.5,
                 location: 0,
-                distance: 400,
+                distance: distance,
                 findAllMatches: true,
                 maxPatternLength: 128,
                 minMatchCharLength: 1,

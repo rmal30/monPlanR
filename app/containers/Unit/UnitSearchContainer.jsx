@@ -170,7 +170,7 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, source, 8, ["UnitCode", "UnitName"]);
+            const results = FuzzySearch.search(value, source, 8, ["UnitCode", "UnitName"], 100);
 
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
 
@@ -254,7 +254,7 @@ class UnitSearchContainer extends Component {
                     <Button onClick={() => this.props.addToCourse(this.state.value, true)} fluid className="btnmainblue">Add custom unit</Button>
                 }
                 {!this.state.isLoading && this.state.showAddCustomUnitButton &&
-                    <div>
+                    <div hidden>
                         <h3>Search Filter</h3>
                         <Grid>
                             <Grid.Row>
