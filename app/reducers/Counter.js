@@ -62,14 +62,14 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                     if (next === null) {
                         return prev;
                     } else {
-                        return Math.max(0, prev - next.cost);
+                        return Math.max(0, prev - next.Cost);
                     }
                 }, state.cost),
                 creditPoints: action.units.reduce((prev, next) => {
                     if (next === null) {
                         return prev;
                     } else {
-                        return Math.max(0, prev - next.creditPoints);
+                        return Math.max(0, prev - next.CreditPoints);
                     }
                 }, state.creditPoints),
             };
