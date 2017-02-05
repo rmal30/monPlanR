@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import UnitQuery from "../../utils/UnitQuery";
-import { Button, Menu } from "semantic-ui-react";
+import { Button, Menu, Divider, Grid, Checkbox } from "semantic-ui-react";
 
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
@@ -29,7 +29,8 @@ class UnitSearchContainer extends Component {
             searchResults: [],
             searchResultIndex: 0,
             timeoutValue: null,
-            empty: true
+            empty: true,
+            searchFilter: []
         };
 
         this.searchVisible = false;
@@ -224,6 +225,19 @@ class UnitSearchContainer extends Component {
     render() {
         const { isLoading } = this.state;
 
+        const faculties = [
+            {label: "Art, Design and Architecture", value: "Art, Design and Architecture"},
+            {label: "Arts", value: "Arts"},
+            {label: "Business and Economics", value: "Business and Economics"},
+            {label: "Education", value: "Education"},
+            {label: "Engineering", value: "Engineering"},
+            {label: "Information Technology", value: "Information Technology"},
+            {label: "Law", value: "Law"},
+            {label: "Science", value: "Science"},
+            {label: "Medicine, Nursing and Health Sciences", value: "Medicine, Nursing and Health Sciences"},
+            {label: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"}
+        ];
+
         return (
             <Menu.Item>
                 <Menu.Item>
@@ -237,8 +251,26 @@ class UnitSearchContainer extends Component {
                     </div>
                 </Menu.Item>
                 {this.state.showAddCustomUnitButton &&
-                    <Button onClick={() => this.props.addToCourse(this.state.value, true)} fluid>Add custom unit</Button>
+                    <Button onClick={() => this.props.addToCourse(this.state.value, true)} fluid className="btnmainblue">Add custom unit</Button>
                 }
+                {!this.state.isLoading && this.state.showAddCustomUnitButton &&
+                    <div>
+                        <h3>Search Filter</h3>
+                        <Grid>
+                            <Grid.Row>
+                                <Grid.Column width={8}>
+                                <b>Faculty</b>
+                                {faculties.map((item) => {
+                                    return <Checkbox label={item.label} value={item.value} />;
+                                })}
+                                </Grid.Column>
+                                <Grid.Column width={8}>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </div>
+                }
+                <Divider />
                 <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
             </Menu.Item>
         );
