@@ -57,10 +57,10 @@ class ConfirmDeleteTeachingPeriod extends Component {
      */
     render() {
         let IDcount = 0;
-        if (this.props.showConfirmDeleteTeachingPeriodModal) {
+        if (this.props.showingConfirmDeleteTeachingPeriodModal) {
             return (
                 <Modal
-                    open={this.props.showConfirmDeleteTeachingPeriodModal}
+                    open={this.props.showingConfirmDeleteTeachingPeriodModal}
                     size="small">
                     <Modal.Header className="header-danger">
                         <p><Icon name="trash" />Are you sure you want to remove this teaching period?</p>
@@ -85,12 +85,13 @@ class ConfirmDeleteTeachingPeriod extends Component {
     }
 }
 
+
 const mapStateToProps = (state) => {
     return {
         numberOfUnits: state.CourseStructure.numberOfUnits, 
         affectedUnits: state.CourseStructure.affectedUnits,
         teachingPeriods: state.CourseStructure.teachingPeriods,
-        showConfirmDeleteTeachingPeriodModal: state.UI.showConfirmDeleteTeachingPeriodModal
+        showingConfirmDeleteTeachingPeriodModal: state.UI.showingConfirmDeleteTeachingPeriodModal
     };
 };
 
@@ -107,7 +108,7 @@ ConfirmDeleteTeachingPeriod.propTypes = {
     removeTeachingPeriod: PropTypes.func,
     index: PropTypes.number,
     getAffectedUnitsInRow: PropTypes.func,
-    showConfirmDeleteTeachingPeriodModal: PropTypes.bool,
+    showingConfirmDeleteTeachingPeriodModal: PropTypes.bool,
     hideConfirmDeleteTeachingPeriodUI: PropTypes.func,
     showConfirmDeleteTeachingPeriodUI: PropTypes.func,
     attemptToDeleteTeachingPeriod: PropTypes.func 
