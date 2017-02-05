@@ -1,8 +1,18 @@
+import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as CourseActions from "../../actions/CourseActions";
 import OverloadButton from "../../components/Buttons/OverloadButton.jsx";
+
+
+/**
+ * Need as simple wrapper for this because we pass in mobile externally, the rest is grabbed from 
+ * redux store
+ */
+const OverloadButtonContainer = (props) => {
+    return <OverloadButton {...props} />;
+};
 
 /**
  * 
@@ -23,4 +33,8 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverloadButton);
+export default connect(mapStateToProps, mapDispatchToProps)(OverloadButtonContainer);
+
+OverloadButtonContainer.propTypes = {
+    mobile: PropTypes.bool
+};

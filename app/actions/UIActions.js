@@ -70,3 +70,21 @@ export const hideConfirmDeleteTeachingPeriodUI = () => {
         type: "HIDE_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
     };
 };
+
+/**
+ * shows the confirm decrease study load modal
+ */
+export const showConfirmDecreaseStudyLoadUI = () => {
+    return {
+        type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
+    };
+};
+
+/**
+ * hides the confirm decrease study load modal
+ */
+export const hideConfirmDecreaseStudyLoadUI = () => {
+    return {
+        type: "HIDE_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
+    };
+};

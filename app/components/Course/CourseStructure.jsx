@@ -13,8 +13,7 @@ import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachingPeriodContainer.jsx";
 import InsertTeachingPeriodContainer from "../../containers/TeachingPeriod/InsertTeachingPeriodContainer.jsx";
 import OverloadButtonContainer from "../../containers/Buttons/OverloadButtonContainer.jsx";
-import UnderloadButtonContainer from "../../containers/Buttons/UnderloadButtonContainer.jsx";
-//import ConfirmDeleteOverload from "../modals/ConfirmDeleteOverload.jsx";
+import ConfirmDeleteOverload from "../modals/ConfirmDeleteOverload.jsx";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -700,8 +699,8 @@ class CourseStructure extends Component {
                 }
                 {!this.props.viewOnly &&
                     <MediaQuery maxDeviceWidth={767}>
-                        <OverloadButtonContainer />
-                        <UnderloadButtonContainer />
+                        <OverloadButtonContainer mobile/>
+                        <ConfirmDeleteOverload mobile />
                     </MediaQuery>
                 }
                 <Dimmer.Dimmable as={Table} celled fixed striped compact>
@@ -715,7 +714,7 @@ class CourseStructure extends Component {
                                     {!this.props.viewOnly &&
                                         <span>
                                             <OverloadButtonContainer />
-                                            <UnderloadButtonContainer />
+                                            <ConfirmDeleteOverload />
                                         </span>
                                     }
                                 </Table.HeaderCell>

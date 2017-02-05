@@ -4,7 +4,8 @@ const defaultState = {
     showMovingUnitUI: false,
     showAddingUnitUI: false,
     readOnly: false,
-    showingConfirmDeleteTeachingPeriodModal: false
+    showingConfirmDeleteTeachingPeriodModal: false,
+    showingConfirmDecreaseStudyLoadModal: false
 };
 
 /**
@@ -74,6 +75,18 @@ const UI = (state = defaultState, action) => {
             return {
                 ...state,
                 showingConfirmDeleteTeachingPeriodModal: false
+            };
+
+        case "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL":
+            return {
+                ...state,
+                showingConfirmDecreaseStudyLoadModal: true
+            };
+
+        case "HIDE_CONFIRM_DECREASE_STUDY_LOAD_MODAL":
+            return {
+                ...state,
+                showingConfirmDecreaseStudyLoadModal: false
             };
         
         default:

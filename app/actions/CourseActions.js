@@ -66,9 +66,18 @@ export const increaseStudyLoad = () => {
 /**
  * DECREASE_STUDY_LOAD
  */
-export const decreaseStudyLoad = () => {
+export const decreaseStudyLoad = (teachingPeriods, index) => {
+    let units = teachingPeriods.reduce((result, tp) => {
+        let unit = tp.units[index];
+        if (unit !== null && unit !== undefined) {
+            return result.concat(unit);
+        } else {
+            return result;
+        }
+    }, []);
     return {
-        type: "DECREASE_STUDY_LOAD"
+        type: "DECREASE_STUDY_LOAD",
+        units
     };
 };
 

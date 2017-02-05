@@ -4,9 +4,7 @@ import { Button, Icon, Popup, Modal } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as courseActions from "../../actions/CourseActions";
-
-
-import UnderloadButtonContainer from "../../containers/Buttons/UnderloadButtonContainer.jsx";
+import * as uiActions from "../../actions/UIActions";
 
 
 
@@ -23,10 +21,6 @@ class ConfirmDeleteOverload extends Component {
      */
     constructor(props) {
         super(props);
-        this.state = {
-            open: false,
-            unitArray: []
-        };
 
         this.handlePress = this.handlePress.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
@@ -38,30 +32,24 @@ class ConfirmDeleteOverload extends Component {
      * If the array is empty, the parent can safely remove, if the array has values, then the confirm modal is displayed
      */
     handlePress() {
-        let unitArray = this.props.getAffectedUnitsInColumn(this.props.numberOfUnits - 1);
-        if (unitArray.length === 0) {
-            this.props.decreaseStudyLoad();
-        } else {
-            this.setState({
-                open: true,
-                unitArray: unitArray
-            });
-        }
+        const { teachingPeriods, numberOfUnits, attemptToDecreaseStudyLoad } = this.props;
+        attemptToDecreaseStudyLoad(teachingPeriods, numberOfUnits - 1);
     }
 
     /**
      * The modal closes and the overload column is not affected if user presses cancel
      */
     handleCancel() {
-        this.setState({ open: false });
+        this.props.hideConfirmDecreaseStudyLoadUI();
     }
 
     /**
      * user confirms, the modal is closed and parents handles removal.
      */
     handleConfirm() {
-        this.setState({ open: false });
-        this.props.decreaseStudyLoad();
+        const { decreaseStudyLoad, teachingPeriods, numberOfUnits, hideConfirmDecreaseStudyLoadUI } = this.props;
+        hideConfirmDecreaseStudyLoadUI();
+        decreaseStudyLoad(teachingPeriods, numberOfUnits - 1);
     }
 
     /**
@@ -69,14 +57,17 @@ class ConfirmDeleteOverload extends Component {
      */
     render() {
         let IDcount = 0;
+        const { mobile, numberOfUnits, teachingPeriods, showingConfirmDecreaseStudyLoadModal } = this.props;
+        const isDisabled = (numberOfUnits <= 4 || teachingPeriods.length === 0);
         const message = (<div>
                             <p>Removing this overload column will delete the following units from your course plan:</p>
-                            <ul>{this.state.unitArray.map((item) => {return (<li key={item + IDcount++}>{item}</li>);})}</ul>
+                            <ul>{this.props.affectedUnits.map((item) => {return (<li key={item + IDcount++}>{item}</li>);})}</ul>
                         </div>);
-        if (this.state.open) {
+        
+        if (showingConfirmDecreaseStudyLoadModal) {
             return (
                 <Modal
-                    open={this.state.open}
+                    open={showingConfirmDecreaseStudyLoadModal}
                     size="small">
                     <Modal.Header className="header-danger">
                         <p><Icon name="trash" />Are you sure you want to remove overload column?</p>
@@ -91,7 +82,16 @@ class ConfirmDeleteOverload extends Component {
         } else {
             return (
                 <Popup
-                    trigger={<UnderloadButtonContainer />}
+                    trigger={<Button 
+                                icon="minus" 
+                                labelPosition={mobile ? "left" : undefined} 
+                                className="no-print" 
+                                disabled={isDisabled} 
+                                onClick={this.handlePress} 
+                                color="red" 
+                                floated={!mobile ? "right" : undefined} 
+                                fluid={mobile} 
+                                content={mobile ? "Remove overload column" : ""} />}
                     content="Removes last column from your course plan."
                     size='mini'
                     positioning='bottom center'
@@ -106,7 +106,10 @@ class ConfirmDeleteOverload extends Component {
  */
 const mapStateToProps = (state) => {
     return {
-        numberOfUnits: state.CourseStructure.numberOfUnits
+        numberOfUnits: state.CourseStructure.numberOfUnits,
+        teachingPeriods: state.CourseStructure.teachingPeriods,
+        showingConfirmDecreaseStudyLoadModal: state.UI.showingConfirmDecreaseStudyLoadModal,
+        affectedUnits: state.CourseStructure.affectedUnits
     };
 };
 
@@ -114,7 +117,8 @@ const mapStateToProps = (state) => {
  * 
  */
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(...courseActions, dispatch);
+    const actionBundle = {...courseActions, ...uiActions};
+    return bindActionCreators(actionBundle, dispatch);
 };
 
 
@@ -124,5 +128,10 @@ ConfirmDeleteOverload.propTypes = {
     mobile: PropTypes.bool,
     getAffectedUnitsInColumn: PropTypes.func,
     decreaseStudyLoad: PropTypes.func,
-    numberOfUnits: PropTypes.number
+    numberOfUnits: PropTypes.number,
+    showingConfirmDecreaseStudyLoadModal: PropTypes.bool,
+    hideConfirmDecreaseStudyLoadUI: PropTypes.func,
+    teachingPeriods: PropTypes.array,
+    attemptToDecreaseStudyLoad: PropTypes.func,
+    affectedUnits: PropTypes.array
 };
