@@ -22,16 +22,14 @@ class ConfirmDeleteTeachingPeriod extends Component {
         this.handleConfirm = this.handleConfirm.bind(this);
     }
 
-    componentWillMount() {
-        this.props.getAffectedUnitsInRow(this.props.index);
-    }
     /**
      * handles the initial pressing of the remove button. It then processes the current unit array. If the unit array is empty,
      * then it can jump straight to deleting the teaching period, however, if there are units in the array, then the confirmation modal
      * is triggered to open
      */
     handlePress() {
-        this.props.attemptToDeleteTeachingPeriod(this.props.index, this.props.teachingPeriods[this.props.index].units);
+        const { attemptToDeleteTeachingPeriod, index, units } = this.props;
+        attemptToDeleteTeachingPeriod(index, units);
     }
         
 
@@ -46,9 +44,10 @@ class ConfirmDeleteTeachingPeriod extends Component {
      * If the user presses confirm, the modal closes and the delete action is carried out by parent component
      */
     handleConfirm() {
-        const { removeTeachingPeriod, index, teachingPeriods } = this.props;
-        this.props.hideConfirmDeleteTeachingPeriodUI();
-        removeTeachingPeriod(index, teachingPeriods[index].units);
+        const { hideConfirmDeleteTeachingPeriodUI, removeTeachingPeriod, index, units } = this.props;
+        
+        hideConfirmDeleteTeachingPeriodUI();
+        removeTeachingPeriod(index, units);
     }
 
     /**
@@ -57,10 +56,11 @@ class ConfirmDeleteTeachingPeriod extends Component {
      */
     render() {
         let IDcount = 0;
+        const { showingConfirmDeleteTeachingPeriodModal, affectedUnits } = this.props;
         if (this.props.showingConfirmDeleteTeachingPeriodModal) {
             return (
                 <Modal
-                    open={this.props.showingConfirmDeleteTeachingPeriodModal}
+                    open={showingConfirmDeleteTeachingPeriodModal}
                     size="small">
                     <Modal.Header className="header-danger">
                         <p><Icon name="trash" />Are you sure you want to remove this teaching period?</p>
@@ -68,7 +68,7 @@ class ConfirmDeleteTeachingPeriod extends Component {
                     <Modal.Content>
                         <div>
                             <p>Removing this teaching period will delete the following units from your course plan:</p>
-                            <ul>{this.props.affectedUnits.map((item) => {return (<li key={item + IDcount++}>{item}</li>);})}</ul>
+                            <ul>{affectedUnits.map((item) => {return (<li key={item + IDcount++}>{item}</li>);})}</ul>
                         </div>
                     </Modal.Content>
                     <Modal.Actions>
@@ -86,15 +86,21 @@ class ConfirmDeleteTeachingPeriod extends Component {
 }
 
 
+/**
+ * To confirm delete teaching period we need the bool representing whether the confirmation modal should be shown, 
+ * and also need the units that would be affected by a deletion
+ */
 const mapStateToProps = (state) => {
     return {
-        numberOfUnits: state.CourseStructure.numberOfUnits, 
         affectedUnits: state.CourseStructure.affectedUnits,
-        teachingPeriods: state.CourseStructure.teachingPeriods,
         showingConfirmDeleteTeachingPeriodModal: state.UI.showingConfirmDeleteTeachingPeriodModal
     };
 };
 
+/**
+ * We need the removeTeachingPeriod and attemptToDeleteTeachingPeriod functions from courseActions, and need 
+ * the show and hide confirmDeleteTeachingPeriodModal functions from uiActions
+ */
 const mapDispatchToProps = (dispatch) => {
     const actionBundle = {...courseActions, ...uiActions};
     return bindActionCreators(actionBundle, dispatch);
@@ -104,13 +110,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(ConfirmDeleteTeachin
 
 ConfirmDeleteTeachingPeriod.propTypes = {
     affectedUnits: PropTypes.array,
-    teachingPeriods: PropTypes.array,
     removeTeachingPeriod: PropTypes.func,
     index: PropTypes.number,
     getAffectedUnitsInRow: PropTypes.func,
     showingConfirmDeleteTeachingPeriodModal: PropTypes.bool,
     hideConfirmDeleteTeachingPeriodUI: PropTypes.func,
     showConfirmDeleteTeachingPeriodUI: PropTypes.func,
-    attemptToDeleteTeachingPeriod: PropTypes.func 
-
+    attemptToDeleteTeachingPeriod: PropTypes.func,
+    units: PropTypes.array
 };
