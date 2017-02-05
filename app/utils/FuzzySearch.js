@@ -16,7 +16,7 @@ export default class FuzzySearch {
      * @param {integer} distance - the distance (allows more accurate search)
      * @filter {array} filter - the Filter Array
      */
-    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter=[]) {
+    static search(searchTarget, data, numberOfResults, searchKeys, distance) {
         if(searchTarget !== null || searchTarget !== "") {
             var options = {
                 include: ["score"],
@@ -32,6 +32,7 @@ export default class FuzzySearch {
 
             const fuse = new Fuse(data, options);
             const results = fuse.search(searchTarget).slice(0, numberOfResults);
+
             return results;
         }
 
