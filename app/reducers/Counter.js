@@ -61,19 +61,15 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 cost: action.units.reduce((prev, next) => {
                     if (next === null) {
                         return prev;
-                    } else if (prev - next.cost > 0) {
-                        return prev - next.cost;
                     } else {
-                        return 0;
+                        return Math.max(0, prev - next.cost);
                     }
                 }, state.cost),
                 creditPoints: action.units.reduce((prev, next) => {
                     if (next === null) {
                         return prev;
-                    } else if (prev - next.creditPoints > 0) {
-                        return prev - next.creditPoints;
                     } else {
-                        return 0;
+                        return Math.max(0, prev - next.creditPoints);
                     }
                 }, state.creditPoints),
             };
@@ -86,6 +82,26 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 creditPoints: Math.max(0, state.creditPoints - action.creditPoints)
             };
         
+
+        case "DECREASE_STUDY_LOAD":
+            return {
+                cost: action.units.reduce((prev, next) => {
+                    if (next === null) {
+                        return prev;
+                    } else {
+                        return Math.max(0, prev - next.cost);
+                    }
+                }, state.cost),
+                creditPoints: action.units.reduce((prev, next) => {
+                    if (next === null) {
+                        return prev;
+                    } else {
+                        return Math.max(0, prev - next.creditPoints);
+                    }
+                }, state.creditPoints),
+                
+            };
+
         default:
             return state;
 

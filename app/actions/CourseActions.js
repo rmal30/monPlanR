@@ -248,6 +248,41 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
         }
     };
 };
+
+
+/**
+ * Attempts to decrease the study load, it calculate the units that would be affected by this deletion. If no units would be affected,
+ * automatically decreases the study load, otherwise shows the confirmation modal with the affected units.
+ */
+export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
+    return function(dispatch) {
+        let units = [];
+        let affectedUnits = teachingPeriods.reduce((result, tp) => {
+            let unit = tp.units[index];
+            if (unit !== null && unit !== undefined) {
+                units.push(unit);
+                return result.concat(unit.UnitCode + " - " + unit.UnitName);
+            } else {
+                return result;
+            }
+        }, []);
+
+        if (affectedUnits.length > 0){
+            dispatch({
+                type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
+            });
+            dispatch({
+                type: "UPDATE_AFFECTED_UNITS",
+                affectedUnits
+            });
+        } else {
+            dispatch({
+                type: "DECREASE_STUDY_LOAD",
+                units
+            });
+        }
+    };
+};
 /**
  * Gets the units that would be affected by the deletion of a row
  */

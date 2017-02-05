@@ -99,7 +99,7 @@ function TeachingPeriod(props) {
         <Table.Row style={{color: "black"}}>
             <Table.Cell>
                 {!props.showMoveUnitUI && !props.viewOnly &&
-                <ConfirmDeleteTeachingPeriod index={props.index} units={props.units} />
+                    <ConfirmDeleteTeachingPeriod index={props.index} units={props.units} />
                 }
                 {teachingPeriodName}, {props.year}
             </Table.Cell>
