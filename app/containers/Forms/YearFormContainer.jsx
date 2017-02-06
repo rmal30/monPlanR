@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup } from "semantic-ui-react";
-import { Link } from "react-router";
+import { browserHistory, Link } from "react-router";
 import MediaQuery from "react-responsive";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import LocalStorage from "../../utils/LocalStorage";
 import * as courseActions from "../../actions/CourseActions";
 
 import YearCalc from "../../utils/YearCalc.js";
@@ -35,7 +36,16 @@ class YearFormContainer extends Component {
 
         this.validStartYears = YearCalc.getStartYearVals(new Date().getFullYear());
         this.validEndYears = [];
+    }
 
+    /**
+     * Redirect user to home page if a course structure already exists.
+     */
+    componentDidMount() {
+        if(LocalStorage.doesCourseStructureExist()) {
+            browserHistory.replace("/");
+            return;
+        }
     }
 
     /**
