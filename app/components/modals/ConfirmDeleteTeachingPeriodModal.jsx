@@ -5,6 +5,11 @@ import * as courseActions from "../../actions/CourseActions";
 import * as uiActions from "../../actions/UIActions";
 import { bindActionCreators } from "redux";
 
+/**
+ * This modal sits and waits to be activated by the global show confirm delete teaching period modal boolean. This
+ * listens for changes to units that would be affected by a teaching period deletion, as well as the index of the teaching 
+ * period to remove and uses that for the modal actions
+ */
 const ConfirmDeleteTeachingPeriodModal = (props) => {
     let IDcount = 0;
     const { index, affectedUnits, showingConfirmDeleteTeachingPeriodModal, removeTeachingPeriod, hideConfirmDeleteTeachingPeriodUI, teachingPeriods } = props;
@@ -30,6 +35,9 @@ const ConfirmDeleteTeachingPeriodModal = (props) => {
 };
 
 
+/**
+ * we need the following variables for the modal to be populated and controlled
+ */
 const mapStateToProps = (state) => {
     return {
         teachingPeriods: state.CourseStructure.teachingPeriods,
@@ -39,7 +47,9 @@ const mapStateToProps = (state) => {
     };
 };
 
-
+/**
+ * We need the hidemodal function from uiActions and the removeTeachingPeriod action from course Actions
+ */
 const mapDispatchToProps = (dispatch) => {
     const actionBundle = {...courseActions, ...uiActions};
     return bindActionCreators(actionBundle, dispatch);
