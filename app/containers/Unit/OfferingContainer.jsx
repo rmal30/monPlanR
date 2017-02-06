@@ -38,7 +38,12 @@ class OfferingContainer extends Component {
 
         if (this.state.notAvailable) {
             return (
-                <p>No offering information available</p>
+                <p><i><b>No unit offering information is currently available.</b>
+                This could be because either this unit has been discontinued or the unit is
+                not offered in this year.
+
+
+                </i></p>
             );
         } else {
             return (

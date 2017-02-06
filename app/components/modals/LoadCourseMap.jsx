@@ -131,7 +131,7 @@ class LoadCourseMap extends Component {
      * friendly form (they require results in the form of title and description)
      */
     handleChange(e){
-        let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"]).map(current => {return current.item;});
+        let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"], 400).map(current => {return current.item;});
 
         results = results.map(item => {
             return {title: item.courseCode, description: item.courseName, data: item};
