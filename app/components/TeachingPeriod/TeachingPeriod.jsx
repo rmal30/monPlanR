@@ -116,4 +116,14 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(TeachingPeriod);
+const mapStateToProps = (state) => {
+    return {
+        data: state.CourseStructure.teachingPeriodData,
+        numberOfUnits: state.CourseStructure.numberOfUnits,
+        viewOnly: state.UI.readOnly
+
+
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TeachingPeriod);

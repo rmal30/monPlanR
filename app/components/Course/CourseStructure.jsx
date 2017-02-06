@@ -551,12 +551,11 @@ class CourseStructure extends Component {
     renderTeachingPeriod(teachingPeriod, index, errors, tempInvalidCoordinates) {
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
-                    viewOnly={this.props.viewOnly}
                     index={index}
                     year={teachingPeriod.year}
                     code={teachingPeriod.code}
-                    data={this.props.teachingPeriodData}
-                    numberOfUnits={this.props.numberOfUnits}
+                    units={teachingPeriod.units}
+                    
                     addUnit={this.addUnit.bind(this)}
                     moveUnit={this.moveUnit.bind(this)}
                     swapUnit={this.swapUnit.bind(this)}
@@ -565,7 +564,6 @@ class CourseStructure extends Component {
                     unitToAdd={this.props.unitToAdd}
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
-                    units={teachingPeriod.units}
                     cancelMoving={this.cancelMoving.bind(this)}
                     errors={errors}
                     tempInvalidCoordinates={tempInvalidCoordinates} />;
