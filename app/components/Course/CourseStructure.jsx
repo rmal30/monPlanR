@@ -706,7 +706,7 @@ class CourseStructure extends Component {
                     </MediaQuery>
                 }
 
-                <Dimmer.Dimmable as={Table} celled fixed striped compact>
+                <Dimmer.Dimmable className="coursetable" as={Table} celled fixed striped compact>
                     {(this.props.courseLoading || this.props.courseSnapshotLoading) && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
