@@ -58,26 +58,50 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
         
         case "REMOVE_TEACHING_PERIOD":
             return {
-                cost: action.tp.reduce((prev, next) => {
+                cost: action.units.reduce((prev, next) => {
                     if (next === null) {
                         return prev;
-                    } else if (prev - next.cost > 0) {
-                        return prev - next.cost;
                     } else {
-                        return 0;
+                        return Math.max(0, prev - next.Cost);
                     }
                 }, state.cost),
-                creditPoints: action.tp.reduce((prev, next) => {
+                creditPoints: action.units.reduce((prev, next) => {
                     if (next === null) {
                         return prev;
-                    } else if (prev - next.creditPoints > 0) {
-                        return prev - next.creditPoints;
                     } else {
-                        return 0;
+                        return Math.max(0, prev - next.CreditPoints);
                     }
                 }, state.creditPoints),
             };
         
+
+        case "REMOVE_UNIT":
+            return {
+                ...state,
+                cost: Math.max(0, state.cost - action.cost),
+                creditPoints: Math.max(0, state.creditPoints - action.creditPoints)
+            };
+        
+
+        case "DECREASE_STUDY_LOAD":
+            return {
+                cost: action.units.reduce((prev, next) => {
+                    if (next === null) {
+                        return prev;
+                    } else {
+                        return Math.max(0, prev - next.Cost);
+                    }
+                }, state.cost),
+                creditPoints: action.units.reduce((prev, next) => {
+                    if (next === null) {
+                        return prev;
+                    } else {
+                        return Math.max(0, prev - next.CreditPoints);
+                    }
+                }, state.creditPoints),
+                
+            };
+
         default:
             return state;
 

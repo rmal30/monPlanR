@@ -29,6 +29,7 @@ function TeachingPeriod(props) {
         showMoveUnitUI: PropTypes.bool.isRequired,
         viewUnitDetails: PropTypes.func,
         removeTeachingPeriod: PropTypes.func,
+        getAffectedUnitsInRow: PropTypes.func,
 
         viewOnly: PropTypes.bool
     };
@@ -70,6 +71,8 @@ function TeachingPeriod(props) {
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}
                 name={unit.UnitName}
+                creditPoints={unit.CreditPoints}
+                cost={unit.Cost}
                 faculty={unit.Faculty}
                 placeholder={unit.placeholder}
                 onUnitClick={props.handleUnitDetailClick}
@@ -91,14 +94,12 @@ function TeachingPeriod(props) {
             teachingPeriodName = teachingPeriod.name;
         }
     }
-
+    
     return (
         <Table.Row style={{color: "black"}}>
             <Table.Cell>
                 {!props.showMoveUnitUI && !props.viewOnly &&
-                <ConfirmDeleteTeachingPeriod
-                    onDeletePress={() => {props.removeTeachingPeriod(props.index, props.units);}}
-                    units={props.units} />
+                    <ConfirmDeleteTeachingPeriod index={props.index} units={props.units} />
                 }
                 {teachingPeriodName}, {props.year}
             </Table.Cell>

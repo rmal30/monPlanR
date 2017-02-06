@@ -20,12 +20,12 @@ export const insertTeachingPeriod = (index, year, code) => {
 /**
  * REMOVE_TEACHING_PERIOD
  */
-export const removeTeachingPeriod = (index, tp) => {
+export const removeTeachingPeriod = (index, units) => {
     return function (dispatch) {
         dispatch({
             type: "REMOVE_TEACHING_PERIOD",
             index,
-            tp
+            units
         });
 
         dispatch({
@@ -66,9 +66,18 @@ export const increaseStudyLoad = () => {
 /**
  * DECREASE_STUDY_LOAD
  */
-export const decreaseStudyLoad = () => {
+export const decreaseStudyLoad = (teachingPeriods, index) => {
+    let units = teachingPeriods.reduce((result, tp) => {
+        let unit = tp.units[index];
+        if (unit !== null && unit !== undefined) {
+            return result.concat(unit);
+        } else {
+            return result;
+        }
+    }, []);
     return {
-        type: "DECREASE_STUDY_LOAD"
+        type: "DECREASE_STUDY_LOAD",
+        units
     };
 };
 
@@ -87,11 +96,13 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
 /**
  * REMOVE_UNIT
  */
-export const removeUnit = (tpIndex, unitIndex) => {
+export const removeUnit = (tpIndex, unitIndex, creditPoints, cost) => {
     return {
         type: "REMOVE_UNIT",
         tpIndex,
-        unitIndex
+        unitIndex,
+        creditPoints,
+        cost
     };
 };
 
@@ -202,6 +213,98 @@ export const loadCourseFromLocalStorage = () => {
     };
 };
 
+/**
+ * Gets the units that would be affected by the deletion of a column
+ */
+export const getAffectedUnitsInColumn = (index) => {
+    return {
+        type: "GET_AFFECTED_UNITS_IN_OVERLOAD_COLUMN",
+        index
+    };
+};
+
+
+/**
+ * Will attempt to delete a teaching period with the given index. It calculates which, if any units would be affected by the deletion,
+ * and if there is - it updates the affected units array so the modal can display and prompt the user to confirm.
+ * If there are no units that would be affected by the move (i.e. an empty teaching period), then the teaching period is removed 
+ * without prompting for confirmation
+ */
+export const attemptToDeleteTeachingPeriod = (index, units) => {
+    return function(dispatch) {
+        let affectedUnits = units.reduce((result, unit) => {
+            if (unit !== null && unit !== undefined) {
+                return result.concat(unit.UnitCode + " - " + unit.UnitName);
+            } else {
+                return result;
+            }
+        }, []);
+        
+        if (affectedUnits.length > 0){
+            dispatch({
+                type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
+            });
+            dispatch({
+                type: "UPDATE_AFFECTED_UNITS",
+                affectedUnits
+            });
+            dispatch({
+                type: "UPDATE_INDEX_OF_TP_TO_REMOVE",
+                index
+            });
+        } else {
+            dispatch({
+                type: "REMOVE_TEACHING_PERIOD",
+                index,
+                units
+            });
+        }
+    };
+};
+
+
+/**
+ * Attempts to decrease the study load, it calculate the units that would be affected by this deletion. If no units would be affected,
+ * automatically decreases the study load, otherwise shows the confirmation modal with the affected units.
+ */
+export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
+    return function(dispatch) {
+        let units = [];
+        let affectedUnits = teachingPeriods.reduce((result, tp) => {
+            let unit = tp.units[index];
+            if (unit !== null && unit !== undefined) {
+                units.push(unit);
+                return result.concat(unit.UnitCode + " - " + unit.UnitName);
+            } else {
+                return result;
+            }
+        }, []);
+
+        if (affectedUnits.length > 0){
+            dispatch({
+                type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
+            });
+            dispatch({
+                type: "UPDATE_AFFECTED_UNITS",
+                affectedUnits
+            });
+        } else {
+            dispatch({
+                type: "DECREASE_STUDY_LOAD",
+                units
+            });
+        }
+    };
+};
+/**
+ * Gets the units that would be affected by the deletion of a row
+ */
+export const getAffectedUnitsInRow = (index) => {
+    return {
+        type: "GET_AFFECTED_UNITS_IN_TEACHING_PERIOD_ROW",
+        index
+    };
+};
 
 /**
  * All this does is interact with local storage, the action is not strictly necessary, as the reducer doesn't handle it

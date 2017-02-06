@@ -13,8 +13,8 @@ import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachingPeriodContainer.jsx";
 import InsertTeachingPeriodContainer from "../../containers/TeachingPeriod/InsertTeachingPeriodContainer.jsx";
 import OverloadButtonContainer from "../../containers/Buttons/OverloadButtonContainer.jsx";
-import UnderloadButtonContainer from "../../containers/Buttons/UnderloadButtonContainer.jsx";
-
+import ConfirmDeleteOverload from "../modals/ConfirmDeleteOverload.jsx";
+import ConfirmDeleteTeachingPeriodModal from "../modals/ConfirmDeleteTeachingPeriodModal.jsx";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -31,12 +31,13 @@ const mapStateToProps = state => {
         creditPoints: state.Counter.creditPoints,
         cost: state.Counter.cost,
         teachingPeriods: state.CourseStructure.teachingPeriods,
-        numberOfUnits: state.CourseStructure.numberOfUnits,
+        numberOfUnits: state.CourseStructure.numberOfUnits, 
         teachingPeriodData: state.CourseStructure.teachingPeriodData,
         nextSemesterString: state.CourseStructure.nextSemesterString,
         courseLoading: state.CourseStructure.courseLoading,
         teachingPeriodCodeToInsert: state.CourseStructure.teachingPeriodCodeToInsert,
-        showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI
+        showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
+        courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading
     };
 };
 
@@ -322,9 +323,9 @@ class CourseStructure extends Component {
      */
     componentDidMount() {
         if(this.props.viewOnly) {
-            if(this.props.fetchURL) {
+            if(this.props.snapID) {
                 this.props.clearCourse();
-                this.loadCourseFromDatabase();
+                this.props.loadCourseSnap(this.props.snapID);
             }
             return;
         }
@@ -676,6 +677,7 @@ class CourseStructure extends Component {
 
         return (
             <Container>
+                <ConfirmDeleteTeachingPeriodModal />
                 {!this.props.viewOnly &&
                     <CourseMessage
                         isError={this.state.isError}
@@ -699,34 +701,32 @@ class CourseStructure extends Component {
                 }
                 {!this.props.viewOnly &&
                     <MediaQuery maxDeviceWidth={767}>
-                        <OverloadButtonContainer />
-                        <UnderloadButtonContainer />
+                        <OverloadButtonContainer mobile/>
+                        <ConfirmDeleteOverload mobile />
                     </MediaQuery>
                 }
-                <Dimmer.Dimmable as={Table} className="coursetable" celled fixed striped compact>
-                    {this.props.courseLoading && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
+
+                <Dimmer.Dimmable as={Table} celled fixed striped compact>
+                    {(this.props.courseLoading || this.props.courseSnapshotLoading) && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
                             <Table.Row textAlign="center">
-                                    <Table.HeaderCell>
-                                        <Segment>
-                                            Teaching Period
-                                        </Segment>
-                                    </Table.HeaderCell>
-
-
-                                    <Table.HeaderCell colSpan={this.props.numberOfUnits}>
-                                        <Segment>
-                                            Units
-                                            {!this.props.viewOnly &&
-                                                <span className="unitControl">
-                                                    <OverloadButtonContainer />
-                                                    <UnderloadButtonContainer />
-                                                </span>
-                                            }
-                                        </Segment>
-                                    </Table.HeaderCell>
-
+                                <Table.HeaderCell>
+                                  <Segment>
+                                    Teaching Period
+                                  </Segment>
+                              </Table.HeaderCell>
+                                <Table.HeaderCell colSpan={this.props.numberOfUnits}>
+                                    <Segment>
+                                    Units
+                                    {!this.props.viewOnly &&
+                                        <span className="unitControl">
+                                            <OverloadButtonContainer />
+                                            <ConfirmDeleteOverload />
+                                        </span>
+                                    }
+                                    </Segment>
+                                </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                     </MediaQuery>
@@ -779,15 +779,17 @@ CourseStructure.propTypes = {
     saveCourseToLocalStorage: PropTypes.func,
     showingInsertTeachingPeriodUI: PropTypes.bool,
     teachingPeriodCodeToInsert: PropTypes.string,
+    loadCourseSnap: PropTypes.func,
+    courseSnapshotLoading: PropTypes.bool,
 
     /* Validation */
     updateStatus: PropTypes.func.isRequired,
     /* Used for diff checks */
     courseErrors: PropTypes.array.isRequired,
-
+    
+    snapID: PropTypes.string,
     viewOnly: PropTypes.bool,
     switchToEditCourse: PropTypes.bool,
-    fetchURL: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseStructure);

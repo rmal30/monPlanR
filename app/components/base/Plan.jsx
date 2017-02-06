@@ -4,10 +4,8 @@ import { Container, Grid } from "semantic-ui-react";
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
 import CostCalc from "../../utils/CostCalc";
-import LocalStorage from "../../utils/LocalStorage";
 //import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStructure from "../Course/CourseStructure.jsx";
-import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import NotificationContainer from "../../containers/NotificationContainer.jsx";
 
 
@@ -41,7 +39,6 @@ class Plan extends Component {
         this.addToCourse = this.addToCourse.bind(this);
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
-        this.handleCourseLoad = this.handleCourseLoad.bind(this);
     }
     /**
      * A workaround that is a React anti-pattern. It attaches add to course menu
@@ -53,13 +50,6 @@ class Plan extends Component {
      */
     componentDidMount() {
         this.props.attachAddToCourse(this.addToCourse);
-        let courseInLS = LocalStorage.doesCourseStructureExist();
-
-        if(!courseInLS) {
-            const { startYear, courseToLoad } = this.props.location.query;
-            this.handleCourseLoad(courseToLoad, parseInt(startYear, 10));
-        }
-
     }
 
     /**
@@ -163,23 +153,10 @@ class Plan extends Component {
 
 
     /**
-     * when a course has been selected, we call this, update the state, which then passses the coursecode down to CourseStructure component as
-     * a prop
-     */
-    handleCourseLoad(courseCode, courseYear) {
-        this.setState({
-            courseToLoad: courseCode,
-            courseYear
-        });
-    }
-
-    /**
      * Returns a container of grid of a single row, holding the course
      * structure.
      */
     render() {
-        const { startYear, endYear } = this.props.location.query;
-
         return (
             <div>
                 <NotificationContainer />
@@ -198,24 +175,20 @@ class Plan extends Component {
                             <Grid.Column width="4">
                             </Grid.Column>
                             <Grid.Column width="4">
-                                <LoadCourseMap onCourseLoad={this.handleCourseLoad} />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
                 </Container>
 
                 <Container className="main text">
-                    <CourseStructure startYear={parseInt(startYear)}
-                                     endYear={parseInt(endYear)}
-                                     addToCourse={this.addToCourse}
-                                     doneAddingToCourse={this.doneAddingToCourse}
-                                     cancelAddingToCourse={this.cancelAddingToCourse}
-                                     removeFromCourse={this.removeFromCourse}
-                                     unitToAdd={this.state.unitToAdd}
-                                     courseToLoad={this.state.courseToLoad}
-                                     courseYear={this.state.courseYear}
-                                     updateStatus={this.props.updateStatus}
-                                     courseErrors={this.props.courseErrors} />
+                    <CourseStructure
+                        addToCourse={this.addToCourse}
+                        doneAddingToCourse={this.doneAddingToCourse}
+                        cancelAddingToCourse={this.cancelAddingToCourse}
+                        removeFromCourse={this.removeFromCourse}
+                        unitToAdd={this.state.unitToAdd}
+                        updateStatus={this.props.updateStatus}
+                        courseErrors={this.props.courseErrors} />
                 </Container>
             </div>
         );
