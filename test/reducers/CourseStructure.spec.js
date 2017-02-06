@@ -1124,5 +1124,55 @@ describe("REDUCER: CourseStructure", () => {
             test(stateBefore, action, stateAfter);
         });
     });
+
+    describe("ACTION: UPDATE_AFFECTED_UNITS", () => {
+        it("Should correctly update the affected units value to the given array", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                affectedUnits: []
+
+            };
+
+            const action = {
+                type: "UPDATE_AFFECTED_UNITS",
+                affectedUnits: ["TestUnit", "OtherTestUnit"]
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                affectedUnits: ["TestUnit", "OtherTestUnit"]
+                
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: UPDATE_INDEX_OF_TP_TO_REMOVE", () => {
+        it("Should correctly update the index of tp to remove value to the given value", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                indexOfTPtoRemove: 0
+
+            };
+
+            const action = {
+                type: "UPDATE_INDEX_OF_TP_TO_REMOVE",
+                index: 1
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                indexOfTPtoRemove: 1
+                
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
 });
 
