@@ -212,4 +212,112 @@ describe("REDUCER: UI", () => {
             ).toEqual(stateAfter);
         });
     });
+
+    describe("ACTION: SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL", () => {
+        it("Should correctly toggle the confirm delete teaching period modal UI to show", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDeleteTeachingPeriodModal: false
+            };
+
+            const action = {
+                type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDeleteTeachingPeriodModal: true
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: HIDE_CONFIRM_DELETE_TEACHING_PERIOD_MODAL", () => {
+        it("Should correctly toggle the confirm delete teaching period modal UI to hide", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDeleteTeachingPeriodModal: true
+            };
+
+            const action = {
+                type: "HIDE_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDeleteTeachingPeriodModal: false
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL", () => {
+        it("Should correctly toggle the confirm decrease study load modal UI to show", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDecreaseStudyLoadModal: false
+            };
+
+            const action = {
+                type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDecreaseStudyLoadModal: true
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: HIDE_CONFIRM_DECREASE_STUDY_LOAD_MODAL", () => {
+        it("Should correctly toggle the confirm decrease study load modal UI to hide", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDecreaseStudyLoadModal: true
+            };
+
+            const action = {
+                type: "HIDE_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingConfirmDecreaseStudyLoadModal: false
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });

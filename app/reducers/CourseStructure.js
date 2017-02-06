@@ -180,20 +180,18 @@ const CourseStructure = (state = defaultState, action) => {
         case "ADD_UNIT":
             return {
                 ...state,
-                teachingPeriods: state.teachingPeriods.map((tp, index) => {
-                    if (index === action.tpIndex) {
-                        return {
-                            ...tp,
-                            units: [
-                                ...tp.units.slice(0, action.unitIndex),
-                                action.unit,
-                                ...tp.units.slice(action.unitIndex + 1)
-                            ]
-                        };
-                    }
-
-                    return tp;
-                })
+                teachingPeriods: [
+                    ...state.teachingPeriods.slice(0, action.tpIndex),
+                    {
+                        ...state.teachingPeriods[action.tpIndex],
+                        units: [
+                            ...state.teachingPeriods[action.tpIndex].units.slice(0, action.unitIndex),
+                            action.unit,
+                            ...state.teachingPeriods[action.tpIndex].units.slice(action.unitIndex + 1)
+                        ]
+                    },
+                    ...state.teachingPeriods.slice(action.tpIndex + 1),
+                ]
             };
 
         /*
