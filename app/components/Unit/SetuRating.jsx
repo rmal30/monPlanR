@@ -29,7 +29,7 @@ function SetuRating(props) {
                         <div id="setu-rating">
                             <span style={{display: "inline-block", marginRight: "2em"}}>
                                 <p><Icon name={isNaN(props.starRating) || props.starRating >= 2.5 && "book" || "remove circle"} /> I learnt a lot</p>
-                                <Rating icon='star' defaultRating={(noLearnResponses || isNaN(props.starRating)) ? 0 : Math.round(props.starRating)} maxRating={5} disabled/>
+                                <Rating icon='star' defaultRating={(noLearnResponses || isNaN(props.starRating)) ? 0 : props.starRating.toFixed(2)} maxRating={5} disabled/>
                                 {(noLearnResponses || isNaN(props.starRating)) ? <p>(No responses yet)</p> : <p>({props.starRating.toFixed(2)}/5) - {props.learnResponseCount} responses</p>}
                             </span>
                             <span style={{display: "inline-block"}}>
@@ -44,7 +44,7 @@ function SetuRating(props) {
                     return (
                         <div id="setu-rating">
                             <p><Icon name={isNaN(props.starRating) || props.starRating >= 2.5 && "book" || "remove circle"} /> I learnt a lot</p>
-                            <Rating icon='star' defaultRating={(noLearnResponses || isNaN(props.starRating)) ? 0 : Math.round(props.starRating)} maxRating={5} disabled/>
+                            <Rating icon='star' defaultRating={(noLearnResponses || isNaN(props.starRating)) ? 0 : props.starRating.toFixed(2)} maxRating={5} disabled/>
                             {(noLearnResponses || isNaN(props.starRating)) ? <p>(No responses yet)</p> : <p>({props.starRating.toFixed(2)}/5) - {props.learnResponseCount} responses</p>}
                             <Divider />
                             <p><Icon name={isNaN(props.heartRating) || props.heartRating >= 2.5 && "thumbs up" || "thumbs down"} /> I enjoyed the unit</p>

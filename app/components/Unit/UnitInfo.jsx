@@ -36,7 +36,7 @@ const UnitInfo = (props) => {
     };
 
     const facultyClass = facultyMap[props.Faculty];
-    
+
     return (
             <Grid stackable celled="internally" columns={2}>
                 <Grid.Row className={"header " + facultyClass}>
@@ -84,11 +84,13 @@ const UnitInfo = (props) => {
                         />
                         <Divider />
                         <br />
+                        <Icon name="info" />
                         <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/units/${props.UnitCode}.html`}>{"View " +  props.UnitCode + " handbook"}</a>
                         <br />
                         <br />
                         <Divider />
                         <br />
+                        <Icon name="info" />
                         <a target="blank" href={`https://unitguidemanager.monash.edu/refine?searchQuery=${props.UnitCode}`}>{"View unit guides for " +  props.UnitCode + " offerings"}</a>
                         <br />
                         <br />
