@@ -1,4 +1,4 @@
-import { getQuickSemesterString } from "../utils/NextSemesterString";
+import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
 
 /**
  * @author JXNS, Saurabh Joshi
@@ -20,14 +20,14 @@ const defaultState = {
     
     courseInfoLoading: false,
     courseLoading: false,
-    
+
     unitLoading: false,
     unitLoadError: false,
-    
+
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     courseTemplateData: null,
-    
+
     courseSnapshotLoading: false,
     courseSnapshotLoadError: false,
     courseSnapshotData: null,
@@ -40,7 +40,7 @@ const defaultState = {
     teachingPeriodData: null,
     teachingPeriodsDataLoading: false,
     teachingPeriodsDataError: false,
-    
+
     teachingPeriodCodeToInsert: null,
     nextSemesterString: null,
     indexOfTPtoRemove: 0,
@@ -306,21 +306,21 @@ const CourseStructure = (state = defaultState, action) => {
                 unitLoadError: true
             };
 
-        
+
         case "FETCH_TEACHING_PERIODS_PENDING":
             return {
                 ...state,
                 teachingPeriodsDataLoading: true,
                 teachingPeriodsDataError: false
             };
-        
+
         case "FETCH_TEACHING_PERIODS_FULFILLED":
             return {
                 ...state,
                 teachingPeriodData: action.payload,
                 teachingPeriodsDataLoading: false,
             };
-        
+
         case "FETCH_TEACHING_PERIODS_REJECTED":
             return {
                 ...state,
@@ -339,7 +339,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "SUBMIT_YEAR_FORM":
             return {
                 ...state,
-                startYear: action.startYear, 
+                startYear: action.startYear,
                 endYear: action.endYear
             };
 
@@ -358,7 +358,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "GET_NEXT_SEMESTER_STRING":
             return {
                 ...state,
-                nextSemesterString: getQuickSemesterString(state.teachingPeriods, state.startYear, state.teachingPeriodData)
+                nextSemesterString: getSemesterString(nextSemester(state.teachingPeriods, state.startYear, state.teachingPeriodData))
             };
 
         case "LOAD_NEW_TEACHING_PERIODS":
@@ -372,7 +372,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 numberOfUnits: action.value
             };
-        
+
         case "UPLOAD_COURSE_SNAPSHOT_PENDING":
             return {
                 ...state,
@@ -380,7 +380,7 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploadError: false,
                 courseSnapshotUploadSucessful: false
             };
-        
+
         case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":
             return {
                 ...state,
@@ -389,7 +389,7 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploadSucessful: true
                 
             };
-        
+
         case "UPLOAD_COURSE_SNAPSHOT_REJECTED":
             return {
                 ...state,
@@ -397,27 +397,27 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploadError: true,
                 courseSnapshotUploadData: null
             };
-        
+
         case "FETCH_COURSE_SNAPSHOT_PENDING":
             return {
                 ...state,
                 courseSnapshotLoading: true,
                 courseSnapshotLoadError: false,
             };
-        
+
         case "FETCH_COURSE_SNAPSHOT_FULFILLED":
             return {
                 ...state,
                 courseSnapshotLoading: false,
                 courseSnapshotData: action.payload.data
             };
-        
+
         case "FETCH_COURSE_SNAPSHOT_REJECTED":
             return {
                 ...state,
                 courseSnapshotLoading: false,
                 courseSnapshotLoadError: true,
-                courseSnapshotData: null                    
+                courseSnapshotData: null
             };
 
         case "UPDATE_AFFECTED_UNITS":
@@ -464,7 +464,7 @@ const CourseStructure = (state = defaultState, action) => {
 
                 return {
                     ...state,
-                    teachingPeriods, 
+                    teachingPeriods,
                     numberOfUnits: 4
                 };
             }
@@ -480,8 +480,5 @@ const CourseStructure = (state = defaultState, action) => {
             return state;
     }
 };
-
-
-
 
 export default CourseStructure;

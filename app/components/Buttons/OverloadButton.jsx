@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { Button } from "semantic-ui-react";
 
 /**
- * 
+ *
  */
 const OverloadButton = (props) => {
     const { isDisabled, increaseStudyLoad, mobile } = props;
@@ -28,3 +28,4 @@ OverloadButton.propTypes = {
     increaseStudyLoad: PropTypes.func,
     mobile: PropTypes.bool
 };
+

@@ -32,8 +32,9 @@ class ConfirmDeleteTeachingPeriod extends Component {
      */
     render() {
         return (
-            <Button floated="right" onClick={this.handlePress} color="red" inverted size="tiny" icon="close" />
+            <Button className="btncancel" floated="right" onClick={this.handlePress} color="red" inverted size="tiny" icon="close" />
         );
+
     }
 }
 

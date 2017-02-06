@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Button, Divider, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { Link } from "react-router";
-
+import Disclaimer from "../modals/disclaimer.jsx";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
 import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
@@ -99,6 +99,7 @@ class Header extends Component {
                                     <Dropdown.Header>Our Policies</Dropdown.Header>
                                     <ToSModal trigger={<Dropdown.Item as="a">Terms of Use</Dropdown.Item>} />
                                     <PrivacyModal trigger={<Dropdown.Item as="a">Privacy Policy</Dropdown.Item>} />
+                                    <Disclaimer trigger={<Dropdown.Item as="a">Discaimer</Dropdown.Item>} />
                                 </Dropdown.Menu>
                             </Dropdown>
                         }

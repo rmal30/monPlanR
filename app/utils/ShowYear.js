@@ -8,13 +8,13 @@
 export default function ShowYear(){
     var currentTime = new Date();
     var currentMonth = currentTime.getMonth() + 1;
-    var currentYear = currentTime.getYear();
+    var currentYear = currentTime.getFullYear();
 
     /**
     * Default Year is currentYear + 1 if currentMonth is November,
     * this is because end of Semester 2 exams is November
     */
-    if(currentMonth >= 11){
+    if(currentMonth >= 11) {
         return currentYear + 1;
     } else {
         return currentYear;

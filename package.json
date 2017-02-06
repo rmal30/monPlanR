@@ -1,12 +1,13 @@
 {
   "name": "monPlanR",
-  "version": "0.3.7-dev",
+  "version": "0.3.8-dev",
   "description": "A course planning tool designed by Monash students for Monash students.",
   "main": "./app/index.jsx",
   "engines": {
     "node": ">=4.2.6"
   },
   "dependencies": {
+    "@google-cloud/datastore": "^0.7.0",
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
@@ -70,7 +71,7 @@
     "build:prod": "sh ./pre_build_prod_server.sh && NODE_ENV=production webpack --progress -p",
     "start:prod": "npm run build:prod && node dist/server.js",
     "deploy": "sh ./gae.sh",
-    "deploy:git": "sh ./git.sh" ,
+    "deploy:git": "sh ./git.sh",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
     "test": "EXIT_STATUS=0; npm run test:unit || EXIT_STATUS=$?; npm run test:lint || EXIT_STATUS=$?; exit $EXIT_STATUS",

@@ -10,11 +10,13 @@ export default class YearCalc {
      * @param {string} initialVal - The initial year.
      */
     static getStartYearVals(initialVal) {
-        const min = parseInt(initialVal, 10) - 10;
-        const max = parseInt(initialVal, 10) + 10;
+        initialVal = parseInt(initialVal);
+
+        const min = initialVal - 10;
+        const max = initialVal + 10;
         const validStartYears = [];
 
-        for(let i = max - 9; i >= min; i--) {
+        for(let i = initialVal + 1; i >= min; i--) {
             validStartYears.push(
                 { text: i.toString(), value: i}
             );

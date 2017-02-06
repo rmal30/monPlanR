@@ -32,16 +32,26 @@ export default function Notification({ id, title, message, dismissable = true, r
         error: "remove circle"
     }[level];
 
+    const Class = {
+        info: "notify info",
+        success: "notify success",
+        warning: "notify warning",
+        error: "notify error"
+    }[level];
+
     return (
-        <Message
-            style={{minWidth: 300}}
+        <Message icon
+            className={Class}
             info={level === "info"}
             positive={level === "success"}
             warning={level === "warning"}
             negative={level === "error"}
             onDismiss={dismissable ? () => removeNotification(id) : undefined}>
-            <Message.Header><Icon name={iconName} />{title}</Message.Header>
-            {message}
+            <Icon name={iconName} />
+            <Message.Content>
+                <Message.Header>{title}</Message.Header>
+                <i>{message}</i>
+            </Message.Content>
         </Message>
     );
 }
