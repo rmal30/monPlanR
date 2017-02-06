@@ -94,7 +94,7 @@ function TeachingPeriod(props) {
             teachingPeriodName = teachingPeriod.name;
         }
     }
-
+    
     return (
         <Table.Row style={{color: "black"}}>
             <Table.Cell>

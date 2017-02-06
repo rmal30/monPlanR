@@ -14,6 +14,7 @@ import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachin
 import InsertTeachingPeriodContainer from "../../containers/TeachingPeriod/InsertTeachingPeriodContainer.jsx";
 import OverloadButtonContainer from "../../containers/Buttons/OverloadButtonContainer.jsx";
 import ConfirmDeleteOverload from "../modals/ConfirmDeleteOverload.jsx";
+import ConfirmDeleteTeachingPeriodModal from "../modals/ConfirmDeleteTeachingPeriodModal.jsx";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -676,6 +677,7 @@ class CourseStructure extends Component {
 
         return (
             <Container>
+                <ConfirmDeleteTeachingPeriodModal />
                 {!this.props.viewOnly &&
                     <CourseMessage
                         isError={this.state.isError}

@@ -248,6 +248,10 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
                 type: "UPDATE_AFFECTED_UNITS",
                 affectedUnits
             });
+            dispatch({
+                type: "UPDATE_INDEX_OF_TP_TO_REMOVE",
+                index
+            });
         } else {
             dispatch({
                 type: "REMOVE_TEACHING_PERIOD",

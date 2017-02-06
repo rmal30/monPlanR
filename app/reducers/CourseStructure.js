@@ -43,6 +43,7 @@ const defaultState = {
     
     teachingPeriodCodeToInsert: null,
     nextSemesterString: null,
+    indexOfTPtoRemove: 0,
 
     unitInfo: {
         cost: 0,
@@ -450,6 +451,11 @@ const CourseStructure = (state = defaultState, action) => {
                 affectedUnits: action.affectedUnits
             };
 
+        case "UPDATE_INDEX_OF_TP_TO_REMOVE":
+            return {
+                ...state,
+                indexOfTPtoRemove: action.index
+            };
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year
