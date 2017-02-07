@@ -25,7 +25,10 @@ export default function Notifications(state=initialState, action) {
         case "REMOVE_NOTIFICATION":
             return {
                 ...state,
-                notificationsList: state.notificationsList.filter(notfication => notfication.id !== action.id)
+                notificationsList: state.notificationsList.filter(
+                    (notfication, index) =>
+                        action.id !== undefined && notfication.id !== action.id || action.id === undefined && index !== action.index
+                )
             };
         default:
             return state;
