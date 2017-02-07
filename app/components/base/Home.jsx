@@ -98,7 +98,7 @@ class Home extends Component {
                         }
                         <Container textAlign="center">
                             <br />
-                            You can also view our <Disclaimer trigger={<a style={{cursor: "help", color: "white", textDecoration: "underline"}}>disclaimer</a>} />.
+                            You can view our <Disclaimer trigger={<a style={{cursor: "help", color: "white", textDecoration: "underline"}}>disclaimer here</a>} />.
                         </Container>
                     </div>
                 </Container>
