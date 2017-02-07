@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import Notification from "./Notification.jsx";
 
 /**
@@ -10,6 +10,7 @@ export default function Notifications(props) {
     Notifications.propTypes = {
         notificationsList: PropTypes.arrayOf(
             PropTypes.shape({
+                id: PropTypes.string,
                 title: PropTypes.string,
                 message: PropTypes.string,
                 dismissable: PropTypes.bool,
@@ -20,19 +21,25 @@ export default function Notifications(props) {
     };
 
     return (
-        <div style={{position: "fixed", top: "1em", right: "1em", zIndex: 9999}}>
-            {props.notificationsList &&
-                props.notificationsList.map(
-                    ({ id, title, message, dismissable, level }) =>
-                        <Notification
-                            key={id}
-                            id={id}
-                            title={title}
-                            message={message}
-                            dismissable={dismissable}
-                            level={level}
-                            removeNotification={props.removeNotification} />
-            )}
+        <div className="notifications">
+            <ReactCSSTransitionGroup
+                transitionName="slide"
+                transitionEnterTimeout={125}
+                transitionLeave={false}>
+                {props.notificationsList &&
+                    props.notificationsList.map(
+                        ({ id, title, message, dismissable, level }, index) =>
+                            <Notification
+                                key={id || (props.notificationsList.length - 1 - index)}
+                                id={id}
+                                index={index}
+                                title={title}
+                                message={message}
+                                dismissable={dismissable}
+                                level={level}
+                                removeNotification={props.removeNotification} />
+                )}
+            </ReactCSSTransitionGroup>
         </div>
     );
 }
