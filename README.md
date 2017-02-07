@@ -1,4 +1,4 @@
-# monPlan [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
+# monPlan [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR) [![Coverage Status](https://coveralls.io/repos/github/MonashUnitPlanner/monPlanR/badge.svg?branch=master)](https://coveralls.io/github/MonashUnitPlanner/monPlanR?branch=master) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
 ### **[ ![Logo](https://raw.githubusercontent.com/MonashUnitPlanner/monPlanR/master/app/public/favicon.ico) Start planning your course today](http://www.monplan.tech)**
 _Built by Josh Nelsson-Smith, Saurabh Joshi and Eric Jiang_
 
@@ -72,6 +72,11 @@ If you want the production server to handle HTTPS, you **must** have a private k
 To test the code for any syntaxical or stylistic errors/warnings, as well as unit testing:
 ```
 npm test
+```
+
+To perform coverage testing:
+```
+npm run test:coverage
 ```
 ## Documentation
 Currently we use jsdoc to document our code, which you can view it here: https://doclets.io/MonashUnitPlanner/monPlanR

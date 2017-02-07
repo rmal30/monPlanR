@@ -17,7 +17,7 @@ import Unit from "../Unit/Unit.jsx";
  * @function
  * @arg props
  */
-function TeachingPeriod(props) {
+export const TeachingPeriod = (props) => {
 
     TeachingPeriod.propTypes = {
         code: PropTypes.string.isRequired,
@@ -85,7 +85,7 @@ function TeachingPeriod(props) {
     });
 
     let teachingPeriodName = props.code;
-    if(props.data !== null) {
+    if(props.data) {
         const teachingPeriod = props.data.find(element =>
             element.code === props.code
         );
@@ -94,7 +94,7 @@ function TeachingPeriod(props) {
             teachingPeriodName = teachingPeriod.name;
         }
     }
-    
+
     return (
         <Table.Row style={{color: "black"}}>
             <Table.Cell>
@@ -106,7 +106,7 @@ function TeachingPeriod(props) {
             {unitsEle}
         </Table.Row>
     );
-}
+};
 
 
 /**
