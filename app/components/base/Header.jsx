@@ -126,6 +126,10 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(uiActions, dispatch);
 };
 
+/**
+ * header only needs to know whether it is showing sidebar or not to alter
+ * sidebar trigger button as needed
+ */
 const mapStatetoProps = (state) => {
     return {
         showingSidebar: state.UI.showingSidebar
