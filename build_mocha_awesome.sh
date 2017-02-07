@@ -1,23 +1,22 @@
 #!/bin/sh
-EXIT_STATUS=0
+set -e
 
 echo "Preparing for git"
+
+echo "Building Unit Test Report"
+mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx} --reporter mochawesome
+
 echo "Cleaning up doc folder..."
 rm -rf docs/
-rm -rf mochawesome-reports/
-echo "Building Unit Test Report"
-EXIT_STATUS=$?
-mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx} --reporter mochawesome
-echo "Performing eslint Test"
-EXIT_STATUS=$?
-eslint --ext .jsx --ext .js app test
+
 echo "Renaming Files for gh-pages"
 mv mochawesome-reports docs
-cd docs
-mv mochawesome.html index.html
+mv docs/mochawesome.html docs/index.html
+
+echo "Performing eslint Test"
+npm run test:lint
+
 echo "Report Ready. Preparing for Git"
-echo "cd back to Main directory"
-cd ..
 echo "Using Git to Add and Commit"
 git add .
 git commit -a
