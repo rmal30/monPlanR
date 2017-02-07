@@ -7,7 +7,7 @@ install:
 
 script: 
     - npm run test:lint
-    - npm run test:unit
+    - npm run test:coverage
 
 after_success:
     - npm run coveralls
