@@ -73,6 +73,11 @@ To test the code for any syntaxical or stylistic errors/warnings, as well as uni
 ```
 npm test
 ```
+
+To perform coverage testing:
+```
+npm run test:coverage
+```
 ## Documentation
 Currently we use jsdoc to document our code, which you can view it here: https://doclets.io/MonashUnitPlanner/monPlanR
 
