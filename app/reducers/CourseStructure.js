@@ -48,6 +48,10 @@ const defaultState = {
     nextSemesterString: null,
     indexOfTPtoRemove: 0,
 
+    unitToBeMoved: undefined,
+    tpIndexOfUnitToBeMoved: 0,
+    unitsIndexOfUnitToBeMoved: 0,
+
     unitInfo: {
         cost: 0,
         creditPoints: 0,
@@ -446,6 +450,14 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 unitIsBeingDragged: action.isDragging
+            };
+
+        case "MOVING_UNIT":
+            return {
+                ...state,
+                unitToBeMoved: action.unit,
+                tpIndexOfUnitToBeMoved: action.tpIndex,
+                unitsIndexOfUnitToBeMoved: action.unitIndex
             };
         
         /**

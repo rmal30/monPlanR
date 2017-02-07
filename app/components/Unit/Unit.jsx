@@ -36,7 +36,7 @@ const unitSource = {
         if(props.newUnit) {
             props.willAddUnit(props.code, props.custom, true);
         } else {
-            props.willMoveUnit(props.index);
+            props.movingUnit(props.unit, props.index, props.teachingPeriodIndex);
         }
 
         return {};

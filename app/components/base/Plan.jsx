@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Container, Grid } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
 import UnitQuery from "../../utils/UnitQuery";
@@ -145,7 +145,6 @@ class Plan extends Component {
      * Turns off add unit UI, also updated running course totals
      */
     doneAddingToCourse() {
-
         this.setState({
             unitToAdd: undefined
         });
@@ -167,19 +166,8 @@ class Plan extends Component {
                         cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
                         addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
                 }
-
-                <Container className="move no-print">
-                    <br />
-                    <Grid reversed="mobile" stackable className="no-print">
-                        <Grid.Row>
-                            <Grid.Column width="4">
-                            </Grid.Column>
-                            <Grid.Column width="4">
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Container>
-
+                        
+                
                 <Container className="main text">
                     <CourseStructure
                         addToCourse={this.addToCourse}

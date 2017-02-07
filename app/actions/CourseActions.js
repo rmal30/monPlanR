@@ -91,7 +91,7 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
         unitIndex,
         unit,
         cost: unit.Cost,
-        creditPoints: unit.CreditPoints
+        creitPoints: unit.CreditPoints
     };
 };
 
@@ -327,5 +327,18 @@ export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYe
         dispatch({
             type: "SAVED_COURSE_TO_LOCALSTORAGE"
         });
+    };
+};
+
+
+/**
+ * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
+ */
+export const movingUnit = (unit, unitIndex, tpIndex) => {
+    return  {
+        type: "MOVING_UNIT", //No handlers for this but useful for debugging purposes
+        unit,
+        unitIndex,
+        tpIndex
     };
 };

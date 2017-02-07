@@ -46,10 +46,15 @@ class Header extends Component {
                     </Link>
                     {this.props.showAddUnit &&
                     <Menu.Item>
-                        <Button icon className={this.props.searchVisible ? "btncancel": "btnlightblue"}
-                            onClick={() => {this.props.showSidebar();}}>
-                            <Icon name={this.props.searchVisible ? "x" : "plus"} />
-                            <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
+                        <Button 
+                            icon 
+                            className={this.props.searchVisible ? "btncancel": "btnlightblue"}
+                            onClick={() => {this.props.showSidebar();}}
+                            disabled={this.props.showingSidebar}>
+                                <Icon name={this.props.searchVisible ? "x" : "plus"} />
+                                <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>
+                                    &nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}
+                                </MediaQuery>
                         </Button>
                     </Menu.Item>
                     }
@@ -121,8 +126,14 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(uiActions, dispatch);
 };
 
+const mapStatetoProps = (state) => {
+    return {
+        showingSidebar: state.UI.showingSidebar
+    };
+};
 
-export default connect(null, mapDispatchToProps)(Header);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(Header);
 
 Header.propTypes = {
     handleDocumentClick: PropTypes.func,
@@ -131,5 +142,6 @@ Header.propTypes = {
     showStatus: PropTypes.bool,
     searchVisible: PropTypes.bool,
     courseErrors: PropTypes.array,
-    showSidebar: PropTypes.func
+    showSidebar: PropTypes.func,
+    showingSidebar: PropTypes.bool
 };

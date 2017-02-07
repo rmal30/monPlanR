@@ -1278,5 +1278,32 @@ describe("REDUCER: CourseStructure", () => {
             test(stateBefore, action, stateAfter);
         });
     });
+
+    describe("ACTION: MOVING_UNIT", () => {
+        const stateBefore = {
+            testParam1: 1,
+            testParam2: "test",
+            unitToBeMoved: undefined,
+            tpIndexOfUnitToBeMoved: 0,
+            unitsIndexOfUnitToBeMoved: 0
+        };
+
+        const action = {
+            type: "MOVING_UNIT",
+            unit: "TEST-UNIT",
+            unitIndex: 3,
+            tpIndex: 1
+        };
+        
+        const stateAfter = {
+            testParam1: 1,
+            testParam2: "test",
+            unitToBeMoved: "TEST-UNIT",
+            tpIndexOfUnitToBeMoved: 1,
+            unitsIndexOfUnitToBeMoved: 3
+        };
+
+        test(stateBefore, action, stateAfter);
+    });
 });
 

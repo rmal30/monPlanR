@@ -1,5 +1,6 @@
 import axios from "axios";
 import CourseTemplate from "../utils/CourseTemplate";
+import CostCalc from "../utils/CostCalc";
 
 /**
  * FETCH_COURSE_INFO
@@ -90,10 +91,13 @@ export const fetchUnitInfo = (unitCode) => {
         });
         axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
             .then(resp => {
+                let cost = CostCalc.calculateCost(parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10));
+                resp.data.Cost = cost;
                 dispatch({
                     type: "FETCH_UNIT_INFO_FULFILLED",
                     payload: resp,
                     unitCode
+
                 });
             })
             .catch(err => {
@@ -126,6 +130,8 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
             });
             axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
             .then(resp => {
+                let cost = CostCalc.calculateCost((parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10)));
+                resp.data.cost = cost;
                 dispatch({
                     type: "FETCH_UNIT_INFO_FULFILLED",
                     payload: resp,

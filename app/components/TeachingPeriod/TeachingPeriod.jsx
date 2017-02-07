@@ -58,11 +58,8 @@ function TeachingPeriod(props) {
         return (
             <Unit
                 key={`${props.year}-${props.code}-${unit}-${index}`}
-                viewOnly={props.viewOnly}
                 index={index}
                 teachingPeriodIndex={props.index}
-                willMoveUnit={props.willMoveUnit.bind(null, props.index)}
-                showMoveUnitUI={props.showMoveUnitUI}
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}
                 name={unit.UnitName}
@@ -70,9 +67,6 @@ function TeachingPeriod(props) {
                 cost={unit.Cost}
                 faculty={unit.Faculty}
                 placeholder={unit.placeholder}
-                onUnitClick={props.handleUnitDetailClick}
-                viewUnitDetails={props.viewUnitDetails}
-                cancelMoving={props.cancelMoving}
                 errors={(props.showMoveUnitUI || props.unitToAdd) ? [] : props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)}
                 isError={isError}
                 />
