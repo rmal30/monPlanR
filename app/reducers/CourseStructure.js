@@ -25,6 +25,7 @@ const defaultState = {
     unitLoadError: false,
     unitToAdd: undefined,
     unitToAddCode: "",
+    unitIsBeingDragged: false,
 
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
@@ -440,6 +441,13 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 unitToAdd: state.unitInfo
             };
+        
+        case "UPDATE_UNIT_IS_BEING_DRAGGED":
+            return {
+                ...state,
+                unitIsBeingDragged: action.isDragging
+            };
+        
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year

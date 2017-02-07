@@ -1209,5 +1209,74 @@ describe("REDUCER: CourseStructure", () => {
             test(stateBefore, action, stateAfter);
         });
     });
+
+    describe("ACTION: UPDATE_UNIT_TO_ADD", () => {
+        it("Should correctly set the unit to add to the new unit", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitInfo: "TestUnit",
+                unitToAdd: undefined
+            };
+
+            const action = {
+                type: "UPDATE_UNIT_TO_ADD"
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitInfo: "TestUnit",
+                unitToAdd: "TestUnit"
+                
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: UPDATE_UNIT_IS_BEING_DRAGGED", () => {
+        it("Should correctly set a non-dragging unit being dragged", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: false
+            };
+
+            const action = {
+                type: "UPDATE_UNIT_IS_BEING_DRAGGED",
+                isDragging: true
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: true
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+        
+        it("Should correctly set a dragging unit to be not dragged", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: true
+            };
+
+            const action = {
+                type: "UPDATE_UNIT_IS_BEING_DRAGGED",
+                isDragging: false
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: false
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
 });
 
