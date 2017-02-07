@@ -5,7 +5,8 @@ const defaultState = {
     showAddingUnitUI: false,
     readOnly: false,
     showingConfirmDeleteTeachingPeriodModal: false,
-    showingConfirmDecreaseStudyLoadModal: false
+    showingConfirmDecreaseStudyLoadModal: false,
+    showingSidebar: false
 };
 
 /**
@@ -87,6 +88,25 @@ const UI = (state = defaultState, action) => {
             return {
                 ...state,
                 showingConfirmDecreaseStudyLoadModal: false
+            };
+
+        case "SHOW_SIDEBAR":
+            return {
+                ...state,
+                showingSidebar: true
+            };
+
+        case "HIDE_SIDEBAR":
+            return {
+                ...state,
+                showingSidebar: false
+            };
+
+
+        case "ADDING_UNIT":
+            return {
+                ...state,
+                showingSidebar: false
             };
         
         default:

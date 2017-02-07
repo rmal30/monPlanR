@@ -21,6 +21,7 @@ import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
 import * as courseActions from "../../actions/CourseActions";
 import * as counterActions from "../../actions/CounterActions";
 import * as dataFetchActions from "../../actions/DataFetchActions";
+import * as uiActions from "../../actions/UIActions";
 
 
 /**
@@ -29,7 +30,8 @@ import * as dataFetchActions from "../../actions/DataFetchActions";
 const mapStateToProps = (state) => {
     return {
         courseStructure: state.CourseStructure,
-        counter: state.Counter
+        counter: state.Counter,
+        showingSidebar: state.UI.showingSidebar
     };
 };
 
@@ -37,7 +39,12 @@ const mapStateToProps = (state) => {
  * Redux bindings for functions, passes the action creators through with dispatch built in
  */
 const mapDispatchToProps = (dispatch) => {
-    const actionBundle = {...courseActions, ...counterActions, ...dataFetchActions};
+    const actionBundle = {
+        ...courseActions, 
+        ...counterActions, 
+        ...dataFetchActions, 
+        ...uiActions
+    };
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -119,11 +126,7 @@ class Main extends Component {
      * @author Saurabh Joshi
      */
     handleDocumentClick() {
-        if(this.state.searchVisible) {
-            this.setState({
-                searchVisible: false
-            });
-        }
+        this.props.hideSidebar();
     }
 
     /**
@@ -145,10 +148,8 @@ class Main extends Component {
                     courseErrors={this.state.courseErrors} />
                 <Sidebar.Pushable>
                     {this.state.addToCourse &&
-                    <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.state.searchVisible} vertical>
-                        <UnitSearchContainer
-                            searchVisible={this.state.searchVisible}
-                            close={this.handleDocumentClick} />
+                    <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.props.showingSidebar} vertical>
+                        <UnitSearchContainer />
                     </Sidebar>
                     }
                     <Sidebar.Pusher
@@ -183,7 +184,9 @@ class Main extends Component {
 Main.propTypes = {
     children: PropTypes.element.isRequired,
     location: PropTypes.object,
-    fetchTeachingPeriods: PropTypes.func
+    fetchTeachingPeriods: PropTypes.func,
+    showingSidebar: PropTypes.bool,
+    hideSidebar: PropTypes.func
 };
 
 

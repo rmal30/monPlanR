@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from "react";
 import { Button, Divider, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { Link } from "react-router";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as uiActions from "../../actions/UIActions";
+
 import Disclaimer from "../modals/disclaimer.jsx";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
 import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
-// import SettingsModal from "../modals/settings.jsx";
+
 
 
 /**
@@ -32,7 +36,7 @@ class Header extends Component {
             ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as duplicate units.";
 
         return (
-            <Menu inverted compact className="no-print nav toolbars" onClick={this.props.handleDocumentClick} style={{borderRadius: 0}}>
+            <Menu inverted compact className="no-print nav toolbars" style={{borderRadius: 0}}>
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
@@ -43,7 +47,7 @@ class Header extends Component {
                     {this.props.showAddUnit &&
                     <Menu.Item>
                         <Button icon className={this.props.searchVisible ? "btncancel": "btnlightblue"}
-                            onClick={(e) => { this.props.handleSearchClick(); e.target.blur(); }}>
+                            onClick={() => {this.props.showSidebar();}}>
                             <Icon name={this.props.searchVisible ? "x" : "plus"} />
                             <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>&nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}</MediaQuery>
                         </Button>
@@ -110,13 +114,19 @@ class Header extends Component {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(uiActions, dispatch);
+};
+
+
+export default connect(null, mapDispatchToProps)(Header);
+
 Header.propTypes = {
     handleDocumentClick: PropTypes.func,
     handleSearchClick: PropTypes.func,
     showAddUnit: PropTypes.bool,
     showStatus: PropTypes.bool,
     searchVisible: PropTypes.bool,
-    courseErrors: PropTypes.array
+    courseErrors: PropTypes.array,
+    showSidebar: PropTypes.func
 };
-
-export default Header;

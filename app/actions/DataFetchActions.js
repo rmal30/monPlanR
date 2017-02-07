@@ -111,7 +111,11 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
             type: "UPDATE_UNIT_IS_BEING_DRAGGED",
             isDragging
         });
-
+        
+        dispatch({
+            type: "ADDING_UNIT"
+        });
+        
         if(!custom){
             dispatch({
                 type: "FETCH_UNIT_INFO_PENDING"
