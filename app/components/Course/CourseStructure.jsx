@@ -504,7 +504,6 @@ class CourseStructure extends Component {
                     addUnit={this.addUnit.bind(this)}
                     moveUnit={this.moveUnit.bind(this)}
                     swapUnit={this.swapUnit.bind(this)}
-                    willMoveUnit={this.willMoveUnit.bind(this)}
                     unitToAdd={this.props.unitToAdd}
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}

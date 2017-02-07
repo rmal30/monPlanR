@@ -48,10 +48,7 @@ function TeachingPeriod(props) {
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
-                    unitToBeMoved={props.unitToBeMoved}
                     firstFreeUnit={temp}
-                    moveUnit={props.moveUnit.bind(this, props.index)}
-                    showMoveUnitUI={props.showMoveUnitUI}
                     isError={isError} />
             );
         }
@@ -67,6 +64,7 @@ function TeachingPeriod(props) {
                 cost={unit.Cost}
                 faculty={unit.Faculty}
                 placeholder={unit.placeholder}
+                unit={unit}
                 errors={(props.showMoveUnitUI || props.unitToAdd) ? [] : props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)}
                 isError={isError}
                 />

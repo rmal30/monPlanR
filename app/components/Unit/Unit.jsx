@@ -44,7 +44,7 @@ const unitSource = {
 
     endDrag(props) {
         if(!props.newUnit) {
-            props.cancelMoving();
+            //cancel units
         }
     }
 };
@@ -57,8 +57,8 @@ const unitTarget = {
         if(props.free) {
             if(props.addUnit && props.unitToAdd) {
                 props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
-            } else if(props.showMoveUnitUI) {
-                props.moveUnit(props.index);
+            } else {
+                props.moveUnit(props.index, props.teachingPeriodIndex);
             }
         } else if(props.showMoveUnitUI) {
             props.swapUnit(props.index);
