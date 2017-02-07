@@ -242,7 +242,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: "FIT1002"
             };
 
             const action = {
@@ -258,7 +259,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: undefined
             };
 
             test(stateBefore, action, stateAfter);
@@ -271,14 +273,16 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: "FIT1002"
             };
 
             const action = {
                 type: "ADD_UNIT",
                 tpIndex: 1,
                 unitIndex: 1,
-                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+                unit: {unitCode: "XXX0001", unitName: "Test Unit"},
+                
             };
 
             const stateAfter = {
@@ -287,7 +291,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: undefined
             };
 
             test(stateBefore, action, stateAfter);
@@ -300,7 +305,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: "FIT1002"
             };
 
             const action = {
@@ -316,7 +322,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: undefined
             };
 
             test(stateBefore, action, stateAfter);
@@ -690,7 +697,21 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                unitInfo: null,
+                unitInfo: {
+                    cost: 0,
+                    creditPoints: 0,
+                    Faculty: "",
+                    likeScore: 0,
+                    Synopsis: "",
+                    UnitName: "",
+                    usefulnessScore: 0,
+                    prereqs: "",
+                    prohibs: "",
+                    offeringArray: "",
+                    learnResponseCount: 0,
+                    enjoyResponseCount: 0,
+                    SCABand: 0
+                },
                 focusedUnitCode: null
             };
 
@@ -706,7 +727,21 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                unitInfo: null,
+                unitInfo: {
+                    cost: 0,
+                    creditPoints: 0,
+                    Faculty: "",
+                    likeScore: 0,
+                    Synopsis: "",
+                    UnitName: "",
+                    usefulnessScore: 0,
+                    prereqs: "",
+                    prohibs: "",
+                    offeringArray: "",
+                    learnResponseCount: 0,
+                    enjoyResponseCount: 0,
+                    SCABand: 0
+                },
                 focusedUnitCode: null
             };
 

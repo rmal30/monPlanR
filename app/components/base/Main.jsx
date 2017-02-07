@@ -147,7 +147,6 @@ class Main extends Component {
                     {this.state.addToCourse &&
                     <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.state.searchVisible} vertical>
                         <UnitSearchContainer
-                            addToCourse={this.state.addToCourse}
                             searchVisible={this.state.searchVisible}
                             close={this.handleDocumentClick} />
                     </Sidebar>

@@ -50,9 +50,7 @@ function TeachingPeriod(props) {
                     free
                     unitToBeMoved={props.unitToBeMoved}
                     firstFreeUnit={temp}
-                    addUnit={props.addUnit.bind(this, props.index)}
                     moveUnit={props.moveUnit.bind(this, props.index)}
-                    unitToAdd={props.unitToAdd}
                     showMoveUnitUI={props.showMoveUnitUI}
                     isError={isError} />
             );
@@ -63,10 +61,7 @@ function TeachingPeriod(props) {
                 viewOnly={props.viewOnly}
                 index={index}
                 teachingPeriodIndex={props.index}
-                addUnit={props.addUnit.bind(this, props.index)}
-                unitToAdd={props.unitToAdd}
                 willMoveUnit={props.willMoveUnit.bind(null, props.index)}
-                deleteUnit={props.deleteUnit.bind(null, props.index)}
                 showMoveUnitUI={props.showMoveUnitUI}
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}

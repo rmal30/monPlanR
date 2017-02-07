@@ -105,6 +105,38 @@ export const fetchUnitInfo = (unitCode) => {
     };
 };
 
+export const willAddUnit = (unitCode, custom, isDragging) => {
+    return function (dispatch) {
+        dispatch({
+            type: "UPDATE_UNIT_IS_BEING_DRAGGED",
+            isDragging
+        });
+
+        if(!custom){
+            dispatch({
+                type: "FETCH_UNIT_INFO_PENDING"
+            });
+            axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_UNIT_INFO_FULFILLED",
+                    payload: resp,
+                    unitCode
+                });
+                dispatch({
+                    type: "UPDATE_UNIT_TO_ADD"
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_UNIT_INFO_REJECTED",
+                    payload: err
+                });
+            });
+        }
+    };
+};
+
 
 /**
  * Fetches teaching period string list from API, note that there is no guarantee the teaching periods 

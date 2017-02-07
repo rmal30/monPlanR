@@ -7,7 +7,6 @@ import LocalStorage from "../../utils/LocalStorage.js";
 
 import CourseViewActions from "./CourseViewActions.jsx";
 import CourseEditActions from "./CourseEditActions.jsx";
-import CourseMessage from "./CourseMessage.jsx";
 
 import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachingPeriodContainer.jsx";
@@ -74,7 +73,6 @@ class CourseStructure extends Component {
 
         this.state = {
             /* UI state */
-            showMoveUnitUI: false,
             unitToBeMoved: undefined,
             courseToLoad: this.props.courseToLoad
         };
@@ -489,40 +487,6 @@ class CourseStructure extends Component {
 
 
     /**
-     * Deletes a unit at a specified teaching period index and specified unit
-     * index. This is done by setting the array element to undefined.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriodIndex - Which teaching period are you referring to.
-     * @param {number} unitIndex - Which unit in teaching period to remove.
-     */
-    deleteUnit(teachingPeriodIndex, unitIndex) {
-        const { teachingPeriods } = this.state;
-        const unitToRemove = teachingPeriods[teachingPeriodIndex].units[unitIndex];
-
-        this.props.decrementCost(unitToRemove.Cost);
-        this.props.decrementCreditPoints(unitToRemove.CreditPoints);
-
-        const updatedTeachingPeriod = {
-            ...teachingPeriods[teachingPeriodIndex],
-            units: [
-                ...teachingPeriods[teachingPeriodIndex].units.slice(0, unitIndex),
-                null,
-                ...teachingPeriods[teachingPeriodIndex].units.slice(unitIndex + 1)
-            ]
-        };
-
-        this.setState({
-            teachingPeriods: [
-                ...teachingPeriods.slice(0, teachingPeriodIndex),
-                updatedTeachingPeriod,
-                ...teachingPeriods.slice(teachingPeriodIndex + 1)
-            ]
-        });
-    }
-
-
-    /**
      * Returns an array of all units affected by an overload column removal
      */
     getAffectedUnits() {
@@ -560,7 +524,6 @@ class CourseStructure extends Component {
                     moveUnit={this.moveUnit.bind(this)}
                     swapUnit={this.swapUnit.bind(this)}
                     willMoveUnit={this.willMoveUnit.bind(this)}
-                    deleteUnit={this.deleteUnit.bind(this)}
                     unitToAdd={this.props.unitToAdd}
                     showMoveUnitUI={this.state.showMoveUnitUI}
                     unitToBeMoved={this.state.unitToBeMoved}
@@ -676,19 +639,6 @@ class CourseStructure extends Component {
         return (
             <Container>
                 <ConfirmDeleteTeachingPeriodModal />
-                {!this.props.viewOnly &&
-                    <CourseMessage
-                        isError={this.state.isError}
-                        errorHeader={this.state.errorHeader}
-                        errorMsg={this.state.errorMsg}
-
-                        unitToAdd={this.props.unitToAdd}
-                        showMoveUnitUI={this.state.showMoveUnitUI}
-                        unitToBeMoved={this.state.unitToBeMoved}
-
-                        cancelAddingToCourse={this.props.cancelAddingToCourse}
-                        />
-                }
                 {this.props.viewOnly &&
                     <CourseViewActions
                         switchToEditCourse={this.state.switchToEditCourse}

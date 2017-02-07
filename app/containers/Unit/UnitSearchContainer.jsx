@@ -271,7 +271,7 @@ class UnitSearchContainer extends Component {
                     </div>
                 }
                 <Divider />
-                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults} addToCourse={this.props.addToCourse} />
+                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults}  />
             </Menu.Item>
         );
     }

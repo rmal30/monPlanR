@@ -23,6 +23,8 @@ const defaultState = {
 
     unitLoading: false,
     unitLoadError: false,
+    unitToAdd: undefined,
+    unitToAddCode: "",
 
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
@@ -180,6 +182,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "ADD_UNIT":
             return {
                 ...state,
+                unitToAdd: undefined, //reset unit after adding
                 teachingPeriods: [
                     ...state.teachingPeriods.slice(0, action.tpIndex),
                     {
@@ -286,7 +289,8 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 unitLoading: true,
-                unitLoadError: false
+                unitLoadError: false,
+                unitInfo: defaultState.unitInfo
             };
 
         case "FETCH_UNIT_INFO_FULFILLED":
@@ -428,6 +432,13 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 indexOfTPtoRemove: action.index
+            };
+
+
+        case "UPDATE_UNIT_TO_ADD":
+            return {
+                ...state,
+                unitToAdd: state.unitInfo
             };
         /**
          * Generates a course structure of semester one and semester two teaching
