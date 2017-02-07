@@ -1,5 +1,6 @@
 import chai from "chai";
 import chaiEnzyme from "chai-enzyme";
+import sinonChai from "sinon-chai";
 import { describe, it } from "mocha";
 import { jsdom } from "jsdom";
 
@@ -20,6 +21,7 @@ global.navigator = {
 };
 
 chai.use(chaiEnzyme());
+chai.use(sinonChai);
 
 global.describe = describe;
 global.it = it;

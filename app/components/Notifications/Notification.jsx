@@ -15,9 +15,10 @@ import { Icon, Message } from "semantic-ui-react";
  * @param {string} level - What type of notification is it (One of "info",
  * "success", "warning", "error").
  */
-export default function Notification({ id, title, message, dismissable = true, removeNotification, level = "info"}) {
+export default function Notification({ id, index, title, message, dismissable = true, removeNotification, level = "info"}) {
     Notification.propTypes = {
         id: PropTypes.string,
+        index: PropTypes.number,
         title: PropTypes.string,
         message: PropTypes.string,
         dismissable: PropTypes.bool,
@@ -32,21 +33,14 @@ export default function Notification({ id, title, message, dismissable = true, r
         error: "remove circle"
     }[level];
 
-    const Class = {
-        info: "notify info",
-        success: "notify success",
-        warning: "notify warning",
-        error: "notify error"
-    }[level];
-
     return (
         <Message icon
-            className={Class}
+            className="notify"
             info={level === "info"}
             positive={level === "success"}
             warning={level === "warning"}
             negative={level === "error"}
-            onDismiss={dismissable ? () => removeNotification(id) : undefined}>
+            onDismiss={dismissable ? () => removeNotification(id, index) : undefined}>
             <Icon name={iconName} />
             <Message.Content>
                 <Message.Header>{title}</Message.Header>

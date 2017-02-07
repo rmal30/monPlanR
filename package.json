@@ -26,6 +26,7 @@
     "babel-preset-stage-2": "^6.22.0",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.6.1",
+    "coveralls": "^2.11.16",
     "css-loader": "^0.25.0",
     "deep-freeze": "0.0.1",
     "enzyme": "^2.6.0",
@@ -40,6 +41,7 @@
     "jsdom": "^9.8.3",
     "lodash": "^4.17.2",
     "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
     "object-assign": "^4.1.1",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
@@ -63,6 +65,8 @@
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.4",
     "semantic-ui-react": "^0.63.4",
+    "sinon": "^1.17.7",
+    "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2"
   },
@@ -71,12 +75,16 @@
     "build:prod": "sh ./pre_build_prod_server.sh && NODE_ENV=production webpack --progress -p",
     "start:prod": "npm run build:prod && node dist/server.js",
     "deploy": "sh ./gae.sh",
-    "deploy:git": "sh ./git.sh",
+    "deploy:mocha": "sh ./build_mocha_awesome.sh",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
+
     "test": "EXIT_STATUS=0; npm run test:unit || EXIT_STATUS=$?; npm run test:lint || EXIT_STATUS=$?; exit $EXIT_STATUS",
     "test:lint": "eslint --ext .jsx --ext .js app test",
     "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
+    "test:coverage": "nyc --require babel-core/register --extension .jsx mocha test/setup.js test/**/*.spec.{js,jsx}",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+
     "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
     "fix": "eslint --ext .jsx --ext .js app --fix"
   },
