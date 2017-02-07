@@ -4,6 +4,9 @@ import { Button, Menu, Divider, Grid, Checkbox } from "semantic-ui-react";
 
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as dataFetchActions from "../../actions/DataFetchActions";
 
 /**
  * Source is initialised here, it is populated later with responses from API
@@ -126,7 +129,7 @@ class UnitSearchContainer extends Component {
         }
 
         const searchResult = this.state.searchResults[this.state.searchResultIndex];
-        this.props.addToCourse(searchResult.UnitCode, searchResult.custom);
+        this.props.willAddUnit(searchResult.UnitCode, searchResult.custom, false);
     }
 
     /**
@@ -280,7 +283,13 @@ class UnitSearchContainer extends Component {
 UnitSearchContainer.propTypes = {
     addToCourse: PropTypes.func,
     searchVisible: PropTypes.bool,
-    close: PropTypes.func
+    close: PropTypes.func,
+    willAddUnit: PropTypes.func
 };
 
-export default UnitSearchContainer;
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(dataFetchActions, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(UnitSearchContainer);
