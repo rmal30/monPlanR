@@ -1,5 +1,6 @@
 import axios from "axios";
 import CourseTemplate from "../utils/CourseTemplate";
+import CostCalc from "../utils/CostCalc";
 
 /**
  * FETCH_COURSE_INFO
@@ -90,10 +91,13 @@ export const fetchUnitInfo = (unitCode) => {
         });
         axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
             .then(resp => {
+                let cost = CostCalc.calculateCost(parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10));
+                resp.data.Cost = cost;
                 dispatch({
                     type: "FETCH_UNIT_INFO_FULFILLED",
                     payload: resp,
                     unitCode
+
                 });
             })
             .catch(err => {
@@ -102,6 +106,48 @@ export const fetchUnitInfo = (unitCode) => {
                     payload: err
                 });
             });
+    };
+};
+
+/**
+ * Called to populate the unit to add value, it indicates that a unit is being prepped 
+ * to be added to the course
+ */
+export const willAddUnit = (unitCode, custom, isDragging) => {
+    return function (dispatch) {
+        dispatch({
+            type: "UPDATE_UNIT_IS_BEING_DRAGGED",
+            isDragging
+        });
+        
+        dispatch({
+            type: "ADDING_UNIT"
+        });
+        
+        if(!custom){
+            dispatch({
+                type: "FETCH_UNIT_INFO_PENDING"
+            });
+            axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
+            .then(resp => {
+                let cost = CostCalc.calculateCost((parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10)));
+                resp.data.cost = cost;
+                dispatch({
+                    type: "FETCH_UNIT_INFO_FULFILLED",
+                    payload: resp,
+                    unitCode
+                });
+                dispatch({
+                    type: "UPDATE_UNIT_TO_ADD"
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_UNIT_INFO_REJECTED",
+                    payload: err
+                });
+            });
+        }
     };
 };
 

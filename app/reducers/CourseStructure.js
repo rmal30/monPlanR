@@ -23,6 +23,9 @@ const defaultState = {
 
     unitLoading: false,
     unitLoadError: false,
+    unitToAdd: undefined,
+    unitToAddCode: "",
+    unitIsBeingDragged: false,
 
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
@@ -44,6 +47,10 @@ const defaultState = {
     teachingPeriodCodeToInsert: null,
     nextSemesterString: null,
     indexOfTPtoRemove: 0,
+
+    unitToBeMoved: undefined,
+    tpIndexOfUnitToBeMoved: 0,
+    unitsIndexOfUnitToBeMoved: 0,
 
     unitInfo: {
         cost: 0,
@@ -180,6 +187,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "ADD_UNIT":
             return {
                 ...state,
+                unitToAdd: undefined, //reset unit after adding
                 teachingPeriods: [
                     ...state.teachingPeriods.slice(0, action.tpIndex),
                     {
@@ -286,7 +294,8 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 unitLoading: true,
-                unitLoadError: false
+                unitLoadError: false,
+                unitInfo: defaultState.unitInfo
             };
 
         case "FETCH_UNIT_INFO_FULFILLED":
@@ -429,6 +438,30 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 indexOfTPtoRemove: action.index
             };
+
+
+        case "UPDATE_UNIT_TO_ADD":
+            return {
+                ...state,
+                unitToAdd: state.unitInfo
+            };
+        
+        case "UPDATE_UNIT_IS_BEING_DRAGGED":
+            return {
+                ...state,
+                unitIsBeingDragged: action.isDragging
+            };
+
+        case "MOVING_UNIT":
+            return {
+                ...state,
+                unitToBeMoved: action.unit,
+                tpIndexOfUnitToBeMoved: action.tpIndex,
+                unitsIndexOfUnitToBeMoved: action.unitIndex
+            };
+
+        
+        
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year
@@ -473,6 +506,127 @@ const CourseStructure = (state = defaultState, action) => {
                 numberOfUnits: 4
             };
         }
+
+        /**
+         * The ugliest handling of array immutability ever, I've attempted to do swaps with a slice but it still 
+         * seemed to violate the immutability of the arrays, the only way I can think to do this better is either look at
+         * a) a framework like immutable.js to abstract these nasty complexities that come with immutability
+         * b) investigate doing the swap in the action creator instead and then just feeding in the new teaching periods
+         */
+        case "MOVE_UNIT":
+            if(action.newTPIndex > state.tpIndexOfUnitToBeMoved){
+                return {
+                    ...state,
+                    teachingPeriods: [
+                        ...state.teachingPeriods.slice(0, state.tpIndexOfUnitToBeMoved),
+                        {
+                            ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
+                            units: [
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
+                                null,
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(state.tpIndexOfUnitToBeMoved + 1, action.newTPIndex),
+                        {
+                            ...state.teachingPeriods[action.newTPIndex],
+                            units: [
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
+                                state.unitToBeMoved,
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(action.newTPIndex + 1)
+                        
+                    ],
+                    unitToBeMoved: undefined,
+                    tpIndexOfUnitToBeMoved: 0,
+                    unitsIndexOfUnitToBeMoved: 0
+                };
+            } else if (action.newTPIndex === state.tpIndexOfUnitToBeMoved) {
+                
+                if(action.newUnitIndex > state.unitsIndexOfUnitToBeMoved) {
+                    return {
+                        ...state,
+                        teachingPeriods: [
+                            ...state.teachingPeriods.slice(0, action.newTPIndex),
+                            {
+                                ...state.teachingPeriods[action.newTPIndex],
+                                units: [
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(0, state.unitsIndexOfUnitToBeMoved),
+                                    null,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(state.unitsIndexOfUnitToBeMoved + 1, action.newUnitIndex),
+                                    state.unitToBeMoved,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1)
+                                ]
+                            },
+                            ...state.teachingPeriods.slice(action.newTPIndex + 1)
+                        ],
+                        unitToBeMoved: undefined,
+                        tpIndexOfUnitToBeMoved: 0,
+                        unitsIndexOfUnitToBeMoved: 0
+                    };
+                } else if (state.unitsIndexOfUnitToBeMoved > action.newUnitIndex) {
+                    return {
+                        ...state,
+                        teachingPeriods: [
+                            ...state.teachingPeriods.slice(0, action.newTPIndex),
+                            {
+                                ...state.teachingPeriods[action.newTPIndex],
+                                units: [
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
+                                    state.unitToBeMoved,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1, state.unitsIndexOfUnitToBeMoved),
+                                    null,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
+                                ]
+                            },
+                            ...state.teachingPeriods.slice(action.newTPIndex + 1)
+                        ],
+                        unitToBeMoved: undefined,
+                        tpIndexOfUnitToBeMoved: 0,
+                        unitsIndexOfUnitToBeMoved: 0
+                    };
+                } else {
+                    // the positions are exactly the same, so no need to change teaching periods
+                    return {
+                        ...state,
+                        unitToBeMoved: undefined,
+                        tpIndexOfUnitToBeMoved: 0,
+                        unitsIndexOfUnitToBeMoved: 0
+                    };
+                }
+                
+            } else {
+                return {
+                    ...state,
+                    teachingPeriods: [
+                        ...state.teachingPeriods.slice(0, action.newTPIndex),
+                        {
+                            ...state.teachingPeriods[action.newTPIndex],
+                            units: [
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
+                                state.unitToBeMoved,
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(action.newTPIndex + 1, state.tpIndexOfUnitToBeMoved),
+                        {
+                            ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
+                            units: [
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
+                                null,
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(state.tpIndexOfUnitToBeMoved + 1)
+                        
+                    ],
+                    unitToBeMoved: undefined,
+                    tpIndexOfUnitToBeMoved: 0,
+                    unitsIndexOfUnitToBeMoved: 0
+                };
+            }
 
         default:
             return state;

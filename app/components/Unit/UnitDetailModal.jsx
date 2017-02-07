@@ -22,7 +22,7 @@ export default function UnitDetailModal({ trigger, onClick }) {
         onClick: PropTypes.func
     };
 
-    const closeTrigger = <Button content="Close" />;
+    const closeTrigger = <Button className="btnlightcancel" content="Close" />;
 
     return <ControlledModal
                 onClick={onClick}

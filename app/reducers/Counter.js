@@ -81,6 +81,13 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 cost: Math.max(0, state.cost - action.cost),
                 creditPoints: Math.max(0, state.creditPoints - action.creditPoints)
             };
+
+        case "ADD_UNIT":
+            return {
+                ...state,
+                cost: state.cost + action.cost,
+                creditPoints: state.creditPoints + action.creditPoints
+            };
         
 
         case "DECREASE_STUDY_LOAD":

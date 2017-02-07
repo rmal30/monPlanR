@@ -320,4 +320,85 @@ describe("REDUCER: UI", () => {
             ).toEqual(stateAfter);
         });
     });
+
+    describe("ACTION: SHOW_SIDEBAR", () => {
+        it("Should correctly show the sidebar when called", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingSidebar: false
+            };
+
+            const action = {
+                type: "SHOW_SIDEBAR"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingSidebar: true
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: HIDE_SIDEBAR", () => {
+        it("Should correctly hide the sidebar when called", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingSidebar: true
+            };
+
+            const action = {
+                type: "HIDE_SIDEBAR"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingSidebar: false
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
+
+    describe("ACTION: ADDING_UNIT", () => {
+        it("Should correctly hide the sidebar when a unit is being added", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingSidebar: true
+            };
+
+            const action = {
+                type: "ADDING_UNIT"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingSidebar: false
+            };
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+            expect(
+                UI(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });

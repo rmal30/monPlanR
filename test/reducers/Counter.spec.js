@@ -234,4 +234,25 @@ describe("REDUCER: Counter", () => {
             ).toEqual(stateAfter);
         });
     });
+
+    describe("ACTION: ADD_UNIT", () => {
+        it("Should correctly increment the counters when a unit is added to the plan", () => {
+            const stateBefore = {cost: 10, creditPoints: 10};
+            
+            const action = {
+                type: "ADD_UNIT",
+                cost: 20,
+                creditPoints: 20
+            };
+            
+            const stateAfter = {cost: 30, creditPoints: 30};
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Counter(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
+    });
 });

@@ -18,6 +18,15 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(actionBundle, dispatch);
 };
 
+/**
+ * The unit cells need to be aware of the current unit to add
+ */
+const mapStateToProps = state => {
+    return {
+        unitToAdd: state.CourseStructure.unitToAdd
+    };
+};
+
 
 /**
 * Implements the drag source contract.
@@ -27,7 +36,7 @@ const unitSource = {
         if(props.newUnit) {
             props.willAddUnit(props.code, props.custom, true);
         } else {
-            props.willMoveUnit(props.index);
+            props.movingUnit(props.unit, props.index, props.teachingPeriodIndex);
         }
 
         return {};
@@ -35,7 +44,7 @@ const unitSource = {
 
     endDrag(props) {
         if(!props.newUnit) {
-            props.cancelMoving();
+            //cancel units
         }
     }
 };
@@ -47,14 +56,14 @@ const unitTarget = {
     drop(props) {
         if(props.free) {
             if(props.addUnit && props.unitToAdd) {
-                props.addUnit(props.index, props.unitToAdd);
-            } else if(props.showMoveUnitUI) {
-                props.moveUnit(props.index);
+                props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
+            } else {
+                props.moveUnit(props.index, props.teachingPeriodIndex);
             }
         } else if(props.showMoveUnitUI) {
             props.swapUnit(props.index);
         } else if(props.placeholder && props.addUnit && props.unitToAdd) {
-            props.addUnit(props.index, props.unitToAdd);
+            props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
         }
 
         return {};
@@ -102,12 +111,6 @@ export class Unit extends React.Component {
             moving: false
         };
     }
-    /**
-    * Shows unit details in a modal.
-    */
-    handleDetail() {
-
-    }
 
     /**
      * Updates state to indicate that the user is hovering on the unit.
@@ -152,7 +155,7 @@ export class Unit extends React.Component {
             this.props.onUnitClick(this.props.code, this.props.custom);
         }
         if((this.props.free || this.props.placeholder) && this.state.hovering && this.props.unitToAdd) {
-            this.props.addUnit(this.props.index, this.props.unitToAdd);
+            this.props.addUnit(this.props.teachingPeriodIndex, this.props.index, this.props.unitToAdd);
         }
     }
 
@@ -343,11 +346,7 @@ Unit.propTypes = {
     faculty: PropTypes.string,
     placeholder: PropTypes.bool,
 
-    unitToAdd: PropTypes.shape({
-        UnitName: PropTypes.string,
-        UnitCode: PropTypes.string,
-        Faculty: PropTypes.string
-    }),
+    unitToAdd: PropTypes.object,
 
     addUnit: PropTypes.func,
     moveUnit: PropTypes.func,
@@ -388,11 +387,6 @@ Unit.propTypes = {
 
 // https://github.com/gaearon/react-dnd/issues/157
 
-/**
- * For some reason flow wasnt working
- * TODO: Find out why this combination of connects + having the onClick handler be an anonymous
- * arrow function works specifically
- */
-const unit = connect(null, mapDispatchToProps)(Unit);
-const dragNdrop =  DropTarget("unit", unitTarget, collectTarget)(unit);
-export default DragSource("unit", unitSource, collectSource)(dragNdrop);
+const drop = DropTarget("unit", unitTarget, collectTarget)(Unit);
+const dragNdrop = DragSource("unit", unitSource, collectSource)(drop);
+export default connect(mapStateToProps, mapDispatchToProps)(dragNdrop);

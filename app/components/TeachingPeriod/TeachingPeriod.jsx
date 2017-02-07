@@ -48,26 +48,15 @@ export const TeachingPeriod = (props) => {
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
-                    unitToBeMoved={props.unitToBeMoved}
                     firstFreeUnit={temp}
-                    addUnit={props.addUnit.bind(this, props.index)}
-                    moveUnit={props.moveUnit.bind(this, props.index)}
-                    unitToAdd={props.unitToAdd}
-                    showMoveUnitUI={props.showMoveUnitUI}
                     isError={isError} />
             );
         }
         return (
             <Unit
                 key={`${props.year}-${props.code}-${unit}-${index}`}
-                viewOnly={props.viewOnly}
                 index={index}
                 teachingPeriodIndex={props.index}
-                addUnit={props.addUnit.bind(this, props.index)}
-                unitToAdd={props.unitToAdd}
-                willMoveUnit={props.willMoveUnit.bind(null, props.index)}
-                deleteUnit={props.deleteUnit.bind(null, props.index)}
-                showMoveUnitUI={props.showMoveUnitUI}
                 swapUnit={props.swapUnit.bind(null, props.index)}
                 code={unit.UnitCode}
                 name={unit.UnitName}
@@ -75,9 +64,7 @@ export const TeachingPeriod = (props) => {
                 cost={unit.Cost}
                 faculty={unit.Faculty}
                 placeholder={unit.placeholder}
-                onUnitClick={props.handleUnitDetailClick}
-                viewUnitDetails={props.viewUnitDetails}
-                cancelMoving={props.cancelMoving}
+                unit={unit}
                 errors={(props.showMoveUnitUI || props.unitToAdd) ? [] : props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)}
                 isError={isError}
                 />
@@ -116,4 +103,15 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(TeachingPeriod);
+/**
+ * Injects the required state as props from redux
+ */
+const mapStateToProps = (state) => {
+    return {
+        data: state.CourseStructure.teachingPeriodData,
+        numberOfUnits: state.CourseStructure.numberOfUnits,
+        viewOnly: state.UI.readOnly
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TeachingPeriod);

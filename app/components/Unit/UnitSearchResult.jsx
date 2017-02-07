@@ -15,7 +15,7 @@ import Unit from "./Unit.jsx";
  * @param {object} unitToAdd - The unit to be added to the course.
  * @param {func} willAddUnit - Function that triggers add unit UI upon call.
  */
-function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, addUnit, unitToAdd, willAddUnit }) {
+function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, unitToAdd, willAddUnit }) {
     UnitSearchResult.propTypes = {
         UnitCode: PropTypes.string.isRequired,
         UnitName: PropTypes.string.isRequired,
@@ -28,8 +28,6 @@ function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, addUnit, un
             basic
             detailButton
             newUnit
-            willAddUnit={willAddUnit}
-            addUnit={addUnit}
             onUnitClick={willAddUnit}
             custom={custom}
             unitToAdd={unitToAdd}

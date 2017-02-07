@@ -89,7 +89,9 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
         type: "ADD_UNIT",
         tpIndex,
         unitIndex,
-        unit
+        unit,
+        cost: unit.Cost,
+        creitPoints: unit.CreditPoints
     };
 };
 
@@ -327,3 +329,28 @@ export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYe
         });
     };
 };
+
+
+/**
+ * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
+ */
+export const movingUnit = (unit, unitIndex, tpIndex) => {
+    return  {
+        type: "MOVING_UNIT", //No handlers for this but useful for debugging purposes
+        unit,
+        unitIndex,
+        tpIndex
+    };
+};
+
+/**
+ * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
+ */
+export const moveUnit = (newUnitIndex, newTPIndex) => {
+    return  {
+        type: "MOVE_UNIT", //No handlers for this but useful for debugging purposes
+        newUnitIndex,
+        newTPIndex
+    };
+};
+

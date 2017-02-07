@@ -242,7 +242,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: "FIT1002"
             };
 
             const action = {
@@ -258,7 +259,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: undefined
             };
 
             test(stateBefore, action, stateAfter);
@@ -271,14 +273,16 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: "FIT1002"
             };
 
             const action = {
                 type: "ADD_UNIT",
                 tpIndex: 1,
                 unitIndex: 1,
-                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+                unit: {unitCode: "XXX0001", unitName: "Test Unit"},
+                
             };
 
             const stateAfter = {
@@ -287,7 +291,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: undefined
             };
 
             test(stateBefore, action, stateAfter);
@@ -300,7 +305,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: "FIT1002"
             };
 
             const action = {
@@ -316,7 +322,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                unitToAdd: undefined
             };
 
             test(stateBefore, action, stateAfter);
@@ -690,7 +697,21 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: false,
                 courseLoading: false,
-                unitInfo: null,
+                unitInfo: {
+                    cost: 0,
+                    creditPoints: 0,
+                    Faculty: "",
+                    likeScore: 0,
+                    Synopsis: "",
+                    UnitName: "",
+                    usefulnessScore: 0,
+                    prereqs: "",
+                    prohibs: "",
+                    offeringArray: "",
+                    learnResponseCount: 0,
+                    enjoyResponseCount: 0,
+                    SCABand: 0
+                },
                 focusedUnitCode: null
             };
 
@@ -706,7 +727,21 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoadError: false,
                 unitLoading: true,
                 courseLoading: false,
-                unitInfo: null,
+                unitInfo: {
+                    cost: 0,
+                    creditPoints: 0,
+                    Faculty: "",
+                    likeScore: 0,
+                    Synopsis: "",
+                    UnitName: "",
+                    usefulnessScore: 0,
+                    prereqs: "",
+                    prohibs: "",
+                    offeringArray: "",
+                    learnResponseCount: 0,
+                    enjoyResponseCount: 0,
+                    SCABand: 0
+                },
                 focusedUnitCode: null
             };
 
@@ -1173,6 +1208,296 @@ describe("REDUCER: CourseStructure", () => {
 
             test(stateBefore, action, stateAfter);
         });
+    });
+
+    describe("ACTION: UPDATE_UNIT_TO_ADD", () => {
+        it("Should correctly set the unit to add to the new unit", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitInfo: "TestUnit",
+                unitToAdd: undefined
+            };
+
+            const action = {
+                type: "UPDATE_UNIT_TO_ADD"
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitInfo: "TestUnit",
+                unitToAdd: "TestUnit"
+                
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: UPDATE_UNIT_IS_BEING_DRAGGED", () => {
+        it("Should correctly set a non-dragging unit being dragged", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: false
+            };
+
+            const action = {
+                type: "UPDATE_UNIT_IS_BEING_DRAGGED",
+                isDragging: true
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: true
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+        
+        it("Should correctly set a dragging unit to be not dragged", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: true
+            };
+
+            const action = {
+                type: "UPDATE_UNIT_IS_BEING_DRAGGED",
+                isDragging: false
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitIsBeingDragged: false
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: MOVING_UNIT", () => {
+        it("Should correctly begin moving a unit", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0
+            };
+
+            const action = {
+                type: "MOVING_UNIT",
+                unit: "TEST-UNIT",
+                unitIndex: 3,
+                tpIndex: 1
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TEST-UNIT",
+                tpIndexOfUnitToBeMoved: 1,
+                unitsIndexOfUnitToBeMoved: 3
+            };
+
+            test(stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: MOVE_UNIT", () => {
+        it("Should correctly handle moving a unit to a teaching period earlier than it", () => {
+            //oldtp > newtp
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 1,
+                unitsIndexOfUnitToBeMoved: 2,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, "PlaceToMoveTo", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "MOVE_UNIT",
+                newTPIndex: 0,
+                newUnitIndex: 1
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, "TestUnit", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle moving a unit to a teaching period later than it", () => {
+            //newtp > oldtp
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 1,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, "TestUnit", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "PlaceToMoveTo", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "MOVE_UNIT",
+                newTPIndex: 1,
+                newUnitIndex: 2
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle moving a unit to the same teaching period but earlier position", () => {
+            //newtp = oldtp && oldUnitPosition > newUnitPosition
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 1,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: ["PlaceToMoveTo", "TestUnit", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "MOVE_UNIT",
+                newTPIndex: 0,
+                newUnitIndex: 0
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: ["TestUnit", null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle moving a unit to the same teaching period but later position", () => {
+            //newtp = oldtp && newUnitPosition > oldUnitPosition
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: ["TestUnit", null, "PlaceToMoveTo", null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "MOVE_UNIT",
+                newTPIndex: 0,
+                newUnitIndex: 2
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle moving a unit to the same teaching period and exact same position", () => {
+            //newtp = oldtp && newUnitPosition = oldUnitPosition
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 1,
+                unitsIndexOfUnitToBeMoved: 2,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "MOVE_UNIT",
+                newTPIndex: 1,
+                newUnitIndex: 2
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
     });
 });
 

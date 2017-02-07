@@ -7,7 +7,6 @@ import LocalStorage from "../../utils/LocalStorage.js";
 
 import CourseViewActions from "./CourseViewActions.jsx";
 import CourseEditActions from "./CourseEditActions.jsx";
-import CourseMessage from "./CourseMessage.jsx";
 
 import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachingPeriodContainer.jsx";
@@ -71,16 +70,6 @@ class CourseStructure extends Component {
      */
     constructor(props) {
         super(props);
-
-        this.state = {
-            /* UI state */
-            showMoveUnitUI: false,
-            unitToBeMoved: undefined,
-            courseToLoad: this.props.courseToLoad
-        };
-
-
-        this.getAffectedUnits = this.getAffectedUnits.bind(this);
         this.getCourseErrors = this.getCourseErrors.bind(this);
     }
 
@@ -92,15 +81,8 @@ class CourseStructure extends Component {
 
         if (nextProps.courseToLoad && this.state.unlock && nextProps.courseYear) {
             if (nextProps.courseToLoad !== this.state.courseToLoad) {
-                this.setState({unlock: false, courseToLoad: nextProps.courseToLoad});
                 this.courseLoad(nextProps.courseToLoad, nextProps.courseYear);
             }
-        }
-
-        /* If position is specified, no need to ask user again to select a
-           table cell as the user has already dropped the unit into a cell */
-        if(nextProps.unitToAdd && nextProps.unitToAdd.position) {
-            this.addUnit(nextProps.unitToAdd.position[0], nextProps.unitToAdd.position[1], nextProps.unitToAdd);
         }
 
         if(this.props.viewOnly && !this.props.switchToEditCourse && nextProps.switchToEditCourse) {
@@ -221,16 +203,18 @@ class CourseStructure extends Component {
      * e.g. [null, null] highlights all units in course plan.
      */
     invalidCoordinatesForTempUnit() {
-        let tempUnit;
+        let tempUnit = [];
         let duplicateGraceFlag = false;
-        if(this.state.showMoveUnitUI) {
+        /**
+         * if(this.state.showMoveUnitUI) {
             tempUnit = this.state.unitToBeMoved;
             duplicateGraceFlag = true;
-        } else if(this.props.unitToAdd) {
-            tempUnit = this.props.unitToAdd;
-        } else {
-            return [];
-        }
+         */
+        /**
+         * if(this.state.showMoveUnitUI) {
+            tempUnit = this.state.unitToBeMoved;
+            duplicateGraceFlag = true;
+         */
 
         const { teachingPeriods } = this.props;
 
@@ -385,85 +369,6 @@ class CourseStructure extends Component {
             }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
     }
 
-
-
-    /**
-     * Inserts unit into course structure.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriodIndex
-     * @param {number} unitIndex
-     * @param {string} code
-     * @param {string} name
-     */
-    addUnit(teachingPeriodIndex, unitIndex, unitToAdd) {
-        // If a customm unit has been dragged and dropped onto a table cell, prompt user to enter details
-        if(unitToAdd.custom && unitToAdd.dragged) {
-            this.props.addToCourse(unitToAdd.UnitCode, true, false, [teachingPeriodIndex, unitIndex]);
-            return;
-        }
-
-        const { teachingPeriods } = this.props;
-        teachingPeriods[teachingPeriodIndex].units[unitIndex] = unitToAdd;
-        this.setState({ teachingPeriods });
-        this.props.doneAddingToCourse(unitToAdd);
-        this.props.incrementCreditPoints(unitToAdd.CreditPoints);
-        this.props.incrementCost(unitToAdd.Cost);
-    }
-
-    /**
-     * Allows user to move unit into another table cell.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriodIndex
-     * @param {number} unitIndex
-     */
-    willMoveUnit(teachingPeriodIndex, unitIndex) {
-        if (this.props.unitToAdd !== undefined) {
-            this.props.cancelAddingToCourse();
-        }
-
-        this.setState({
-            showMoveUnitUI: true,
-            originalPosition: [teachingPeriodIndex, unitIndex],
-            unitToBeMoved: this.props.teachingPeriods[teachingPeriodIndex].units[unitIndex]
-        });
-    }
-
-    /**
-     * Cancels the move unit operation.
-     *
-     * @author Saurabh Joshi
-     */
-    cancelMoving() {
-        this.setState({
-            showMoveUnitUI: false
-        });
-    }
-
-    /**
-     * Moves unit to specified position.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriodIndex
-     * @param {number} unitIndex
-     */
-    moveUnit(teachingPeriodIndex, unitIndex) {
-        const { teachingPeriods } = this.props;
-
-        if(this.state.originalPosition) {
-            teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = null;
-        }
-
-        teachingPeriods[teachingPeriodIndex].units[unitIndex] = this.state.unitToBeMoved;
-
-        this.setState({
-            showMoveUnitUI: false,
-            originalPosition: null,
-            teachingPeriods: teachingPeriods
-        });
-    }
-
     /**
      * Swaps units over according to their positions. This method is used
      * when the student wants to move their unit to another position where the
@@ -487,58 +392,6 @@ class CourseStructure extends Component {
         });
     }
 
-
-    /**
-     * Deletes a unit at a specified teaching period index and specified unit
-     * index. This is done by setting the array element to undefined.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriodIndex - Which teaching period are you referring to.
-     * @param {number} unitIndex - Which unit in teaching period to remove.
-     */
-    deleteUnit(teachingPeriodIndex, unitIndex) {
-        const { teachingPeriods } = this.state;
-        const unitToRemove = teachingPeriods[teachingPeriodIndex].units[unitIndex];
-
-        this.props.decrementCost(unitToRemove.Cost);
-        this.props.decrementCreditPoints(unitToRemove.CreditPoints);
-
-        const updatedTeachingPeriod = {
-            ...teachingPeriods[teachingPeriodIndex],
-            units: [
-                ...teachingPeriods[teachingPeriodIndex].units.slice(0, unitIndex),
-                null,
-                ...teachingPeriods[teachingPeriodIndex].units.slice(unitIndex + 1)
-            ]
-        };
-
-        this.setState({
-            teachingPeriods: [
-                ...teachingPeriods.slice(0, teachingPeriodIndex),
-                updatedTeachingPeriod,
-                ...teachingPeriods.slice(teachingPeriodIndex + 1)
-            ]
-        });
-    }
-
-
-    /**
-     * Returns an array of all units affected by an overload column removal
-     */
-    getAffectedUnits() {
-        const teachingPeriods = this.props.teachingPeriods.slice();
-        let unitIndex = this.props.numberOfUnits - 1;
-        let unitArray = [];
-        for(let i = 0; i < teachingPeriods.length; i++) {
-            let item = teachingPeriods[i].units[unitIndex];
-            if (item !== null && item !== undefined) {
-                unitArray.push(item.UnitCode + " - " + item.UnitName);
-            }
-        }
-
-        return unitArray;
-    }
-
     /**
      * Returns a rendered teaching period component as a table row to be used in
      * a table.
@@ -551,22 +404,11 @@ class CourseStructure extends Component {
     renderTeachingPeriod(teachingPeriod, index, errors, tempInvalidCoordinates) {
         return <TeachingPeriod
                     key={`${teachingPeriod.year}-${teachingPeriod.code}`}
-                    viewOnly={this.props.viewOnly}
                     index={index}
                     year={teachingPeriod.year}
                     code={teachingPeriod.code}
-                    data={this.props.teachingPeriodData}
-                    numberOfUnits={this.props.numberOfUnits}
-                    addUnit={this.addUnit.bind(this)}
-                    moveUnit={this.moveUnit.bind(this)}
-                    swapUnit={this.swapUnit.bind(this)}
-                    willMoveUnit={this.willMoveUnit.bind(this)}
-                    deleteUnit={this.deleteUnit.bind(this)}
-                    unitToAdd={this.props.unitToAdd}
-                    showMoveUnitUI={this.state.showMoveUnitUI}
-                    unitToBeMoved={this.state.unitToBeMoved}
                     units={teachingPeriod.units}
-                    cancelMoving={this.cancelMoving.bind(this)}
+                    swapUnit={this.swapUnit.bind(this)}
                     errors={errors}
                     tempInvalidCoordinates={tempInvalidCoordinates} />;
     }
@@ -678,22 +520,9 @@ class CourseStructure extends Component {
         return (
             <Container>
                 <ConfirmDeleteTeachingPeriodModal />
-                {!this.props.viewOnly &&
-                    <CourseMessage
-                        isError={this.state.isError}
-                        errorHeader={this.state.errorHeader}
-                        errorMsg={this.state.errorMsg}
-
-                        unitToAdd={this.props.unitToAdd}
-                        showMoveUnitUI={this.state.showMoveUnitUI}
-                        unitToBeMoved={this.state.unitToBeMoved}
-
-                        cancelAddingToCourse={this.props.cancelAddingToCourse}
-                        />
-                }
                 {this.props.viewOnly &&
                     <CourseViewActions
-                        switchToEditCourse={this.state.switchToEditCourse}
+                        switchToEditCourse={false}
                         handleEditCoursePlanClick={this.props.handleEditCoursePlanClick}
                         teachingPeriods={this.props.teachingPeriods}
                         numberOfUnits={this.props.numberOfUnits}
@@ -706,7 +535,7 @@ class CourseStructure extends Component {
                     </MediaQuery>
                 }
 
-                <Dimmer.Dimmable as={Table} celled fixed striped compact>
+                <Dimmer.Dimmable className="coursetable" as={Table} celled fixed striped compact>
                     {(this.props.courseLoading || this.props.courseSnapshotLoading) && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>
@@ -743,53 +572,29 @@ class CourseStructure extends Component {
 }
 
 CourseStructure.propTypes = {
-    startYear: PropTypes.number,
-    endYear: PropTypes.number,
-    unitToAdd: PropTypes.shape({
-        UnitName: PropTypes.string,
-        UnitCode: PropTypes.string,
-        Faculty: PropTypes.string
-    }),
-    addToCourse: PropTypes.func,
-    doneAddingToCourse: PropTypes.func,
-    cancelAddingToCourse: PropTypes.func,
-    courseToLoad: PropTypes.string,
-    handleEditCoursePlanClick: PropTypes.func,
-
-    /* Redux functions */
-    creditPoints: PropTypes.number,
-    cost: PropTypes.number,
-    incrementCost: PropTypes.func,
-    incrementCreditPoints: PropTypes.func,
-    clearCourse: PropTypes.func,
-    decrementCost: PropTypes.func,
-    decrementCreditPoints: PropTypes.func,
-    teachingPeriods: PropTypes.array,
-    numberOfUnits: PropTypes.number,
-    fetchTeachingPeriods: PropTypes.func,
-    teachingPeriodData: PropTypes.array,
-    insertTeachingPeriod: PropTypes.func,
-    addTeachingPeriod: PropTypes.func,
-    showInsertTeachingPeriodUI: PropTypes.func,
-    hideInsertTeachingPeriodUI: PropTypes.func,
-    getNextSemesterString: PropTypes.func,
-    nextSemesterString: PropTypes.string,
-    courseLoading: PropTypes.bool,
-    loadCourseFromLocalStorage: PropTypes.func,
-    saveCourseToLocalStorage: PropTypes.func,
-    showingInsertTeachingPeriodUI: PropTypes.bool,
-    teachingPeriodCodeToInsert: PropTypes.string,
-    loadCourseSnap: PropTypes.func,
-    courseSnapshotLoading: PropTypes.bool,
-
-    /* Validation */
-    updateStatus: PropTypes.func.isRequired,
-    /* Used for diff checks */
-    courseErrors: PropTypes.array.isRequired,
-    
-    snapID: PropTypes.string,
     viewOnly: PropTypes.bool,
     switchToEditCourse: PropTypes.bool,
+    teachingPeriods: PropTypes.array,
+    courseErrors: PropTypes.array,
+    numberOfUnits: PropTypes.number,
+    startYear: PropTypes.number,
+    creditPoints: PropTypes.number, 
+    cost: PropTypes.number,
+    snapID: PropTypes.string,
+    teachingPeriodData: PropTypes.array,
+    showingInsertTeachingPeriodUI: PropTypes.bool,
+    teachingPeriodCodeToInsert: PropTypes.string,
+    courseLoading: PropTypes.bool,
+    courseSnapshotLoading: PropTypes.bool,
+
+    handleEditCoursePlanClick: PropTypes.func,
+    clearCourse: PropTypes.func,
+    loadCourseSnap: PropTypes.func,
+    updateStatus: PropTypes.func,
+    saveCourseToLocalStorage: PropTypes.func,
+    loadCourseFromLocalStorage: PropTypes.func,
+
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseStructure);

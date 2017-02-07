@@ -29,7 +29,7 @@ const ConfirmDeleteTeachingPeriodModal = (props) => {
             </Modal.Content>
             <Modal.Actions>
                 <Button className="btncancel" floated={"right"} onClick={() => {removeTeachingPeriod(index, teachingPeriods[index].units, hideConfirmDeleteTeachingPeriodUI());}}>Remove Teaching Period</Button>
-                <Button style={{borderRadius: "0px !important"}} onClick={() => {hideConfirmDeleteTeachingPeriodUI();}}>Cancel</Button>
+                <Button className="btnlightcancel" onClick={() => {hideConfirmDeleteTeachingPeriodUI();}}>Cancel</Button>
             </Modal.Actions>
         </Modal>);
 };
