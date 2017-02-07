@@ -18,6 +18,9 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(actionBundle, dispatch);
 };
 
+/**
+ * The unit cells need to be aware of the current unit to add
+ */
 const mapStateToProps = state => {
     return {
         unitToAdd: state.CourseStructure.unitToAdd
@@ -383,12 +386,6 @@ Unit.propTypes = {
 };
 
 // https://github.com/gaearon/react-dnd/issues/157
-
-/**
- * For some reason flow wasnt working
- * TODO: Find out why this combination of connects + having the onClick handler be an anonymous
- * arrow function works specifically
- */
 
 const drop = DropTarget("unit", unitTarget, collectTarget)(Unit);
 const dragNdrop = DragSource("unit", unitSource, collectSource)(drop);

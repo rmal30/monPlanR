@@ -287,7 +287,9 @@ UnitSearchContainer.propTypes = {
     willAddUnit: PropTypes.func
 };
 
-
+/**
+ * Injects the required actions from redux action creators
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(dataFetchActions, dispatch);
 };

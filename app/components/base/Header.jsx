@@ -114,6 +114,9 @@ class Header extends Component {
     }
 }
 
+/**
+ * header needs actions such as showSidebar from redux
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(uiActions, dispatch);
 };

@@ -105,6 +105,10 @@ export const fetchUnitInfo = (unitCode) => {
     };
 };
 
+/**
+ * Called to populate the unit to add value, it indicates that a unit is being prepped 
+ * to be added to the course
+ */
 export const willAddUnit = (unitCode, custom, isDragging) => {
     return function (dispatch) {
         dispatch({

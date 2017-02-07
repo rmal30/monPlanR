@@ -89,12 +89,18 @@ export const hideConfirmDecreaseStudyLoadUI = () => {
     };
 };
 
+/**
+ * Shows the add unit sidebar
+ */
 export const showSidebar = () => {
     return {
         type: "SHOW_SIDEBAR"
     };
 };
 
+/**
+ * hides the add unit sidebar
+ */
 export const hideSidebar = () => {
     return {
         type: "HIDE_SIDEBAR"

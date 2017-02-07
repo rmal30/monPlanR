@@ -111,13 +111,14 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);
 };
 
+/**
+ * Injects the required state as props from redux
+ */
 const mapStateToProps = (state) => {
     return {
         data: state.CourseStructure.teachingPeriodData,
         numberOfUnits: state.CourseStructure.numberOfUnits,
         viewOnly: state.UI.readOnly
-
-
     };
 };
 
