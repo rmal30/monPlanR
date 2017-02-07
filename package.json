@@ -26,6 +26,7 @@
     "babel-preset-stage-2": "^6.22.0",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.6.1",
+    "coveralls": "^2.11.16",
     "css-loader": "^0.25.0",
     "deep-freeze": "0.0.1",
     "enzyme": "^2.6.0",
@@ -77,10 +78,13 @@
     "deploy:mocha": "sh ./build_mocha_awesome.sh",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
-    "test": "EXIT_STATUS=0; npm run test:coverage || EXIT_STATUS=$?; npm run test:lint || EXIT_STATUS=$?; exit $EXIT_STATUS",
+
+    "test": "EXIT_STATUS=0; npm run test:unit || EXIT_STATUS=$?; npm run test:lint || EXIT_STATUS=$?; exit $EXIT_STATUS",
     "test:lint": "eslint --ext .jsx --ext .js app test",
     "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
-    "test:coverage": "nyc --require babel-core/register mocha test/setup.js test/**/*.spec.{js,jsx}",
+    "test:coverage": "nyc --require babel-core/register --extension .jsx mocha test/setup.js test/**/*.spec.{js,jsx}",
+    "coveralls": "nyc report --reporter=text-lcov --require babel-core/register --extension .jsx mocha test/setup.js test/**/*.spec.{js,jsx} | coveralls",
+
     "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
     "fix": "eslint --ext .jsx --ext .js app --fix"
   },
