@@ -10,7 +10,7 @@ const OverloadButton = (props) => {
         <Button 
             icon="plus"
             fluid={mobile}
-            className="no-print" 
+            className="no-print btnlightblue" 
             disabled={isDisabled}
             onClick={increaseStudyLoad} 
             color="green" 

@@ -410,25 +410,6 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Allows user to move unit into another table cell.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriodIndex
-     * @param {number} unitIndex
-     */
-    willMoveUnit(teachingPeriodIndex, unitIndex) {
-        if (this.props.unitToAdd !== undefined) {
-            this.props.cancelAddingToCourse();
-        }
-
-        this.setState({
-            showMoveUnitUI: true,
-            originalPosition: [teachingPeriodIndex, unitIndex],
-            unitToBeMoved: this.props.teachingPeriods[teachingPeriodIndex].units[unitIndex]
-        });
-    }
-
-    /**
      * Cancels the move unit operation.
      *
      * @author Saurabh Joshi
