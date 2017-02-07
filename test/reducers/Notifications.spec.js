@@ -171,5 +171,69 @@ describe("REDUCER: Notifications", () => {
                 Notifications(stateBefore, action)
             ).toEqual(stateAfter);
         });
+
+        it("Should remove a notification given its index", () => {
+            const stateBefore = {
+                notificationsList: [
+                    {
+                        id: "TEST_NOTIFICATION",
+                        title: "This is a test",
+                        message: "Some message goes over here",
+                        level: "info",
+                        dismissable: undefined,
+                        autoDismiss: undefined
+                    },
+                    {
+                        id: "GENERIC_ERROR",
+                        title: "Error",
+                        message: "Something went wrong. Please try again later.",
+                        level: "error",
+                        dismissable: true,
+                        autoDismiss: undefined
+                    },
+                    {
+                        id: "CONNECTION_LOST",
+                        title: "Lost connection",
+                        message: "Please check your connection. This notification will go away once you go online.",
+                        level: "warning",
+                        dismissable: false,
+                        autoDismiss: undefined
+                    }
+                ]
+            };
+
+            const action = {
+                type: "REMOVE_NOTIFICATION",
+                index: 1
+            };
+
+            const stateAfter = {
+                notificationsList: [
+                    {
+                        id: "TEST_NOTIFICATION",
+                        title: "This is a test",
+                        message: "Some message goes over here",
+                        level: "info",
+                        dismissable: undefined,
+                        autoDismiss: undefined
+                    },
+                    {
+                        id: "CONNECTION_LOST",
+                        title: "Lost connection",
+                        message: "Please check your connection. This notification will go away once you go online.",
+                        level: "warning",
+                        dismissable: false,
+                        autoDismiss: undefined
+                    }
+                ]
+            };
+
+            deepFreeze(stateBefore);
+            deepFreeze(action);
+
+            expect(
+                Notifications(stateBefore, action)
+            ).toEqual(stateAfter);
+        });
     });
 });
