@@ -460,6 +460,59 @@ const CourseStructure = (state = defaultState, action) => {
                 unitsIndexOfUnitToBeMoved: action.unitIndex
             };
 
+        
+        
+        /**
+         * Generates a course structure of semester one and semester two teaching
+         * periods, given start year and end year. If start year and end year
+         * are not specified, not in the right order, or they are too far
+         * apart, then it will return an empty course structure.
+         *
+         * @author Eric Jiang, Saurabh Joshi
+         * @param {number} startYear - When the student commences their course.
+         * @param {number} endYear - When the student is expected to graduate.
+         */
+        case "GENERATE_COURSE": {
+            if(action.startYear !== null && action.endYear !== null && action.endYear - action.startYear <= 12 && action.startYear <= action.endYear) {
+                const teachingPeriods = [];
+
+                for(let year = action.startYear; year <= action.endYear; year++) {
+                    const semesterOneTeachingPeriod = {
+                        year,
+                        code: "S1-01",
+                        units: new Array(4).fill(null)
+                    };
+
+                    const semesterTwoTeachingPeriod = {
+                        year,
+                        code: "S2-01",
+                        units: new Array(4).fill(null)
+                    };
+
+                    teachingPeriods.push(semesterOneTeachingPeriod);
+                    teachingPeriods.push(semesterTwoTeachingPeriod);
+                }
+
+                return {
+                    ...state,
+                    teachingPeriods,
+                    numberOfUnits: 4
+                };
+            }
+
+            return {
+                ...state,
+                teachingPeriods: [],
+                numberOfUnits: 4
+            };
+        }
+
+        /**
+         * The ugliest handling of array immutability ever, I've attempted to do swaps with a slice but it still 
+         * seemed to violate the immutability of the arrays, the only way I can think to do this better is either look at
+         * a) a framework like immutable.js to abstract these nasty complexities that come with immutability
+         * b) investigate doing the swap in the action creator instead and then just feeding in the new teaching periods
+         */
         case "MOVE_UNIT":
             if(action.newTPIndex > state.tpIndexOfUnitToBeMoved){
                 return {
@@ -574,51 +627,6 @@ const CourseStructure = (state = defaultState, action) => {
                     unitsIndexOfUnitToBeMoved: 0
                 };
             }
-        
-        /**
-         * Generates a course structure of semester one and semester two teaching
-         * periods, given start year and end year. If start year and end year
-         * are not specified, not in the right order, or they are too far
-         * apart, then it will return an empty course structure.
-         *
-         * @author Eric Jiang, Saurabh Joshi
-         * @param {number} startYear - When the student commences their course.
-         * @param {number} endYear - When the student is expected to graduate.
-         */
-        case "GENERATE_COURSE": {
-            if(action.startYear !== null && action.endYear !== null && action.endYear - action.startYear <= 12 && action.startYear <= action.endYear) {
-                const teachingPeriods = [];
-
-                for(let year = action.startYear; year <= action.endYear; year++) {
-                    const semesterOneTeachingPeriod = {
-                        year,
-                        code: "S1-01",
-                        units: new Array(4).fill(null)
-                    };
-
-                    const semesterTwoTeachingPeriod = {
-                        year,
-                        code: "S2-01",
-                        units: new Array(4).fill(null)
-                    };
-
-                    teachingPeriods.push(semesterOneTeachingPeriod);
-                    teachingPeriods.push(semesterTwoTeachingPeriod);
-                }
-
-                return {
-                    ...state,
-                    teachingPeriods,
-                    numberOfUnits: 4
-                };
-            }
-
-            return {
-                ...state,
-                teachingPeriods: [],
-                numberOfUnits: 4
-            };
-        }
 
         default:
             return state;
