@@ -4,14 +4,7 @@ set -e
 echo "Preparing for git"
 
 echo "Building Unit Test Report"
-mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx} --reporter mochawesome
-
-echo "Cleaning up doc folder..."
-rm -rf docs/
-
-echo "Renaming Files for gh-pages"
-mv mochawesome-reports docs
-mv docs/mochawesome.html docs/index.html
+mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx} --reporter mochawesome --reporter-options reportDir=docs,reportFilename=index
 
 echo "Performing eslint Test"
 npm run test:lint
