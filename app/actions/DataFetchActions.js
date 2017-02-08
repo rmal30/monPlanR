@@ -34,12 +34,13 @@ export const fetchCourseInfo = (courseCode) => {
 export const submitCourseForm = (courseCode, startYear, courseID) => {
     return function (dispatch) {
         dispatch({
+            type: "FETCH_COURSE_TEMPLATE_PENDING"
+        });
+
+        dispatch({
             type: "SUBMIT_COURSE_FORM",
             startYear,
             courseCode
-        });
-        dispatch({
-            type: "FETCH_COURSE_TEMPLATE_PENDING"
         });
         axios.get(`${MONPLAN_REMOTE_URL}/courses/${courseID}`)
             .then(resp => {
@@ -49,7 +50,9 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                 });
                 
                 const result = CourseTemplate.parse(resp.data, startYear);
-
+                dispatch({
+                    type: "CLEAR_COURSE"
+                });
                 dispatch({
                     type: "LOAD_NEW_TEACHING_PERIODS",
                     value: result.newTeachingPeriods
