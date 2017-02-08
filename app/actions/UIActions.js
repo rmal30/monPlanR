@@ -106,3 +106,15 @@ export const hideSidebar = () => {
         type: "HIDE_SIDEBAR"
     };
 };
+
+export const setCourseReadOnly = () => {
+    return {
+        type: "SET_COURSE_READ_ONLY"
+    };
+};
+
+export const setCourseReadAndWrite = () => {
+    return {
+        type: "SET_COURSE_READ_AND_WRITE"
+    };
+};
