@@ -46,14 +46,13 @@ class Header extends Component {
                     </Link>
                     {this.props.showAddUnit &&
                     <Menu.Item>
-                        <Button 
-                            icon 
-                            className={this.props.searchVisible ? "btncancel": "btnlightblue"}
-                            onClick={() => {this.props.showSidebar();}}
-                            disabled={this.props.showingSidebar}>
-                                <Icon name={this.props.searchVisible ? "x" : "plus"} />
+                        <Button
+                            icon
+                            className={this.props.showingSidebar ? "btnlightcancel": "btnlightblue"}
+                            onClick={() => {this.props.showingSidebar ? this.props.hideSidebar() : this.props.showSidebar();}}>
+                                <Icon name="plus" className={this.props.showingSidebar && "active" || "normal"} />
                                 <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>
-                                    &nbsp;&nbsp;{this.props.searchVisible ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}
+                                    &nbsp;&nbsp;{this.props.showingSidebar ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}
                                 </MediaQuery>
                         </Button>
                     </Menu.Item>
@@ -132,7 +131,8 @@ const mapDispatchToProps = (dispatch) => {
  */
 const mapStatetoProps = (state) => {
     return {
-        showingSidebar: state.UI.showingSidebar
+        showingSidebar: state.UI.showingSidebar,
+        courseErrors: state.CourseStructure.courseErrors
     };
 };
 
@@ -147,5 +147,6 @@ Header.propTypes = {
     searchVisible: PropTypes.bool,
     courseErrors: PropTypes.array,
     showSidebar: PropTypes.func,
+    hideSidebar: PropTypes.func,
     showingSidebar: PropTypes.bool
 };

@@ -42,9 +42,9 @@ const unitSource = {
         return {};
     },
 
-    endDrag(props) {
-        if(!props.newUnit) {
-            //cancel units
+    endDrag(props, monitor) {
+        if(!props.newUnit && !monitor.didDrop()) {
+            props.cancelMovingUnit(props.index, props.teachingPeriodIndex);
         }
     }
 };
@@ -62,7 +62,7 @@ const unitTarget = {
             }
         } else {
             props.swapUnit(props.index, props.teachingPeriodIndex, props.unit);
-        } 
+        }
         /**
          * else if(props.placeholder && props.addUnit && props.unitToAdd) {
             props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
@@ -110,8 +110,7 @@ export class Unit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hovering: false,
-            moving: false
+            hovering: false
         };
     }
 
@@ -163,33 +162,6 @@ export class Unit extends React.Component {
     }
 
     /**
-     * Opens up a detailed unit view when a user double clicks a unit.
-     */
-    handleDoubleClick() {
-        if(!this.props.free && typeof this.props.viewUnitDetails === "function") {
-            this.props.viewUnitDetails(this.props.code, this.props.custom);
-        }
-    }
-
-    /**
-     *
-     */
-    handleMove() {
-        if(!this.props.free) {
-            this.setState({ moving: true });
-        }
-    }
-
-    /**
-     * If a unit is being moved, then start the move UI.
-     */
-    componentDidUpdate() {
-        if(this.state.moving) {
-            this.props.willMoveUnit(this.props.index);
-        }
-    }
-
-    /**
     * Removes unit from the course structure.
     */
     handleDelete() {
@@ -227,10 +199,6 @@ export class Unit extends React.Component {
         }
 
         const { connectDragSource, connectDropTarget, isOver }  = this.props;
-
-        if(this.state.moving) {
-            return null;
-        }
 
         /**
          * Creates unit message

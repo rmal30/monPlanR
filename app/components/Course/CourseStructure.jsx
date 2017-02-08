@@ -30,7 +30,7 @@ const mapStateToProps = state => {
         creditPoints: state.Counter.creditPoints,
         cost: state.Counter.cost,
         teachingPeriods: state.CourseStructure.teachingPeriods,
-        numberOfUnits: state.CourseStructure.numberOfUnits, 
+        numberOfUnits: state.CourseStructure.numberOfUnits,
         teachingPeriodData: state.CourseStructure.teachingPeriodData,
         nextSemesterString: state.CourseStructure.nextSemesterString,
         courseLoading: state.CourseStructure.courseLoading,
@@ -339,13 +339,6 @@ class CourseStructure extends Component {
             const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
             saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
         }
-
-        const currentCourseErrors = this.getCourseErrors();
-
-        // Redux may solve this anti-pattern of diff checks and updating parent component's state
-        if(currentCourseErrors.length !== this.props.courseErrors.length || this.props.courseErrors.reduce((a, err, i) => a || err.message !== currentCourseErrors[i].message || err.coordinates.length !== currentCourseErrors[i].coordinates.length, false)) {
-            this.props.updateStatus(currentCourseErrors);
-        }
     }
 
     /**
@@ -370,29 +363,6 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Swaps units over according to their positions. This method is used
-     * when the student wants to move their unit to another position where the
-     * table cell is occupied by another unit.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriodIndex
-     * @param {number} unitIndex
-     */
-    swapUnit(teachingPeriodIndex, unitIndex) {
-        const { teachingPeriods } = this.state;
-        const temp = teachingPeriods[teachingPeriodIndex].units[unitIndex];
-
-        teachingPeriods[teachingPeriodIndex].units[unitIndex] = teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]];
-        teachingPeriods[this.state.originalPosition[0]].units[this.state.originalPosition[1]] = !temp.placeholder ? temp : null;
-
-        this.setState({
-            showMoveUnitUI: false,
-            originalPosition: undefined,
-            teachingPeriods: teachingPeriods
-        });
-    }
-
-    /**
      * Returns a rendered teaching period component as a table row to be used in
      * a table.
      *
@@ -408,7 +378,6 @@ class CourseStructure extends Component {
                     year={teachingPeriod.year}
                     code={teachingPeriod.code}
                     units={teachingPeriod.units}
-                    swapUnit={this.swapUnit.bind(this)}
                     errors={errors}
                     tempInvalidCoordinates={tempInvalidCoordinates} />;
     }
@@ -530,7 +499,7 @@ class CourseStructure extends Component {
                 }
                 {!this.props.viewOnly &&
                     <MediaQuery maxDeviceWidth={767}>
-                        <OverloadButtonContainer mobile/>
+                        <OverloadButtonContainer mobile />
                         <ConfirmDeleteOverload mobile />
                     </MediaQuery>
                 }
@@ -578,7 +547,7 @@ CourseStructure.propTypes = {
     courseErrors: PropTypes.array,
     numberOfUnits: PropTypes.number,
     startYear: PropTypes.number,
-    creditPoints: PropTypes.number, 
+    creditPoints: PropTypes.number,
     cost: PropTypes.number,
     snapID: PropTypes.string,
     teachingPeriodData: PropTypes.array,
@@ -590,10 +559,9 @@ CourseStructure.propTypes = {
     handleEditCoursePlanClick: PropTypes.func,
     clearCourse: PropTypes.func,
     loadCourseSnap: PropTypes.func,
-    updateStatus: PropTypes.func,
+    validateCourse: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
     loadCourseFromLocalStorage: PropTypes.func,
-
 
 };
 

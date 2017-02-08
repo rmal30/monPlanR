@@ -288,10 +288,19 @@ UnitSearchContainer.propTypes = {
 };
 
 /**
+ * Used for focusing input when sidebar is shown.
+ */
+const mapStatetoProps = (state) => {
+    return {
+        searchVisible: state.UI.showingSidebar
+    };
+};
+
+/**
  * Injects the required actions from redux action creators
  */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(dataFetchActions, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(UnitSearchContainer);
+export default connect(mapStatetoProps, mapDispatchToProps)(UnitSearchContainer);
