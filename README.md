@@ -1,4 +1,4 @@
-# monPlan [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR) [![Coverage Status](https://coveralls.io/repos/github/MonashUnitPlanner/monPlanR/badge.svg?branch=master)](https://coveralls.io/github/MonashUnitPlanner/monPlanR?branch=master) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
+# monPlan [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR) [![Coverage Status](https://coveralls.io/repos/github/MonashUnitPlanner/monPlanR/badge.svg?branch=master)](https://coveralls.io/github/MonashUnitPlanner/monPlanR?branch=master) [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
 ### **[ ![Logo](https://raw.githubusercontent.com/MonashUnitPlanner/monPlanR/master/app/public/favicon.ico) Start planning your course today](http://www.monplan.tech)**
 _Built by Josh Nelsson-Smith, Saurabh Joshi and Eric Jiang_
 
