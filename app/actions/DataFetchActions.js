@@ -138,26 +138,26 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
             dispatch({
                 type: "FETCH_UNIT_INFO_PENDING"
             });
-            
+
             axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
-            .then(resp => {
-                let cost = CostCalc.calculateCost((parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10)));
-                resp.data.cost = cost;
-                dispatch({
-                    type: "FETCH_UNIT_INFO_FULFILLED",
-                    payload: resp,
-                    unitCode
+                .then(resp => {
+                    let cost = CostCalc.calculateCost((parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10)));
+                    resp.data.cost = cost;
+                    dispatch({
+                        type: "FETCH_UNIT_INFO_FULFILLED",
+                        payload: resp,
+                        unitCode
+                    });
+                    dispatch({
+                        type: "UPDATE_UNIT_TO_ADD"
+                    });
+                })
+                .catch(err => {
+                    dispatch({
+                        type: "FETCH_UNIT_INFO_REJECTED",
+                        payload: err
+                    });
                 });
-                dispatch({
-                    type: "UPDATE_UNIT_TO_ADD"
-                });
-            })
-            .catch(err => {
-                dispatch({
-                    type: "FETCH_UNIT_INFO_REJECTED",
-                    payload: err
-                });
-            });
         }
     };
 };

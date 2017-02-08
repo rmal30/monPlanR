@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
 import { Container } from "semantic-ui-react";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
@@ -137,15 +138,11 @@ class Plan extends Component {
         return (
             <div>
                 <NotificationContainer />
-                {this.state.customUnitCode &&
-                    <CustomUnitModal
-                        UnitCode={this.state.customUnitCode}
-                        position={this.state.customUnitPosition}
-                        cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
-                        addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
-                }
-
-
+                <CustomUnitModal
+                    UnitCode={this.state.customUnitCode}
+                    position={this.state.customUnitPosition}
+                    cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
+                    addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
                 <Container className="main text">
                     <CourseStructure />
                 </Container>
@@ -164,7 +161,18 @@ Plan.propTypes = {
             /* What course the student has selected*/
             courseToLoad: PropTypes.string
         }).isRequired
-    }).isRequired
+    }).isRequired,
+    showingCustomUnitModal: PropTypes.bool
 };
 
-export default Plan;
+/**
+ * Injects showingCustomUnitUI into props, used for displaying custom unit
+ * whenever the user wants to add details in for their custom unit.
+ */
+const mapStateToProps = state => {
+    return  {
+        showingCustomUnitModal: state.UI.showingCustomUnitModal
+    };
+};
+
+export default connect(mapStateToProps)(Plan);

@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { Button, Header, Menu } from "semantic-ui-react";
 
+import * as UIActions from "../../actions/UIActions";
 import UnitSearchResult from "../../components/Unit/UnitSearchResult.jsx";
 
 /**
@@ -46,7 +49,7 @@ class UnitSearchResultsContainer extends Component {
                     If the unit is not in our search results, then you can instead add a custom unit
                     by clicking the button below.
                     <br /><br />
-                    <Button className="btnmainblue" onClick={this.willAddUnit.bind(this, null, true)} fluid>Add custom unit</Button>
+                    <Button className="btnmainblue" onClick={() => this.props.showCustomUnitUI()} fluid>Add custom unit</Button>
                 </div>
             );
         }
@@ -92,7 +95,15 @@ UnitSearchResultsContainer.propTypes = {
     addToCourse: PropTypes.func,
     searchResultIndex: PropTypes.number,
     results: PropTypes.array,
-    empty: PropTypes.bool
+    empty: PropTypes.bool,
+    showCustomUnitUI: PropTypes.func
 };
 
-export default UnitSearchResultsContainer;
+/**
+ * Injects show custom unit modal action into the props
+ */
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators(UIActions, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(UnitSearchResultsContainer);
