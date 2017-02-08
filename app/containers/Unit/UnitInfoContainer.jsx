@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import React, { PropTypes } from "react";
 import UnitInfo from "../../components/Unit/UnitInfo.jsx";
 import UnitInfoPlaceholder from "../../components/Unit/UnitInfoPlaceholder.jsx";
-import CostCalc from "../../utils/CostCalc";
 
 /**
  * A unit information container. This container grabs the data required for a unit info view from 
@@ -31,7 +30,7 @@ const mapStateToProps = (state) => {
     const { unitInfo, unitLoadError, unitLoading, focusedUnitCode} = state.CourseStructure;
 
     return {
-        cost: CostCalc.calculateCost(unitInfo.SCABand, unitInfo.CreditPoints),
+        cost: unitInfo.Cost,
         creditPoints: unitInfo.CreditPoints,
         error: unitLoadError, 
         Faculty: unitInfo.Faculty,

@@ -53,8 +53,8 @@ const defaultState = {
     unitsIndexOfUnitToBeMoved: 0,
 
     unitInfo: {
-        cost: 0,
-        creditPoints: 0,
+        Cost: 0,
+        CreditPoints: 0,
         Faculty: "",
         likeScore: 0,
         Synopsis: "",

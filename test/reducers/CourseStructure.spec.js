@@ -698,8 +698,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoading: false,
                 courseLoading: false,
                 unitInfo: {
-                    cost: 0,
-                    creditPoints: 0,
+                    Cost: 0,
+                    CreditPoints: 0,
                     Faculty: "",
                     likeScore: 0,
                     Synopsis: "",
@@ -728,8 +728,8 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoading: true,
                 courseLoading: false,
                 unitInfo: {
-                    cost: 0,
-                    creditPoints: 0,
+                    Cost: 0,
+                    CreditPoints: 0,
                     Faculty: "",
                     likeScore: 0,
                     Synopsis: "",
