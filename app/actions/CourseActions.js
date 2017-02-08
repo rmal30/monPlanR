@@ -365,4 +365,3 @@ export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
         unitToSwap
     };
 };
-

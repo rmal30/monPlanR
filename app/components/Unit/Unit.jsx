@@ -60,11 +60,14 @@ const unitTarget = {
             } else {
                 props.moveUnit(props.index, props.teachingPeriodIndex);
             }
-        } else if(props.showMoveUnitUI) {
-            props.swapUnit(props.index);
-        } else if(props.placeholder && props.addUnit && props.unitToAdd) {
+        } else {
+            props.swapUnit(props.index, props.teachingPeriodIndex, props.unit);
+        } 
+        /**
+         * else if(props.placeholder && props.addUnit && props.unitToAdd) {
             props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
         }
+         */
 
         return {};
     }
