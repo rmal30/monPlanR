@@ -1499,5 +1499,202 @@ describe("REDUCER: CourseStructure", () => {
             test(stateBefore, action, stateAfter);
         }); 
     });
+
+    describe("ACTION: SWAP_UNIT", () => {
+        it("Should correctly handle swaping a unit to a teaching period earlier than it", () => {
+            //oldtp > newtp
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 1,
+                unitsIndexOfUnitToBeMoved: 2,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, "PlaceToMoveTo", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "SWAP_UNIT",
+                newTPIndex: 0,
+                newUnitIndex: 1,
+                unitToSwap: "PlaceToMoveTo"
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, "TestUnit", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "PlaceToMoveTo", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle swaping a unit to a teaching period later than it", () => {
+            //newtp > oldtp
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 1,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, "TestUnit", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "PlaceToMoveTo", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "SWAP_UNIT",
+                newTPIndex: 1,
+                newUnitIndex: 2,
+                unitToSwap: "PlaceToMoveTo"
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, "PlaceToMoveTo", null , null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle swaping a unit to the same teaching period but earlier position", () => {
+            //newtp = oldtp && oldUnitPosition > newUnitPosition
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 1,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: ["PlaceToMoveTo", "TestUnit", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "SWAP_UNIT",
+                newTPIndex: 0,
+                newUnitIndex: 0,
+                unitToSwap: "PlaceToMoveTo"
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: ["TestUnit", "PlaceToMoveTo", null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle swaping a unit to the same teaching period but later position", () => {
+            //newtp = oldtp && newUnitPosition > oldUnitPosition
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: ["TestUnit", null, "PlaceToMoveTo", null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "SWAP_UNIT",
+                newTPIndex: 0,
+                newUnitIndex: 2,
+                unitToSwap: "PlaceToMoveTo"
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: ["PlaceToMoveTo", null, "TestUnit", null] },
+                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+
+        it("Should correctly handle swaping a unit to the same teaching period and exact same position", () => {
+            //newtp = oldtp && newUnitPosition = oldUnitPosition
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 1,
+                unitsIndexOfUnitToBeMoved: 2,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "SWAP_UNIT",
+                newTPIndex: 1,
+                newUnitIndex: 2,
+                unitToSwap: "PlaceToMoveTo"
+                
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: 0,
+                unitsIndexOfUnitToBeMoved: 0,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            test(stateBefore, action, stateAfter);
+        }); 
+    });
 });
 

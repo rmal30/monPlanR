@@ -354,3 +354,14 @@ export const moveUnit = (newUnitIndex, newTPIndex) => {
     };
 };
 
+/**
+ * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
+ */
+export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
+    return  {
+        type: "SWAP_UNIT", //No handlers for this but useful for debugging purposes
+        newUnitIndex,
+        newTPIndex,
+        unitToSwap
+    };
+};

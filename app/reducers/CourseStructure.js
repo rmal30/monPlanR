@@ -628,6 +628,121 @@ const CourseStructure = (state = defaultState, action) => {
                 };
             }
 
+        case "SWAP_UNIT":
+            if(action.newTPIndex > state.tpIndexOfUnitToBeMoved){
+                return {
+                    ...state,
+                    teachingPeriods: [
+                        ...state.teachingPeriods.slice(0, state.tpIndexOfUnitToBeMoved),
+                        {
+                            ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
+                            units: [
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
+                                action.unitToSwap,
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(state.tpIndexOfUnitToBeMoved + 1, action.newTPIndex),
+                        {
+                            ...state.teachingPeriods[action.newTPIndex],
+                            units: [
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
+                                state.unitToBeMoved,
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(action.newTPIndex + 1)
+                        
+                    ],
+                    unitToBeMoved: undefined,
+                    tpIndexOfUnitToBeMoved: 0,
+                    unitsIndexOfUnitToBeMoved: 0
+                };
+            } else if (action.newTPIndex === state.tpIndexOfUnitToBeMoved) {
+                
+                if(action.newUnitIndex > state.unitsIndexOfUnitToBeMoved) {
+                    return {
+                        ...state,
+                        teachingPeriods: [
+                            ...state.teachingPeriods.slice(0, action.newTPIndex),
+                            {
+                                ...state.teachingPeriods[action.newTPIndex],
+                                units: [
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(0, state.unitsIndexOfUnitToBeMoved),
+                                    action.unitToSwap,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(state.unitsIndexOfUnitToBeMoved + 1, action.newUnitIndex),
+                                    state.unitToBeMoved,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1)
+                                ]
+                            },
+                            ...state.teachingPeriods.slice(action.newTPIndex + 1)
+                        ],
+                        unitToBeMoved: undefined,
+                        tpIndexOfUnitToBeMoved: 0,
+                        unitsIndexOfUnitToBeMoved: 0
+                    };
+                } else if (state.unitsIndexOfUnitToBeMoved > action.newUnitIndex) {
+                    return {
+                        ...state,
+                        teachingPeriods: [
+                            ...state.teachingPeriods.slice(0, action.newTPIndex),
+                            {
+                                ...state.teachingPeriods[action.newTPIndex],
+                                units: [
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
+                                    state.unitToBeMoved,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1, state.unitsIndexOfUnitToBeMoved),
+                                    action.unitToSwap,
+                                    ...state.teachingPeriods[action.newTPIndex].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
+                                ]
+                            },
+                            ...state.teachingPeriods.slice(action.newTPIndex + 1)
+                        ],
+                        unitToBeMoved: undefined,
+                        tpIndexOfUnitToBeMoved: 0,
+                        unitsIndexOfUnitToBeMoved: 0
+                    };
+                } else {
+                    // the positions are exactly the same, so no need to change teaching periods
+                    return {
+                        ...state,
+                        unitToBeMoved: undefined,
+                        tpIndexOfUnitToBeMoved: 0,
+                        unitsIndexOfUnitToBeMoved: 0
+                    };
+                }
+                
+            } else {
+                return {
+                    ...state,
+                    teachingPeriods: [
+                        ...state.teachingPeriods.slice(0, action.newTPIndex),
+                        {
+                            ...state.teachingPeriods[action.newTPIndex],
+                            units: [
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
+                                state.unitToBeMoved,
+                                ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(action.newTPIndex + 1, state.tpIndexOfUnitToBeMoved),
+                        {
+                            ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
+                            units: [
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
+                                action.unitToSwap,
+                                ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
+                            ]
+                        },
+                        ...state.teachingPeriods.slice(state.tpIndexOfUnitToBeMoved + 1)
+                        
+                    ],
+                    unitToBeMoved: undefined,
+                    tpIndexOfUnitToBeMoved: 0,
+                    unitsIndexOfUnitToBeMoved: 0
+                };
+            } 
+
         default:
             return state;
     }
