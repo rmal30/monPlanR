@@ -91,7 +91,7 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
         unitIndex,
         unit,
         cost: unit.Cost,
-        creitPoints: unit.CreditPoints
+        creditPoints: unit.CreditPoints
     };
 };
 
