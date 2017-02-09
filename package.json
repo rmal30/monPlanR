@@ -7,13 +7,11 @@
     "node": ">=4.2.6"
   },
   "dependencies": {
-    "@google-cloud/datastore": "^0.7.0",
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "helmet": "^3.4.0",
-    "mochawesome": "^2.0.2",
-    "react-notification-system": "^0.2.11"
+    "mochawesome": "^2.0.2"
   },
   "devDependencies": {
     "axios": "^0.14.0",
@@ -45,7 +43,6 @@
     "object-assign": "^4.1.1",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
-    "react-addons-test-utils": "^15.4.1",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dnd-touch-backend": "^0.3.5",
@@ -56,8 +53,6 @@
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.7",
     "react-scroll": "^1.4.5",
-    "react-sticky": "^5.0.5",
-    "react-sticky-box": "^0.5.1",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^1.0.0",
     "redux-logger": "^2.7.4",
@@ -86,7 +81,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
 
     "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
-    "fix": "eslint --ext .jsx --ext .js app --fix"
+    "fix": "eslint --ext .jsx --ext .js app test --fix"
   },
   "repository": {
     "type": "git",
