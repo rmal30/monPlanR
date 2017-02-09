@@ -19,9 +19,9 @@ function CourseStatisticGroup(props) {
 
     const { creditPoints, requiredCreditPoints, cost } = props;
     return (
-          <Grid textAlign="center">
-            <Grid.Row className="statsGroupRow">
-                <Statistic size="mini" horizontal>
+          <Grid>
+            <Grid.Column width={8}>
+                <Statistic size="mini">
                     <Statistic.Value>
                         <Icon name='student' />&nbsp;
                          {(requiredCreditPoints && requiredCreditPoints > 0 ) ? `${creditPoints}/${requiredCreditPoints}` : creditPoints}
@@ -34,9 +34,9 @@ function CourseStatisticGroup(props) {
                       positioning="bottom right"
                     />
                 </Statistic>
-            </Grid.Row>
-            <Grid.Row>
-                <Statistic size="mini" horizontal>
+            </Grid.Column>
+            <Grid.Column width={8}>
+                <Statistic size="mini">
                     <Statistic.Value >
                         <Icon name='dollar' />
                         {cost}
@@ -49,7 +49,7 @@ function CourseStatisticGroup(props) {
                       positioning="bottom left"
                     />
             </Statistic>
-            </Grid.Row>
+            </Grid.Column>
           </Grid>
     );
 }

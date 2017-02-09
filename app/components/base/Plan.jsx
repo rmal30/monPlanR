@@ -7,7 +7,7 @@ import CostCalc from "../../utils/CostCalc";
 //import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import NotificationContainer from "../../containers/NotificationContainer.jsx";
-
+import CourseOverviewContainer from "../../containers/Course/CourseOverviewContainer.jsx";
 
 /**
  * The plan component is the main page of the app, where students can add and
@@ -169,6 +169,7 @@ class Plan extends Component {
                         
                 
                 <Container className="main text">
+                    <CourseOverviewContainer />
                     <CourseStructure
                         addToCourse={this.addToCourse}
                         doneAddingToCourse={this.doneAddingToCourse}
