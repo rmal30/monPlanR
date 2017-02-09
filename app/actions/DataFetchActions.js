@@ -141,13 +141,16 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
 
             axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
                 .then(resp => {
-                    let cost = CostCalc.calculateCost((parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10)));
-                    resp.data.cost = cost;
+                    let cost =  CostCalc.calculateCost(resp.data.SCABand, resp.data.CreditPoints);
+
+                    resp.data.Cost = cost;
+
                     dispatch({
                         type: "FETCH_UNIT_INFO_FULFILLED",
                         payload: resp,
                         unitCode
                     });
+
                     dispatch({
                         type: "UPDATE_UNIT_TO_ADD"
                     });
