@@ -26,7 +26,6 @@ export const TeachingPeriod = (props) => {
         data: PropTypes.array,
         units: PropTypes.array.isRequired,
         unitToAdd: PropTypes.object,
-        showMoveUnitUI: PropTypes.bool.isRequired,
         viewUnitDetails: PropTypes.func,
         removeTeachingPeriod: PropTypes.func,
         getAffectedUnitsInRow: PropTypes.func,
@@ -44,7 +43,6 @@ export const TeachingPeriod = (props) => {
             return (
                 <Unit
                     key={`${props.year}-${props.code}-${index}`}
-                    viewOnly={props.viewOnly}
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
@@ -85,7 +83,7 @@ export const TeachingPeriod = (props) => {
     return (
         <Table.Row style={{color: "black"}}>
             <Table.Cell>
-                {!props.showMoveUnitUI && !props.viewOnly &&
+                {!props.viewOnly &&
                     <ConfirmDeleteTeachingPeriod index={props.index} units={props.units} />
                 }
                 {teachingPeriodName}, {props.year}

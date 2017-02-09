@@ -59,6 +59,15 @@ html, body {
     height: 100%;
 }
 
+.ui.button .icon.normal {
+    transition: all 250ms;
+}
+
+.ui.button .icon.active {
+    transform: rotate(135deg);
+    transition: all 250ms;
+}
+
 @page {
     size: landscape;
 }

@@ -40,9 +40,9 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     const actionBundle = {
-        ...courseActions, 
-        ...counterActions, 
-        ...dataFetchActions, 
+        ...courseActions,
+        ...counterActions,
+        ...dataFetchActions,
         ...uiActions
     };
     return bindActionCreators(actionBundle, dispatch);
@@ -64,69 +64,7 @@ class Main extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            searchVisible: false,
-            addToCourse: null,
-            courseErrors: []
-        };
-
-        this.handleSearchClick = this.handleSearchClick.bind(this);
-        this.handleDocumentClick = this.handleDocumentClick.bind(this);
-
-        this.attachAddToCourse = this.attachAddToCourse.bind(this);
-        this.detachAddToCourse = this.detachAddToCourse.bind(this);
-
-        this.updateStatus = this.updateStatus.bind(this);
-
         this.props.fetchTeachingPeriods(); // grabs teaching period strings from API
-
-    }
-
-    /**
-     * Attaches addToCourse function to the state.
-     *
-     * @author Saurabh Joshi
-     */
-    attachAddToCourse(addToCourse) {
-        this.setState({ addToCourse });
-    }
-
-    /**
-     * Detaches addToCourse function from the state.
-     *
-     * @author Saurabh Joshi
-     */
-    detachAddToCourse() {
-        this.attachAddToCourse(null);
-    }
-
-    /**
-     * Triggers the updating of the error status section
-     */
-    updateStatus(courseErrors) {
-        this.setState({ courseErrors });
-    }
-
-    /**
-     * Handles the add unit menu item click, which toggles the view of the
-     * sidebar.
-     *
-     * @author Saurabh Joshi
-     */
-    handleSearchClick() {
-        this.setState({
-            searchVisible: !this.state.searchVisible
-        });
-    }
-
-    /**
-     * When the user clicks anywhere but the sidebar, this method is used
-     * to hide the sidebar from view.
-     *
-     * @author Saurabh Joshi
-     */
-    handleDocumentClick() {
-        this.props.hideSidebar();
     }
 
     /**
@@ -140,21 +78,16 @@ class Main extends Component {
         return (
             <div className="main-container">
                 <Header
-                    handleSearchClick={this.handleSearchClick}
-                    searchVisible={this.state.searchVisible}
-                    handleDocumentClick={this.handleDocumentClick}
-                    showAddUnit={!!this.state.addToCourse && this.props.children.props.route.showAddUnit}
-                    showStatus={this.props.children.props.route.showStatus}
-                    courseErrors={this.state.courseErrors} />
+                    showAddUnit={this.props.children.props.route.showAddUnit}
+                    showStatus={this.props.children.props.route.showStatus} />
                 <Sidebar.Pushable>
-                    {this.state.addToCourse &&
+                    {this.props.children.props.route.showAddUnit &&
                     <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.props.showingSidebar} vertical>
                         <UnitSearchContainer />
                     </Sidebar>
                     }
                     <Sidebar.Pusher
                         id="main-body"
-                        dimmed={this.state.menuVisible}
                         style={{backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"}}
                         onClick={this.handleDocumentClick}>
                         <ReactCSSTransitionGroup
@@ -163,14 +96,7 @@ class Main extends Component {
                               transitionLeaveTimeout={500}>
                               {React.cloneElement(this.props.children,
                                   {
-                                      key: this.props.location.pathname,
-                                      searchVisible: this.state.searchVisible,
-                                      handleDocumentClick: this.handleDocumentClick,
-                                      attachAddToCourse: this.attachAddToCourse,
-                                      detachAddToCourse: this.detachAddToCourse,
-                                      updateStatus: this.updateStatus,
-                                      courseErrors: this.state.courseErrors,
-
+                                      key: this.props.location.pathname
                                   })}
                         </ReactCSSTransitionGroup>
                         {!this.props.children.props.route.noFooter && <Footer className="footer"/>}

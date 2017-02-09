@@ -32,14 +32,14 @@ class ConfirmDeleteTeachingPeriod extends Component {
      */
     render() {
         return (
-            <Button className="btncancel" floated="right" onClick={this.handlePress} color="red" inverted size="tiny" icon="close" />
+            <Button inverted color="red" floated="right" onClick={this.handlePress} size="tiny" icon="close" />
         );
 
     }
 }
 
 /**
- * We need the removeTeachingPeriod and attemptToDeleteTeachingPeriod functions from courseActions, and need 
+ * We need the removeTeachingPeriod and attemptToDeleteTeachingPeriod functions from courseActions, and need
  * the show and hide confirmDeleteTeachingPeriodModal functions from uiActions
  */
 const mapDispatchToProps = (dispatch) => {

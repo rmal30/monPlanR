@@ -90,6 +90,25 @@ export const hideConfirmDecreaseStudyLoadUI = () => {
 };
 
 /**
+ * shows the custom unit modal
+ */
+export const showCustomUnitUI = unitCode => {
+    return {
+        type: "SHOW_CUSTOM_UNIT_MODAL",
+        unitCode
+    };
+};
+
+/**
+ * hides the custom unit modal
+ */
+export const hideCustomUnitUI = () => {
+    return {
+        type: "HIDE_CUSTOM_UNIT_MODAL"
+    };
+};
+
+/**
  * Shows the add unit sidebar
  */
 export const showSidebar = () => {
