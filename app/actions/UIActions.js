@@ -107,12 +107,19 @@ export const hideSidebar = () => {
     };
 };
 
+/**
+ * Sets the course to read only, for snapshot viewing purposes this means the user can safely 
+ * view but not edit a course map
+ */
 export const setCourseReadOnly = () => {
     return {
         type: "SET_COURSE_READ_ONLY"
     };
 };
 
+/**
+ * This lets the user edit and view a course map
+ */
 export const setCourseReadAndWrite = () => {
     return {
         type: "SET_COURSE_READ_AND_WRITE"
