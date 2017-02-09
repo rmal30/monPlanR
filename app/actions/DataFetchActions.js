@@ -123,7 +123,7 @@ export const fetchUnitInfo = (unitCode) => {
  * Called to populate the unit to add value, it indicates that a unit is being prepped
  * to be added to the course
  */
-export const willAddUnit = (unitCode, custom, isDragging) => {
+export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
     return function (dispatch) {
         dispatch({
             type: "UPDATE_UNIT_IS_BEING_DRAGGED",
@@ -142,7 +142,7 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
             level: "info"
         }));
 
-        if(!custom) {
+        if(!customUnitToAdd) {
             dispatch({
                 type: "FETCH_UNIT_INFO_PENDING"
             });
@@ -169,6 +169,11 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
                         payload: err
                     });
                 });
+        } else {
+            dispatch({
+                type: "UPDATE_UNIT_TO_ADD",
+                customUnitToAdd
+            });
         }
     };
 };

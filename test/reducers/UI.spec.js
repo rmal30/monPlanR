@@ -1,5 +1,3 @@
-import expect from "expect";
-import deepFreeze from "deep-freeze";
 import UI from "../../app/reducers/UI";
 import { describe, it } from "mocha";
 
@@ -22,11 +20,8 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: false,
                 showAddingUnitUI: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -47,11 +42,8 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: false,
                 showAddingUnitUI: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -72,11 +64,8 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: false,
                 showAddingUnitUI: true
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -97,11 +86,8 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: false,
                 showAddingUnitUI: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -122,11 +108,8 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: true,
                 showAddingUnitUI: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -147,11 +130,8 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: false,
                 showAddingUnitUI: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -174,16 +154,13 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: false,
                 showAddingUnitUI: false,
                 readOnly: true
-                
+
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
-        
+
 
     describe("ACTION: SET_COURSE_READ_AND_WRITE", () => {
         it("Should set the course to allow edits correctly", () => {
@@ -203,13 +180,10 @@ describe("REDUCER: UI", () => {
                 showMovingUnitUI: false,
                 showAddingUnitUI: false,
                 readOnly: false
-                
+
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -232,11 +206,8 @@ describe("REDUCER: UI", () => {
                 showAddingUnitUI: false,
                 showingConfirmDeleteTeachingPeriodModal: true
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -259,11 +230,8 @@ describe("REDUCER: UI", () => {
                 showAddingUnitUI: false,
                 showingConfirmDeleteTeachingPeriodModal: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -286,11 +254,8 @@ describe("REDUCER: UI", () => {
                 showAddingUnitUI: false,
                 showingConfirmDecreaseStudyLoadModal: true
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -313,11 +278,65 @@ describe("REDUCER: UI", () => {
                 showAddingUnitUI: false,
                 showingConfirmDecreaseStudyLoadModal: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: SHOW_CUSTOM_UNIT_MODAL", () => {
+        it("Should set show flag for custom unit modal to be true", () => {
+            const stateBefore = {
+                showingCustomUnitModal: false,
+                customUnitCode: undefined
+            };
+
+            const action = {
+                type: "SHOW_CUSTOM_UNIT_MODAL"
+            };
+
+            const stateAfter = {
+                showingCustomUnitModal: true,
+                customUnitCode: undefined
+            };
+
+            test(UI, stateBefore, action, stateAfter);
+        });
+
+        it("Should set unit code if it exists on top of setting show flag for custom unit modal to be true", () => {
+            const stateBefore = {
+                showingCustomUnitModal: false,
+                customUnitCode: undefined
+            };
+
+            const action = {
+                type: "SHOW_CUSTOM_UNIT_MODAL",
+                unitCode: "ABC1234"
+            };
+
+            const stateAfter = {
+                showingCustomUnitModal: true,
+                customUnitCode: "ABC1234"
+            };
+
+            test(UI, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: HIDE_CUSTOM_UNIT_MODAL", () => {
+        it("Should set show flag for custom unit modal to be false", () => {
+            const stateBefore = {
+                showingCustomUnitModal: true
+            };
+
+            const action = {
+                type: "HIDE_CUSTOM_UNIT_MODAL"
+            };
+
+            const stateAfter = {
+                showingCustomUnitModal: false
+            };
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -340,11 +359,8 @@ describe("REDUCER: UI", () => {
                 showAddingUnitUI: false,
                 showingSidebar: true
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -367,11 +383,8 @@ describe("REDUCER: UI", () => {
                 showAddingUnitUI: false,
                 showingSidebar: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
         });
     });
 
@@ -394,11 +407,26 @@ describe("REDUCER: UI", () => {
                 showAddingUnitUI: false,
                 showingSidebar: false
             };
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-            expect(
-                UI(stateBefore, action)
-            ).toEqual(stateAfter);
+
+            test(UI, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("DEFAULT", () => {
+        it("Should not change state if it does not recognise the action", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showMovingUnitUI: false,
+                showAddingUnitUI: false,
+                showingSidebar: true
+            };
+
+            const action = {
+                type: "THIS_IS_A_LONG_NAME_FOR_AN_ACTION",
+                value: 42
+            };
+
+            test(UI, stateBefore, action, stateBefore);
         });
     });
 });
