@@ -511,7 +511,9 @@
 
 .ui.celled.table tr td {
     padding: 7.5px !important;
-    border: 0.5px ridge #808080 !important;
+    border: none !important;
+    border-right: 0.08em solid #d5d5d5 !important;
+    border-bottom: 0.08em solid #d5d5d5 !important;
 }
 
 .coursetable > tbody > tr > .unit.error {
