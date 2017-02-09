@@ -86,13 +86,29 @@ export const decreaseStudyLoad = (teachingPeriods, index) => {
  * ADD_UNIT
  */
 export const addUnit = (tpIndex, unitIndex, unit) => {
-    return {
-        type: "ADD_UNIT",
-        tpIndex,
-        unitIndex,
-        unit,
-        cost: unit.Cost,
-        creditPoints: unit.CreditPoints
+    return function(dispatch) {
+        if(!unit.customUnitDragging) {
+            dispatch({
+                type: "ADD_UNIT",
+                tpIndex,
+                unitIndex,
+                unit,
+                cost: unit.Cost,
+                creditPoints: unit.CreditPoints
+            });
+
+            dispatch({
+                type: "REMOVE_NOTIFICATION",
+                id: "ADDING_UNIT"
+            });
+        } else {
+            dispatch({
+                type: "SHOW_CUSTOM_UNIT_MODAL",
+                unitCode: unit.UnitCode,
+                tpIndex,
+                unitIndex
+            });
+        }
     };
 };
 
