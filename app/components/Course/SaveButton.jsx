@@ -6,7 +6,7 @@ import { Button, Icon, Input, Popup, Divider } from "semantic-ui-react";
  *
  * @author Saurabh Joshi
  */
-export default function SaveButton({ isUploading, uploadingError, uploadCourseToDatabase, uploadedCourseID, mobile }) {
+export default function SaveButton({ isUploading, uploadingError, uploadCourseToDatabase, uploadedCourseID, mobile, uploaded }) {
     SaveButton.propTypes = {
         isUploading: PropTypes.bool,
         uploadingError: PropTypes.bool,
@@ -15,8 +15,6 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
         mobile: PropTypes.bool,
         uploaded: PropTypes.bool
     };    
-
-    let uploaded = !(isUploading || uploadingError);
 
     return (
         <Popup

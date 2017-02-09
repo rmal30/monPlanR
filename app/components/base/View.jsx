@@ -4,6 +4,9 @@ import { Container, Divider, Grid } from "semantic-ui-react";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
 import LocalStorage from "../../utils/LocalStorage.js";
+import * as uiActions from "../../actions/UIActions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 /**
  *
@@ -20,6 +23,16 @@ class View extends Component {
             totalCredits: 0,
             totalCost: 0
         };
+
+        this.props.setCourseReadOnly();
+    }
+
+    /**
+     * Need to call the read/write enable function on unmount so that if the user returns to their main course structure,
+     * it will still be there
+     */
+    componentWillUnmount() {
+        this.props.setCourseReadAndWrite(); //if the user leaves this page then we should set the course structure back to normal
     }
 
     /**
@@ -30,6 +43,7 @@ class View extends Component {
             this.setState({
                 switchToEditCourse: true
             });
+            this.props.setCourseReadAndWrite();
         }
     }
 
@@ -60,6 +74,16 @@ class View extends Component {
     }
 }
 
+/**
+ * View needs the set to read only action
+ */
+const bindDispatchToProps = (dispatch) => {
+    return bindActionCreators(uiActions, dispatch);
+};
+
+export default connect(null, bindDispatchToProps)(View);
+
+
 View.propTypes = {
     params: PropTypes.shape({
         id: PropTypes.string.isRequired
@@ -67,7 +91,10 @@ View.propTypes = {
 
     /* Validation status */
     updateStatus: PropTypes.func.isRequired,
-    courseErrors: PropTypes.array.isRequired
+    courseErrors: PropTypes.array.isRequired,
+    setCourseReadOnly: PropTypes.func,
+    setCourseReadAndWrite: PropTypes.func
 };
 
-export default View;
+
+

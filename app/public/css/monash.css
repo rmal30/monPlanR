@@ -124,6 +124,55 @@
     border-radius: 0px !important
 }
 
+/* Headers for course overview segments based off faculty colours */
+.ui.segment.ada {
+    border-top: 4px solid #393838 !important;
+    border-radius: 0px !important
+}
+
+.ui.segment.all {
+    border-top: 4px solid #00C9FF !important;
+    border-radius: 0px !important
+}
+
+.ui.segment.arts {
+    border-top: 4px solid #911C11 !important;
+    border-radius: 0px !important
+}
+.ui.segment.buseco {
+    border-top: 4px solid #008194 !important;
+    border-radius: 0px !important
+}
+.ui.segment.edu {
+    border-top: 4px solid #9E0039 !important;
+    border-radius: 0px !important
+}
+.ui.segment.eng {
+    border-top: 4px solid #E98E05 !important;
+    border-radius: 0px !important
+}
+.ui.segment.fit {
+    border-top: 4px solid #653579 !important;
+    border-radius: 0px !important
+}
+.ui.segment.law {
+    border-top: 4px solid #968D81 !important;
+    border-radius: 0px !important
+}
+.ui.segment.med {
+    border-top: 4px solid #2C7DAF !important;
+    border-radius: 0px !important
+}   
+.ui.segment.pha {
+    border-top: 4px solid #9AA71D !important;
+    border-radius: 0px !important
+}
+.ui.segment.sci {
+    border-top: 4px solid #004c36 !important;
+    border-radius: 0px !important
+}   
+
+
 /* Quick Info Column on Unit Info */
 .quickInfo {
     box-shadow: -1px -1px 0px 0px #D4D4D5 !important;
@@ -392,7 +441,7 @@
 
 /*
 * Course Stats
-*/
+
 .statsGroupRow {
     padding: 10px !important;
     margin-right: -0.5rem !important;
@@ -400,6 +449,8 @@
 .statsGroupRow > .eight.wide.column > .ui.tiny.statistic > * {
     color: #003c5b !important;
 }
+*/
+
 
 /*
 * Course Structure CSS Styling for Table and other Components

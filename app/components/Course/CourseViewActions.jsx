@@ -1,11 +1,10 @@
 import React, { PropTypes } from "react";
 import MediaQuery from "react-responsive";
 
-import { Button, Container, Divider, Dropdown, Icon, Modal } from "semantic-ui-react";
+import { Button, Container, Divider, Icon, Modal } from "semantic-ui-react";
 import ControlledModal from "../modals/ControlledModal.jsx";
-
+import ExportButtonGroupContainer from "../../containers/Buttons/ExportButtonGroupContainer.jsx";
 import LocalStorage from "../../utils/LocalStorage.js";
-import Export from "../../utils/Export.js";
 
 /**
  * Actions that allow users to print, export and edit viewed course plans.
@@ -26,6 +25,7 @@ export default function CourseViewActions(props) {
         <Button
             fluid={mobile}
             color="teal"
+            className="btnorange"
             floated="right"
             loading={props.switchToEditCourse}
             disabled={props.switchToEditCourse}
@@ -68,35 +68,12 @@ export default function CourseViewActions(props) {
                     || editCoursePlanButton(mobile)}
                     {mobile && <div><br /><br /></div>}
                     <Button
-                        fluid={mobile}
-                        color="blue"
-                        onClick={() => print()}><Icon name="print" />Print course plan</Button>
-                    {mobile && <br />}
-                    <Button.Group fluid={mobile} secondary>
-                        <Button onClick={() => print()}><Icon name="download" /> Export as PDF</Button>
-                        <Dropdown floating button className="icon">
-                            <Dropdown.Menu>
-                                <Dropdown.Item
-                                    onClick={() =>
-                                        Export.File(
-                                            props.teachingPeriods,
-                                            props.numberOfUnits,
-                                            Export.CSV
-                                        )}>
-                                        Export as CSV
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                    onClick={() =>
-                                        Export.File(
-                                            props.teachingPeriods,
-                                            props.numberOfUnits,
-                                            Export.JSON
-                                        )}>
-                                        Export as JSON
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Button.Group>
+                        primary
+                        onClick={() => print()}
+                        className="btnmainblue">
+                        <Icon name="print" />Print course plan
+                    </Button>
+                    <ExportButtonGroupContainer />
                     <Divider />
                 </Container>
             }

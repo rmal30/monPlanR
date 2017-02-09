@@ -52,6 +52,7 @@ export const TeachingPeriod = (props) => {
         }
         return (
             <Unit
+                viewOnly={props.viewOnly}
                 key={`${props.year}-${props.code}-${unit}-${index}`}
                 index={index}
                 teachingPeriodIndex={props.index}

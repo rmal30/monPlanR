@@ -31,7 +31,6 @@ const SaveButtonContainer = (props) => {
         props.uploadCourseSnap(teachingPeriods, numberOfUnits, creditPoints, cost, startYear);
     };
 
-
     return (
         <SaveButton
             uploaded={courseSnapshotUploadSucessful} 
