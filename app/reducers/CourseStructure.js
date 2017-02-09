@@ -444,10 +444,17 @@ const CourseStructure = (state = defaultState, action) => {
 
 
         case "UPDATE_UNIT_TO_ADD":
-            return {
-                ...state,
-                unitToAdd: state.unitInfo
-            };
+            if(action.customUnitToAdd) {
+                return {
+                    ...state,
+                    unitToAdd: action.customUnitToAdd
+                };
+            } else {
+                return {
+                    ...state,
+                    unitToAdd: state.unitInfo
+                };
+            }
 
         case "UPDATE_UNIT_IS_BEING_DRAGGED":
             return {

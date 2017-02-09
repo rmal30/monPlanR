@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Button, Container, Form, Select, Modal, Icon } from "semantic-ui-react";
 
-import Unit from "../Unit/Unit.jsx";
+import UnitMessage from "../Unit/UnitMessage.jsx";
 import CostCalc from "../../utils/CostCalc.js";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as UIActions from "../../actions/UIActions";
@@ -152,6 +152,15 @@ class CustomUnitModal extends Component {
     }
 
     /**
+     * Handles
+     */
+    handleBlur(e, { value }) {
+        if(typeof e.target.value === "string" && e.target.value.trim() === "" || value && value.trim() === "") {
+            alert("Please fill");
+        }
+    }
+
+    /**
      * Renders a controlled modal holding form elements and a preview component.
      * @returns {ReactElement} ControlledModal
      */
@@ -177,29 +186,31 @@ class CustomUnitModal extends Component {
                                     <label>Unit code</label>
                                     <div className="ui input">
                                         <input
+                                            onBlur={this.handleBlur}
                                             ref={startingInput => this.startingInput = startingInput}
                                             tabIndex={1}
                                             onChange={this.onUnitCodeChange.bind(this)}
                                             placeholder={this.props.UnitCode && this.props.UnitCode.toUpperCase()} />
                                     </div>
                                 </div>
-                                <Form.Input tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name" />
-                                <Form.Input tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={this.defaultCreditPoints} />
+                                <Form.Input onBlur={this.handleBlur} tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name" />
+                                <Form.Input onBlur={this.handleBlur} tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={this.defaultCreditPoints} />
                             </Form.Group>
-                            <Form.Field tabIndex={4} selectOnBlur onChange={this.onSCABandChange.bind(this)} label="SCA Band" control={Select} search options={this.scaBandOptions} />
-                            <Form.Field tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
+                            <Form.Field onBlur={this.handleBlur} tabIndex={4} selectOnBlur onChange={this.onSCABandChange.bind(this)} label="SCA Band" control={Select} search options={this.scaBandOptions} />
+                            <Form.Field onBlur={this.handleBlur} tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
+                            <Container className="field preview">
+                                <label>Preview:</label>
+                                <UnitMessage
+                                    width={200}
+                                    showDetailButton
+                                    basic
+                                    viewOnly
+                                    code={UnitCode}
+                                    name={UnitName}
+                                    faculty={Faculty}
+                                    />
+                            </Container>
                         </Form>
-                        <Container class="preview">
-                            <b>Preview:</b>
-                            <Unit
-                                detailButton
-                                basic
-                                viewOnly
-                                code={UnitCode}
-                                name={UnitName}
-                                faculty={Faculty}
-                                />
-                        </Container>
                     </Modal.Description>
                 </Modal.Content>
                 <Modal.Actions>
@@ -213,7 +224,7 @@ class CustomUnitModal extends Component {
                         disabled={!this.formIsValid.call(this)}
                         color="yellow"
                         className="btnmainblue"
-                        onClick={() => {this.props.hideCustomUnitUI(); this.props.willAddUnit(UnitCode, true);}}
+                        onClick={() => {this.props.hideCustomUnitUI(); this.props.willAddUnit(UnitCode, this.state);}}
                         floated="right">
                             Add {UnitCode}
                     </Button>

@@ -74,7 +74,9 @@ export function UnitMessage(props) {
         isDragging: PropTypes.bool.isRequired,
         willAddUnit: PropTypes.func,
         movingUnit: PropTypes.func,
-        cancelMovingUnit: PropTypes.func
+        cancelMovingUnit: PropTypes.func,
+
+        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     };
 
     const { connectDragSource, isDragging } = props;
@@ -108,7 +110,7 @@ export function UnitMessage(props) {
      */
     const unitMessage = mobile =>
         <Message
-            style={{cursor: "pointer"}}
+            style={{cursor: "pointer", width: props.width ? props.width: undefined}}
             color={facultyColor}
             className={"unit" + (props.draggable ? " draggable" : "")}
 
