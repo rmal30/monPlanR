@@ -84,17 +84,17 @@ export function UnitMessage(props) {
     }
 
     const facultyColors = {
-        "Art, Design and Architecture": "blue",
-        "Arts": "blue",
-        "Business and Economics": "blue",
-        "Education": "blue",
-        "Engineering": "blue",
-        "Information Technology": "blue",
-        "Law": "blue",
+        "Art, Design and Architecture": "yellow",
+        "Arts": "red",
+        "Business and Economics": "teal",
+        "Education": "violet",
+        "Engineering": "orange",
+        "Information Technology": "purple",
+        "Law": "grey",
         "Medicine, Nursing and Health Sciences": "blue",
-        "Pharmacy and Pharmaceutical Sciences": "blue",
-        "Science": "blue",
-        "All": "blue"
+        "Pharmacy and Pharmaceutical Sciences": "olive",
+        "Science": "green",
+        "All": "black"
     };
 
     let facultyColor = undefined;
@@ -133,8 +133,7 @@ export function UnitMessage(props) {
 
             </Message.Header>
             {props.name}
-            <br/>
-            <div style={{bottom: 0, textAlign:"right"}}>
+            <div style={{position: "absolute", bottom: "0.5em", right: "0.5em"}}>
                 <Popup
                     trigger={(props.errors && props.errors.length > 0) &&
                             <Icon inverted color="red" name="warning" size="large" />
