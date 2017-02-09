@@ -1,26 +1,17 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import { Unit } from "../../../app/components/Unit/Unit.jsx";
+import { UnitMessage } from "../../../app/components/Unit/UnitMessage.jsx";
 
-describe("COMPONENT: Unit", () => {
-    /**
-     * Used to safely remove React DnD calls.
-     */
-    const identity = ele => {
-        return ele;
-    };
-
+describe("COMPONENT: UnitMessage", () => {
     it("should only render a unit code and a unit name", () => {
         const unitCode = "ABC1234";
         const unitName = "Example unit";
 
         const wrapper = mount(
-            <Unit
+            <UnitMessage
                 code={unitCode}
-                name={unitName}
-                connectDragSource={identity}
-                connectDropTarget={identity} />
+                name={unitName} />
         );
 
         expect(wrapper.find(".header").text().trim()).to.equal(unitCode);
@@ -29,23 +20,26 @@ describe("COMPONENT: Unit", () => {
 
     it("should render a close button only when mouse is over the unit", () => {
         const wrapper = mount(
-            <Unit
-                code={"ABC1234"}
-                name={"Example unit"}
-                connectDragSource={identity}
-                connectDropTarget={identity} />
+            <UnitMessage
+                code="ABC1234"
+                name="Example unit"
+                hovering={false} />
         );
 
-        wrapper.simulate("mouseout");
-        wrapper.simulate("mouseleave");
         expect(wrapper.find(".buttons")).to.have.length(1);
         expect(wrapper.find(".buttons")).to.have.style("visibility", "hidden");
-        wrapper.simulate("mouseover");
-        wrapper.simulate("mouseenter");
+
+        wrapper.setProps({
+            hovering: true
+        });
+
         expect(wrapper.find(".buttons")).to.have.length(1);
         expect(wrapper.find(".buttons")).to.have.style("visibility", "visible");
-        wrapper.simulate("mouseout");
-        wrapper.simulate("mouseleave");
+
+        wrapper.setProps({
+            hovering: false
+        });
+
         expect(wrapper.find(".buttons")).to.have.length(1);
         expect(wrapper.find(".buttons")).to.have.style("visibility", "hidden");
     });

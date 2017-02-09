@@ -113,8 +113,14 @@ export const removeUnit = (tpIndex, unitIndex, creditPoints, cost) => {
  * CLEAR_COURSE
  */
 export const clearCourse = () => {
-    return {
-        type: "CLEAR_COURSE"
+    return function(dispatch) {
+        dispatch({
+            type: "CLEAR_COURSE"
+        });
+
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
     };
 };
 
@@ -258,11 +264,7 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
                 index
             });
         } else {
-            dispatch({
-                type: "REMOVE_TEACHING_PERIOD",
-                index,
-                units
-            });
+            dispatch(removeTeachingPeriod(index, units));
         }
     };
 };

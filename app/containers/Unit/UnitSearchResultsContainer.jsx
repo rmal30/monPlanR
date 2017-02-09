@@ -17,19 +17,6 @@ class UnitSearchResultsContainer extends Component {
      */
     constructor(props) {
         super(props);
-        this.willAddUnit = this.willAddUnit.bind(this);
-    }
-
-    /**
-     * Activates add unit UI with specified unit code.
-     *
-     * @param {string} code - The unit code that corresponds to the unit being
-     * added.
-     * @param {bool} custom - Whether or not the unit is a custom unit
-     * @param {bool} drag - Whether or not the custom unit is being dragged.
-     */
-    willAddUnit(code, custom, drag) {
-        this.props.addToCourse(code, custom, drag);
     }
 
     /**
@@ -71,13 +58,13 @@ class UnitSearchResultsContainer extends Component {
             return (
                 <Menu.Item active={this.props.searchResultIndex === index} key={index}>
                     <UnitSearchResult
+                        willAddUnit={this.props.willAddUnit}
                         key={UnitCode}
                         tabindex={1}
                         UnitCode={UnitCode}
                         UnitName={UnitName}
                         custom={custom}
                         Faculty={Faculty}
-                        willAddUnit={this.willAddUnit}
                         addUnit={this.props.addUnit}
                         active={this.props.searchResultIndex === index}
                         unitToAdd={unitToAdd}
@@ -92,6 +79,7 @@ class UnitSearchResultsContainer extends Component {
 
 UnitSearchResultsContainer.propTypes = {
     addUnit: PropTypes.func,
+    willAddUnit: PropTypes.func,
     addToCourse: PropTypes.func,
     searchResultIndex: PropTypes.number,
     results: PropTypes.array,

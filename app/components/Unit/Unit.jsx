@@ -1,9 +1,9 @@
 import React, { PropTypes } from "react";
-import { Button, Message, Header, Icon, Popup } from "semantic-ui-react";
+import { Message, Header, Icon } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
-import { DragSource, DropTarget } from "react-dnd";
+import { DropTarget } from "react-dnd";
 
-import UnitDetailModal from "./UnitDetailModal.jsx";
+import UnitMessage from "./UnitMessage.jsx";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
@@ -23,30 +23,9 @@ const mapDispatchToProps = dispatch => {
  */
 const mapStateToProps = state => {
     return {
-        unitToAdd: state.CourseStructure.unitToAdd
+        unitToAdd: state.CourseStructure.unitToAdd,
+        viewOnly: state.UI.readOnly
     };
-};
-
-
-/**
-* Implements the drag source contract.
-*/
-const unitSource = {
-    beginDrag(props) {
-        if(props.newUnit) {
-            props.willAddUnit(props.code, props.custom, true);
-        } else {
-            props.movingUnit(props.unit, props.index, props.teachingPeriodIndex);
-        }
-
-        return {};
-    },
-
-    endDrag(props, monitor) {
-        if(!props.newUnit && !monitor.didDrop()) {
-            props.cancelMovingUnit(props.index, props.teachingPeriodIndex);
-        }
-    }
 };
 
 /**
@@ -55,7 +34,7 @@ const unitSource = {
 const unitTarget = {
     drop(props) {
         if(props.free) {
-            if(props.addUnit && props.unitToAdd) {
+            if(props.unitToAdd) {
                 props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
             } else {
                 props.moveUnit(props.index, props.teachingPeriodIndex);
@@ -72,16 +51,6 @@ const unitTarget = {
         return {};
     }
 };
-
-/**
-* Specifies the props to inject into your component.
-*/
-function collectSource(connect, monitor) {
-    return {
-        connectDragSource: connect.dragSource(),
-        isDragging: monitor.isDragging()
-    };
-}
 
 /**
 * Mapping functions to props (for react-dnd)
@@ -117,7 +86,19 @@ export class Unit extends React.Component {
     /**
      * Updates state to indicate that the user is hovering on the unit.
      */
-    handleMouseEnter() {
+    handleUnitMouseEnter() {
+        if(!this.state.hovering) {
+            this.setState({
+                hovering: true,
+                overInput: false
+            });
+        }
+    }
+
+    /**
+     * Updates state to indicate that the user is hovering on the unit.
+     */
+    handleUnitMouseMove() {
         if(!this.state.hovering) {
             this.setState({
                 hovering: true
@@ -129,21 +110,11 @@ export class Unit extends React.Component {
      * Updates state to indicate that the user is no longer hovering on the
      * unit.
      */
-    handleMouseMove() {
-        if(!this.state.hovering) {
-            this.setState({
-                hovering: true
-            });
-        }
-    }
-
-    /**
-     *
-     */
-    handleMouseLeave() {
+    handleUnitMouseLeave() {
         if(this.state.hovering) {
             this.setState({
-                hovering: false
+                hovering: false,
+                overInput: false
             });
         }
     }
@@ -178,95 +149,7 @@ export class Unit extends React.Component {
      * faculty of the unit.
      */
     render() {
-        const facultyColors = {
-            "Art, Design and Architecture": "blue",
-            "Arts": "blue",
-            "Business and Economics": "blue",
-            "Education": "blue",
-            "Engineering": "blue",
-            "Information Technology": "blue",
-            "Law": "blue",
-            "Medicine, Nursing and Health Sciences": "blue",
-            "Pharmacy and Pharmaceutical Sciences": "blue",
-            "Science": "blue",
-            "All": "blue"
-        };
-
-        let facultyColor = undefined;
-
-        if(!this.props.free && typeof this.props.faculty === "string") {
-            facultyColor = facultyColors[this.props.faculty.replace("Faculty of ", "")];
-        }
-
-        const { connectDragSource, connectDropTarget, isOver }  = this.props;
-
-        /**
-         * Creates unit message
-         */
-        const unitMessage = mobile => (
-            <Message
-                style={{cursor: "pointer"}}
-                color={facultyColor}
-                className={"unit" + (!this.props.viewOnly ? " draggable" : "")}
-                size="mini">
-                <Message.Header>
-                    {this.props.code}
-                    {!this.props.viewOnly &&
-                        <Button.Group onMouseOver={() => this.setState({ overInput: true })} onMouseOut={() => this.setState({ overInput: false })}
-                          className="no-print right floated" size="mini" compact style={{visibility: (this.state.hovering || mobile) && !this.props.showMoveUnitUI ? "visible" : "hidden" }}>
-                            <Button onClick={this.handleDelete.bind(this)} className="btncancel" icon="close" style={{display: !this.props.basic ? "block" : "none"}} />
-                            {this.props.detailButton &&
-                                <UnitDetailModal
-                                    onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
-                                    unitCode={this.props.code}
-                                    trigger={<Button className="btnlightblue" color="blue" icon="info" />} />
-                            }
-                        </Button.Group>
-                    }
-
-                </Message.Header>
-                <i>{(!this.state.hovering || !this.showMoveUnitUI) &&
-                    `${this.props.name}`
-                }</i>
-                <br/>
-                <div style={{bottom: "0", textAlign:"right"}}>
-                    <Popup
-                        trigger={(this.props.errors && this.props.errors.length > 0) &&
-                                <Icon inverted color="red" name="warning" size="large" />
-                        }
-                        positioning="bottom left"
-                        size="mini"
-                        >
-                    <Popup.Header>The following problems were discovered</Popup.Header>
-                    <Popup.Content>
-                        <ul>{(this.props.errors && this.props.errors.length > 0) && this.props.errors.map((error, index) => <li key={index}>{error.message}</li>)}</ul>
-                    </Popup.Content>
-                    </Popup>
-                </div>
-            </Message>
-        );
-
-        const unit = (
-            <MediaQuery maxDeviceWidth={767}>
-                {mobile =>
-                    this.props.detailButton ? unitMessage(mobile) : (
-                        <UnitDetailModal
-                            onClick={() => {this.props.fetchUnitInfo(this.props.code);}}
-                            unitCode={this.props.code}
-                            trigger={unitMessage(mobile)} />
-                    )
-                }
-            </MediaQuery>
-        );
-
-        const unitPlaceholder = (
-            <Message
-                className="unit placeholder"
-                size="mini">
-                <Message.Header>{this.props.code}</Message.Header>
-                {this.props.name}
-            </Message>
-        );
+        const { connectDropTarget, isOver }  = this.props;
 
         return (
             <MediaQuery maxDeviceWidth={767}>
@@ -277,12 +160,9 @@ export class Unit extends React.Component {
                             className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : "" +
                                         (this.props.isError || (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
                             }
-                            onMouseEnter={this.handleMouseEnter.bind(this)}
-                            onMouseMove={this.handleMouseMove.bind(this)}
-                            onMouseLeave={this.handleMouseLeave.bind(this)}
                             onClick={this.handleClick.bind(this)}
                             >
-                            {(this.props.free || this.props.isDragging) && (!mobile || mobile && (this.props.unitToAdd !== undefined || this.props.showMoveUnitUI)) &&
+                            {(this.props.free) && (!mobile || mobile && (this.props.unitToAdd !== undefined || this.props.showMoveUnitUI)) &&
                                 <div style={{minHeight: 90, border: mobile ? "1px dashed grey": ""}}>
                                     {mobile && this.props.unitToAdd !== undefined &&
                                         <Header as="h4" icon textAlign="center" style={{marginTop: "0.5em"}}>
@@ -292,11 +172,46 @@ export class Unit extends React.Component {
                                     }
                                 </div>
                             }
-                            {!this.props.free && !this.props.viewOnly && !this.props.isDragging &&
-                                (this.props.placeholder ? unitPlaceholder : this.state.overInput ? <div>{unit}</div> : connectDragSource(<div>{unit}</div>))
-                            }
-                            {!this.props.free && this.props.viewOnly &&
-                                (this.props.placeholder ? unitPlaceholder : <div>{unit}</div>)
+                            {!this.props.free &&
+                                <div>
+                                    {this.props.placeholder &&
+                                        <Message
+                                            className="unit placeholder"
+                                            size="mini">
+                                            <Message.Header>{this.props.code}</Message.Header>
+                                            {this.props.name}
+                                        </Message>
+                                    }
+                                    {!this.props.placeholder &&
+                                        <UnitMessage
+                                            code={this.props.code}
+                                            name={this.props.name}
+                                            draggable={!this.props.viewOnly && !this.state.overInput}
+                                            unit={this.props.unit}
+                                            index={this.props.index}
+                                            teachingPeriodIndex={this.props.teachingPeriodIndex}
+                                            newUnit={this.props.newUnit}
+                                            faculty={this.props.faculty}
+                                            basic={this.props.basic}
+                                            hovering={this.state.hovering}
+                                            viewOnly={this.props.viewOnly}
+                                            showDetailButton={this.props.detailButton}
+
+                                            movingUnit={this.props.movingUnit}
+                                            cancelMovingUnit={this.props.cancelMovingUnit}
+
+                                            handleUnitMouseEnter={this.handleUnitMouseEnter.bind(this)}
+                                            handleUnitMouseMove={this.handleUnitMouseMove.bind(this)}
+                                            handleUnitMouseLeave={this.handleUnitMouseLeave.bind(this)}
+                                            handleButtonMouseEnter={() => this.setState({ overInput: true })}
+                                            handleButtonMouseLeave={() => this.setState({ overInput: false })}
+
+                                            handleDelete={this.handleDelete.bind(this)}
+                                            fetchUnitInfo={this.props.fetchUnitInfo}
+                                            errors={this.props.errors}
+                                            />
+                                    }
+                                </div>
                             }
                         </td>)
                     );
@@ -310,6 +225,9 @@ Unit.propTypes = {
     /* Used for indicating whether unit is free or not */
     free: PropTypes.bool,
     basic: PropTypes.bool,
+
+    newUnit: PropTypes.bool,
+    unit: PropTypes.object,
 
     index: PropTypes.number,
     code: PropTypes.string,
@@ -329,13 +247,15 @@ Unit.propTypes = {
     onUnitClick: PropTypes.func,
     viewUnitDetails: PropTypes.func,
 
+    willAddUnit: PropTypes.func,
+    movingUnit: PropTypes.func,
+    cancelMovingUnit: PropTypes.func,
+
     /* Whether or not it is a custom unit */
     custom: PropTypes.bool,
 
-    /* Used for drag functionality */
-    connectDragSource: PropTypes.func.isRequired,
+    /* Used for drop functionality */
     connectDropTarget: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
     isOver: PropTypes.bool.isRequired,
 
     /* Validation */
@@ -359,5 +279,4 @@ Unit.propTypes = {
 // https://github.com/gaearon/react-dnd/issues/157
 
 const drop = DropTarget("unit", unitTarget, collectTarget)(Unit);
-const dragNdrop = DragSource("unit", unitSource, collectSource)(drop);
-export default connect(mapStateToProps, mapDispatchToProps)(dragNdrop);
+export default connect(mapStateToProps, mapDispatchToProps)(drop);
