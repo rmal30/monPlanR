@@ -30,6 +30,11 @@ export default function Notifications(state=initialState, action) {
                         action.id !== undefined && notfication.id !== action.id || action.id === undefined && index !== action.index
                 )
             };
+        case "ADD_UNIT":
+            return {
+                ...state,
+                notificationsList: state.notificationsList.filter(notification => notification.id !== "ADDING_UNIT")
+            };
         default:
             return state;
     }

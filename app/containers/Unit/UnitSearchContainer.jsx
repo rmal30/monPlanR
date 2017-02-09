@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import UnitQuery from "../../utils/UnitQuery";
 import { Button, Menu, Divider, Grid, Checkbox } from "semantic-ui-react";
 
+import * as UIActions from "../../actions/UIActions";
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
 import { connect } from "react-redux";
@@ -39,7 +40,6 @@ class UnitSearchContainer extends Component {
         this.searchVisible = false;
 
         this.resetComponent = this.resetComponent.bind(this);
-        this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
     }
@@ -88,15 +88,6 @@ class UnitSearchContainer extends Component {
             timeoutValue: null,
             searchResultIndex: 0
         });
-    }
-
-    /**
-     * Handle result select is called whenever the user selects a result, this function calls a parent function and the resets the component.
-     * @author JXNS
-     */
-    handleResultSelect(e, result) {
-        this.props.addToCourse(result.UnitCode.toUpperCase(), result.custom);
-        this.resetComponent();
     }
 
     /**
@@ -254,7 +245,7 @@ class UnitSearchContainer extends Component {
                     </div>
                 </Menu.Item>
                 {this.state.showAddCustomUnitButton &&
-                    <Button onClick={() => this.props.addToCourse(this.state.value, true)} fluid className="btnmainblue">Add custom unit</Button>
+                    <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue">Add custom unit</Button>
                 }
                 {!this.state.isLoading && this.state.showAddCustomUnitButton &&
                     <div hidden>
@@ -264,7 +255,7 @@ class UnitSearchContainer extends Component {
                                 <Grid.Column width={8}>
                                 <b>Faculty</b>
                                 {faculties.map((item) => {
-                                    return <Checkbox label={item.label} value={item.value} />;
+                                    return <Checkbox key={item.value} label={item.label} value={item.value} />;
                                 })}
                                 </Grid.Column>
                                 <Grid.Column width={8}>
@@ -274,24 +265,37 @@ class UnitSearchContainer extends Component {
                     </div>
                 }
                 <Divider />
-                <UnitSearchResultsContainer searchResultIndex={this.state.searchResultIndex} empty={this.state.empty} results={this.state.searchResults}  />
+                <UnitSearchResultsContainer
+                    willAddUnit={this.props.willAddUnit}
+                    searchResultIndex={this.state.searchResultIndex}
+                    empty={this.state.empty}
+                    results={this.state.searchResults}  />
             </Menu.Item>
         );
     }
 }
 
 UnitSearchContainer.propTypes = {
-    addToCourse: PropTypes.func,
+    showCustomUnitUI: PropTypes.func,
     searchVisible: PropTypes.bool,
     close: PropTypes.func,
     willAddUnit: PropTypes.func
 };
 
 /**
- * Injects the required actions from redux action creators
+ * Used for focusing input when sidebar is shown.
  */
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(dataFetchActions, dispatch);
+const mapStatetoProps = (state) => {
+    return {
+        searchVisible: state.UI.showingSidebar
+    };
 };
 
-export default connect(null, mapDispatchToProps)(UnitSearchContainer);
+/**
+ * Injects the required actions from redux action creators
+ */
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({...dataFetchActions, ...UIActions}, dispatch);
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(UnitSearchContainer);

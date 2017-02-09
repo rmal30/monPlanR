@@ -5,49 +5,50 @@ const defaultState = {
     showAddingUnitUI: false,
     readOnly: false,
     showingConfirmDeleteTeachingPeriodModal: false,
+    showingCustomUnitModal: false,
     showingConfirmDecreaseStudyLoadModal: false,
     showingSidebar: false
 };
 
 /**
  * @author JXNS
- * A simple reducer to handle UI state globally. I'm not entirely convinced this is a better way to manage it, however I do see that props 
+ * A simple reducer to handle UI state globally. I'm not entirely convinced this is a better way to manage it, however I do see that props
  * that equate to these are passed around quite frequently within the courseStructure component, so I feel there is a need for this.
  */
 const UI = (state = defaultState, action) => {
 
     switch (action.type) {
-        
+
         case "SHOW_INSERT_TEACHING_PERIOD_UI":
             return {
                 ...state,
                 showingInsertTeachingPeriodUI: true
             };
-        
+
         case "HIDE_INSERT_TEACHING_PERIOD_UI":
             return {
                 ...state,
                 showingInsertTeachingPeriodUI: false
             };
-        
+
         case "SHOW_ADD_UNIT_UI":
             return {
                 ...state,
                 showAddingUnitUI: true
             };
-        
+
         case "HIDE_ADD_UNIT_UI":
             return {
                 ...state,
                 showAddingUnitUI: false
             };
-        
+
         case "SHOW_MOVE_UNIT_UI":
             return {
                 ...state,
                 showMovingUnitUI: true
             };
-        
+
         case "HIDE_MOVE_UNIT_UI":
             return {
                 ...state,
@@ -65,7 +66,7 @@ const UI = (state = defaultState, action) => {
                 ...state,
                 readOnly: false
             };
-        
+
         case "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL":
             return {
                 ...state,
@@ -90,6 +91,19 @@ const UI = (state = defaultState, action) => {
                 showingConfirmDecreaseStudyLoadModal: false
             };
 
+        case "SHOW_CUSTOM_UNIT_MODAL":
+            return {
+                ...state,
+                showingCustomUnitModal: true,
+                customUnitCode: action.unitCode
+            };
+
+        case "HIDE_CUSTOM_UNIT_MODAL":
+            return {
+                ...state,
+                showingCustomUnitModal: false
+            };
+
         case "SHOW_SIDEBAR":
             return {
                 ...state,
@@ -108,7 +122,7 @@ const UI = (state = defaultState, action) => {
                 ...state,
                 showingSidebar: false
             };
-        
+
         default:
             return state;
     }

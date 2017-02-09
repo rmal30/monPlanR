@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
 import { Container } from "semantic-ui-react";
 
 import CustomUnitModal from "../modals/CustomUnitModal.jsx";
@@ -40,26 +41,6 @@ class Plan extends Component {
         this.doneAddingToCourse = this.doneAddingToCourse.bind(this);
         this.cancelAddingToCourse = this.cancelAddingToCourse.bind(this);
     }
-    /**
-     * A workaround that is a React anti-pattern. It attaches add to course menu
-     * callback function, which is called when the user clicks the "+ Add unit"
-     * menu item.
-     *
-     * TODO: Find some better way of handling state.
-     * @author Saurabh Joshi
-     */
-    componentDidMount() {
-        this.props.attachAddToCourse(this.addToCourse);
-    }
-
-    /**
-     * Detaches add to course menu
-     *
-     * @author Saurabh Joshi
-     */
-    componentWillUnmount() {
-        this.props.detachAddToCourse();
-    }
 
     /**
      * Adds unit to course by specifying unit code. It does not add unit
@@ -70,8 +51,6 @@ class Plan extends Component {
      */
     addToCourse(nUnitCode, custom, drag, position) {
         if(typeof nUnitCode === "string") {
-            this.props.handleDocumentClick();
-
             if(!custom) {
                 UnitQuery.getExtendedUnitData(nUnitCode)
                     .then(response => {
@@ -159,25 +138,14 @@ class Plan extends Component {
         return (
             <div>
                 <NotificationContainer />
-                {this.state.customUnitCode &&
-                    <CustomUnitModal
-                        UnitCode={this.state.customUnitCode}
-                        position={this.state.customUnitPosition}
-                        cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
-                        addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
-                }
-                        
-                
+                <CustomUnitModal
+                    UnitCode={this.state.customUnitCode}
+                    position={this.state.customUnitPosition}
+                    cancelAddingCustomUnitToCourse={this.cancelAddingCustomUnitToCourse.bind(this)}
+                    addCustomUnitToCourse={this.addCustomUnitToCourse.bind(this)} />
                 <Container className="main text">
                     <CourseOverviewContainer />
-                    <CourseStructure
-                        addToCourse={this.addToCourse}
-                        doneAddingToCourse={this.doneAddingToCourse}
-                        cancelAddingToCourse={this.cancelAddingToCourse}
-                        removeFromCourse={this.removeFromCourse}
-                        unitToAdd={this.state.unitToAdd}
-                        updateStatus={this.props.updateStatus}
-                        courseErrors={this.props.courseErrors} />
+                    <CourseStructure />
                 </Container>
             </div>
         );
@@ -195,16 +163,17 @@ Plan.propTypes = {
             courseToLoad: PropTypes.string
         }).isRequired
     }).isRequired,
-
-    attachAddToCourse: PropTypes.func,
-    detachAddToCourse: PropTypes.func,
-
-    /* Validation status */
-    updateStatus: PropTypes.func,
-    courseErrors: PropTypes.array,
-
-    /* When user clicks on the page */
-    handleDocumentClick: PropTypes.func
+    showingCustomUnitModal: PropTypes.bool
 };
 
-export default Plan;
+/**
+ * Injects showingCustomUnitUI into props, used for displaying custom unit
+ * whenever the user wants to add details in for their custom unit.
+ */
+const mapStateToProps = state => {
+    return  {
+        showingCustomUnitModal: state.UI.showingCustomUnitModal
+    };
+};
+
+export default connect(mapStateToProps)(Plan);

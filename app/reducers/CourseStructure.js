@@ -17,7 +17,7 @@ const defaultState = {
     numberOfUnits: 4,
 
     affectedUnits: [],
-    
+
     courseInfoLoading: false,
     courseLoading: false,
 
@@ -78,6 +78,9 @@ const defaultState = {
         awards: "",
         abrTitle: ""
     },
+
+    // Course errors is used for displaying course error messages.
+    courseErrors: [],
 
     focusedUnitCode: null,
     focusedCourse: null,
@@ -394,7 +397,7 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploading: false,
                 courseSnapshotUploadData: action.payload.data,
                 courseSnapshotUploadSucessful: true
-                
+
             };
 
         case "UPLOAD_COURSE_SNAPSHOT_REJECTED":
@@ -445,7 +448,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 unitToAdd: state.unitInfo
             };
-        
+
         case "UPDATE_UNIT_IS_BEING_DRAGGED":
             return {
                 ...state,
@@ -460,8 +463,14 @@ const CourseStructure = (state = defaultState, action) => {
                 unitsIndexOfUnitToBeMoved: action.unitIndex
             };
 
-        
-        
+        case "CANCEL_MOVING_UNIT":
+            return {
+                ...state,
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: undefined,
+                unitsIndexOfUnitToBeMoved: undefined
+            };
+
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year
@@ -508,7 +517,7 @@ const CourseStructure = (state = defaultState, action) => {
         }
 
         /**
-         * The ugliest handling of array immutability ever, I've attempted to do swaps with a slice but it still 
+         * The ugliest handling of array immutability ever, I've attempted to do swaps with a slice but it still
          * seemed to violate the immutability of the arrays, the only way I can think to do this better is either look at
          * a) a framework like immutable.js to abstract these nasty complexities that come with immutability
          * b) investigate doing the swap in the action creator instead and then just feeding in the new teaching periods
@@ -537,14 +546,14 @@ const CourseStructure = (state = defaultState, action) => {
                             ]
                         },
                         ...state.teachingPeriods.slice(action.newTPIndex + 1)
-                        
+
                     ],
                     unitToBeMoved: undefined,
                     tpIndexOfUnitToBeMoved: 0,
                     unitsIndexOfUnitToBeMoved: 0
                 };
             } else if (action.newTPIndex === state.tpIndexOfUnitToBeMoved) {
-                
+
                 if(action.newUnitIndex > state.unitsIndexOfUnitToBeMoved) {
                     return {
                         ...state,
@@ -596,7 +605,7 @@ const CourseStructure = (state = defaultState, action) => {
                         unitsIndexOfUnitToBeMoved: 0
                     };
                 }
-                
+
             } else {
                 return {
                     ...state,
@@ -620,7 +629,7 @@ const CourseStructure = (state = defaultState, action) => {
                             ]
                         },
                         ...state.teachingPeriods.slice(state.tpIndexOfUnitToBeMoved + 1)
-                        
+
                     ],
                     unitToBeMoved: undefined,
                     tpIndexOfUnitToBeMoved: 0,
@@ -652,14 +661,14 @@ const CourseStructure = (state = defaultState, action) => {
                             ]
                         },
                         ...state.teachingPeriods.slice(action.newTPIndex + 1)
-                        
+
                     ],
                     unitToBeMoved: undefined,
                     tpIndexOfUnitToBeMoved: 0,
                     unitsIndexOfUnitToBeMoved: 0
                 };
             } else if (action.newTPIndex === state.tpIndexOfUnitToBeMoved) {
-                
+
                 if(action.newUnitIndex > state.unitsIndexOfUnitToBeMoved) {
                     return {
                         ...state,
@@ -711,7 +720,7 @@ const CourseStructure = (state = defaultState, action) => {
                         unitsIndexOfUnitToBeMoved: 0
                     };
                 }
-                
+
             } else {
                 return {
                     ...state,
@@ -735,13 +744,19 @@ const CourseStructure = (state = defaultState, action) => {
                             ]
                         },
                         ...state.teachingPeriods.slice(state.tpIndexOfUnitToBeMoved + 1)
-                        
+
                     ],
                     unitToBeMoved: undefined,
                     tpIndexOfUnitToBeMoved: 0,
                     unitsIndexOfUnitToBeMoved: 0
                 };
-            } 
+            }
+
+        case "VALIDATE_COURSE":
+            return {
+                ...state,
+                courseErrors: []
+            };
 
         default:
             return state;

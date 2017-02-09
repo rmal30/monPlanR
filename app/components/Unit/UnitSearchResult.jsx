@@ -1,6 +1,6 @@
-import React, { PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 
-import Unit from "./Unit.jsx";
+import UnitMessage from "./UnitMessage.jsx";
 
 /**
  * Returns the way in which we want a search result to be rendered
@@ -15,29 +15,99 @@ import Unit from "./Unit.jsx";
  * @param {object} unitToAdd - The unit to be added to the course.
  * @param {func} willAddUnit - Function that triggers add unit UI upon call.
  */
-function UnitSearchResult({ UnitCode, UnitName, Faculty, custom, id, unitToAdd, willAddUnit }) {
-    UnitSearchResult.propTypes = {
-        UnitCode: PropTypes.string.isRequired,
-        UnitName: PropTypes.string.isRequired,
-        custom: PropTypes.bool,
-        id: PropTypes.number.isRequired
-    };
+class UnitSearchResult extends Component {
+    /**
+    * State should only hold additional unit information.
+    * CourseStructure component stores only the unit code to reduce space
+    * usage.
+    *
+    * TODO: Find some way to make Unit stateless again.
+    */
+    constructor(props) {
+        super(props);
+        this.state = {
+            hovering: false,
+            /* Should be true iff user is hovering on the buttons */
+            overInput: false
+        };
+    }
 
-    const searchResult = (
-        <Unit
-            basic
-            detailButton
-            newUnit
-            onUnitClick={willAddUnit}
-            custom={custom}
-            unitToAdd={unitToAdd}
-            index={id}
-            code={UnitCode}
-            name={UnitName}
-            faculty={Faculty} />
-    );
+    /**
+     * Updates state to indicate that the user is hovering on the unit.
+     */
+    handleMouseEnter() {
+        if(!this.state.hovering) {
+            this.setState({
+                hovering: true,
+                overInput: false
+            });
+        }
+    }
 
-    return searchResult;
+    /**
+     * Updates state to indicate that the user is hovering on the unit.
+     */
+    handleMouseMove() {
+        if(!this.state.hovering) {
+            this.setState({
+                hovering: true
+            });
+        }
+    }
+
+    /**
+     * Updates state to indicate that the user is no longer hovering on the
+     * unit.
+     */
+    handleMouseLeave() {
+        if(this.state.hovering) {
+            this.setState({
+                hovering: false,
+                overInput: false
+            });
+        }
+    }
+
+    /**
+     * Renders a UnitMessage component, which is draggable
+     */
+    render() {
+        const { UnitCode, UnitName, Faculty, custom, id, unitToAdd, willAddUnit } = this.props;
+        return (
+            <UnitMessage
+                newUnit
+                basic
+                draggable={!this.state.overInput}
+                showDetailButton
+                hovering={this.state.hovering}
+
+                willAddUnit={this.props.willAddUnit}
+
+                handleUnitMouseEnter={this.handleMouseEnter.bind(this)}
+                handleUnitMouseMove={this.handleMouseMove.bind(this)}
+                handleUnitMouseLeave={this.handleMouseLeave.bind(this)}
+                handleButtonMouseEnter={() => this.setState({ overInput: true })}
+                handleButtonMouseLeave={() => this.setState({ overInput: false })}
+
+                code={UnitCode}
+                name={UnitName}
+                faculty={Faculty}
+                onUnitClick={willAddUnit}
+                custom={custom}
+                unitToAdd={unitToAdd}
+                index={id} />
+        );
+    }
 }
+
+UnitSearchResult.propTypes = {
+    UnitCode: PropTypes.string.isRequired,
+    UnitName: PropTypes.string.isRequired,
+    Faculty: PropTypes.string,
+    unitToAdd: PropTypes.object,
+    willAddUnit: PropTypes.func,
+    custom: PropTypes.bool,
+    id: PropTypes.number.isRequired
+};
 
 export default UnitSearchResult;

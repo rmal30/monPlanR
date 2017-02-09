@@ -1,3 +1,4 @@
+import * as NotificationActions from "./Notifications.js";
 import { nextSemester } from "../utils/NextSemesterString";
 
 /**
@@ -112,8 +113,14 @@ export const removeUnit = (tpIndex, unitIndex, creditPoints, cost) => {
  * CLEAR_COURSE
  */
 export const clearCourse = () => {
-    return {
-        type: "CLEAR_COURSE"
+    return function(dispatch) {
+        dispatch({
+            type: "CLEAR_COURSE"
+        });
+
+        dispatch({
+            type: "GET_NEXT_SEMESTER_STRING"
+        });
     };
 };
 
@@ -229,7 +236,7 @@ export const getAffectedUnitsInColumn = (index) => {
 /**
  * Will attempt to delete a teaching period with the given index. It calculates which, if any units would be affected by the deletion,
  * and if there is - it updates the affected units array so the modal can display and prompt the user to confirm.
- * If there are no units that would be affected by the move (i.e. an empty teaching period), then the teaching period is removed 
+ * If there are no units that would be affected by the move (i.e. an empty teaching period), then the teaching period is removed
  * without prompting for confirmation
  */
 export const attemptToDeleteTeachingPeriod = (index, units) => {
@@ -241,25 +248,23 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
                 return result;
             }
         }, []);
-        
-        if (affectedUnits.length > 0){
+
+        if (affectedUnits.length > 0) {
             dispatch({
                 type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
             });
+
             dispatch({
                 type: "UPDATE_AFFECTED_UNITS",
                 affectedUnits
             });
+
             dispatch({
                 type: "UPDATE_INDEX_OF_TP_TO_REMOVE",
                 index
             });
         } else {
-            dispatch({
-                type: "REMOVE_TEACHING_PERIOD",
-                index,
-                units
-            });
+            dispatch(removeTeachingPeriod(index, units));
         }
     };
 };
@@ -335,11 +340,34 @@ export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYe
  * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
  */
 export const movingUnit = (unit, unitIndex, tpIndex) => {
-    return  {
-        type: "MOVING_UNIT", //No handlers for this but useful for debugging purposes
-        unit,
-        unitIndex,
-        tpIndex
+    return dispatch => {
+        dispatch({
+            type: "MOVING_UNIT", //No handlers for this but useful for debugging purposes
+            unit,
+            unitIndex,
+            tpIndex
+        });
+
+        dispatch(NotificationActions.addNotification({
+            id: "MOVING_UNIT",
+            title: `Moving ${unit.UnitCode}`,
+            message: "Drop into a table cell to move the unit. If there is already a unit, then those units will be swapped.",
+            dismissable: false
+        }));
+    };
+};
+
+/**
+ * Cancels moving unit, which is used when user drags the unit outside of the
+ * table then letting go of the mouse button.
+ */
+export const cancelMovingUnit = () => {
+    return dispatch => {
+        dispatch({
+            type: "CANCEL_MOVING_UNIT"
+        });
+
+        dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
     };
 };
 
@@ -347,10 +375,14 @@ export const movingUnit = (unit, unitIndex, tpIndex) => {
  * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
  */
 export const moveUnit = (newUnitIndex, newTPIndex) => {
-    return  {
-        type: "MOVE_UNIT", //No handlers for this but useful for debugging purposes
-        newUnitIndex,
-        newTPIndex
+    return dispatch => {
+        dispatch({
+            type: "MOVE_UNIT", //No handlers for this but useful for debugging purposes
+            newUnitIndex,
+            newTPIndex
+        });
+
+        dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
     };
 };
 
@@ -358,10 +390,23 @@ export const moveUnit = (newUnitIndex, newTPIndex) => {
  * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
  */
 export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
-    return  {
-        type: "SWAP_UNIT", //No handlers for this but useful for debugging purposes
-        newUnitIndex,
-        newTPIndex,
-        unitToSwap
+    return dispatch => {
+        dispatch({
+            type: "SWAP_UNIT", //No handlers for this but useful for debugging purposes
+            newUnitIndex,
+            newTPIndex,
+            unitToSwap
+        });
+
+        dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
+    };
+};
+
+/**
+ * Validates course structure.
+ */
+export const validateCourse = () => {
+    return {
+        type: "VALIDATE_COURSE"
     };
 };
