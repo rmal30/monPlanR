@@ -1,18 +1,5 @@
-import expect from "expect";
-import deepFreeze from "deep-freeze";
 import CourseStructure from "../../app/reducers/CourseStructure";
 import { describe, it } from "mocha";
-
-/**
- * The test function that will run for each
- */
-const test = (stateBefore, action, stateAfter) => {
-    deepFreeze(stateBefore);
-    deepFreeze(action);
-    expect(
-        CourseStructure(stateBefore, action)
-    ).toEqual(stateAfter);
-};
 
 describe("REDUCER: CourseStructure", () => {
 
@@ -42,8 +29,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
-
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should insert a teaching period with the given info correctly into start of array", () => {
@@ -71,8 +57,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
-
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -97,8 +82,8 @@ describe("REDUCER: CourseStructure", () => {
                 ],
                 numberOfUnits: 4
             };
-            
-            test(stateBefore, action, stateAfter);
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
         it("Should remove a teaching period at the start of the array", () => {
             const stateBefore = {
@@ -120,7 +105,8 @@ describe("REDUCER: CourseStructure", () => {
                 ],
                 numberOfUnits: 4
             };
-            test(stateBefore, action, stateAfter);
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -133,11 +119,13 @@ describe("REDUCER: CourseStructure", () => {
                 ],
                 numberOfUnits: 4
             };
+
             const action = {
                 type: "APPEND_TEACHING_PERIOD",
                 year: 2020,
                 code: "S2-01",
             };
+
             const stateAfter = {
                 teachingPeriods: [
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
@@ -146,7 +134,8 @@ describe("REDUCER: CourseStructure", () => {
                 ],
                 numberOfUnits: 4
             };
-            test(stateBefore, action, stateAfter);
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -156,14 +145,17 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null] }],
                 numberOfUnits: 4
             };
+
             const action = {
                 type: "INCREASE_STUDY_LOAD"
             };
+
             const stateAfter = {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null] }],
                 numberOfUnits: 5
             };
-            test(stateBefore, action, stateAfter);
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should not increase the study load if the study load is 6 or greater", () => {
@@ -171,14 +163,17 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null, null] }],
                 numberOfUnits: 6
             };
+
             const action = {
                 type: "INCREASE_STUDY_LOAD"
             };
+
             const stateAfter = {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null, null] }],
                 numberOfUnits: 6
             };
-            test(stateBefore, action, stateAfter);
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -188,14 +183,17 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null] }],
                 numberOfUnits: 5
             };
+
             const action = {
                 type: "DECREASE_STUDY_LOAD"
             };
+
             const stateAfter = {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null] }],
                 numberOfUnits: 4
             };
-            test(stateBefore, action, stateAfter);
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should not decrease the study load if the study load is 4 or less", () => {
@@ -203,14 +201,17 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null] }],
                 numberOfUnits: 4
             };
+
             const action = {
                 type: "DECREASE_STUDY_LOAD"
             };
+
             const stateAfter = {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null] }],
                 numberOfUnits: 4
             };
-            test(stateBefore, action, stateAfter);
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -230,7 +231,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -263,7 +264,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitToAdd: undefined
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should add a unit correctly to the middle of an array", () => {
@@ -282,7 +283,7 @@ describe("REDUCER: CourseStructure", () => {
                 tpIndex: 1,
                 unitIndex: 1,
                 unit: {unitCode: "XXX0001", unitName: "Test Unit"},
-                
+
             };
 
             const stateAfter = {
@@ -295,7 +296,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitToAdd: undefined
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should add a unit correctly to the end of an array", () => {
@@ -326,7 +327,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitToAdd: undefined
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -356,7 +357,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should remove a unit correctly from the middle of an array", () => {
@@ -384,7 +385,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should remove a unit correctly from the end of an array", () => {
@@ -412,7 +413,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -441,7 +442,7 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
 
         it("Should return an empty course structure with invalid start and end years.", () => {
@@ -468,14 +469,14 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_COURSE_INFO_PENDING", () =>{
         it("Should correctly show that the course info is loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -490,7 +491,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -500,14 +501,14 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfo: null
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_COURSE_INFO_FULFILLED", () => {
         it("Should correctly return the payload and show that it is no longer loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -534,7 +535,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -554,14 +555,14 @@ describe("REDUCER: CourseStructure", () => {
                 focusedCourse: "COURSE101"
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_COURSE_INFO_REJECTED", () => {
         it("Should correctly show that the course info fetch failed and show that it is no longer loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -576,7 +577,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: true,
@@ -586,14 +587,14 @@ describe("REDUCER: CourseStructure", () => {
                 courseInfo: null
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_COURSE_TEMPLATE_PENDING", () => {
         it("Should correctly show that the course template is loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -608,7 +609,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -618,14 +619,14 @@ describe("REDUCER: CourseStructure", () => {
                 courseTemplateData: null
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_COURSE_TEMPLATE_FULFILLED", () => {
         it("Should correctly return the payload and show that it is no longer loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -641,7 +642,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -651,14 +652,14 @@ describe("REDUCER: CourseStructure", () => {
                 courseTemplateData: "Fake Course Template"
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_COURSE_TEMPLATE_REJECTED", () => {
         it("Should correctly show that the course template fetch failed and show that it is no longer loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -673,7 +674,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: true,
                 courseInfoLoadError: false,
@@ -683,14 +684,14 @@ describe("REDUCER: CourseStructure", () => {
                 courseTemplateData: null
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_UNIT_INFO_PENDING", () => {
         it("Should correctly show that the unit info is loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -720,7 +721,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -745,14 +746,14 @@ describe("REDUCER: CourseStructure", () => {
                 focusedUnitCode: null
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_UNIT_INFO_FULFILLED", () => {
         it("Should correctly return the payload and show that it is no longer loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -761,7 +762,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseLoading: false,
                 unitInfo: null,
                 focusedUnitCode: null
-            };  
+            };
 
             const action = {
                 type: "FETCH_UNIT_INFO_FULFILLED",
@@ -770,7 +771,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -781,14 +782,14 @@ describe("REDUCER: CourseStructure", () => {
                 focusedUnitCode: "FAKE1001"
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: FETCH_UNIT_INFO_REJECTED", () => {
         it("Should correctly show that the unit info fetch failed and show that it is no longer loading", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -805,7 +806,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -816,14 +817,14 @@ describe("REDUCER: CourseStructure", () => {
                 focusedUnitCode: "FAKE1001"
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: SUBMIT_COURSE_FORM", () => {
         it("Should accurately set the start year and the focused course on submission", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -844,7 +845,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -858,14 +859,14 @@ describe("REDUCER: CourseStructure", () => {
                 endYear: 2020
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
     describe("ACTION: SUBMIT_YEAR_FORM", () => {
         it("Should accurately set the start year and end year on submission", () => {
             const stateBefore = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -886,7 +887,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [], 
+                teachingPeriods: [],
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
@@ -900,7 +901,7 @@ describe("REDUCER: CourseStructure", () => {
                 endYear: 2025
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -923,10 +924,10 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriodsDataError: false
             };
 
-            test(stateBefore, action, stateAfter);     
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
-    
+
     describe("ACTION: FETCH_TEACHING_PERIODS_FULFILLED", () => {
         it("Should correctly handle  of teaching periods data", () => {
             const stateBefore = {
@@ -946,10 +947,10 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriodsDataError: false
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
-    
+
     describe("ACTION: FETCH_TEACHING_PERIODS_REJECTED", () => {
         it("Should correctly handle  of teaching periods data", () => {
             const stateBefore = {
@@ -968,7 +969,7 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriodsDataError: true
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -991,7 +992,7 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test"
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -1019,10 +1020,10 @@ describe("REDUCER: CourseStructure", () => {
                 courseSnapshotUploadSucessful: false
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
-    
+
     describe("ACTION: UPLOAD_COURSE_SNAPSHOT_FULFILLED", () => {
         it("Should handle the successful upload of a course snapshot correctly", () => {
             const stateBefore = {
@@ -1048,10 +1049,10 @@ describe("REDUCER: CourseStructure", () => {
                 courseSnapshotUploadSucessful: true
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
-    
+
     describe("ACTION: UPLOAD_COURSE_SNAPSHOT_REJECTED", () => {
         it("Should do handle the rejected upload of a course snapshot correctly", () => {
             const stateBefore = {
@@ -1076,11 +1077,11 @@ describe("REDUCER: CourseStructure", () => {
                 courseSnapshotUploadSucessful: false
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
-    
+
     describe("ACTION: FETCH_COURSE_SNAPSHOT_PENDING", () => {
         it("Should begin fetching a course snapshot correctly", () => {
             const stateBefore = {
@@ -1103,10 +1104,10 @@ describe("REDUCER: CourseStructure", () => {
                 courseSnapshotData: null,
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
-    
+
     describe("ACTION: FETCH_COURSE_SNAPSHOT_FULFILLED", () => {
         it("Should handle a successful course snapshot fetch correctly", () => {
             const stateBefore = {
@@ -1130,10 +1131,10 @@ describe("REDUCER: CourseStructure", () => {
                 courseSnapshotData: "Snap data",
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
-    
+
     describe("ACTION: FETCH_COURSE_SNAPSHOT_REJECTED", () => {
         it("Should handle a rejected course snapshot fetch correctly", () => {
             const stateBefore = {
@@ -1156,7 +1157,7 @@ describe("REDUCER: CourseStructure", () => {
                 courseSnapshotData: null,
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -1178,10 +1179,10 @@ describe("REDUCER: CourseStructure", () => {
                 testParam1: 1,
                 testParam2: "test",
                 affectedUnits: ["TestUnit", "OtherTestUnit"]
-                
+
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -1203,10 +1204,10 @@ describe("REDUCER: CourseStructure", () => {
                 testParam1: 1,
                 testParam2: "test",
                 indexOfTPtoRemove: 1
-                
+
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -1228,10 +1229,10 @@ describe("REDUCER: CourseStructure", () => {
                 testParam2: "test",
                 unitInfo: "TestUnit",
                 unitToAdd: "TestUnit"
-                
+
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -1254,9 +1255,9 @@ describe("REDUCER: CourseStructure", () => {
                 unitIsBeingDragged: true
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
-        
+
         it("Should correctly set a dragging unit to be not dragged", () => {
             const stateBefore = {
                 testParam1: 1,
@@ -1275,7 +1276,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitIsBeingDragged: false
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -1304,7 +1305,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitsIndexOfUnitToBeMoved: 3
             };
 
-            test(stateBefore, action, stateAfter);
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 
@@ -1328,7 +1329,7 @@ describe("REDUCER: CourseStructure", () => {
                 type: "MOVE_UNIT",
                 newTPIndex: 0,
                 newUnitIndex: 1
-                
+
             };
 
             const stateAfter = {
@@ -1344,8 +1345,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle moving a unit to a teaching period later than it", () => {
             //newtp > oldtp
@@ -1366,7 +1367,7 @@ describe("REDUCER: CourseStructure", () => {
                 type: "MOVE_UNIT",
                 newTPIndex: 1,
                 newUnitIndex: 2
-                
+
             };
 
             const stateAfter = {
@@ -1382,8 +1383,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle moving a unit to the same teaching period but earlier position", () => {
             //newtp = oldtp && oldUnitPosition > newUnitPosition
@@ -1404,7 +1405,7 @@ describe("REDUCER: CourseStructure", () => {
                 type: "MOVE_UNIT",
                 newTPIndex: 0,
                 newUnitIndex: 0
-                
+
             };
 
             const stateAfter = {
@@ -1420,8 +1421,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle moving a unit to the same teaching period but later position", () => {
             //newtp = oldtp && newUnitPosition > oldUnitPosition
@@ -1442,7 +1443,7 @@ describe("REDUCER: CourseStructure", () => {
                 type: "MOVE_UNIT",
                 newTPIndex: 0,
                 newUnitIndex: 2
-                
+
             };
 
             const stateAfter = {
@@ -1458,8 +1459,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle moving a unit to the same teaching period and exact same position", () => {
             //newtp = oldtp && newUnitPosition = oldUnitPosition
@@ -1480,7 +1481,7 @@ describe("REDUCER: CourseStructure", () => {
                 type: "MOVE_UNIT",
                 newTPIndex: 1,
                 newUnitIndex: 2
-                
+
             };
 
             const stateAfter = {
@@ -1496,8 +1497,42 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: CANCEL_MOVING_UNIT", () => {
+        it("should cancel moving unit", () => {
+            const stateBefore = {
+                teachingPeriods: [
+                    { year: 2015, code: "S1-01", units: [null, null, null, "TestUnit"]},
+                    { year: 2015, code: "S2-01", units: [null, "TestUnit2", null, null]},
+                    { year: 2016, code: "S1-01", units: ["TestUnit3", null, null, null]},
+                    { year: 2016, code: "S2-01", units: [null, null, "TestUnit4", null]}
+                ],
+                unitToBeMoved: "TestUnit2",
+                tpIndexOfUnitToBeMoved: 1,
+                unitsIndexOfUnitToBeMoved: 2
+            };
+
+            const action = {
+                type: "CANCEL_MOVING_UNIT"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [
+                    { year: 2015, code: "S1-01", units: [null, null, null, "TestUnit"]},
+                    { year: 2015, code: "S2-01", units: [null, "TestUnit2", null, null]},
+                    { year: 2016, code: "S1-01", units: ["TestUnit3", null, null, null]},
+                    { year: 2016, code: "S2-01", units: [null, null, "TestUnit4", null]}
+                ],
+                unitToBeMoved: undefined,
+                tpIndexOfUnitToBeMoved: undefined,
+                unitsIndexOfUnitToBeMoved: undefined
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
     });
 
     describe("ACTION: SWAP_UNIT", () => {
@@ -1521,7 +1556,7 @@ describe("REDUCER: CourseStructure", () => {
                 newTPIndex: 0,
                 newUnitIndex: 1,
                 unitToSwap: "PlaceToMoveTo"
-                
+
             };
 
             const stateAfter = {
@@ -1537,8 +1572,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle swaping a unit to a teaching period later than it", () => {
             //newtp > oldtp
@@ -1560,7 +1595,7 @@ describe("REDUCER: CourseStructure", () => {
                 newTPIndex: 1,
                 newUnitIndex: 2,
                 unitToSwap: "PlaceToMoveTo"
-                
+
             };
 
             const stateAfter = {
@@ -1576,8 +1611,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle swaping a unit to the same teaching period but earlier position", () => {
             //newtp = oldtp && oldUnitPosition > newUnitPosition
@@ -1599,7 +1634,7 @@ describe("REDUCER: CourseStructure", () => {
                 newTPIndex: 0,
                 newUnitIndex: 0,
                 unitToSwap: "PlaceToMoveTo"
-                
+
             };
 
             const stateAfter = {
@@ -1615,8 +1650,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle swaping a unit to the same teaching period but later position", () => {
             //newtp = oldtp && newUnitPosition > oldUnitPosition
@@ -1638,7 +1673,7 @@ describe("REDUCER: CourseStructure", () => {
                 newTPIndex: 0,
                 newUnitIndex: 2,
                 unitToSwap: "PlaceToMoveTo"
-                
+
             };
 
             const stateAfter = {
@@ -1654,8 +1689,8 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
 
         it("Should correctly handle swaping a unit to the same teaching period and exact same position", () => {
             //newtp = oldtp && newUnitPosition = oldUnitPosition
@@ -1677,7 +1712,7 @@ describe("REDUCER: CourseStructure", () => {
                 newTPIndex: 1,
                 newUnitIndex: 2,
                 unitToSwap: "PlaceToMoveTo"
-                
+
             };
 
             const stateAfter = {
@@ -1693,8 +1728,53 @@ describe("REDUCER: CourseStructure", () => {
                 ]
             };
 
-            test(stateBefore, action, stateAfter);
-        }); 
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: VALIDATE_COURSE", () => {
+        it("should give no errors for an empty course plan.", () => {
+            const stateBefore = {
+                teachingPeriods: [],
+                courseErrors: [{
+                    message: "ABC1234 already exists in your course plan."
+                }]
+            };
+
+            const action = {
+                type: "VALIDATE_COURSE"
+            };
+
+            const stateAfter = {
+                teachingPeriods: [],
+                courseErrors: []
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("DEFAULT", () => {
+        it("should not change the state if it receives an unknown action", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                unitToBeMoved: "TestUnit",
+                tpIndexOfUnitToBeMoved: 1,
+                unitsIndexOfUnitToBeMoved: 2,
+                teachingPeriods: [
+                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
+                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                ]
+            };
+
+            const action = {
+                type: "THIS_IS_A_LONG_NAME_FOR_AN_ACTION",
+                value: 42
+            };
+
+            test(CourseStructure, stateBefore, action, stateBefore);
+        });
     });
 });
-

@@ -1,5 +1,3 @@
-import expect from "expect";
-import deepFreeze from "deep-freeze";
 import Notifications from "../../app/reducers/Notifications";
 import { describe, it } from "mocha";
 
@@ -31,12 +29,7 @@ describe("REDUCER: Notifications", () => {
                 ]
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                Notifications(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(Notifications, stateBefore, action, stateAfter);
         });
 
         it("should prepend a notification into an list of a few existing notifications.", () => {
@@ -98,12 +91,7 @@ describe("REDUCER: Notifications", () => {
                 ]
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                Notifications(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(Notifications, stateBefore, action, stateAfter);
         });
     });
 
@@ -164,12 +152,7 @@ describe("REDUCER: Notifications", () => {
                 ]
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
-
-            expect(
-                Notifications(stateBefore, action)
-            ).toEqual(stateAfter);
+            test(Notifications, stateBefore, action, stateAfter);
         });
 
         it("Should remove a notification given its index", () => {
@@ -228,12 +211,39 @@ describe("REDUCER: Notifications", () => {
                 ]
             };
 
-            deepFreeze(stateBefore);
-            deepFreeze(action);
+            test(Notifications, stateBefore, action, stateAfter);
+        });
+    });
 
-            expect(
-                Notifications(stateBefore, action)
-            ).toEqual(stateAfter);
+    describe("DEFAULT", () => {
+        it("Should not change state if it does not recognise an action", () => {
+            const stateBefore = {
+                notificationsList: [
+                    {
+                        id: "TEST_NOTIFICATION",
+                        title: "This is a test",
+                        message: "Some message goes over here",
+                        level: "info",
+                        dismissable: undefined,
+                        autoDismiss: undefined
+                    },
+                    {
+                        id: "CONNECTION_LOST",
+                        title: "Lost connection",
+                        message: "Please check your connection. This notification will go away once you go online.",
+                        level: "warning",
+                        dismissable: false,
+                        autoDismiss: undefined
+                    }
+                ]
+            };
+
+            const action = {
+                type: "THIS_IS_A_LONG_NAME_FOR_AN_ACTION",
+                value: 42
+            };
+
+            test(Notifications, stateBefore, action, stateBefore);
         });
     });
 });
