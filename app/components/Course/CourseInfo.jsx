@@ -34,6 +34,12 @@ export default function CourseInfo(props){
                     <Grid.Row>
                         <CourseDescription description={props.courseDescription} />
                     </Grid.Row>
+                    <Grid.Row>
+                        <Divider />
+                        <Icon name="student" />
+                        <b>Awards: </b>
+                        <p><i>{props.awards.length !== 0 ? props.awards : "No Awards Available"}</i></p>
+                    </Grid.Row>
                 </Grid.Column>
 
                 <Grid.Column width={4}>
@@ -57,9 +63,7 @@ export default function CourseInfo(props){
                     <b>Abbreviated Title </b>
                     <p><i>{props.abrTitle}</i></p>
                     <Divider />
-                    <Icon name="student" />
-                    <b>Awards: </b>
-                    <p><i>{props.awards.length !== 0 ? props.awards : "No Awards Available"}</i></p>
+                    
                     <Divider />
                     <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/courses/${props.courseCode}.html`}>{"View " + props.courseCode + " handbook entry"}</a>
                     <Divider />

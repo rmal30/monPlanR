@@ -18,7 +18,7 @@ export default function CourseDetailPopup({ trigger, courseCode }) {
         courseCode: PropTypes.string
     };
 
-    const closeTrigger = <Button content="Close" />;
+    const closeTrigger = <Button className="btnlightcancel" content="Close" />;
 
     return (
         <ControlledModal
