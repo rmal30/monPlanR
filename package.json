@@ -43,6 +43,7 @@
     "object-assign": "^4.1.1",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
+    "react-addons-test-utils": "^15.4.2",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dnd-touch-backend": "^0.3.5",
@@ -73,14 +74,12 @@
     "deploy:mocha": "sh ./build_mocha_awesome.sh",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
-
     "test": "EXIT_STATUS=0; npm run test:unit || EXIT_STATUS=$?; npm run test:lint || EXIT_STATUS=$?; exit $EXIT_STATUS",
     "test:lint": "eslint --ext .jsx --ext .js app test",
     "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
     "test:coverage": "nyc --require babel-core/register --all=$ALL --extension .jsx mocha test/setup.js test/**/*.spec.{js,jsx}",
     "test:coverage-all": "ALL=true npm run test:coverage",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-
     "unittest": "npm run test:unit -- -C",
     "fix": "npm run test:lint -- --fix"
   },
