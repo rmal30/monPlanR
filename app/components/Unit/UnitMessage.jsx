@@ -118,6 +118,13 @@ export function UnitMessage(props) {
             style={{cursor: "pointer", width: props.width ? props.width: undefined}}
             className={"unit " + facultyColor + (props.draggable ? " draggable" : "")}
 
+            onClick={() => props.newUnit && props.willAddUnit &&
+                props.willAddUnit(props.code,
+                    props.custom && {
+                        UnitCode: props.code,
+                        customUnitDragging: true
+                    }
+            )}
             onMouseEnter={e => props.handleUnitMouseEnter && props.handleUnitMouseEnter(e)}
             onMouseMove={e => props.handleUnitMouseMove && props.handleUnitMouseMove(e)}
             onMouseLeave={e => props.handleUnitMouseLeave && props.handleUnitMouseLeave(e)}
