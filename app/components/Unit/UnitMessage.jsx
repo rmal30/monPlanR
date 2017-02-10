@@ -90,25 +90,24 @@ export function UnitMessage(props) {
     if(isDragging) {
         return null;
     }
-
     const facultyColors = {
-        "Art, Design and Architecture": "yellow",
-        "Arts": "red",
-        "Business and Economics": "teal",
-        "Education": "violet",
-        "Engineering": "orange",
-        "Information Technology": "purple",
-        "Law": "grey",
-        "Medicine, Nursing and Health Sciences": "blue",
-        "Pharmacy and Pharmaceutical Sciences": "olive",
-        "Science": "green",
-        "All": "black"
+        "Faculty of Art, Design and Architecture": "ada",
+        "Faculty of Arts": "arts",
+        "Faculty of Business and Economics": "buseco",
+        "Faculty of Education": "edu",
+        "Faculty of Engineering": "eng",
+        "Faculty of Information Technology": "fit",
+        "Faculty of Law": "law",
+        "Faculty of Medicine, Nursing and Health Sciences": "med",
+        "Faculty of Pharmacy and Pharmaceutical Sciences": "pha",
+        "Faculty of Science": "sci",
+        "Faculty of All": "all"
     };
 
     let facultyColor = undefined;
 
     if(typeof props.faculty === "string") {
-        facultyColor = facultyColors[props.faculty.replace("Faculty of ", "")];
+        facultyColor = facultyColors[props.faculty];
     }
 
     /**
@@ -117,8 +116,7 @@ export function UnitMessage(props) {
     const unitMessage = mobile =>
         <Message
             style={{cursor: "pointer", width: props.width ? props.width: undefined}}
-            color={facultyColor}
-            className={"unit" + (props.draggable ? " draggable" : "")}
+            className={"unit " + facultyColor + (props.draggable ? " draggable" : "")}
 
             onMouseEnter={e => props.handleUnitMouseEnter && props.handleUnitMouseEnter(e)}
             onMouseMove={e => props.handleUnitMouseMove && props.handleUnitMouseMove(e)}
