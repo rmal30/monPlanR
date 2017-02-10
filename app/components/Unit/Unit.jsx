@@ -24,6 +24,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         unitToAdd: state.CourseStructure.unitToAdd,
+        highlightingInvalidUnitSlots: state.CourseStructure.highlightingInvalidUnitSlots,
         viewOnly: state.UI.readOnly
     };
 };
@@ -178,7 +179,7 @@ export class Unit extends React.Component {
                         connectDropTarget(
                         <td
                             className={(isOver || this.state.tableCellHover && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : "" +
-                                        (this.props.isError || (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
+                                        (this.props.isError || !this.props.highlightingInvalidUnitSlots && (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
                             }
                             onMouseOver={this.handleTableCellMouseOver.bind(this)}
                             onMouseOut={this.handleTableCellMouseOut.bind(this)}
@@ -284,6 +285,7 @@ Unit.propTypes = {
     /* Validation */
     isError: PropTypes.bool,
     errors: PropTypes.array,
+    highlightingInvalidUnitSlots: PropTypes.bool,
 
     viewOnly: PropTypes.bool,
 
