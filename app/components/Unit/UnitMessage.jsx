@@ -116,7 +116,7 @@ export function UnitMessage(props) {
     const unitMessage = mobile =>
         <Message
             style={{cursor: "pointer", width: props.width ? props.width: undefined}}
-            className={"unit header " + facultyColor + (props.draggable ? " draggable" : "")}
+            className={"unit " + facultyColor + (props.draggable ? " draggable" : "")}
 
             onMouseEnter={e => props.handleUnitMouseEnter && props.handleUnitMouseEnter(e)}
             onMouseMove={e => props.handleUnitMouseMove && props.handleUnitMouseMove(e)}
