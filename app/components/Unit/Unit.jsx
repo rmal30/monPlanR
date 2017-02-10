@@ -8,13 +8,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as courseActions from "../../actions/CourseActions";
+import * as UIActions from "../../actions/UIActions";
 
 
 /**
  * Set up any functions from the action creators you want to pass in
  */
 const mapDispatchToProps = dispatch => {
-    const actionBundle = {...dataFetchActions, ...courseActions};
+    const actionBundle = {...dataFetchActions, ...courseActions, ...UIActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -200,6 +201,10 @@ export class Unit extends React.Component {
                                     {this.props.placeholder &&
                                         <Message
                                             className="unit placeholder"
+                                            onClick={e => {
+                                                e.stopPropagation() /* otherwise sidebar will never show */;
+                                                this.props.showSidebar();
+                                            }}
                                             size="mini">
                                             <Message.Header>{this.props.code}</Message.Header>
                                             {this.props.name}
@@ -257,6 +262,8 @@ Unit.propTypes = {
     name: PropTypes.string,
     faculty: PropTypes.string,
     placeholder: PropTypes.bool,
+    /* Used for placeholder units when users click on it */
+    showSidebar: PropTypes.func,
 
     unitToAdd: PropTypes.object,
 

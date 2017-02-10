@@ -27,6 +27,7 @@ import * as uiActions from "../../actions/UIActions";
  */
 const mapStateToProps = state => {
     return {
+        startYear: state.CourseStructure.startYear,
         creditPoints: state.Counter.creditPoints,
         cost: state.Counter.cost,
         teachingPeriods: state.CourseStructure.teachingPeriods,
@@ -64,16 +65,6 @@ const mapDispatchToProps = dispatch => {
  * @param {number} endYear - The expected graduation year.
  */
 class CourseStructure extends Component {
-
-    /**
-     * Initialises state that holds a list of teachingPeriods.
-     *
-     * @param props - React props
-     */
-    constructor(props) {
-        super(props);
-    }
-
     /**
      * This is necessary for passing down changes in the totals from the parent plan element,
      * it keeps the totals updated.
@@ -151,7 +142,7 @@ class CourseStructure extends Component {
 
         const { teachingPeriods, teachingPeriodData, showingInsertTeachingPeriodUI, teachingPeriodCodeToInsert } = this.props;
         if(showingInsertTeachingPeriodUI) {
-            year = this.state.startYear || new Date().getFullYear();
+            year = this.props.startYear || new Date().getFullYear();
         }
 
         for(let i = 0; i <= teachingPeriods.length; i++) {

@@ -11,11 +11,11 @@ import { Button, Icon, Popup, Table } from "semantic-ui-react";
  */
 const InsertTeachingPeriod = (props) => {
 
-    let { onInsertTeachingPeriod, numberOfUnits, tpString } = props;
+    let { onInsertTeachingPeriod, numberOfUnits, tpString, year } = props;
 
     const triggerButton = (
         <Button inverted color="green" onClick={onInsertTeachingPeriod} fluid>
-            <Icon name="plus" /> Insert {tpString}
+            <Icon name="plus" /> Insert {tpString}, {year}
         </Button>
     );
 
@@ -24,9 +24,9 @@ const InsertTeachingPeriod = (props) => {
             <Table.Cell textAlign="center" colSpan={numberOfUnits + 1}>
                 {triggerButton}
                 {false &&
-                <Popup 
-                    hoverable 
-                    flowing 
+                <Popup
+                    hoverable
+                    flowing
                     trigger={<Button inverted color="green" onClick={onInsertTeachingPeriod} fluid>
                                 <Icon name="plus" /> Insert {tpString}
                              </Button>}>
@@ -40,7 +40,8 @@ const InsertTeachingPeriod = (props) => {
 export default InsertTeachingPeriod;
 
 InsertTeachingPeriod.propTypes = {
-    tpString: PropTypes.string,
+    tpString: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
     numberOfUnits: PropTypes.number,
     onInsertTeachingPeriod: PropTypes.func
 };

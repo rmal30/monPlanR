@@ -89,7 +89,7 @@ class Main extends Component {
                     <Sidebar.Pusher
                         id="main-body"
                         style={{backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"}}
-                        onClick={this.handleDocumentClick}>
+                        onClick={this.props.hideSidebar}>
                         <ReactCSSTransitionGroup
                               transitionName="appear"
                               transitionEnterTimeout={500}
