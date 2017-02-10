@@ -9,6 +9,7 @@ import LocalStorage from "../../utils/LocalStorage";
 import * as courseActions from "../../actions/CourseActions";
 
 import YearCalc from "../../utils/YearCalc.js";
+import ShowYear from "../../utils/ShowYear";
 
 /**
  * The year form container prompts students to enter in their commercement and
@@ -22,7 +23,7 @@ class YearFormContainer extends Component {
         super(props);
 
         this.state = {
-            startYear: null,
+            startYear: ShowYear(),
             startYearErrorMessage: "",
             isStartYearError: false,
             endYearErrorMessage: "",
