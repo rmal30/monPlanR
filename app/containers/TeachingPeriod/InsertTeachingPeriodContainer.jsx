@@ -5,37 +5,40 @@ import { bindActionCreators } from "redux";
 import * as courseActions from "../../actions/CourseActions";
 import * as uiActions from "../../actions/UIActions";
 
-import { getSemesterString } from "../../utils/NextSemesterString";
-
 import InsertTeachingPeriod from "../../components/TeachingPeriod/InsertTeachingPeriod.jsx";
 
 
 /**
  * Container for a insert teaching period thing
  */
-const InsertTeachingPeriodContainer = (props) => {
-    let { index, year, numberOfUnits, teachingPeriodData, teachingPeriodCodeToInsert} = props;
+const InsertTeachingPeriodContainer = props => {
+    let { index, year, numberOfUnits, teachingPeriodData, teachingPeriodCodeToInsert } = props;
 
-    /** 
-     * When teaching period insert is clicked, we insert it via redux function and 
+    /**
+     * When teaching period insert is clicked, we insert it via redux function and
      * then hide the insert teaching period UI
      */
     const handleInsertTeachingPeriod = () => {
         props.insertTeachingPeriod(index, year, teachingPeriodCodeToInsert);
-        props.hideInsertTeachingPeriodUI();  
+        props.hideInsertTeachingPeriodUI();
     };
 
-    const tpString = getSemesterString(year, teachingPeriodData, teachingPeriodCodeToInsert);
-    
+    let tpString = teachingPeriodCodeToInsert;
+
+    if(teachingPeriodData) {
+        const teachingPeriodType = teachingPeriodData.find(ele => ele.code === teachingPeriodCodeToInsert);
+
+        if(teachingPeriodType) {
+            tpString = teachingPeriodType.name;
+        }
+    }
+
     return (
         <InsertTeachingPeriod
             tpString={tpString}
-            index={index}
+            year={year}
             numberOfUnits={numberOfUnits}
-            onInsertTeachingPeriod={handleInsertTeachingPeriod}
-            teachingPeriodType="Teaching Period"
-            teachingPeriods={teachingPeriodData}
-            code={teachingPeriodCodeToInsert} />
+            onInsertTeachingPeriod={handleInsertTeachingPeriod} />
     );
 };
 
