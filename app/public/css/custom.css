@@ -149,6 +149,10 @@ html, body {
     box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15) !important;
 }
 
+.placeholder.unit {
+    cursor: pointer;
+}
+
 /* Adds margin in between a button and a dropdown */
 .buttons > .dropdown {
     margin-left: 0.1em !important;

@@ -33,7 +33,7 @@ class Header extends Component {
             ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as duplicate units.";
 
         return (
-            <Menu inverted compact className="no-print nav toolbars" style={{borderRadius: 0}}>
+            <Menu onClick={() => this.props.hideSidebar()} inverted compact className="no-print nav toolbars" style={{borderRadius: 0}}>
                 <Menu.Menu>
                     <Link to="/">
                         <Menu.Item>
@@ -46,7 +46,10 @@ class Header extends Component {
                         <Button
                             icon
                             className={this.props.showingSidebar ? "btnlightcancel": "btnlightblue"}
-                            onClick={() => {this.props.showingSidebar ? this.props.hideSidebar() : this.props.showSidebar();}}>
+                            onClick={e => {
+                                e.stopPropagation() /* otherwise add unit button will never work*/;
+                                this.props.showingSidebar ? this.props.hideSidebar() : this.props.showSidebar();
+                            }}>
                                 <Icon name="plus" className={this.props.showingSidebar && "active" || "normal"} />
                                 <MediaQuery style={{display: "inline-block"}} minDeviceWidth={768}>
                                     &nbsp;&nbsp;{this.props.showingSidebar ? <span>&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;</span> : "Add unit"}
