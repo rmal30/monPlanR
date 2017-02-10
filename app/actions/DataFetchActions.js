@@ -46,18 +46,18 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
         });
         axios.get(`${MONPLAN_REMOTE_URL}/courses/${courseID}`)
             .then(resp => {
-                
+
                 dispatch({
                     type: "FETCH_COURSE_TEMPLATE_FULFILLED",
                     payload: resp
                 });
 
                 const result = CourseTemplate.parse(resp.data, startYear);
-                
+
                 dispatch({
                     type: "CLEAR_COURSE"
                 });
-                
+
                 dispatch({
                     type: "LOAD_NEW_TEACHING_PERIODS",
                     value: result.newTeachingPeriods
@@ -72,12 +72,12 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                     type: "INCREMENT_CREDIT_POINTS",
                     value: result.newCP
                 });
-                
+
                 dispatch({
                     type: "INCREMENT_COST",
                     value: result.newCost
                 });
-                
+
                 dispatch({
                     type: "GET_NEXT_SEMESTER_STRING"
                 });

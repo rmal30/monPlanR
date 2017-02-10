@@ -223,6 +223,15 @@ describe("REDUCER: Counter", () => {
     });
 
     describe("DEFAULT", () => {
-        //it("Should ")
+        it("Should not change state if it does not recognise an action", () => {
+            const stateBefore = {cost: 40000, creditPoints: 144};
+
+            const action = {
+                type: "THIS_IS_A_LONG_NAME_FOR_AN_ACTION",
+                value: 42
+            };
+
+            test(Counter, stateBefore, action, stateBefore);
+        });
     });
 });

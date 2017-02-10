@@ -11,7 +11,13 @@ import UnitDetailModal from "./UnitDetailModal.jsx";
 const unitSource = {
     beginDrag(props) {
         if(props.newUnit) {
-            props.willAddUnit(props.code, props.custom, true);
+            props.willAddUnit(
+                props.code,
+                props.custom && {
+                    UnitCode: props.code,
+                    customUnitDragging: true
+                },
+                true);
         } else {
             props.movingUnit(props.unit, props.index, props.teachingPeriodIndex);
         }

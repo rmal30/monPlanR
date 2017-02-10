@@ -7,6 +7,7 @@ import UnitMessage from "../Unit/UnitMessage.jsx";
 import CostCalc from "../../utils/CostCalc.js";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as UIActions from "../../actions/UIActions";
+import * as CourseActions from "../../actions/CourseActions";
 
 /**
  * The custom unit modal that allows students to enter in units manually if our web
@@ -43,7 +44,7 @@ class CustomUnitModal extends Component {
         ];
 
         this.state = {
-            UnitCode: this.props.UnitCode, // TODO: find some better way of doing this
+            UnitCode: this.props.UnitCode && this.props.UnitCode.toUpperCase(),
             UnitName: "",
             Faculty: "",
             SCABand: 0,
@@ -224,7 +225,15 @@ class CustomUnitModal extends Component {
                         disabled={!this.formIsValid.call(this)}
                         color="yellow"
                         className="btnmainblue"
-                        onClick={() => {this.props.hideCustomUnitUI(); this.props.willAddUnit(UnitCode, this.state);}}
+                        onClick={() => {
+                            if(typeof this.props.customTpIndex === "number" && typeof this.props.customUnitIndex === "number") {
+                                this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, this.state);
+                            } else {
+                                this.props.willAddUnit(UnitCode, this.state);
+                            }
+
+                            this.props.hideCustomUnitUI();
+                        }}
                         floated="right">
                             Add {UnitCode}
                     </Button>
@@ -240,7 +249,12 @@ CustomUnitModal.propTypes = {
     position: PropTypes.array,
     open: PropTypes.bool,
     hideCustomUnitUI: PropTypes.func,
-    willAddUnit: PropTypes.func
+    willAddUnit: PropTypes.func,
+    addUnit: PropTypes.func,
+
+    /* For custom units that have been dragged onto the course plan */
+    customTpIndex: PropTypes.number,
+    customUnitIndex: PropTypes.number
 };
 
 /**
@@ -249,7 +263,9 @@ CustomUnitModal.propTypes = {
 const mapStateToProps = state => {
     return {
         open: state.UI.showingCustomUnitModal,
-        UnitCode: state.UI.customUnitCode
+        UnitCode: state.UI.customUnitCode,
+        customTpIndex: state.UI.customTpIndex,
+        customUnitIndex: state.UI.customUnitIndex
     };
 };
 
@@ -257,7 +273,7 @@ const mapStateToProps = state => {
  * Inject UI actions to allow users to hide the modal.
  */
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({...dataFetchActions, ...UIActions}, dispatch);
+    return bindActionCreators({...dataFetchActions, ...UIActions, ...CourseActions}, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomUnitModal);

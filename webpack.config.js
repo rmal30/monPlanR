@@ -44,10 +44,6 @@ const config = {
         "cheerio": "window",
         "react/lib/ExecutionEnvironment": true,
         "react/lib/ReactContext": true,
-    },
-
-    devServer: {
-        headers: { "Access-Control-Allow-Origin": "api.monplan.tech"}
     }
 };
 

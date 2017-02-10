@@ -1,4 +1,5 @@
 import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
+import validateCoursePlan from "../utils/ValidateCoursePlan";
 
 /**
  * @author JXNS, Saurabh Joshi
@@ -374,7 +375,8 @@ const CourseStructure = (state = defaultState, action) => {
         case "LOAD_NEW_TEACHING_PERIODS":
             return {
                 ...state,
-                teachingPeriods: action.value
+                teachingPeriods: action.value,
+                courseErrors: validateCoursePlan(action.value)
             };
 
         case "GET_NEW_NUMBER_OF_UNITS":
@@ -762,7 +764,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "VALIDATE_COURSE":
             return {
                 ...state,
-                courseErrors: []
+                courseErrors: validateCoursePlan(state.teachingPeriods)
             };
 
         default:
