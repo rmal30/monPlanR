@@ -12,7 +12,7 @@ var metaDataPlugin = new webpack.DefinePlugin({
     MONPLAN_DESCRIPITON: packageJSON.description,
     MONPLAN_VERSION: JSON.stringify(packageJSON.version),
     MONPLAN_AUTHOR: packageJSON.author,
-    MONPLAN_REMOTE_URL: JSON.stringify("https://monplan-api-dev.appspot.com"),
+    MONPLAN_REMOTE_URL: JSON.stringify("https://api2.monplan.tech"),
     "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
 });
 
