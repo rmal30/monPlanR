@@ -38,7 +38,7 @@ class Header extends Component {
                     <Link to="/">
                         <Menu.Item>
                             <img className="logo" src="/img/logo.png" alt="logo" />
-                            <MediaQuery minDeviceWidth={768}>monPlan</MediaQuery>
+                            <MediaQuery minDeviceWidth={768} style={{marginLeft: "1em"}}>monPlan</MediaQuery>
                         </Menu.Item>
                     </Link>
                     {this.props.showAddUnit &&
@@ -101,7 +101,7 @@ class Header extends Component {
                                     <Dropdown.Header>Our Policies</Dropdown.Header>
                                     <ToSModal trigger={<Dropdown.Item as="a">Terms of Use</Dropdown.Item>} />
                                     <PrivacyModal trigger={<Dropdown.Item as="a">Privacy Policy</Dropdown.Item>} />
-                                    <Disclaimer trigger={<Dropdown.Item as="a">Discaimer</Dropdown.Item>} />
+                                    <Disclaimer trigger={<Dropdown.Item as="a">Disclaimer</Dropdown.Item>} />
                                 </Dropdown.Menu>
                             </Dropdown>
                         }
