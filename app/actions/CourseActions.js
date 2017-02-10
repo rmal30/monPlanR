@@ -97,6 +97,8 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
                 creditPoints: unit.CreditPoints
             });
 
+            dispatch(validateCourse());
+
             dispatch({
                 type: "REMOVE_NOTIFICATION",
                 id: "ADDING_UNIT"
@@ -116,12 +118,16 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
  * REMOVE_UNIT
  */
 export const removeUnit = (tpIndex, unitIndex, creditPoints, cost) => {
-    return {
-        type: "REMOVE_UNIT",
-        tpIndex,
-        unitIndex,
-        creditPoints,
-        cost
+    return function(dispatch) {
+        dispatch({
+            type: "REMOVE_UNIT",
+            tpIndex,
+            unitIndex,
+            creditPoints,
+            cost
+        });
+
+        dispatch(validateCourse());
     };
 };
 
@@ -399,6 +405,7 @@ export const moveUnit = (newUnitIndex, newTPIndex) => {
         });
 
         dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
+        dispatch(validateCourse());
     };
 };
 
@@ -415,6 +422,7 @@ export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
         });
 
         dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
+        dispatch(validateCourse());
     };
 };
 

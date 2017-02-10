@@ -375,7 +375,8 @@ const CourseStructure = (state = defaultState, action) => {
         case "LOAD_NEW_TEACHING_PERIODS":
             return {
                 ...state,
-                teachingPeriods: action.value
+                teachingPeriods: action.value,
+                courseErrors: validateCoursePlan(action.value)
             };
 
         case "GET_NEW_NUMBER_OF_UNITS":

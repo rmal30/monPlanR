@@ -188,7 +188,7 @@ export const fetchTeachingPeriods = () => {
         dispatch({
             type: "FETCH_TEACHING_PERIODS_PENDING"
         });
-        axios.get(`${MONPLAN_REMOTE_URL}/basic/periods`)
+        axios.get(`${MONPLAN_REMOTE_URL}/basic/teachingperiods`)
              .then(response => {
                  /**
                   * Compares start teaching period date between two teaching periods.
