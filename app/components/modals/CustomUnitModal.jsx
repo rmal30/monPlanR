@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Button, Container, Form, Select, Modal, Icon } from "semantic-ui-react";
 
 import UnitMessage from "../Unit/UnitMessage.jsx";
-import CostCalc from "../../utils/CostCalc.js";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as UIActions from "../../actions/UIActions";
 import * as CourseActions from "../../actions/CourseActions";
@@ -140,19 +139,6 @@ class CustomUnitModal extends Component {
     }
 
     /**
-     * Allows user to add their custom unit to their course plan.
-     */
-    addCustomUnitToCourse() {
-        const { SCABand, CreditPoints } = this.state;
-
-        this.props.addCustomUnitToCourse({
-            ...this.state,
-            Cost: CostCalc.calculateCost(SCABand, CreditPoints),
-            position: this.props.position
-        });
-    }
-
-    /**
      * Handles
      */
     handleBlur(e, { value }) {
@@ -245,7 +231,6 @@ class CustomUnitModal extends Component {
 
 CustomUnitModal.propTypes = {
     UnitCode: PropTypes.string,
-    addCustomUnitToCourse: PropTypes.func.isRequired,
     position: PropTypes.array,
     open: PropTypes.bool,
     hideCustomUnitUI: PropTypes.func,
