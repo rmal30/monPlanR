@@ -9,6 +9,7 @@ import * as dataFetchActions from "../../actions/DataFetchActions";
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitQuery from "../../utils/UnitQuery";
 import YearCalc from "../../utils/YearCalc.js";
+import ShowYear from "../../utils/ShowYear";
 
 
 
@@ -33,7 +34,7 @@ class CourseSelectFormContainer extends Component {
             specialisations: [],
             code: "",
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
-            year: (this.startYearPlaceholder - 1),
+            year: (ShowYear()),
             specIsDisabled: true,
             yearIsDisabled: true,
             courseSelected: false
