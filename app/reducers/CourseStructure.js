@@ -1,5 +1,5 @@
 import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
-import validateCoursePlan from "../utils/ValidateCoursePlan";
+import { validateCoursePlan, getInvalidUnitSlotCoordinates } from "../utils/ValidateCoursePlan";
 
 /**
  * @author JXNS, Saurabh Joshi
@@ -82,6 +82,7 @@ const defaultState = {
 
     // Course errors is used for displaying course error messages.
     courseErrors: [],
+    invalidUnitSlotCoordinates: [],
 
     focusedUnitCode: null,
     focusedCourse: null,
@@ -765,6 +766,18 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 courseErrors: validateCoursePlan(state.teachingPeriods)
+            };
+
+        case "HIGHLIGHT_INVALID_UNIT_SLOTS":
+            return {
+                ...state,
+                invalidUnitSlotCoordinates: getInvalidUnitSlotCoordinates(state.teachingPeriods, action.tempUnit, action.duplicateGraceFlag)
+            };
+
+        case "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS":
+            return {
+                ...state,
+                invalidUnitSlotCoordinates: []
             };
 
         default:

@@ -37,7 +37,8 @@ const mapStateToProps = state => {
         teachingPeriodCodeToInsert: state.CourseStructure.teachingPeriodCodeToInsert,
         showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
         courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading,
-        courseErrors: state.CourseStructure.courseErrors
+        courseErrors: state.CourseStructure.courseErrors,
+        invalidUnitSlotCoordinates: state.CourseStructure.invalidUnitSlotCoordinates
     };
 };
 
@@ -93,111 +94,6 @@ class CourseStructure extends Component {
     }
 
     /**
-     * [teachingPeriodIndex, unitIndex]
-     * If null is specified, then it highlights everything
-     * e.g. [0, null] highlights all units in first teaching period
-     * e.g. [null, 4] highlights all units in fourth Column
-     * e.g. [null, null] highlights all units in course plan.
-     */
-    invalidCoordinatesForTempUnit() {
-        let tempUnit = [];
-        let duplicateGraceFlag = false;
-        /**
-         * if(this.state.showMoveUnitUI) {
-            tempUnit = this.state.unitToBeMoved;
-            duplicateGraceFlag = true;
-         */
-        /**
-         * if(this.state.showMoveUnitUI) {
-            tempUnit = this.state.unitToBeMoved;
-            duplicateGraceFlag = true;
-         */
-
-        const { teachingPeriods } = this.props;
-
-        let duplicateFound = false;
-
-        for(let i = 0; i < teachingPeriods.length; i++) {
-            for(let j = 0; j < teachingPeriods[i].units.length; j++) {
-                if(!duplicateFound) {
-                    if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].UnitCode === tempUnit.UnitCode && !teachingPeriods[i].units[j].placeholder) {
-                        if(duplicateGraceFlag) {
-                            duplicateGraceFlag = false;
-                        } else {
-                            // Found duplicate, invalidate all coordinates
-                            duplicateFound = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        if(duplicateFound) {
-            return [[null, null]];
-        }
-
-        // Check if unit in the teaching period is being offered
-        let codeMap = {
-            "FY-01": "Full year",
-            "S1-01": "First semester",
-            "S2-01": "Second semester",
-            "SSA-02": "Summer semester A",
-            "SSB-01": "Summer semester B",
-            "WS-01": "Winter semester"
-        };
-
-
-        let offerings = tempUnit.LocationAndTime;
-
-        if(!offerings) {
-            return [];
-        }
-
-        const coordinates = [];
-
-        for(let i = 0; i < this.props.teachingPeriods.length; i++) {
-
-            const teachingPeriodStr = codeMap[this.props.teachingPeriods[i].code];
-
-            if (teachingPeriodStr !== undefined) {
-                // semester we're checking against is covered by mapping'
-                let re = new RegExp(teachingPeriodStr);
-
-                let isValid = false;
-
-                for(let k = 0; k < offerings.length; k++) {
-                    let locations = offerings[k][1];
-                    if(!locations) {
-                        continue;
-                    }
-
-                    for(let l = 0; l < locations.length; l++) {
-                        let offering = locations[l];
-                        let isMatch = re.test(offering);
-
-                        if(isMatch) {
-                            isValid = true;
-                            break;
-                        }
-                    }
-                    if(isValid) {
-                        break;
-                    }
-                }
-
-                if (!isValid) {
-                    coordinates.push([i, null]);
-                }
-            }
-        }
-
-        return coordinates;
-    }
-
-
-
-
-    /**
      * Loads course if it exists.
      *
      * @author Saurabh Joshi
@@ -239,41 +135,19 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Returns a rendered teaching period component as a table row to be used in
-     * a table.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriod - The teaching period object.
-     * @param {number} index - For bookkeeping which teaching period is which.
-     * @param {array} errors - Errors related to the teaching period.
-     */
-    renderTeachingPeriod(teachingPeriod, index, errors, tempInvalidCoordinates) {
-        return <TeachingPeriod
-                    key={`${teachingPeriod.year}-${teachingPeriod.code}`}
-                    index={index}
-                    year={teachingPeriod.year}
-                    code={teachingPeriod.code}
-                    units={teachingPeriod.units}
-                    errors={errors}
-                    tempInvalidCoordinates={tempInvalidCoordinates} />;
-    }
-
-    /**
      * Returns a table of teaching periods as table rows, and in teaching period
      * holds a list of units represented as table cells. It also renders an add button
      * as well as some status labels.
-     *
-     * TODO: Modularise into smaller components for course structure.
      *
      * @author Saurabh Joshi
      * @returns {ReactElement} CourseStructure
      */
     render() {
         const errors = this.props.courseErrors;
-        const tempInvalidCoordinates = this.invalidCoordinatesForTempUnit();
+        const invalidUnitSlotCoordinates = this.props.invalidUnitSlotCoordinates;
 
         const tableRows = [];
-        let year, show = false;
+        let year, displayButton = false;
 
         const { teachingPeriods, teachingPeriodData, showingInsertTeachingPeriodUI, teachingPeriodCodeToInsert } = this.props;
         if(showingInsertTeachingPeriodUI) {
@@ -281,15 +155,32 @@ class CourseStructure extends Component {
         }
 
         for(let i = 0; i <= teachingPeriods.length; i++) {
-            show = true;
+            displayButton = true;
+
             if(i !== 0) {
-                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1, errors.map(err =>
+                const teachingPeriod = teachingPeriods[i - 1];
+
+                const tpErrors = errors.map(err =>
                     ({
                         ...err,
                         coordinates: err.coordinates.filter(x => x[0] === i - 1)
                     })
-                ).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null)));
-                year = teachingPeriods[i - 1].year;
+                ).filter(err => err.coordinates.length > 0);
+
+                const tpInvalidUnitSlotCoordinates = invalidUnitSlotCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null);
+
+                tableRows.push(
+                    <TeachingPeriod
+                        key={`${teachingPeriod.year}-${teachingPeriod.code}`}
+                        index={i - 1}
+                        year={teachingPeriod.year}
+                        code={teachingPeriod.code}
+                        units={teachingPeriod.units}
+                        errors={tpErrors}
+                        tempInvalidCoordinates={tpInvalidUnitSlotCoordinates} />
+                    );
+
+                year = teachingPeriod.year;
 
                 if(!showingInsertTeachingPeriodUI) {
                     continue;
@@ -341,7 +232,7 @@ class CourseStructure extends Component {
                 continue;
             }
 
-            if(showingInsertTeachingPeriodUI && show) {
+            if(showingInsertTeachingPeriodUI && displayButton) {
                 tableRows.push(
                     <InsertTeachingPeriodContainer
                         index={i}
@@ -419,7 +310,12 @@ CourseStructure.propTypes = {
     viewOnly: PropTypes.bool,
     switchToEditCourse: PropTypes.bool,
     teachingPeriods: PropTypes.array,
+
     courseErrors: PropTypes.array,
+    invalidUnitSlotCoordinates: PropTypes.arrayOf(
+        PropTypes.arrayOf(PropTypes.number)
+    ),
+
     numberOfUnits: PropTypes.number,
     startYear: PropTypes.number,
     creditPoints: PropTypes.number,
@@ -434,7 +330,6 @@ CourseStructure.propTypes = {
     handleEditCoursePlanClick: PropTypes.func,
     clearCourse: PropTypes.func,
     loadCourseSnap: PropTypes.func,
-    validateCourse: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
     loadCourseFromLocalStorage: PropTypes.func,
 

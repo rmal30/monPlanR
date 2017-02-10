@@ -2,6 +2,7 @@ import axios from "axios";
 import CourseTemplate from "../utils/CourseTemplate";
 import CostCalc from "../utils/CostCalc";
 
+import * as CourseActions from "./CourseActions";
 import * as NotificationActions from "./Notifications";
 
 /**
@@ -162,6 +163,8 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                     dispatch({
                         type: "UPDATE_UNIT_TO_ADD"
                     });
+
+                    dispatch(CourseActions.highlightInvalidUnitSlots(resp.data, false));
                 })
                 .catch(err => {
                     dispatch({
@@ -174,6 +177,8 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                 type: "UPDATE_UNIT_TO_ADD",
                 customUnitToAdd
             });
+
+            dispatch(CourseActions.highlightInvalidUnitSlots(customUnitToAdd, false));
         }
     };
 };
