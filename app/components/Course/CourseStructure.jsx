@@ -36,7 +36,8 @@ const mapStateToProps = state => {
         courseLoading: state.CourseStructure.courseLoading,
         teachingPeriodCodeToInsert: state.CourseStructure.teachingPeriodCodeToInsert,
         showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
-        courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading
+        courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading,
+        courseDetails: state.CourseStructure.courseDetails
     };
 };
 
@@ -86,8 +87,8 @@ class CourseStructure extends Component {
         }
 
         if(this.props.viewOnly && !this.props.switchToEditCourse && nextProps.switchToEditCourse) {
-            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
-            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails } = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails );
             browserHistory.push("/plan");
         }
     }
@@ -336,8 +337,8 @@ class CourseStructure extends Component {
      */
     componentDidUpdate() {
         if(!this.props.viewOnly) {
-            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
-            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails} = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails);
         }
     }
 
@@ -562,6 +563,7 @@ CourseStructure.propTypes = {
     validateCourse: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
     loadCourseFromLocalStorage: PropTypes.func,
+    courseDetails: PropTypes.object
 
 };
 

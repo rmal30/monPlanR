@@ -8,7 +8,7 @@ const mapStateToProps = (state) => {
     return {
         cost: state.Counter.cost,
         creditPoints: state.Counter.creditPoints,
-        requiredCreditPoints: state.CourseStructure.courseInfo.creditPoints
+        requiredCreditPoints: state.CourseStructure.courseDetails.creditPoints
     };
 };
 

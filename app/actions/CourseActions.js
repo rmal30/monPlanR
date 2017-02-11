@@ -189,12 +189,20 @@ export const getNextSemesterString = () => {
 export const loadCourseFromLocalStorage = () => {
     return function(dispatch) {
         const stringifedJSON = localStorage.getItem("courseStructure");
-        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = JSON.parse(stringifedJSON);
+        const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear, courseDetails } = JSON.parse(stringifedJSON);
 
         dispatch({
             type: "LOAD_NEW_TEACHING_PERIODS",
             value: teachingPeriods
         });
+
+        if(courseDetails) {
+            dispatch({
+                type: "UPDATE_COURSE_DETAILS",
+                courseDetails
+            });
+        }
+        
 
         dispatch({
             type: "GET_NEW_NUMBER_OF_UNITS",
@@ -218,6 +226,11 @@ export const loadCourseFromLocalStorage = () => {
 
         dispatch({
             type: "GET_NEXT_SEMESTER_STRING"
+        });
+
+        dispatch({
+            type: "LOADED_FROM_LOCAL_STORAGE"
+            
         });
     };
 };
@@ -317,7 +330,7 @@ export const getAffectedUnitsInRow = (index) => {
  * All this does is interact with local storage, the action is not strictly necessary, as the reducer doesn't handle it
  * But I argue for debugging purposes it's useful to be able to track when the save course action is firing
  */
-export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYear, creditPoints, cost) => {
+export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails) => {
     return function(dispatch) {
         localStorage.setItem("courseStructure", JSON.stringify({
             teachingPeriods,
@@ -325,6 +338,7 @@ export const saveCourseToLocalStorage = (teachingPeriods, numberOfUnits, startYe
             totalCreditPoints: creditPoints,
             totalEstimatedCost: cost,
             startYear,
+            courseDetails,
             version: MONPLAN_VERSION
         }));
 

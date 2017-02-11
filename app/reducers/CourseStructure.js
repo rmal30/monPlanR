@@ -47,6 +47,7 @@ const defaultState = {
     teachingPeriodCodeToInsert: null,
     nextSemesterString: null,
     indexOfTPtoRemove: 0,
+    courseDetails: {},
 
     unitToBeMoved: undefined,
     tpIndexOfUnitToBeMoved: 0,
@@ -390,7 +391,13 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploadError: false,
                 courseSnapshotUploadSucessful: false
             };
-
+        
+        case "UPDATE_COURSE_DETAILS":
+            return {
+                ...state,
+                courseDetails: action.courseDetails
+            };
+       
         case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":
             return {
                 ...state,

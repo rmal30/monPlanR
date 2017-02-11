@@ -29,7 +29,7 @@ const CourseInfoButtonContainer = ({ courseCode, mobile }) => {
  */
 const mapStateToProps = (state) => {
     return {
-        courseCode: state.CourseStructure.focusedCourse
+        courseCode: state.CourseStructure.courseDetails.courseCode
     };
 };
 

@@ -1,14 +1,17 @@
 import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import CourseOverview from "../../components/Course/CourseOverview.jsx";
-
+import DefaultCourseOverview from "../../components/Course/DefaultCourseOverview.jsx";
+import AddingUnitIndicator from "../../components/Status/AddingUnitIndicator.jsx";
+import MovingUnitIndicator from "../../components/Status/MovingUnitIndicator.jsx";
 /**
  * Container for passing in props from redux to CourseOverview component
  */
 const CourseOverviewContainer = (props) => {
-    const { courseName, courseCode, courseFaculty } = props;
-    const shouldDisplay = courseName && courseCode && courseFaculty;
-    if(shouldDisplay) {
+    const { courseName, courseCode, courseFaculty, shouldDisplayAdding, shouldDisplayMoving } = props;
+    const shouldDisplayCourseOverview = courseName && courseCode && courseFaculty;
+    
+    if(shouldDisplayCourseOverview) {
         return (
             <CourseOverview 
                 courseName={courseName}
@@ -16,8 +19,15 @@ const CourseOverviewContainer = (props) => {
                 courseFaculty={courseFaculty} 
             />
         );
+    
+    } else if (shouldDisplayAdding) {
+        return <AddingUnitIndicator unitCode="FIT2001" />;
+    
+    } else if (shouldDisplayMoving) {
+        return <MovingUnitIndicator unitCode="FIT2001" />;
+    
     } else {
-        return null;
+        return <DefaultCourseOverview />;
     }
     
 };
@@ -28,9 +38,11 @@ const CourseOverviewContainer = (props) => {
  */
 const mapStateToProps = (state) => {
     return {
-        courseName: state.CourseStructure.courseInfo.courseName,
-        courseCode: state.CourseStructure.focusedCourse,
-        courseFaculty: state.CourseStructure.courseInfo.faculty
+        courseName: state.CourseStructure.courseDetails.courseName,
+        courseCode: state.CourseStructure.courseDetails.courseCode,
+        courseFaculty: state.CourseStructure.courseDetails.faculty,
+        shouldDisplayMoving: state.UI.showMovingUnitUI,
+        shouldDisplayAdding: state.UI.showAddingUnitUI
     };
 };
 
@@ -39,5 +51,7 @@ export default connect(mapStateToProps)(CourseOverviewContainer);
 CourseOverviewContainer.propTypes = {
     courseName: PropTypes.string,
     courseCode: PropTypes.string,
-    courseFaculty: PropTypes.string
+    courseFaculty: PropTypes.string,
+    shouldDisplayAdding: PropTypes.bool,
+    shouldDisplayMoving: PropTypes.bool
 };

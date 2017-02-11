@@ -20,6 +20,15 @@ export const fetchCourseInfo = (courseCode) => {
                     payload: resp,
                     courseCode
                 });
+                dispatch({
+                    type: "UPDATE_COURSE_DETAILS",
+                    courseDetails: {
+                        courseCode: courseCode,
+                        courseName: resp.data.courseName,
+                        creditPoints: resp.data.creditPoints,
+                        faculty: resp.data.mangFac
+                    }
+                });
             })
             .catch(err => {
                 dispatch({
