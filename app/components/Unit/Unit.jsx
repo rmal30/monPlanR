@@ -202,8 +202,11 @@ export class Unit extends React.Component {
                                         <Message
                                             className="unit placeholder"
                                             onClick={e => {
-                                                e.stopPropagation() /* otherwise sidebar will never show */;
-                                                this.props.showSidebar();
+                                                // If we're not adding a unit.
+                                                if(!this.props.unitToAdd) {
+                                                    e.stopPropagation() /* otherwise sidebar will never show */;
+                                                    this.props.showSidebar();
+                                                }
                                             }}
                                             size="mini">
                                             <Message.Header>{this.props.code}</Message.Header>
