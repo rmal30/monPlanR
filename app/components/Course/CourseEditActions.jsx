@@ -7,7 +7,6 @@ import { bindActionCreators } from "redux";
 import InsertTeachingPeriodButtonContainer from "../../containers/Buttons/InsertTeachingPeriodButtonContainer.jsx";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
-import LoadCourseMap from "../modals/LoadCourseMap.jsx";
 import * as courseActions from "../../actions/CourseActions";
 
 /**
@@ -47,10 +46,6 @@ const CourseEditActions = (props) => {
                     {mobile && <br />}
 
                     <CompletedCourseModal trigger={CompletedCourseModalTrigger(mobile)} />
-
-                    {mobile && <br />}
-                    
-                    <LoadCourseMap mobile={mobile}/>
 
                 </Container>
             }
