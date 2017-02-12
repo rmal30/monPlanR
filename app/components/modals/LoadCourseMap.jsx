@@ -186,7 +186,7 @@ class LoadCourseMap extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <div>
+                        <div className="steps active">
                             <h3>Step 1) Find your degree/course</h3>
                             <br />
                             <Search
@@ -204,7 +204,7 @@ class LoadCourseMap extends Component {
                             <br />
                         </div>
 
-                        <div hidden={this.state.specIsDisabled}>
+                        <div className={"steps " + (!this.state.specIsDisabled && "active") }>
                             <h3>Step 2) Find your degree/course</h3>
                             <Dropdown
                                 className="drpdown"
@@ -218,7 +218,7 @@ class LoadCourseMap extends Component {
                             <br />
                         </div>
 
-                        <div hidden={this.state.yearIsDisabled}>
+                        <div className={"steps " + (!this.state.yearIsDisabled && "active")}>
                             <h3>Step 3) Set your starting year</h3>
                             <p><i>
                                 Please note that all course maps are for students who
