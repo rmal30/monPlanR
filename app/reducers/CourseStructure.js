@@ -48,6 +48,7 @@ const defaultState = {
     teachingPeriodCodeToInsert: null,
     nextSemesterString: null,
     indexOfTPtoRemove: 0,
+    courseDetails: {},
 
     unitToBeMoved: undefined,
     tpIndexOfUnitToBeMoved: 0,
@@ -255,6 +256,7 @@ const CourseStructure = (state = defaultState, action) => {
                 courseInfoLoading: false,
                 focusedCourse: action.courseCode,
                 courseInfo: {
+                    courseCode: action.payload.data.courseCode,
                     courseName: action.payload.data.courseName,
                     faculty: action.payload.data.mangFac,
                     creditPoints: action.payload.data.creditPoints,
@@ -392,6 +394,12 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploading: true,
                 courseSnapshotUploadError: false,
                 courseSnapshotUploadSucessful: false
+            };
+        
+        case "UPDATE_COURSE_INFO":
+            return {
+                ...state,
+                courseInfo: action.courseInfo
             };
 
         case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":

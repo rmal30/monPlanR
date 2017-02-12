@@ -33,6 +33,7 @@ export const TeachingPeriod = (props) => {
         viewOnly: PropTypes.bool
     };
 
+    let keyVal = 0;
     let firstFreeUnit = true;
     const unitsEle = props.units.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
@@ -42,7 +43,7 @@ export const TeachingPeriod = (props) => {
             firstFreeUnit = false;
             return (
                 <Unit
-                    key={`${props.year}-${props.code}-${index}`}
+                    key={`${keyVal++}`}
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
@@ -53,7 +54,7 @@ export const TeachingPeriod = (props) => {
         return (
             <Unit
                 viewOnly={props.viewOnly}
-                key={`${props.year}-${props.code}-${unit}-${index}`}
+                key={`${keyVal++}`}
                 index={index}
                 teachingPeriodIndex={props.index}
                 swapUnit={props.swapUnit.bind(null, props.index)}

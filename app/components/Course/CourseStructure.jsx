@@ -38,6 +38,7 @@ const mapStateToProps = state => {
         teachingPeriodCodeToInsert: state.CourseStructure.teachingPeriodCodeToInsert,
         showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
         courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading,
+        courseInfo: state.CourseStructure.courseInfo
         courseErrors: state.CourseStructure.courseErrors,
         invalidUnitSlotCoordinates: state.CourseStructure.invalidUnitSlotCoordinates
     };
@@ -78,8 +79,8 @@ class CourseStructure extends Component {
         }
 
         if(this.props.viewOnly && !this.props.switchToEditCourse && nextProps.switchToEditCourse) {
-            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
-            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo } = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo );
             browserHistory.push("/plan");
         }
     }
@@ -120,8 +121,8 @@ class CourseStructure extends Component {
      */
     componentDidUpdate() {
         if(!this.props.viewOnly) {
-            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost} = this.props;
-            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost);
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo} = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo);
         }
     }
 
@@ -323,6 +324,7 @@ CourseStructure.propTypes = {
     loadCourseSnap: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
     loadCourseFromLocalStorage: PropTypes.func,
+    courseInfo: PropTypes.object
 
 };
 

@@ -24,12 +24,12 @@ const CourseInfoContainer = (props) => {
  * 
  */
 const mapStateToProps = (state) => {
-    const { courseInfo, courseInfoLoadError, courseLoading, focusedCourse} = state.CourseStructure;
+    const { courseInfo, courseInfoLoadError, courseLoading } = state.CourseStructure;
 
     return {
         isLoading: courseLoading,
         error: courseInfoLoadError,
-        courseCode: focusedCourse,
+        courseCode: courseInfo.courseCode,
         courseName: courseInfo.courseName,
         faculty: courseInfo.faculty,
         creditPoints: courseInfo.creditPoints,

@@ -20,7 +20,7 @@ function CourseStatisticGroup(props) {
     const { creditPoints, requiredCreditPoints, cost } = props;
     return (
           <Grid>
-            <Grid.Column width={8}>
+            <Grid.Column width={7}>
                 <Statistic size="mini">
                     <Statistic.Value>
                         <Icon name='student' />&nbsp;
@@ -35,7 +35,7 @@ function CourseStatisticGroup(props) {
                     />
                 </Statistic>
             </Grid.Column>
-            <Grid.Column width={8}>
+            <Grid.Column width={9}>
                 <Statistic size="mini">
                     <Statistic.Value >
                         <Icon name='dollar' />

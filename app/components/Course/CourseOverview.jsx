@@ -2,6 +2,7 @@ import React, { PropTypes } from "react";
 import { Grid, Segment } from "semantic-ui-react";
 
 import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
+import CourseInfoButtonContainer from "../../containers/Buttons/CourseInfoButtonContainer.jsx";
 
 /**
  * Component that shows a small selection of course info at the top of the page so that users 
@@ -30,6 +31,7 @@ const CourseOverview = (props) => {
                 <Grid.Column width={12}>
                     <h3>{`${courseCode} - ${courseName}`}</h3>
                     <h5>{courseFaculty}</h5>
+                    <CourseInfoButtonContainer />
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <CourseStatisticGroupContainer />
