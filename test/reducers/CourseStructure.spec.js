@@ -521,6 +521,7 @@ describe("REDUCER: CourseStructure", () => {
             const action = {
                 type: "FETCH_COURSE_INFO_FULFILLED",
                 payload: {data: {
+                    courseCode: "Test Code",
                     courseName: "Test Course",
                     mangFac: "Test Faculty",
                     creditPoints: 100,
@@ -542,6 +543,7 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoading: false,
                 courseInfoLoading: false,
                 courseInfo: {
+                    courseCode: "Test Code",
                     courseName: "Test Course",
                     faculty: "Test Faculty",
                     creditPoints: 100,

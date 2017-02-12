@@ -38,9 +38,9 @@ const CourseOverviewContainer = (props) => {
  */
 const mapStateToProps = (state) => {
     return {
-        courseName: state.CourseStructure.courseDetails.courseName,
-        courseCode: state.CourseStructure.courseDetails.courseCode,
-        courseFaculty: state.CourseStructure.courseDetails.faculty,
+        courseName: state.CourseStructure.courseInfo.courseName,
+        courseCode: state.CourseStructure.courseInfo.courseCode,
+        courseFaculty: state.CourseStructure.courseInfo.faculty,
         shouldDisplayMoving: state.UI.showMovingUnitUI,
         shouldDisplayAdding: state.UI.showAddingUnitUI
     };

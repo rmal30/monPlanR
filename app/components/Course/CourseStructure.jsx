@@ -37,7 +37,7 @@ const mapStateToProps = state => {
         teachingPeriodCodeToInsert: state.CourseStructure.teachingPeriodCodeToInsert,
         showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
         courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading,
-        courseDetails: state.CourseStructure.courseDetails
+        courseInfo: state.CourseStructure.courseInfo
     };
 };
 
@@ -87,8 +87,8 @@ class CourseStructure extends Component {
         }
 
         if(this.props.viewOnly && !this.props.switchToEditCourse && nextProps.switchToEditCourse) {
-            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails } = this.props;
-            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails );
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo } = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo );
             browserHistory.push("/plan");
         }
     }
@@ -337,8 +337,8 @@ class CourseStructure extends Component {
      */
     componentDidUpdate() {
         if(!this.props.viewOnly) {
-            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails} = this.props;
-            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseDetails);
+            const { saveCourseToLocalStorage, teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo} = this.props;
+            saveCourseToLocalStorage(teachingPeriods, numberOfUnits, startYear, creditPoints, cost, courseInfo);
         }
     }
 
@@ -563,7 +563,7 @@ CourseStructure.propTypes = {
     validateCourse: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
     loadCourseFromLocalStorage: PropTypes.func,
-    courseDetails: PropTypes.object
+    courseInfo: PropTypes.object
 
 };
 
