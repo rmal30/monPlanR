@@ -31,6 +31,17 @@ body {
     display: none;
 }
 
+.steps {
+    opacity: 0 !important;
+    height: 0 !important
+}
+
+.steps.active {
+    opacity: 1 !important;
+    height: auto !important;
+    transition: opacity 0.5s ease-in;
+}
+
 .hide {
     visibility: hidden;
 }

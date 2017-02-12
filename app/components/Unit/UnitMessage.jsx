@@ -90,25 +90,6 @@ export function UnitMessage(props) {
     if(isDragging) {
         return null;
     }
-    const facultyColors = {
-        "Faculty of Art, Design and Architecture": "ada",
-        "Faculty of Arts": "arts",
-        "Faculty of Business and Economics": "buseco",
-        "Faculty of Education": "edu",
-        "Faculty of Engineering": "eng",
-        "Faculty of Information Technology": "fit",
-        "Faculty of Law": "law",
-        "Faculty of Medicine, Nursing and Health Sciences": "med",
-        "Faculty of Pharmacy and Pharmaceutical Sciences": "pha",
-        "Faculty of Science": "sci",
-        "Faculty of All": "all"
-    };
-
-    let facultyColor = undefined;
-
-    if(typeof props.faculty === "string") {
-        facultyColor = facultyColors[props.faculty];
-    }
 
     /**
      * Message component is used twice.
@@ -116,7 +97,8 @@ export function UnitMessage(props) {
     const unitMessage = mobile =>
         <Message
             style={{cursor: "pointer", width: props.width ? props.width: undefined}}
-            className={"unit " + facultyColor + (props.draggable ? " draggable" : "")}
+            className={"unit "  + (props.draggable ? "draggable" : "")}
+            color="blue"
 
             onClick={() => props.newUnit && props.willAddUnit &&
                 props.willAddUnit(props.code,
