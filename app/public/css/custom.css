@@ -11,10 +11,6 @@ body {
   margin-right: -0.5rem !important;
 }
 
-.ui.menu .item img.logo {
-    margin-right: 1.5em;
-}
-
 .main.container {
     margin-top: 2em;
 }
@@ -33,6 +29,17 @@ body {
 
 .display-none {
     display: none;
+}
+
+.steps {
+    opacity: 0 !important;
+    height: 0 !important
+}
+
+.steps.active {
+    opacity: 1 !important;
+    height: auto !important;
+    transition: opacity 0.5s ease-in;
 }
 
 .hide {
@@ -151,6 +158,10 @@ html, body {
 
 .unit.draggable:hover {
     box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15) !important;
+}
+
+.placeholder.unit {
+    cursor: pointer;
 }
 
 /* Adds margin in between a button and a dropdown */

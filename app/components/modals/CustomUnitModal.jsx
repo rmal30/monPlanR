@@ -3,10 +3,10 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Button, Container, Form, Select, Modal, Icon } from "semantic-ui-react";
 
-import Unit from "../Unit/Unit.jsx";
-import CostCalc from "../../utils/CostCalc.js";
+import UnitMessage from "../Unit/UnitMessage.jsx";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as UIActions from "../../actions/UIActions";
+import * as CourseActions from "../../actions/CourseActions";
 
 /**
  * The custom unit modal that allows students to enter in units manually if our web
@@ -43,7 +43,7 @@ class CustomUnitModal extends Component {
         ];
 
         this.state = {
-            UnitCode: this.props.UnitCode, // TODO: find some better way of doing this
+            UnitCode: this.props.UnitCode && this.props.UnitCode.toUpperCase(),
             UnitName: "",
             Faculty: "",
             SCABand: 0,
@@ -139,16 +139,12 @@ class CustomUnitModal extends Component {
     }
 
     /**
-     * Allows user to add their custom unit to their course plan.
+     * Handles
      */
-    addCustomUnitToCourse() {
-        const { SCABand, CreditPoints } = this.state;
-
-        this.props.addCustomUnitToCourse({
-            ...this.state,
-            Cost: CostCalc.calculateCost(SCABand, CreditPoints),
-            position: this.props.position
-        });
+    handleBlur(e, { value }) {
+        if(typeof e.target.value === "string" && e.target.value.trim() === "" || value && value.trim() === "") {
+            alert("Please fill");
+        }
     }
 
     /**
@@ -177,29 +173,31 @@ class CustomUnitModal extends Component {
                                     <label>Unit code</label>
                                     <div className="ui input">
                                         <input
+                                            onBlur={this.handleBlur}
                                             ref={startingInput => this.startingInput = startingInput}
                                             tabIndex={1}
                                             onChange={this.onUnitCodeChange.bind(this)}
                                             placeholder={this.props.UnitCode && this.props.UnitCode.toUpperCase()} />
                                     </div>
                                 </div>
-                                <Form.Input tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name" />
-                                <Form.Input tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={this.defaultCreditPoints} />
+                                <Form.Input onBlur={this.handleBlur} tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name" />
+                                <Form.Input onBlur={this.handleBlur} tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={this.defaultCreditPoints} />
                             </Form.Group>
-                            <Form.Field tabIndex={4} selectOnBlur onChange={this.onSCABandChange.bind(this)} label="SCA Band" control={Select} search options={this.scaBandOptions} />
-                            <Form.Field tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
+                            <Form.Field onBlur={this.handleBlur} tabIndex={4} selectOnBlur onChange={this.onSCABandChange.bind(this)} label="SCA Band" control={Select} search options={this.scaBandOptions} />
+                            <Form.Field onBlur={this.handleBlur} tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
+                            <Container className="field preview">
+                                <label>Preview:</label>
+                                <UnitMessage
+                                    width={200}
+                                    showDetailButton
+                                    basic
+                                    viewOnly
+                                    code={UnitCode}
+                                    name={UnitName}
+                                    faculty={Faculty}
+                                    />
+                            </Container>
                         </Form>
-                        <Container class="preview">
-                            <b>Preview:</b>
-                            <Unit
-                                detailButton
-                                basic
-                                viewOnly
-                                code={UnitCode}
-                                name={UnitName}
-                                faculty={Faculty}
-                                />
-                        </Container>
                     </Modal.Description>
                 </Modal.Content>
                 <Modal.Actions>
@@ -213,7 +211,15 @@ class CustomUnitModal extends Component {
                         disabled={!this.formIsValid.call(this)}
                         color="yellow"
                         className="btnmainblue"
-                        onClick={() => {this.props.hideCustomUnitUI(); this.props.willAddUnit(UnitCode, true);}}
+                        onClick={() => {
+                            if(typeof this.props.customTpIndex === "number" && typeof this.props.customUnitIndex === "number") {
+                                this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, this.state);
+                            } else {
+                                this.props.willAddUnit(UnitCode, this.state);
+                            }
+
+                            this.props.hideCustomUnitUI();
+                        }}
                         floated="right">
                             Add {UnitCode}
                     </Button>
@@ -225,11 +231,15 @@ class CustomUnitModal extends Component {
 
 CustomUnitModal.propTypes = {
     UnitCode: PropTypes.string,
-    addCustomUnitToCourse: PropTypes.func.isRequired,
     position: PropTypes.array,
     open: PropTypes.bool,
     hideCustomUnitUI: PropTypes.func,
-    willAddUnit: PropTypes.func
+    willAddUnit: PropTypes.func,
+    addUnit: PropTypes.func,
+
+    /* For custom units that have been dragged onto the course plan */
+    customTpIndex: PropTypes.number,
+    customUnitIndex: PropTypes.number
 };
 
 /**
@@ -238,7 +248,9 @@ CustomUnitModal.propTypes = {
 const mapStateToProps = state => {
     return {
         open: state.UI.showingCustomUnitModal,
-        UnitCode: state.UI.customUnitCode
+        UnitCode: state.UI.customUnitCode,
+        customTpIndex: state.UI.customTpIndex,
+        customUnitIndex: state.UI.customUnitIndex
     };
 };
 
@@ -246,7 +258,7 @@ const mapStateToProps = state => {
  * Inject UI actions to allow users to hide the modal.
  */
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({...dataFetchActions, ...UIActions}, dispatch);
+    return bindActionCreators({...dataFetchActions, ...UIActions, ...CourseActions}, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomUnitModal);

@@ -27,6 +27,7 @@ import * as uiActions from "../../actions/UIActions";
  */
 const mapStateToProps = state => {
     return {
+        startYear: state.CourseStructure.startYear,
         creditPoints: state.Counter.creditPoints,
         cost: state.Counter.cost,
         teachingPeriods: state.CourseStructure.teachingPeriods,
@@ -38,6 +39,8 @@ const mapStateToProps = state => {
         showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
         courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading,
         courseInfo: state.CourseStructure.courseInfo
+        courseErrors: state.CourseStructure.courseErrors,
+        invalidUnitSlotCoordinates: state.CourseStructure.invalidUnitSlotCoordinates
     };
 };
 
@@ -63,17 +66,6 @@ const mapDispatchToProps = dispatch => {
  * @param {number} endYear - The expected graduation year.
  */
 class CourseStructure extends Component {
-
-    /**
-     * Initialises state that holds a list of teachingPeriods.
-     *
-     * @param props - React props
-     */
-    constructor(props) {
-        super(props);
-        this.getCourseErrors = this.getCourseErrors.bind(this);
-    }
-
     /**
      * This is necessary for passing down changes in the totals from the parent plan element,
      * it keeps the totals updated.
@@ -92,214 +84,6 @@ class CourseStructure extends Component {
             browserHistory.push("/plan");
         }
     }
-
-    /**
-     * Reads in course structure and returns a list of errors.
-     *
-     * @author JXNS, Saurabh Joshi
-     */
-    getCourseErrors() {
-        let errors = [];
-
-        // Finds duplicates
-        const units = this.getListOfUnits().sort((a, b) => {
-            a = a.UnitCode;
-            b = b.UnitCode;
-
-            // Use unicode comparison
-            if(a < b) {
-                return -1;
-            } else if(a === b) {
-                return 0;
-            } else {
-                return 1;
-            }
-        });
-
-        const duplicateUnits = [];
-
-        for(let i = 1; i < units.length; i++) {
-            if(units[i - 1].UnitCode === units[i].UnitCode && !units[i - 1].placeholder) {
-                const index = duplicateUnits.findIndex(unit => unit.UnitCode === units[i].UnitCode);
-                if(index === -1) {
-                    duplicateUnits.push({
-                        UnitCode: units[i].UnitCode,
-                        coordinates: [[units[i - 1].teachingPeriodIndex, units[i - 1].unitIndex], [units[i].teachingPeriodIndex, units[i].unitIndex]]
-                    });
-                } else {
-                    duplicateUnits[index].coordinates.push([units[i].teachingPeriodIndex, units[i].unitIndex]);
-                }
-            }
-        }
-
-        errors = errors.concat(duplicateUnits.map(duplicateUnit => {
-            return {
-                message: `${duplicateUnit.UnitCode} already exists in your course plan.`,
-                coordinates: duplicateUnit.coordinates
-            };
-        }));
-
-        // Check if unit in the teaching period is being offered
-        let codeMap = {
-            "FY-01": "Full year",
-            "S1-01": "First semester",
-            "S2-01": "Second semester",
-            "SSA-02": "Summer semester A",
-            "SSB-01": "Summer semester B",
-            "WS-01": "Winter semester"
-        };
-
-        for(let i = 0; i < units.length; i++) {
-            let offerings = units[i].LocationAndTime;
-
-            if(!offerings) {
-                continue;
-            }
-
-            const teachingPeriodStr = codeMap[this.props.teachingPeriods[units[i].teachingPeriodIndex].code];
-
-            if (teachingPeriodStr !== undefined) {
-                // semester we're checking against is covered by mapping'
-                let re = new RegExp(teachingPeriodStr);
-
-                let isValid = false;
-
-                for(let k = 0; k < offerings.length; k++) {
-                    let locations = offerings[k][1];
-                    if(!locations) {
-                        continue;
-                    }
-
-                    for(let l = 0; l < locations.length; l++) {
-                        let offering = locations[l];
-                        let isMatch = re.test(offering);
-
-                        if(isMatch) {
-                            isValid = true;
-                            break;
-                        }
-                    }
-                    if(isValid) {
-                        break;
-                    }
-                }
-
-                if (!isValid) {
-                    errors.push({
-                        message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
-                        coordinates: [[units[i].teachingPeriodIndex, units[i].unitIndex]]
-                    });
-                }
-            }
-        }
-
-        return errors;
-    }
-
-    /**
-     * [teachingPeriodIndex, unitIndex]
-     * If null is specified, then it highlights everything
-     * e.g. [0, null] highlights all units in first teaching period
-     * e.g. [null, 4] highlights all units in fourth Column
-     * e.g. [null, null] highlights all units in course plan.
-     */
-    invalidCoordinatesForTempUnit() {
-        let tempUnit = [];
-        let duplicateGraceFlag = false;
-        /**
-         * if(this.state.showMoveUnitUI) {
-            tempUnit = this.state.unitToBeMoved;
-            duplicateGraceFlag = true;
-         */
-        /**
-         * if(this.state.showMoveUnitUI) {
-            tempUnit = this.state.unitToBeMoved;
-            duplicateGraceFlag = true;
-         */
-
-        const { teachingPeriods } = this.props;
-
-        let duplicateFound = false;
-
-        for(let i = 0; i < teachingPeriods.length; i++) {
-            for(let j = 0; j < teachingPeriods[i].units.length; j++) {
-                if(!duplicateFound) {
-                    if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].UnitCode === tempUnit.UnitCode && !teachingPeriods[i].units[j].placeholder) {
-                        if(duplicateGraceFlag) {
-                            duplicateGraceFlag = false;
-                        } else {
-                            // Found duplicate, invalidate all coordinates
-                            duplicateFound = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        if(duplicateFound) {
-            return [[null, null]];
-        }
-
-        // Check if unit in the teaching period is being offered
-        let codeMap = {
-            "FY-01": "Full year",
-            "S1-01": "First semester",
-            "S2-01": "Second semester",
-            "SSA-02": "Summer semester A",
-            "SSB-01": "Summer semester B",
-            "WS-01": "Winter semester"
-        };
-
-
-        let offerings = tempUnit.LocationAndTime;
-
-        if(!offerings) {
-            return [];
-        }
-
-        const coordinates = [];
-
-        for(let i = 0; i < this.props.teachingPeriods.length; i++) {
-
-            const teachingPeriodStr = codeMap[this.props.teachingPeriods[i].code];
-
-            if (teachingPeriodStr !== undefined) {
-                // semester we're checking against is covered by mapping'
-                let re = new RegExp(teachingPeriodStr);
-
-                let isValid = false;
-
-                for(let k = 0; k < offerings.length; k++) {
-                    let locations = offerings[k][1];
-                    if(!locations) {
-                        continue;
-                    }
-
-                    for(let l = 0; l < locations.length; l++) {
-                        let offering = locations[l];
-                        let isMatch = re.test(offering);
-
-                        if(isMatch) {
-                            isValid = true;
-                            break;
-                        }
-                    }
-                    if(isValid) {
-                        break;
-                    }
-                }
-
-                if (!isValid) {
-                    coordinates.push([i, null]);
-                }
-            }
-        }
-
-        return coordinates;
-    }
-
-
-
 
     /**
      * Loads course if it exists.
@@ -343,79 +127,52 @@ class CourseStructure extends Component {
     }
 
     /**
-     * Returns a list of units from the course structure
-     *
-     * @author Saurabh Joshi
-     * @returns {array}
-     */
-    getListOfUnits() {
-        const { teachingPeriods } = this.props;
-
-        return teachingPeriods.map((ele, teachingPeriodIndex) =>
-            ele.units.map((unit, unitIndex) => {
-                if(unit) {
-                    return {
-                        ...unit,
-                        teachingPeriodIndex,
-                        unitIndex
-                    };
-                }
-            }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
-    }
-
-    /**
-     * Returns a rendered teaching period component as a table row to be used in
-     * a table.
-     *
-     * @author Saurabh Joshi
-     * @param {number} teachingPeriod - The teaching period object.
-     * @param {number} index - For bookkeeping which teaching period is which.
-     * @param {array} errors - Errors related to the teaching period.
-     */
-    renderTeachingPeriod(teachingPeriod, index, errors, tempInvalidCoordinates) {
-        return <TeachingPeriod
-                    key={`${teachingPeriod.year}-${teachingPeriod.code}`}
-                    index={index}
-                    year={teachingPeriod.year}
-                    code={teachingPeriod.code}
-                    units={teachingPeriod.units}
-                    errors={errors}
-                    tempInvalidCoordinates={tempInvalidCoordinates} />;
-    }
-
-    /**
      * Returns a table of teaching periods as table rows, and in teaching period
      * holds a list of units represented as table cells. It also renders an add button
      * as well as some status labels.
-     *
-     * TODO: Modularise into smaller components for course structure.
      *
      * @author Saurabh Joshi
      * @returns {ReactElement} CourseStructure
      */
     render() {
-        // do not use this.props.courseErrors as it may hold an outdated version, as the diff checks only looks at the messages
-        const errors = this.getCourseErrors();
-        const tempInvalidCoordinates = this.invalidCoordinatesForTempUnit();
+        const errors = this.props.courseErrors;
+        const invalidUnitSlotCoordinates = this.props.invalidUnitSlotCoordinates;
 
         const tableRows = [];
-        let year, show = false;
+        let year, displayButton = false;
 
         const { teachingPeriods, teachingPeriodData, showingInsertTeachingPeriodUI, teachingPeriodCodeToInsert } = this.props;
         if(showingInsertTeachingPeriodUI) {
-            year = this.state.startYear || new Date().getFullYear();
+            year = this.props.startYear || new Date().getFullYear();
         }
 
         for(let i = 0; i <= teachingPeriods.length; i++) {
-            show = true;
+            displayButton = true;
+
             if(i !== 0) {
-                tableRows.push(this.renderTeachingPeriod(teachingPeriods[i - 1], i - 1, errors.map(err =>
+                const teachingPeriod = teachingPeriods[i - 1];
+
+                const tpErrors = errors.map(err =>
                     ({
                         ...err,
                         coordinates: err.coordinates.filter(x => x[0] === i - 1)
                     })
-                ).filter(err => err.coordinates.length > 0), tempInvalidCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null)));
-                year = teachingPeriods[i - 1].year;
+                ).filter(err => err.coordinates.length > 0);
+
+                const tpInvalidUnitSlotCoordinates = invalidUnitSlotCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null);
+
+                tableRows.push(
+                    <TeachingPeriod
+                        key={`${teachingPeriod.year}-${teachingPeriod.code}`}
+                        index={i - 1}
+                        year={teachingPeriod.year}
+                        code={teachingPeriod.code}
+                        units={teachingPeriod.units}
+                        errors={tpErrors}
+                        tempInvalidCoordinates={tpInvalidUnitSlotCoordinates} />
+                    );
+
+                year = teachingPeriod.year;
 
                 if(!showingInsertTeachingPeriodUI) {
                     continue;
@@ -467,7 +224,7 @@ class CourseStructure extends Component {
                 continue;
             }
 
-            if(showingInsertTeachingPeriodUI && show) {
+            if(showingInsertTeachingPeriodUI && displayButton) {
                 tableRows.push(
                     <InsertTeachingPeriodContainer
                         index={i}
@@ -545,7 +302,12 @@ CourseStructure.propTypes = {
     viewOnly: PropTypes.bool,
     switchToEditCourse: PropTypes.bool,
     teachingPeriods: PropTypes.array,
+
     courseErrors: PropTypes.array,
+    invalidUnitSlotCoordinates: PropTypes.arrayOf(
+        PropTypes.arrayOf(PropTypes.number)
+    ),
+
     numberOfUnits: PropTypes.number,
     startYear: PropTypes.number,
     creditPoints: PropTypes.number,
@@ -560,7 +322,6 @@ CourseStructure.propTypes = {
     handleEditCoursePlanClick: PropTypes.func,
     clearCourse: PropTypes.func,
     loadCourseSnap: PropTypes.func,
-    validateCourse: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
     loadCourseFromLocalStorage: PropTypes.func,
     courseInfo: PropTypes.object

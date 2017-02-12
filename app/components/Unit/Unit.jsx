@@ -8,13 +8,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as courseActions from "../../actions/CourseActions";
+import * as UIActions from "../../actions/UIActions";
 
 
 /**
  * Set up any functions from the action creators you want to pass in
  */
 const mapDispatchToProps = dispatch => {
-    const actionBundle = {...dataFetchActions, ...courseActions};
+    const actionBundle = {...dataFetchActions, ...courseActions, ...UIActions};
     return bindActionCreators(actionBundle, dispatch);
 };
 
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         unitToAdd: state.CourseStructure.unitToAdd,
+        highlightingInvalidUnitSlots: state.CourseStructure.highlightingInvalidUnitSlots,
         viewOnly: state.UI.readOnly
     };
 };
@@ -79,8 +81,28 @@ export class Unit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hovering: false
+            hovering: false,
+            tableCellHover: false,
+            overInput: false
         };
+    }
+
+    /**
+     * Used when the user hovers on a table cell whilst adding a unit.
+     */
+    handleTableCellMouseOver() {
+        this.setState({
+            tableCellHover: true
+        });
+    }
+
+    /**
+     * Used when the user is no longer hovering on a table cell
+     */
+    handleTableCellMouseOut() {
+        this.setState({
+            tableCellHover: false
+        });
     }
 
     /**
@@ -127,7 +149,7 @@ export class Unit extends React.Component {
         if(!this.props.free && this.props.onUnitClick) {
             this.props.onUnitClick(this.props.code, this.props.custom);
         }
-        if((this.props.free || this.props.placeholder) && this.state.hovering && this.props.unitToAdd) {
+        if((this.props.free || this.props.placeholder) && this.props.unitToAdd) {
             this.props.addUnit(this.props.teachingPeriodIndex, this.props.index, this.props.unitToAdd);
         }
     }
@@ -157,9 +179,11 @@ export class Unit extends React.Component {
                     return (
                         connectDropTarget(
                         <td
-                            className={(isOver || this.state.hovering && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : "" +
-                                        (this.props.isError || (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
+                            className={(isOver || this.state.tableCellHover && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : "" +
+                                        (this.props.isError || !this.props.highlightingInvalidUnitSlots && (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
                             }
+                            onMouseOver={this.handleTableCellMouseOver.bind(this)}
+                            onMouseOut={this.handleTableCellMouseOut.bind(this)}
                             onClick={this.handleClick.bind(this)}
                             >
                             {(this.props.free) && (!mobile || mobile && (this.props.unitToAdd !== undefined || this.props.showMoveUnitUI)) &&
@@ -177,6 +201,10 @@ export class Unit extends React.Component {
                                     {this.props.placeholder &&
                                         <Message
                                             className="unit placeholder"
+                                            onClick={e => {
+                                                e.stopPropagation() /* otherwise sidebar will never show */;
+                                                this.props.showSidebar();
+                                            }}
                                             size="mini">
                                             <Message.Header>{this.props.code}</Message.Header>
                                             {this.props.name}
@@ -234,6 +262,8 @@ Unit.propTypes = {
     name: PropTypes.string,
     faculty: PropTypes.string,
     placeholder: PropTypes.bool,
+    /* Used for placeholder units when users click on it */
+    showSidebar: PropTypes.func,
 
     unitToAdd: PropTypes.object,
 
@@ -243,7 +273,7 @@ Unit.propTypes = {
     showMoveUnitUI: PropTypes.bool,
     swapUnit: PropTypes.func,
     deleteUnit: PropTypes.func,
-    firstFreeUnit: PropTypes.bool,
+    hovering: PropTypes.bool,
     onUnitClick: PropTypes.func,
     viewUnitDetails: PropTypes.func,
 
@@ -254,6 +284,7 @@ Unit.propTypes = {
     /* Whether or not it is a custom unit */
     custom: PropTypes.bool,
 
+
     /* Used for drop functionality */
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
@@ -261,6 +292,7 @@ Unit.propTypes = {
     /* Validation */
     isError: PropTypes.bool,
     errors: PropTypes.array,
+    highlightingInvalidUnitSlots: PropTypes.bool,
 
     viewOnly: PropTypes.bool,
 

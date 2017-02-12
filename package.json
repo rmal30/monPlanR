@@ -1,19 +1,17 @@
 {
   "name": "monPlanR",
-  "version": "0.3.8-dev",
+  "version": "0.3.9-dev",
   "description": "A course planning tool designed by Monash students for Monash students.",
   "main": "./app/index.jsx",
   "engines": {
     "node": ">=4.2.6"
   },
   "dependencies": {
-    "@google-cloud/datastore": "^0.7.0",
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "helmet": "^3.4.0",
-    "mochawesome": "^2.0.2",
-    "react-notification-system": "^0.2.11"
+    "mochawesome": "^2.0.2"
   },
   "devDependencies": {
     "axios": "^0.14.0",
@@ -45,7 +43,7 @@
     "object-assign": "^4.1.1",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
-    "react-addons-test-utils": "^15.4.1",
+    "react-addons-test-utils": "^15.4.2",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dnd-touch-backend": "^0.3.5",
@@ -56,8 +54,6 @@
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.7",
     "react-scroll": "^1.4.5",
-    "react-sticky": "^5.0.5",
-    "react-sticky-box": "^0.5.1",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^1.0.0",
     "redux-logger": "^2.7.4",
@@ -68,7 +64,8 @@
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -78,15 +75,14 @@
     "deploy:mocha": "sh ./build_mocha_awesome.sh",
     "start:dev": "webpack-dev-server --host 0.0.0.0 --inline --content-base app/public/ --history-api-fallback",
     "jsdoc": "jsdoc -c ./jsdoc.conf.json -d doc -r",
-
     "test": "EXIT_STATUS=0; npm run test:unit || EXIT_STATUS=$?; npm run test:lint || EXIT_STATUS=$?; exit $EXIT_STATUS",
     "test:lint": "eslint --ext .jsx --ext .js app test",
     "test:unit": "mocha --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
-    "test:coverage": "nyc --require babel-core/register --extension .jsx mocha test/setup.js test/**/*.spec.{js,jsx}",
+    "test:coverage": "nyc --require babel-core/register --all=$ALL --extension .jsx mocha test/setup.js test/**/*.spec.{js,jsx}",
+    "test:coverage-all": "ALL=true npm run test:coverage",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-
-    "unittest": "mocha -C --compilers babel-core/register test/setup.js test/**/*.spec.{js,jsx}",
-    "fix": "eslint --ext .jsx --ext .js app --fix"
+    "unittest": "npm run test:unit -- -C",
+    "fix": "npm run test:lint -- --fix"
   },
   "repository": {
     "type": "git",

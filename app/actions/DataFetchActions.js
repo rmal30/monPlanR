@@ -2,6 +2,7 @@ import axios from "axios";
 import CourseTemplate from "../utils/CourseTemplate";
 import CostCalc from "../utils/CostCalc";
 
+import * as CourseActions from "./CourseActions";
 import * as NotificationActions from "./Notifications";
 
 /**
@@ -46,18 +47,18 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
         });
         axios.get(`${MONPLAN_REMOTE_URL}/courses/${courseID}`)
             .then(resp => {
-                
+
                 dispatch({
                     type: "FETCH_COURSE_TEMPLATE_FULFILLED",
                     payload: resp
                 });
 
                 const result = CourseTemplate.parse(resp.data, startYear);
-                
+
                 dispatch({
                     type: "CLEAR_COURSE"
                 });
-                
+
                 dispatch({
                     type: "LOAD_NEW_TEACHING_PERIODS",
                     value: result.newTeachingPeriods
@@ -72,12 +73,12 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                     type: "INCREMENT_CREDIT_POINTS",
                     value: result.newCP
                 });
-                
+
                 dispatch({
                     type: "INCREMENT_COST",
                     value: result.newCost
                 });
-                
+
                 dispatch({
                     type: "GET_NEXT_SEMESTER_STRING"
                 });
@@ -123,7 +124,7 @@ export const fetchUnitInfo = (unitCode) => {
  * Called to populate the unit to add value, it indicates that a unit is being prepped
  * to be added to the course
  */
-export const willAddUnit = (unitCode, custom, isDragging) => {
+export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
     return function (dispatch) {
         dispatch({
             type: "UPDATE_UNIT_IS_BEING_DRAGGED",
@@ -142,7 +143,7 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
             level: "info"
         }));
 
-        if(!custom) {
+        if(!customUnitToAdd) {
             dispatch({
                 type: "FETCH_UNIT_INFO_PENDING"
             });
@@ -162,6 +163,8 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
                     dispatch({
                         type: "UPDATE_UNIT_TO_ADD"
                     });
+
+                    dispatch(CourseActions.highlightInvalidUnitSlots(resp.data, false));
                 })
                 .catch(err => {
                     dispatch({
@@ -169,6 +172,13 @@ export const willAddUnit = (unitCode, custom, isDragging) => {
                         payload: err
                     });
                 });
+        } else {
+            dispatch({
+                type: "UPDATE_UNIT_TO_ADD",
+                customUnitToAdd
+            });
+
+            dispatch(CourseActions.highlightInvalidUnitSlots(customUnitToAdd, false));
         }
     };
 };

@@ -6,6 +6,7 @@ import * as dataFetchActions from "../../actions/DataFetchActions";
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitQuery from "../../utils/UnitQuery";
 import YearCalc from "../../utils/YearCalc";
+import ShowYear from "../../utils/ShowYear";
 
 /**
 * A modal used specifically for students who wish to clear their course.
@@ -27,7 +28,7 @@ class LoadCourseMap extends Component {
             specialisations: [],
             code: "",
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
-            year: 0,
+            year: ShowYear(),
             specIsDisabled: true,
             yearIsDisabled: true
         };
@@ -185,48 +186,57 @@ class LoadCourseMap extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <p>
-                            To load a course map, enter your course name and it
-                            will automatically load up a template for you.
-                        </p>
-                    <br />
-                    <Search
-                        className="srch"
-                        loading={this.state.isLoading}
-                        onResultSelect={this.handleResultSelect}
-                        onSearchChange={this.handleChange}
-                        results={this.state.results}
-                        value={this.state.value}
-                        placeholder="Search for your course"
-                        selectFirstResult
-                        noResultsMessage="No courses found"
-                        noResultsDescription="We only store 2017 course maps for most courses across Monash."
-                    />
+                        <div className="steps active">
+                            <h3>Step 1) Find your degree/course</h3>
+                            <br />
+                            <Search
+                                className="srch"
+                                loading={this.state.isLoading}
+                                onResultSelect={this.handleResultSelect}
+                                onSearchChange={this.handleChange}
+                                results={this.state.results}
+                                value={this.state.value}
+                                placeholder="Search for your course"
+                                selectFirstResult
+                                noResultsMessage="No courses found"
+                                noResultsDescription="We only store 2017 course maps for most courses across Monash."
+                            />
+                            <br />
+                        </div>
 
-                    <br />
-                    <Dropdown
-                        className="drpdown"
-                        disabled={this.state.specIsDisabled}
-                        placeholder='Select Specialisation'
-                        search
-                        selection
-                        options={this.state.specialisations}
-                        onChange={this.handleSpecialisationSelect}/>
-                    <br />
-                    <br />
-                    <p>
-                        Please note that all course maps are for students who
-                        commence their course in 2017, so your course map may
-                        differ if you started your course before 2017.
-                    </p>
-                    <Dropdown
-                        className="drpdown"
-                        disabled={this.state.yearIsDisabled}
-                        placeholder='Select Starting Year'
-                        search
-                        selection
-                        options={this.state.years}
-                        onChange={this.handleYearSelect}/>
+                        <div className={"steps " + (!this.state.specIsDisabled && "active") }>
+                            <h3>Step 2) Find your degree/course</h3>
+                            <Dropdown
+                                className="drpdown"
+                                disabled={this.state.specIsDisabled}
+                                placeholder='Select Specialisation'
+                                search
+                                selection
+                                options={this.state.specialisations}
+                                onChange={this.handleSpecialisationSelect}/>
+                            <br />
+                            <br />
+                        </div>
+
+                        <div className={"steps " + (!this.state.yearIsDisabled && "active")}>
+                            <h3>Step 3) Set your starting year</h3>
+                            <p><i>
+                                Please note that all course maps are for students who
+                                commence their course in 2017, so your course map may
+                                differ if you started your course before 2017.</i>
+                            </p>
+                            <Dropdown
+                                className="drpdown"
+                                disabled={this.state.yearIsDisabled}
+                                placeholder='Select Starting Year'
+                                search
+                                selection
+                                options={this.state.years}
+                                onChange={this.handleYearSelect}
+                                value={this.state.year}
+                                />
+                        </div>
+
                     </Modal.Description>
                 </Modal.Content>
 

@@ -11,7 +11,13 @@ import UnitDetailModal from "./UnitDetailModal.jsx";
 const unitSource = {
     beginDrag(props) {
         if(props.newUnit) {
-            props.willAddUnit(props.code, props.custom, true);
+            props.willAddUnit(
+                props.code,
+                props.custom && {
+                    UnitCode: props.code,
+                    customUnitDragging: true
+                },
+                true);
         } else {
             props.movingUnit(props.unit, props.index, props.teachingPeriodIndex);
         }
@@ -74,7 +80,9 @@ export function UnitMessage(props) {
         isDragging: PropTypes.bool.isRequired,
         willAddUnit: PropTypes.func,
         movingUnit: PropTypes.func,
-        cancelMovingUnit: PropTypes.func
+        cancelMovingUnit: PropTypes.func,
+
+        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     };
 
     const { connectDragSource, isDragging } = props;
@@ -83,35 +91,22 @@ export function UnitMessage(props) {
         return null;
     }
 
-    const facultyColors = {
-        "Art, Design and Architecture": "blue",
-        "Arts": "blue",
-        "Business and Economics": "blue",
-        "Education": "blue",
-        "Engineering": "blue",
-        "Information Technology": "blue",
-        "Law": "blue",
-        "Medicine, Nursing and Health Sciences": "blue",
-        "Pharmacy and Pharmaceutical Sciences": "blue",
-        "Science": "blue",
-        "All": "blue"
-    };
-
-    let facultyColor = undefined;
-
-    if(typeof props.faculty === "string") {
-        facultyColor = facultyColors[props.faculty.replace("Faculty of ", "")];
-    }
-
     /**
      * Message component is used twice.
      */
     const unitMessage = mobile =>
         <Message
-            style={{cursor: "pointer"}}
-            color={facultyColor}
-            className={"unit" + (props.draggable ? " draggable" : "")}
+            style={{cursor: "pointer", width: props.width ? props.width: undefined}}
+            className={"unit "  + (props.draggable ? "draggable" : "")}
+            color="blue"
 
+            onClick={() => props.newUnit && props.willAddUnit &&
+                props.willAddUnit(props.code,
+                    props.custom && {
+                        UnitCode: props.code,
+                        customUnitDragging: true
+                    }
+            )}
             onMouseEnter={e => props.handleUnitMouseEnter && props.handleUnitMouseEnter(e)}
             onMouseMove={e => props.handleUnitMouseMove && props.handleUnitMouseMove(e)}
             onMouseLeave={e => props.handleUnitMouseLeave && props.handleUnitMouseLeave(e)}
@@ -133,8 +128,7 @@ export function UnitMessage(props) {
 
             </Message.Header>
             {props.name}
-            <br/>
-            <div style={{bottom: 0, textAlign:"right"}}>
+            <div style={{position: "absolute", bottom: "0.5em", right: "0.5em"}}>
                 <Popup
                     trigger={(props.errors && props.errors.length > 0) &&
                             <Icon inverted color="red" name="warning" size="large" />

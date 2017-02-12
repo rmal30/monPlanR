@@ -1,4 +1,5 @@
 import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
+import { validateCoursePlan, getInvalidUnitSlotCoordinates } from "../utils/ValidateCoursePlan";
 
 /**
  * @author JXNS, Saurabh Joshi
@@ -82,6 +83,7 @@ const defaultState = {
 
     // Course errors is used for displaying course error messages.
     courseErrors: [],
+    invalidUnitSlotCoordinates: [],
 
     focusedUnitCode: null,
     focusedCourse: null,
@@ -376,7 +378,8 @@ const CourseStructure = (state = defaultState, action) => {
         case "LOAD_NEW_TEACHING_PERIODS":
             return {
                 ...state,
-                teachingPeriods: action.value
+                teachingPeriods: action.value,
+                courseErrors: validateCoursePlan(action.value)
             };
 
         case "GET_NEW_NUMBER_OF_UNITS":
@@ -452,10 +455,17 @@ const CourseStructure = (state = defaultState, action) => {
 
 
         case "UPDATE_UNIT_TO_ADD":
-            return {
-                ...state,
-                unitToAdd: state.unitInfo
-            };
+            if(action.customUnitToAdd) {
+                return {
+                    ...state,
+                    unitToAdd: action.customUnitToAdd
+                };
+            } else {
+                return {
+                    ...state,
+                    unitToAdd: state.unitInfo
+                };
+            }
 
         case "UPDATE_UNIT_IS_BEING_DRAGGED":
             return {
@@ -763,7 +773,21 @@ const CourseStructure = (state = defaultState, action) => {
         case "VALIDATE_COURSE":
             return {
                 ...state,
-                courseErrors: []
+                courseErrors: validateCoursePlan(state.teachingPeriods)
+            };
+
+        case "HIGHLIGHT_INVALID_UNIT_SLOTS":
+            return {
+                ...state,
+                invalidUnitSlotCoordinates: getInvalidUnitSlotCoordinates(state.teachingPeriods, action.tempUnit, action.duplicateGraceFlag),
+                highlightingInvalidUnitSlots: true
+            };
+
+        case "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS":
+            return {
+                ...state,
+                invalidUnitSlotCoordinates: [],
+                highlightingInvalidUnitSlots: false
             };
 
         default:

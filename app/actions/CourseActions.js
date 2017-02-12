@@ -86,13 +86,32 @@ export const decreaseStudyLoad = (teachingPeriods, index) => {
  * ADD_UNIT
  */
 export const addUnit = (tpIndex, unitIndex, unit) => {
-    return {
-        type: "ADD_UNIT",
-        tpIndex,
-        unitIndex,
-        unit,
-        cost: unit.Cost,
-        creditPoints: unit.CreditPoints
+    return function(dispatch) {
+        if(!unit.customUnitDragging) {
+            dispatch({
+                type: "ADD_UNIT",
+                tpIndex,
+                unitIndex,
+                unit,
+                cost: unit.Cost,
+                creditPoints: unit.CreditPoints
+            });
+
+            dispatch(clearHighlightingInvalidUnitSlots());
+            dispatch(validateCourse());
+
+            dispatch({
+                type: "REMOVE_NOTIFICATION",
+                id: "ADDING_UNIT"
+            });
+        } else {
+            dispatch({
+                type: "SHOW_CUSTOM_UNIT_MODAL",
+                unitCode: unit.UnitCode,
+                tpIndex,
+                unitIndex
+            });
+        }
     };
 };
 
@@ -100,12 +119,16 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
  * REMOVE_UNIT
  */
 export const removeUnit = (tpIndex, unitIndex, creditPoints, cost) => {
-    return {
-        type: "REMOVE_UNIT",
-        tpIndex,
-        unitIndex,
-        creditPoints,
-        cost
+    return function(dispatch) {
+        dispatch({
+            type: "REMOVE_UNIT",
+            tpIndex,
+            unitIndex,
+            creditPoints,
+            cost
+        });
+
+        dispatch(validateCourse());
     };
 };
 
@@ -146,11 +169,13 @@ export const submitYearForm = (startYear, endYear) => {
             startYear,
             endYear
         });
+
         dispatch({
             type: "GENERATE_COURSE",
             startYear,
             endYear
         });
+        
         dispatch({
             type: "GET_NEXT_SEMESTER_STRING"
         });
@@ -367,6 +392,8 @@ export const movingUnit = (unit, unitIndex, tpIndex) => {
             message: "Drop into a table cell to move the unit. If there is already a unit, then those units will be swapped.",
             dismissable: false
         }));
+
+        dispatch(highlightInvalidUnitSlots(unit, true));
     };
 };
 
@@ -381,6 +408,7 @@ export const cancelMovingUnit = () => {
         });
 
         dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
+        dispatch(clearHighlightingInvalidUnitSlots());
     };
 };
 
@@ -396,6 +424,8 @@ export const moveUnit = (newUnitIndex, newTPIndex) => {
         });
 
         dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
+        dispatch(clearHighlightingInvalidUnitSlots());
+        dispatch(validateCourse());
     };
 };
 
@@ -412,6 +442,8 @@ export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
         });
 
         dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
+        dispatch(clearHighlightingInvalidUnitSlots());
+        dispatch(validateCourse());
     };
 };
 
@@ -421,5 +453,25 @@ export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
 export const validateCourse = () => {
     return {
         type: "VALIDATE_COURSE"
+    };
+};
+
+/**
+ * Highlights invalid unit slots where the unit being dragged cannot go.
+ */
+export const highlightInvalidUnitSlots = (tempUnit, duplicateGraceFlag) => {
+    return {
+        type: "HIGHLIGHT_INVALID_UNIT_SLOTS",
+        tempUnit,
+        duplicateGraceFlag
+    };
+};
+
+/**
+ * Clears highlighting of invalid unit slots
+ */
+export const clearHighlightingInvalidUnitSlots = () => {
+    return {
+        type: "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS"
     };
 };

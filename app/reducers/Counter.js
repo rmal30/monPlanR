@@ -55,7 +55,7 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 cost: 0,
                 creditPoints: 0
             };
-        
+
         case "REMOVE_TEACHING_PERIOD":
             return {
                 cost: action.units.reduce((prev, next) => {
@@ -73,7 +73,7 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                     }
                 }, state.creditPoints),
             };
-        
+
 
         case "REMOVE_UNIT":
             return {
@@ -88,31 +88,30 @@ const Counter = (state = {cost: 0, creditPoints: 0}, action) => {
                 cost: state.cost + action.cost,
                 creditPoints: state.creditPoints + action.creditPoints
             };
-        
+
 
         case "DECREASE_STUDY_LOAD":
             return {
                 cost: action.units.reduce((prev, next) => {
-                    if (next === null) {
+                    if (next === null || !next.Cost) {
                         return prev;
                     } else {
                         return Math.max(0, prev - next.Cost);
                     }
                 }, state.cost),
                 creditPoints: action.units.reduce((prev, next) => {
-                    if (next === null) {
+                    if (next === null || !next.CreditPoints) {
                         return prev;
                     } else {
                         return Math.max(0, prev - next.CreditPoints);
                     }
-                }, state.creditPoints),
-                
+                }, state.creditPoints)
             };
 
         default:
             return state;
 
-            
+
     }
 };
 
