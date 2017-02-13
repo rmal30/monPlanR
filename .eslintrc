@@ -32,6 +32,7 @@
         "MONPLAN_VERSION": true,
         "MONPLAN_AUTHOR": true,
         "MONPLAN_REMOTE_URL": true,
+        "MONPLAN_REMOTE_URL2": true,
         "expect": true
     },
     "env": {

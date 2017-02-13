@@ -532,15 +532,21 @@ describe("REDUCER: CourseStructure", () => {
             const action = {
                 type: "FETCH_COURSE_INFO_FULFILLED",
                 payload: {data: {
-                    courseCode: "Test Code",
-                    courseName: "Test Course",
-                    mangFac: "Test Faculty",
-                    creditPoints: 100,
-                    courseDescrip: "Test Description",
-                    courseDuration: "Test Duration",
-                    modeLoc: "Test mode and location",
-                    courseAward: "Test awards",
-                    abrevTitle: "Test abreviated title"
+                    "propertyMap": {
+                        courseCode: "Test Code",
+                        courseName: "Test Course",
+                        mangFac: "Test Faculty",
+                        creditPoints: 100,
+                        courseDescrip: {
+                            "value": "Test Description"
+                        },
+                        courseDuration: "Test Duration",
+                        modeLoc: {
+                            "value": "Test mode and location"
+                        },
+                        courseAward: "Test awards",
+                        abrevTitle: "Test abreviated title" 
+                    }
                 }},
                 courseCode: "COURSE101"
             };
