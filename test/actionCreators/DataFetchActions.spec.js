@@ -1,13 +1,14 @@
-//import expect from "expect";
+/*
+import expect from "expect";
 import { describe, it } from "mocha";
-//import configureMockStore from "redux-mock-store";
-//import thunk from "redux-thunk";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 import nock from "nock";
 
-//import * as actions from "../../app/actions/DataFetchActions";
+import * as actions from "../../app/actions/DataFetchActions";
 
-//const middlewares = [thunk];
-//const mockStore = configureMockStore(middlewares);
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe("ACTION-CREATOR: DataFetchActions", () => {
     afterEach(() => {
@@ -17,10 +18,9 @@ describe("ACTION-CREATOR: DataFetchActions", () => {
     describe("AC: fetchCourseInfo", () => {
         it("Creates fetch course info success action upon sucess", () => {
             
-            /*
             const mockResp = {data: "Fake Course Data here"};
 
-            nock("https://test")
+            nock(MONPLAN_REMOTE_URL)
                 .get("/courses/info/testCourse")
                 .reply(200, {data: "Fake Course Data here"});
             
@@ -35,8 +35,6 @@ describe("ACTION-CREATOR: DataFetchActions", () => {
                 .then(() => {
                     expect(store.getActions()).toEqual(expectedActions);
                 });
-
-            */
         });
 
         it("Creates fetch course info rejected action upon failure", () => {
@@ -44,6 +42,8 @@ describe("ACTION-CREATOR: DataFetchActions", () => {
         });
     });
 });
+
+*/
 
 /*
 import configureMockStore from 'redux-mock-store'
