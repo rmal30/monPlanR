@@ -31,12 +31,14 @@ body {
     display: none;
 }
 
-.steps {
+.load-course-steps {
     opacity: 0 !important;
-    height: 0 !important
+    height: 1 !important;
+    display: none !important;
 }
 
-.steps.active {
+.load-course-steps.active {
+    display: block !important;
     opacity: 1 !important;
     height: auto !important;
     transition: opacity 0.5s ease-in;

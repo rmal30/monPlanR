@@ -186,7 +186,7 @@ class LoadCourseMap extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <div className="steps active">
+                        <div className="load-course-steps active">
                             <h3>Step 1) Find your degree/course</h3>
                             <br />
                             <Search
@@ -204,7 +204,7 @@ class LoadCourseMap extends Component {
                             <br />
                         </div>
 
-                        <div className={"steps " + (!this.state.specIsDisabled && "active") }>
+                        <div className={"load-course-steps " + (!this.state.specIsDisabled && "active") }>
                             <h3>Step 2) Find your degree/course</h3>
                             <Dropdown
                                 className="drpdown"
@@ -218,7 +218,7 @@ class LoadCourseMap extends Component {
                             <br />
                         </div>
 
-                        <div className={"steps " + (!this.state.yearIsDisabled && "active")}>
+                        <div className={"load-course-steps " + (!this.state.yearIsDisabled && "active")}>
                             <h3>Step 3) Set your starting year</h3>
                             <p><i>
                                 Please note that all course maps are for students who
@@ -241,9 +241,8 @@ class LoadCourseMap extends Component {
                 </Modal.Content>
 
                 <Modal.Actions>
-                    <Button onClick={this.handleCancel} className="btnlightcancel">Cancel</Button>
-                    {this.state.CourseCode === "" ? <Button disabled className="btnorange">Load Course Map</Button>
-                        : <Button disabled={this.state.code === "" || !this.state.year} onClick={this.handleLoadCourse} className="btnorange">Load {this.state.CourseCode} Map</Button>}
+                    <Button disabled={false} onClick={this.handleCancel} className="btnlightcancel">Cancel</Button>
+                    <Button disabled={this.state.CourseCode === "" || this.state.code === "" || !this.state.year} onClick={this.handleLoadCourse} className="btnorange">Load {this.state.CourseCode || "Course"} Map</Button>}
                 </Modal.Actions>
             </Modal>
         );
