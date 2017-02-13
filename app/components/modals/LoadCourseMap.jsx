@@ -242,7 +242,7 @@ class LoadCourseMap extends Component {
 
                 <Modal.Actions>
                     <Button disabled={false} onClick={this.handleCancel} className="btnlightcancel">Cancel</Button>
-                    <Button disabled={this.state.CourseCode === "" || this.state.code === "" || !this.state.year} onClick={this.handleLoadCourse} className="btnorange">Load {this.state.CourseCode || "Course"} Map</Button>}
+                    <Button disabled={this.state.CourseCode === "" || this.state.code === "" || !this.state.year} onClick={this.handleLoadCourse} className="btnorange">Load {this.state.CourseCode || "Course"} Map</Button>
                 </Modal.Actions>
             </Modal>
         );
