@@ -28,8 +28,8 @@ function CourseStatisticGroup(props) {
                     </Statistic.Value>
                     <Popup
                       trigger={<Statistic.Label>Credit points</Statistic.Label>}
-                      header="Current credit points"
-                      content="This estimate is the total amount of credit points that could be earnt of the current current course for students"
+                      header="Current Credits/Required Credits to Complete Course"
+                      content="This estimate is the total amount of credit points that could be earnt from the current plan out of the total required credit points"
                       on="hover"
                       positioning="bottom right"
                     />
