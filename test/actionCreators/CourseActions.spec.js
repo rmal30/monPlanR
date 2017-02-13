@@ -357,17 +357,37 @@ describe("ACTION-CREATOR: CourseActions", () => {
     swapUnit test goes here...
     */
 
-    /*
-    validateCourse test goes here...
-    */
+    describe("AC: validateCourse", () => {
+        it("Should create the action for validating the course", () => {
+            const expectedAction = {
+                type: "VALIDATE_COURSE"
+            };
 
-    /*
-    highlightInvalidUnitSlots test goes here...
-    */
+            expect(actions.validateCourse()).toEqual(expectedAction);
+        });
+    });
 
-    /*
-    clearHighlightingInvalidUnitSlots test goes here...
-    */
+    describe("AC: highlightInvalidUnitSlots", () => {
+        it("Should create the action for highlighting the invalid unit slots", () => {
+            const expectedAction = {
+                type: "HIGHLIGHT_INVALID_UNIT_SLOTS",
+                tempUnit: "UnitTest",
+                duplicateGraceFlag: false
+            };
+
+            expect(actions.highlightInvalidUnitSlots("UnitTest", false)).toEqual(expectedAction);
+        });
+    });
+
+    describe("AC: clearHighlightingInvalidUnitSlots", () => {
+        it("Should create the action for clearing the highlighting for invalid unit slots", () => {
+            const expectedAction = {
+                type: "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS"
+            };
+
+            expect(actions.clearHighlightingInvalidUnitSlots()).toEqual(expectedAction);
+        });
+    });
 
     
 });
