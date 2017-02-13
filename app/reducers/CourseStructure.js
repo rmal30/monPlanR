@@ -193,7 +193,6 @@ const CourseStructure = (state = defaultState, action) => {
             Adds a unit with the given details to course structure at the given location
         */
         case "ADD_UNIT": {
-            console.error(state.hidingPlaceholders);
             const hidingPlaceholders = [...state.hidingPlaceholders];
             if(state.teachingPeriods[action.tpIndex].units[action.unitIndex] && state.teachingPeriods[action.tpIndex].units[action.unitIndex].placeholder) {
                 hidingPlaceholders.push({
@@ -572,17 +571,32 @@ const CourseStructure = (state = defaultState, action) => {
          * a) a framework like immutable.js to abstract these nasty complexities that come with immutability
          * b) investigate doing the swap in the action creator instead and then just feeding in the new teaching periods
          */
-        case "MOVE_UNIT":
+        case "MOVE_UNIT": {
+            const hidingPlaceholders = [...state.hidingPlaceholders];
+            if(state.teachingPeriods[action.newTPIndex].units[action.newUnitIndex] && state.teachingPeriods[action.newTPIndex].units[action.newUnitIndex].placeholder) {
+                hidingPlaceholders.push({
+                    coordinate: [action.newTPIndex, action.newUnitIndex],
+                    unit: state.teachingPeriods[action.newTPIndex].units[action.newUnitIndex]
+                });
+            }
+
+            const unitPlaceholderIndex = hidingPlaceholders.findIndex(unitPlaceholder => unitPlaceholder.coordinate[0] === state.tpIndexOfUnitToBeMoved && unitPlaceholder.coordinate[1] === state.unitsIndexOfUnitToBeMoved);
+            let unitPlaceholder;
+            if(unitPlaceholderIndex > -1) {
+                unitPlaceholder = {...hidingPlaceholders[unitPlaceholderIndex].unit};
+            }
+
             if(action.newTPIndex > state.tpIndexOfUnitToBeMoved){
                 return {
                     ...state,
+                    hidingPlaceholders: unitPlaceholderIndex > -1 ? [...hidingPlaceholders.slice(0, unitPlaceholderIndex), ...hidingPlaceholders.slice(unitPlaceholderIndex + 1)] : [...hidingPlaceholders],
                     teachingPeriods: [
                         ...state.teachingPeriods.slice(0, state.tpIndexOfUnitToBeMoved),
                         {
                             ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
                             units: [
                                 ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
-                                null,
+                                unitPlaceholder || null,
                                 ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
                             ]
                         },
@@ -607,13 +621,14 @@ const CourseStructure = (state = defaultState, action) => {
                 if(action.newUnitIndex > state.unitsIndexOfUnitToBeMoved) {
                     return {
                         ...state,
+                        hidingPlaceholders: unitPlaceholderIndex > -1 ? [...hidingPlaceholders.slice(0, unitPlaceholderIndex), ...hidingPlaceholders.slice(unitPlaceholderIndex + 1)] : [...hidingPlaceholders],
                         teachingPeriods: [
                             ...state.teachingPeriods.slice(0, action.newTPIndex),
                             {
                                 ...state.teachingPeriods[action.newTPIndex],
                                 units: [
                                     ...state.teachingPeriods[action.newTPIndex].units.slice(0, state.unitsIndexOfUnitToBeMoved),
-                                    null,
+                                    unitPlaceholder || null,
                                     ...state.teachingPeriods[action.newTPIndex].units.slice(state.unitsIndexOfUnitToBeMoved + 1, action.newUnitIndex),
                                     state.unitToBeMoved,
                                     ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1)
@@ -628,6 +643,7 @@ const CourseStructure = (state = defaultState, action) => {
                 } else if (state.unitsIndexOfUnitToBeMoved > action.newUnitIndex) {
                     return {
                         ...state,
+                        hidingPlaceholders: unitPlaceholderIndex > -1 ? [...hidingPlaceholders.slice(0, unitPlaceholderIndex), ...hidingPlaceholders.slice(unitPlaceholderIndex + 1)] : [...hidingPlaceholders],
                         teachingPeriods: [
                             ...state.teachingPeriods.slice(0, action.newTPIndex),
                             {
@@ -636,7 +652,7 @@ const CourseStructure = (state = defaultState, action) => {
                                     ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
                                     state.unitToBeMoved,
                                     ...state.teachingPeriods[action.newTPIndex].units.slice(action.newUnitIndex + 1, state.unitsIndexOfUnitToBeMoved),
-                                    null,
+                                    unitPlaceholder || null,
                                     ...state.teachingPeriods[action.newTPIndex].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
                                 ]
                             },
@@ -659,6 +675,7 @@ const CourseStructure = (state = defaultState, action) => {
             } else {
                 return {
                     ...state,
+                    hidingPlaceholders: unitPlaceholderIndex > -1 ? [...hidingPlaceholders.slice(0, unitPlaceholderIndex), ...hidingPlaceholders.slice(unitPlaceholderIndex + 1)] : [...hidingPlaceholders],
                     teachingPeriods: [
                         ...state.teachingPeriods.slice(0, action.newTPIndex),
                         {
@@ -674,7 +691,7 @@ const CourseStructure = (state = defaultState, action) => {
                             ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
                             units: [
                                 ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
-                                null,
+                                unitPlaceholder || null,
                                 ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(state.unitsIndexOfUnitToBeMoved + 1)
                             ]
                         },
@@ -686,6 +703,7 @@ const CourseStructure = (state = defaultState, action) => {
                     unitsIndexOfUnitToBeMoved: 0
                 };
             }
+        }
 
         case "SWAP_UNIT":
             if(action.newTPIndex > state.tpIndexOfUnitToBeMoved){
