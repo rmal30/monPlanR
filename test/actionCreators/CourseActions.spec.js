@@ -326,37 +326,48 @@ describe("ACTION-CREATOR: CourseActions", () => {
         });
     });
 
+    describe("AC: getAffectedUnitsInRow", () => {
+        it("Should create the action for getting affected units in an teaching period row", () => {
+            const expectedAction = {
+                type: "GET_AFFECTED_UNITS_IN_TEACHING_PERIOD_ROW",
+                index: 4
+            };
 
+            expect(actions.getAffectedUnitsInRow(4)).toEqual(expectedAction);
+        });
+    });
+
+    /*
+    saveCourseToLocalStorage test goes here... not sure how to mock it yet
+    */
+
+    /*
+    movingUnit test goes here...
+    */
+
+    /*
+    cancelMovingUnit test goes here...
+    */
+
+    /*
+    moveUnit test goes here...
+    */
+
+    /*
+    swapUnit test goes here...
+    */
+
+    /*
+    validateCourse test goes here...
+    */
+
+    /*
+    highlightInvalidUnitSlots test goes here...
+    */
+
+    /*
+    clearHighlightingInvalidUnitSlots test goes here...
+    */
+
+    
 });
-
-/*
-
-
-import expect from 'expect' // You can use any testing library
-
-const middlewares = [ thunk ]
-const mockStore = configureMockStore(middlewares)
-
-describe('async actions', () => {
-  afterEach(() => {
-    nock.cleanAll()
-  })
-
-  it('creates FETCH_TODOS_SUCCESS when fetching todos has been done', () => {
-    nock('http://example.com/')
-      .get('/todos')
-      .reply(200, { body: { todos: ['do something'] }})
-
-    const expectedActions = [
-      { type: types.FETCH_TODOS_REQUEST },
-      { type: types.FETCH_TODOS_SUCCESS, body: { todos: ['do something']  } }
-    ]
-    const store = mockStore({ todos: [] })
-
-    return store.dispatch(actions.fetchTodos())
-      .then(() => { // return of async actions
-        expect(store.getActions()).toEqual(expectedActions)
-      })
-  })
-})
-*/
