@@ -77,8 +77,8 @@ class CourseSelectFormContainer extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { CourseCode, year, code } = this.state;
-        this.props.fetchCourseInfo(CourseCode);
-        this.props.submitCourseForm(CourseCode, year, code);
+        this.props.submitCourseForm(CourseCode, year, code); // I dont love it, but the order of these two is important here
+        this.props.fetchCourseInfo(CourseCode); // grab updated course details
 
         this.context.router.push({
             pathname: "/plan"

@@ -48,7 +48,6 @@ const defaultState = {
     teachingPeriodCodeToInsert: null,
     nextSemesterString: null,
     indexOfTPtoRemove: 0,
-    courseDetails: {},
 
     unitToBeMoved: undefined,
     tpIndexOfUnitToBeMoved: 0,
@@ -239,6 +238,16 @@ const CourseStructure = (state = defaultState, action) => {
         case "CLEAR_COURSE":
             return {
                 ...state,
+                courseInfo: {
+                    courseName: "",
+                    faculty: "",
+                    creditPoints: 0,
+                    courseDescription: "",
+                    durationStr: "",
+                    modeAndLocation: "",
+                    awards: "",
+                    abrTitle: ""
+                },
                 teachingPeriods: [],
                 numberOfUnits: 4
             };

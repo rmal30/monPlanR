@@ -56,10 +56,6 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                 const result = CourseTemplate.parse(resp.data, startYear);
 
                 dispatch({
-                    type: "CLEAR_COURSE"
-                });
-
-                dispatch({
                     type: "LOAD_NEW_TEACHING_PERIODS",
                     value: result.newTeachingPeriods
                 });
