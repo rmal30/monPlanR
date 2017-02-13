@@ -4,7 +4,7 @@ import * as actions from "../../app/actions/UIActions";
 
 describe("ACTION-CREATOR: UIActions", () => {
     describe("AC: showInsertTeachingPeriodUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to show the insert teaching period UI", () => {
             const expectedAction = {
                 type: "SHOW_INSERT_TEACHING_PERIOD_UI",
                 tpCode: "testTPCode"
@@ -15,7 +15,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: hideInsertTeachingPeriodUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to hide the insert teaching period UI", () => {
             const expectedAction = {
                 type: "HIDE_INSERT_TEACHING_PERIOD_UI"
             };
@@ -25,7 +25,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: showAddingUnitUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to show the add unit UI", () => {
             const expectedAction = {
                 type: "SHOW_ADD_UNIT_UI"
             };
@@ -35,7 +35,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: hideAddingUnitUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to hide the add unit UI", () => {
             const expectedAction = {
                 type: "HIDE_ADD_UNIT_UI"
             };
@@ -45,7 +45,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: showMoveUnitUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to show the move unit UI", () => {
             const expectedAction = {
                 type: "SHOW_MOVE_UNIT_UI"
             };
@@ -55,7 +55,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: hideMoveUnitUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to hide move unit UI", () => {
             const expectedAction = {
                 type: "HIDE_MOVE_UNIT_UI"
             };
@@ -65,7 +65,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: showConfirmDeleteTeachingPeriodUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to show confirm delete teaching period UI", () => {
             const expectedAction = {
                 type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
             };
@@ -75,7 +75,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: hideConfirmDeleteTeachingPeriodUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to hide confirm delete teaching period UI", () => {
             const expectedAction = {
                 type: "HIDE_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"
             };
@@ -85,7 +85,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: showConfirmDecreaseStudyLoadUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to show confirm decrease study load UI", () => {
             const expectedAction = {
                 type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
             };
@@ -95,7 +95,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: hideConfirmDecreaseStudyLoadUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to hide confirm decrease study load UI", () => {
             const expectedAction = {
                 type: "HIDE_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
             };
@@ -105,7 +105,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: showCustomUnitUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to show custum unit UI", () => {
             const expectedAction = {
                 type: "SHOW_CUSTOM_UNIT_MODAL",
                 unitCode: "TEST1001"
@@ -116,7 +116,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: hideCustomUnitUI", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to hide custom unit UI", () => {
             const expectedAction = {
                 type: "HIDE_CUSTOM_UNIT_MODAL"
             };
@@ -126,7 +126,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: showSidebar", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to show sidebar", () => {
             const expectedAction = {
                 type: "SHOW_SIDEBAR"
             };
@@ -136,7 +136,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: hideSidebar", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to hide sidebar", () => {
             const expectedAction = {
                 type: "HIDE_SIDEBAR"
             };
@@ -146,7 +146,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: setCourseReadOnly", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to set the course to read only", () => {
             const expectedAction = {
                 type: "SET_COURSE_READ_ONLY"
             };
@@ -156,7 +156,7 @@ describe("ACTION-CREATOR: UIActions", () => {
     });
 
     describe("AC: setCourseReadAndWrite", () => {
-        it("Should create an action to ", () => {
+        it("Should create an action to set the course to read and write", () => {
             const expectedAction = {
                 type: "SET_COURSE_READ_AND_WRITE"
             };
