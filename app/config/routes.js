@@ -2,12 +2,13 @@ import React from "react";
 import { Route, IndexRoute } from "react-router";
 
 /* Components import here */
-import Main from "../components/base/Main.jsx";
-import Home from "../components/base/Home.jsx";
-import Plan from "../components/base/Plan.jsx";
-import View from "../components/base/View.jsx";
+import Main from "../components/Base/Main.jsx";
+
+import Home from "../components/Pages/Home.jsx";
+import Plan from "../components/Pages/Plan.jsx";
+import View from "../components/Pages/View.jsx";
 import YearFormContainer from "../containers/Forms/YearFormContainer.jsx";
-import MissingPage from "../components/base/404.jsx";
+import MissingPage from "../components/Pages/404.jsx";
 
 export default (
     <Route path="/" component={Main}>
