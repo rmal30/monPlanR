@@ -287,6 +287,44 @@ describe("ACTION-CREATOR: CourseActions", () => {
         });
     });
     
+    describe("AC: attemptToDecreaseStudyLoad", () => {
+        it("Should correctly create the actions required for decrease of a study load with units affected", () => {
+            const mockTeachingPeriods = [
+                {units: [null, null, {UnitCode: "TEST10A", UnitName: "unitA"}, null, {UnitCode: "TEST101", UnitName: "unit1"}]},
+                {units: [null, null, {UnitCode: "TEST10B", UnitName: "unitB"}, null, null]},
+                {units: [null, null, {UnitCode: "TEST10C", UnitName: "unitC"}, null, {UnitCode: "TEST102", UnitName: "unit2"}]},
+                {units: [null, null, {UnitCode: "TEST10D", UnitName: "unitD"}, null, null]},
+                
+            ];
+            const expectedActions = [
+                {type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"}, 
+                {type: "UPDATE_AFFECTED_UNITS", affectedUnits: ["TEST101 - unit1", "TEST102 - unit2"]}            
+            ];
+            
+            const store = mockStore({});
+
+            store.dispatch(actions.attemptToDecreaseStudyLoad(mockTeachingPeriods, 4));
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+
+        it("Should correctly create the actions required for decrease of a study load with no units affected", () => {
+            const mockTeachingPeriods = [
+                {units: [null, null, {UnitCode: "TEST10A", UnitName: "unitA"}, null, null]},
+                {units: [null, null, {UnitCode: "TEST10B", UnitName: "unitB"}, null, null]},
+                {units: [null, null, {UnitCode: "TEST10C", UnitName: "unitC"}, null, null]},
+                {units: [null, null, {UnitCode: "TEST10D", UnitName: "unitD"}, null, null]},
+                
+            ];
+            const expectedActions = [
+                {type: "DECREASE_STUDY_LOAD", units: []},
+            ];
+            
+            const store = mockStore({});
+
+            store.dispatch(actions.attemptToDecreaseStudyLoad(mockTeachingPeriods, 4));
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
 
 
 });
