@@ -16,6 +16,7 @@ export const fetchCourseInfo = (courseCode) => {
         });
         axios.get(`${MONPLAN_REMOTE_URL2}/courses/${courseCode}`)
             .then(resp => {
+                console.log(resp)
                 dispatch({
                     type: "FETCH_COURSE_INFO_FULFILLED",
                     payload: resp,
