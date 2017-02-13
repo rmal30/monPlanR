@@ -18,20 +18,13 @@ const UnitInfoPlaceholder = ({ error }) => {
                     </Header>
                 }
             </Dimmer>
-            <Grid.Row>
-                <Grid.Column width={12}>
+            <Grid.Row className={"header law"}>
+                <Grid.Column width={16}>
                     <Image src='../img/loaders/header.png' />
                     <br />
                     <Image src='../img/loaders/smallText.png' />
                 </Grid.Column>
 
-                <Grid.Column width={2}>
-                    <Image src='../img/loaders/square.png' />
-                </Grid.Column>
-
-                <Grid.Column width={2}>
-                    <Image src='../img/loaders/square.png' />
-                </Grid.Column>
             </Grid.Row>
             
             
@@ -47,6 +40,11 @@ const UnitInfoPlaceholder = ({ error }) => {
                  </Grid.Column>
                 
                 <Grid.Column width={4}>
+                    
+                    <Image src='../img/loaders/square.png' />
+                    <Divider />
+                    <Image src='../img/loaders/square.png' />
+                    <Divider />
                     <Image src='../img/loaders/smallText.png' />
                     <br />
                     <Rating icon='star' defaultRating={0} maxRating={5} disabled/>

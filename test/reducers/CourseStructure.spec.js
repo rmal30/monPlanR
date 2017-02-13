@@ -227,6 +227,16 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
+                courseInfo: {
+                    courseName: "",
+                    faculty: "",
+                    creditPoints: 0,
+                    courseDescription: "",
+                    durationStr: "",
+                    modeAndLocation: "",
+                    awards: "",
+                    abrTitle: ""
+                },
                 teachingPeriods: [],
                 numberOfUnits: 4
             };
