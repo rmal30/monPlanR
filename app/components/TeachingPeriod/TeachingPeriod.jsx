@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import * as courseActions from "../../actions/CourseActions";
 
 import ConfirmDeleteTeachingPeriod from "../modals/ConfirmDeleteTeachingPeriod.jsx";
-import Unit from "../Unit/Unit.jsx";
+import UnitTableCell from "../Unit/UnitTableCell.jsx";
 
 /**
  * TeachingPeriod component
@@ -33,7 +33,6 @@ export const TeachingPeriod = (props) => {
         viewOnly: PropTypes.bool
     };
 
-    let keyVal = 0;
     let firstFreeUnit = true;
     const unitsEle = props.units.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
@@ -42,8 +41,8 @@ export const TeachingPeriod = (props) => {
             const temp = firstFreeUnit;
             firstFreeUnit = false;
             return (
-                <Unit
-                    key={`${keyVal++}`}
+                <UnitTableCell
+                    key={index}
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
@@ -52,9 +51,9 @@ export const TeachingPeriod = (props) => {
             );
         }
         return (
-            <Unit
+            <UnitTableCell
                 viewOnly={props.viewOnly}
-                key={`${keyVal++}`}
+                key={index}
                 index={index}
                 teachingPeriodIndex={props.index}
                 swapUnit={props.swapUnit.bind(null, props.index)}

@@ -28,6 +28,9 @@ const defaultState = {
     unitToAddCode: "",
     unitIsBeingDragged: false,
 
+    // Holds a list of placeholders where a unit is on top of it.
+    hidingPlaceholders: [],
+
     courseInfoLoadError: false,
     courseTemplateLoadError: false,
     courseTemplateData: null,
@@ -189,10 +192,20 @@ const CourseStructure = (state = defaultState, action) => {
         /*
             Adds a unit with the given details to course structure at the given location
         */
-        case "ADD_UNIT":
+        case "ADD_UNIT": {
+            console.error(state.hidingPlaceholders);
+            const hidingPlaceholders = [...state.hidingPlaceholders];
+            if(state.teachingPeriods[action.tpIndex].units[action.unitIndex] && state.teachingPeriods[action.tpIndex].units[action.unitIndex].placeholder) {
+                hidingPlaceholders.push({
+                    coordinate: [action.tpIndex, action.unitIndex],
+                    unit: state.teachingPeriods[action.tpIndex].units[action.unitIndex]
+                });
+            }
+
             return {
                 ...state,
                 unitToAdd: undefined, //reset unit after adding
+                hidingPlaceholders,
                 teachingPeriods: [
                     ...state.teachingPeriods.slice(0, action.tpIndex),
                     {
@@ -206,6 +219,7 @@ const CourseStructure = (state = defaultState, action) => {
                     ...state.teachingPeriods.slice(action.tpIndex + 1),
                 ]
             };
+        }
 
         /*
             Removes a unit at the given location from the course structure,
@@ -213,16 +227,24 @@ const CourseStructure = (state = defaultState, action) => {
             then it returns a unit array with the object at that location overwritten with
             null
         */
-        case "REMOVE_UNIT":
+        case "REMOVE_UNIT": {
+            const unitPlaceholderIndex = state.hidingPlaceholders.findIndex(unitPlaceholder => unitPlaceholder.coordinate[0] === action.tpIndex && unitPlaceholder.coordinate[1] === action.unitIndex);
+            let unitPlaceholder;
+            if(unitPlaceholderIndex > -1) {
+                unitPlaceholder = {...state.hidingPlaceholders[unitPlaceholderIndex].unit};
+            }
+
             return {
                 ...state,
+                hidingPlaceholders: unitPlaceholderIndex > -1 ? [...state.hidingPlaceholders.slice(0, unitPlaceholderIndex), ...state.hidingPlaceholders.slice(unitPlaceholderIndex + 1)] : [...state.hidingPlaceholders],
+
                 teachingPeriods: state.teachingPeriods.map((tp, index) => {
                     if (index === action.tpIndex) {
                         return {
                             ...tp,
                             units: [
                                 ...tp.units.slice(0, action.unitIndex),
-                                null,
+                                unitPlaceholder || null,
                                 ...tp.units.slice(action.unitIndex + 1)
                             ]
                         };
@@ -231,6 +253,7 @@ const CourseStructure = (state = defaultState, action) => {
                     return tp;
                 })
             };
+        }
 
         /*
             Resets the data structure to it's basic form, perhaps worth just returning state, but depends if the base state ever becomes more complex

@@ -254,7 +254,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
-                unitToAdd: "FIT1002"
+                unitToAdd: "FIT1002",
+                hidingPlaceholders: []
             };
 
             const action = {
@@ -271,7 +272,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
-                unitToAdd: undefined
+                unitToAdd: undefined,
+                hidingPlaceholders: []
             };
 
             test(CourseStructure, stateBefore, action, stateAfter);
@@ -285,15 +287,15 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
-                unitToAdd: "FIT1002"
+                unitToAdd: "FIT1002",
+                hidingPlaceholders: []
             };
 
             const action = {
                 type: "ADD_UNIT",
                 tpIndex: 1,
                 unitIndex: 1,
-                unit: {unitCode: "XXX0001", unitName: "Test Unit"},
-
+                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
             };
 
             const stateAfter = {
@@ -303,7 +305,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
-                unitToAdd: undefined
+                unitToAdd: undefined,
+                hidingPlaceholders: []
             };
 
             test(CourseStructure, stateBefore, action, stateAfter);
@@ -317,7 +320,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
-                unitToAdd: "FIT1002"
+                unitToAdd: "FIT1002",
+                hidingPlaceholders: []
             };
 
             const action = {
@@ -334,7 +338,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
                 ],
                 numberOfUnits: 4,
-                unitToAdd: undefined
+                unitToAdd: undefined,
+                hidingPlaceholders: []
             };
 
             test(CourseStructure, stateBefore, action, stateAfter);
@@ -349,7 +354,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                hidingPlaceholders: []
             };
 
             const action = {
@@ -364,7 +370,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                hidingPlaceholders: []
             };
 
             test(CourseStructure, stateBefore, action, stateAfter);
@@ -377,7 +384,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                hidingPlaceholders: []
             };
 
             const action = {
@@ -392,7 +400,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                hidingPlaceholders: []
             };
 
             test(CourseStructure, stateBefore, action, stateAfter);
@@ -405,7 +414,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                hidingPlaceholders: []
             };
 
             const action = {
@@ -420,7 +430,8 @@ describe("REDUCER: CourseStructure", () => {
                     { year: 2018, code: "S2-01", units: [null, null, null, null] },
                     { year: 2019, code: "S2-01", units: [null, null, null, null] }
                 ],
-                numberOfUnits: 4
+                numberOfUnits: 4,
+                hidingPlaceholders: []
             };
 
             test(CourseStructure, stateBefore, action, stateAfter);

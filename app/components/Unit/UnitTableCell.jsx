@@ -26,7 +26,9 @@ const mapStateToProps = state => {
     return {
         unitToAdd: state.CourseStructure.unitToAdd,
         highlightingInvalidUnitSlots: state.CourseStructure.highlightingInvalidUnitSlots,
-        viewOnly: state.UI.readOnly
+        viewOnly: state.UI.readOnly,
+        showingAddingUnitUI: state.UI.showingAddingUnitUI,
+        showingMovingUnitUI: state.UI.showingMovingUnitUI
     };
 };
 
@@ -35,20 +37,15 @@ const mapStateToProps = state => {
 */
 const unitTarget = {
     drop(props) {
-        if(props.free) {
-            if(props.unitToAdd) {
+        if(props.free || props.placeholder) {
+            if(props.showingAddingUnitUI) {
                 props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
-            } else {
+            } else if(props.showingMovingUnitUI) {
                 props.moveUnit(props.index, props.teachingPeriodIndex);
             }
-        } else {
+        } else if(props.showingMovingUnitUI) {
             props.swapUnit(props.index, props.teachingPeriodIndex, props.unit);
         }
-        /**
-         * else if(props.placeholder && props.addUnit && props.unitToAdd) {
-            props.addUnit(props.teachingPeriodIndex, props.index, props.unitToAdd);
-        }
-         */
 
         return {};
     }
@@ -108,11 +105,10 @@ export class Unit extends React.Component {
     /**
      * Updates state to indicate that the user is hovering on the unit.
      */
-    handleUnitMouseEnter() {
+    handleUnitMouseOver() {
         if(!this.state.hovering) {
             this.setState({
-                hovering: true,
-                overInput: false
+                hovering: true
             });
         }
     }
@@ -132,11 +128,10 @@ export class Unit extends React.Component {
      * Updates state to indicate that the user is no longer hovering on the
      * unit.
      */
-    handleUnitMouseLeave() {
+    handleUnitMouseOut() {
         if(this.state.hovering) {
             this.setState({
-                hovering: false,
-                overInput: false
+                hovering: false
             });
         }
     }
@@ -179,14 +174,14 @@ export class Unit extends React.Component {
                     return (
                         connectDropTarget(
                         <td
-                            className={(isOver || this.state.tableCellHover && (this.props.free || this.props.placeholder) && this.props.unitToAdd !== undefined) && !mobile ? "active" : "" +
+                            className={(((isOver && this.props.showingMovingUnitUI) || (this.props.free || this.props.placeholder) && (this.props.showingAddingUnitUI && (isOver || this.state.tableCellHover)))) && !mobile ? "active" : "" +
                                         (this.props.isError || !this.props.highlightingInvalidUnitSlots && (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
                             }
                             onMouseOver={this.handleTableCellMouseOver.bind(this)}
                             onMouseOut={this.handleTableCellMouseOut.bind(this)}
                             onClick={this.handleClick.bind(this)}
                             >
-                            {(this.props.free) && (!mobile || mobile && (this.props.unitToAdd !== undefined || this.props.showMoveUnitUI)) &&
+                            {(this.props.free) && (!mobile || mobile && (this.props.unitToAdd !== undefined || this.props.showingMovingUnitUI)) &&
                                 <div style={{minHeight: 90, border: mobile ? "1px dashed grey": ""}}>
                                     {mobile && this.props.unitToAdd !== undefined &&
                                         <Header as="h4" icon textAlign="center" style={{marginTop: "0.5em"}}>
@@ -202,8 +197,11 @@ export class Unit extends React.Component {
                                         <Message
                                             className="unit placeholder"
                                             onClick={e => {
-                                                e.stopPropagation() /* otherwise sidebar will never show */;
-                                                this.props.showSidebar();
+                                                // If we're not adding a unit.
+                                                if(!this.props.unitToAdd) {
+                                                    e.stopPropagation() /* otherwise sidebar will never show */;
+                                                    this.props.showSidebar();
+                                                }
                                             }}
                                             size="mini">
                                             <Message.Header>{this.props.code}</Message.Header>
@@ -228,9 +226,9 @@ export class Unit extends React.Component {
                                             movingUnit={this.props.movingUnit}
                                             cancelMovingUnit={this.props.cancelMovingUnit}
 
-                                            handleUnitMouseEnter={this.handleUnitMouseEnter.bind(this)}
+                                            handleUnitMouseOver={this.handleUnitMouseOver.bind(this)}
                                             handleUnitMouseMove={this.handleUnitMouseMove.bind(this)}
-                                            handleUnitMouseLeave={this.handleUnitMouseLeave.bind(this)}
+                                            handleUnitMouseOut={this.handleUnitMouseOut.bind(this)}
                                             handleButtonMouseEnter={() => this.setState({ overInput: true })}
                                             handleButtonMouseLeave={() => this.setState({ overInput: false })}
 
@@ -266,11 +264,12 @@ Unit.propTypes = {
     showSidebar: PropTypes.func,
 
     unitToAdd: PropTypes.object,
+    showingAddingUnitUI: PropTypes.bool,
 
     addUnit: PropTypes.func,
     moveUnit: PropTypes.func,
     willMoveUnit: PropTypes.func,
-    showMoveUnitUI: PropTypes.bool,
+    showingMovingUnitUI: PropTypes.bool,
     swapUnit: PropTypes.func,
     deleteUnit: PropTypes.func,
     hovering: PropTypes.bool,

@@ -13,18 +13,19 @@ import UnitInfoWrapper from "../../containers/Unit/UnitInfoContainer.jsx";
  * @param {string} custom - If custom, hide some features of unit details, and do not perform a query.
  * @returns {ControlledModal}
  */
-export default function UnitDetailModal({ trigger, onClick }) {
+export default function UnitDetailModal({ trigger, onClick, neverShow }) {
 
     UnitDetailModal.propTypes = {
         trigger: PropTypes.element.isRequired,
         unitCode: PropTypes.string,
         custom: PropTypes.bool,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        neverShow: PropTypes.bool
     };
 
     const closeTrigger = <Button className="btnlightcancel" content="Close" />;
 
-    return <ControlledModal
+    return neverShow ? trigger : <ControlledModal
                 onClick={onClick}
                 openTrigger={trigger}
                 closeTrigger={closeTrigger}>
