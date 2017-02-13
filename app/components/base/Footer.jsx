@@ -20,7 +20,7 @@ export default function Footer() {
                         <p>A Monash University Course Planner, designed by Monash Students, for Monash Students.</p>
                     </Container>
                 </Grid.Column>
-                <Grid.Column  textAlign="center">
+                <Grid.Column textAlign="center">
                     <img className="logo" src="/img/monash.png" alt="logo" />
                     <p>Copyright &copy; Monash University {new Date().getFullYear()}</p>
                     <i>Built by the monPlan Team</i>

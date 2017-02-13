@@ -12,7 +12,7 @@ import { Menu, Sidebar } from "semantic-ui-react";
 
 // Local component imports
 import Header from "./Header.jsx";
-import Footer from "../../containers/copyright.jsx";
+import Footer from "./Footer.jsx";
 
 //Local container imports
 import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
