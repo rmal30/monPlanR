@@ -258,6 +258,34 @@ describe("ACTION-CREATOR: CourseActions", () => {
         });
     });
 
+    describe("AC: attemptToDeleteTeachingPeriod", () => {
+        it("Should correctly create the actions required for deletion of a teaching period with units affected", () => {
+            const mockUnits = [{UnitCode: "TEST101", UnitName: "unit1"}, null, {UnitCode: "TEST102", UnitName: "unit2"}, null, null];
+            const expectedActions = [
+                {type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"}, 
+                {type: "UPDATE_AFFECTED_UNITS", affectedUnits: ["TEST101 - unit1", "TEST102 - unit2"]},
+                {type: "UPDATE_INDEX_OF_TP_TO_REMOVE", index: 1} 
+            ];
+            
+            const store = mockStore({});
+
+            store.dispatch(actions.attemptToDeleteTeachingPeriod(1, mockUnits));
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+
+        it("Should correctly create the actions required for deletion of a teaching period with no units affected", () => {
+            const mockUnits = [null, null, null, null, null];
+            const expectedActions = [
+                {type: "REMOVE_TEACHING_PERIOD", index: 1, units: [null, null, null, null, null]},
+                {type: "GET_NEXT_SEMESTER_STRING"}
+            ];
+            
+            const store = mockStore({});
+
+            store.dispatch(actions.attemptToDeleteTeachingPeriod(1, mockUnits));
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
     
 
 
