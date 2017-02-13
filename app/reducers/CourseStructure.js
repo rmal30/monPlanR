@@ -265,15 +265,15 @@ const CourseStructure = (state = defaultState, action) => {
                 courseInfoLoading: false,
                 focusedCourse: action.courseCode,
                 courseInfo: {
-                    courseCode: action.payload.data.courseCode,
-                    courseName: action.payload.data.courseName,
-                    faculty: action.payload.data.mangFac,
-                    creditPoints: action.payload.data.creditPoints,
-                    courseDescription: action.payload.data.courseDescrip,
-                    durationStr: action.payload.data.courseDuration,
-                    modeAndLocation: action.payload.data.modeLoc,
-                    awards: action.payload.data.courseAward,
-                    abrTitle: action.payload.data.abrevTitle
+                    courseCode: action.payload.data.propertyMap.courseCode,
+                    courseName: action.payload.data.propertyMap.courseName,
+                    faculty: action.payload.data.propertyMap.mangFac,
+                    creditPoints: action.payload.data.propertyMap.creditPoints,
+                    courseDescription: action.payload.data.propertyMap.courseDescrip.value,
+                    durationStr: action.payload.data.propertyMap.courseDuration,
+                    modeAndLocation: action.payload.data.propertyMap.modeLoc.value,
+                    awards: action.payload.data.propertyMap.courseAward,
+                    abrTitle: action.payload.data.propertyMap.abrevTitle
                 }
             };
 
@@ -404,7 +404,7 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploadError: false,
                 courseSnapshotUploadSucessful: false
             };
-        
+
         case "UPDATE_COURSE_INFO":
             return {
                 ...state,
