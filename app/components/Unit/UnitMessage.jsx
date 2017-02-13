@@ -63,9 +63,9 @@ export function UnitMessage(props) {
         handleButtonMouseEnter: PropTypes.func,
         handleButtonMouseLeave: PropTypes.func,
 
-        handleUnitMouseEnter: PropTypes.func,
+        handleUnitMouseOver: PropTypes.func,
         handleUnitMouseMove: PropTypes.func,
-        handleUnitMouseLeave: PropTypes.func,
+        handleUnitMouseOut: PropTypes.func,
 
         fetchUnitInfo: PropTypes.func,
 
@@ -85,89 +85,80 @@ export function UnitMessage(props) {
         width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     };
 
-    const { connectDragSource, isDragging } = props;
+    const { isDragging } = props;
 
     if(isDragging) {
         return null;
     }
 
-    /**
-     * Message component is used twice.
-     */
-    const unitMessage = mobile =>
-        <Message
-            style={{cursor: "pointer", width: props.width ? props.width: undefined}}
-            className={"unit "  + (props.draggable ? "draggable" : "")}
-            color="blue"
+    let connectDragSource;
+    if(props.draggable) {
+        connectDragSource = props.connectDragSource;
+    } else {
+        connectDragSource = ele => ele;
+    }
 
-            onClick={() => props.newUnit && props.willAddUnit &&
-                props.willAddUnit(props.code,
-                    props.custom && {
-                        UnitCode: props.code,
-                        customUnitDragging: true
-                    }
-            )}
-            onMouseEnter={e => props.handleUnitMouseEnter && props.handleUnitMouseEnter(e)}
-            onMouseMove={e => props.handleUnitMouseMove && props.handleUnitMouseMove(e)}
-            onMouseLeave={e => props.handleUnitMouseLeave && props.handleUnitMouseLeave(e)}
-            size="mini">
-            <Message.Header>
-                {props.code}
-                {!props.viewOnly &&
-                    <Button.Group onMouseEnter={props.handleButtonMouseEnter} onMouseLeave={props.handleButtonMouseLeave}
-                      className="no-print right floated" size="mini" compact style={{visibility: (props.hovering || mobile) && !props.showMoveUnitUI ? "visible" : "hidden" }}>
-                        <Button inverted color="red" onClick={props.handleDelete} icon="close" style={{display: !props.basic ? "block" : "none"}} />
-                        {props.showDetailButton &&
-                            <UnitDetailModal
-                                onClick={() => props.fetchUnitInfo(props.code)}
-                                unitCode={props.code}
-                                trigger={<Button className="btnlightblue" color="blue" icon="info" />} />
-                        }
-                    </Button.Group>
-                }
-
-            </Message.Header>
-            {props.name}
-            <div style={{position: "absolute", bottom: "0.5em", right: "0.5em"}}>
-                <Popup
-                    trigger={(props.errors && props.errors.length > 0) &&
-                            <Icon inverted color="red" name="warning" size="large" />
-                    }
-                    positioning="bottom left"
-                    size="mini"
-                    >
-                <Popup.Header>The following problems were discovered</Popup.Header>
-                <Popup.Content>
-                    <ul>{(props.errors && props.errors.length > 0) && props.errors.map((error, index) => <li key={index}>{error.message}</li>)}</ul>
-                </Popup.Content>
-                </Popup>
-            </div>
-        </Message>;
-
-    return props.draggable ? connectDragSource(
+    return connectDragSource(
         <div>
             <MediaQuery maxDeviceWidth={767}>
                 {mobile =>
-                    props.showDetailButton ? unitMessage(mobile) : (
-                        <UnitDetailModal
-                            onClick={() => {props.fetchUnitInfo(props.code);}}
-                            unitCode={props.code}
-                            trigger={unitMessage(mobile)} />
-                    )
+                    <UnitDetailModal
+                        neverShow={props.showDetailButton}
+                        onClick={() => props.fetchUnitInfo(props.code)}
+                        unitCode={props.code}
+                        trigger={
+                            <Message
+                                style={{cursor: "pointer", width: props.width ? props.width: undefined}}
+                                className={"unit "  + (props.draggable ? "draggable" : "")}
+                                color="blue"
+
+                                onClick={() => props.newUnit && props.willAddUnit &&
+                                    props.willAddUnit(props.code,
+                                        props.custom && {
+                                            UnitCode: props.code,
+                                            customUnitDragging: true
+                                        }
+                                )}
+                                onMouseOver={e => props.handleUnitMouseOver && props.handleUnitMouseOver(e)}
+                                onMouseMove={e => props.handleUnitMouseMove && props.handleUnitMouseMove(e)}
+                                onMouseOut={e => props.handleUnitMouseOut && props.handleUnitMouseOut(e)}
+                                size="mini">
+                                <Message.Header>
+                                    {props.code}
+                                    {!props.viewOnly &&
+                                        <Button.Group onMouseEnter={props.handleButtonMouseEnter} onMouseLeave={props.handleButtonMouseLeave}
+                                          className="no-print right floated" size="mini" compact style={{visibility: (props.hovering || mobile) && !props.showMoveUnitUI ? "visible" : "hidden" }}>
+                                            <Button inverted color="red" onClick={props.handleDelete} icon="close" style={{display: !props.basic ? "block" : "none"}} />
+                                            {props.showDetailButton &&
+                                                <UnitDetailModal
+                                                    onClick={() => props.fetchUnitInfo(props.code)}
+                                                    unitCode={props.code}
+                                                    trigger={<Button className="btnlightblue" color="blue" icon="info" />} />
+                                            }
+                                        </Button.Group>
+                                    }
+
+                                </Message.Header>
+                                {props.name}
+                                <div style={{position: "absolute", bottom: "0.5em", right: "0.5em"}}>
+                                    <Popup
+                                        trigger={(props.errors && props.errors.length > 0) &&
+                                                <Icon inverted color="red" name="warning" size="large" />
+                                        }
+                                        positioning="bottom left"
+                                        size="mini"
+                                        >
+                                    <Popup.Header>The following problems were discovered</Popup.Header>
+                                    <Popup.Content>
+                                        <ul>{(props.errors && props.errors.length > 0) && props.errors.map((error, index) => <li key={index}>{error.message}</li>)}</ul>
+                                    </Popup.Content>
+                                    </Popup>
+                                </div>
+                            </Message>
+                        } />
                 }
             </MediaQuery>
         </div>
-    ) : (
-        <MediaQuery maxDeviceWidth={767}>
-            {mobile =>
-                props.showDetailButton ? unitMessage(mobile) : (
-                    <UnitDetailModal
-                        onClick={() => {props.fetchUnitInfo(props.code);}}
-                        unitCode={props.code}
-                        trigger={unitMessage(mobile)} />
-                )
-            }
-        </MediaQuery>
     );
 }
 

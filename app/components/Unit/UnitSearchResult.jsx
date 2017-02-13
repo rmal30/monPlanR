@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 import UnitMessage from "./UnitMessage.jsx";
+import * as DataFetchActions from "../../actions/DataFetchActions.js";
 
 /**
  * Returns the way in which we want a search result to be rendered
@@ -17,11 +20,7 @@ import UnitMessage from "./UnitMessage.jsx";
  */
 class UnitSearchResult extends Component {
     /**
-    * State should only hold additional unit information.
-    * CourseStructure component stores only the unit code to reduce space
-    * usage.
-    *
-    * TODO: Find some way to make Unit stateless again.
+    * Holds UI state related to the UnitMessage.
     */
     constructor(props) {
         super(props);
@@ -35,11 +34,10 @@ class UnitSearchResult extends Component {
     /**
      * Updates state to indicate that the user is hovering on the unit.
      */
-    handleMouseEnter() {
+    handleMouseOver() {
         if(!this.state.hovering) {
             this.setState({
-                hovering: true,
-                overInput: false
+                hovering: true
             });
         }
     }
@@ -50,7 +48,7 @@ class UnitSearchResult extends Component {
     handleMouseMove() {
         if(!this.state.hovering) {
             this.setState({
-                hovering: true
+                hovering: !this.state.overInput
             });
         }
     }
@@ -59,11 +57,10 @@ class UnitSearchResult extends Component {
      * Updates state to indicate that the user is no longer hovering on the
      * unit.
      */
-    handleMouseLeave() {
+    handleMouseOut() {
         if(this.state.hovering) {
             this.setState({
-                hovering: false,
-                overInput: false
+                hovering: false
             });
         }
     }
@@ -83,11 +80,13 @@ class UnitSearchResult extends Component {
 
                 willAddUnit={this.props.willAddUnit}
 
-                handleUnitMouseEnter={this.handleMouseEnter.bind(this)}
+                handleUnitMouseOver={this.handleMouseOver.bind(this)}
                 handleUnitMouseMove={this.handleMouseMove.bind(this)}
-                handleUnitMouseLeave={this.handleMouseLeave.bind(this)}
+                handleUnitMouseOut={this.handleMouseOut.bind(this)}
                 handleButtonMouseEnter={() => this.setState({ overInput: true })}
                 handleButtonMouseLeave={() => this.setState({ overInput: false })}
+
+                fetchUnitInfo={this.props.fetchUnitInfo}
 
                 code={UnitCode}
                 name={UnitName}
@@ -107,7 +106,17 @@ UnitSearchResult.propTypes = {
     unitToAdd: PropTypes.object,
     willAddUnit: PropTypes.func,
     custom: PropTypes.bool,
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+
+    /* Redux action creators */
+    fetchUnitInfo: PropTypes.func
 };
 
-export default UnitSearchResult;
+/**
+ * Inject fetchUnitInfo action creator into props.
+ */
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators(DataFetchActions, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(UnitSearchResult);

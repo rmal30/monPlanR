@@ -1,8 +1,8 @@
 
 const defaultState = {
     showingInsertTeachingPeriodUI: false,
-    showMovingUnitUI: false,
-    showAddingUnitUI: false,
+    showingMovingUnitUI: false,
+    showingAddingUnitUI: false,
     readOnly: false,
     showingConfirmDeleteTeachingPeriodModal: false,
     showingCustomUnitModal: false,
@@ -31,28 +31,32 @@ const UI = (state = defaultState, action) => {
                 showingInsertTeachingPeriodUI: false
             };
 
-        case "SHOW_ADD_UNIT_UI":
+        case "ADDING_UNIT":
             return {
                 ...state,
-                showAddingUnitUI: true
+                showingAddingUnitUI: true,
+                showingSidebar: false
             };
 
-        case "HIDE_ADD_UNIT_UI":
+        case "ADD_UNIT":
+        case "CANCEL_ADDING_UNIT":
             return {
                 ...state,
-                showAddingUnitUI: false
+                showingAddingUnitUI: false
             };
 
-        case "SHOW_MOVE_UNIT_UI":
+        case "MOVING_UNIT":
             return {
                 ...state,
-                showMovingUnitUI: true
+                showingMovingUnitUI: true
             };
 
-        case "HIDE_MOVE_UNIT_UI":
+        case "MOVE_UNIT":
+        case "SWAP_UNIT":
+        case "CANCEL_MOVING_UNIT":
             return {
                 ...state,
-                showMovingUnitUI: false
+                showingMovingUnitUI: false
             };
 
         case "SET_COURSE_READ_ONLY":
@@ -113,13 +117,6 @@ const UI = (state = defaultState, action) => {
             };
 
         case "HIDE_SIDEBAR":
-            return {
-                ...state,
-                showingSidebar: false
-            };
-
-
-        case "ADDING_UNIT":
             return {
                 ...state,
                 showingSidebar: false

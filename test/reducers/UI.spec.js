@@ -7,8 +7,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly toggle the insert teaching period UI boolean", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
             };
 
             const action = {
@@ -17,8 +17,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: true,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
             };
 
             test(UI, stateBefore, action, stateAfter);
@@ -29,8 +29,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly toggle the insert teaching period UI boolean", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: true,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
             };
 
             const action = {
@@ -39,109 +39,176 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
             };
 
             test(UI, stateBefore, action, stateAfter);
         });
     });
 
-    describe("ACTION: SHOW_ADD_UNIT_UI", () => {
-        it("Should correctly toggle the add unit UI boolean", () => {
+    describe("ACTION: ADDING_UNIT", () => {
+        it("Should correctly set the add unit UI boolean to true and correctly hide the sidebar when a unit is being added", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
+                showingSidebar: true
             };
 
             const action = {
-                type: "SHOW_ADD_UNIT_UI"
+                type: "ADDING_UNIT"
             };
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: true
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: true,
+                showingSidebar: false
             };
 
             test(UI, stateBefore, action, stateAfter);
         });
     });
 
-    describe("ACTION: HIDE_ADD_UNIT_UI", () => {
-        it("Should correctly toggle the add unit UI boolean", () => {
+    describe("ACTION: ADD_UNIT", () => {
+        it("Should correctly set the add unit UI boolean to false", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: true
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: true
             };
 
             const action = {
-                type: "HIDE_ADD_UNIT_UI"
+                type: "ADD_UNIT"
             };
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
             };
 
             test(UI, stateBefore, action, stateAfter);
         });
     });
 
-    describe("ACTION: SHOW_MOVE_UNIT_UI", () => {
-        it("Should correctly toggle the move unit UI boolean", () => {
+    describe("ACTION: CANCEL_ADDING_UNIT", () => {
+        it("Should correctly set the add unit UI boolean to false", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: true
             };
 
             const action = {
-                type: "SHOW_MOVE_UNIT_UI"
+                type: "CANCEL_ADDING_UNIT"
             };
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: true,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
             };
 
             test(UI, stateBefore, action, stateAfter);
         });
     });
 
-    describe("ACTION: HIDE_MOVE_UNIT_UI", () => {
-        it("Should correctly toggle the move unit UI boolean", () => {
+    describe("ACTION: MOVING_UNIT", () => {
+        it("Should correctly set the move unit UI boolean to true", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: true,
-                showAddingUnitUI: false
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
             };
 
             const action = {
-                type: "HIDE_MOVE_UNIT_UI"
+                type: "MOVING_UNIT"
             };
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false
+                showingMovingUnitUI: true,
+                showingAddingUnitUI: false
             };
 
             test(UI, stateBefore, action, stateAfter);
         });
     });
 
+    describe("ACTION: MOVE_UNIT", () => {
+        it("Should correctly set the move unit UI boolean to false", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showingMovingUnitUI: true,
+                showingAddingUnitUI: false
+            };
+
+            const action = {
+                type: "MOVE_UNIT"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
+            };
+
+            test(UI, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: SWAP_UNIT", () => {
+        it("Should correctly set the move unit UI boolean to false", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showingMovingUnitUI: true,
+                showingAddingUnitUI: false
+            };
+
+            const action = {
+                type: "SWAP_UNIT"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
+            };
+
+            test(UI, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: CANCEL_MOVING_UNIT", () => {
+        it("Should correctly set the move unit UI boolean to false", () => {
+            const stateBefore = {
+                showingInsertTeachingPeriodUI: false,
+                showingMovingUnitUI: true,
+                showingAddingUnitUI: false
+            };
+
+            const action = {
+                type: "CANCEL_MOVING_UNIT"
+            };
+
+            const stateAfter = {
+                showingInsertTeachingPeriodUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false
+            };
+
+            test(UI, stateBefore, action, stateAfter);
+        });
+    });
 
     describe("ACTION: SET_COURSE_READ_ONLY", () => {
         it("Should set the course to read only correctly", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 readOnly: false
             };
 
@@ -151,8 +218,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 readOnly: true
 
             };
@@ -166,8 +233,8 @@ describe("REDUCER: UI", () => {
         it("Should set the course to allow edits correctly", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 readOnly: true
             };
 
@@ -177,8 +244,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 readOnly: false
 
             };
@@ -191,8 +258,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly toggle the confirm delete teaching period modal UI to show", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDeleteTeachingPeriodModal: false
             };
 
@@ -202,8 +269,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDeleteTeachingPeriodModal: true
             };
 
@@ -215,8 +282,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly toggle the confirm delete teaching period modal UI to hide", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDeleteTeachingPeriodModal: true
             };
 
@@ -226,8 +293,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDeleteTeachingPeriodModal: false
             };
 
@@ -239,8 +306,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly toggle the confirm decrease study load modal UI to show", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDecreaseStudyLoadModal: false
             };
 
@@ -250,8 +317,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDecreaseStudyLoadModal: true
             };
 
@@ -263,8 +330,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly toggle the confirm decrease study load modal UI to hide", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDecreaseStudyLoadModal: true
             };
 
@@ -274,8 +341,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingConfirmDecreaseStudyLoadModal: false
             };
 
@@ -377,8 +444,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly show the sidebar when called", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingSidebar: false
             };
 
@@ -388,8 +455,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingSidebar: true
             };
 
@@ -401,8 +468,8 @@ describe("REDUCER: UI", () => {
         it("Should correctly hide the sidebar when called", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingSidebar: true
             };
 
@@ -412,32 +479,8 @@ describe("REDUCER: UI", () => {
 
             const stateAfter = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
-                showingSidebar: false
-            };
-
-            test(UI, stateBefore, action, stateAfter);
-        });
-    });
-
-    describe("ACTION: ADDING_UNIT", () => {
-        it("Should correctly hide the sidebar when a unit is being added", () => {
-            const stateBefore = {
-                showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
-                showingSidebar: true
-            };
-
-            const action = {
-                type: "ADDING_UNIT"
-            };
-
-            const stateAfter = {
-                showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingSidebar: false
             };
 
@@ -449,8 +492,8 @@ describe("REDUCER: UI", () => {
         it("Should not change state if it does not recognise the action", () => {
             const stateBefore = {
                 showingInsertTeachingPeriodUI: false,
-                showMovingUnitUI: false,
-                showAddingUnitUI: false,
+                showingMovingUnitUI: false,
+                showingAddingUnitUI: false,
                 showingSidebar: true
             };
 
