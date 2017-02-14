@@ -131,8 +131,7 @@ describe("ACTION-CREATOR: CourseActions", () => {
             const expectedActions = [
                 {type: "ADD_UNIT", tpIndex: 1, unitIndex: 1, unit: mockUnit, cost: 200, creditPoints: 6},
                 {type: "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS"},
-                {type: "VALIDATE_COURSE"},
-                {type: "REMOVE_NOTIFICATION", id: "ADDING_UNIT"}
+                {type: "VALIDATE_COURSE"}
             ];
 
             const store = mockStore({});

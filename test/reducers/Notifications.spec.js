@@ -93,6 +93,42 @@ describe("REDUCER: Notifications", () => {
 
             test(Notifications, stateBefore, action, stateAfter);
         });
+
+        it("should replace a notification if it already exists with a specified ID", () => {
+            const stateBefore = {
+                notificationsList: [
+                    {
+                        id: "TEST_NOTIFICATION",
+                        title: "This is a test",
+                        message: "Some message goes over here",
+                        level: "info",
+                        dismissable: undefined,
+                        autoDismiss: undefined
+                    }
+                ]
+            };
+
+            const action = {
+                type: "ADD_NOTIFICATION",
+                id: "TEST_NOTIFICATION",
+                message: "New message goes over here"
+            };
+
+            const stateAfter = {
+                notificationsList: [
+                    {
+                        id: "TEST_NOTIFICATION",
+                        title: "This is a test",
+                        message: "New message goes over here",
+                        level: "info",
+                        dismissable: undefined,
+                        autoDismiss: undefined
+                    }
+                ]
+            };
+
+            test(Notifications, stateBefore, action, stateAfter);
+        });
     });
 
     describe("ACTION: REMOVE_NOTIFICATION", () => {

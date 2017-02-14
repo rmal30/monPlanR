@@ -135,13 +135,6 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
             unitCode: unitCode
         });
 
-        dispatch(NotificationActions.addNotification({
-            id: "ADDING_UNIT",
-            title: `Adding ${unitCode}`,
-            message: `Please drop your unit into a table cell to add ${unitCode}`,
-            level: "info"
-        }));
-
         if(!customUnitToAdd) {
             dispatch({
                 type: "FETCH_UNIT_INFO_PENDING"
@@ -170,6 +163,26 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                         type: "FETCH_UNIT_INFO_REJECTED",
                         payload: err
                     });
+
+                    dispatch({
+                        type: "CANCEL_ADDING_UNIT"
+                    });
+
+                    if(err.response) {
+                        dispatch(NotificationActions.addNotification({
+                            id: "UNIT_INFO_ERROR",
+                            title: "Server error",
+                            message: `Unable to fetch details about ${unitCode}. Please try again later.`,
+                            level: "error"
+                        }));
+                    } else {
+                        dispatch(NotificationActions.addNotification({
+                            id: "UNIT_INFO_ERROR",
+                            title: "Connection error",
+                            message: `Unable to fetch details about ${unitCode}. Please check your connection and try again.`,
+                            level: "error"
+                        }));
+                    }
                 });
         } else {
             dispatch({
@@ -236,7 +249,7 @@ export const fetchUnits = () => {
         dispatch({
             type: "FETCH_UNITS_PENDING"
         });
-        
+
         axios.get(`${MONPLAN_REMOTE_URL2}/basic/units`)
             .then(resp => {
                 dispatch({

@@ -1,4 +1,3 @@
-import * as NotificationActions from "./Notifications.js";
 import { nextSemester } from "../utils/NextSemesterString";
 
 /**
@@ -103,11 +102,6 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
 
             dispatch(clearHighlightingInvalidUnitSlots());
             dispatch(validateCourse());
-
-            dispatch({
-                type: "REMOVE_NOTIFICATION",
-                id: "ADDING_UNIT"
-            });
         } else {
             dispatch({
                 type: "SHOW_CUSTOM_UNIT_MODAL",
@@ -398,13 +392,6 @@ export const movingUnit = (unit, unitIndex, tpIndex) => {
             tpIndex
         });
 
-        dispatch(NotificationActions.addNotification({
-            id: "MOVING_UNIT",
-            title: `Moving ${unit.unitCode}`,
-            message: "Drop into a table cell to move the unit. If there is already a unit, then those units will be swapped.",
-            dismissable: false
-        }));
-
         dispatch(highlightInvalidUnitSlots(unit, true));
     };
 };
@@ -419,7 +406,6 @@ export const cancelMovingUnit = () => {
             type: "CANCEL_MOVING_UNIT"
         });
 
-        dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
         dispatch(clearHighlightingInvalidUnitSlots());
     };
 };
@@ -435,7 +421,6 @@ export const moveUnit = (newUnitIndex, newTPIndex) => {
             newTPIndex
         });
 
-        dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
         dispatch(clearHighlightingInvalidUnitSlots());
         dispatch(validateCourse());
     };
@@ -453,7 +438,6 @@ export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
             unitToSwap
         });
 
-        dispatch(NotificationActions.removeNotification("MOVING_UNIT"));
         dispatch(clearHighlightingInvalidUnitSlots());
         dispatch(validateCourse());
     };
