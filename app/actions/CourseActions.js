@@ -93,8 +93,8 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
                 tpIndex,
                 unitIndex,
                 unit,
-                cost: unit.Cost,
-                creditPoints: unit.CreditPoints
+                cost: unit.cost,
+                creditPoints: unit.creditPoints
             });
 
             dispatch(clearHighlightingInvalidUnitSlots());
@@ -107,7 +107,7 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
         } else {
             dispatch({
                 type: "SHOW_CUSTOM_UNIT_MODAL",
-                unitCode: unit.UnitCode,
+                unitCode: unit.unitCode,
                 tpIndex,
                 unitIndex
             });
@@ -175,7 +175,7 @@ export const submitYearForm = (startYear, endYear) => {
             startYear,
             endYear
         });
-        
+
         dispatch({
             type: "GET_NEXT_SEMESTER_STRING"
         });
@@ -227,7 +227,7 @@ export const loadCourseFromLocalStorage = () => {
                 courseInfo
             });
         }
-        
+
         dispatch({
             type: "GET_NEW_NUMBER_OF_UNITS",
             value: numberOfUnits
@@ -254,7 +254,7 @@ export const loadCourseFromLocalStorage = () => {
 
         dispatch({
             type: "LOADED_FROM_LOCAL_STORAGE"
-            
+
         });
     };
 };
@@ -388,7 +388,7 @@ export const movingUnit = (unit, unitIndex, tpIndex) => {
 
         dispatch(NotificationActions.addNotification({
             id: "MOVING_UNIT",
-            title: `Moving ${unit.UnitCode}`,
+            title: `Moving ${unit.unitCode}`,
             message: "Drop into a table cell to move the unit. If there is already a unit, then those units will be swapped.",
             dismissable: false
         }));

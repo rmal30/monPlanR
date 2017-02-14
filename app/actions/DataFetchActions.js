@@ -11,7 +11,7 @@ import * as NotificationActions from "./Notifications";
  */
 export const fetchCourseInfo = (courseCode) => {
 
-    
+
     return function (dispatch) {
         dispatch({
             type: "FETCH_COURSE_INFO_PENDING"
@@ -98,7 +98,7 @@ export const fetchUnitInfo = (unitCode) => {
         dispatch({
             type: "FETCH_UNIT_INFO_PENDING"
         });
-        axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
+        axios.get(`${MONPLAN_REMOTE_URL2}/units/${unitCode}`)
             .then(resp => {
                 let cost = CostCalc.calculateCost(parseInt(resp.data.SCABand, 10), parseInt(resp.data.CreditPoints, 10));
                 resp.data.Cost = cost;
@@ -146,11 +146,11 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                 type: "FETCH_UNIT_INFO_PENDING"
             });
 
-            axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
+            axios.get(`${MONPLAN_REMOTE_URL2}/units/${unitCode}`)
                 .then(resp => {
-                    let cost =  CostCalc.calculateCost(resp.data.SCABand, resp.data.CreditPoints);
+                    let cost =  CostCalc.calculateCost(resp.data.scaBand, resp.data.creditPoints);
 
-                    resp.data.Cost = cost;
+                    resp.data.cost = cost;
 
                     dispatch({
                         type: "FETCH_UNIT_INFO_FULFILLED",

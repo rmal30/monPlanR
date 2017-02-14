@@ -1,3 +1,5 @@
+import moment from "moment";
+
 /**
  * Returns a list of units from the course structure
  *
@@ -29,8 +31,8 @@ function getListOfUnits(teachingPeriods) {
 export function validateCoursePlan(teachingPeriods) {
     // Finds duplicates
     const units = getListOfUnits(teachingPeriods).sort((a, b) => {
-        a = a.UnitCode;
-        b = b.UnitCode;
+        a = a.unitCode;
+        b = b.unitCode;
 
         // Use unicode comparison
         if(a < b) {
@@ -44,7 +46,8 @@ export function validateCoursePlan(teachingPeriods) {
 
     return [
         ...duplicates(units),
-        ...offerings(units, teachingPeriods)
+        ...offerings(units, teachingPeriods),
+        ...prereqs(units),
     ];
 }
 
@@ -61,7 +64,7 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, duplica
     for(let i = 0; i < teachingPeriods.length; i++) {
         for(let j = 0; j < teachingPeriods[i].units.length; j++) {
             if(!duplicateFound) {
-                if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].UnitCode === tempUnit.UnitCode && !teachingPeriods[i].units[j].placeholder) {
+                if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].unitCode === tempUnit.unitCode && !teachingPeriods[i].units[j].placeholder) {
                     if(duplicateGraceFlag) {
                         duplicateGraceFlag = false;
                     } else {
@@ -142,12 +145,12 @@ function duplicates(units) {
     const duplicateUnits = [];
 
     units.reduce((prevUnit, currentUnit) => {
-        if(prevUnit && prevUnit.UnitCode === currentUnit.UnitCode && !prevUnit.placeholder) {
-            const index = duplicateUnits.findIndex(unit => unit.UnitCode === currentUnit.UnitCode);
+        if(prevUnit && prevUnit.unitCode === currentUnit.unitCode && !prevUnit.placeholder) {
+            const index = duplicateUnits.findIndex(unit => unit.unitCode === currentUnit.unitCode);
 
             if(index === -1) {
                 duplicateUnits.push({
-                    UnitCode: currentUnit.UnitCode,
+                    unitCode: currentUnit.unitCode,
                     coordinates: [[prevUnit.teachingPeriodIndex, prevUnit.unitIndex], [currentUnit.teachingPeriodIndex, currentUnit.unitIndex]]
                 });
             } else {
@@ -160,7 +163,7 @@ function duplicates(units) {
 
     return duplicateUnits.map(duplicateUnit => {
         return {
-            message: `${duplicateUnit.UnitCode} already exists in your course plan.`,
+            message: `${duplicateUnit.unitCode} already exists in your course plan.`,
             coordinates: duplicateUnit.coordinates
         };
     });
@@ -218,12 +221,71 @@ function offerings(units, teachingPeriods) {
 
             if (!isValid) {
                 errors.push({
-                    message: `${units[i].UnitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
+                    message: `${units[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
                     coordinates: [[units[i].teachingPeriodIndex, units[i].unitIndex]]
                 });
             }
         }
     }
+
+    return errors;
+}
+
+/**
+ * Parses prereq rules
+ */
+function prereqs(units) {
+    const errors = [];
+    const noPermission = new RegExp("Permission required");
+    units.forEach(unit => {
+        if(unit.rules && unit.rules.length > 0) {
+            unit.rules.forEach(rule => {
+                if((rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") && (!rule.endDate || moment(rule.endDate, "DD/MM/YYYY").isAfter(new Date()))) {
+                    // console.log(unit, rule.ruleString);
+                    if(noPermission.test(rule.ruleString)) {
+                        errors.push({
+                            message: "You need permission to do ${unit.unitCode}.",
+                            coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                        });
+                    }
+
+                    if((new RegExp("Must have passed an \\(I/W\\) unit in ").test(rule.ruleString))) {
+                        let ruleString = rule.ruleString.replace("Must have passed an (I/W) unit in ", "");
+                        ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
+                        ruleString = ruleString.split(", ");
+
+                        let found = false;
+
+                        ruleString.forEach(unitCode => {
+                            const unitPreq = units.find(otherUnit => otherUnit.unitCode === unitCode);
+
+                            if(unitPreq) {
+                                if(!found && unitPreq.teachingPeriodIndex >= unit.teachingPeriodIndex) {
+                                    errors.push({
+                                        message: `Please move ${unitPreq.unitCode} to a teaching period before ${unit.unitCode}.`,
+                                        coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitPreq.teachingPeriodIndex, unitPreq.unitIndex]]
+                                    });
+                                }
+
+                                found = true;
+                            }
+                        });
+
+                        if(!found) {
+                            let finalOr;
+                            if(ruleString.length > 1) {
+                                finalOr = "or " + ruleString.pop();
+                            }
+                            errors.push({
+                                message: `You must complete ${ruleString.join(", ")} ${finalOr} before you can do ${unit.unitCode}.`,
+                                coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    });
 
     return errors;
 }
