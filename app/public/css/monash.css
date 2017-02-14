@@ -125,6 +125,17 @@
 }
 
 /* Headers for course overview segments based off faculty colours */
+
+.ui.segment.moving {
+    border-top: 4px solid #006cab !important;
+    border-radius: 0px !important
+}
+
+.ui.segment.adding {
+    border-top: 4px solid #00BA5C !important;
+    border-radius: 0px !important
+}
+
 .ui.segment.ada {
     border-top: 4px solid #393838 !important;
     border-radius: 0px !important
