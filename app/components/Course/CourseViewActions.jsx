@@ -43,16 +43,16 @@ export default function CourseViewActions(props) {
                             openTrigger={editCoursePlanButton(mobile)}
                             positiveButton={(
                                 <Button
-                                    color="red"
+                                    className="btncancel"
                                     disabled={props.switchToEditCourse}
                                     loading={props.switchToEditCourse}
                                     onClick={() => props.handleEditCoursePlanClick(true)}>
                                     Discard draft and edit course plan
                                 </Button>
                             )}
-                            closeTrigger={<Button>Cancel</Button>}>
-                            <Modal.Header>
-                                Are you sure you want to edit this course?
+                            closeTrigger={<Button className="btnlightcancel">Cancel</Button>}>
+                            <Modal.Header className="header-danger">
+                                <Icon name="pencil" /> Are you sure you want to edit this course?
                             </Modal.Header>
                             <Modal.Content>
                                 <Modal.Description>
