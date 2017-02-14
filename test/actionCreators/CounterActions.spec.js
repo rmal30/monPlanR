@@ -1,29 +1,49 @@
-/*
-Not ready to be implemented yet, but some good testing resources shown here:
-https://github.com/reactjs/redux/blob/master/docs/recipes/WritingTests.md
-
-import Counter from "../../app/reducers/Counter";
 import expect from "expect";
-import deepFreeze from "deep-freeze";
 import { describe, it } from "mocha";
-import { incrementCreditPoints } from "../../app/actions/CounterActions";
+import * as actions from "../../app/actions/CounterActions";
 
 describe("ACTION-CREATOR: CounterActions", () => {
     describe("AC: incrementCreditPoints", () => {
+        it("Should create an action to increment credit points counter", () => {
+            const expectedAction = {
+                type: "INCREMENT_CREDIT_POINTS",
+                value: 5
+            };
 
+            expect(actions.incrementCreditPoints(5)).toEqual(expectedAction);
+        });
     });
 
     describe("AC: decrementCreditPoints", () => {
-        
+        it("Should create an action to decrement credit points counter", () => {
+            const expectedAction = {
+                type: "DECREMENT_CREDIT_POINTS",
+                value: 5
+            };
+
+            expect(actions.decrementCreditPoints(5)).toEqual(expectedAction);
+        });
     });
 
     describe("AC: incrementCost", () => {
-        
+        it("Should create an action to increment cost counter", () => {
+            const expectedAction = {
+                type: "INCREMENT_COST",
+                value: 5
+            };
+
+            expect(actions.incrementCost(5)).toEqual(expectedAction);
+        });
     });
 
     describe("AC: decrementCosts", () => {
-        
+        it("Should create an action to decrement cost counter", () => {
+            const expectedAction = {
+                type: "DECREMENT_COST",
+                value: 5
+            };
+
+            expect(actions.decrementCost(5)).toEqual(expectedAction);
+        });
     });
 });
-
-*/
