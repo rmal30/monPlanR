@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from "react";
-import { Button, Container, Divider, Form, Icon, Search, Segment } from "semantic-ui-react";
+import { Button, Container, Form, Icon, Search, Segment } from "semantic-ui-react";
 import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
@@ -158,21 +158,6 @@ class CourseSelectFormContainer extends Component {
     }
 
     /**
-     * btnStartPlan is a function that returns a tooltipped button for the start year form when you want to start
-     */
-    btnStartPlan(mobile) {
-        return (
-            <Button
-                fluid={mobile}
-                className="btnorange"
-                disabled={!this.state.readyToSubmit}
-                onClick={this.handleSubmit}>
-                    Start Planning <Icon name="right arrow" />
-            </Button>
-        );
-    }
-
-    /**
      * btnEmptyPlan is a function that returns a tooltipped button for the start year form
      */
     btnEmptyPlan(mobile) {
@@ -214,7 +199,7 @@ class CourseSelectFormContainer extends Component {
                                         />
                                 </Form.Field>
                                 <Form.Dropdown
-                                    placeholder='Select specialisation'
+                                    placeholder='Select your specialisation'
                                     className="drpdown"
                                     disabled={this.state.specIsDisabled}
                                     search
@@ -233,29 +218,23 @@ class CourseSelectFormContainer extends Component {
                                     value={this.state.year}
                                 />
                             </Form.Group>
-
-                            {mobile && (
-                                    <Container>
-                                        {this.btnStartPlan(true)}
-                                        <Divider horizontal inverted>OR</Divider>
-                                        <Link to="/yearForm">
-                                            {this.btnEmptyPlan(true)}
-                                        </Link>
-                                    </Container>
-                            )}
-                            {!mobile && (
-                                    <Container textAlign="right">
-                                        <br />
-                                        <Button.Group size="big">
-                                            {this.btnStartPlan()}
-                                            <Button.Or />
-                                            <Link to="/yearForm">
-                                            {this.btnEmptyPlan()}
-                                            </Link>
-                                        </Button.Group>
-                                    </Container>
-                                )
-                            }
+                            <Container textAlign="right">
+                                <Button
+                                    fluid={mobile}
+                                    size={mobile ? undefined : "big"}
+                                    className="btnorange"
+                                    disabled={!this.state.readyToSubmit}
+                                    onClick={this.handleSubmit}>
+                                        Start Planning <Icon name="right arrow" />
+                                </Button>
+                            </Container>
+                            <br /><br />
+                            <Container textAlign="center">
+                                You can also&nbsp;
+                                <Link to="/yearForm" style={{color: "white", textDecoration: "underline"}}>
+                                    start without selecting a course
+                                </Link>.
+                            </Container>
                         </Form>
                     }
                 </MediaQuery>

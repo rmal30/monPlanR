@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Divider, Dropdown, Container, Form, Icon, Segment, Popup } from "semantic-ui-react";
+import { Button, Dropdown, Container, Form, Icon, Segment, Popup } from "semantic-ui-react";
 import { browserHistory, Link } from "react-router";
 import MediaQuery from "react-responsive";
 
@@ -145,9 +145,9 @@ class YearFormContainer extends Component {
 
         return (
 
-            <Container style={{color: "white"}}>
-                <div style={{padding: "4.5em"}}></div>
-                <h1 style={{textAlign: "center", fontSize: "3em"}}>monPlan</h1>
+            <Container className="main text" style={{color: "white"}}>
+                <div style={{padding: "2.5em"}}></div>
+                <h1 style={{textAlign: "center", fontSize: "3em"}}>Welcome to monPlan</h1>
                 <p style={{textAlign: "center", fontSize: "1.5em"}}>
                     Planning your course at Monash is now easier than ever.
                 </p>
@@ -184,35 +184,23 @@ class YearFormContainer extends Component {
                                         />
                                     </Form.Field>
                                 </Form.Group>
-                                {mobile &&
-                                    <Container>
-                                        <Button
-                                            fluid
-                                            color="yellow"
-                                            disabled={!this.state.readyToSubmit}
-                                            onClick={this.submitData}>
-                                                Start Planning <Icon name="right arrow" />
-                                        </Button>
-                                        <Divider horizontal inverted>OR</Divider>
-                                        <Link to="/plan">
-                                            <Button fluid>
-                                                Just start with an empty template
-                                            </Button>
-                                        </Link>
-                                    </Container>
-                                }
-                                {!mobile &&
-                                    <Container textAlign="right">
-                                        <br />
-                                        <Button.Group size="big">
-                                            {this.btnStartPlan()}
-                                            <Button.Or />
-                                            <Link to="/plan">
-                                                {this.btnEmptyPlan()}
-                                            </Link>
-                                        </Button.Group>
-                                    </Container>
-                                }
+                                <Container textAlign="right">
+                                    <Button
+                                        fluid={mobile}
+                                        size={mobile ? undefined : "big"}
+                                        color="yellow"
+                                        disabled={!this.state.readyToSubmit}
+                                        onClick={this.submitData}>
+                                            Start Planning <Icon name="right arrow" />
+                                    </Button>
+                                </Container>
+                                <br /><br />
+                                <Container textAlign="center">
+                                    You can also&nbsp;
+                                    <Link to="/plan" style={{color: "white", textDecoration: "underline"}}>
+                                        just start with an empty template
+                                    </Link>.
+                                </Container>
                         </Form>
                         }
                     </MediaQuery>

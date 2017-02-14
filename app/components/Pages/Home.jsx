@@ -5,7 +5,6 @@ import MediaQuery from "react-responsive";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CourseSelectFormContainer from "../../containers/Forms/CourseSelectFormContainer.jsx";
 import LocalStorage from "../../utils/LocalStorage.js";
-import Disclaimer from "../modals/disclaimer.jsx";
 /**
  * Home page that is shown to the user when they load the domain.
  *
@@ -58,9 +57,7 @@ class Home extends Component {
                         }
                         <h1 style={{textAlign: "center", fontSize: "3em"}}>{inLocalStorage ? "Welcome back" : "Welcome to monPlan"}</h1>
                         <p style={{textAlign: "center", fontSize: "1.5em"}}>
-                            <i>
-                                {inLocalStorage ? "You can continue planning your course by clicking the button below." : "Planning your studies at Monash University is now easier than ever."}
-                            </i>
+                            {inLocalStorage ? "You can continue planning your course by clicking the button below." : "Planning your course at Monash is now easier than ever."}
                         </p>
                         {inLocalStorage &&
                             <MediaQuery maxDeviceWidth={767}>
@@ -96,10 +93,6 @@ class Home extends Component {
                                 <CourseSelectFormContainer />
                             </Container>
                         }
-                        <Container textAlign="center">
-                            <br />
-                            You can view our <Disclaimer trigger={<a style={{cursor: "help", color: "white", textDecoration: "underline"}}>disclaimer here</a>} />.
-                        </Container>
                     </div>
                 </Container>
             </div>
