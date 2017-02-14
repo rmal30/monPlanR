@@ -30,19 +30,19 @@ const mapStateToProps = (state) => {
     const { unitInfo, unitLoadError, unitLoading, focusedUnitCode} = state.CourseStructure;
 
     return {
-        cost: unitInfo.Cost,
-        creditPoints: unitInfo.CreditPoints,
+        cost: unitInfo.cost,
+        creditPoints: unitInfo.creditPoints,
         error: unitLoadError, 
-        Faculty: unitInfo.Faculty,
-        likeScore: unitInfo.enjoyRating,
+        Faculty: unitInfo.faculty,
+        likeScore: unitInfo.enjoyScore,
         isLoading: unitLoading,
-        Synopsis: unitInfo.Sypnosis, //Unfortunate spelling error built into API
+        Synopsis: unitInfo.description,
         UnitCode: focusedUnitCode,
-        UnitName: unitInfo.UnitName,
-        usefulnessScore: unitInfo.learnRating,
-        prereqs: unitInfo.Preqs,
-        prohibs: unitInfo.Proh,
-        offeringArray: unitInfo.LocationAndTime,
+        UnitName: unitInfo.unitName,
+        usefulnessScore: unitInfo.learnScore,
+        prereqs: unitInfo.preqs,
+        prohibs: unitInfo.proh,
+        offeringArray: unitInfo.locationAndTime,
         learnResponseCount: unitInfo.learnResponse,
         enjoyResponseCount: unitInfo.enjoyResponse
     };

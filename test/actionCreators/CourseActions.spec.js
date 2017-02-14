@@ -123,9 +123,9 @@ describe("ACTION-CREATOR: CourseActions", () => {
 
             const mockUnit = {
                 customUnitDragging: false,
-                Cost: 200,
-                CreditPoints: 6,
-                UnitCode: "TEST1001"
+                cost: 200,
+                creditPoints: 6,
+                unitCode: "TEST1001"
             };
 
             const expectedActions = [

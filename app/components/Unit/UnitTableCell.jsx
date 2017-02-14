@@ -186,7 +186,7 @@ export class Unit extends React.Component {
                                     {mobile && this.props.unitToAdd !== undefined &&
                                         <Header as="h4" icon textAlign="center" style={{marginTop: "0.5em"}}>
                                             <Icon name="plus" color="green" />
-                                            Add {this.props.unitToAdd.UnitCode}
+                                            Add {this.props.unitToAdd.unitCode}
                                         </Header>
                                     }
                                 </div>

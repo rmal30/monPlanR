@@ -93,8 +93,8 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
                 tpIndex,
                 unitIndex,
                 unit,
-                cost: unit.Cost,
-                creditPoints: unit.CreditPoints
+                cost: unit.cost,
+                creditPoints: unit.creditPoints
             });
 
             dispatch(clearHighlightingInvalidUnitSlots());
@@ -280,7 +280,11 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
     return function(dispatch) {
         let affectedUnits = units.reduce((result, unit) => {
             if (unit !== null && unit !== undefined) {
-                return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                if(!unit.placeholder) {
+                    return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                } else {
+                    return result;
+                }
             } else {
                 return result;
             }
@@ -317,8 +321,12 @@ export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
         let affectedUnits = teachingPeriods.reduce((result, tp) => {
             let unit = tp.units[index];
             if (unit !== null && unit !== undefined) {
-                units.push(unit);
-                return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                if(!unit.placeholder) {
+                    units.push(unit);
+                    return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                } else {
+                    return result;
+                }
             } else {
                 return result;
             }

@@ -34,7 +34,7 @@ const UnitInfo = (props) => {
         "Faculty of Science": "sci",
         "Faculty of All": "all"
     };
-
+    
     const facultyClass = facultyMap[props.Faculty];
 
     return (
