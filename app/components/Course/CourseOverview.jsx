@@ -28,12 +28,12 @@ const CourseOverview = (props) => {
     return (
         <Segment className={facultyMap[courseFaculty]}>
             <Grid stackable>
-                <Grid.Column width={12}>
+                <Grid.Column width={10}>
                     <h3>{`${courseCode} - ${courseName}`}</h3>
                     <h5>{courseFaculty}</h5>
                     <CourseInfoButtonContainer />
                 </Grid.Column>
-                <Grid.Column width={4}>
+                <Grid.Column width={6}>
                     <CourseStatisticGroupContainer />
                 </Grid.Column>
             </Grid>

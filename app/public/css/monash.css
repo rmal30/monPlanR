@@ -136,6 +136,10 @@
     border-radius: 0px !important
 }
 
+.ui.segment.default {
+    border-radius: 0px !important
+}
+
 .ui.segment.ada {
     border-top: 4px solid #393838 !important;
     border-radius: 0px !important

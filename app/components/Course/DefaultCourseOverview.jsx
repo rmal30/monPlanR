@@ -9,7 +9,7 @@ import LoadCourse from "../../components/modals/LoadCourseMap.jsx";
  */
 const DefaultCourseOverview = () => {
     return (
-        <Segment className="gray" >
+        <Segment className="default">
             <Grid stackable>
                 <Grid.Column width={11}>
                     <h3>No course selected</h3>

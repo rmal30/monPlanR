@@ -100,8 +100,10 @@ export const fetchUnitInfo = (unitCode) => {
         });
         axios.get(`${MONPLAN_REMOTE_URL2}/units/${unitCode}`)
             .then(resp => {
+                let locationAndTime = JSON.parse(resp.data.locationAndTime);
                 let cost = CostCalc.calculateCost(parseInt(resp.data.scaBand, 10), parseInt(resp.data.creditPoints, 10));
                 resp.data.cost = cost;
+                resp.data.locationAndTime = locationAndTime;
                 dispatch({
                     type: "FETCH_UNIT_INFO_FULFILLED",
                     payload: resp,
