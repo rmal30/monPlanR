@@ -27,6 +27,10 @@ const defaultState = {
     unitToAdd: undefined,
     unitToAddCode: "",
     unitIsBeingDragged: false,
+    
+    unitSearchIsLoading: false,
+    basicUnits: [],
+    unitSearchError: false,
 
     // Holds a list of placeholders where a unit is on top of it.
     hidingPlaceholders: [],
@@ -57,19 +61,21 @@ const defaultState = {
     unitsIndexOfUnitToBeMoved: 0,
 
     unitInfo: {
-        Cost: 0,
-        CreditPoints: 0,
-        Faculty: "",
-        likeScore: 0,
-        Synopsis: "",
-        UnitName: "",
-        usefulnessScore: 0,
-        prereqs: "",
-        prohibs: "",
-        offeringArray: "",
-        learnResponseCount: 0,
-        enjoyResponseCount: 0,
-        SCABand: 0
+        preqs: "",
+        creditPoints: 0,
+        rules: [],
+        locationAndTime: "",
+        enjoyScore: 0,
+        learnScore: 0,
+        learnResponse: 0,
+        proh: "",
+        scaBand: 0,
+        unitName: "",
+        enjoyResponse: 0,
+        faculty: "",
+        unitCode: "",
+        eftsl: 0,
+        descriptions: ""
     },
 
     courseInfo: {
@@ -317,7 +323,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 courseLoading: false,
                 courseTemplateLoadError: false,
-                courseTemplateData: action.payload.data
+                courseTemplateData: action.payload.data.propertyMap
             };
 
         case "FETCH_COURSE_TEMPLATE_REJECTED":
@@ -374,6 +380,29 @@ const CourseStructure = (state = defaultState, action) => {
                 teachingPeriodsDataError: true
             };
 
+        case "FETCH_UNITS_PENDING":
+            return {
+                ...state,
+                basicUnits: [],
+                unitSearchIsLoading: true,
+                unitSearchError: false
+            };
+        
+        case "FETCH_UNITS_FULFILLED":
+            return {
+                ...state,
+                basicUnits: action.payload,
+                unitSearchIsLoading: false,
+            };
+
+        case "FETCH_UNITS_REJECTED":
+            return {
+                ...state,
+                basicUnits: [],
+                unitSearchIsLoading: false,
+                unitSearchError: true
+            };
+        
         case "SUBMIT_COURSE_FORM":
             return {
                 ...state,

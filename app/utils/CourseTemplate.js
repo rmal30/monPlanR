@@ -16,7 +16,7 @@ export default class CourseTemplate {
         let newTeachingPeriods = [];
         let newCost = 0;
         let newCP = 0;
-        let tmpArr = data.teachingPeriods;
+        let tmpArr = JSON.parse(data.teachingPeriods.value);
         let max = 4;
         
         // Currently the easiest way to check for overloading so we render the correct amount of teaching period unit slots
@@ -42,9 +42,9 @@ export default class CourseTemplate {
                 } else {
                     for (let k=0; k < item.numberOfUnits; k++){
                         let unit = item.units[k];
-                        unit.Cost = CostCalc.calculateCost(unit.SCABand, unit.CreditPoints);
-                        newCost += unit.Cost;
-                        newCP += unit.CreditPoints;
+                        unit.cost = CostCalc.calculateCost(unit.scaBand, unit.creditPoints);
+                        newCost += unit.cost;
+                        newCP += unit.creditPoints;
                     }
                     for(let j=0; j < max - item.numberOfUnits; j++){
                         item.units.push(null);

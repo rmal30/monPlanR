@@ -8,9 +8,9 @@ import MovingUnitIndicator from "../../components/Status/MovingUnitIndicator.jsx
  * Container for passing in props from redux to CourseOverview component
  */
 const CourseOverviewContainer = (props) => {
-    const { courseName, courseCode, courseFaculty, shouldDisplayAdding, shouldDisplayMoving } = props;
-    const shouldDisplayCourseOverview = courseName && courseCode && courseFaculty;
-    
+    const { courseName, courseCode, courseFaculty, shouldDisplayAdding, shouldDisplayMoving, unitToBeMoved } = props;
+    const shouldDisplayCourseOverview = courseName && courseCode && courseFaculty && !shouldDisplayAdding && !shouldDisplayMoving;
+
     if(shouldDisplayCourseOverview) {
         return (
             <CourseOverview 
@@ -21,10 +21,11 @@ const CourseOverviewContainer = (props) => {
         );
     
     } else if (shouldDisplayAdding) {
-        return <AddingUnitIndicator unitCode="FIT2001" />;
+        return <AddingUnitIndicator unitCode={"Test Unit Code"} />;
     
-    } else if (shouldDisplayMoving) {
-        return <MovingUnitIndicator unitCode="FIT2001" />;
+    //prefers adding over moving although ideally they would never be true at same time
+    } else if (shouldDisplayMoving && !shouldDisplayAdding) { 
+        return <MovingUnitIndicator unitCode={unitToBeMoved.unitCode} />;
     
     } else {
         return <DefaultCourseOverview />;
@@ -41,8 +42,10 @@ const mapStateToProps = (state) => {
         courseName: state.CourseStructure.courseInfo.courseName,
         courseCode: state.CourseStructure.courseInfo.courseCode,
         courseFaculty: state.CourseStructure.courseInfo.faculty,
-        shouldDisplayMoving: state.UI.showMovingUnitUI,
-        shouldDisplayAdding: state.UI.showAddingUnitUI
+        shouldDisplayMoving: state.UI.showingMovingUnitUI,
+        shouldDisplayAdding: state.UI.showingAddingUnitUI,
+        unitToBeMoved: state.CourseStructure.unitToBeMoved,
+        unitToAdd: state.CourseStructure.unitToAdd
     };
 };
 
@@ -53,5 +56,7 @@ CourseOverviewContainer.propTypes = {
     courseCode: PropTypes.string,
     courseFaculty: PropTypes.string,
     shouldDisplayAdding: PropTypes.bool,
-    shouldDisplayMoving: PropTypes.bool
+    shouldDisplayMoving: PropTypes.bool,
+    unitToBeMoved: PropTypes.object,
+    unitToAdd: PropTypes.object
 };

@@ -667,7 +667,11 @@ describe("REDUCER: CourseStructure", () => {
 
             const action = {
                 type: "FETCH_COURSE_TEMPLATE_FULFILLED",
-                payload: {data: "Fake Course Template"}
+                payload: {
+                    data: {
+                        propertyMap: "Fake Course Template"
+                    }
+                }
             };
 
             const stateAfter = {
@@ -728,19 +732,21 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoading: false,
                 courseLoading: false,
                 unitInfo: {
-                    Cost: 0,
-                    CreditPoints: 0,
-                    Faculty: "",
-                    likeScore: 0,
-                    Synopsis: "",
-                    UnitName: "",
-                    usefulnessScore: 0,
-                    prereqs: "",
-                    prohibs: "",
-                    offeringArray: "",
-                    learnResponseCount: 0,
-                    enjoyResponseCount: 0,
-                    SCABand: 0
+                    preqs: "",
+                    creditPoints: 0,
+                    rules: [],
+                    locationAndTime: "",
+                    enjoyScore: 0,
+                    learnScore: 0,
+                    learnResponse: 0,
+                    proh: "",
+                    scaBand: 0,
+                    unitName: "",
+                    enjoyResponse: 0,
+                    faculty: "",
+                    unitCode: "",
+                    eftsl: 0,
+                    descriptions: ""
                 },
                 focusedUnitCode: null
             };
@@ -758,19 +764,21 @@ describe("REDUCER: CourseStructure", () => {
                 unitLoading: true,
                 courseLoading: false,
                 unitInfo: {
-                    Cost: 0,
-                    CreditPoints: 0,
-                    Faculty: "",
-                    likeScore: 0,
-                    Synopsis: "",
-                    UnitName: "",
-                    usefulnessScore: 0,
-                    prereqs: "",
-                    prohibs: "",
-                    offeringArray: "",
-                    learnResponseCount: 0,
-                    enjoyResponseCount: 0,
-                    SCABand: 0
+                    preqs: "",
+                    creditPoints: 0,
+                    rules: [],
+                    locationAndTime: "",
+                    enjoyScore: 0,
+                    learnScore: 0,
+                    learnResponse: 0,
+                    proh: "",
+                    scaBand: 0,
+                    unitName: "",
+                    enjoyResponse: 0,
+                    faculty: "",
+                    unitCode: "",
+                    eftsl: 0,
+                    descriptions: ""
                 },
                 focusedUnitCode: null
             };

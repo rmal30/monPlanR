@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import UnitQuery from "../../utils/UnitQuery";
 import { Button, Menu, Divider, Grid, Checkbox } from "semantic-ui-react";
 
 import * as UIActions from "../../actions/UIActions";
@@ -9,10 +8,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 
-/**
- * Source is initialised here, it is populated later with responses from API
- */
-let source = {};
 
 /**
  * This component searches through the available units for selection
@@ -28,7 +23,6 @@ class UnitSearchContainer extends Component {
         super(props);
 
         this.state = {
-            isLoading: false,
             results: [],
             searchResults: [],
             searchResultIndex: 0,
@@ -48,17 +42,8 @@ class UnitSearchContainer extends Component {
      * Before the component mounts we query the database for the unit info.
      * @author JXNS
      */
-    componentDidMount() {
-        UnitQuery.getUnitCodeAndUnitNames()
-            .then(response => {
-                source = response.data;
-                this.setState({
-                    isLoading: false
-                });
-            })
-            .catch(function(error) {
-                console.error(error);
-            });
+    componentWillMount() {
+        this.props.fetchUnits();
     }
 
     /**
@@ -83,7 +68,6 @@ class UnitSearchContainer extends Component {
         this.searchInput.value = "";
 
         this.setState({
-            isLoading: false,
             results: [],
             timeoutValue: null,
             searchResultIndex: 0
@@ -120,7 +104,7 @@ class UnitSearchContainer extends Component {
         }
 
         const searchResult = this.state.searchResults[this.state.searchResultIndex];
-        this.props.willAddUnit(searchResult.UnitCode, searchResult.custom, false);
+        this.props.willAddUnit(searchResult.unitCode, searchResult.custom, false);
     }
 
     /**
@@ -164,18 +148,16 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, source, 8, ["UnitCode", "UnitName"], 100);
-
+            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100);
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
-
-            if(results.filter(result => result.item.UnitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
+            if(results.filter(result => result.item.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
                 // Show custom draggable unit
                 draggableCustomUnitExists = true;
 
                 const customUnit = {
                     item: {
-                        UnitCode: value.trim().toUpperCase(),
-                        UnitName: "Create custom unit",
+                        unitCode: value.trim().toUpperCase(),
+                        unitName: "Create custom unit",
                         custom: true
                     }
                 };
@@ -188,16 +170,15 @@ class UnitSearchContainer extends Component {
             reducedResults = reducedResults.map(({ item }) =>
                 // TODO: Find way to avoid workaround that fixes unknown key bug by setting childKey attribute.
                 ({
-                    childKey: `${item.UnitCode}`,
-                    UnitName: item.UnitName,
-                    UnitCode: item.UnitCode,
-                    Faculty: item.Faculty,
+                    childKey: `${item.unitCode}`,
+                    unitName: item.unitName,
+                    unitCode: item.unitCode,
+                    faculty: item.faculty,
                     custom: item.custom || false
                 })
             );
 
             this.setState({
-                isLoading: false,
                 searchResults: reducedResults,
                 showAddCustomUnitButton: !!value && !draggableCustomUnitExists,
                 value,
@@ -206,7 +187,6 @@ class UnitSearchContainer extends Component {
         }, 200);
 
         this.setState({
-            isLoading: true,
             searchResultIndex: 0,
             timeoutValue
         });
@@ -217,7 +197,7 @@ class UnitSearchContainer extends Component {
      * @author JXNS
      */
     render() {
-        const { isLoading } = this.state;
+        const { unitSearchIsLoading } = this.props;
 
         const faculties = [
             {label: "Art, Design and Architecture", value: "Art, Design and Architecture"},
@@ -231,11 +211,10 @@ class UnitSearchContainer extends Component {
             {label: "Medicine, Nursing and Health Sciences", value: "Medicine, Nursing and Health Sciences"},
             {label: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"}
         ];
-
         return (
             <Menu.Item>
                 <Menu.Item>
-                    <div className={"ui icon input" + (isLoading ? " loading" : "")}>
+                    <div className={"ui icon input" + (unitSearchIsLoading ? " loading" : "")}>
                         <input
                             ref={(input) => {this.searchInput = input;}}
                             onChange={this.handleSearchChange}
@@ -247,7 +226,7 @@ class UnitSearchContainer extends Component {
                 {this.state.showAddCustomUnitButton &&
                     <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue">Add custom unit</Button>
                 }
-                {!this.state.isLoading && this.state.showAddCustomUnitButton &&
+                {!this.state.unitSearchIsLoading && this.state.showAddCustomUnitButton &&
                     <div hidden>
                         <h3>Search Filter</h3>
                         <Grid>
@@ -279,7 +258,10 @@ UnitSearchContainer.propTypes = {
     showCustomUnitUI: PropTypes.func,
     searchVisible: PropTypes.bool,
     close: PropTypes.func,
-    willAddUnit: PropTypes.func
+    willAddUnit: PropTypes.func,
+    fetchUnits: PropTypes.func,
+    unitSearchIsLoading: PropTypes.bool,
+    basicUnits: PropTypes.array
 };
 
 /**
@@ -287,7 +269,10 @@ UnitSearchContainer.propTypes = {
  */
 const mapStatetoProps = (state) => {
     return {
-        searchVisible: state.UI.showingSidebar
+        searchVisible: state.UI.showingSidebar,
+        basicUnits: state.CourseStructure.basicUnits,
+        unitSearchIsLoading: state.CourseStructure.unitSearchIsLoading,
+        unitSearchError: state.CourseStructure.unitSearchError
     };
 };
 

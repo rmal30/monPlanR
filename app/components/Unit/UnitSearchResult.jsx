@@ -69,7 +69,7 @@ class UnitSearchResult extends Component {
      * Renders a UnitMessage component, which is draggable
      */
     render() {
-        const { UnitCode, UnitName, Faculty, custom, id, unitToAdd, willAddUnit } = this.props;
+        const { unitCode, unitName, faculty, custom, id, unitToAdd, willAddUnit } = this.props;
         return (
             <UnitMessage
                 newUnit
@@ -86,9 +86,9 @@ class UnitSearchResult extends Component {
 
                 fetchUnitInfo={this.props.fetchUnitInfo}
 
-                code={UnitCode}
-                name={UnitName}
-                faculty={Faculty}
+                code={unitCode}
+                name={unitName}
+                faculty={faculty}
                 onUnitClick={willAddUnit}
                 custom={custom}
                 unitToAdd={unitToAdd}
@@ -98,9 +98,9 @@ class UnitSearchResult extends Component {
 }
 
 UnitSearchResult.propTypes = {
-    UnitCode: PropTypes.string.isRequired,
-    UnitName: PropTypes.string.isRequired,
-    Faculty: PropTypes.string,
+    unitCode: PropTypes.string.isRequired,
+    unitName: PropTypes.string.isRequired,
+    faculty: PropTypes.string,
     unitToAdd: PropTypes.object,
     willAddUnit: PropTypes.func,
     custom: PropTypes.bool,

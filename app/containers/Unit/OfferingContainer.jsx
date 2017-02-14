@@ -21,7 +21,7 @@ class OfferingContainer extends Component {
         let notAvailable = true;
         let offeringArray = this.props.offeringArray;
 
-        if(offeringArray && typeof offeringArray !== "string" && offeringArray.length > 0) {
+        if(offeringArray && offeringArray.length >= 1 && offeringArray[0].location !== "Not Offered in 2017") {
             notAvailable = false;
         }
 
@@ -35,21 +35,20 @@ class OfferingContainer extends Component {
      * If the data is not available it renders a message indicating as much, otherwise it maps through the data and renders it.
      */
     render() {
-
+        
+        let keyval = 0;
         if (this.state.notAvailable) {
             return (
-                <p><i><b>No unit offering information is currently available.</b>
+                <p><i><b>No unit offering information is currently available.</b><br />
                 This could be because either this unit has been discontinued or the unit is
-                not offered in this year.
-
-
+                not offered in 2017.
                 </i></p>
             );
         } else {
             return (
                 <div>
                 {this.state.offeringArray.map(item => {
-                    return (<p key={item}><Icon name="pin" /><b>{item[0]}</b>{": " }<Icon name="time" />{item[1].join(", ")}</p>);
+                    return (<p key={keyval++}><Icon name="pin" /><b>{item.location}</b>{": " }<Icon name="time" />{item.time.join(", ")}</p>);
                 })}
                 </div>
             );

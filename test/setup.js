@@ -52,9 +52,9 @@ chai.use(sinonChai);
 global.describe = describe;
 global.it = it;
 global.expect = chai.expect;
-
+global.documentRef = document;
+global.MONPLAN_REMOTE_URL2 = "https://monplan-api-dev.appspot.com";
 global.MONPLAN_REMOTE_URL = "https://api2.monplan.tech";
-
 /**
  * The test function that will run for each Redux reducer action.
  *

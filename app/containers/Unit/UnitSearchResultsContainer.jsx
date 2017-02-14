@@ -54,17 +54,17 @@ class UnitSearchResultsContainer extends Component {
         }
 
         const eles = this.props.results.map((unitToAdd, index) => {
-            const { UnitCode, UnitName, custom, Faculty } = unitToAdd;
+            const { unitCode, unitName, custom, faculty } = unitToAdd;
             return (
                 <Menu.Item active={this.props.searchResultIndex === index} key={index}>
                     <UnitSearchResult
                         willAddUnit={this.props.willAddUnit}
-                        key={UnitCode}
+                        key={unitCode}
                         tabindex={1}
-                        UnitCode={UnitCode}
-                        UnitName={UnitName}
+                        unitCode={unitCode}
+                        unitName={unitName}
                         custom={custom}
-                        Faculty={Faculty}
+                        faculty={faculty}
                         addUnit={this.props.addUnit}
                         active={this.props.searchResultIndex === index}
                         unitToAdd={unitToAdd}
