@@ -176,18 +176,18 @@ class LoadCourseMap extends Component {
                         fluid={this.props.mobile}
                         onClick={this.handleOpen.bind(this)}
                         className="btnlightblue">
-                        Load Course Map
+                        Load course map
                     </Button>
                 )}
                 open={this.state.modalOpen}
                 onClose={this.handleCancel}>
                 <Modal.Header className="header-primary">
-                    <Icon name="upload" /> Load a Course Map
+                    <Icon name="upload" /> Load a course map
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
                         <div className="load-course-steps active">
-                            <h3>Step 1) Find your degree/course</h3>
+                            <h3>Step 1/3: Find your course</h3>
                             <br />
                             <Search
                                 className="srch"
@@ -205,7 +205,7 @@ class LoadCourseMap extends Component {
                         </div>
 
                         <div className={"load-course-steps " + (!this.state.specIsDisabled && "active") }>
-                            <h3>Step 2) Find your degree/course</h3>
+                            <h3>Step 2/3: Find your specialisation</h3>
                             <Dropdown
                                 className="drpdown"
                                 disabled={this.state.specIsDisabled}
@@ -219,7 +219,7 @@ class LoadCourseMap extends Component {
                         </div>
 
                         <div className={"load-course-steps " + (!this.state.yearIsDisabled && "active")}>
-                            <h3>Step 3) Set your starting year</h3>
+                            <h3>Step 3/3: Select your starting year</h3>
                             <p><i>
                                 Please note that all course maps are for students who
                                 commence their course in 2017, so your course map may

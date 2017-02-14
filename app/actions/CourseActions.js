@@ -87,6 +87,10 @@ export const decreaseStudyLoad = (teachingPeriods, index) => {
  */
 export const addUnit = (tpIndex, unitIndex, unit) => {
     return function(dispatch) {
+        // Don't add unit if unit details has not been populated.
+        if(!unit) {
+            return;
+        }
         if(!unit.customUnitDragging) {
             dispatch({
                 type: "ADD_UNIT",
