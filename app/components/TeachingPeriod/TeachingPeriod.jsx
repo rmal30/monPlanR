@@ -33,20 +33,16 @@ export const TeachingPeriod = (props) => {
         viewOnly: PropTypes.bool
     };
 
-    let firstFreeUnit = true;
     const unitsEle = props.units.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
 
         if(!unit) {
-            const temp = firstFreeUnit;
-            firstFreeUnit = false;
             return (
                 <UnitTableCell
                     key={index}
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
-                    firstFreeUnit={temp}
                     isError={isError} />
             );
         }

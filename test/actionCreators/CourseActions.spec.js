@@ -49,11 +49,11 @@ describe("ACTION-CREATOR: CourseActions", () => {
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
-    
-    /* 
-    NOTE: Proper testing of this requires copying the data for teaching periods to check the 
-    nextSemester function is working correctly. Will need to come back to this 
-    
+
+    /*
+    NOTE: Proper testing of this requires copying the data for teaching periods to check the
+    nextSemester function is working correctly. Will need to come back to this
+
     describe("AC: addTeachingPeriod", () => {
         it("Should create an action to add a teaching period", () => {
             const expectedActions = [
@@ -129,12 +129,12 @@ describe("ACTION-CREATOR: CourseActions", () => {
             };
 
             const expectedActions = [
-                {type: "ADD_UNIT", tpIndex: 1, unitIndex: 1, unit: mockUnit, cost: 200, creditPoints: 6}, 
-                {type: "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS"}, 
-                {type: "VALIDATE_COURSE"}, 
+                {type: "ADD_UNIT", tpIndex: 1, unitIndex: 1, unit: mockUnit, cost: 200, creditPoints: 6},
+                {type: "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS"},
+                {type: "VALIDATE_COURSE"},
                 {type: "REMOVE_NOTIFICATION", id: "ADDING_UNIT"}
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.addUnit(1, 1, mockUnit));
@@ -145,9 +145,9 @@ describe("ACTION-CREATOR: CourseActions", () => {
 
             const mockUnit = {
                 customUnitDragging: true,
-                Cost: 200,
-                CreditPoints: 6,
-                UnitCode: "TEST1001"
+                cost: 200,
+                creditPoints: 6,
+                unitCode: "TEST1001"
             };
 
             const expectedActions = [{
@@ -156,7 +156,7 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 tpIndex: 1,
                 unitIndex: 1
             }];
-            
+
             const store = mockStore({});
             store.dispatch(actions.addUnit(1, 1, mockUnit));
             expect(store.getActions()).toEqual(expectedActions);
@@ -167,10 +167,10 @@ describe("ACTION-CREATOR: CourseActions", () => {
         it("Should correctly create the actions required for removal of a unit", () => {
 
             const expectedActions = [
-                {type: "REMOVE_UNIT", tpIndex: 1, unitIndex: 1, cost: 200, creditPoints: 6}, 
-                {type: "VALIDATE_COURSE"}, 
+                {type: "REMOVE_UNIT", tpIndex: 1, unitIndex: 1, cost: 200, creditPoints: 6},
+                {type: "VALIDATE_COURSE"},
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.removeUnit(1, 1, 6, 200));
@@ -194,8 +194,8 @@ describe("ACTION-CREATOR: CourseActions", () => {
     describe("AC: generateCourse", () => {
         it("Should create the action for generating the course", () => {
             const expectedAction = {
-                type: "GENERATE_COURSE", 
-                startYear: 2016, 
+                type: "GENERATE_COURSE",
+                startYear: 2016,
                 endYear: 2019
             };
 
@@ -207,11 +207,11 @@ describe("ACTION-CREATOR: CourseActions", () => {
         it("Should correctly create the actions required for submission of a year form", () => {
 
             const expectedActions = [
-                {type: "SUBMIT_YEAR_FORM", startYear: 2016, endYear: 2019}, 
+                {type: "SUBMIT_YEAR_FORM", startYear: 2016, endYear: 2019},
                 {type: "GENERATE_COURSE", startYear: 2016, endYear: 2019},
-                {type: "GET_NEXT_SEMESTER_STRING"} 
+                {type: "GET_NEXT_SEMESTER_STRING"}
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.submitYearForm(2016, 2019));
@@ -222,10 +222,10 @@ describe("ACTION-CREATOR: CourseActions", () => {
     describe("AC: changeStartYear", () => {
         it("Should correctly create actions required to change the start year", () => {
             const expectedActions = [
-                {type: "CHANGE_START_YEAR", year: 2020}, 
-                {type: "GET_NEXT_SEMESTER_STRING"} 
+                {type: "CHANGE_START_YEAR", year: 2020},
+                {type: "GET_NEXT_SEMESTER_STRING"}
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.changeStartYear(2020));
@@ -262,11 +262,11 @@ describe("ACTION-CREATOR: CourseActions", () => {
         it("Should correctly create the actions required for deletion of a teaching period with units affected", () => {
             const mockUnits = [{UnitCode: "TEST101", UnitName: "unit1"}, null, {UnitCode: "TEST102", UnitName: "unit2"}, null, null];
             const expectedActions = [
-                {type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"}, 
+                {type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"},
                 {type: "UPDATE_AFFECTED_UNITS", affectedUnits: ["TEST101 - unit1", "TEST102 - unit2"]},
-                {type: "UPDATE_INDEX_OF_TP_TO_REMOVE", index: 1} 
+                {type: "UPDATE_INDEX_OF_TP_TO_REMOVE", index: 1}
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.attemptToDeleteTeachingPeriod(1, mockUnits));
@@ -279,14 +279,14 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 {type: "REMOVE_TEACHING_PERIOD", index: 1, units: [null, null, null, null, null]},
                 {type: "GET_NEXT_SEMESTER_STRING"}
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.attemptToDeleteTeachingPeriod(1, mockUnits));
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
-    
+
     describe("AC: attemptToDecreaseStudyLoad", () => {
         it("Should correctly create the actions required for decrease of a study load with units affected", () => {
             const mockTeachingPeriods = [
@@ -294,13 +294,13 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 {units: [null, null, {UnitCode: "TEST10B", UnitName: "unitB"}, null, null]},
                 {units: [null, null, {UnitCode: "TEST10C", UnitName: "unitC"}, null, {UnitCode: "TEST102", UnitName: "unit2"}]},
                 {units: [null, null, {UnitCode: "TEST10D", UnitName: "unitD"}, null, null]},
-                
+
             ];
             const expectedActions = [
-                {type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"}, 
-                {type: "UPDATE_AFFECTED_UNITS", affectedUnits: ["TEST101 - unit1", "TEST102 - unit2"]}            
+                {type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"},
+                {type: "UPDATE_AFFECTED_UNITS", affectedUnits: ["TEST101 - unit1", "TEST102 - unit2"]}
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.attemptToDecreaseStudyLoad(mockTeachingPeriods, 4));
@@ -313,12 +313,12 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 {units: [null, null, {UnitCode: "TEST10B", UnitName: "unitB"}, null, null]},
                 {units: [null, null, {UnitCode: "TEST10C", UnitName: "unitC"}, null, null]},
                 {units: [null, null, {UnitCode: "TEST10D", UnitName: "unitD"}, null, null]},
-                
+
             ];
             const expectedActions = [
                 {type: "DECREASE_STUDY_LOAD", units: []},
             ];
-            
+
             const store = mockStore({});
 
             store.dispatch(actions.attemptToDecreaseStudyLoad(mockTeachingPeriods, 4));
@@ -389,5 +389,5 @@ describe("ACTION-CREATOR: CourseActions", () => {
         });
     });
 
-    
+
 });

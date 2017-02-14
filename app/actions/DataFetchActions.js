@@ -11,7 +11,7 @@ import * as NotificationActions from "./Notifications";
  */
 export const fetchCourseInfo = (courseCode) => {
 
-    
+
     return function (dispatch) {
         dispatch({
             type: "FETCH_COURSE_INFO_PENDING"
