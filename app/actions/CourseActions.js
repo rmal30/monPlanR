@@ -281,7 +281,7 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
         let affectedUnits = units.reduce((result, unit) => {
             if (unit !== null && unit !== undefined) {
                 if(!unit.placeholder) {
-                    return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                    return result.concat(unit.unitCode + " - " + unit.unitName);
                 } else {
                     return result;
                 }
@@ -323,7 +323,7 @@ export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
             if (unit !== null && unit !== undefined) {
                 if(!unit.placeholder) {
                     units.push(unit);
-                    return result.concat(unit.UnitCode + " - " + unit.UnitName);
+                    return result.concat(unit.unitCode + " - " + unit.unitName);
                 } else {
                     return result;
                 }
