@@ -54,9 +54,7 @@ export function UnitMessage(props) {
         newUnit: PropTypes.bool,
         viewOnly: PropTypes.bool,
         showMoveUnitUI: PropTypes.bool,
-        basic: PropTypes.bool,
         hovering: PropTypes.bool,
-        showDetailButton: PropTypes.bool,
 
         handleDelete: PropTypes.func,
 
@@ -103,8 +101,8 @@ export function UnitMessage(props) {
             <MediaQuery maxDeviceWidth={767}>
                 {mobile =>
                     <UnitDetailModal
-                        neverShow={props.showDetailButton}
-                        onClick={() => props.fetchUnitInfo(props.code)}
+                        neverShow={props.newUnit}
+                        onClick={() => !props.newUnit && props.fetchUnitInfo(props.code)}
                         unitCode={props.code}
                         trigger={
                             <Message
@@ -128,8 +126,8 @@ export function UnitMessage(props) {
                                     {!props.viewOnly &&
                                         <Button.Group onMouseEnter={props.handleButtonMouseEnter} onMouseLeave={props.handleButtonMouseLeave}
                                           className="no-print right floated" size="mini" compact style={{visibility: (props.hovering || mobile) && !props.showMoveUnitUI ? "visible" : "hidden" }}>
-                                            <Button inverted color="red" onClick={props.handleDelete} icon="close" style={{display: !props.basic ? "block" : "none"}} />
-                                            {props.showDetailButton &&
+                                            <Button inverted color="red" onClick={props.handleDelete} icon="close" style={{display: !props.newUnit ? "block" : "none"}} />
+                                            {props.newUnit &&
                                                 <UnitDetailModal
                                                     onClick={() => props.fetchUnitInfo(props.code)}
                                                     unitCode={props.code}
