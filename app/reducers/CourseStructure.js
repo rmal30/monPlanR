@@ -27,6 +27,10 @@ const defaultState = {
     unitToAdd: undefined,
     unitToAddCode: "",
     unitIsBeingDragged: false,
+    
+    unitSearchIsLoading: false,
+    basicUnits: [],
+    unitSearchError: false,
 
     // Holds a list of placeholders where a unit is on top of it.
     hidingPlaceholders: [],
@@ -319,7 +323,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 courseLoading: false,
                 courseTemplateLoadError: false,
-                courseTemplateData: action.payload.data
+                courseTemplateData: action.payload.data.propertyMap
             };
 
         case "FETCH_COURSE_TEMPLATE_REJECTED":
@@ -376,6 +380,29 @@ const CourseStructure = (state = defaultState, action) => {
                 teachingPeriodsDataError: true
             };
 
+        case "FETCH_UNITS_PENDING":
+            return {
+                ...state,
+                basicUnits: [],
+                unitSearchIsLoading: true,
+                unitSearchError: false
+            };
+        
+        case "FETCH_UNITS_FULFILLED":
+            return {
+                ...state,
+                basicUnits: action.payload,
+                unitSearchIsLoading: false,
+            };
+
+        case "FETCH_UNITS_REJECTED":
+            return {
+                ...state,
+                basicUnits: [],
+                unitSearchIsLoading: false,
+                unitSearchError: true
+            };
+        
         case "SUBMIT_COURSE_FORM":
             return {
                 ...state,

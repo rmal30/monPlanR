@@ -667,7 +667,11 @@ describe("REDUCER: CourseStructure", () => {
 
             const action = {
                 type: "FETCH_COURSE_TEMPLATE_FULFILLED",
-                payload: {data: "Fake Course Template"}
+                payload: {
+                    data: {
+                        propertyMap: "Fake Course Template"
+                    }
+                }
             };
 
             const stateAfter = {

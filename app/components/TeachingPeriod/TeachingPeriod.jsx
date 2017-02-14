@@ -57,11 +57,11 @@ export const TeachingPeriod = (props) => {
                 index={index}
                 teachingPeriodIndex={props.index}
                 swapUnit={props.swapUnit.bind(null, props.index)}
-                code={unit.UnitCode}
-                name={unit.UnitName}
-                creditPoints={unit.CreditPoints}
-                cost={unit.Cost}
-                faculty={unit.Faculty}
+                code={unit.unitCode}
+                name={unit.unitName}
+                creditPoints={unit.creditPoints}
+                cost={unit.cost}
+                faculty={unit.faculty}
                 placeholder={unit.placeholder}
                 unit={unit}
                 errors={(props.showMoveUnitUI || props.unitToAdd) ? [] : props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)}

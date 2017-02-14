@@ -47,7 +47,7 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
             startYear,
             courseCode
         });
-        axios.get(`${MONPLAN_REMOTE_URL}/courses/${courseID}`)
+        axios.get(`${MONPLAN_REMOTE_URL2}/courseMaps/${courseID}`)
             .then(resp => {
 
                 dispatch({
@@ -55,7 +55,7 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                     payload: resp
                 });
 
-                const result = CourseTemplate.parse(resp.data, startYear);
+                const result = CourseTemplate.parse(resp.data[0].propertyMap, startYear);
 
                 dispatch({
                     type: "LOAD_NEW_TEACHING_PERIODS",
@@ -147,11 +147,11 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                 type: "FETCH_UNIT_INFO_PENDING"
             });
 
-            axios.get(`${MONPLAN_REMOTE_URL}/units/${unitCode}`)
+            axios.get(`${MONPLAN_REMOTE_URL2}/units/${unitCode}`)
                 .then(resp => {
-                    let cost =  CostCalc.calculateCost(resp.data.SCABand, resp.data.CreditPoints);
+                    let cost =  CostCalc.calculateCost(resp.data.scaBand, resp.data.creditPoints);
 
-                    resp.data.Cost = cost;
+                    resp.data.cost = cost;
 
                     dispatch({
                         type: "FETCH_UNIT_INFO_FULFILLED",
@@ -232,9 +232,24 @@ export const fetchTeachingPeriods = () => {
  * FETCH_UNITS
  */
 export const fetchUnits = () => {
-    return {
-        type: "FETCH_UNITS",
-        payload: axios.get(`${MONPLAN_REMOTE_URL}/basic/units`)
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_UNITS_PENDING"
+        });
+        
+        axios.get(`${MONPLAN_REMOTE_URL2}/basic/units`)
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_UNITS_FULFILLED",
+                    payload: resp.data
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_UNITS_REJECTED",
+                    payload: err
+                });
+            });
     };
 };
 
@@ -244,7 +259,7 @@ export const fetchUnits = () => {
 export const fetchCourses = () => {
     return {
         type: "FETCH_COURSES",
-        payload: axios.get(`${MONPLAN_REMOTE_URL}/basic/courses`)
+        payload: axios.get(`${MONPLAN_REMOTE_URL2}/basic/courses`)
     };
 };
 

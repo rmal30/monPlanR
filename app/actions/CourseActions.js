@@ -93,8 +93,8 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
                 tpIndex,
                 unitIndex,
                 unit,
-                cost: unit.Cost,
-                creditPoints: unit.CreditPoints
+                cost: unit.cost,
+                creditPoints: unit.creditPoints
             });
 
             dispatch(clearHighlightingInvalidUnitSlots());
