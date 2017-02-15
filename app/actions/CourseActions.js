@@ -411,6 +411,15 @@ export const cancelMovingUnit = () => {
 };
 
 /**
+ * Simply dispatches the cancel adding unit action
+ */
+export const cancelAddingUnit = () => {
+    return {
+        type: "CANCEL_ADDING_UNIT"
+    };
+};
+
+/**
  * When a unit starts being moved, we need to save it's original index position so when it is dropped or swapped we are aware
  */
 export const moveUnit = (newUnitIndex, newTPIndex) => {
