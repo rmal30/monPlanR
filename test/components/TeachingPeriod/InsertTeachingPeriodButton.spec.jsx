@@ -18,7 +18,7 @@ describe("COMPONENT: InsertTeachingPeriodButton", () => {
                     insert={identity}
                     addSemester={addSemester} />
             );
-            wrapper.find("Button").simulate("click");
+            wrapper.find("Button").forEach(function(button){button.simulate("click");});
             expect(addSemester).to.have.been.calledOnce;
         });
     });
