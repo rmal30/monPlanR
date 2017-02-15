@@ -30,7 +30,7 @@ class Header extends Component {
      */
     render() {
         let content = this.props.courseErrors.length > 0
-            ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as duplicate units.";
+            ? <ul>{this.props.courseErrors.map((error, index) => <li key={index}>{error.message}</li>)}</ul> : "As you add units, we will inform you of any conflicts, such as missing prerequisites.";
 
         return (
             <Menu onClick={() => this.props.hideSidebar()} inverted compact className="no-print nav toolbars" style={{borderRadius: 0}}>
@@ -60,25 +60,25 @@ class Header extends Component {
                 </Menu.Menu>
                 <Menu.Menu position="right">
                     {this.props.showStatus &&
-                    <Popup
-                        on="hover"
-                        hoverable
-                        wide
-                        trigger={(
-                            <Menu.Item className={this.props.courseErrors.length > 0 ? "status error" : "status"}>
-                                <MediaQuery minDeviceWidth={768}>
-                                    Course status:&nbsp;<span id="statusTag">{this.props.courseErrors.length > 0 ? this.props.courseErrors.length + " error" + (this.props.courseErrors.length > 1 ? "s" : "") : "OK"}</span>
-                            </MediaQuery>&nbsp;
-                                <Icon name={this.props.courseErrors.length > 0 ? "remove" : "checkmark"} inverted color={this.props.courseErrors.length > 0 ? "red" : "green"} />
-                            </Menu.Item>
-                        )}>
-                        <Popup.Header>
-                            {this.props.courseErrors.length > 0 ? "The following problems were discovered" : "Everything looks good"}
-                        </Popup.Header>
-                        <Popup.Content>
-                            {content}
-                        </Popup.Content>
-                    </Popup>
+                        <Popup
+                            on="hover"
+                            hoverable
+                            wide
+                            trigger={(
+                                <Menu.Item className={this.props.courseErrors.length > 0 ? "status error" : "status"}>
+                                    <MediaQuery minDeviceWidth={768}>
+                                        Course status:&nbsp;<span id="statusTag">{this.props.courseErrors.length > 0 ? this.props.courseErrors.length + " error" + (this.props.courseErrors.length > 1 ? "s" : "") : "OK"}</span>
+                                </MediaQuery>&nbsp;
+                                    <Icon name={this.props.courseErrors.length > 0 ? "remove" : "checkmark"} inverted color={this.props.courseErrors.length > 0 ? "red" : "green"} />
+                                </Menu.Item>
+                            )}>
+                            <Popup.Header>
+                                {this.props.courseErrors.length > 0 ? "The following problems were discovered" : "Everything looks good"}
+                            </Popup.Header>
+                            <Popup.Content>
+                                {content}
+                            </Popup.Content>
+                        </Popup>
                     }
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
                         <Icon name="comment outline" />
