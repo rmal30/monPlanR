@@ -47,7 +47,7 @@ export function validateCoursePlan(teachingPeriods) {
     return [
         ...duplicates(units),
         ...offerings(units, teachingPeriods),
-        ...prereqs(units),
+        ...rules(units)
     ];
 }
 
@@ -242,24 +242,28 @@ function offerings(units, teachingPeriods) {
 }
 
 /**
- * Parses prereq rules
+ * Parses rules, such as prereqs, coreqs and prohib
  */
-function prereqs(units) {
+function rules(units) {
     const errors = [];
     const noPermission = new RegExp("Permission required");
     units.forEach(unit => {
         if(unit.rules && unit.rules.length > 0) {
             unit.rules.forEach(rule => {
-                if((rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") && (!rule.endDate || moment(rule.endDate, "DD/MM/YYYY").isAfter(new Date()))) {
+                if(rule.endDate && !moment(rule.endDate, "DD/MM/YYYY").isAfter(new Date())) {
+                    return;
+                }
+
+                if(rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") {
                     // console.log(unit, rule.ruleString);
                     if(noPermission.test(rule.ruleString)) {
                         errors.push({
-                            message: "You need permission to do ${unit.unitCode}.",
+                            message: `You need permission to do ${unit.unitCode}.`,
                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                         });
                     }
 
-                    if((new RegExp("Must have passed an \\(I/W\\) unit in ").test(rule.ruleString))) {
+                    if(new RegExp("Must have passed an \\(I/W\\) unit in ").test(rule.ruleString)) {
                         let ruleString = rule.ruleString.replace("Must have passed an (I/W) unit in ", "");
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
@@ -282,7 +286,7 @@ function prereqs(units) {
                         });
 
                         if(!found) {
-                            let finalOr;
+                            let finalOr = "";
                             if(ruleString.length > 1) {
                                 finalOr = "or " + ruleString.pop();
                             }
@@ -291,6 +295,23 @@ function prereqs(units) {
                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                             });
                         }
+                    }
+                } else if(rule.ruleSummary === "INCOMP-IW") {
+                    if(new RegExp("Incompatible with achievement in \\(I/W\\) ").test(rule.ruleString)) {
+                        let ruleString = rule.ruleString.replace("Incompatible with achievement in (I/W) ", "");
+                        ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
+                        ruleString = ruleString.split(", ");
+
+                        ruleString.forEach(unitCode => {
+                            const unitProhib = units.find(otherUnit => otherUnit.unitCode === unitCode);
+
+                            if(unitProhib && unitProhib.teachingPeriodIndex <= unit.teachingPeriodIndex) {
+                                errors.push({
+                                    message: `Please remove ${unit.unitCode}, as completing ${unitProhib.unitCode} prohibits you from doing this unit.`,
+                                    coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                                });
+                            }
+                        });
                     }
                 }
             });
