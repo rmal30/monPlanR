@@ -259,7 +259,7 @@ describe("ACTION-CREATOR: CourseActions", () => {
 
     describe("AC: attemptToDeleteTeachingPeriod", () => {
         it("Should correctly create the actions required for deletion of a teaching period with units affected", () => {
-            const mockUnits = [{UnitCode: "TEST101", UnitName: "unit1"}, null, {UnitCode: "TEST102", UnitName: "unit2"}, null, null];
+            const mockUnits = [{unitCode: "TEST101", unitName: "unit1"}, null, {unitCode: "TEST102", unitName: "unit2"}, null, null];
             const expectedActions = [
                 {type: "SHOW_CONFIRM_DELETE_TEACHING_PERIOD_MODAL"},
                 {type: "UPDATE_AFFECTED_UNITS", affectedUnits: ["TEST101 - unit1", "TEST102 - unit2"]},
@@ -289,10 +289,10 @@ describe("ACTION-CREATOR: CourseActions", () => {
     describe("AC: attemptToDecreaseStudyLoad", () => {
         it("Should correctly create the actions required for decrease of a study load with units affected", () => {
             const mockTeachingPeriods = [
-                {units: [null, null, {UnitCode: "TEST10A", UnitName: "unitA"}, null, {UnitCode: "TEST101", UnitName: "unit1"}]},
-                {units: [null, null, {UnitCode: "TEST10B", UnitName: "unitB"}, null, null]},
-                {units: [null, null, {UnitCode: "TEST10C", UnitName: "unitC"}, null, {UnitCode: "TEST102", UnitName: "unit2"}]},
-                {units: [null, null, {UnitCode: "TEST10D", UnitName: "unitD"}, null, null]},
+                {units: [null, null, {unitCode: "TEST10A", unitName: "unitA"}, null, {unitCode: "TEST101", unitName: "unit1"}]},
+                {units: [null, null, {unitCode: "TEST10B", unitName: "unitB"}, null, null]},
+                {units: [null, null, {unitCode: "TEST10C", unitName: "unitC"}, null, {unitCode: "TEST102", unitName: "unit2"}]},
+                {units: [null, null, {unitCode: "TEST10D", unitName: "unitD"}, null, null]},
 
             ];
             const expectedActions = [
@@ -308,10 +308,10 @@ describe("ACTION-CREATOR: CourseActions", () => {
 
         it("Should correctly create the actions required for decrease of a study load with no units affected", () => {
             const mockTeachingPeriods = [
-                {units: [null, null, {UnitCode: "TEST10A", UnitName: "unitA"}, null, null]},
-                {units: [null, null, {UnitCode: "TEST10B", UnitName: "unitB"}, null, null]},
-                {units: [null, null, {UnitCode: "TEST10C", UnitName: "unitC"}, null, null]},
-                {units: [null, null, {UnitCode: "TEST10D", UnitName: "unitD"}, null, null]},
+                {units: [null, null, {unitCode: "TEST10A", unitName: "unitA"}, null, null]},
+                {units: [null, null, {unitCode: "TEST10B", unitName: "unitB"}, null, null]},
+                {units: [null, null, {unitCode: "TEST10C", unitName: "unitC"}, null, null]},
+                {units: [null, null, {unitCode: "TEST10D", unitName: "unitD"}, null, null]},
 
             ];
             const expectedActions = [

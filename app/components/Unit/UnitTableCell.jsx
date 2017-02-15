@@ -235,7 +235,7 @@ export class Unit extends React.Component {
                                             handleDelete={this.handleDelete.bind(this)}
                                             fetchUnitInfo={this.props.fetchUnitInfo}
                                             errors={this.props.errors}
-                                            />
+                                        />
                                     }
                                 </div>
                             }
