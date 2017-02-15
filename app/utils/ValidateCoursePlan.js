@@ -91,10 +91,14 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, duplica
     };
 
 
-    let offerings = tempUnit.LocationAndTime;
+    let offerings = tempUnit.locationAndTime;
 
     if(!offerings) {
         return [];
+    }
+
+    if(typeof offerings === "string") {
+        offerings = JSON.parse(offerings);
     }
 
     const coordinates = [];
@@ -110,13 +114,14 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, duplica
             let isValid = false;
 
             for(let k = 0; k < offerings.length; k++) {
-                let locations = offerings[k][1];
-                if(!locations) {
+                const location = offerings[k].location;
+                const times = offerings[k].time;
+                if(!location || !times) {
                     continue;
                 }
 
-                for(let l = 0; l < locations.length; l++) {
-                    let offering = locations[l];
+                for(let l = 0; l < times.length; l++) {
+                    let offering = times[l];
                     let isMatch = re.test(offering);
 
                     if(isMatch) {
@@ -185,10 +190,14 @@ function offerings(units, teachingPeriods) {
     const errors = [];
 
     for(let i = 0; i < units.length; i++) {
-        let offerings = units[i].LocationAndTime;
+        let offerings = units[i].locationAndTime;
 
         if(!offerings) {
             continue;
+        }
+
+        if(typeof offerings === "string") {
+            offerings = JSON.parse(offerings);
         }
 
         const teachingPeriodStr = codeMap[teachingPeriods[units[i].teachingPeriodIndex].code];
@@ -200,13 +209,14 @@ function offerings(units, teachingPeriods) {
             let isValid = false;
 
             for(let k = 0; k < offerings.length; k++) {
-                let locations = offerings[k][1];
-                if(!locations) {
+                let location = offerings[k].location;
+                let times = offerings[k].time;
+                if(!location || !times) {
                     continue;
                 }
 
-                for(let l = 0; l < locations.length; l++) {
-                    let offering = locations[l];
+                for(let l = 0; l < times.length; l++) {
+                    let offering = times[l];
                     let isMatch = re.test(offering);
 
                     if(isMatch) {

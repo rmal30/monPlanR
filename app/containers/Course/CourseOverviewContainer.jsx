@@ -4,37 +4,38 @@ import CourseOverview from "../../components/Course/CourseOverview.jsx";
 import DefaultCourseOverview from "../../components/Course/DefaultCourseOverview.jsx";
 import AddingUnitIndicator from "../../components/Status/AddingUnitIndicator.jsx";
 import MovingUnitIndicator from "../../components/Status/MovingUnitIndicator.jsx";
+
 /**
  * Container for passing in props from redux to CourseOverview component
  */
-const CourseOverviewContainer = (props) => {
-    const { courseName, courseCode, courseFaculty, shouldDisplayAdding, shouldDisplayMoving, unitToBeMoved } = props;
+const CourseOverviewContainer = props => {
+    const { courseName, courseCode, courseFaculty, shouldDisplayAdding, shouldDisplayMoving, unitToAdd, unitToBeMoved } = props;
     const shouldDisplayCourseOverview = courseName && courseCode && courseFaculty && !shouldDisplayAdding && !shouldDisplayMoving;
 
     if(shouldDisplayCourseOverview) {
         return (
-            <CourseOverview 
+            <CourseOverview
                 courseName={courseName}
-                courseCode={courseCode} 
-                courseFaculty={courseFaculty} 
+                courseCode={courseCode}
+                courseFaculty={courseFaculty}
             />
         );
-    
+
     } else if (shouldDisplayAdding) {
-        return <AddingUnitIndicator unitCode={"Test Unit Code"} />;
-    
+        return <AddingUnitIndicator unitCode={unitToAdd && unitToAdd.unitCode} />;
+
     //prefers adding over moving although ideally they would never be true at same time
-    } else if (shouldDisplayMoving && !shouldDisplayAdding) { 
-        return <MovingUnitIndicator unitCode={unitToBeMoved.unitCode} />;
-    
+    } else if (shouldDisplayMoving && !shouldDisplayAdding) {
+        return <MovingUnitIndicator unitCode={unitToBeMoved && unitToBeMoved.unitCode} />;
+
     } else {
         return <DefaultCourseOverview />;
     }
-    
+
 };
 
 /**
- * The Course overview just displays some simple info for the students about the course they have 
+ * The Course overview just displays some simple info for the students about the course they have
  * currently selected
  */
 const mapStateToProps = (state) => {
