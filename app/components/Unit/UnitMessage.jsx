@@ -141,7 +141,7 @@ export function UnitMessage(props) {
                                 <div style={{position: "absolute", bottom: "0.5em", right: "0.5em"}}>
                                     <Popup
                                         trigger={(props.errors && props.errors.length > 0) &&
-                                                <Icon inverted color="red" name="warning" size="large" />
+                                                <Icon inverted color="red" name="warning sign" size="big" />
                                         }
                                         positioning="bottom left"
                                         size="mini"
