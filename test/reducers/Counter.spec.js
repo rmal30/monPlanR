@@ -111,7 +111,7 @@ describe("REDUCER: Counter", () => {
             const stateBefore = {cost: 50, creditPoints: 40};
             const action = {
                 type: "REMOVE_TEACHING_PERIOD",
-                units: [null, {Cost: 2, CreditPoints: 20}, {Cost: 5, CreditPoints: 10}, null]
+                units: [null, {cost: 2, creditPoints: 20}, {cost: 5, creditPoints: 10}, null]
             };
             const stateAfter = {cost: 43, creditPoints: 10};
 
@@ -122,7 +122,7 @@ describe("REDUCER: Counter", () => {
             const stateBefore = {cost: 50, creditPoints: 40};
             const action = {
                 type: "REMOVE_TEACHING_PERIOD",
-                units: [null, {Cost: 25, CreditPoints: 20}, {Cost: 30, CreditPoints: 30}, {Cost: 0, CreditPoints: 10}]
+                units: [null, {cost: 25, creditPoints: 20}, {cost: 30, creditPoints: 30}, {cost: 0, creditPoints: 10}]
             };
             const stateAfter = {cost: 0, creditPoints: 0};
 

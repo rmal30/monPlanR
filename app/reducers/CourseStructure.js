@@ -550,6 +550,12 @@ const CourseStructure = (state = defaultState, action) => {
                 unitsIndexOfUnitToBeMoved: undefined
             };
 
+        case "CANCEL_ADDING_UNIT":
+            return {
+                ...state,
+                unitToAdd: undefined
+            };
+
         /**
          * Generates a course structure of semester one and semester two teaching
          * periods, given start year and end year. If start year and end year

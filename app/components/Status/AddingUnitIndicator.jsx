@@ -1,10 +1,10 @@
 import React, { PropTypes } from "react";
-import { Grid, Icon, Segment } from "semantic-ui-react";
+import { Grid, Icon, Segment, Button } from "semantic-ui-react";
 
 /**
  * A simple component for letting the user know that they are adding a unit
  */
-const AddingUnitIndicator = ({ unitCode }) => {
+const AddingUnitIndicator = ({ unitCode, onCancelAddingUnit }) => {
 
     return (
         <Segment color="green" className="adding">
@@ -17,7 +17,7 @@ const AddingUnitIndicator = ({ unitCode }) => {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <br />
+                        <Button className="btnlightcancel" onClick={onCancelAddingUnit}>Cancel Adding Unit</Button>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -29,5 +29,6 @@ const AddingUnitIndicator = ({ unitCode }) => {
 export default AddingUnitIndicator;
 
 AddingUnitIndicator.propTypes = {
-    unitCode: PropTypes.string
+    unitCode: PropTypes.string,
+    onCancelAddingUnit: PropTypes.func
 };

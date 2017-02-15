@@ -203,7 +203,7 @@ export const fetchTeachingPeriods = () => {
         dispatch({
             type: "FETCH_TEACHING_PERIODS_PENDING"
         });
-        axios.get(`${MONPLAN_REMOTE_URL}/basic/teachingperiods`)
+        axios.get(`${MONPLAN_REMOTE_URL2}/basic/periods`)
              .then(response => {
                  /**
                   * Compares start teaching period date between two teaching periods.
@@ -213,13 +213,13 @@ export const fetchTeachingPeriods = () => {
                   * Grabbing the common teaching periods and sorting
                   */
                  function compareDate(a, b) {
-                     return Math.sign(new Date(...a.split("/").reverse()) - new Date(...b.split("/").reverse()));
+                     return Math.sign(new Date(a) - new Date(b));
                  }
 
                  response.data.sort(
                      (a, b) => compareDate(a.startDate, b.startDate) !== 0 ? compareDate(a.startDate, b.startDate) : compareDate(b.endDate, a.endDate)
                  );
-
+                 
                  dispatch({
                      type: "FETCH_TEACHING_PERIODS_FULFILLED",
                      payload: response.data
