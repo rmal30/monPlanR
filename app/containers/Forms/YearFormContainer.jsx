@@ -188,7 +188,7 @@ class YearFormContainer extends Component {
                                     <Button
                                         fluid={mobile}
                                         size={mobile ? undefined : "big"}
-                                        color="yellow"
+                                        className="btnorange"
                                         disabled={!this.state.readyToSubmit}
                                         onClick={this.submitData}>
                                             Start Planning <Icon name="right arrow" />
