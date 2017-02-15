@@ -8,12 +8,12 @@ import * as uiActions from "../../actions/UIActions";
 import InsertTeachingPeriodButton from "../../components/TeachingPeriod/InsertTeachingPeriodButton.jsx";
 
 /**
- * 
+ *
  */
 const InsertTeachingPeriodButtonContainer = (props) => {
     const { nextSemesterString, mobile, bottom, showingInsertTeachingPeriodUI, teachingPeriods, startYear, teachingPeriodData } = props;
-    
-    
+
+
     /**
      * Pulls function from redux, inserting a semester
      */
@@ -32,7 +32,7 @@ const InsertTeachingPeriodButtonContainer = (props) => {
         return (
             <Button
                 fluid={mobile}
-                className="no-print"
+                className="no-print btnlightcancel"
                 floated={mobile ? "" : "right"}
                 onClick={props.hideInsertTeachingPeriodUI}>Cancel</Button>
         );
@@ -47,13 +47,13 @@ const InsertTeachingPeriodButtonContainer = (props) => {
             />
         );
     }
-    
+
 };
 
 /**
- * 
+ *
  */
-const mapStateToProps = (state) => { 
+const mapStateToProps = (state) => {
     return {
         nextSemesterString: state.CourseStructure.nextSemesterString,
         showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
@@ -64,7 +64,7 @@ const mapStateToProps = (state) => {
 };
 
 /**
- * 
+ *
  */
 const mapDispatchToProps = (dispatch) => {
     const actionBundle = {...courseActions, ...uiActions};
