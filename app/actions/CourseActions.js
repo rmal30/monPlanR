@@ -414,8 +414,11 @@ export const cancelMovingUnit = () => {
  * Simply dispatches the cancel adding unit action
  */
 export const cancelAddingUnit = () => {
-    return {
-        type: "CANCEL_ADDING_UNIT"
+    return dispatch => {
+        dispatch({
+            type: "CANCEL_ADDING_UNIT"
+        });
+        dispatch(clearHighlightingInvalidUnitSlots());
     };
 };
 

@@ -54,7 +54,9 @@ const mapStateToProps = (state) => {
     };
 };
 
-
+/**
+ * Need access to cancelAddingUnit function
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(courseActions, dispatch);
 };
