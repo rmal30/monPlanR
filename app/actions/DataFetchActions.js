@@ -219,7 +219,7 @@ export const fetchTeachingPeriods = () => {
                  response.data.sort(
                      (a, b) => compareDate(a.startDate, b.startDate) !== 0 ? compareDate(a.startDate, b.startDate) : compareDate(b.endDate, a.endDate)
                  );
-                 
+
                  dispatch({
                      type: "FETCH_TEACHING_PERIODS_FULFILLED",
                      payload: response.data
@@ -270,7 +270,7 @@ export const fetchUnits = () => {
 export const fetchCourses = () => {
     return {
         type: "FETCH_COURSES",
-        payload: axios.get(`${MONPLAN_REMOTE_URL2}/basic/courses`)
+        payload: axios.get(`${MONPLAN_REMOTE_URL}/basic/courses`)
     };
 };
 
