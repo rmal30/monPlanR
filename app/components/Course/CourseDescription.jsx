@@ -120,8 +120,8 @@ export default class CourseDescription extends Component {
     render() {
         const { showingMore, description } = this.state;
         let less = description[0];
-        if (description.length && description.length > 15) {
-            less = description.slice(0,15);
+        if (description.length && description.length > 3) {
+            less = description.slice(0,3);
         }
         if (showingMore) {
             return (
@@ -134,7 +134,7 @@ export default class CourseDescription extends Component {
             return (
                 <div>
                     {less}
-                    {description.length >= 15 && <a style={{cursor: "pointer"}} onClick={this.handleClick}>Show more</a>}
+                    {description.length >= 3 && <a style={{cursor: "pointer"}} onClick={this.handleClick}>Show more</a>}
                 </div>
             );
         }
