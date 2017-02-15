@@ -296,6 +296,40 @@ function rules(units) {
                             });
                         }
                     }
+                } else if(rule.ruleSummary === "COREQ-IW") {
+                    if(new RegExp("Any passed co-req \\(I/W\\) unit in ").test(rule.ruleString)) {
+                        let ruleString = rule.ruleString.replace("Any passed co-req (I/W) unit in ", "");
+                        ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
+                        ruleString = ruleString.split(", ");
+
+                        let found = false;
+
+                        ruleString.forEach(unitCode => {
+                            const unitCoreq = units.find(otherUnit => otherUnit.unitCode === unitCode);
+
+                            if(unitCoreq) {
+                                if(!found && unitCoreq.teachingPeriodIndex > unit.teachingPeriodIndex) {
+                                    errors.push({
+                                        message: `Please move ${unitCoreq.unitCode} to a teaching period before or in the same teaching period as ${unit.unitCode}.`,
+                                        coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitCoreq.teachingPeriodIndex, unitCoreq.unitIndex]]
+                                    });
+                                }
+
+                                found = true;
+                            }
+                        });
+
+                        if(!found) {
+                            let finalOr = "";
+                            if(ruleString.length > 1) {
+                                finalOr = "or " + ruleString.pop();
+                            }
+                            errors.push({
+                                message: `You must complete ${ruleString.join(", ")} ${finalOr} before or whilst doing ${unit.unitCode}.`,
+                                coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                            });
+                        }
+                    }
                 } else if(rule.ruleSummary === "INCOMP-IW") {
                     if(new RegExp("Incompatible with achievement in \\(I/W\\) ").test(rule.ruleString)) {
                         let ruleString = rule.ruleString.replace("Incompatible with achievement in (I/W) ", "");
