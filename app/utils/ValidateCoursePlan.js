@@ -258,6 +258,11 @@ function rules(units, courseCode) {
                 if(rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") {
                     let ruleString = rule.ruleString;
 
+                    if(new RegExp("(AND|or)").test(ruleString)) {
+                        // Ignore logical expressions for now
+                        return;
+                    }
+
                     // in case the while loop goes on forever, force exit if it exceeds maxIterations
                     let maxIterations = 100;
 
@@ -293,7 +298,7 @@ function rules(units, courseCode) {
                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                         });
                     } else if(new RegExp("Must have passed (an|1) \\(I/W\\) units? in ").test(rule.ruleString)) {
-                        ruleString = ruleString.replace("Must have passed an (I/W) unit in ", "");
+                        ruleString = ruleString.substring(ruleString.indexOf("Must have passed an (I/W) unit in ") + "Must have passed an (I/W) unit in ".length);
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
 
@@ -346,9 +351,14 @@ function rules(units, courseCode) {
                             });
                         }
                     }
-                } else if(rule.ruleSummary === "COREQ-IW") {
+                } else if(rule.ruleSummary === "COREQ" || rule.ruleSummary === "COREQ-IW") {
+                    if(new RegExp("(AND|or)").test(rule.ruleString)) {
+                        // Ignore logical expressions for now
+                        return;
+                    }
+
                     if(new RegExp("Any passed co-req \\(I/W\\) unit in ").test(rule.ruleString)) {
-                        let ruleString = rule.ruleString.replace("Any passed co-req (I/W) unit in ", "");
+                        let ruleString = rule.ruleString.substring(rule.ruleString.indexOf("Any passed co-req (I/W) unit in ") + "Any passed co-req (I/W) unit in ".length);
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
 
@@ -380,9 +390,15 @@ function rules(units, courseCode) {
                             });
                         }
                     }
-                } else if(rule.ruleSummary === "INCOMP-IW") {
-                    if(new RegExp("Incompatible with achievement in \\(I/W\\) ").test(rule.ruleString)) {
-                        let ruleString = rule.ruleString.replace("Incompatible with achievement in (I/W) ", "");
+                } else if(rule.ruleSummary === "INCOMP" || rule.ruleSummary === "INCOMP-IW") {
+                    if(new RegExp("(AND|or)").test(rule.ruleString)) {
+                        // Ignore logical expressions for now
+                        return;
+                    }
+
+                    if(new RegExp("Incompatible with achievement in (\\(I/W\\) )?").test(rule.ruleString)) {
+                        let ruleString = rule.ruleString.substring(rule.ruleString.indexOf("Incompatible with achievement in ") + "Incompatible with achievement in ".length);
+                        ruleString.replace("(I/W) ", "");
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
 
