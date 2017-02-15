@@ -27,7 +27,7 @@ const defaultState = {
     unitToAdd: undefined,
     unitToAddCode: "",
     unitIsBeingDragged: false,
-    
+
     unitSearchIsLoading: false,
     basicUnits: [],
     unitSearchError: false,
@@ -79,6 +79,7 @@ const defaultState = {
     },
 
     courseInfo: {
+        courseCode: "",
         courseName: "",
         faculty: "",
         creditPoints: 0,
@@ -354,7 +355,7 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 unitLoading: false,
-                unitLoadError: true
+                unitLoadError: action.payload
             };
 
 
@@ -387,7 +388,7 @@ const CourseStructure = (state = defaultState, action) => {
                 unitSearchIsLoading: true,
                 unitSearchError: false
             };
-        
+
         case "FETCH_UNITS_FULFILLED":
             return {
                 ...state,
@@ -402,7 +403,7 @@ const CourseStructure = (state = defaultState, action) => {
                 unitSearchIsLoading: false,
                 unitSearchError: true
             };
-        
+
         case "SUBMIT_COURSE_FORM":
             return {
                 ...state,
@@ -439,7 +440,7 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 teachingPeriods: action.value,
-                courseErrors: validateCoursePlan(action.value)
+                courseErrors: validateCoursePlan(action.value, state.courseInfo.courseCode)
             };
 
         case "GET_NEW_NUMBER_OF_UNITS":
@@ -852,7 +853,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "VALIDATE_COURSE":
             return {
                 ...state,
-                courseErrors: validateCoursePlan(state.teachingPeriods)
+                courseErrors: validateCoursePlan(state.teachingPeriods, state.courseInfo.courseCode)
             };
 
         case "HIGHLIGHT_INVALID_UNIT_SLOTS":
