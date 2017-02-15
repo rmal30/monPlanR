@@ -166,8 +166,8 @@ html, body {
     cursor: pointer;
 }
 
-/* Adds margin in between a button and a dropdown */
-.buttons > .dropdown {
+/* Adds margin in between a button and another element with class name marginLeft */
+.buttons > .marginLeft {
     margin-left: 0.1em !important;
     text-align: center;
 }

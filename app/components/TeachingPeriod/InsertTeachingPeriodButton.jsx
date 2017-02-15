@@ -18,34 +18,36 @@ export default function InsertTeachingPeriodButton({ semesterString, insert, add
 
 
     if(semesterString === null) {
-        semesterString = "Add Semester 1, 2016";
+        semesterString = "Semester 1";
     }
+
     return (
-        <div>
-            <Button.Group fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
-                <Button className="btnorange" onClick={addSemester}><Icon name="add square"/>Add {semesterString}</Button>
-                <Popup
-                    trigger={<Button className="btnorange" icon={bottom ? "caret up" : "caret down"}/>}
-                    on="click"
-                    hideOnScroll
-                    className="header-primary"
-                    >
-                <Popup.Header>
-                    Insert a Custom Teaching Period
-                </Popup.Header>
-                <Popup.Content>
-                    <i>You can <b>insert</b> a teaching period between rows using this action</i>
-                    <Button.Group fluid vertical>
-                            <Button className="btnorange" onClick={insert.bind(null, "S1-01")}>Insert Semester 1</Button>
-                            <Button className="btnorange" onClick={insert.bind(null, "S2-01")}>Insert Semester 2</Button>
-                            <Button className="btnorange" onClick={insert.bind(null, "SSA-02")}>Insert Summer Semester A</Button>
-                            <Button className="btnorange" onClick={insert.bind(null, "SSB-01")}>Insert Summer Semester B</Button>
-                            <Button className="btnorange" onClick={insert.bind(null, "WS-01")}>Insert Winter Semester</Button>
-                            <Button className="btnorange" onClick={insert.bind(null, "FY-01")}>Insert Full Year</Button>
-                    </Button.Group>
-                </Popup.Content>
-                </Popup>
-            </Button.Group>
-        </div>
+        <Button.Group fluid={mobile} className={"no-print" + (mobile || noFloat ? "" : " right floated")}>
+            <Button className="btnorange" onClick={addSemester}><Icon name="add square"/>Add {semesterString}</Button>
+            <Popup
+                basic
+                trigger={<Button className="btnorange marginLeft" icon={bottom ? "caret up" : "caret down"}/>}
+                on="click"
+                hideOnScroll
+                className="header-primary"
+                >
+            <Popup.Header>
+                Insert a custom teaching period
+            </Popup.Header>
+            <Popup.Content>
+                <i>You can <b>insert</b> a teaching period between rows using this action:</i>
+                <br />
+                <br />
+                <Button.Group fluid vertical>
+                        <Button className="btnorange" onClick={insert.bind(null, "S1-01")}>Insert Semester 1</Button>
+                        <Button className="btnorange" onClick={insert.bind(null, "S2-01")}>Insert Semester 2</Button>
+                        <Button className="btnorange" onClick={insert.bind(null, "SSA-02")}>Insert Summer Semester A</Button>
+                        <Button className="btnorange" onClick={insert.bind(null, "SSB-01")}>Insert Summer Semester B</Button>
+                        <Button className="btnorange" onClick={insert.bind(null, "WS-01")}>Insert Winter Semester</Button>
+                        <Button className="btnorange" onClick={insert.bind(null, "FY-01")}>Insert Full Year</Button>
+                </Button.Group>
+            </Popup.Content>
+            </Popup>
+        </Button.Group>
     );
 }
