@@ -278,7 +278,7 @@ function rules(units, courseCode) {
 
                         const courseCodes = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}")).split(", ");
 
-                        if(courseCodes.find(otherCourseCode => courseCode === otherCourseCode)) {
+                        if(courseCode && courseCodes.find(otherCourseCode => courseCode === otherCourseCode)) {
                             // evaluate do branch.
                             ruleString = ruleString.substring(ruleString.indexOf("}") + 1).replace(" Do ", "").substring(0, ruleString.indexOf(" Otherwise"));
                         } else {
@@ -324,8 +324,8 @@ function rules(units, courseCode) {
                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                             });
                         }
-                    } else if(new RegExp("Must have passed [0-9]+ \\(I/W\\) credit points").test(ruleString)) {
-                        ruleString = rule.ruleString.replace("Must have passed ", "");
+                    } else if(new RegExp("Must have passed [0-9]+ (\\(I/W\\) )?credit points?").test(ruleString)) {
+                        ruleString = ruleString.replace("Must have passed ", "");
                         const minCreditPoints = parseInt(ruleString);
                         if(!minCreditPoints) {
                             return;
