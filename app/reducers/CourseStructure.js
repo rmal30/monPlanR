@@ -865,7 +865,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "HIGHLIGHT_INVALID_UNIT_SLOTS":
             return {
                 ...state,
-                invalidUnitSlotCoordinates: getInvalidUnitSlotCoordinates(state.teachingPeriods, action.tempUnit, action.duplicateGraceFlag),
+                invalidUnitSlotCoordinates: getInvalidUnitSlotCoordinates(state.teachingPeriods, action.tempUnit, action.ignoreCoordinate),
                 highlightingInvalidUnitSlots: true
             };
 
