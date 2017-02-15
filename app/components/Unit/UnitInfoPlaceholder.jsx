@@ -6,15 +6,16 @@ import { Grid, Image, Loader, Rating, Divider, Dimmer, Header, Icon } from "sema
  * as a populated UnitInfo component, but replaces the data with grey bars.
  * @author JXNS
  */
-const UnitInfoPlaceholder = ({ error }) => {
+const UnitInfoPlaceholder = ({ errorString }) => {
     return (
         <Dimmer.Dimmable dimmed blurring as={Grid} celled="internally" stackable columns={2}>
             <Dimmer active inverted>
-                {!error && <Loader active size="huge" />}
-                {error &&
+                {!errorString && <Loader active size="huge" />}
+                {errorString &&
                     <Header as="h2" icon>
                         <Icon name="remove circle" />
                         Failed to fetch unit details
+                        <Header.Subheader>{errorString}</Header.Subheader>
                     </Header>
                 }
             </Dimmer>
@@ -26,8 +27,8 @@ const UnitInfoPlaceholder = ({ error }) => {
                 </Grid.Column>
 
             </Grid.Row>
-            
-            
+
+
             <Grid.Row>
                  <Grid.Column width={12}>
                     <Image src='../img/loaders/medium-paragraph.png' />
@@ -38,9 +39,9 @@ const UnitInfoPlaceholder = ({ error }) => {
                     <br />
                     <Image src='../img/loaders/smallText.png' />
                  </Grid.Column>
-                
+
                 <Grid.Column width={4}>
-                    
+
                     <Image src='../img/loaders/square.png' />
                     <Divider />
                     <Image src='../img/loaders/square.png' />
@@ -66,5 +67,5 @@ export default UnitInfoPlaceholder;
 
 //PropTypes declaration
 UnitInfoPlaceholder.propTypes = {
-    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
+    errorString: PropTypes.string
 };

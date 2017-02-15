@@ -16,7 +16,16 @@ const UnitInfoContainer = (props) => {
     const { error, isLoading } = props;
 
     if(error) {
-        return <UnitInfoPlaceholder  error={true} />;
+        let errorString;
+
+        if(error.response && 400 <= error.response.status && error.response.status < 500) {
+            errorString = "We do not have this unit in our servers. Perhaps this is a custom unit?";
+        } else if(error.response && 500 <= error.response.status && error.response.status < 600) {
+            errorString = "Our server is having problems. Please try again later.";
+        } else {
+            errorString = "Please check your connection and try again.";
+        }
+        return <UnitInfoPlaceholder  errorString={errorString} />;
     } else if (isLoading) {
         return <UnitInfoPlaceholder />;
     } else {
@@ -28,7 +37,7 @@ const UnitInfoContainer = (props) => {
  * Grabs the data from the redux store
  */
 const mapStateToProps = state => {
-    const { unitInfo, unitLoadError, unitLoading, focusedUnitCode} = state.CourseStructure;
+    const { unitInfo, unitLoadError, unitLoading, focusedUnitCode } = state.CourseStructure;
 
     return {
         cost: unitInfo.cost,
@@ -54,6 +63,6 @@ export default connect(mapStateToProps)(UnitInfoContainer);
 
 // Proptypes declaration
 UnitInfoContainer.propTypes = {
-    error: PropTypes.bool.isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     isLoading: PropTypes.bool.isRequired
 };

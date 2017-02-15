@@ -26,9 +26,10 @@ function getListOfUnits(teachingPeriods) {
  *
  * @author JXNS, Saurabh Joshi
  * @param {array} teachingPeriods - Students' course plan
+ * @param {string} courseCode - The course code of the student's course they're in
  * @return {array} - A list of errors
  */
-export function validateCoursePlan(teachingPeriods) {
+export function validateCoursePlan(teachingPeriods, courseCode) {
     // Finds duplicates
     const units = getListOfUnits(teachingPeriods).sort((a, b) => {
         a = a.unitCode;
@@ -47,7 +48,7 @@ export function validateCoursePlan(teachingPeriods) {
     return [
         ...duplicates(units),
         ...offerings(units, teachingPeriods),
-        ...rules(units)
+        ...rules(units, courseCode)
     ];
 }
 
@@ -244,7 +245,7 @@ function offerings(units, teachingPeriods) {
 /**
  * Parses rules, such as prereqs, coreqs and prohib
  */
-function rules(units) {
+function rules(units, courseCode) {
     const errors = [];
     const noPermission = new RegExp("Permission required");
     units.forEach(unit => {
@@ -255,16 +256,44 @@ function rules(units) {
                 }
 
                 if(rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") {
-                    // console.log(unit, rule.ruleString);
-                    if(noPermission.test(rule.ruleString)) {
+                    let ruleString = rule.ruleString;
+
+                    // in case the while loop goes on forever, force exit if it exceeds maxIterations
+                    let maxIterations = 100;
+
+                    while(new RegExp("For COURSE_CODE IN {.+}").test(ruleString)) {
+                        maxIterations--;
+                        if(maxIterations <= 0) {
+                            console.error("Exceeded maximum iterations. Breaking out of while loop.");
+                            break;
+                        }
+
+                        ruleString = ruleString.replace("For COURSE_CODE IN ", "");
+
+                        if(!courseCode) {
+                            // go straight to otherwise branch.
+                            ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
+                            continue;
+                        }
+
+                        const courseCodes = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}")).split(", ");
+
+                        if(courseCodes.find(otherCourseCode => courseCode === otherCourseCode)) {
+                            // evaluate do branch.
+                            ruleString = ruleString.substring(ruleString.indexOf("}") + 1).replace(" Do ", "").substring(0, ruleString.indexOf(" Otherwise"));
+                        } else {
+                            // evaluate otherwise branch.
+                            ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
+                        }
+                    }
+
+                    if(noPermission.test(ruleString)) {
                         errors.push({
                             message: `You need permission to do ${unit.unitCode}.`,
                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                         });
-                    }
-
-                    if(new RegExp("Must have passed an \\(I/W\\) unit in ").test(rule.ruleString)) {
-                        let ruleString = rule.ruleString.replace("Must have passed an (I/W) unit in ", "");
+                    } else if(new RegExp("Must have passed (an|1) \\(I/W\\) units? in ").test(rule.ruleString)) {
+                        ruleString = ruleString.replace("Must have passed an (I/W) unit in ", "");
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
 
@@ -292,6 +321,27 @@ function rules(units) {
                             }
                             errors.push({
                                 message: `You must complete ${ruleString.join(", ")} ${finalOr} before you can do ${unit.unitCode}.`,
+                                coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                            });
+                        }
+                    } else if(new RegExp("Must have passed [0-9]+ \\(I/W\\) credit points").test(ruleString)) {
+                        ruleString = rule.ruleString.replace("Must have passed ", "");
+                        const minCreditPoints = parseInt(ruleString);
+                        if(!minCreditPoints) {
+                            return;
+                        }
+
+                        let creditPoints = 0;
+
+                        units.forEach(otherUnit => {
+                            if(otherUnit.teachingPeriodIndex < unit.teachingPeriodIndex) {
+                                creditPoints += otherUnit.creditPoints || 0;
+                            }
+                        });
+
+                        if(creditPoints < minCreditPoints) {
+                            errors.push({
+                                message: `You need ${minCreditPoints - creditPoints} more credit points before doing ${unit.unitCode}.`,
                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                             });
                         }

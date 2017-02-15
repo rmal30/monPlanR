@@ -839,7 +839,11 @@ describe("REDUCER: CourseStructure", () => {
 
             const action = {
                 type: "FETCH_UNIT_INFO_REJECTED",
-                payload: "Error Msg"
+                payload: {
+                    response: {
+                        status: 404
+                    }
+                }
             };
 
             const stateAfter = {
@@ -847,7 +851,11 @@ describe("REDUCER: CourseStructure", () => {
                 numberOfUnits: 4,
                 courseTemplateLoadError: false,
                 courseInfoLoadError: false,
-                unitLoadError: true,
+                unitLoadError: {
+                    response: {
+                        status: 404
+                    }
+                },
                 unitLoading: false,
                 courseLoading: false,
                 unitInfo: null,
@@ -1784,7 +1792,8 @@ describe("REDUCER: CourseStructure", () => {
                 teachingPeriods: [],
                 courseErrors: [{
                     message: "ABC1234 already exists in your course plan."
-                }]
+                }],
+                courseInfo: {}
             };
 
             const action = {
@@ -1793,7 +1802,8 @@ describe("REDUCER: CourseStructure", () => {
 
             const stateAfter = {
                 teachingPeriods: [],
-                courseErrors: []
+                courseErrors: [],
+                courseInfo: {}
             };
 
             test(CourseStructure, stateBefore, action, stateAfter);
