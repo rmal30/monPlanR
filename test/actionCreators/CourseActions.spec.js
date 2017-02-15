@@ -371,7 +371,7 @@ describe("ACTION-CREATOR: CourseActions", () => {
             const expectedAction = {
                 type: "HIGHLIGHT_INVALID_UNIT_SLOTS",
                 tempUnit: "UnitTest",
-                duplicateGraceFlag: false
+                ignoreCoordinate: false
             };
 
             expect(actions.highlightInvalidUnitSlots("UnitTest", false)).toEqual(expectedAction);

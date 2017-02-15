@@ -10,15 +10,20 @@ import moment from "moment";
  */
 function getListOfUnits(teachingPeriods) {
     return teachingPeriods.map((ele, teachingPeriodIndex) =>
-        ele.units.map((unit, unitIndex) => {
-            if(unit) {
-                return {
-                    ...unit,
-                    teachingPeriodIndex,
-                    unitIndex
-                };
-            }
-        }).filter(unit => unit)).reduce((units, list) => units.concat(list), []);
+        ele.units
+            .map((unit, unitIndex) => {
+                if(unit && !unit.placeholder) {
+                    return {
+                        ...unit,
+                        teachingPeriodIndex,
+                        teachingPeriodCode: ele.code,
+                        teachingPeriodYear: ele.year,
+                        unitIndex
+                    };
+                }
+            })
+            .filter(unit => unit) // Remove free and  placeholder units
+        ).reduce((units, list) => units.concat(list), []);
 }
 
 /**
@@ -30,8 +35,8 @@ function getListOfUnits(teachingPeriods) {
  * @return {array} - A list of errors
  */
 export function validateCoursePlan(teachingPeriods, courseCode) {
-    // Finds duplicates
-    const units = getListOfUnits(teachingPeriods).sort((a, b) => {
+    const unitsByPosition = getListOfUnits(teachingPeriods);
+    const unitsByCode = unitsByPosition.sort((a, b) => {
         a = a.unitCode;
         b = b.unitCode;
 
@@ -46,9 +51,9 @@ export function validateCoursePlan(teachingPeriods, courseCode) {
     });
 
     return [
-        ...duplicates(units),
-        ...offerings(units, teachingPeriods),
-        ...rules(units, courseCode)
+        ...duplicates(unitsByCode),
+        ...offerings(unitsByPosition, teachingPeriods),
+        ...rules(unitsByPosition, courseCode)
     ];
 }
 
@@ -59,26 +64,29 @@ export function validateCoursePlan(teachingPeriods, courseCode) {
  * e.g. [null, 4] highlights all units in fourth Column
  * e.g. [null, null] highlights all units in course plan.
  */
-export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, duplicateGraceFlag) {
+export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreCoordinate) {
     let duplicateFound = false;
+    const nextYear = new Date().getFullYear() + 1;
+    const coordinates = [];
 
-    for(let i = 0; i < teachingPeriods.length; i++) {
-        for(let j = 0; j < teachingPeriods[i].units.length; j++) {
-            if(!duplicateFound) {
-                if(teachingPeriods[i].units[j] && teachingPeriods[i].units[j].unitCode === tempUnit.unitCode && !teachingPeriods[i].units[j].placeholder) {
-                    if(duplicateGraceFlag) {
-                        duplicateGraceFlag = false;
-                    } else {
-                        // Found duplicate, invalidate all coordinates
-                        duplicateFound = true;
-                    }
-                }
-            }
+    const unitsByCode = getListOfUnits(teachingPeriods);
+
+    unitsByCode.forEach(unit => {
+        if(unit.unitCode === tempUnit.unitCode && (!ignoreCoordinate || !(ignoreCoordinate[0] === unit.teachingPeriodIndex && ignoreCoordinate[1] === unit.unitIndex))) {
+            // Found duplicate
+            duplicateFound = true;
+
+            coordinates.push([unit.teachingPeriodIndex, null]);
+
         }
-    }
+    });
 
     if(duplicateFound) {
-        return [[null, null]];
+        for(let i = 0; i < teachingPeriods.length; i++) {
+            if(teachingPeriods[i].year > nextYear) {
+                coordinates.push([i, null]);
+            }
+        }
     }
 
     // Check if unit in the teaching period is being offered
@@ -95,14 +103,12 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, duplica
     let offerings = tempUnit.locationAndTime;
 
     if(!offerings) {
-        return [];
+        return coordinates;
     }
 
     if(typeof offerings === "string") {
         offerings = JSON.parse(offerings);
     }
-
-    const coordinates = [];
 
     for(let i = 0; i < teachingPeriods.length; i++) {
 
@@ -146,39 +152,64 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, duplica
 
 /**
  * Checks to see if there are any duplicate units in the course plan.
+ *
+ * @param {array} unitsByCode - Units sorted by code, so that it can check for
+ * duplicates correctly.
  */
-function duplicates(units) {
-    const duplicateUnits = [];
+function duplicates(unitsByCode) {
+    const duplicateUnitsFutureTeachingPeriods = [];
+    const duplicateUnitsSameTeachingPeriods = [];
+    const nextYear = new Date().getFullYear() + 1;
 
-    units.reduce((prevUnit, currentUnit) => {
-        if(prevUnit && prevUnit.unitCode === currentUnit.unitCode && !prevUnit.placeholder) {
-            const index = duplicateUnits.findIndex(unit => unit.unitCode === currentUnit.unitCode);
+    unitsByCode.reduce((prevUnit, currentUnit) => {
+        if(prevUnit && prevUnit.unitCode === currentUnit.unitCode) {
+            const earlierUnit = prevUnit.teachingPeriodIndex < currentUnit.teachingPeriodIndex ? prevUnit : currentUnit;
+            const laterUnit = prevUnit.teachingPeriodIndex > currentUnit.teachingPeriodIndex ? prevUnit : currentUnit;
+
+            if(earlierUnit.teachingPeriodYear > nextYear || laterUnit.teachingPeriodYear > nextYear) {
+                const index = duplicateUnitsFutureTeachingPeriods.findIndex(unit => unit.unitCode === laterUnit.unitCode);
+
+                if(index === -1) {
+                    duplicateUnitsFutureTeachingPeriods.push({
+                        unitCode: currentUnit.unitCode,
+                        message: `${currentUnit.unitCode} already exists in your course plan. Please plan as if you will pass all units.`,
+                        coordinates: [[laterUnit.teachingPeriodIndex, laterUnit.unitIndex]]
+                    });
+                } else {
+                    if(earlierUnit.teachingPeriodYear > nextYear) {
+                        duplicateUnitsFutureTeachingPeriods[index].coordinates.push([earlierUnit.teachingPeriodIndex, earlierUnit.unitIndex]);
+                    }
+                    if(laterUnit.teachingPeriodYear > nextYear) {
+                        duplicateUnitsFutureTeachingPeriods[index].coordinates.push([laterUnit.teachingPeriodIndex, laterUnit.unitIndex]);
+                    }
+                }
+            }
+        }
+
+        if(prevUnit && prevUnit.teachingPeriodIndex === currentUnit.teachingPeriodIndex) {
+            const index = duplicateUnitsSameTeachingPeriods.findIndex(unit => unit.unitCode === currentUnit.unitCode);
 
             if(index === -1) {
-                duplicateUnits.push({
+                duplicateUnitsSameTeachingPeriods.push({
                     unitCode: currentUnit.unitCode,
-                    coordinates: [[prevUnit.teachingPeriodIndex, prevUnit.unitIndex], [currentUnit.teachingPeriodIndex, currentUnit.unitIndex]]
+                    message: `${currentUnit.unitCode} already exists in the same teaching period. Please remove this unit.`,
+                    coordinates: [[currentUnit.teachingPeriodIndex, currentUnit.unitIndex]]
                 });
             } else {
-                duplicateUnits[index].coordinates.push([currentUnit.teachingPeriodIndex, currentUnit.unitIndex]);
+                duplicateUnitsSameTeachingPeriods[index].coordinates.push([currentUnit.teachingPeriodIndex, currentUnit.unitIndex]);
             }
         }
 
         return currentUnit;
     }, null);
 
-    return duplicateUnits.map(duplicateUnit => {
-        return {
-            message: `${duplicateUnit.unitCode} already exists in your course plan.`,
-            coordinates: duplicateUnit.coordinates
-        };
-    });
+    return [...duplicateUnitsFutureTeachingPeriods, ...duplicateUnitsSameTeachingPeriods];
 }
 
 /**
  * Checks to see if unit in a teaching period is being offered
  */
-function offerings(units, teachingPeriods) {
+function offerings(unitsByPosition, teachingPeriods) {
     let codeMap = {
         "FY-01": "Full year",
         "S1-01": "First semester",
@@ -190,8 +221,8 @@ function offerings(units, teachingPeriods) {
 
     const errors = [];
 
-    for(let i = 0; i < units.length; i++) {
-        let offerings = units[i].locationAndTime;
+    for(let i = 0; i < unitsByPosition.length; i++) {
+        let offerings = unitsByPosition[i].locationAndTime;
 
         if(!offerings) {
             continue;
@@ -201,7 +232,7 @@ function offerings(units, teachingPeriods) {
             offerings = JSON.parse(offerings);
         }
 
-        const teachingPeriodStr = codeMap[teachingPeriods[units[i].teachingPeriodIndex].code];
+        const teachingPeriodStr = codeMap[teachingPeriods[unitsByPosition[i].teachingPeriodIndex].code];
 
         if (teachingPeriodStr !== undefined) {
             // semester we're checking against is covered by mapping'
@@ -232,8 +263,8 @@ function offerings(units, teachingPeriods) {
 
             if (!isValid) {
                 errors.push({
-                    message: `${units[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
-                    coordinates: [[units[i].teachingPeriodIndex, units[i].unitIndex]]
+                    message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
+                    coordinates: [[unitsByPosition[i].teachingPeriodIndex, unitsByPosition[i].unitIndex]]
                 });
             }
         }
@@ -245,10 +276,10 @@ function offerings(units, teachingPeriods) {
 /**
  * Parses rules, such as prereqs, coreqs and prohib
  */
-function rules(units, courseCode) {
+function rules(unitsByPosition, courseCode) {
     const errors = [];
     const noPermission = new RegExp("Permission required");
-    units.forEach(unit => {
+    unitsByPosition.forEach(unit => {
         if(unit.rules && unit.rules.length > 0) {
             unit.rules.forEach(rule => {
                 if(rule.endDate && !moment(rule.endDate, "DD/MM/YYYY").isAfter(new Date())) {
@@ -305,7 +336,7 @@ function rules(units, courseCode) {
                         let found = false;
 
                         ruleString.forEach(unitCode => {
-                            const unitPreq = units.find(otherUnit => otherUnit.unitCode === unitCode);
+                            const unitPreq = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
 
                             if(unitPreq) {
                                 if(!found && unitPreq.teachingPeriodIndex >= unit.teachingPeriodIndex) {
@@ -338,7 +369,7 @@ function rules(units, courseCode) {
 
                         let creditPoints = 0;
 
-                        units.forEach(otherUnit => {
+                        unitsByPosition.forEach(otherUnit => {
                             if(otherUnit.teachingPeriodIndex < unit.teachingPeriodIndex) {
                                 creditPoints += otherUnit.creditPoints || 0;
                             }
@@ -365,7 +396,7 @@ function rules(units, courseCode) {
                         let found = false;
 
                         ruleString.forEach(unitCode => {
-                            const unitCoreq = units.find(otherUnit => otherUnit.unitCode === unitCode);
+                            const unitCoreq = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
 
                             if(unitCoreq) {
                                 if(!found && unitCoreq.teachingPeriodIndex > unit.teachingPeriodIndex) {
@@ -403,7 +434,7 @@ function rules(units, courseCode) {
                         ruleString = ruleString.split(", ");
 
                         ruleString.forEach(unitCode => {
-                            const unitProhib = units.find(otherUnit => otherUnit.unitCode === unitCode);
+                            const unitProhib = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
 
                             if(unitProhib && unitProhib.teachingPeriodIndex <= unit.teachingPeriodIndex) {
                                 errors.push({

@@ -392,7 +392,7 @@ export const movingUnit = (unit, unitIndex, tpIndex) => {
             tpIndex
         });
 
-        dispatch(highlightInvalidUnitSlots(unit, true));
+        dispatch(highlightInvalidUnitSlots(unit, [tpIndex, unitIndex]));
     };
 };
 
@@ -467,11 +467,11 @@ export const validateCourse = () => {
 /**
  * Highlights invalid unit slots where the unit being dragged cannot go.
  */
-export const highlightInvalidUnitSlots = (tempUnit, duplicateGraceFlag) => {
+export const highlightInvalidUnitSlots = (tempUnit, ignoreCoordinate) => {
     return {
         type: "HIGHLIGHT_INVALID_UNIT_SLOTS",
         tempUnit,
-        duplicateGraceFlag
+        ignoreCoordinate
     };
 };
 
