@@ -114,7 +114,7 @@ export function UnitMessage(props) {
                                     props.willAddUnit(props.code,
                                         props.custom && {
                                             UnitCode: props.code,
-                                            customUnitDragging: true
+                                            customUnitDragging: false
                                         }
                                 )}
                                 onMouseOver={e => props.handleUnitMouseOver && props.handleUnitMouseOver(e)}

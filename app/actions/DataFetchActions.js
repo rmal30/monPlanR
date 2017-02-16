@@ -167,12 +167,28 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                     });
 
                     if(err.response) {
-                        dispatch(NotificationActions.addNotification({
-                            id: "UNIT_INFO_ERROR",
-                            title: "Server error",
-                            message: `Unable to fetch details about ${unitCode}. Please try again later.`,
-                            level: "error"
-                        }));
+                        if(400 <= err.response.status && err.response.status < 500) {
+                            dispatch(NotificationActions.addNotification({
+                                id: "UNIT_INFO_ERROR",
+                                title: "Server error",
+                                message: `Unable to fetch details about ${unitCode} as it does not exist in our database. Please try again later.`,
+                                level: "error"
+                            }));
+                        } else if(500 <= err.response.status && err.response.status < 600) {
+                            dispatch(NotificationActions.addNotification({
+                                id: "UNIT_INFO_ERROR",
+                                title: "Server error",
+                                message: `Unable to fetch details about ${unitCode} due to a server error. Please try again later.`,
+                                level: "error"
+                            }));
+                        } else {
+                            dispatch(NotificationActions.addNotification({
+                                id: "UNIT_INFO_ERROR",
+                                title: "Server error",
+                                message: `Unable to fetch details about ${unitCode}. Please try again later.`,
+                                level: "error"
+                            }));
+                        }
                     } else {
                         dispatch(NotificationActions.addNotification({
                             id: "UNIT_INFO_ERROR",
@@ -189,7 +205,13 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
             });
 
             dispatch(CourseActions.highlightInvalidUnitSlots(customUnitToAdd, false));
-        } else if(customUnitToAdd && !isDragging) {
+        } else if(customUnitToAdd.readyToAddUnit) {
+            dispatch({
+                type: "UPDATE_UNIT_TO_ADD",
+                customUnitToAdd
+            });
+        }
+        else {
             dispatch({
                 type: "SHOW_CUSTOM_UNIT_MODAL",
                 unitCode

@@ -7,6 +7,7 @@ import UnitMessage from "../Unit/UnitMessage.jsx";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as UIActions from "../../actions/UIActions";
 import * as CourseActions from "../../actions/CourseActions";
+import CostCalc from "../../utils/CostCalc";
 
 /**
  * The custom unit modal that allows students to enter in units manually if our web
@@ -78,7 +79,7 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onunitCodeChange(e) {
+    onUnitCodeChange(e) {
         this.setState({
             unitCode: e.target.value.toUpperCase() || this.props.unitCode
         });
@@ -89,7 +90,7 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onunitNameChange(e) {
+    onUnitNameChange(e) {
         this.setState({
             unitName: e.target.value
         });
@@ -100,7 +101,7 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    oncreditPointsChange(e) {
+    onCreditPointsChange(e) {
         this.setState({
             creditPoints: parseInt(e.target.value) || 6
         });
@@ -111,7 +112,7 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onscaBandChange(e, { value }) {
+    onScaBandChange(e, { value }) {
         this.setState({
             scaBand: parseInt(value) || 0
         });
@@ -122,7 +123,7 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onfacultyChange(e, { value }) {
+    onFacultyChange(e, { value }) {
         this.setState({
             faculty: "faculty of " + value
         });
@@ -167,21 +168,20 @@ class CustomUnitModal extends Component {
                                             onBlur={this.handleBlur}
                                             ref={startingInput => this.startingInput = startingInput}
                                             tabIndex={1}
-                                            onChange={this.onunitCodeChange.bind(this)}
+                                            onChange={this.onUnitCodeChange.bind(this)}
                                             placeholder={this.props.unitCode && this.props.unitCode.toUpperCase()} />
                                     </div>
                                 </div>
-                                <Form.Input tabIndex={2} onChange={this.onunitNameChange.bind(this)} label="Unit name:" />
-                                <Form.Input tabIndex={3} onChange={this.oncreditPointsChange.bind(this)} label="Credit points:" placeholder={this.defaultCreditPoints} />
+                                <Form.Input tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name:" />
+                                <Form.Input tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points:" placeholder={this.defaultCreditPoints} />
                             </Form.Group>
-                            <Form.Field tabIndex={4} selectOnBlur onChange={this.onscaBandChange.bind(this)} label="SCA Band:" control={Select} search options={this.scaBandOptions} />
-                            <Form.Field tabIndex={5} onChange={this.onfacultyChange.bind(this)} label="Faculty:" control={Select} search options={this.facultyOptions} />
+                            <Form.Field tabIndex={4} selectOnBlur onChange={this.onScaBandChange.bind(this)} label="SCA Band:" control={Select} search options={this.scaBandOptions} />
+                            <Form.Field tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty:" control={Select} search options={this.facultyOptions} />
                             <Container className="field preview">
                                 <label>Preview:</label>
                                 <UnitMessage
                                     width={200}
-                                    showDetailButton
-                                    basic
+                                    newUnit
                                     viewOnly
                                     code={unitCode}
                                     name={unitName}
@@ -206,7 +206,7 @@ class CustomUnitModal extends Component {
                             if(typeof this.props.customTpIndex === "number" && typeof this.props.customUnitIndex === "number") {
                                 this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, this.state);
                             } else {
-                                this.props.willAddUnit(unitCode, this.state);
+                                this.props.willAddUnit(unitCode, {...this.state, readyToAddUnit: true, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});
                             }
 
                             this.props.hideCustomUnitUI();
