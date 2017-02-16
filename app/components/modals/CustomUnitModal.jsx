@@ -52,7 +52,7 @@ class CustomUnitModal extends Component {
             custom: true,
             unitCodeOK: false,
             unitNameOK: false,
-            crediPointsOK: false,
+            crediPointsOK: true,
             scaBandOK: false,
             facultyOK: false
         };
@@ -65,7 +65,12 @@ class CustomUnitModal extends Component {
     componentWillReceiveProps(nextProps) {
         if(!this.props.open && nextProps.open) {
             this.setState({
-                unitCode: nextProps.unitCode && nextProps.unitCode.toUpperCase()
+                unitCode: nextProps.unitCode && nextProps.unitCode.toUpperCase(),
+                unitCodeOK: false,
+                unitNameOK: false,
+                crediPointsOK: true,
+                scaBandOK: false,
+                facultyOK: false
             });
         }
     }
@@ -126,14 +131,8 @@ class CustomUnitModal extends Component {
      */
     onCreditPointsChange(e) {
         this.setState({
-            creditPoints: parseInt(e.target.value) || 6,
-            crediPointsOK: true
+            creditPoints: parseInt(e.target.value) || 6
         });
-        if(e.target.value >= 0){
-            this.setState({
-                crediPointsOK: true
-            });
-        }
     }
 
     /**
