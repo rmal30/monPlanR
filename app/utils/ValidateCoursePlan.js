@@ -171,7 +171,6 @@ function duplicates(unitsByCode) {
 
                 if(index === -1) {
                     duplicateUnitsFutureTeachingPeriods.push({
-                        unitCode: currentUnit.unitCode,
                         message: `${currentUnit.unitCode} already exists in your course plan. Please plan as if you will pass all units.`,
                         coordinates: [[laterUnit.teachingPeriodIndex, laterUnit.unitIndex]]
                     });
@@ -184,19 +183,18 @@ function duplicates(unitsByCode) {
                     }
                 }
             }
-        }
 
-        if(prevUnit && prevUnit.teachingPeriodIndex === currentUnit.teachingPeriodIndex) {
-            const index = duplicateUnitsSameTeachingPeriods.findIndex(unit => unit.unitCode === currentUnit.unitCode);
+            if(prevUnit.teachingPeriodIndex === currentUnit.teachingPeriodIndex) {
+                const index = duplicateUnitsSameTeachingPeriods.findIndex(unit => unit.unitCode === currentUnit.unitCode);
 
-            if(index === -1) {
-                duplicateUnitsSameTeachingPeriods.push({
-                    unitCode: currentUnit.unitCode,
-                    message: `${currentUnit.unitCode} already exists in the same teaching period. Please remove this unit.`,
-                    coordinates: [[currentUnit.teachingPeriodIndex, currentUnit.unitIndex]]
-                });
-            } else {
-                duplicateUnitsSameTeachingPeriods[index].coordinates.push([currentUnit.teachingPeriodIndex, currentUnit.unitIndex]);
+                if(index === -1) {
+                    duplicateUnitsSameTeachingPeriods.push({
+                        message: `${currentUnit.unitCode} already exists in the same teaching period. Please remove this unit.`,
+                        coordinates: [[currentUnit.teachingPeriodIndex, currentUnit.unitIndex]]
+                    });
+                } else {
+                    duplicateUnitsSameTeachingPeriods[index].coordinates.push([currentUnit.teachingPeriodIndex, currentUnit.unitIndex]);
+                }
             }
         }
 
@@ -263,7 +261,7 @@ function offerings(unitsByPosition, teachingPeriods) {
 
             if (!isValid) {
                 errors.push({
-                    message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
+                    message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}.`,
                     coordinates: [[unitsByPosition[i].teachingPeriodIndex, unitsByPosition[i].unitIndex]]
                 });
             }
@@ -282,13 +280,14 @@ function rules(unitsByPosition, courseCode) {
     unitsByPosition.forEach(unit => {
         if(unit.rules && unit.rules.length > 0) {
             unit.rules.forEach(rule => {
+                // Some rules are expired, and thus should not be considered when validating units
                 if(rule.endDate && !moment(rule.endDate, "DD/MM/YYYY").isAfter(new Date())) {
                     return;
                 }
 
                 let ruleString = rule.ruleString;
 
-                if(new RegExp("(AND|or)").test(ruleString)) {
+                if(new RegExp(" (AND|or) ").test(ruleString)) {
                     // Ignore logical expressions for now
                     return;
                 }
@@ -353,10 +352,10 @@ function rules(unitsByPosition, courseCode) {
                         if(!found) {
                             let finalOr = "";
                             if(ruleString.length > 1) {
-                                finalOr = "or " + ruleString.pop();
+                                finalOr = " or " + ruleString.pop();
                             }
                             errors.push({
-                                message: `You must complete ${ruleString.join(", ")} ${finalOr} before you can do ${unit.unitCode}.`,
+                                message: `You must complete ${ruleString.join(", ")}${finalOr} before you can do ${unit.unitCode}.`,
                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                             });
                         }
