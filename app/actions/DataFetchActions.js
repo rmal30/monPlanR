@@ -268,9 +268,51 @@ export const fetchUnits = () => {
  * FETCH_COURSES
  */
 export const fetchCourses = () => {
-    return {
-        type: "FETCH_COURSES",
-        payload: axios.get(`${MONPLAN_REMOTE_URL}/basic/courses`)
+    return (dispatch) => {
+        dispatch({
+            type: "FETCH_COURSES_PENDING"
+        });
+
+        axios.get(`${MONPLAN_REMOTE_URL2}/basic/courses`)
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_COURSES_FULFILLED",
+                    payload: resp.data
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_COURSES_REJECTED",
+                    payload: err
+                });
+            });
+    };
+};
+
+export const fetchAreaOfStudy = (courseCode) => {
+    return (dispatch) => {
+        dispatch({
+            type: "FETCH_AOS_PENDING"
+        });
+
+        axios.get(`${MONPLAN_REMOTE_URL2}/basic/courses/${courseCode}`)
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_AOS_FULFILLED",
+                    payload: resp.data.map(item => {
+                        return {
+                            text: item.propertyMap.aosName,
+                            value: item.propertyMap.aosCode
+                        };
+                    }) //this excludes the key information that we do not care about
+                });
+            })
+            .catch(err => {
+                dispatch({
+                    type: "FETCH_AOS_REJECTED",
+                    payload: err
+                });
+            });
     };
 };
 
