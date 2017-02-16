@@ -7,6 +7,7 @@ import LocalStorage from "../../utils/LocalStorage.js";
 
 import CourseViewActions from "./CourseViewActions.jsx";
 import CourseEditActions from "./CourseEditActions.jsx";
+import CoursePrintStatus from "./CoursePrintStatus.jsx";
 
 import TeachingPeriod from "../TeachingPeriod/TeachingPeriod.jsx";
 import NoTeachingPeriodContainer from "../../containers/TeachingPeriod/NoTeachingPeriodContainer.jsx";
@@ -293,6 +294,10 @@ class CourseStructure extends Component {
                 {!this.props.viewOnly &&
                     <CourseEditActions />
                 }
+                <CoursePrintStatus
+                    courseErrors={this.props.courseErrors}
+                    faculty={this.props.courseInfo.faculty}
+                    />
             </Container>
         );
     }
