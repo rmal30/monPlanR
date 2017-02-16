@@ -49,7 +49,12 @@ class CustomUnitModal extends Component {
             faculty: "",
             scaBand: 0,
             creditPoints: this.defaultCreditPoints,
-            custom: true
+            custom: true,
+            unitCodeOK: false,
+            unitNameOK: false,
+            crediPointsOK: false,
+            scaBandOK: false,
+            facultyOK: false
         };
     }
 
@@ -83,6 +88,15 @@ class CustomUnitModal extends Component {
         this.setState({
             unitCode: e.target.value.toUpperCase() || this.props.unitCode
         });
+        if(e.target.value.length >= 5){
+            this.setState({
+                unitCodeOK: true
+            });
+        } else {
+            this.setState({
+                unitCodeOK: false
+            });
+        }
     }
 
     /**
@@ -94,6 +108,15 @@ class CustomUnitModal extends Component {
         this.setState({
             unitName: e.target.value
         });
+        if(e.target.value.length >= 1){
+            this.setState({
+                unitNameOK: true
+            });
+        } else {
+            this.setState({
+                unitNameOK: false
+            });
+        }
     }
 
     /**
@@ -103,8 +126,14 @@ class CustomUnitModal extends Component {
      */
     onCreditPointsChange(e) {
         this.setState({
-            creditPoints: parseInt(e.target.value) || 6
+            creditPoints: parseInt(e.target.value) || 6,
+            crediPointsOK: true
         });
+        if(e.target.value >= 0){
+            this.setState({
+                crediPointsOK: true
+            });
+        }
     }
 
     /**
@@ -114,7 +143,8 @@ class CustomUnitModal extends Component {
      */
     onScaBandChange(e, { value }) {
         this.setState({
-            scaBand: parseInt(value) || 0
+            scaBand: parseInt(value) || 0,
+            scaBandOK: true
         });
     }
 
@@ -125,7 +155,8 @@ class CustomUnitModal extends Component {
      */
     onFacultyChange(e, { value }) {
         this.setState({
-            faculty: "faculty of " + value
+            faculty: "faculty of " + value,
+            facultyOK: true
         });
     }
 
@@ -163,20 +194,40 @@ class CustomUnitModal extends Component {
                             <Form.Group widths="equal">
                                 <div className="field">
                                     <label>Unit code:</label>
-                                    <div className="ui input">
+                                    <div className="ui icon input">
                                         <input
                                             onBlur={this.handleBlur}
                                             ref={startingInput => this.startingInput = startingInput}
                                             tabIndex={1}
                                             onChange={this.onUnitCodeChange.bind(this)}
-                                            placeholder={this.props.unitCode && this.props.unitCode.toUpperCase()} />
+                                            placeholder={this.props.unitCode && this.props.unitCode.toUpperCase()}
+                                            />
+                                        <Icon name={this.state.unitCodeOK && "checkmark"} color="green" />
                                     </div>
                                 </div>
-                                <Form.Input tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name:" />
-                                <Form.Input tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points:" placeholder={this.defaultCreditPoints} />
+                                <Form.Input tabIndex={2}
+                                            onChange={this.onUnitNameChange.bind(this)}
+                                            icon={this.state.unitNameOK && "green check"}
+                                            label="Unit name:" />
+                                <Form.Input tabIndex={3}
+                                    onChange={this.onCreditPointsChange.bind(this)}
+                                    label="Credit points:"
+                                    icon={this.state.crediPointsOK && "green check"}
+                                    placeholder={this.defaultCreditPoints} />
                             </Form.Group>
-                            <Form.Field tabIndex={4} selectOnBlur onChange={this.onScaBandChange.bind(this)} label="SCA Band:" control={Select} search options={this.scaBandOptions} />
-                            <Form.Field tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty:" control={Select} search options={this.facultyOptions} />
+                            <Form.Field tabIndex={4}
+                                selectOnBlur
+                                onChange={this.onScaBandChange.bind(this)}
+                                label="SCA Band:"
+                                icon={this.state.scaBandOK && "green check"}
+                                control={Select}
+                                search options={this.scaBandOptions} />
+                            <Form.Field tabIndex={5}
+                                onChange={this.onFacultyChange.bind(this)}
+                                label="Faculty:"
+                                control={Select}
+                                icon={this.state.facultyOK && "green check"}
+                                search options={this.facultyOptions} />
                             <Container className="field preview">
                                 <label>Preview:</label>
                                 <UnitMessage
