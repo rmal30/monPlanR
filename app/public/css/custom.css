@@ -104,6 +104,10 @@ html, body {
         flex-wrap: nowrap;
     }
 
+    .print-only {
+        display: none !important;
+    }
+
     #main-body {
         overflow-y: auto;
         height: 100%;

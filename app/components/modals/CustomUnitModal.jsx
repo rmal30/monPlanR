@@ -7,6 +7,7 @@ import UnitMessage from "../Unit/UnitMessage.jsx";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import * as UIActions from "../../actions/UIActions";
 import * as CourseActions from "../../actions/CourseActions";
+import CostCalc from "../../utils/CostCalc";
 
 /**
  * The custom unit modal that allows students to enter in units manually if our web
@@ -43,11 +44,11 @@ class CustomUnitModal extends Component {
         ];
 
         this.state = {
-            UnitCode: this.props.UnitCode && this.props.UnitCode.toUpperCase(),
-            UnitName: "",
-            Faculty: "",
-            SCABand: 0,
-            CreditPoints: this.defaultCreditPoints,
+            unitCode: this.props.unitCode && this.props.unitCode.toUpperCase(),
+            unitName: "",
+            faculty: "",
+            scaBand: 0,
+            creditPoints: this.defaultCreditPoints,
             custom: true
         };
     }
@@ -59,7 +60,7 @@ class CustomUnitModal extends Component {
     componentWillReceiveProps(nextProps) {
         if(!this.props.open && nextProps.open) {
             this.setState({
-                UnitCode: nextProps.UnitCode && nextProps.UnitCode.toUpperCase()
+                unitCode: nextProps.unitCode && nextProps.unitCode.toUpperCase()
             });
         }
     }
@@ -80,7 +81,7 @@ class CustomUnitModal extends Component {
      */
     onUnitCodeChange(e) {
         this.setState({
-            UnitCode: e.target.value.toUpperCase() || this.props.UnitCode
+            unitCode: e.target.value.toUpperCase() || this.props.unitCode
         });
     }
 
@@ -91,7 +92,7 @@ class CustomUnitModal extends Component {
      */
     onUnitNameChange(e) {
         this.setState({
-            UnitName: e.target.value
+            unitName: e.target.value
         });
     }
 
@@ -102,7 +103,7 @@ class CustomUnitModal extends Component {
      */
     onCreditPointsChange(e) {
         this.setState({
-            CreditPoints: parseInt(e.target.value) || 6
+            creditPoints: parseInt(e.target.value) || 6
         });
     }
 
@@ -111,20 +112,20 @@ class CustomUnitModal extends Component {
      *
      * @author Saurabh Joshi
      */
-    onSCABandChange(e, { value }) {
+    onScaBandChange(e, { value }) {
         this.setState({
-            SCABand: parseInt(value) || 0
+            scaBand: parseInt(value) || 0
         });
     }
 
     /**
-     * Set value of Faculty field to state
+     * Set value of faculty field to state
      *
      * @author Saurabh Joshi
      */
     onFacultyChange(e, { value }) {
         this.setState({
-            Faculty: "Faculty of " + value
+            faculty: "faculty of " + value
         });
     }
 
@@ -134,17 +135,8 @@ class CustomUnitModal extends Component {
      * @return {bool} valid
      */
     formIsValid() {
-        const { UnitCode, UnitName, CreditPoints, SCABand, Faculty } = this.state;
-        return UnitCode && UnitName && !isNaN(CreditPoints) && !isNaN(SCABand) && SCABand && Faculty;
-    }
-
-    /**
-     * Handles
-     */
-    handleBlur(e, { value }) {
-        if(typeof e.target.value === "string" && e.target.value.trim() === "" || value && value.trim() === "") {
-            alert("Please fill");
-        }
+        const { unitCode, unitName, creditPoints, scaBand, faculty } = this.state;
+        return unitCode && unitName && !isNaN(creditPoints) && !isNaN(scaBand) && scaBand && faculty;
     }
 
     /**
@@ -152,7 +144,7 @@ class CustomUnitModal extends Component {
      * @returns {ReactElement} ControlledModal
      */
     render() {
-        const { UnitCode, UnitName, Faculty } = this.state;
+        const { unitCode, unitName, faculty } = this.state;
 
         return (
             <Modal
@@ -165,36 +157,35 @@ class CustomUnitModal extends Component {
                 <Modal.Content>
                     <Modal.Description>
                         <p>
-                            Please fill in the following details before adding {UnitCode}.
+                            Please fill in the following details before adding {unitCode}.
                         </p>
                         <Form>
                             <Form.Group widths="equal">
                                 <div className="field">
-                                    <label>Unit code</label>
+                                    <label>Unit code:</label>
                                     <div className="ui input">
                                         <input
                                             onBlur={this.handleBlur}
                                             ref={startingInput => this.startingInput = startingInput}
                                             tabIndex={1}
                                             onChange={this.onUnitCodeChange.bind(this)}
-                                            placeholder={this.props.UnitCode && this.props.UnitCode.toUpperCase()} />
+                                            placeholder={this.props.unitCode && this.props.unitCode.toUpperCase()} />
                                     </div>
                                 </div>
-                                <Form.Input onBlur={this.handleBlur} tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name" />
-                                <Form.Input onBlur={this.handleBlur} tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points" placeholder={this.defaultCreditPoints} />
+                                <Form.Input tabIndex={2} onChange={this.onUnitNameChange.bind(this)} label="Unit name:" />
+                                <Form.Input tabIndex={3} onChange={this.onCreditPointsChange.bind(this)} label="Credit points:" placeholder={this.defaultCreditPoints} />
                             </Form.Group>
-                            <Form.Field onBlur={this.handleBlur} tabIndex={4} selectOnBlur onChange={this.onSCABandChange.bind(this)} label="SCA Band" control={Select} search options={this.scaBandOptions} />
-                            <Form.Field onBlur={this.handleBlur} tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty" control={Select} search options={this.facultyOptions} />
+                            <Form.Field tabIndex={4} selectOnBlur onChange={this.onScaBandChange.bind(this)} label="SCA Band:" control={Select} search options={this.scaBandOptions} />
+                            <Form.Field tabIndex={5} onChange={this.onFacultyChange.bind(this)} label="Faculty:" control={Select} search options={this.facultyOptions} />
                             <Container className="field preview">
                                 <label>Preview:</label>
                                 <UnitMessage
                                     width={200}
-                                    showDetailButton
-                                    basic
+                                    newUnit
                                     viewOnly
-                                    code={UnitCode}
-                                    name={UnitName}
-                                    faculty={Faculty}
+                                    code={unitCode}
+                                    name={unitName}
+                                    faculty={faculty}
                                     />
                             </Container>
                         </Form>
@@ -215,13 +206,13 @@ class CustomUnitModal extends Component {
                             if(typeof this.props.customTpIndex === "number" && typeof this.props.customUnitIndex === "number") {
                                 this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, this.state);
                             } else {
-                                this.props.willAddUnit(UnitCode, this.state);
+                                this.props.willAddUnit(unitCode, {...this.state, readyToAddUnit: true, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});
                             }
 
                             this.props.hideCustomUnitUI();
                         }}
                         floated="right">
-                            Add {UnitCode}
+                            Add {unitCode}
                     </Button>
                 </Modal.Actions>
             </Modal>
@@ -230,7 +221,7 @@ class CustomUnitModal extends Component {
 }
 
 CustomUnitModal.propTypes = {
-    UnitCode: PropTypes.string,
+    unitCode: PropTypes.string,
     position: PropTypes.array,
     open: PropTypes.bool,
     hideCustomUnitUI: PropTypes.func,
@@ -248,7 +239,7 @@ CustomUnitModal.propTypes = {
 const mapStateToProps = state => {
     return {
         open: state.UI.showingCustomUnitModal,
-        UnitCode: state.UI.customUnitCode,
+        unitCode: state.UI.customUnitCode,
         customTpIndex: state.UI.customTpIndex,
         customUnitIndex: state.UI.customUnitIndex
     };

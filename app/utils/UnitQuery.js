@@ -15,10 +15,10 @@ export default class UnitQuery {
 
     /**
      * Retrieves information about a single unit remotely.
-     * @param {string} UnitCode - The unit code to retrieve more information about.
+     * @param {string} unitCode - The unit code to retrieve more information about.
      */
-    static getExtendedUnitData(UnitCode) {
-        let qURL = `${MONPLAN_REMOTE_URL}/units/${UnitCode}`;
+    static getExtendedUnitData(unitCode) {
+        let qURL = `${MONPLAN_REMOTE_URL}/units/${unitCode}`;
         return axios.get(qURL);
     }
 

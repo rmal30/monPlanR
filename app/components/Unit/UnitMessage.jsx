@@ -14,7 +14,7 @@ const unitSource = {
             props.willAddUnit(
                 props.code,
                 props.custom && {
-                    UnitCode: props.code,
+                    unitCode: props.code,
                     customUnitDragging: true
                 },
                 true);
@@ -114,7 +114,7 @@ export function UnitMessage(props) {
                                     props.willAddUnit(props.code,
                                         props.custom && {
                                             UnitCode: props.code,
-                                            customUnitDragging: true
+                                            customUnitDragging: false
                                         }
                                 )}
                                 onMouseOver={e => props.handleUnitMouseOver && props.handleUnitMouseOver(e)}
@@ -144,7 +144,8 @@ export function UnitMessage(props) {
                                                 <Icon inverted color="red" name="warning sign" size="big" />
                                         }
                                         positioning="bottom left"
-                                        size="mini"
+                                        size="tiny"
+                                        hoverable
                                         >
                                     <Popup.Header>The following problems were discovered</Popup.Header>
                                     <Popup.Content>
