@@ -859,7 +859,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "VALIDATE_COURSE":
             return {
                 ...state,
-                courseErrors: validateCoursePlan(state.teachingPeriods, state.courseInfo.courseCode)
+                courseErrors: validateCoursePlan(state.teachingPeriods, state.courseInfo && state.courseInfo.courseCode)
             };
 
         case "HIGHLIGHT_INVALID_UNIT_SLOTS":

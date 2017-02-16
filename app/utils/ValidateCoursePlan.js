@@ -171,7 +171,6 @@ function duplicates(unitsByCode) {
 
                 if(index === -1) {
                     duplicateUnitsFutureTeachingPeriods.push({
-                        unitCode: currentUnit.unitCode,
                         message: `${currentUnit.unitCode} already exists in your course plan. Please plan as if you will pass all units.`,
                         coordinates: [[laterUnit.teachingPeriodIndex, laterUnit.unitIndex]]
                     });
@@ -184,19 +183,18 @@ function duplicates(unitsByCode) {
                     }
                 }
             }
-        }
 
-        if(prevUnit && prevUnit.teachingPeriodIndex === currentUnit.teachingPeriodIndex) {
-            const index = duplicateUnitsSameTeachingPeriods.findIndex(unit => unit.unitCode === currentUnit.unitCode);
+            if(prevUnit.teachingPeriodIndex === currentUnit.teachingPeriodIndex) {
+                const index = duplicateUnitsSameTeachingPeriods.findIndex(unit => unit.unitCode === currentUnit.unitCode);
 
-            if(index === -1) {
-                duplicateUnitsSameTeachingPeriods.push({
-                    unitCode: currentUnit.unitCode,
-                    message: `${currentUnit.unitCode} already exists in the same teaching period. Please remove this unit.`,
-                    coordinates: [[currentUnit.teachingPeriodIndex, currentUnit.unitIndex]]
-                });
-            } else {
-                duplicateUnitsSameTeachingPeriods[index].coordinates.push([currentUnit.teachingPeriodIndex, currentUnit.unitIndex]);
+                if(index === -1) {
+                    duplicateUnitsSameTeachingPeriods.push({
+                        message: `${currentUnit.unitCode} already exists in the same teaching period. Please remove this unit.`,
+                        coordinates: [[currentUnit.teachingPeriodIndex, currentUnit.unitIndex]]
+                    });
+                } else {
+                    duplicateUnitsSameTeachingPeriods[index].coordinates.push([currentUnit.teachingPeriodIndex, currentUnit.unitIndex]);
+                }
             }
         }
 
@@ -263,7 +261,7 @@ function offerings(unitsByPosition, teachingPeriods) {
 
             if (!isValid) {
                 errors.push({
-                    message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}`,
+                    message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}.`,
                     coordinates: [[unitsByPosition[i].teachingPeriodIndex, unitsByPosition[i].unitIndex]]
                 });
             }
@@ -282,53 +280,54 @@ function rules(unitsByPosition, courseCode) {
     unitsByPosition.forEach(unit => {
         if(unit.rules && unit.rules.length > 0) {
             unit.rules.forEach(rule => {
+                // Some rules are expired, and thus should not be considered when validating units
                 if(rule.endDate && !moment(rule.endDate, "DD/MM/YYYY").isAfter(new Date())) {
                     return;
                 }
 
+                let ruleString = rule.ruleString;
+
+                if(new RegExp(" (AND|or) ").test(ruleString)) {
+                    // Ignore logical expressions for now
+                    return;
+                }
+
+                // in case the while loop goes on forever, force exit if it exceeds maxIterations
+                let maxIterations = 100;
+
+                while(new RegExp("For COURSE_CODE IN {.+}").test(ruleString)) {
+                    maxIterations--;
+                    if(maxIterations <= 0) {
+                        console.error("Exceeded maximum iterations. Breaking out of while loop.");
+                        break;
+                    }
+
+                    ruleString = ruleString.replace("For COURSE_CODE IN ", "");
+
+                    if(!courseCode) {
+                        // go straight to otherwise branch.
+                        ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
+                        continue;
+                    }
+
+                    const courseCodes = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}")).split(", ");
+
+                    if(courseCode && courseCodes.find(otherCourseCode => courseCode === otherCourseCode)) {
+                        // evaluate do branch.
+                        ruleString = ruleString.substring(ruleString.indexOf("}") + 1).replace(" Do ", "").substring(0, ruleString.indexOf(" Otherwise"));
+                    } else {
+                        // evaluate otherwise branch.
+                        ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
+                    }
+                }
+
                 if(rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") {
-                    let ruleString = rule.ruleString;
-
-                    if(new RegExp("(AND|or)").test(ruleString)) {
-                        // Ignore logical expressions for now
-                        return;
-                    }
-
-                    // in case the while loop goes on forever, force exit if it exceeds maxIterations
-                    let maxIterations = 100;
-
-                    while(new RegExp("For COURSE_CODE IN {.+}").test(ruleString)) {
-                        maxIterations--;
-                        if(maxIterations <= 0) {
-                            console.error("Exceeded maximum iterations. Breaking out of while loop.");
-                            break;
-                        }
-
-                        ruleString = ruleString.replace("For COURSE_CODE IN ", "");
-
-                        if(!courseCode) {
-                            // go straight to otherwise branch.
-                            ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
-                            continue;
-                        }
-
-                        const courseCodes = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}")).split(", ");
-
-                        if(courseCode && courseCodes.find(otherCourseCode => courseCode === otherCourseCode)) {
-                            // evaluate do branch.
-                            ruleString = ruleString.substring(ruleString.indexOf("}") + 1).replace(" Do ", "").substring(0, ruleString.indexOf(" Otherwise"));
-                        } else {
-                            // evaluate otherwise branch.
-                            ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
-                        }
-                    }
-
                     if(noPermission.test(ruleString)) {
                         errors.push({
                             message: `You need permission to do ${unit.unitCode}.`,
                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                         });
-                    } else if(new RegExp("Must have passed (an|1) \\(I/W\\) units? in ").test(rule.ruleString)) {
+                    } else if(new RegExp("Must have passed (an|1) \\(I/W\\) units? in ").test(ruleString)) {
                         ruleString = ruleString.substring(ruleString.indexOf("Must have passed an (I/W) unit in ") + "Must have passed an (I/W) unit in ".length);
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
@@ -353,10 +352,10 @@ function rules(unitsByPosition, courseCode) {
                         if(!found) {
                             let finalOr = "";
                             if(ruleString.length > 1) {
-                                finalOr = "or " + ruleString.pop();
+                                finalOr = " or " + ruleString.pop();
                             }
                             errors.push({
-                                message: `You must complete ${ruleString.join(", ")} ${finalOr} before you can do ${unit.unitCode}.`,
+                                message: `You must complete ${ruleString.join(", ")}${finalOr} before you can do ${unit.unitCode}.`,
                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                             });
                         }
@@ -383,13 +382,8 @@ function rules(unitsByPosition, courseCode) {
                         }
                     }
                 } else if(rule.ruleSummary === "COREQ" || rule.ruleSummary === "COREQ-IW") {
-                    if(new RegExp("(AND|or)").test(rule.ruleString)) {
-                        // Ignore logical expressions for now
-                        return;
-                    }
-
-                    if(new RegExp("Any passed co-req \\(I/W\\) unit in ").test(rule.ruleString)) {
-                        let ruleString = rule.ruleString.substring(rule.ruleString.indexOf("Any passed co-req (I/W) unit in ") + "Any passed co-req (I/W) unit in ".length);
+                    if(new RegExp("Any passed co-req \\(I/W\\) unit in ").test(ruleString)) {
+                        ruleString = ruleString.substring(ruleString.indexOf("Any passed co-req (I/W) unit in ") + "Any passed co-req (I/W) unit in ".length);
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
 
@@ -422,13 +416,8 @@ function rules(unitsByPosition, courseCode) {
                         }
                     }
                 } else if(rule.ruleSummary === "INCOMP" || rule.ruleSummary === "INCOMP-IW") {
-                    if(new RegExp("(AND|or)").test(rule.ruleString)) {
-                        // Ignore logical expressions for now
-                        return;
-                    }
-
-                    if(new RegExp("Incompatible with achievement in (\\(I/W\\) )?").test(rule.ruleString)) {
-                        let ruleString = rule.ruleString.substring(rule.ruleString.indexOf("Incompatible with achievement in ") + "Incompatible with achievement in ".length);
+                    if(new RegExp("Incompatible with achievement in (\\(I/W\\) )?").test(ruleString)) {
+                        ruleString = ruleString.substring(ruleString.indexOf("Incompatible with achievement in ") + "Incompatible with achievement in ".length);
                         ruleString.replace("(I/W) ", "");
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
