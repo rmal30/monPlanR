@@ -52,7 +52,7 @@ class CustomUnitModal extends Component {
             custom: true,
             unitCodeOK: false,
             unitNameOK: false,
-            crediPointsOK: true,
+            creditPointsOK: true,
             scaBandOK: false,
             facultyOK: false
         };
@@ -66,9 +66,10 @@ class CustomUnitModal extends Component {
         if(!this.props.open && nextProps.open) {
             this.setState({
                 unitCode: nextProps.unitCode && nextProps.unitCode.toUpperCase(),
+                unitName: "",
                 unitCodeOK: false,
                 unitNameOK: false,
-                crediPointsOK: true,
+                creditPointsOK: true,
                 scaBandOK: false,
                 facultyOK: false
             });
@@ -93,7 +94,7 @@ class CustomUnitModal extends Component {
         this.setState({
             unitCode: e.target.value.toUpperCase() || this.props.unitCode
         });
-        if(e.target.value.length >= 5){
+        if(e.target.value.length >= 1){
             this.setState({
                 unitCodeOK: true
             });
@@ -130,9 +131,16 @@ class CustomUnitModal extends Component {
      * @author Saurabh Joshi
      */
     onCreditPointsChange(e) {
-        this.setState({
-            creditPoints: parseInt(e.target.value) || 6
-        });
+        if(!isNaN(e.target.value,10) ){
+            this.setState({
+                creditPoints: parseInt(e.target.value) || 6,
+                creditPointsOK: true
+            });
+        } else {
+            this.setState({
+                creditPointsOK: false
+            });
+        }
     }
 
     /**
@@ -211,7 +219,7 @@ class CustomUnitModal extends Component {
                                 <Form.Input tabIndex={3}
                                     onChange={this.onCreditPointsChange.bind(this)}
                                     label="Credit points:"
-                                    icon={this.state.crediPointsOK && "green check"}
+                                    icon={this.state.creditPointsOK ? "green check" : "red remove"}
                                     placeholder={this.defaultCreditPoints} />
                             </Form.Group>
                             <Form.Field tabIndex={4}
