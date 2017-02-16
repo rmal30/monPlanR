@@ -14,7 +14,7 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
         uploadedCourseID: PropTypes.string,
         mobile: PropTypes.bool,
         uploaded: PropTypes.bool
-    };    
+    };
 
     return (
         <Popup
@@ -27,7 +27,7 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
                         fluid={mobile}
                         color={uploadingError ? "red" : "teal"}
                         disabled={isUploading}
-                        onClick={uploadCourseToDatabase}
+                        onClick={!uploaded && uploadCourseToDatabase || undefined}
                         loading={isUploading}
                         className="btnmainblue">
                         <Icon name={uploaded && "checkmark" || uploadingError && "x" || "upload"} />

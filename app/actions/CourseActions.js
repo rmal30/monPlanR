@@ -102,6 +102,9 @@ export const addUnit = (tpIndex, unitIndex, unit) => {
 
             dispatch(clearHighlightingInvalidUnitSlots());
             dispatch(validateCourse());
+            dispatch({
+                type: "MODIFIED_COURSE_PLAN"
+            });
         } else {
             dispatch({
                 type: "SHOW_CUSTOM_UNIT_MODAL",
@@ -127,6 +130,9 @@ export const removeUnit = (tpIndex, unitIndex, creditPoints, cost) => {
         });
 
         dispatch(validateCourse());
+        dispatch({
+            type: "MODIFIED_COURSE_PLAN"
+        });
     };
 };
 
@@ -439,6 +445,9 @@ export const moveUnit = (newUnitIndex, newTPIndex) => {
 
         dispatch(clearHighlightingInvalidUnitSlots());
         dispatch(validateCourse());
+        dispatch({
+            type: "MODIFIED_COURSE_PLAN"
+        });
     };
 };
 
@@ -456,6 +465,9 @@ export const swapUnit = (newUnitIndex, newTPIndex, unitToSwap) => {
 
         dispatch(clearHighlightingInvalidUnitSlots());
         dispatch(validateCourse());
+        dispatch({
+            type: "MODIFIED_COURSE_PLAN"
+        });
     };
 };
 
