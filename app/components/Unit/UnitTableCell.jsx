@@ -224,7 +224,7 @@ export class Unit extends React.Component {
                                         <UnitMessage
                                             code={this.props.code}
                                             name={this.props.name}
-                                            draggable={!this.props.viewOnly && !this.state.overInput}
+                                            draggable={!this.props.viewOnly}
                                             unit={this.props.unit}
                                             index={this.props.index}
                                             teachingPeriodIndex={this.props.teachingPeriodIndex}
