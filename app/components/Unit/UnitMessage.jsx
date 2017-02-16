@@ -144,7 +144,8 @@ export function UnitMessage(props) {
                                                 <Icon inverted color="red" name="warning sign" size="big" />
                                         }
                                         positioning="bottom left"
-                                        size="mini"
+                                        size="tiny"
+                                        hoverable
                                         >
                                     <Popup.Header>The following problems were discovered</Popup.Header>
                                     <Popup.Content>
