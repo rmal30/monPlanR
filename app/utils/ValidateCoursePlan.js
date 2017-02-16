@@ -277,6 +277,7 @@ function offerings(unitsByPosition, teachingPeriods) {
 function rules(unitsByPosition, courseCode) {
     const errors = [];
     const noPermission = new RegExp("Permission required");
+    const prereqRe = new RegExp("Must have passed (an|1) \\(I/W\\) units? in ");
     unitsByPosition.forEach(unit => {
         if(unit.rules && unit.rules.length > 0) {
             unit.rules.forEach(rule => {
@@ -327,8 +328,8 @@ function rules(unitsByPosition, courseCode) {
                             message: `You need permission to do ${unit.unitCode}.`,
                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                         });
-                    } else if(new RegExp("Must have passed (an|1) \\(I/W\\) units? in ").test(ruleString)) {
-                        ruleString = ruleString.substring(ruleString.indexOf("Must have passed an (I/W) unit in ") + "Must have passed an (I/W) unit in ".length);
+                    } else if(prereqRe.test(ruleString)) {
+                        ruleString = ruleString.substring(ruleString.search(prereqRe) + ruleString.match(prereqRe)[0].length);
                         ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
                         ruleString = ruleString.split(", ");
 

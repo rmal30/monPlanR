@@ -73,7 +73,7 @@ class UnitSearchResult extends Component {
         return (
             <UnitMessage
                 newUnit
-                draggable={!this.state.overInput}
+                draggable
                 hovering={this.state.hovering}
 
                 willAddUnit={this.props.willAddUnit}

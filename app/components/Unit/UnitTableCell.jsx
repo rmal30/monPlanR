@@ -94,12 +94,24 @@ export class Unit extends React.Component {
     }
 
     /**
-     * Used when the user is no longer hovering on a table cell
+     * Used when the user is no longer hovering on a table cell.
      */
     handleTableCellMouseOut() {
         this.setState({
             tableCellHover: false
         });
+    }
+
+    /**
+     * Set hover to false if we are no longer adding a unit. This is a
+     * workaround in case the browser does not detect a mouseOut.
+     */
+    componentWillReceiveProps(nextProps) {
+        if(this.props.unitToAdd && !nextProps.unitToAdd || this.props.showingMovingUnitUI && !nextProps.showingMovingUnitUI) {
+            this.setState({
+                tableCellHover: false
+            });
+        }
     }
 
     /**
@@ -212,7 +224,7 @@ export class Unit extends React.Component {
                                         <UnitMessage
                                             code={this.props.code}
                                             name={this.props.name}
-                                            draggable={!this.props.viewOnly && !this.state.overInput}
+                                            draggable={!this.props.viewOnly}
                                             unit={this.props.unit}
                                             index={this.props.index}
                                             teachingPeriodIndex={this.props.teachingPeriodIndex}
