@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import FuzzySearch from "../../utils/FuzzySearch";
-import UnitQuery from "../../utils/UnitQuery";
 import YearCalc from "../../utils/YearCalc";
 import ShowYear from "../../utils/ShowYear";
 
@@ -21,11 +20,8 @@ class LoadCourseMap extends Component {
         this.startYearPlaceholder = new Date().getFullYear() + 1;
         this.state = {
             CourseCode: "",
-            data: {},
-            isLoading: false,
             results: [],
             value: "",
-            specialisations: [],
             code: "",
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
             year: ShowYear(),
@@ -45,13 +41,8 @@ class LoadCourseMap extends Component {
      * On mount we query the api once to get the data we are searching against
      */
     componentDidMount() {
-        UnitQuery.getCourses()
-            .then(response => {
-                this.setState({data: response.data});
-            })
-            .catch(err => {
-                console.error(err);
-            });
+        this.props.fetchCourses();
+
     }
 
     /**
@@ -112,17 +103,11 @@ class LoadCourseMap extends Component {
      * When a value is selected, we updated the prompt to show the title and save the coursecode to the state
      */
     handleResultSelect(e, value) {
-        let specialisations = value.data.courseAOS.map(item => {
-            return {
-                text: item.aosName,
-                value: item.code,
-            };
-        });
+        this.props.fetchAreaOfStudy(value.data.courseCode);
         this.setState({
             value: value.title,
             CourseCode: value.title,
             specIsDisabled: false,
-            specialisations
         });
 
     }
@@ -132,7 +117,7 @@ class LoadCourseMap extends Component {
      * friendly form (they require results in the form of title and description)
      */
     handleChange(e){
-        let results = FuzzySearch.search(e.target.value, this.state.data, 5, ["courseCode", "courseName"], 400).map(current => {return current.item;});
+        let results = FuzzySearch.search(e.target.value, this.props.basicCourses, 5, ["courseCode", "courseName"], 400).map(current => {return current.item;});
 
         results = results.map(item => {
             return {title: item.courseCode, description: item.courseName, data: item};
@@ -191,7 +176,7 @@ class LoadCourseMap extends Component {
                             <br />
                             <Search
                                 className="srch"
-                                loading={this.state.isLoading}
+                                loading={this.props.courseSearchIsLoading}
                                 onResultSelect={this.handleResultSelect}
                                 onSearchChange={this.handleChange}
                                 results={this.state.results}
@@ -212,7 +197,7 @@ class LoadCourseMap extends Component {
                                 placeholder='Select Specialisation'
                                 search
                                 selection
-                                options={this.state.specialisations}
+                                options={this.props.areasOfStudy}
                                 onChange={this.handleSpecialisationSelect}/>
                             <br />
                             <br />
@@ -256,12 +241,31 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(dataFetchActions, dispatch);
 };
 
+/**
+ * We need to check for error, loading and fulfilled data from redux store
+ */
+const mapStateToProps = (state) => {
+    return {
+        basicCourses: state.CourseStructure.basicCourses,
+        courseSearchIsLoading: state.CourseStructure.courseSearchIsLoading,
+        courseSearchError: state.CourseStructure.courseSearchError,
+        areasOfStudy: state.CourseStructure.areasOfStudy,
+        aosSearchIsLoading: state.CourseStructure.aosSearchIsLoading,
+        aosSearchError: state.CourseStructure.aosSearchError
+    };
+};
+
 LoadCourseMap.propTypes = {
     CourseCode: PropTypes.string,
     onCourseLoad: PropTypes.func,
     fetchCourseInfo: PropTypes.func,
     submitCourseForm: PropTypes.func,
-    mobile: PropTypes.bool
+    mobile: PropTypes.bool,
+    areasOfStudy: PropTypes.array,
+    basicCourses: PropTypes.array,
+    courseSearchIsLoading: PropTypes.bool,
+    fetchAreaOfStudy: PropTypes.func,
+    fetchCourses: PropTypes.func
 };
 
-export default connect(null, mapDispatchToProps)(LoadCourseMap);
+export default connect(mapStateToProps, mapDispatchToProps)(LoadCourseMap);

@@ -7,7 +7,6 @@ import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 
 import FuzzySearch from "../../utils/FuzzySearch";
-import UnitQuery from "../../utils/UnitQuery";
 import YearCalc from "../../utils/YearCalc.js";
 import ShowYear from "../../utils/ShowYear";
 
@@ -27,11 +26,8 @@ class CourseSelectFormContainer extends Component {
         this.startYearPlaceholder = new Date().getFullYear();
         this.state = {
             CourseCode: "",
-            data: {},
-            isLoading: false,
             results: [],
             value: "",
-            specialisations: [],
             code: "",
             years: YearCalc.getStartYearVals(this.startYearPlaceholder),
             year: (ShowYear()),
@@ -46,18 +42,13 @@ class CourseSelectFormContainer extends Component {
         this.handleYearSelect = this.handleYearSelect.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    // data and isLoading 
 
     /**
      * On mount we query the api once to get the data we are searching against
      */
     componentDidMount() {
-        UnitQuery.getCourses()
-            .then(response => {
-                this.setState({data: response.data});
-            })
-            .catch(err => {
-                console.error(err);
-            });
+        this.props.fetchCourses();
     }
 
     /**
@@ -89,16 +80,12 @@ class CourseSelectFormContainer extends Component {
      * When a value is selected, we updated the prompt to show the title and save the coursecode to the state
      */
     handleResultSelect(e, value) {
-        let specialisations = value.data.courseAOS.map(item => {
-            return {
-                text: item.aosName,
-                value: item.code,
-            };
-        });
+        this.props.fetchAreaOfStudy(value.data.courseCode);
+        
+    
         this.setState({
             CourseCode: value.title,
             specIsDisabled: false,
-            specialisations,
             courseSelected: true,
             readyToSubmit: this.state.CourseCode === value.title
         });
@@ -118,7 +105,7 @@ class CourseSelectFormContainer extends Component {
         const { value } = e.target;
 
         this.timer = setTimeout(() => {
-            let results = FuzzySearch.search(value, this.state.data, 5, ["courseCode", "courseName"], 400).map(current => {return current.item;});
+            let results = FuzzySearch.search(value, this.props.basicCourses, 5, ["courseCode", "courseName"], 400).map(current => {return current.item;});
 
             results = results.map(item => {
                 return {title: item.courseCode, description: item.courseName, data: item};
@@ -188,7 +175,7 @@ class CourseSelectFormContainer extends Component {
                                         <Search
                                             className="srch"
                                             label=""
-                                            loading={this.state.isLoading}
+                                            loading={this.props.courseSearchIsLoading}
                                             onResultSelect={this.handleResultSelect}
                                             onSearchChange={this.handleChange}
                                             results={this.state.results}
@@ -204,7 +191,7 @@ class CourseSelectFormContainer extends Component {
                                     disabled={this.state.specIsDisabled}
                                     search
                                     selection
-                                    options={this.state.specialisations}
+                                    options={this.props.areasOfStudy}
                                     onChange={this.handleSpecialisationSelect}
                                 />
                                 <Form.Dropdown
@@ -250,7 +237,21 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(dataFetchActions, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(CourseSelectFormContainer);
+/**
+ * We need to check for error, loading and fulfilled data from redux store
+ */
+const mapStateToProps = (state) => {
+    return {
+        basicCourses: state.CourseStructure.basicCourses,
+        courseSearchIsLoading: state.CourseStructure.courseSearchIsLoading,
+        courseSearchError: state.CourseStructure.courseSearchError,
+        areasOfStudy: state.CourseStructure.areasOfStudy,
+        aosSearchIsLoading: state.CourseStructure.aosSearchIsLoading,
+        aosSearchError: state.CourseStructure.aosSearchError
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseSelectFormContainer);
 
 CourseSelectFormContainer.contextTypes = {
     router: PropTypes.object.isRequired,
@@ -258,5 +259,10 @@ CourseSelectFormContainer.contextTypes = {
 
 CourseSelectFormContainer.propTypes = {
     fetchCourseInfo: PropTypes.func,
-    submitCourseForm: PropTypes.func
+    submitCourseForm: PropTypes.func,
+    fetchCourses: PropTypes.func,
+    courseSearchIsLoading: PropTypes.bool,
+    basicCourses: PropTypes.bool,
+    areasOfStudy: PropTypes.array,
+    fetchAreaOfStudy: PropTypes.func
 };
