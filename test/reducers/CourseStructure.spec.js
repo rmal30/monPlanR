@@ -1285,6 +1285,85 @@ describe("REDUCER: CourseStructure", () => {
         });
     });
 
+    describe("ACTION: FETCH_AOS_PENDING", () => {
+        it("Should begin fetching the basic courses list correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                areasOfStudy: [],
+                aosSearchIsLoading: false,
+                aosSearchError: true //start with true to test if pending switches error state correctly
+            };
+
+            const action = {
+                type: "FETCH_AOS_PENDING",
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                areasOfStudy: [],
+                aosSearchIsLoading: true,
+                aosSearchError: false
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_AOS_FULFILLED", () => {
+        it("Should begin fetching the basic courses list correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                areasOfStudy: [],
+                aosSearchIsLoading: true,
+                aosSearchError: false //start with true to test if pending switches error state correctly
+            };
+
+            const action = {
+                type: "FETCH_AOS_FULFILLED",
+                payload: ["Hello", "Darkness", "My", "Old", "Friend"]
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                areasOfStudy: ["Hello", "Darkness", "My", "Old", "Friend"],
+                aosSearchIsLoading: false,
+                aosSearchError: false
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_AOS_REJECTED", () => {
+        it("Should begin fetching the basic courses list correctly", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                areasOfStudy: ["Hello", "Darkness", "My", "Old", "Friend"],
+                aosSearchIsLoading: true,
+                aosSearchError: false //start with true to test if pending switches error state correctly
+            };
+
+            const action = {
+                type: "FETCH_AOS_REJECTED",
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                areasOfStudy: [],
+                aosSearchIsLoading: false,
+                aosSearchError: true
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
     describe("ACTION: UPDATE_AFFECTED_UNITS", () => {
         it("Should correctly update the affected units value to the given array", () => {
             const stateBefore = {
