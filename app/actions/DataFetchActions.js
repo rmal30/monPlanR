@@ -289,6 +289,10 @@ export const fetchCourses = () => {
     };
 };
 
+/**
+ * Once a course has been selected from the basic course list, we must then make a query to 
+ * get all the areas of study available for that course
+ */
 export const fetchAreaOfStudy = (courseCode) => {
     return (dispatch) => {
         dispatch({
