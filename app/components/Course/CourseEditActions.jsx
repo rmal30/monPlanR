@@ -24,7 +24,7 @@ const CourseEditActions = (props) => {
     return (
         <MediaQuery maxDeviceWidth={767}>
             {mobile =>
-                <Container className="no-print toolbars" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 20, padding: "0.6em 2em", background: "#003c5b", borderRadius: "0.5em 0.5em 0 0", borderTop: "0.1em solid #005d95"} : {}}>
+                <Container className="no-print toolbars" style={!mobile ? {position: "fixed", bottom: 0, zIndex: 200, padding: "0.6em 2em", background: "#003c5b", borderRadius: "0.5em 0.5em 0 0", borderTop: "0.1em solid #005d95"} : {}}>
                     { props.teachingPeriods.length > 0 &&
                         <InsertTeachingPeriodButtonContainer mobile={mobile} bottom />
                     }
