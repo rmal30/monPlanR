@@ -324,8 +324,10 @@ CourseStructure.propTypes = {
     loadCourseSnap: PropTypes.func,
     saveCourseToLocalStorage: PropTypes.func,
     loadCourseFromLocalStorage: PropTypes.func,
-    courseInfo: PropTypes.object
+    courseInfo: PropTypes.object,
 
+    courseToLoad: PropTypes.string,
+    courseYear: PropTypes.number
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseStructure);
