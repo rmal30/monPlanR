@@ -219,7 +219,8 @@ class UnitSearchContainer extends Component {
                             ref={(input) => {this.searchInput = input;}}
                             onChange={this.handleSearchChange}
                             onKeyDown={this.onKeyDown}
-                            placeholder="Search to add unit" />
+                            disabled={this.props.unitSearchIsLoading}
+                            placeholder={this.props.unitSearchIsLoading ? "Loading, Fetching Units...": "Search to add unit"} />
                         <i className="search icon" />
                     </div>
                 </Menu.Item>
@@ -243,6 +244,7 @@ class UnitSearchContainer extends Component {
                         </Grid>
                     </div>
                 }
+                {this.state.unitSearchIsLoading && "Loading Unit Data"}
                 <Divider />
                 <UnitSearchResultsContainer
                     willAddUnit={this.props.willAddUnit}

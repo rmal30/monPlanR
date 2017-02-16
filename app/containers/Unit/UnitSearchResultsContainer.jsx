@@ -20,14 +20,28 @@ class UnitSearchResultsContainer extends Component {
     }
 
     /**
-     * If the search bar is empty, then it returns the default view where it
+     * Using the new API, shows loading message. Otherwise if the search bar is
+     * empty, then it returns the default view where it
      * indicates to the user what they should do next if they want to add new
      * units. If there are no search results, then no results component is
      * rendered. Otherwise a list of UnitSearchResults are rendered to the
      * screen.
      */
     render() {
-        if(this.props.empty) {
+        if(this.props.unitSearchIsLoading){
+            return (
+                <div style={{lineHeight: 1.5, marginTop: "1em"}}>
+                    <Header as="h2">Loading Units for the first time...</Header>
+                    Currently fetching units information from our server via our awesome API, please wait while we load this into your browser
+                    for the first time. This action will be performed every time you revisit this page and/or refresh this page.
+                    <hr/>
+                    Otherwise you can create a custom unit below
+                    <br /><br />
+                    <Button className="btnmainblue" onClick={() => this.props.showCustomUnitUI()} fluid>Add custom unit</Button>
+                </div>
+            );
+        }
+        if(this.props.empty && !this.props.unitSearchIsLoading) {
             return (
                 <div style={{lineHeight: 1.5, marginTop: "1em"}}>
                     <Header as="h2">Add unit</Header>
@@ -84,7 +98,8 @@ UnitSearchResultsContainer.propTypes = {
     searchResultIndex: PropTypes.number,
     results: PropTypes.array,
     empty: PropTypes.bool,
-    showCustomUnitUI: PropTypes.func
+    showCustomUnitUI: PropTypes.func,
+    unitSearchIsLoading: PropTypes.bool
 };
 
 /**
@@ -94,4 +109,13 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(UIActions, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(UnitSearchResultsContainer);
+/**
+* Injecting Props
+*/
+const mapStatetoProps = state => {
+    return {
+        unitSearchIsLoading: state.CourseStructure.unitSearchIsLoading
+    };
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(UnitSearchResultsContainer);
