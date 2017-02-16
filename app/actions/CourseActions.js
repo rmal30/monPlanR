@@ -142,6 +142,10 @@ export const clearCourse = () => {
         dispatch({
             type: "GET_NEXT_SEMESTER_STRING"
         });
+
+        dispatch({
+            type: "VALIDATE_COURSE"
+        });
     };
 };
 

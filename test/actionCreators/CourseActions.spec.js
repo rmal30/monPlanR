@@ -181,7 +181,8 @@ describe("ACTION-CREATOR: CourseActions", () => {
         it("Should create the actions for clearing the course", () => {
             const expectedActions = [
                 {type: "CLEAR_COURSE"},
-                {type: "GET_NEXT_SEMESTER_STRING"}
+                {type: "GET_NEXT_SEMESTER_STRING"},
+                {type: "VALIDATE_COURSE"}
             ];
             const store = mockStore({teachingPeriods: []});
 

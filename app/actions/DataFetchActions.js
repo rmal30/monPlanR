@@ -10,8 +10,6 @@ import * as NotificationActions from "./Notifications";
  * FETCH_COURSE_INFO
  */
 export const fetchCourseInfo = (courseCode) => {
-
-
     return function (dispatch) {
         dispatch({
             type: "FETCH_COURSE_INFO_PENDING"
@@ -56,6 +54,10 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                 });
 
                 const result = CourseTemplate.parse(resp.data[0].propertyMap, startYear);
+                
+                dispatch({
+                    type: "CLEAR_COURSE"
+                });
 
                 dispatch({
                     type: "LOAD_NEW_TEACHING_PERIODS",
