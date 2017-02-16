@@ -28,7 +28,7 @@ export default {
                         if(listofUnits[k] === null || listofUnits[k] === undefined || listofUnits[k] === "") {
                             // do nothing
                         } else {
-                            unit = listofUnits[k].UnitCode;
+                            unit = listofUnits[k].unitCode;
                         }
 
                         csvString += unit + ",";

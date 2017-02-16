@@ -14,7 +14,7 @@ const unitSource = {
             props.willAddUnit(
                 props.code,
                 props.custom && {
-                    UnitCode: props.code,
+                    unitCode: props.code,
                     customUnitDragging: true
                 },
                 true);

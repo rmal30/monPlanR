@@ -182,13 +182,18 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                         }));
                     }
                 });
-        } else {
+        } else if(isDragging) {
             dispatch({
                 type: "UPDATE_UNIT_TO_ADD",
                 customUnitToAdd
             });
 
             dispatch(CourseActions.highlightInvalidUnitSlots(customUnitToAdd, false));
+        } else if(customUnitToAdd && !isDragging) {
+            dispatch({
+                type: "SHOW_CUSTOM_UNIT_MODAL",
+                unitCode
+            });
         }
     };
 };
