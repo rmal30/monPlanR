@@ -54,10 +54,6 @@ export const submitCourseForm = (courseCode, startYear, courseID) => {
                 });
 
                 const result = CourseTemplate.parse(resp.data[0].propertyMap, startYear);
-                
-                dispatch({
-                    type: "CLEAR_COURSE"
-                });
 
                 dispatch({
                     type: "LOAD_NEW_TEACHING_PERIODS",
@@ -319,7 +315,7 @@ export const fetchCourses = () => {
 };
 
 /**
- * Once a course has been selected from the basic course list, we must then make a query to 
+ * Once a course has been selected from the basic course list, we must then make a query to
  * get all the areas of study available for that course
  */
 export const fetchAreaOfStudy = (courseCode) => {
