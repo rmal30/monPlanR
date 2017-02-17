@@ -131,7 +131,8 @@ describe("ACTION-CREATOR: CourseActions", () => {
             const expectedActions = [
                 {type: "ADD_UNIT", tpIndex: 1, unitIndex: 1, unit: mockUnit, cost: 200, creditPoints: 6},
                 {type: "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS"},
-                {type: "VALIDATE_COURSE"}
+                {type: "VALIDATE_COURSE"},
+                {type: "MODIFIED_COURSE_PLAN"}
             ];
 
             const store = mockStore({});
@@ -168,6 +169,7 @@ describe("ACTION-CREATOR: CourseActions", () => {
             const expectedActions = [
                 {type: "REMOVE_UNIT", tpIndex: 1, unitIndex: 1, cost: 200, creditPoints: 6},
                 {type: "VALIDATE_COURSE"},
+                {type: "MODIFIED_COURSE_PLAN"}
             ];
 
             const store = mockStore({});

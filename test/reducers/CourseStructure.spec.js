@@ -1965,486 +1965,723 @@ describe("REDUCER: CourseStructure", () => {
             test(CourseStructure, stateBefore, action, stateAfter);
         });
 
-        it("Should not give duplicate unit errors if the first attempt is in the past, and the second attempt is not two or more years into the future.", () => {
-            const stateBefore = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: new Date().getFullYear() - 1,
-                        units: [
-                            null,
-                            {
-                                unitCode: "ABCD1234"
-                            },
-                            null,
-                            null
-                        ]
-                    },
-                    {
-                        code: "S1-01",
-                        year: new Date().getFullYear() + 1,
-                        units: [
-                            null,
-                            null,
-                            null,
-                            {
-                                unitCode: "ABCD1234"
-                            }
-                        ]
-                    }
-                ],
-                courseErrors: [],
-                courseInfo: {}
-            };
+        describe("duplicates:", () => {
+            it("Should not give duplicate unit errors if the first attempt is in the past, and the second attempt is not two or more years into the future.", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: new Date().getFullYear() - 1,
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABCD1234"
+                                },
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            code: "S1-01",
+                            year: new Date().getFullYear() + 1,
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABCD1234"
+                                }
+                            ]
+                        }
+                    ],
+                    courseErrors: [],
+                    courseInfo: {}
+                };
 
-            const action = {
-                type: "VALIDATE_COURSE"
-            };
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
 
-            test(CourseStructure, stateBefore, action, stateBefore);
+                test(CourseStructure, stateBefore, action, stateBefore);
+            });
+
+            it("Should give a duplicate unit error if there are two same units in the same teaching period", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: 2015,
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABCD1234"
+                                },
+                                null,
+                                {
+                                    unitCode: "ABCD1234"
+                                }
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: 2015,
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "GJQ2039"
+                                }
+                            ]
+                        }
+                    ],
+                    courseErrors: []
+                };
+
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
+
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: 2015,
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABCD1234"
+                                },
+                                null,
+                                {
+                                    unitCode: "ABCD1234"
+                                }
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: 2015,
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "GJQ2039"
+                                }
+                            ]
+                        }
+                    ],
+                    courseErrors: [
+                        {
+                            message: "ABCD1234 already exists in the same teaching period. Please remove this unit.",
+                            coordinates: [[0, 3]]
+                        }
+                    ]
+                };
+
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
+
+            it("Should give a duplicate error if a duplicate unit is placed in a teaching period two years from now", () => {
+                const currentYear = new Date().getFullYear();
+
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: currentYear,
+                            units: [
+                                {
+                                    unitCode: "ABC1234"
+                                },
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: currentYear,
+                            units: [null, null, null, null]
+                        },
+                        {
+                            code: "S1-01",
+                            year: currentYear + 1,
+                            units: [null, null, null, null]
+                        },
+                        {
+                            code: "S2-01",
+                            year: currentYear + 1,
+                            units: [null, null, null, null]
+                        },
+                        {
+                            code: "S1-01",
+                            year: currentYear + 2,
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABC1234"
+                                },
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: currentYear + 2,
+                            units: [null, null, null, null]
+                        }
+                    ],
+                    courseErrors: []
+                };
+
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
+
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: currentYear,
+                            units: [
+                                {
+                                    unitCode: "ABC1234"
+                                },
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: currentYear,
+                            units: [null, null, null, null]
+                        },
+                        {
+                            code: "S1-01",
+                            year: currentYear + 1,
+                            units: [null, null, null, null]
+                        },
+                        {
+                            code: "S2-01",
+                            year: currentYear + 1,
+                            units: [null, null, null, null]
+                        },
+                        {
+                            code: "S1-01",
+                            year: currentYear + 2,
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABC1234"
+                                },
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: currentYear + 2,
+                            units: [null, null, null, null]
+                        }
+                    ],
+                    courseErrors: [
+                        {
+                            message: "ABC1234 already exists in your course plan. Please plan as if you will pass all units.",
+                            coordinates: [[4, 1]]
+                        }
+                    ]
+                };
+
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
         });
 
-        it("Should give a duplicate unit error if there are two same units in the same teaching period", () => {
-            const stateBefore = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: 2015,
-                        units: [
-                            null,
-                            {
-                                unitCode: "ABCD1234"
-                            },
-                            null,
-                            {
-                                unitCode: "ABCD1234"
-                            }
-                        ]
-                    },
-                    {
-                        code: "S2-01",
-                        year: 2015,
-                        units: [
-                            null,
-                            null,
-                            null,
-                            {
-                                unitCode: "GJQ2039"
-                            }
-                        ]
-                    }
-                ],
-                courseErrors: []
-            };
+        describe("offerings:", () => {
+            it("Should give a course error for a unit not being offered in the teaching period it is in", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: 2017,
+                            units: [
+                                null,
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: 2017,
+                            units: [
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    unitName: "Example unit",
+                                    locationAndTime: [
+                                        {
+                                            location: "Clayton",
+                                            time: [
+                                                "First semester 2017 (Day)"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                null
+                            ]
+                        }
+                    ],
+                    courseErrors: [],
+                    courseInfo: {}
+                };
 
-            const action = {
-                type: "VALIDATE_COURSE"
-            };
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
 
-            const stateAfter = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: 2015,
-                        units: [
-                            null,
-                            {
-                                unitCode: "ABCD1234"
-                            },
-                            null,
-                            {
-                                unitCode: "ABCD1234"
-                            }
-                        ]
-                    },
-                    {
-                        code: "S2-01",
-                        year: 2015,
-                        units: [
-                            null,
-                            null,
-                            null,
-                            {
-                                unitCode: "GJQ2039"
-                            }
-                        ]
-                    }
-                ],
-                courseErrors: [
-                    {
-                        message: "ABCD1234 already exists in the same teaching period. Please remove this unit.",
-                        coordinates: [[0, 3]]
-                    }
-                ]
-            };
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: 2017,
+                            units: [
+                                null,
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            code: "S2-01",
+                            year: 2017,
+                            units: [
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    unitName: "Example unit",
+                                    locationAndTime: [
+                                        {
+                                            location: "Clayton",
+                                            time: [
+                                                "First semester 2017 (Day)"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                null
+                            ]
+                        }
+                    ],
+                    courseErrors: [
+                        {
+                            message: "ABC1234 is not offered in second semester.",
+                            coordinates: [[1, 2]]
+                        }
+                    ],
+                    courseInfo: {}
+                };
 
-            test(CourseStructure, stateBefore, action, stateAfter);
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
         });
 
-        it("Should give a duplicate error if a duplicate unit is placed in a teaching period two years from now", () => {
-            const currentYear = new Date().getFullYear();
+        describe("rules:", () => {
+            it("Should give a course error for a missing prereq", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: 2017,
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    unitName: "Example unit",
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ-IW",
+                                            ruleString: "Must have passed an (I/W) unit in {DEF2345, QLS2029}",
+                                            endDate: ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    courseErrors: [],
+                    courseInfo: {}
+                };
 
-            const stateBefore = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: currentYear,
-                        units: [
-                            {
-                                unitCode: "ABC1234"
-                            },
-                            null,
-                            null,
-                            null
-                        ]
-                    },
-                    {
-                        code: "S2-01",
-                        year: currentYear,
-                        units: [null, null, null, null]
-                    },
-                    {
-                        code: "S1-01",
-                        year: currentYear + 1,
-                        units: [null, null, null, null]
-                    },
-                    {
-                        code: "S2-01",
-                        year: currentYear + 1,
-                        units: [null, null, null, null]
-                    },
-                    {
-                        code: "S1-01",
-                        year: currentYear + 2,
-                        units: [
-                            null,
-                            {
-                                unitCode: "ABC1234"
-                            },
-                            null,
-                            null
-                        ]
-                    },
-                    {
-                        code: "S2-01",
-                        year: currentYear + 2,
-                        units: [null, null, null, null]
-                    }
-                ],
-                courseErrors: []
-            };
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
 
-            const action = {
-                type: "VALIDATE_COURSE"
-            };
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            code: "S1-01",
+                            year: 2017,
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    unitName: "Example unit",
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ-IW",
+                                            ruleString: "Must have passed an (I/W) unit in {DEF2345, QLS2029}",
+                                            endDate: ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    courseErrors: [
+                        {
+                            message: "You must complete DEF2345 or QLS2029 before you can do ABC1234.",
+                            coordinates: [[0, 3]]
+                        }
+                    ],
+                    courseInfo: {}
+                };
 
-            const stateAfter = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: currentYear,
-                        units: [
-                            {
-                                unitCode: "ABC1234"
-                            },
-                            null,
-                            null,
-                            null
-                        ]
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
+
+            it("Should give an error for credit points being lower than the minimum required for the unit", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            year: 2016,
+                            code: "S2-01",
+                            units: [
+                                {
+                                    unitCode: "TEST1011",
+                                    creditPoints: 6
+                                },
+                                null,
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            year: 2017,
+                            code: "S1-01",
+                            units: [null, null, null, null, null]
+                        },
+                        {
+                            year: 2017,
+                            code: "S2-01",
+                            units: [
+                                null,
+                                {
+                                    unitCode: "TEST3031",
+                                    creditPoints: 6,
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ",
+                                            ruleString: "Must have passed 24 credit points"
+                                        }
+                                    ]
+                                },
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            year: 2018,
+                            code: "S1-01",
+                            units: [null, null, null, null, null]
+                        }
+                    ],
+                    courseErrors: []
+                };
+
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
+
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            year: 2016,
+                            code: "S2-01",
+                            units: [
+                                {
+                                    unitCode: "TEST1011",
+                                    creditPoints: 6
+                                },
+                                null,
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            year: 2017,
+                            code: "S1-01",
+                            units: [null, null, null, null, null]
+                        },
+                        {
+                            year: 2017,
+                            code: "S2-01",
+                            units: [
+                                null,
+                                {
+                                    unitCode: "TEST3031",
+                                    creditPoints: 6,
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ",
+                                            ruleString: "Must have passed 24 credit points"
+                                        }
+                                    ]
+                                },
+                                null,
+                                null,
+                                null
+                            ]
+                        },
+                        {
+                            year: 2018,
+                            code: "S1-01",
+                            units: [null, null, null, null, null]
+                        }
+                    ],
+                    courseErrors: [
+                        {
+                            message: "You need 18 more credit points before doing TEST3031.",
+                            coordinates: [[2, 1]]
+                        }
+                    ]
+                };
+
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
+
+            it("Should correctly handle prohibitions", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            year: 2013,
+                            code: "S1-01",
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABC1234"
+                                }
+                            ]
+                        },
+                        {
+                            year: 2013,
+                            code: "S2-01",
+                            units: [
+                                null,
+                                {
+                                    unitCode: "BCD1234",
+                                    rules: [
+                                        {
+                                            ruleSummary: "INCOMP",
+                                            ruleString: "Incompatible with achievement in {ABC1234}"
+                                        }
+                                    ]
+                                },
+                                null,
+                                null
+                            ]
+                        }
+                    ],
+                    courseErrors: [
+                        {
+                            message: "Please remove BCD1234, as completing ABC1234 prohibits you from doing this unit.",
+                            coordinates: [[1, 1]]
+                        }
+                    ]
+                };
+
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
+
+                test(CourseStructure, stateBefore, action, stateBefore);
+            });
+
+            it("Should correctly handle the Do branch of For COURSE_CODE syntax", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            year: 2014,
+                            code: "S1-01",
+                            units: [
+                                {
+                                    unitCode: "DEF2345",
+                                    unitName: "Test unit",
+                                    rules: [
+                                        {
+                                            ruleSummary: "COREQ-IW",
+                                            ruleString: "For COURSE_CODE IN {S2029, S3019} Do Any passed co-req (I/W) unit in {ABC2022} Otherwise true",
+                                            endDate: ""
+                                        }
+                                    ]
+                                },
+                                null,
+                                null,
+                                null
+                            ]
+                        }
+                    ],
+                    courseInfo: {
+                        courseCode: "S2029"
                     },
-                    {
-                        code: "S2-01",
-                        year: currentYear,
-                        units: [null, null, null, null]
+                    courseErrors: []
+                };
+
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
+
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            year: 2014,
+                            code: "S1-01",
+                            units: [
+                                {
+                                    unitCode: "DEF2345",
+                                    unitName: "Test unit",
+                                    rules: [
+                                        {
+                                            ruleSummary: "COREQ-IW",
+                                            ruleString: "For COURSE_CODE IN {S2029, S3019} Do Any passed co-req (I/W) unit in {ABC2022} Otherwise true",
+                                            endDate: ""
+                                        }
+                                    ]
+                                },
+                                null,
+                                null,
+                                null
+                            ]
+                        }
+                    ],
+                    courseInfo: {
+                        courseCode: "S2029"
                     },
-                    {
-                        code: "S1-01",
-                        year: currentYear + 1,
-                        units: [null, null, null, null]
-                    },
-                    {
-                        code: "S2-01",
-                        year: currentYear + 1,
-                        units: [null, null, null, null]
-                    },
-                    {
-                        code: "S1-01",
-                        year: currentYear + 2,
-                        units: [
-                            null,
-                            {
-                                unitCode: "ABC1234"
-                            },
-                            null,
-                            null
-                        ]
-                    },
-                    {
-                        code: "S2-01",
-                        year: currentYear + 2,
-                        units: [null, null, null, null]
-                    }
-                ],
-                courseErrors: [
-                    {
-                        message: "ABC1234 already exists in your course plan. Please plan as if you will pass all units.",
-                        coordinates: [[4, 1]]
-                    }
-                ]
-            };
+                    courseErrors: [{
+                        message: "You must complete ABC2022 before or whilst doing DEF2345.",
+                        coordinates: [[0, 0]]
+                    }]
+                };
 
-            test(CourseStructure, stateBefore, action, stateAfter);
-        });
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
 
-        it("Should give a course error for a unit not being offered in the teaching period it is in", () => {
-            const stateBefore = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: 2017,
-                        units: [
-                            null,
-                            null,
-                            null,
-                            null
-                        ]
-                    },
-                    {
-                        code: "S2-01",
-                        year: 2017,
-                        units: [
-                            null,
-                            null,
-                            {
-                                unitCode: "ABC1234",
-                                unitName: "Example unit",
-                                locationAndTime: [
-                                    {
-                                        location: "Clayton",
-                                        time: [
-                                            "First semester 2017 (Day)"
-                                        ]
-                                    }
-                                ]
-                            },
-                            null
-                        ]
-                    }
-                ],
-                courseErrors: [],
-                courseInfo: {}
-            };
+            it("Should correctly handle the Otherwise branch of For COURSE_CODE syntax", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            year: 2018,
+                            code: "S1-01",
+                            units: [null, null, null, null]
+                        },
+                        {
+                            year: 2018,
+                            code: "WS-01",
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    locationAndTime: [
+                                        {
+                                            location: "Clayton",
+                                            time: ["Winter semester 2018 (Day)"]
+                                        }
+                                    ],
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ-IW",
+                                            ruleString: "For COURSE_CODE IN {Q2001, Q2003} Do true Otherwise Must have passed 1 (I/W) units in {TEST1001}",
+                                            endDate: ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            year: 2018,
+                            code: "S2-01",
+                            units: [null, null, null, null]
+                        }
+                    ],
+                    courseErrors: []
+                };
 
-            const action = {
-                type: "VALIDATE_COURSE"
-            };
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
 
-            const stateAfter = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: 2017,
-                        units: [
-                            null,
-                            null,
-                            null,
-                            null
-                        ]
-                    },
-                    {
-                        code: "S2-01",
-                        year: 2017,
-                        units: [
-                            null,
-                            null,
-                            {
-                                unitCode: "ABC1234",
-                                unitName: "Example unit",
-                                locationAndTime: [
-                                    {
-                                        location: "Clayton",
-                                        time: [
-                                            "First semester 2017 (Day)"
-                                        ]
-                                    }
-                                ]
-                            },
-                            null
-                        ]
-                    }
-                ],
-                courseErrors: [
-                    {
-                        message: "ABC1234 is not offered in second semester.",
-                        coordinates: [[1, 2]]
-                    }
-                ],
-                courseInfo: {}
-            };
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            year: 2018,
+                            code: "S1-01",
+                            units: [null, null, null, null]
+                        },
+                        {
+                            year: 2018,
+                            code: "WS-01",
+                            units: [
+                                null,
+                                null,
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    locationAndTime: [
+                                        {
+                                            location: "Clayton",
+                                            time: ["Winter semester 2018 (Day)"]
+                                        }
+                                    ],
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ-IW",
+                                            ruleString: "For COURSE_CODE IN {Q2001, Q2003} Do true Otherwise Must have passed 1 (I/W) units in {TEST1001}",
+                                            endDate: ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            year: 2018,
+                            code: "S2-01",
+                            units: [null, null, null, null]
+                        }
+                    ],
+                    courseErrors: [
+                        {
+                            message: "You must complete TEST1001 before you can do ABC1234.",
+                            coordinates: [[1, 3]]
+                        }
+                    ]
+                };
 
-            test(CourseStructure, stateBefore, action, stateAfter);
-        });
-
-        it("Should give a course error for a missing prereq", () => {
-            const stateBefore = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: 2017,
-                        units: [
-                            null,
-                            null,
-                            null,
-                            {
-                                unitCode: "ABC1234",
-                                unitName: "Example unit",
-                                rules: [
-                                    {
-                                        ruleSummary: "PREREQ-IW",
-                                        ruleString: "Must have passed an (I/W) unit in {DEF2345, QLS2029}",
-                                        endDate: ""
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                courseErrors: [],
-                courseInfo: {}
-            };
-
-            const action = {
-                type: "VALIDATE_COURSE"
-            };
-
-            const stateAfter = {
-                teachingPeriods: [
-                    {
-                        code: "S1-01",
-                        year: 2017,
-                        units: [
-                            null,
-                            null,
-                            null,
-                            {
-                                unitCode: "ABC1234",
-                                unitName: "Example unit",
-                                rules: [
-                                    {
-                                        ruleSummary: "PREREQ-IW",
-                                        ruleString: "Must have passed an (I/W) unit in {DEF2345, QLS2029}",
-                                        endDate: ""
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                courseErrors: [
-                    {
-                        message: "You must complete DEF2345 or QLS2029 before you can do ABC1234.",
-                        coordinates: [[0, 3]]
-                    }
-                ],
-                courseInfo: {}
-            };
-
-            test(CourseStructure, stateBefore, action, stateAfter);
-        });
-
-        it("Should correctly handle the Otherwise branch of FOR COURSE_CODE syntax", () => {
-            const stateBefore = {
-                teachingPeriods: [
-                    {
-                        year: 2018,
-                        code: "S1-01",
-                        units: [null, null, null, null]
-                    },
-                    {
-                        year: 2018,
-                        code: "WS-01",
-                        units: [
-                            null,
-                            null,
-                            null,
-                            {
-                                unitCode: "ABC1234",
-                                locationAndTime: [
-                                    {
-                                        location: "Clayton",
-                                        time: ["Winter semester 2018 (Day)"]
-                                    }
-                                ],
-                                rules: [
-                                    {
-                                        ruleSummary: "PREREQ-IW",
-                                        ruleString: "For COURSE_CODE IN {Q2001, Q2003} Do true Otherwise Must have passed 1 (I/W) units in {TEST1001}",
-                                        endDate: ""
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        year: 2018,
-                        code: "S2-01",
-                        units: [null, null, null, null]
-                    }
-                ],
-                courseErrors: []
-            };
-
-            const action = {
-                type: "VALIDATE_COURSE"
-            };
-
-            const stateAfter = {
-                teachingPeriods: [
-                    {
-                        year: 2018,
-                        code: "S1-01",
-                        units: [null, null, null, null]
-                    },
-                    {
-                        year: 2018,
-                        code: "WS-01",
-                        units: [
-                            null,
-                            null,
-                            null,
-                            {
-                                unitCode: "ABC1234",
-                                locationAndTime: [
-                                    {
-                                        location: "Clayton",
-                                        time: ["Winter semester 2018 (Day)"]
-                                    }
-                                ],
-                                rules: [
-                                    {
-                                        ruleSummary: "PREREQ-IW",
-                                        ruleString: "For COURSE_CODE IN {Q2001, Q2003} Do true Otherwise Must have passed 1 (I/W) units in {TEST1001}",
-                                        endDate: ""
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        year: 2018,
-                        code: "S2-01",
-                        units: [null, null, null, null]
-                    }
-                ],
-                courseErrors: [
-                    {
-                        message: "You must complete TEST1001 before you can do ABC1234.",
-                        coordinates: [[1, 3]]
-                    }
-                ]
-            };
-
-            test(CourseStructure, stateBefore, action, stateAfter);
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
         });
     });
 

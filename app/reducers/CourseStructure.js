@@ -425,7 +425,7 @@ const CourseStructure = (state = defaultState, action) => {
                 basicCourses: action.payload,
                 courseSearchIsLoading: false,
             };
-        
+
         case "FETCH_COURSES_REJECTED":
             return {
                 ...state,
@@ -447,7 +447,7 @@ const CourseStructure = (state = defaultState, action) => {
                 areasOfStudy: action.payload,
                 aosSearchIsLoading: false,
             };
-        
+
         case "FETCH_AOS_REJECTED":
             return {
                 ...state,
@@ -529,6 +529,15 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 courseSnapshotUploading: false,
                 courseSnapshotUploadError: true,
+                courseSnapshotUploadData: null
+            };
+
+        case "MODIFIED_COURSE_PLAN":
+            return {
+                ...state,
+                courseSnapshotUploading: false,
+                courseSnapshotUploadError: false,
+                courseSnapshotUploadSucessful: false,
                 courseSnapshotUploadData: null
             };
 
