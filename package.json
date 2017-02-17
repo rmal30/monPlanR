@@ -1,6 +1,6 @@
 {
   "name": "monPlanR",
-  "version": "0.3.10-dev",
+  "version": "0.4.0-prerelease2",
   "description": "A course planning tool designed by Monash students for Monash students.",
   "main": "./app/index.jsx",
   "engines": {
