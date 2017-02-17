@@ -315,7 +315,7 @@ function rules(unitsByPosition, courseCode) {
 
                     if(courseCode && courseCodes.find(otherCourseCode => courseCode === otherCourseCode)) {
                         // evaluate do branch.
-                        ruleString = ruleString.substring(ruleString.indexOf("}") + 1).replace(" Do ", "").substring(0, ruleString.indexOf(" Otherwise"));
+                        ruleString = ruleString.substring(ruleString.indexOf("} Do ") + 5, ruleString.indexOf(" Otherwise"));
                     } else {
                         // evaluate otherwise branch.
                         ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
@@ -408,10 +408,10 @@ function rules(unitsByPosition, courseCode) {
                         if(!found) {
                             let finalOr = "";
                             if(ruleString.length > 1) {
-                                finalOr = "or " + ruleString.pop();
+                                finalOr = " or " + ruleString.pop();
                             }
                             errors.push({
-                                message: `You must complete ${ruleString.join(", ")} ${finalOr} before or whilst doing ${unit.unitCode}.`,
+                                message: `You must complete ${ruleString.join(", ")}${finalOr} before or whilst doing ${unit.unitCode}.`,
                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                             });
                         }
