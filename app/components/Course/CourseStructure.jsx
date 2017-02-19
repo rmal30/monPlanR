@@ -169,6 +169,7 @@ class CourseStructure extends Component {
                         year={teachingPeriod.year}
                         code={teachingPeriod.code}
                         units={teachingPeriod.units}
+                        tpCreditPoints={teachingPeriod.totalCreditpoints}
                         errors={tpErrors}
                         tempInvalidCoordinates={tpInvalidUnitSlotCoordinates} />
                     );
@@ -263,7 +264,7 @@ class CourseStructure extends Component {
                     </MediaQuery>
                 }
 
-                <Dimmer.Dimmable className="coursetable" as={Table} celled fixed striped compact>
+                <Dimmer.Dimmable className="coursetable" as={Table} structured celled fixed striped compact>
                     {(this.props.courseLoading || this.props.courseSnapshotLoading) && <Dimmer inverted active><Loader inverted size="huge">Loading...</Loader></Dimmer>}
                     <MediaQuery minDeviceWidth={768}>
                         <Table.Header>

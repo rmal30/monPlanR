@@ -7,8 +7,8 @@ describe("REDUCER: CourseStructure", () => {
         it("Should insert a teaching period with the given info correctly into middle of array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -22,9 +22,9 @@ describe("REDUCER: CourseStructure", () => {
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -35,8 +35,8 @@ describe("REDUCER: CourseStructure", () => {
         it("Should insert a teaching period with the given info correctly into start of array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -50,9 +50,9 @@ describe("REDUCER: CourseStructure", () => {
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2016, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2016, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -65,9 +65,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should remove a teaching period at the given index", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -77,8 +77,8 @@ describe("REDUCER: CourseStructure", () => {
             };
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -88,9 +88,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should remove a teaching period at the start of the array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -100,8 +100,8 @@ describe("REDUCER: CourseStructure", () => {
             };
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -114,8 +114,8 @@ describe("REDUCER: CourseStructure", () => {
         it("Should add the given teaching period to the end of the array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -128,9 +128,9 @@ describe("REDUCER: CourseStructure", () => {
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2020, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2020, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4
             };
@@ -249,9 +249,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should add a unit correctly to the start of an array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 unitToAdd: "FIT1002",
@@ -262,14 +262,14 @@ describe("REDUCER: CourseStructure", () => {
                 type: "ADD_UNIT",
                 tpIndex: 0,
                 unitIndex: 0,
-                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+                unit: {unitCode: "XXX0001", unitName: "Test Unit", creditPoints: 6}
             };
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [{unitCode: "XXX0001", unitName: "Test Unit"}, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, code: "S2-01", totalCreditpoints: 6, units: [{unitCode: "XXX0001", unitName: "Test Unit", creditPoints: 6}, null, null, null] },
+                    { year: 2018, code: "S2-01", totalCreditpoints: 0, units: [null, null, null, null] },
+                    { year: 2019, code: "S2-01", totalCreditpoints: 0, units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 unitToAdd: undefined,
@@ -282,9 +282,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should add a unit correctly to the middle of an array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 unitToAdd: "FIT1002",
@@ -295,14 +295,14 @@ describe("REDUCER: CourseStructure", () => {
                 type: "ADD_UNIT",
                 tpIndex: 1,
                 unitIndex: 1,
-                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+                unit: {unitCode: "XXX0001", unitName: "Test Unit", creditPoints: 6}
             };
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 6, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit", creditPoints: 6}, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 unitToAdd: undefined,
@@ -315,9 +315,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should add a unit correctly to the end of an array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 unitToAdd: "FIT1002",
@@ -328,14 +328,14 @@ describe("REDUCER: CourseStructure", () => {
                 type: "ADD_UNIT",
                 tpIndex: 2,
                 unitIndex: 3,
-                unit: {unitCode: "XXX0001", unitName: "Test Unit"}
+                unit: {unitCode: "XXX0001", unitName: "Test Unit", creditPoints: 6}
             };
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 6, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit", creditPoints: 6}] }
                 ],
                 numberOfUnits: 4,
                 unitToAdd: undefined,
@@ -350,9 +350,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should remove a unit correctly frpm the start of an array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [{unitCode: "XXX0001", unitName: "Test Unit"}, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 6, code: "S2-01", units: [{unitCode: "XXX0001", unitName: "Test Unit", }, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 hidingPlaceholders: []
@@ -361,14 +361,15 @@ describe("REDUCER: CourseStructure", () => {
             const action = {
                 type: "REMOVE_UNIT",
                 tpIndex: 0,
-                unitIndex: 0
+                unitIndex: 0,
+                creditPoints: 6
             };
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 hidingPlaceholders: []
@@ -380,9 +381,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should remove a unit correctly from the middle of an array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 6, code: "S2-01", units: [null, {unitCode: "XXX0001", unitName: "Test Unit"}, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 hidingPlaceholders: []
@@ -391,14 +392,15 @@ describe("REDUCER: CourseStructure", () => {
             const action = {
                 type: "REMOVE_UNIT",
                 tpIndex: 1,
-                unitIndex: 1
+                unitIndex: 1,
+                creditPoints: 6
             };
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 hidingPlaceholders: []
@@ -410,9 +412,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should remove a unit correctly from the end of an array", () => {
             const stateBefore = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 6, code: "S2-01", units: [null, null, null, {unitCode: "XXX0001", unitName: "Test Unit"}] }
                 ],
                 numberOfUnits: 4,
                 hidingPlaceholders: []
@@ -421,14 +423,15 @@ describe("REDUCER: CourseStructure", () => {
             const action = {
                 type: "REMOVE_UNIT",
                 tpIndex: 2,
-                unitIndex: 3
+                unitIndex: 3,
+                creditPoints: 6
             };
 
             const stateAfter = {
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 numberOfUnits: 4,
                 hidingPlaceholders: []
@@ -1516,13 +1519,13 @@ describe("REDUCER: CourseStructure", () => {
             const stateBefore = {
                 testParam1: 1,
                 testParam2: "test",
-                unitToBeMoved: "TestUnit",
+                unitToBeMoved: {unitName: "TestUnit", creditPoints: 6},
                 tpIndexOfUnitToBeMoved: 1,
                 unitsIndexOfUnitToBeMoved: 2,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, "PlaceToMoveTo", null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, "PlaceToMoveTo", null, null] },
+                    { year: 2018, totalCreditpoints: 6, code: "S2-01", units: [null, null, {unitName: "TestUnit", creditPoints: 6}, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1541,9 +1544,9 @@ describe("REDUCER: CourseStructure", () => {
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 0,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, "TestUnit", null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 6, code: "S2-01", units: [null, {unitName: "TestUnit", creditPoints: 6}, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1556,13 +1559,13 @@ describe("REDUCER: CourseStructure", () => {
             const stateBefore = {
                 testParam1: 1,
                 testParam2: "test",
-                unitToBeMoved: "TestUnit",
+                unitToBeMoved: {unitName: "TestUnit", creditPoints: 6},
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 1,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, "TestUnit", null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, "PlaceToMoveTo", null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 6, code: "S2-01", units: [null, {unitName: "TestUnit", creditPoints: 6}, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, "PlaceToMoveTo", null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1580,9 +1583,9 @@ describe("REDUCER: CourseStructure", () => {
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 0,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 6, code: "S2-01", units: [null, null, {unitName: "TestUnit", creditPoints: 6}, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1595,13 +1598,13 @@ describe("REDUCER: CourseStructure", () => {
             const stateBefore = {
                 testParam1: 1,
                 testParam2: "test",
-                unitToBeMoved: "TestUnit",
+                unitToBeMoved: {unitName: "TestUnit", creditPoints: 6},
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 1,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: ["PlaceToMoveTo", "TestUnit", null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 6, code: "S2-01", units: ["PlaceToMoveTo", {unitName: "TestUnit", creditPoints: 6}, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1620,9 +1623,9 @@ describe("REDUCER: CourseStructure", () => {
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 0,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: ["TestUnit", null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 6, code: "S2-01", units: [{unitName: "TestUnit", creditPoints: 6}, null, null, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1635,13 +1638,13 @@ describe("REDUCER: CourseStructure", () => {
             const stateBefore = {
                 testParam1: 1,
                 testParam2: "test",
-                unitToBeMoved: "TestUnit",
+                unitToBeMoved: {unitName: "TestUnit", creditPoints: 6},
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 0,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: ["TestUnit", null, "PlaceToMoveTo", null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 6, code: "S2-01", units: [{unitName: "TestUnit", creditPoints: 6}, null, "PlaceToMoveTo", null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1660,9 +1663,9 @@ describe("REDUCER: CourseStructure", () => {
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 0,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, "TestUnit", null] },
-                    { year: 2018, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 6, code: "S2-01", units: [null, null, {unitName: "TestUnit", creditPoints: 6}, null] },
+                    { year: 2018, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1679,9 +1682,9 @@ describe("REDUCER: CourseStructure", () => {
                 tpIndexOfUnitToBeMoved: 1,
                 unitsIndexOfUnitToBeMoved: 2,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 6, code: "S2-01", units: [null, null, {unitName: "TestUnit", creditPoints: 6}, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };
@@ -1700,9 +1703,9 @@ describe("REDUCER: CourseStructure", () => {
                 tpIndexOfUnitToBeMoved: 0,
                 unitsIndexOfUnitToBeMoved: 0,
                 teachingPeriods: [
-                    { year: 2017, code: "S2-01", units: [null, null, null, null] },
-                    { year: 2018, code: "S2-01", units: [null, null, "TestUnit", null] },
-                    { year: 2019, code: "S2-01", units: [null, null, null, null] }
+                    { year: 2017, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] },
+                    { year: 2018, totalCreditpoints: 6, code: "S2-01", units: [null, null, {unitName: "TestUnit", creditPoints: 6}, null] },
+                    { year: 2019, totalCreditpoints: 0, code: "S2-01", units: [null, null, null, null] }
                 ],
                 hidingPlaceholders: []
             };

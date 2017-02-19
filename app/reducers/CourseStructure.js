@@ -124,7 +124,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 teachingPeriods: [
                     ...state.teachingPeriods.slice(0, action.index),
-                    {year: action.year, code: action.code, units: new Array(state.numberOfUnits).fill(null)},
+                    {year: action.year, totalCreditpoints: 0, code: action.code, units: new Array(state.numberOfUnits).fill(null)},
                     ...state.teachingPeriods.slice(action.index)
                 ]
             };
@@ -149,7 +149,8 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 teachingPeriods: [
                     ...state.teachingPeriods,
-                    {
+                    {   
+                        totalCreditpoints: 0,
                         year: action.year,
                         code: action.code,
                         units: new Array(state.numberOfUnits).fill(null)
@@ -224,6 +225,7 @@ const CourseStructure = (state = defaultState, action) => {
                     ...state.teachingPeriods.slice(0, action.tpIndex),
                     {
                         ...state.teachingPeriods[action.tpIndex],
+                        totalCreditpoints: state.teachingPeriods[action.tpIndex].totalCreditpoints + action.unit.creditPoints,
                         units: [
                             ...state.teachingPeriods[action.tpIndex].units.slice(0, action.unitIndex),
                             action.unit,
@@ -256,6 +258,7 @@ const CourseStructure = (state = defaultState, action) => {
                     if (index === action.tpIndex) {
                         return {
                             ...tp,
+                            totalCreditpoints: Math.max(0, tp.totalCreditpoints - action.creditPoints),
                             units: [
                                 ...tp.units.slice(0, action.unitIndex),
                                 unitPlaceholder || null,
@@ -691,6 +694,7 @@ const CourseStructure = (state = defaultState, action) => {
                         ...state.teachingPeriods.slice(0, state.tpIndexOfUnitToBeMoved),
                         {
                             ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
+                            totalCreditpoints: Math.max(0, state.teachingPeriods[state.tpIndexOfUnitToBeMoved].totalCreditpoints - state.unitToBeMoved.creditPoints),
                             units: [
                                 ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
                                 unitPlaceholder || null,
@@ -700,6 +704,7 @@ const CourseStructure = (state = defaultState, action) => {
                         ...state.teachingPeriods.slice(state.tpIndexOfUnitToBeMoved + 1, action.newTPIndex),
                         {
                             ...state.teachingPeriods[action.newTPIndex],
+                            totalCreditpoints: state.teachingPeriods[action.newTPIndex].totalCreditpoints + state.unitToBeMoved.creditPoints,
                             units: [
                                 ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
                                 state.unitToBeMoved,
@@ -777,6 +782,7 @@ const CourseStructure = (state = defaultState, action) => {
                         ...state.teachingPeriods.slice(0, action.newTPIndex),
                         {
                             ...state.teachingPeriods[action.newTPIndex],
+                            totalCreditpoints: state.teachingPeriods[action.newTPIndex].totalCreditpoints + state.unitToBeMoved.creditPoints,
                             units: [
                                 ...state.teachingPeriods[action.newTPIndex].units.slice(0, action.newUnitIndex),
                                 state.unitToBeMoved,
@@ -786,6 +792,7 @@ const CourseStructure = (state = defaultState, action) => {
                         ...state.teachingPeriods.slice(action.newTPIndex + 1, state.tpIndexOfUnitToBeMoved),
                         {
                             ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved],
+                            totalCreditpoints: Math.max(0, state.teachingPeriods[state.tpIndexOfUnitToBeMoved].totalCreditpoints - state.unitToBeMoved.creditPoints),
                             units: [
                                 ...state.teachingPeriods[state.tpIndexOfUnitToBeMoved].units.slice(0, state.unitsIndexOfUnitToBeMoved),
                                 unitPlaceholder || null,
