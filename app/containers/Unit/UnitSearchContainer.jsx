@@ -119,7 +119,7 @@ class UnitSearchContainer extends Component {
                 e.preventDefault();
                 break;
             case 27: // Escape
-                this.props.close();
+                this.props.hideSidebar();
                 e.preventDefault();
                 break;
             case 38: // Up
@@ -259,7 +259,7 @@ class UnitSearchContainer extends Component {
 UnitSearchContainer.propTypes = {
     showCustomUnitUI: PropTypes.func,
     searchVisible: PropTypes.bool,
-    close: PropTypes.func,
+    hideSidebar: PropTypes.func,
     willAddUnit: PropTypes.func,
     fetchUnits: PropTypes.func,
     unitSearchIsLoading: PropTypes.bool,
