@@ -40,34 +40,38 @@ export const TeachingPeriod = (props) => {
     const totalPoints = props.units.reduce((prev, next) => {
         if (next === null) {
             return prev + 6;
+        } else if (next.creditPoints === 0) {
+            return prev + 6; //the unit may not actual have credit points, but it does take up a slot
         } else {
             return prev + next.creditPoints;
         }
     }, 0);
 
-    let difference = totalPoints - maxPoints;
 
+
+    let difference = totalPoints - maxPoints;
     let unitRep = props.units;
     if(difference > 0) {
         unitRep = [];
         for(let i=0; i < props.units.length; i++){
             let currentUnit = props.units[i];
             if (currentUnit !== null) {
-                unitRep.push(currentUnit); //we are forced to display a unit if it is not empty
+                unitRep.push(currentUnit);  //we are forced to display a unit if it is not empty
             } else if (difference > 0) {
                 difference -= 6;
                 unitRep.push("shouldNotDisplay"); //a message that can be intercepted so that we do not display
             } else {
-                unitRep.push(currentUnit); //safe to push null units
+                unitRep.push(currentUnit);
             }
         }
     }
+
 
     
 
 
 
-    const unitsEle = props.units.map((unit, index) => {
+    const unitsEle = unitRep.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
 
         if(!unit) {
