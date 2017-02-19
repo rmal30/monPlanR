@@ -101,6 +101,7 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreC
 
 
     let offerings = tempUnit.locationAndTime;
+    const reNotOffered = new RegExp("Not Offering in [0-9]{4}");
 
     if(!offerings) {
         return coordinates;
@@ -120,6 +121,8 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreC
 
             let isValid = false;
 
+            let year = 2017;
+
             for(let k = 0; k < offerings.length; k++) {
                 const location = offerings[k].location;
                 const times = offerings[k].time;
@@ -127,9 +130,17 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreC
                     continue;
                 }
 
+                if(reNotOffered.test(location)) {
+                    year = parseInt(location.substring("Not Offering in ".length)) || year;
+                    break;
+                }
+
                 for(let l = 0; l < times.length; l++) {
                     let offering = times[l];
                     let isMatch = re.test(offering);
+
+                    const index = times[l].search(/[0-9]{4}/);
+                    year = parseInt(times[l].substring(index, index + 4)) || year;
 
                     if(isMatch) {
                         isValid = true;
@@ -141,7 +152,7 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreC
                 }
             }
 
-            if (!isValid) {
+            if (!isValid && teachingPeriods[i].year === year) {
                 coordinates.push([i, null]);
             }
         }
@@ -217,6 +228,8 @@ function offerings(unitsByPosition, teachingPeriods) {
         "WS-01": "Winter semester"
     };
 
+    const reNotOffered = new RegExp("Not Offering in [0-9]{4}");
+
     const errors = [];
 
     for(let i = 0; i < unitsByPosition.length; i++) {
@@ -237,6 +250,7 @@ function offerings(unitsByPosition, teachingPeriods) {
             let re = new RegExp(teachingPeriodStr);
 
             let isValid = false;
+            let year = 2017;
 
             for(let k = 0; k < offerings.length; k++) {
                 let location = offerings[k].location;
@@ -245,9 +259,16 @@ function offerings(unitsByPosition, teachingPeriods) {
                     continue;
                 }
 
+                if(reNotOffered.test(location)) {
+                    year = parseInt(location.substring("Not Offering in ".length)) || year;
+                    break;
+                }
+
                 for(let l = 0; l < times.length; l++) {
                     let offering = times[l];
                     let isMatch = re.test(offering);
+                    const index = times[l].search(/[0-9]{4}/);
+                    year = parseInt(times[l].substring(index, index + 4)) || year;
 
                     if(isMatch) {
                         isValid = true;
@@ -259,7 +280,7 @@ function offerings(unitsByPosition, teachingPeriods) {
                 }
             }
 
-            if (!isValid) {
+            if (!isValid && unitsByPosition[i].teachingPeriodYear === year) {
                 errors.push({
                     message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}.`,
                     coordinates: [[unitsByPosition[i].teachingPeriodIndex, unitsByPosition[i].unitIndex]]
