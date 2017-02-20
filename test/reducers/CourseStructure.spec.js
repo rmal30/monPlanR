@@ -2204,7 +2204,7 @@ describe("REDUCER: CourseStructure", () => {
                     teachingPeriods: [
                         {
                             code: "S1-01",
-                            year: 2017,
+                            year: 2019,
                             units: [
                                 null,
                                 null,
@@ -2214,7 +2214,7 @@ describe("REDUCER: CourseStructure", () => {
                         },
                         {
                             code: "S2-01",
-                            year: 2017,
+                            year: 2019,
                             units: [
                                 null,
                                 null,
@@ -2225,7 +2225,7 @@ describe("REDUCER: CourseStructure", () => {
                                         {
                                             location: "Clayton",
                                             time: [
-                                                "First semester 2017 (Day)"
+                                                "First semester 2019 (Day)"
                                             ]
                                         }
                                     ]
@@ -2246,7 +2246,7 @@ describe("REDUCER: CourseStructure", () => {
                     teachingPeriods: [
                         {
                             code: "S1-01",
-                            year: 2017,
+                            year: 2019,
                             units: [
                                 null,
                                 null,
@@ -2256,7 +2256,7 @@ describe("REDUCER: CourseStructure", () => {
                         },
                         {
                             code: "S2-01",
-                            year: 2017,
+                            year: 2019,
                             units: [
                                 null,
                                 null,
@@ -2267,7 +2267,7 @@ describe("REDUCER: CourseStructure", () => {
                                         {
                                             location: "Clayton",
                                             time: [
-                                                "First semester 2017 (Day)"
+                                                "First semester 2019 (Day)"
                                             ]
                                         }
                                     ]
@@ -2278,7 +2278,7 @@ describe("REDUCER: CourseStructure", () => {
                     ],
                     courseErrors: [
                         {
-                            message: "ABC1234 is not offered in second semester, 2017.",
+                            message: "ABC1234 is not offered in second semester, 2019.",
                             coordinates: [[1, 2]]
                         }
                     ],
