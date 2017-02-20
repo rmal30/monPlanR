@@ -9,8 +9,17 @@ import "./public/css/monash.css";
 import routes from "./config/routes";
 import store, { history } from "./store";
 
+var ReactGA = require("react-ga");
+ReactGA.initialize("UA-88744252-1");
+
+/* logPageView */
+function logPageView() {
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.pageview(window.location.pathname);
+}
+
 render((
     <Provider store={store}>
-        <Router routes={routes} history={history} />
+        <Router routes={routes} history={history} onUpdate={logPageView}/>
     </Provider>
     ), document.getElementById("app"));
