@@ -28,28 +28,34 @@ export default function CoursePrintStatus({ courseErrors, faculty }) {
     };
 
     return (
-        <Segment raised className="print-only">
-            {courseErrors.length === 0 &&
-                <Container>
-                    <h2><Icon name="checkmark" color="green" /> No problems detected with this course plan</h2>
-                    <p>
-                        However it may be best to check your course plan with your
-                        {faculty ? `${faculty}'s` : "faculty's"} course advisor
-                        before filling in WES enrolment details.
-                    </p>
-                </Container>
-            }
-            {courseErrors.length > 0 &&
-                <Container>
-                    <h2><Icon name="x" color="red" /> We have found some problems with this course plan</h2>
-                    <p>Here are the following errors that you may want to check with your {faculty ? `${faculty}'s` : "faculty's"} course advisor.</p>
-                    <ul>
-                        {courseErrors.map((error, index) => (
-                            <li key={index}>{error.message}</li>
-                        ))}
-                    </ul>
-                </Container>
-            }
-        </Segment>
+        <Container className="print-only">
+            <Segment>
+                {courseErrors.length === 0 &&
+                    <Container>
+                        <h2><Icon name="checkmark" color="green" /> No problems detected with this course plan</h2>
+                        <p>
+                            However it may be best to check your course plan with your {faculty ? `${faculty}'s` : "faculty's"} course advisor before filling in WES enrolment details.
+                        </p>
+                    </Container>
+                }
+                {courseErrors.length > 0 &&
+                    <Container>
+                        <h2><Icon name="x" color="red" /> We have found some problems with this course plan</h2>
+                        <p>Here are the following errors that you may want to check with your {faculty ? `${faculty}'s` : "faculty's"} course advisor.</p>
+                        <ul>
+                            {courseErrors.map((error, index) => (
+                                <li key={index}>{error.message}</li>
+                            ))}
+                        </ul>
+                    </Container>
+                }
+
+            </Segment>
+            <br /><br />
+            <Container textAlign="center">
+                <img className="logo" src="/img/logo.png" alt="logo" />
+                <div>monPlan - Version {MONPLAN_VERSION}</div>
+            </Container>
+        </Container>
     );
 }

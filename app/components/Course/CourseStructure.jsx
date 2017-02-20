@@ -269,19 +269,19 @@ class CourseStructure extends Component {
                         <Table.Header>
                             <Table.Row textAlign="center">
                                 <Table.HeaderCell>
-                                  <Segment>
-                                    Teaching Period
-                                  </Segment>
-                              </Table.HeaderCell>
+                                    <Segment basic>
+                                        Teaching Period
+                                    </Segment>
+                                </Table.HeaderCell>
                                 <Table.HeaderCell colSpan={this.props.numberOfUnits}>
-                                    <Segment>
-                                    Units
-                                    {!this.props.viewOnly &&
-                                        <span className="unitControl">
-                                            <OverloadButtonContainer />
-                                            <ConfirmDeleteOverload />
-                                        </span>
-                                    }
+                                    <Segment basic>
+                                        Units
+                                        {!this.props.viewOnly &&
+                                            <span className="unitControl">
+                                                <OverloadButtonContainer />
+                                                <ConfirmDeleteOverload />
+                                            </span>
+                                        }
                                     </Segment>
                                 </Table.HeaderCell>
                             </Table.Row>
