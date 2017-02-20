@@ -2278,7 +2278,7 @@ describe("REDUCER: CourseStructure", () => {
                     ],
                     courseErrors: [
                         {
-                            message: "ABC1234 is not offered in second semester.",
+                            message: "ABC1234 is not offered in second semester, 2017.",
                             coordinates: [[1, 2]]
                         }
                     ],

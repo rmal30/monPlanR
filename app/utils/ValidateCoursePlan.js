@@ -101,7 +101,7 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreC
 
 
     let offerings = tempUnit.locationAndTime;
-    const reNotOffered = new RegExp("Not Offering in [0-9]{4}");
+    const reNotOffered = new RegExp("Not Offered in [0-9]{4}");
 
     if(!offerings) {
         return coordinates;
@@ -131,7 +131,7 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreC
                 }
 
                 if(reNotOffered.test(location)) {
-                    year = parseInt(location.substring("Not Offering in ".length)) || year;
+                    year = parseInt(location.substring("Not Offered in ".length)) || year;
                     break;
                 }
 
@@ -228,7 +228,7 @@ function offerings(unitsByPosition, teachingPeriods) {
         "WS-01": "Winter semester"
     };
 
-    const reNotOffered = new RegExp("Not Offering in [0-9]{4}");
+    const reNotOffered = new RegExp("Not Offered in [0-9]{4}");
 
     const errors = [];
 
@@ -252,37 +252,39 @@ function offerings(unitsByPosition, teachingPeriods) {
             let isValid = false;
             let year = 2017;
 
-            for(let k = 0; k < offerings.length; k++) {
-                let location = offerings[k].location;
-                let times = offerings[k].time;
-                if(!location || !times) {
-                    continue;
-                }
+            if(typeof offerings.length === "number") { // check if offerings is an array
+                for(let k = 0; k < offerings.length; k++) {
+                    let location = offerings[k].location;
+                    let times = offerings[k].time;
+                    if(!location || !times) {
+                        continue;
+                    }
 
-                if(reNotOffered.test(location)) {
-                    year = parseInt(location.substring("Not Offering in ".length)) || year;
-                    break;
-                }
+                    for(let l = 0; l < times.length; l++) {
+                        let offering = times[l];
+                        let isMatch = re.test(offering);
+                        const index = times[l].search(/[0-9]{4}/);
+                        year = parseInt(times[l].substring(index, index + 4)) || year;
 
-                for(let l = 0; l < times.length; l++) {
-                    let offering = times[l];
-                    let isMatch = re.test(offering);
-                    const index = times[l].search(/[0-9]{4}/);
-                    year = parseInt(times[l].substring(index, index + 4)) || year;
-
-                    if(isMatch) {
-                        isValid = true;
+                        if(isMatch) {
+                            isValid = true;
+                            break;
+                        }
+                    }
+                    if(isValid) {
                         break;
                     }
                 }
-                if(isValid) {
-                    break;
-                }
-            }
 
-            if (!isValid && unitsByPosition[i].teachingPeriodYear === year) {
+                if (!isValid && unitsByPosition[i].teachingPeriodYear === year) {
+                    errors.push({
+                        message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}, ${year}.`,
+                        coordinates: [[unitsByPosition[i].teachingPeriodIndex, unitsByPosition[i].unitIndex]]
+                    });
+                }
+            } else if(reNotOffered.test(offerings.location) && parseInt(offerings.location.substring("Not Offered in ".length)) === unitsByPosition[i].teachingPeriodYear) {
                 errors.push({
-                    message: `${unitsByPosition[i].unitCode} is not offered in ${teachingPeriodStr ? teachingPeriodStr.toLowerCase() : "this teaching period"}.`,
+                    message: `${unitsByPosition[i].unitCode} is not offered in ${year}.`,
                     coordinates: [[unitsByPosition[i].teachingPeriodIndex, unitsByPosition[i].unitIndex]]
                 });
             }
