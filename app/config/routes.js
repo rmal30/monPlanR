@@ -10,6 +10,7 @@ import View from "../components/Pages/View.jsx";
 import YearFormContainer from "../containers/Forms/YearFormContainer.jsx";
 import MissingPage from "../components/Pages/404.jsx";
 
+
 export default (
     <Route path="/" component={Main}>
         <IndexRoute darkBackground component={Home} />
