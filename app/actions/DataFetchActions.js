@@ -411,7 +411,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
         });
 
-        const snapURL = `${MONPLAN_REMOTE_URL2}/snaps/`;
+        const snapURL = `${MONPLAN_REMOTE_URL}/snaps/`;
         const params = {
             "course": {
                 teachingPeriods,
