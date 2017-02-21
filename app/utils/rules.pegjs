@@ -62,7 +62,7 @@ minCreditPoints
 	= "Must have passed " digits:[0-9]+ " (I/W)"? " credit points" unitsOwnedBy:unitsOwnedBy? levels:atLevels? { return {type: "MIN_CREDIT_POINTS", minCreditPoints: parseInt(digits.join("")), unitsOwnedBy: unitsOwnedBy, levels: levels} }
 
 permissionRequired
-	= "Permission required" { return "PERMISSION_REQUIRED" }
+	= "Permission required" { return { type: "PERMISSION_REQUIRED" } }
 
 passedUnits
 	= "Must have passed " number:integer " (I/W)"? " unit" "s"? " in " list:list grades:grades? { return { type: "PASSED_UNITS", number: number, list: list, grades: grades } }
@@ -88,7 +88,7 @@ atLevels
 	= " at levels " list:list { return list }
 
 true
-	= "true" { return true }
+	= "true" { return { type: "TRUE" } }
 
 incompatibleWith
 	= "Incompatible with" " achievement in"? " (I/W)"? " " list:list { return { type: "INCOMPATIBLE_WITH", list: list } }

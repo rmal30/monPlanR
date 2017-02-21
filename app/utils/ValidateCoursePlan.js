@@ -352,8 +352,9 @@ function rules(unitsByPosition, courseCode) {
                             nodeStack.pop();
                         }
 
-                        if(node === true) {
+                        if(node.type === "TRUE") {
                             // Unconditionally true means that we don't need to process it any further
+                            continue;
                         } else if(node.type === "FOR") {
                             // we can mutate node.expression as it is generated from scratch by the rulesParser
                             let currentNode = node.expression;
