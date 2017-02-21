@@ -1,4 +1,5 @@
 import moment from "moment";
+import rulesParser from "./rules.pegjs";
 
 /**
  * Returns a list of units from the course structure
@@ -299,8 +300,7 @@ function offerings(unitsByPosition, teachingPeriods) {
  */
 function rules(unitsByPosition, courseCode) {
     const errors = [];
-    const noPermission = new RegExp("Permission required");
-    const prereqRe = new RegExp("Must have passed (an|1) \\(I/W\\) units? in ");
+
     unitsByPosition.forEach(unit => {
         if(unit.rules && unit.rules.length > 0) {
             unit.rules.forEach(rule => {
@@ -311,152 +311,147 @@ function rules(unitsByPosition, courseCode) {
 
                 let ruleString = rule.ruleString;
 
-                if(new RegExp(" (AND|or) ").test(ruleString)) {
-                    // Ignore logical expressions for now
-                    return;
-                }
+                try {
+                    let parseTree = rulesParser.parse(ruleString);
+                    let node = parseTree;
 
-                // in case the while loop goes on forever, force exit if it exceeds maxIterations
-                let maxIterations = 100;
+                    let maxIterations = 100;
 
-                while(new RegExp("For COURSE_CODE IN {.+}").test(ruleString)) {
-                    maxIterations--;
-                    if(maxIterations <= 0) {
-                        console.error("Exceeded maximum iterations. Breaking out of while loop.");
-                        break;
+                    while(node.type === "FOR" && node.variable === "COURSE_CODE") {
+                        maxIterations --;
+                        if(maxIterations <= 0) {
+                            throw new Error("Max iterations exceeded for FOR COURSE_CODE.");
+                        }
+
+                        if(!courseCode || node.list.indexOf(courseCode) === -1) {
+                            // Traverse to the otherwise branch
+                            node = node.otherwise;
+                        } else {
+                            // Traverse to the do branch
+                            node = node.do;
+                        }
                     }
 
-                    ruleString = ruleString.replace("For COURSE_CODE IN ", "");
-
-                    if(!courseCode) {
-                        // go straight to otherwise branch.
-                        ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
-                        continue;
+                    if(node === true) {
+                        // Unconditionally true means that we don't need to process it any further
+                        return;
                     }
 
-                    const courseCodes = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}")).split(", ");
+                    if(rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") {
+                        if(node.type === "PERMISSION_REQUIRED") {
+                            errors.push({
+                                message: `You need permission to do ${unit.unitCode}.`,
+                                coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                            });
+                        } else if(node.type === "PASSED_UNITS") {
+                            let found = false;
+                            let unitCodes = node.list;
 
-                    if(courseCode && courseCodes.find(otherCourseCode => courseCode === otherCourseCode)) {
-                        // evaluate do branch.
-                        ruleString = ruleString.substring(ruleString.indexOf("} Do ") + 5, ruleString.indexOf(" Otherwise"));
-                    } else {
-                        // evaluate otherwise branch.
-                        ruleString = ruleString.substring(ruleString.indexOf("Otherwise ") + "Otherwise ".length);
-                    }
-                }
+                            unitCodes.forEach(unitCode => {
+                                const unitPreq = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
 
-                if(rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") {
-                    if(noPermission.test(ruleString)) {
-                        errors.push({
-                            message: `You need permission to do ${unit.unitCode}.`,
-                            coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
-                        });
-                    } else if(prereqRe.test(ruleString)) {
-                        ruleString = ruleString.substring(ruleString.search(prereqRe) + ruleString.match(prereqRe)[0].length);
-                        ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
-                        ruleString = ruleString.split(", ");
+                                if(unitPreq) {
+                                    if(!found && unitPreq.teachingPeriodIndex >= unit.teachingPeriodIndex) {
+                                        errors.push({
+                                            message: `Please move ${unitPreq.unitCode} to a teaching period before ${unit.unitCode}.`,
+                                            coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitPreq.teachingPeriodIndex, unitPreq.unitIndex]]
+                                        });
+                                    }
 
-                        let found = false;
+                                    found = true;
+                                }
+                            });
 
-                        ruleString.forEach(unitCode => {
-                            const unitPreq = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
-
-                            if(unitPreq) {
-                                if(!found && unitPreq.teachingPeriodIndex >= unit.teachingPeriodIndex) {
+                            if(!found) {
+                                if(node.number > 1) {
                                     errors.push({
-                                        message: `Please move ${unitPreq.unitCode} to a teaching period before ${unit.unitCode}.`,
-                                        coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitPreq.teachingPeriodIndex, unitPreq.unitIndex]]
+                                        message: `You must complete ${node.number} of these units before you can do ${unit.unitCode}: ${unitCodes.join(", ")}.`,
+                                        coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                                    });
+                                } else {
+                                    let finalOr = "";
+                                    if(unitCodes.length > 1) {
+                                        finalOr = " or " + unitCodes.pop();
+                                    }
+
+                                    errors.push({
+                                        message: `You must complete ${unitCodes.join(", ")}${finalOr} before you can do ${unit.unitCode}.`,
+                                        coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                     });
                                 }
-
-                                found = true;
                             }
-                        });
-
-                        if(!found) {
-                            let finalOr = "";
-                            if(ruleString.length > 1) {
-                                finalOr = " or " + ruleString.pop();
+                        } else if(node.type === "MIN_CREDIT_POINTS") {
+                            const { minCreditPoints } = node;
+                            if(!minCreditPoints) {
+                                return;
                             }
-                            errors.push({
-                                message: `You must complete ${ruleString.join(", ")}${finalOr} before you can do ${unit.unitCode}.`,
-                                coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
-                            });
-                        }
-                    } else if(new RegExp("Must have passed [0-9]+ (\\(I/W\\) )?credit points?").test(ruleString)) {
-                        ruleString = ruleString.replace("Must have passed ", "");
-                        const minCreditPoints = parseInt(ruleString);
-                        if(!minCreditPoints) {
-                            return;
-                        }
 
-                        let creditPoints = 0;
+                            let creditPoints = 0;
 
-                        unitsByPosition.forEach(otherUnit => {
-                            if(otherUnit.teachingPeriodIndex < unit.teachingPeriodIndex) {
-                                creditPoints += otherUnit.creditPoints || 0;
-                            }
-                        });
-
-                        if(creditPoints < minCreditPoints) {
-                            errors.push({
-                                message: `You need ${minCreditPoints - creditPoints} more credit points before doing ${unit.unitCode}.`,
-                                coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
-                            });
-                        }
-                    }
-                } else if(rule.ruleSummary === "COREQ" || rule.ruleSummary === "COREQ-IW") {
-                    if(new RegExp("Any passed co-req \\(I/W\\) unit in ").test(ruleString)) {
-                        ruleString = ruleString.substring(ruleString.indexOf("Any passed co-req (I/W) unit in ") + "Any passed co-req (I/W) unit in ".length);
-                        ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
-                        ruleString = ruleString.split(", ");
-
-                        let found = false;
-
-                        ruleString.forEach(unitCode => {
-                            const unitCoreq = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
-
-                            if(unitCoreq) {
-                                if(!found && unitCoreq.teachingPeriodIndex > unit.teachingPeriodIndex) {
-                                    errors.push({
-                                        message: `Please move ${unitCoreq.unitCode} to a teaching period before or in the same teaching period as ${unit.unitCode}.`,
-                                        coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitCoreq.teachingPeriodIndex, unitCoreq.unitIndex]]
-                                    });
+                            unitsByPosition.forEach(otherUnit => {
+                                if(otherUnit.teachingPeriodIndex < unit.teachingPeriodIndex) {
+                                    creditPoints += otherUnit.creditPoints || 0;
                                 }
-
-                                found = true;
-                            }
-                        });
-
-                        if(!found) {
-                            let finalOr = "";
-                            if(ruleString.length > 1) {
-                                finalOr = " or " + ruleString.pop();
-                            }
-                            errors.push({
-                                message: `You must complete ${ruleString.join(", ")}${finalOr} before or whilst doing ${unit.unitCode}.`,
-                                coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                             });
-                        }
-                    }
-                } else if(rule.ruleSummary === "INCOMP" || rule.ruleSummary === "INCOMP-IW") {
-                    if(new RegExp("Incompatible with achievement in (\\(I/W\\) )?").test(ruleString)) {
-                        ruleString = ruleString.substring(ruleString.indexOf("Incompatible with achievement in ") + "Incompatible with achievement in ".length);
-                        ruleString.replace("(I/W) ", "");
-                        ruleString = ruleString.substring(ruleString.indexOf("{") + 1, ruleString.indexOf("}"));
-                        ruleString = ruleString.split(", ");
 
-                        ruleString.forEach(unitCode => {
-                            const unitProhib = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
-
-                            if(unitProhib && unitProhib.teachingPeriodIndex <= unit.teachingPeriodIndex) {
+                            if(creditPoints < minCreditPoints) {
                                 errors.push({
-                                    message: `Please remove ${unit.unitCode}, as completing ${unitProhib.unitCode} prohibits you from doing this unit.`,
+                                    message: `You need ${minCreditPoints - creditPoints} more credit points before doing ${unit.unitCode}.`,
                                     coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                 });
                             }
-                        });
+                        }
+                    } else if(rule.ruleSummary === "COREQ" || rule.ruleSummary === "COREQ-IW") {
+                        //new RegExp("Any passed co-req \\(I/W\\) unit in ").test(ruleString)
+                        if(node.type === "PASSED_COREQ_UNITS") {
+                            let unitCodes = node.list;
+
+                            let found = false;
+
+                            unitCodes.forEach(unitCode => {
+                                const unitCoreq = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
+
+                                if(unitCoreq) {
+                                    if(!found && unitCoreq.teachingPeriodIndex > unit.teachingPeriodIndex) {
+                                        errors.push({
+                                            message: `Please move ${unitCoreq.unitCode} to a teaching period before or in the same teaching period as ${unit.unitCode}.`,
+                                            coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitCoreq.teachingPeriodIndex, unitCoreq.unitIndex]]
+                                        });
+                                    }
+
+                                    found = true;
+                                }
+                            });
+
+                            if(!found) {
+                                let finalOr = "";
+                                if(unitCodes.length > 1) {
+                                    finalOr = " or " + unitCodes.pop();
+                                }
+                                errors.push({
+                                    message: `You must complete ${unitCodes.join(", ")}${finalOr} before or whilst doing ${unit.unitCode}.`,
+                                    coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                                });
+                            }
+                        }
+                    } else if(rule.ruleSummary === "INCOMP" || rule.ruleSummary === "INCOMP-IW") {
+                        if(node.type === "INCOMPATIBLE_WITH") {
+                            let unitCodes = node.list;
+
+                            unitCodes.forEach(unitCode => {
+                                const unitProhib = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
+
+                                if(unitProhib && unitProhib.teachingPeriodIndex <= unit.teachingPeriodIndex) {
+                                    errors.push({
+                                        message: `Please remove ${unit.unitCode}, as completing ${unitProhib.unitCode} prohibits you from doing this unit.`,
+                                        coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
+                                    });
+                                }
+                            });
+                        }
                     }
+                } catch(e) {
+                    console.error(ruleString, e);
                 }
             });
         }

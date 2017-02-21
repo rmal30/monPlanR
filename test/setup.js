@@ -3,16 +3,24 @@
  * importing Mocha and Chai's expect function, and injects it into the global
  * object. It also injects jsdom to simulate the browser environment so that
  * Enzyme mount can be used for testing complex React components.
+ *
+ * @author Saurabh Joshi, JXNS
  */
 
+import { describe, it } from "mocha";
+
 import chai from "chai";
-import expectSimple from "expect";
-import deepFreeze from "deep-freeze";
 import chaiEnzyme from "chai-enzyme";
 import sinonChai from "sinon-chai";
-import { describe, it } from "mocha";
+import expectSimple from "expect";
+
+import deepFreeze from "deep-freeze";
+
 import { jsdom } from "jsdom";
 import createMockRaf from "mock-raf";
+
+import fs from "fs";
+import peg from "pegjs";
 
 const exposedProperties = ["window", "navigator", "document"];
 
@@ -52,9 +60,10 @@ chai.use(sinonChai);
 global.describe = describe;
 global.it = it;
 global.expect = chai.expect;
-global.documentRef = document;
 global.MONPLAN_REMOTE_URL2 = "https://monplan-api-dev.appspot.com";
 global.MONPLAN_REMOTE_URL = "https://api2.monplan.tech";
+
+
 /**
  * The test function that will run for each Redux reducer action.
  *
@@ -70,4 +79,20 @@ global.test = (reducer, stateBefore, action, stateAfter) => {
     expectSimple(
         reducer(stateBefore, action)
     ).toEqual(stateAfter);
+};
+
+/**
+ * This is needed in order for Node to understand how to handle .pegjs files,
+ * which is used in parsing rules such as prereqs.
+ *
+ * Note: require.extensions is deprecated and should be replaced with something better
+ */
+require.extensions[".pegjs"] = function(module, filename) {
+    const source = fs.readFileSync(filename, "utf8");
+    const pegOptions = {
+        output: "source"
+    };
+
+    const output = `module.exports = ${peg.generate(source, pegOptions)};`;
+    return module._compile(output, filename);
 };
