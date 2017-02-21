@@ -279,7 +279,7 @@ export const getAffectedUnitsInColumn = (index) => {
 
 
 /**
- * Will attempt to delete a teaching period with the given index. It calculates which, if any units would be affected by the deletion,
+ *   attempt to delete a teaching period with the given index. It calculates which, if any units would be affected by the deletion,
  * and if there is - it updates the affected units array so the modal can display and prompt the user to confirm.
  * If there are no units that would be affected by the move (i.e. an empty teaching period), then the teaching period is removed
  * without prompting for confirmation

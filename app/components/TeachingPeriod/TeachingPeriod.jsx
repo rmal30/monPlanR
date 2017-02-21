@@ -66,12 +66,7 @@ export const TeachingPeriod = (props) => {
         }
     }
 
-
-    
-
-
-
-    const unitsEle = unitRep.map((unit, index) => {
+    const unitsEle = props.units.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
 
         if(!unit) {
