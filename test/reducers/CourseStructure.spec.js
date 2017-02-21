@@ -2461,7 +2461,7 @@ describe("REDUCER: CourseStructure", () => {
                     ],
                     courseErrors: [
                         {
-                            message: "You need 18 more credit points before doing TEST3031.",
+                            message: "You need 18 more credit points before you can do TEST3031.",
                             coordinates: [[2, 1]]
                         }
                     ]
