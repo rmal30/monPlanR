@@ -309,26 +309,59 @@ function rules(unitsByPosition, courseCode) {
                     return;
                 }
 
-                let ruleString = rule.ruleString;
-
                 try {
-                    let parseTree = rulesParser.parse(ruleString);
+                    const parseTree = rulesParser.parse(rule.ruleString);
                     let node = parseTree;
 
-                    let maxIterations = 100;
+                    if(node.type === "FOR") {
+                        // we can mutate node.expression as it is generated from scratch by the rulesParser
+                        let currentNode = node.expression;
+                        let for_stack = [currentNode];
 
-                    while(node.type === "FOR" && node.variable === "COURSE_CODE") {
-                        maxIterations --;
-                        if(maxIterations <= 0) {
-                            throw new Error("Max iterations exceeded for FOR COURSE_CODE.");
-                        }
+                        // Use depth first search from left to right to traverse through the FOR expression
+                        while(for_stack.length > 0) {
+                            // Peek last element in stack
+                            currentNode = for_stack[for_stack.length - 1];
 
-                        if(!courseCode || node.list.indexOf(courseCode) === -1) {
-                            // Traverse to the otherwise branch
-                            node = node.otherwise;
-                        } else {
-                            // Traverse to the do branch
-                            node = node.do;
+                            switch(currentNode.type) {
+                                case "IN":
+                                    if(currentNode.variable === "COURSE_CODE") {
+                                        let visitDoBranch = courseCode && currentNode.list.indexOf(courseCode) > -1;
+                                        if(currentNode.not) {
+                                            visitDoBranch = !visitDoBranch;
+                                        }
+
+                                        if(visitDoBranch) {
+                                            // Traverse to the do branch
+                                            node = node.do;
+                                        } else {
+                                            // Traverse to the otherwise branch
+                                            node = node.otherwise;
+                                        }
+
+                                        for_stack = [];
+                                        break;
+                                    }
+
+                                    currentNode.visited = true;
+                                    for_stack.pop();
+                                    break;
+                                case "OR":
+                                case "AND":
+                                    if(!currentNode.left.visited) {
+                                        for_stack.push(currentNode.left);
+                                    } else if(!currentNode.right.visited) {
+                                        for_stack.push(currentNode.right);
+                                    } else {
+                                        currentNode.visited = true;
+                                        for_stack.pop();
+                                    }
+                                    break;
+                                // if we don't understand anything, just leave the node alone
+                                default:
+                                    currentNode.visited = true;
+                                    for_stack.pop();
+                            }
                         }
                     }
 
@@ -396,7 +429,7 @@ function rules(unitsByPosition, courseCode) {
 
                             if(creditPoints < minCreditPoints) {
                                 errors.push({
-                                    message: `You need ${minCreditPoints - creditPoints} more credit points before doing ${unit.unitCode}.`,
+                                    message: `You need ${minCreditPoints - creditPoints} more credit points before you can do ${unit.unitCode}.`,
                                     coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                 });
                             }
@@ -451,7 +484,7 @@ function rules(unitsByPosition, courseCode) {
                         }
                     }
                 } catch(e) {
-                    console.error(ruleString, e);
+                    console.error(rule.ruleString, e);
                 }
             });
         }

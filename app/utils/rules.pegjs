@@ -20,8 +20,29 @@ bracket_expr
     / for
 
 for
-	= "For COURSE_CODE IN " list:list " Do " do_branch:expression " Otherwise " otherwise_branch:expression { return {type: "FOR", variable: "COURSE_CODE", list: list, do: do_branch, otherwise: otherwise_branch } }
+	= "For " expression:for_expression " Do " do_branch:expression " Otherwise " otherwise_branch:expression { return {type: "FOR", expression: expression, do: do_branch, otherwise: otherwise_branch } }
     / string
+
+for_expression
+	= for_or_expression
+
+for_or_expression
+	= left:for_and_expression " OR " right:for_and_expression { return { type: "OR", left: left, right: right } }
+	/ for_and_expression
+
+for_and_expression
+	= left:for_bracket_expression " AND " right:for_bracket_expression { return { type: "AND", left: left, right: right } }
+	/ for_bracket_expression
+
+for_bracket_expression
+	 = "(" middle:for_expression ")" { return middle }
+     / for_in
+
+for_in
+	= variable:for_variable not:" NOT"? " IN " list:list { return {type: "IN", list: list, variable: variable, not: !!not } }
+
+for_variable
+	= variable:[A-Z_]+ { return variable.join("") }
 
 list
 	= "{" list:[a-zA-Z0-9-, "%\.]*  "}" { return list.join("").split(", ") }
@@ -38,7 +59,7 @@ string "string"
     / ""
 
 minCreditPoints
-	= "Must have passed " digits:[0-9]+ " (I/W)"? " credit points" unitsOwnedBy:unitsOwnedBy? { return {type: "MIN_CREDIT_POINTS", minCreditPoints: parseInt(digits.join("")), unitsOwnedBy: unitsOwnedBy} }
+	= "Must have passed " digits:[0-9]+ " (I/W)"? " credit points" unitsOwnedBy:unitsOwnedBy? levels:atLevels? { return {type: "MIN_CREDIT_POINTS", minCreditPoints: parseInt(digits.join("")), unitsOwnedBy: unitsOwnedBy, levels: levels} }
 
 permissionRequired
 	= "Permission required" { return "PERMISSION_REQUIRED" }
@@ -62,6 +83,9 @@ grades
 
 unitsOwnedBy
 	= " from units owned by " list:list { return list }
+
+atLevels
+	= " at levels " list:list { return list }
 
 true
 	= "true" { return true }
