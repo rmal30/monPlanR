@@ -38,6 +38,10 @@ class Header extends Component {
                     "name": "Census Date for Semester 1 (S1-01) - FINALISE your course"
                 },
                 {
+                    "date": "2017-03-31",
+                    "name": "Last day to discontinue semester one (S1-01) and full-year (FY-01) units without 'withdrawn' showing on academic record"
+                },
+                {
                     "date": "2017-04-14",
                     "name": "Mid-Semester (S1-01) Break Begins"
                 },
@@ -127,40 +131,42 @@ class Header extends Component {
                         </Popup.Header>
                         <Popup.Content>
                             <br />
-                            <Grid>
-                            {
-                                    (this.state.importantDates).map(current => {
-                                        var currentDate = new Date();
-                                        var date = new Date(current.date);
-                                        var endRange = new Date();
-                                        Date.daysBetween = function( date1, date2 ) {
-                                            //Get 1 day in milliseconds
-                                            var one_day=1000*60*60*24;
+                            <div>
+                                <Grid>
+                                {
+                                        (this.state.importantDates).map(current => {
+                                            var currentDate = new Date();
+                                            var date = new Date(current.date);
+                                            var endRange = new Date();
+                                            Date.daysBetween = function( date1, date2 ) {
+                                                //Get 1 day in milliseconds
+                                                var one_day=1000*60*60*24;
 
-                                            // Convert both dates to milliseconds
-                                            var date1_ms = date1.getTime();
-                                            var date2_ms = date2.getTime();
+                                                // Convert both dates to milliseconds
+                                                var date1_ms = date1.getTime();
+                                                var date2_ms = date2.getTime();
 
-                                            // Calculate the difference in milliseconds
-                                            var difference_ms = date2_ms - date1_ms;
+                                                // Calculate the difference in milliseconds
+                                                var difference_ms = date2_ms - date1_ms;
 
-                                            // Convert back to days and return
-                                            return Math.round(difference_ms/one_day);
-                                        };
-                                        if(Date.daysBetween(currentDate, date) < 7) {
-                                            var classNameString = "dayWarn";
-                                        }
-                                        endRange.setMonth(currentDate.getMonth()+2);
-                                        if(date > currentDate && date < endRange){
-                                            var dateStr = (date.getDate().toString() + "/" + (date.getMonth()+1).toString() + "/" + date.getFullYear().toString());
-                                            return (<Grid.Row className={classNameString} >
-                                                        <Grid.Column width={8}>{dateStr}</Grid.Column>
-                                                        <Grid.Column width={8}>{current.name}</Grid.Column>
-                                                    </Grid.Row>);
-                                        }
-                                    })
-                            };
-                        </Grid>
+                                                // Convert back to days and return
+                                                return Math.round(difference_ms/one_day);
+                                            };
+                                            if(Date.daysBetween(currentDate, date) < 7) {
+                                                var classNameString = "dayWarn";
+                                            }
+                                            endRange.setMonth(currentDate.getMonth()+2);
+                                            if(date > currentDate && date < endRange){
+                                                var dateStr = (date.getDate().toString() + "/" + (date.getMonth()+1).toString() + "/" + date.getFullYear().toString());
+                                                return (<Grid.Row className={classNameString} >
+                                                            <Grid.Column width={8}>{dateStr}</Grid.Column>
+                                                            <Grid.Column width={8}>{current.name}</Grid.Column>
+                                                        </Grid.Row>);
+                                            }
+                                        })
+                                };
+                            </Grid>
+                            </div>
                         </Popup.Content>
                     </Popup>
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
