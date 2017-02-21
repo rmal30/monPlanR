@@ -34,6 +34,10 @@ class Header extends Component {
                     "name": "Semester 1 (S1-01) Begins"
                 },
                 {
+                    "date": "2017-03-31",
+                    "name": "Census Date for Semester 1 (S1-01) - FINALISE your course"
+                },
+                {
                     "date": "2017-04-14",
                     "name": "Mid-Semester (S1-01) Break Begins"
                 },
@@ -119,7 +123,7 @@ class Header extends Component {
                             </Menu.Item>
                         )}>
                         <Popup.Header>
-                            Important dates coming soon include:
+                            Important Dates
                         </Popup.Header>
                         <Popup.Content>
                             {
@@ -127,10 +131,27 @@ class Header extends Component {
                                         var currentDate = new Date();
                                         var date = new Date(current.date);
                                         var endRange = new Date();
+                                        Date.daysBetween = function( date1, date2 ) {
+                                            //Get 1 day in milliseconds
+                                            var one_day=1000*60*60*24;
+
+                                            // Convert both dates to milliseconds
+                                            var date1_ms = date1.getTime();
+                                            var date2_ms = date2.getTime();
+
+                                            // Calculate the difference in milliseconds
+                                            var difference_ms = date2_ms - date1_ms;
+
+                                            // Convert back to days and return
+                                            return Math.round(difference_ms/one_day);
+                                        };
+                                        if(Date.daysBetween(currentDate, date) < 7) {
+                                            var classNameString = "dayWarn";
+                                        }
                                         endRange.setMonth(currentDate.getMonth()+1);
                                         if(date > currentDate && date < endRange){
                                             var dateStr = (date.getDate().toString() + "/" + (date.getMonth()+1).toString() + "/" + date.getFullYear().toString());
-                                            return (<li>{ dateStr + " - " + current.name}</li>);
+                                            return (<li className={classNameString} >{ dateStr + " - " + current.name}</li>);
                                         }
                                     })
                             };
