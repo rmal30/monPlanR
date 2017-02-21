@@ -326,21 +326,11 @@ function rules(unitsByPosition, courseCode) {
                             switch(currentNode.type) {
                                 case "IN":
                                     if(currentNode.variable === "COURSE_CODE") {
-                                        let visitDoBranch = courseCode && currentNode.list.indexOf(courseCode) > -1;
+                                        currentNode.visitDoBranch = courseCode && currentNode.list.indexOf(courseCode) > -1;
+
                                         if(currentNode.not) {
-                                            visitDoBranch = !visitDoBranch;
+                                            currentNode.visitDoBranch = !currentNode.visitDoBranch;
                                         }
-
-                                        if(visitDoBranch) {
-                                            // Traverse to the do branch
-                                            node = node.do;
-                                        } else {
-                                            // Traverse to the otherwise branch
-                                            node = node.otherwise;
-                                        }
-
-                                        for_stack = [];
-                                        break;
                                     }
 
                                     currentNode.visited = true;
@@ -354,6 +344,15 @@ function rules(unitsByPosition, courseCode) {
                                         for_stack.push(currentNode.right);
                                     } else {
                                         currentNode.visited = true;
+
+                                        if(currentNode.type === "AND") {
+                                            currentNode.visitDoBranch = currentNode.left.visitDoBranch && currentNode.right.visitDoBranch;
+                                        }
+
+                                        if(currentNode.type === "OR") {
+                                            currentNode.visitDoBranch = currentNode.left.visitDoBranch || currentNode.right.visitDoBranch;
+                                        }
+
                                         for_stack.pop();
                                     }
                                     break;
@@ -362,6 +361,12 @@ function rules(unitsByPosition, courseCode) {
                                     currentNode.visited = true;
                                     for_stack.pop();
                             }
+                        }
+                        
+                        if(node.expression.visitDoBranch) {
+                            node = node.do;
+                        } else {
+                            node = node.otherwise;
                         }
                     }
 
