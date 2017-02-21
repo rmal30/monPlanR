@@ -5,7 +5,6 @@ import CostCalc from "../utils/CostCalc";
 import * as CourseActions from "./CourseActions";
 import * as NotificationActions from "./Notifications";
 
-
 /**
  * FETCH_COURSE_INFO
  */

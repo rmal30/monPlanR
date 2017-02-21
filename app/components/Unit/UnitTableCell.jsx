@@ -179,13 +179,13 @@ export class Unit extends React.Component {
      */
     render() {
         const { connectDropTarget, isOver }  = this.props;
-
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
                     return (
                         connectDropTarget(
                         <td
+                            //colSpan={this.props.unit ? this.props.creditPoints / 6 : 1}
                             className={(((isOver && this.props.showingMovingUnitUI) || (this.props.free || this.props.placeholder) && (this.props.showingAddingUnitUI && (isOver || this.state.tableCellHover)))) && !mobile ? "active" : "" +
                                         (this.props.isError || !this.props.highlightingInvalidUnitSlots && (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
                             }

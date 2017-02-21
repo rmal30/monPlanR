@@ -20,11 +20,20 @@ export default class CourseTemplate {
         let max = 4;
         
         // Currently the easiest way to check for overloading so we render the correct amount of teaching period unit slots
-        // This loops through the teaching periods and if the number of units in a teaching period is greater than 4, makes that the new max
+        // This loops through the units in the teaching periods and checks the credit point counts for each, the 
         for (let m=0; m < tmpArr.length; m++) {
             let item = tmpArr[m];
-            if (item.numberOfUnits > max){
-                max = item.numberOfUnits;
+            let creditPointCount = item.units.reduce((prev, next) => {
+                if (next.creditPoints === 0) {
+                    return prev + 6;
+                } else if (next.creditPoints) {
+                    return prev + next.creditPoints;
+                } else {
+                    return prev;
+                }
+            }, 0);
+            if(creditPointCount > (max * 6)){
+                max = creditPointCount / 6;
             }
         }
 
