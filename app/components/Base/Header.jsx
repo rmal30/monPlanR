@@ -15,6 +15,32 @@ import PrivacyModal from "../modals/privacy.jsx";
  */
 class Header extends Component {
     /**
+    * Constructor
+    */
+    constructor(){
+        super();
+        this.state = {
+            importantDates: [
+                {
+                    "date": "2017-02-20",
+                    "name": "Orientation Week Begins"
+                },
+                {
+                    "date": "2017-02-24",
+                    "name": "Orientation Week Ends"
+                },
+                {
+                    "date": "2017-02-27",
+                    "name": "Semester 1 (S1-01) Begins"
+                },
+                {
+                    "date": "2017-04-14",
+                    "name": "Mid-Semester (S1-01) Break Begins"
+                },
+            ]
+        };
+    }
+    /**
      * Used for settings modal to tell which react element is the target.
      *
      * @returns {ReactElement} Dropdown
@@ -80,6 +106,36 @@ class Header extends Component {
                             </Popup.Content>
                         </Popup>
                     }
+                    <Popup
+                        on="hover"
+                        hoverable
+                        wide
+                        trigger={(
+                            <Menu.Item>
+                                <Icon name="calendar" inverted/>&nbsp;
+                                <MediaQuery minDeviceWidth={768}>
+                                    Important Dates
+                                </MediaQuery>
+                            </Menu.Item>
+                        )}>
+                        <Popup.Header>
+                            Important dates coming soon include:
+                        </Popup.Header>
+                        <Popup.Content>
+                            {
+                                    (this.state.importantDates).map(current => {
+                                        var currentDate = new Date();
+                                        var date = new Date(current.date);
+                                        var endRange = new Date();
+                                        endRange.setMonth(currentDate.getMonth()+1);
+                                        if(date > currentDate && date < endRange){
+                                            var dateStr = (date.getDate().toString() + "/" + (date.getMonth()+1).toString() + "/" + date.getFullYear().toString());
+                                            return (<li>{ dateStr + " - " + current.name}</li>);
+                                        }
+                                    })
+                            };
+                        </Popup.Content>
+                    </Popup>
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
                         <Icon name="comment outline" />
                         <MediaQuery query="(min-device-width: 768px)">Give us feedback</MediaQuery>
