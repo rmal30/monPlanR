@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
+import { Button, Icon, Menu, Dropdown, Popup, Grid } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { Link } from "react-router";
 import { connect } from "react-redux";
@@ -123,9 +123,11 @@ class Header extends Component {
                             </Menu.Item>
                         )}>
                         <Popup.Header>
-                            Important Dates
+                            Important Dates Coming Up
                         </Popup.Header>
                         <Popup.Content>
+                            <br />
+                            <Grid>
                             {
                                     (this.state.importantDates).map(current => {
                                         var currentDate = new Date();
@@ -148,13 +150,17 @@ class Header extends Component {
                                         if(Date.daysBetween(currentDate, date) < 7) {
                                             var classNameString = "dayWarn";
                                         }
-                                        endRange.setMonth(currentDate.getMonth()+1);
+                                        endRange.setMonth(currentDate.getMonth()+2);
                                         if(date > currentDate && date < endRange){
                                             var dateStr = (date.getDate().toString() + "/" + (date.getMonth()+1).toString() + "/" + date.getFullYear().toString());
-                                            return (<li className={classNameString} >{ dateStr + " - " + current.name}</li>);
+                                            return (<Grid.Row className={classNameString} >
+                                                        <Grid.Column width={8}>{dateStr}</Grid.Column>
+                                                        <Grid.Column width={8}>{current.name}</Grid.Column>
+                                                    </Grid.Row>);
                                         }
                                     })
                             };
+                        </Grid>
                         </Popup.Content>
                     </Popup>
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
