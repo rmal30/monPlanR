@@ -11,6 +11,12 @@ export const insertTeachingPeriod = (index, year, code) => {
             year,
             code
         });
+
+        dispatch(validateCourse());
+        dispatch({
+            type: "MODIFIED_COURSE_PLAN"
+        });
+
         dispatch({
             type: "GET_NEXT_SEMESTER_STRING"
         });
@@ -26,6 +32,11 @@ export const removeTeachingPeriod = (index, units) => {
             type: "REMOVE_TEACHING_PERIOD",
             index,
             units
+        });
+
+        dispatch(validateCourse());
+        dispatch({
+            type: "MODIFIED_COURSE_PLAN"
         });
 
         dispatch({
@@ -46,6 +57,11 @@ export const addTeachingPeriod = (teachingPeriods, startYear, teachingPeriodData
             type: "APPEND_TEACHING_PERIOD",
             year,
             code
+        });
+
+        dispatch(validateCourse());
+        dispatch({
+            type: "MODIFIED_COURSE_PLAN"
         });
 
         dispatch({

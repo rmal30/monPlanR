@@ -32,7 +32,8 @@ const config = {
         loaders: [
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
             {test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader"},
-            {test: /\.css$/, loader: "style-loader!css-loader"}
+            {test: /\.css$/, loader: "style-loader!css-loader"},
+            {test: /\.pegjs$/, loader: "pegjs-loader"}
         ]
     },
 
