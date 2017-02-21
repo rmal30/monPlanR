@@ -332,11 +332,15 @@ function rules(unitsByPosition, courseCode) {
                                         };
                                     }
                                 } else if(node.type === "AND") {
-                                    if(node.left.error || node.right.error) {
+                                    if(node.left.error && node.right.error) {
                                         node.error = {
                                             message: `${node.left.error.message} and ${node.right.error.message}`,
                                             coordinates: [...node.left.error.coordinates, ...node.right.error.coordinates]
                                         };
+                                    } else if(node.left.error) {
+                                        node.error = node.left.error;
+                                    } else if(node.right.error) {
+                                        node.error = node.right.error;
                                     }
                                 }
 
