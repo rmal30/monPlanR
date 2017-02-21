@@ -410,16 +410,23 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
         dispatch({
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
         });
-        axios.post(`${MONPLAN_REMOTE_URL}/snaps/`,
-            {
-                "course": {
-                    teachingPeriods,
-                    numberOfUnits,
-                    totalCreditPoints: creditPoints,
-                    totalEstimatedCost: cost,
-                    startYear: startYear || new Date().getFullYear()
-                }
-            })
+
+        const snapURL = `${MONPLAN_REMOTE_URL2}/snaps/`;
+        const params = {
+            "course": {
+                teachingPeriods,
+                numberOfUnits,
+                totalCreditPoints: creditPoints,
+                totalEstimatedCost: cost,
+                startYear: startYear || new Date().getFullYear(),
+            }
+        };
+
+        let instance = axios.create({
+            headers: {'Content-Type': 'application/json'}
+        });
+
+        instance.post(snapURL, params)
             .then(response => {
                 dispatch({
                     type: "UPLOAD_COURSE_SNAPSHOT_FULFILLED",
@@ -431,6 +438,5 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
                     type: "UPLOAD_COURSE_SNAPSHOT_REJECTED"
                 });
             });
-
     };
 };
