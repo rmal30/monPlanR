@@ -65,17 +65,13 @@ class FilterButtonContainer extends Component {
     Handles click for showing/hiding filters.
     */
     showFilterClick(){
-        console.log(this.state.showFilter)
         this.setState({showFilter: !this.state.showFilter});
     }
 
     /**
-     * The renderer simply returns a search component populated with the data necessary
-     * @author JXNS
+     * The renderer simply returns a search component populated with the data necessary with Filters
+     * @author JXNS, CCS, Eric Jiang
      */
-
-
-
     render(){
         return (
         <div>
