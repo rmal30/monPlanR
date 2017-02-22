@@ -327,7 +327,7 @@ function rules(unitsByPosition, courseCode) {
                                 if(node.type === "OR") {
                                     if(node.left.error && node.right.error) {
                                         node.error = {
-                                            message: `${node.left.error.message} Alternatively, ${node.right.error.message}`,
+                                            message: `${node.left.error.message} or ${node.right.error.message}`,
                                             coordinates: [...node.left.error.coordinates, ...node.right.error.coordinates]
                                         };
                                     }
@@ -352,8 +352,9 @@ function rules(unitsByPosition, courseCode) {
                             nodeStack.pop();
                         }
 
-                        if(node === true) {
+                        if(node.type === "TRUE") {
                             // Unconditionally true means that we don't need to process it any further
+                            continue;
                         } else if(node.type === "FOR") {
                             // we can mutate node.expression as it is generated from scratch by the rulesParser
                             let currentNode = node.expression;
@@ -418,28 +419,30 @@ function rules(unitsByPosition, courseCode) {
                                     coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                 };
                             } else if(node.type === "PASSED_UNITS") {
-                                let found = false;
-                                let unitCodes = node.list;
+                                let unitsLeft = node.number;
+                                let unitCodes = [...node.list];
 
-                                unitCodes.forEach(unitCode => {
+                                unitCodes = unitCodes.filter(unitCode => {
                                     const unitPreq = unitsByPosition.find(otherUnit => otherUnit.unitCode === unitCode);
 
                                     if(unitPreq) {
-                                        if(!found && unitPreq.teachingPeriodIndex >= unit.teachingPeriodIndex) {
+                                        if(unitPreq.teachingPeriodIndex >= unit.teachingPeriodIndex) {
                                             node.error = {
                                                 message: `Please move ${unitPreq.unitCode} to a teaching period before ${unit.unitCode}.`,
                                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitPreq.teachingPeriodIndex, unitPreq.unitIndex]]
                                             };
                                         }
 
-                                        found = true;
+                                        unitsLeft --;
                                     }
+
+                                    return !unitPreq;
                                 });
 
-                                if(!found) {
-                                    if(node.number > 1) {
+                                if(unitsLeft > 0) {
+                                    if(unitsLeft > 1) {
                                         node.error = {
-                                            message: `You must complete ${node.number} of these units before you can do ${unit.unitCode}: ${unitCodes.join(", ")}.`,
+                                            message: `You must complete ${unitsLeft} of these units before you can do ${unit.unitCode}: ${unitCodes.join(", ")}.`,
                                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                         };
                                     } else {

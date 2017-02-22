@@ -19,6 +19,12 @@ bracket_expr
 	= "(" expression:expression ")" { return expression }
     / for
 
+/**
+ * The For syntax has the same meaning as the if syntax in Python's language.
+ * For example, for a unit with rule "For COURSE_CODE IN {1234, 2345} Do true Otherwise Permission required",
+ * it means that if a student is doing course 1234 or 2345, then the rule is satisified.
+ * Otherwise the student will need to get permission to be able to do this unit.
+ */
 for
 	= "For " expression:for_expression " Do " do_branch:expression " Otherwise " otherwise_branch:expression { return {type: "FOR", expression: expression, do: do_branch, otherwise: otherwise_branch } }
     / string
@@ -47,6 +53,9 @@ for_variable
 list
 	= "{" list:[a-zA-Z0-9-, "%\.]*  "}" { return list.join("").split(", ") }
 
+/**
+ * These are the terminal tokens.
+ */
 string "string"
 	= minCreditPoints
     / permissionRequired
@@ -59,19 +68,19 @@ string "string"
     / ""
 
 minCreditPoints
-	= "Must have passed " digits:[0-9]+ " (I/W)"? " credit points" unitsOwnedBy:unitsOwnedBy? levels:atLevels? { return {type: "MIN_CREDIT_POINTS", minCreditPoints: parseInt(digits.join("")), unitsOwnedBy: unitsOwnedBy, levels: levels} }
+	= "Must have passed " minCreditPoints:integer IW:IW? " credit points" unitsOwnedBy:unitsOwnedBy? levels:atLevels? { return {type: "MIN_CREDIT_POINTS", minCreditPoints: minCreditPoints, unitsOwnedBy: unitsOwnedBy, levels: levels, IW: !!IW } }
 
 permissionRequired
-	= "Permission required" { return "PERMISSION_REQUIRED" }
+	= "Permission required" { return { type: "PERMISSION_REQUIRED" } }
 
 passedUnits
-	= "Must have passed " number:integer " (I/W)"? " unit" "s"? " in " list:list grades:grades? { return { type: "PASSED_UNITS", number: number, list: list, grades: grades } }
+	= "Must have passed " number:integer IW:IW? " unit" "s"? " in " list:list grades:grades? { return { type: "PASSED_UNITS", number: number, list: list, grades: grades, IW: !!IW } }
 
 coreqUnits
-	= "Any passed co-req" " (I/W)"? " unit in " list:list { return { type: "PASSED_COREQ_UNITS", list: list }}
-	/ "Any co-req" " (I/W)"? " unit in " list:list { return { type: "COREQ_UNITS", list: list }}
+	= "Any passed co-req" IW:IW? " unit in " list:list { return { type: "PASSED_COREQ_UNITS", list: list, IW: !!IW }}
+	/ "Any co-req" IW:IW? " unit in " list:list { return { type: "COREQ_UNITS", list: list, IW: !!IW }}
 	/ "Any co-req unit set " list:list { return { type: "COREQ_UNIT_SET", list: list } }
-	/ "Any " number:integer " (I/W)"? " co-req units in " list:list { return { type: "PASSED_COREQ_UNITS", list: list, number: number }}
+	/ "Any " number:integer IW:IW? " co-req units in " list:list { return { type: "PASSED_COREQ_UNITS", list: list, number: number, IW: !!IW }}
 
 enrolledInCourse
 	 = "Must be enrolled in course type " list:list { return { type: "ENROLLED_IN_COURSE_TYPE", list: list} }
@@ -88,10 +97,11 @@ atLevels
 	= " at levels " list:list { return list }
 
 true
-	= "true" { return true }
+	= "true" { return { type: "TRUE" } }
 
 incompatibleWith
-	= "Incompatible with" " achievement in"? " (I/W)"? " " list:list { return { type: "INCOMPATIBLE_WITH", list: list } }
+	= "Incompatible with" " achievement in"? IW:IW? " " list:list { return { type: "INCOMPATIBLE_WITH", list: list, IW: !!IW } }
+	/ "Incompatible with course version in " courseVersionList:list " with course status in " statusList:list { return { type: "INCOMPATIBLE_WITH_COURSE_VERSION", courseVersionList: courseVersionList, statusList: statusList } }
 
 previouslyCoded
 	= "Unit was previously coded " list:list { return { type: "PREVIOUSLY_CODED", list: list }}
@@ -100,6 +110,9 @@ integer
 	= digits:[0-9]+ { return parseInt(digits.join(""), 10) }
     / "an" { return 1 }
 	/ "a" { return 1 }
+
+IW
+	= " (I/W)"
 
 _ "whitespace"
 	= [ \t\n\r]*
