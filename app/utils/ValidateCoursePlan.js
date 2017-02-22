@@ -327,14 +327,25 @@ function rules(unitsByPosition, courseCode) {
                                 if(node.type === "OR") {
                                     if(node.left.error && node.right.error) {
                                         node.error = {
-                                            message: `${node.left.error.message} or ${node.right.error.message}`,
+                                            message: `${node.left.error.message}, or ${node.right.error.message}`,
                                             coordinates: [...node.left.error.coordinates, ...node.right.error.coordinates]
                                         };
                                     }
                                 } else if(node.type === "AND") {
                                     if(node.left.error && node.right.error) {
+                                        /**
+                                         * Insert brackets to indicate precedence whenever necessary
+                                         */
+                                        if(node.left.type === "OR") {
+                                            node.left.error.message = `(${node.left.error.message})`;
+                                        }
+
+                                        if(node.right.type === "OR") {
+                                            node.right.error.message = `(${node.right.error.message})`;
+                                        }
+
                                         node.error = {
-                                            message: `${node.left.error.message} and ${node.right.error.message}`,
+                                            message: `${node.left.error.message}, and ${node.right.error.message}`,
                                             coordinates: [...node.left.error.coordinates, ...node.right.error.coordinates]
                                         };
                                     } else if(node.left.error) {
@@ -415,7 +426,7 @@ function rules(unitsByPosition, courseCode) {
                         } else if(rule.ruleSummary === "PREREQ" || rule.ruleSummary === "PREREQ-IW") {
                             if(node.type === "PERMISSION_REQUIRED") {
                                 node.error = {
-                                    message: `You need permission to do ${unit.unitCode}.`,
+                                    message: `you need permission to do ${unit.unitCode}`,
                                     coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                 };
                             } else if(node.type === "PASSED_UNITS") {
@@ -428,7 +439,7 @@ function rules(unitsByPosition, courseCode) {
                                     if(unitPreq) {
                                         if(unitPreq.teachingPeriodIndex >= unit.teachingPeriodIndex) {
                                             node.error = {
-                                                message: `Please move ${unitPreq.unitCode} to a teaching period before ${unit.unitCode}.`,
+                                                message: `please move ${unitPreq.unitCode} to a teaching period before ${unit.unitCode}`,
                                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitPreq.teachingPeriodIndex, unitPreq.unitIndex]]
                                             };
                                         }
@@ -442,7 +453,7 @@ function rules(unitsByPosition, courseCode) {
                                 if(unitsLeft > 0) {
                                     if(unitsLeft > 1) {
                                         node.error = {
-                                            message: `You must complete ${unitsLeft} of these units before you can do ${unit.unitCode}: ${unitCodes.join(", ")}.`,
+                                            message: `you must complete ${unitsLeft} of these units before you can do ${unit.unitCode}: ${unitCodes.join(", ")}`,
                                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                         };
                                     } else {
@@ -452,7 +463,7 @@ function rules(unitsByPosition, courseCode) {
                                         }
 
                                         node.error = {
-                                            message: `You must complete ${unitCodes.join(", ")}${finalOr} before you can do ${unit.unitCode}.`,
+                                            message: `you must complete ${unitCodes.join(", ")}${finalOr} before you can do ${unit.unitCode}`,
                                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                         };
                                     }
@@ -473,7 +484,7 @@ function rules(unitsByPosition, courseCode) {
 
                                 if(creditPoints < minCreditPoints) {
                                     node.error = {
-                                        message: `You need ${minCreditPoints - creditPoints} more credit points before you can do ${unit.unitCode}.`,
+                                        message: `you need ${minCreditPoints - creditPoints} more credit points before you can do ${unit.unitCode}`,
                                         coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                     };
                                 }
@@ -491,7 +502,7 @@ function rules(unitsByPosition, courseCode) {
                                     if(unitCoreq) {
                                         if(!found && unitCoreq.teachingPeriodIndex > unit.teachingPeriodIndex) {
                                             node.error = {
-                                                message: `Please move ${unitCoreq.unitCode} to a teaching period before or in the same teaching period as ${unit.unitCode}.`,
+                                                message: `please move ${unitCoreq.unitCode} to a teaching period before or in the same teaching period as ${unit.unitCode}`,
                                                 coordinates: [[unit.teachingPeriodIndex, unit.unitIndex], [unitCoreq.teachingPeriodIndex, unitCoreq.unitIndex]]
                                             };
                                         }
@@ -506,7 +517,7 @@ function rules(unitsByPosition, courseCode) {
                                         finalOr = " or " + unitCodes.pop();
                                     }
                                     node.error = {
-                                        message: `You must complete ${unitCodes.join(", ")}${finalOr} before or whilst doing ${unit.unitCode}.`,
+                                        message: `you must complete ${unitCodes.join(", ")}${finalOr} before or whilst doing ${unit.unitCode}`,
                                         coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                     };
                                 }
@@ -520,7 +531,7 @@ function rules(unitsByPosition, courseCode) {
 
                                     if(unitProhib && unitProhib.teachingPeriodIndex <= unit.teachingPeriodIndex) {
                                         node.error = {
-                                            message: `Please remove ${unit.unitCode}, as completing ${unitProhib.unitCode} prohibits you from doing this unit.`,
+                                            message: `please remove ${unit.unitCode}, as completing ${unitProhib.unitCode} prohibits you from doing this unit`,
                                             coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                         };
                                     }
@@ -530,6 +541,8 @@ function rules(unitsByPosition, courseCode) {
                     }
 
                     if(node.error) {
+                        node.error.message += ".";
+                        node.error.message = node.error.message.charAt(0).toUpperCase() + node.error.message.substring(1);
                         errors.push(node.error);
                     }
                 } catch(e) {
