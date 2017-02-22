@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Icon, Menu, Dropdown, Popup, Grid } from "semantic-ui-react";
+import { Button, Icon, Menu, Dropdown, Popup } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { Link } from "react-router";
 import { connect } from "react-redux";
@@ -14,7 +14,7 @@ import PrivacyModal from "../modals/privacy.jsx";
  * The header for the web app, which displays the logo, name, status and information menu.
  */
 class Header extends Component {
-    
+
     /**
      * Used for settings modal to tell which react element is the target.
      *

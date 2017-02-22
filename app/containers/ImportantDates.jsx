@@ -28,6 +28,10 @@ export default class ImportantDates extends Component {
                     "name": "Semester 1 (S1-01) Begins"
                 },
                 {
+                    "date": "2017-03-10",
+                    "name": "Last day to add on-campus semester one (S1-01) or full-year (FY-01) units"
+                },
+                {
                     "date": "2017-03-31",
                     "name": "Census Date for Semester 1 (S1-01) - FINALISE your course"
                 },
