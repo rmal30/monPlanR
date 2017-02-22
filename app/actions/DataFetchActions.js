@@ -412,7 +412,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
         });
 
-        const snapURL = `${MONPLAN_REMOTE_URL2}/snaps/`;
+        const snapURL = `${MONPLAN_REMOTE_URL}/snaps/`;
         const params = {
             "course": {
                 teachingPeriods,
@@ -423,11 +423,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
             }
         };
 
-        let instance = axios.create({
-            headers: {"Content-Type": "application/json"}
-        });
-
-        instance.post(snapURL, params)
+        axios.post(snapURL, params)
             .then(response => {
                 dispatch({
                     type: "UPLOAD_COURSE_SNAPSHOT_FULFILLED",

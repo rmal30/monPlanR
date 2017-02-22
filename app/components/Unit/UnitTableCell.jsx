@@ -179,13 +179,21 @@ export class Unit extends React.Component {
      */
     render() {
         const { connectDropTarget, isOver }  = this.props;
+        let cellSpan;
+        if (this.props.unit) {
+            cellSpan = this.props.creditPoints / 6;
+        } else if (this.props.cellSpan) {
+            cellSpan = this.props.cellSpan;
+        } else {
+            cellSpan = 1;
+        }
         return (
             <MediaQuery maxDeviceWidth={767}>
                 {mobile => {
                     return (
                         connectDropTarget(
                         <td
-                            //colSpan={this.props.unit ? this.props.creditPoints / 6 : 1}
+                        colSpan={cellSpan}
                             className={(((isOver && this.props.showingMovingUnitUI) || (this.props.free || this.props.placeholder) && (this.props.showingAddingUnitUI && (isOver || this.state.tableCellHover)))) && !mobile ? "active" : "" +
                                         (this.props.isError || !this.props.highlightingInvalidUnitSlots && (this.props.errors && this.props.errors.length > 0) ? "unit error": "")
                             }
@@ -316,7 +324,9 @@ Unit.propTypes = {
 
     teachingPeriodIndex: PropTypes.number,
     creditPoints: PropTypes.number,
-    cost: PropTypes.number
+    cost: PropTypes.number,
+
+    cellSpan: PropTypes.number
 };
 
 // https://github.com/gaearon/react-dnd/issues/157
