@@ -7,6 +7,10 @@ body {
     transition: width 1s ease-in-out, left 1.5s ease-in-out;
 }
 
+.dayWarn{
+    background-color: #FFCBCE !important;
+}
+
 .ui.grid {
   margin-right: -0.5rem !important;
 }

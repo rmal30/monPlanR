@@ -21,6 +21,12 @@ describe("ACTION-CREATOR: CourseActions", () => {
                     code: "tpCode"
                 },
                 {
+                    type: "VALIDATE_COURSE"
+                },
+                {
+                    type: "MODIFIED_COURSE_PLAN"
+                },
+                {
                     type: "GET_NEXT_SEMESTER_STRING"
                 }
             ];
@@ -38,6 +44,12 @@ describe("ACTION-CREATOR: CourseActions", () => {
                     type: "REMOVE_TEACHING_PERIOD",
                     index: 1,
                     units: ["unit1", "unit2", "unit3", null],
+                },
+                {
+                    type: "VALIDATE_COURSE"
+                },
+                {
+                    type: "MODIFIED_COURSE_PLAN"
                 },
                 {
                     type: "GET_NEXT_SEMESTER_STRING"
@@ -279,6 +291,12 @@ describe("ACTION-CREATOR: CourseActions", () => {
             const mockUnits = [null, null, null, null, null];
             const expectedActions = [
                 {type: "REMOVE_TEACHING_PERIOD", index: 1, units: [null, null, null, null, null]},
+                {
+                    type: "VALIDATE_COURSE"
+                },
+                {
+                    type: "MODIFIED_COURSE_PLAN"
+                },
                 {type: "GET_NEXT_SEMESTER_STRING"}
             ];
 

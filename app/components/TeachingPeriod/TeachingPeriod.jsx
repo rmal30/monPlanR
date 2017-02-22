@@ -29,11 +29,79 @@ export const TeachingPeriod = (props) => {
         viewUnitDetails: PropTypes.func,
         removeTeachingPeriod: PropTypes.func,
         getAffectedUnitsInRow: PropTypes.func,
-
-        viewOnly: PropTypes.bool
+        numberOfUnits: PropTypes.number,
+        tpCreditPoints: PropTypes.number,
+        showingMovingUnitUI: PropTypes.bool,
+        unitToBeMoved: PropTypes.object,
+        viewOnly: PropTypes.bool,
+        tpIndexOfUnitToBeMoved: PropTypes.number
     };
 
-    const unitsEle = props.units.map((unit, index) => {
+    // props.tpCreditPoints, props.numberOfUnits, maxCreditPointsForTP
+    const maxPoints = props.numberOfUnits * 6;
+    const totalPoints = props.units.reduce((prev, next) => {
+        if (next === null) {
+            return prev + 6;
+        } else if (next.creditPoints === 0) {
+            return prev + 6; //the unit may not actual have credit points, but it does take up a slot
+        } else {
+            return prev + next.creditPoints;
+        }
+    }, 0);
+
+    let unitRep = props.units.slice();
+    
+    let difference = totalPoints - maxPoints;
+    
+    if(difference > 0) {
+        unitRep = [];
+        for(let i=0; i < props.units.length; i++){
+            let currentUnit = props.units[i];
+            if (currentUnit !== null) {
+                unitRep.push(currentUnit);  //we are forced to display a unit if it is not empty
+            } else if (difference > 0) {
+                difference -= 6;
+                unitRep.push("shouldNotDisplay"); //a message that can be intercepted so that we do not display
+            } else {
+                unitRep.push(currentUnit);
+            }
+        }
+    }
+
+    if (props.showingMovingUnitUI) {
+        let targetSpan = props.unitToBeMoved.creditPoints / 6,
+            currentSpan = 0,
+            startIndexes = [],
+            shouldNotDisplays = [];
+        
+        for(let i=0; i < unitRep.length; i++ ) {
+            let currentUnit = unitRep[i];
+            if (currentUnit === null) {
+                currentSpan += 1; //empty unit means chain can continue
+                if(currentSpan === targetSpan){
+                    let startIndex = i-currentSpan + 1;
+                    startIndexes.push(startIndex); // the index of the first item in the grouping
+                    for(let j=i; j > startIndex; j--) {
+                        shouldNotDisplays.push(j);
+                    }
+                    currentSpan = 0; // reset current span
+                }
+                
+            } else {
+                currentSpan = 0; // if not an empty slot then the chain breaks and has to reset
+            }
+        }
+
+        for(let k=0; k < startIndexes.length; k++) {
+            unitRep[startIndexes[k]] = "display";
+        }
+
+        for(let l=0; l < shouldNotDisplays.length; l++){
+            unitRep[shouldNotDisplays[l]] = "shouldNotDisplay";
+        }
+    }
+
+    const unitsEle = unitRep.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
 
         if(!unit) {
@@ -45,9 +113,24 @@ export const TeachingPeriod = (props) => {
                     free
                     isError={isError} />
             );
+        } else if (unit === "shouldNotDisplay") {
+            return (
+                null
+            );
+        } else if (unit === "display") {
+            return (
+                <UnitTableCell
+                    key={index}
+                    index={index}
+                    teachingPeriodIndex={props.index}
+                    free
+                    cellSpan={props.unitToBeMoved ? (props.unitToBeMoved.creditPoints / 6) : 1}
+                    isError={isError} />
+            );
         }
         return (
             <UnitTableCell
+                tpCreditPoints={props.tpCreditPoints}
                 viewOnly={props.viewOnly}
                 key={index}
                 index={index}
@@ -105,7 +188,10 @@ const mapStateToProps = (state) => {
     return {
         data: state.CourseStructure.teachingPeriodData,
         numberOfUnits: state.CourseStructure.numberOfUnits,
-        viewOnly: state.UI.readOnly
+        viewOnly: state.UI.readOnly,
+        showingMovingUnitUI: state.UI.showingMovingUnitUI,
+        unitToBeMoved: state.CourseStructure.unitToBeMoved,
+        tpIndexOfUnitToBeMoved: state.CourseStructure.tpIndexOfUnitToBeMoved
     };
 };
 

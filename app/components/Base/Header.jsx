@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as uiActions from "../../actions/UIActions";
-
+import ImportantDates from "../../containers/ImportantDates.jsx";
 import Disclaimer from "../modals/disclaimer.jsx";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
@@ -14,6 +14,7 @@ import PrivacyModal from "../modals/privacy.jsx";
  * The header for the web app, which displays the logo, name, status and information menu.
  */
 class Header extends Component {
+
     /**
      * Used for settings modal to tell which react element is the target.
      *
@@ -80,6 +81,7 @@ class Header extends Component {
                             </Popup.Content>
                         </Popup>
                     }
+                    <ImportantDates />
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
                         <Icon name="comment outline" />
                         <MediaQuery query="(min-device-width: 768px)">Give us feedback</MediaQuery>

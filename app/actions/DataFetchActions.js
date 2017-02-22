@@ -2,9 +2,9 @@ import axios from "axios";
 import CourseTemplate from "../utils/CourseTemplate";
 import CostCalc from "../utils/CostCalc";
 
+var parseString = require("xml2js").parseString;
 import * as CourseActions from "./CourseActions";
 import * as NotificationActions from "./Notifications";
-
 
 /**
  * FETCH_COURSE_INFO
@@ -411,16 +411,19 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
         dispatch({
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
         });
-        axios.post(`${MONPLAN_REMOTE_URL}/snaps/`,
-            {
-                "course": {
-                    teachingPeriods,
-                    numberOfUnits,
-                    totalCreditPoints: creditPoints,
-                    totalEstimatedCost: cost,
-                    startYear: startYear || new Date().getFullYear()
-                }
-            })
+
+        const snapURL = `${MONPLAN_REMOTE_URL}/snaps/`;
+        const params = {
+            "course": {
+                teachingPeriods,
+                numberOfUnits,
+                totalCreditPoints: creditPoints,
+                totalEstimatedCost: cost,
+                startYear: startYear || new Date().getFullYear(),
+            }
+        };
+
+        axios.post(snapURL, params)
             .then(response => {
                 dispatch({
                     type: "UPLOAD_COURSE_SNAPSHOT_FULFILLED",
@@ -432,6 +435,35 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
                     type: "UPLOAD_COURSE_SNAPSHOT_REJECTED"
                 });
             });
-
     };
+};
+
+/**
+* Fetchin Dates function
+*/
+export const fetchDates = () => {
+    return function(dispatch){
+        dispatch({
+            type: "FETCH_IMPORTANT_DATES_PENDING",
+        });
+        axios.get("https://www.monash.edu/student-services-division/assets/scripts/asset-management/key-dates/feed.php?category=australia-students")
+            .then(resp => {
+                parseString(resp.data, function(err, result){
+                    const values = result.rss.channel[0].item.map(currentItem => {
+                        return {"date": currentItem.title[0], "description": currentItem.description[0]};
+                    });
+                    dispatch({
+                        type: "FETCH_IMPORTANT_DATES_FULFILLED",
+                        payload: values //The course id that was uploaded
+                    });
+                });
+            })
+            .catch(()=>{
+                dispatch({
+                    type: "FETCH_IMPORTANT_DATES_REJECTED"
+                });
+
+            });
+    };
+
 };
