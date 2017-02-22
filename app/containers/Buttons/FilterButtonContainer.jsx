@@ -69,19 +69,16 @@ class FilterButtonContainer extends Component {
     }
 
     /**
-     * The renderer simply returns a search component populated with the data necessary
-     * @author JXNS
+     * The renderer simply returns a search component populated with the data necessary with Filters
+     * @author JXNS, CCS, Eric Jiang
      */
-
-
-
     render(){
         return (
         <div>
-          <Accordion>
+          <Accordion onChange={() => {this.showFilterClick();}}>
                 {[1].map((item) => {
                     return (
-                        <AccordionItem title={<Button content={this.state.showFilter ? "Hide Filters" : "Show Filters"} icon={this.state.showFilter ? "minus" : "plus"} labelPosition="left" onClick={() => {this.showFilterClick();}} fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
+                        <AccordionItem title={<Button content={this.state.showFilter ? "Hide Filters" : "Show Filters"} icon={this.state.showFilter ? "minus" : "plus"} labelPosition="left" fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
                             <div>
                               <div className={"filter-margin"}>
                                 <div className="filter-div">
