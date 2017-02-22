@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 /**
 * Creates a Popup for ImportantDates coming up
-* @author Eric Jiang
+* @author Eric Jiang, JXNS
 */
 const ImportantDates = (props) => {
     /**
