@@ -187,3 +187,35 @@ html, body {
 .ui.icon.input input {
     width:100% !important;
 }
+
+.filter-margin {
+  margin-top: 1em !important;
+  max-height: 400px;
+  -webkit-transition: max-height .35s;
+  -o-transition: max-height .35s;
+  transition: max-height .35s;
+}
+
+.hide-filter {
+  display: none !important;
+  max-height: 40px;
+  -webkit-transition: max-height .35s;
+  -o-transition: max-height .35s;
+  transition: max-height .35s;
+}
+
+.filter-delete {
+  display: inline !important;
+  position: absolute;
+  top: -3px;
+  margin-left: 240px !important;
+  color: #006CAB;
+}
+
+.filter-delete:hover {
+  cursor: pointer;
+}
+
+.filter-div {
+  position: relative;
+}
