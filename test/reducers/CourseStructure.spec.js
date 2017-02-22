@@ -2685,6 +2685,71 @@ describe("REDUCER: CourseStructure", () => {
 
                 test(CourseStructure, stateBefore, action, stateAfter);
             });
+
+            it("Should handle a complicated For expression", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            year: 2019,
+                            code: "S1-01",
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ",
+                                            ruleString: "For ((SCA_LOCATION IN {CLAYTON} AND COURSE_CODE IN {1039, 2393}) OR (SCA_LOCATION IN {CLAYTON} AND COURSE_CODE NOT IN {A4921})) Do true Otherwise Permission required"
+                                        }
+                                    ]
+                                },
+                                null,
+                                null
+                            ]
+                        }
+                    ],
+                    courseErrors: [],
+                    courseInfo: {
+                        courseCode: "A4921"
+                    }
+                };
+
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
+
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            year: 2019,
+                            code: "S1-01",
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ",
+                                            ruleString: "For ((SCA_LOCATION IN {CLAYTON} AND COURSE_CODE IN {1039, 2393}) OR (SCA_LOCATION IN {CLAYTON} AND COURSE_CODE NOT IN {A4921})) Do true Otherwise Permission required"
+                                        }
+                                    ]
+                                },
+                                null,
+                                null
+                            ]
+                        }
+                    ],
+                    courseErrors: [{
+                        message: "You need permission to do ABC1234.",
+                        coordinates: [[0, 1]]
+                    }],
+                    courseInfo: {
+                        courseCode: "A4921"
+                    }
+                };
+
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
         });
     });
 
