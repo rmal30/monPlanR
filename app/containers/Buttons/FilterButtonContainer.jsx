@@ -1,6 +1,8 @@
-import React, { Component } from "react";
-import  { Dropdown, Icon, Button } from "semantic-ui-react";
+import React, { Component, PropTypes } from "react";
+import  { Dropdown, Button } from "semantic-ui-react";
 import { Accordion, AccordionItem } from "react-sanfona";
+import { connect } from "react-redux";
+
 /**
 This component is used in UnitSearchContainer. It filters the serach results based on location, faculty, credit points and/or teaching period.
 */
@@ -78,24 +80,20 @@ class FilterButtonContainer extends Component {
           <Accordion onChange={() => {this.showFilterClick();}}>
                 {[1].map((item) => {
                     return (
-                        <AccordionItem title={<Button content={this.state.showFilter ? "Hide Filters" : "Show Filters"} icon={this.state.showFilter ? "minus" : "plus"} labelPosition="left" fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
+                        <AccordionItem title={<Button disabled={this.props.unitSearchIsLoading} content={this.state.showFilter ? "Hide Filters" : "Show Filters"} icon={this.state.showFilter ? "minus" : "plus"} labelPosition="left" fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
                             <div>
                               <div className={"filter-margin"}>
                                 <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Campus' header='Select campus' fluid multiple search selection options={this.locations} />
-                                  <Icon name='remove' className={this.state.showLocation ? "filter-margin filter-delete" : "hide-filter"} />
+                                  <Dropdown className="filter-margin" placeholder='Campus' fluid multiple search selection options={this.locations} />
                                 </div>
                                 <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Faculty' header='Select faculty' fluid multiple search selection options={this.faculties} />
-                                  <Icon name='remove' className={this.state.showFaculty ? "filter-margin filter-delete" : "hide-filter"} />
+                                  <Dropdown className="filter-margin" placeholder='Faculty' fluid multiple search selection options={this.faculties} />
                                 </div>
                                 <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Credit Points' header='Select credit points' fluid search selection options={this.creditPoints} />
-                                  <Icon name='remove' className={this.state.showCreditPoints ? "filter-margin filter-delete" : "hide-filter"} />
+                                  <Dropdown className="filter-margin" placeholder='Credit Points' fluid search selection options={this.creditPoints} />
                                 </div>
                                 <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Teaching Period' header='Select teaching period' fluid multiple search selection options={this.teachingPeriods} />
-                                  <Icon name='remove' className={this.state.showTeachingPeriod ? "filter-margin filter-delete" : "hide-filter"} />
+                                  <Dropdown className="filter-margin" placeholder='Teaching Period' fluid multiple search selection options={this.teachingPeriods} />
                                 </div>
                               </div>
                             </div>
@@ -110,4 +108,16 @@ class FilterButtonContainer extends Component {
     }
 }
 
-export default(FilterButtonContainer);
+/**
+Handles click for showing/hiding filters.
+*/
+const mapStateToProps = (state) => {
+    return {
+        unitSearchIsLoading: state.CourseStructure.unitSearchIsLoading
+    };
+};
+export default connect(mapStateToProps)(FilterButtonContainer);
+
+FilterButtonContainer.propTypes = {
+    unitSearchIsLoading: PropTypes.bool
+};

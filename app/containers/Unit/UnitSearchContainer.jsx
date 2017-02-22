@@ -227,10 +227,6 @@ class UnitSearchContainer extends Component {
                     </div>
                     <FilterButtonContainer />
                 </Menu.Item>
-
-
-
-
                 {this.state.showAddCustomUnitButton &&
                     <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue">Add custom unit</Button>
                 }
