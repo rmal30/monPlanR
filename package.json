@@ -11,7 +11,12 @@
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "helmet": "^3.4.0",
-    "mochawesome": "^2.0.2"
+    "mochawesome": "^2.0.2",
+    "react": "^15.4.2",
+    "react-collapse": "^2.3.3",
+    "react-height": "^2.2.0",
+    "react-motion": "^0.4.7",
+    "react-sanfona": "^0.1.0"
   },
   "devDependencies": {
     "axios": "^0.14.0",
