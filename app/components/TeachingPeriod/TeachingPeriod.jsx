@@ -31,8 +31,10 @@ export const TeachingPeriod = (props) => {
         getAffectedUnitsInRow: PropTypes.func,
         numberOfUnits: PropTypes.number,
         tpCreditPoints: PropTypes.number,
-
-        viewOnly: PropTypes.bool
+        showingMovingUnitUI: PropTypes.bool,
+        unitToBeMoved: PropTypes.object,
+        viewOnly: PropTypes.bool,
+        tpIndexOfUnitToBeMoved: PropTypes.number
     };
 
     // props.tpCreditPoints, props.numberOfUnits, maxCreditPointsForTP
@@ -47,10 +49,10 @@ export const TeachingPeriod = (props) => {
         }
     }, 0);
 
-
-
+    let unitRep = props.units.slice();
+    
     let difference = totalPoints - maxPoints;
-    let unitRep = props.units;
+    
     if(difference > 0) {
         unitRep = [];
         for(let i=0; i < props.units.length; i++){
@@ -66,7 +68,50 @@ export const TeachingPeriod = (props) => {
         }
     }
 
-    const unitsEle = props.units.map((unit, index) => {
+    if (props.showingMovingUnitUI) {
+        let targetSpan = props.unitToBeMoved.creditPoints / 6,
+            currentSpan = 0,
+            unitCompensation = 0, 
+            startIndexes = [],
+            shouldNotDisplays = [];
+        
+        if(props.index === props.tpIndexOfUnitToBeMoved) {
+            unitCompensation = targetSpan - 1;
+        }
+        for(let i=0; i < unitRep.length; i++ ) {
+            let currentUnit = unitRep[i];
+            if (currentUnit === null) {
+                unitCompensation -= 1;
+                if(unitCompensation < 0) {
+                    currentSpan += 1; //empty unit means chain can continue
+                    if(currentSpan === targetSpan){
+                        let startIndex = i-currentSpan + 1;
+                        startIndexes.push(startIndex); // the index of the first item in the grouping
+                        for(let j=i; j > startIndex; j--) {
+                            shouldNotDisplays.push(j);
+                        }
+                        currentSpan = 0; // reset current span
+                    }
+                } else {
+                    shouldNotDisplays.push(i);
+                    currentSpan = 0;
+                }
+                
+            } else {
+                currentSpan = 0; // if not an empty slot then the chain breaks and has to reset
+            }
+        }
+
+        for(let k=0; k < startIndexes.length; k++) {
+            unitRep[startIndexes[k]] = "display";
+        }
+
+        for(let l=0; l < shouldNotDisplays.length; l++){
+            unitRep[shouldNotDisplays[l]] = "shouldNotDisplay";
+        }
+    }
+
+    const unitsEle = unitRep.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
 
         if(!unit) {
@@ -81,6 +126,16 @@ export const TeachingPeriod = (props) => {
         } else if (unit === "shouldNotDisplay") {
             return (
                 null
+            );
+        } else if (unit === "display") {
+            return (
+                <UnitTableCell
+                    key={index}
+                    index={index}
+                    teachingPeriodIndex={props.index}
+                    free
+                    cellSpan={props.unitToBeMoved ? (props.unitToBeMoved.creditPoints / 6) : 1}
+                    isError={isError} />
             );
         }
         return (
@@ -144,6 +199,9 @@ const mapStateToProps = (state) => {
         data: state.CourseStructure.teachingPeriodData,
         numberOfUnits: state.CourseStructure.numberOfUnits,
         viewOnly: state.UI.readOnly,
+        showingMovingUnitUI: state.UI.showingMovingUnitUI,
+        unitToBeMoved: state.CourseStructure.unitToBeMoved,
+        tpIndexOfUnitToBeMoved: state.CourseStructure.tpIndexOfUnitToBeMoved
     };
 };
 
