@@ -327,7 +327,7 @@ function rules(unitsByPosition, courseCode) {
                                 if(node.type === "OR") {
                                     if(node.left.error && node.right.error) {
                                         node.error = {
-                                            message: `${node.left.error.message} Alternatively, ${node.right.error.message}`,
+                                            message: `${node.left.error.message} or ${node.right.error.message}`,
                                             coordinates: [...node.left.error.coordinates, ...node.right.error.coordinates]
                                         };
                                     }
