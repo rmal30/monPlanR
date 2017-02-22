@@ -422,11 +422,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
             }
         };
 
-        let instance = axios.create({
-            headers: {'Content-Type': 'application/json'}
-        });
-
-        instance.post(snapURL, params)
+        axios.post(snapURL, params)
             .then(response => {
                 dispatch({
                     type: "UPLOAD_COURSE_SNAPSHOT_FULFILLED",
