@@ -71,30 +71,20 @@ export const TeachingPeriod = (props) => {
     if (props.showingMovingUnitUI) {
         let targetSpan = props.unitToBeMoved.creditPoints / 6,
             currentSpan = 0,
-            unitCompensation = 0, 
             startIndexes = [],
             shouldNotDisplays = [];
         
-        if(props.index === props.tpIndexOfUnitToBeMoved) {
-            unitCompensation = targetSpan - 1;
-        }
         for(let i=0; i < unitRep.length; i++ ) {
             let currentUnit = unitRep[i];
             if (currentUnit === null) {
-                unitCompensation -= 1;
-                if(unitCompensation < 0) {
-                    currentSpan += 1; //empty unit means chain can continue
-                    if(currentSpan === targetSpan){
-                        let startIndex = i-currentSpan + 1;
-                        startIndexes.push(startIndex); // the index of the first item in the grouping
-                        for(let j=i; j > startIndex; j--) {
-                            shouldNotDisplays.push(j);
-                        }
-                        currentSpan = 0; // reset current span
+                currentSpan += 1; //empty unit means chain can continue
+                if(currentSpan === targetSpan){
+                    let startIndex = i-currentSpan + 1;
+                    startIndexes.push(startIndex); // the index of the first item in the grouping
+                    for(let j=i; j > startIndex; j--) {
+                        shouldNotDisplays.push(j);
                     }
-                } else {
-                    shouldNotDisplays.push(i);
-                    currentSpan = 0;
+                    currentSpan = 0; // reset current span
                 }
                 
             } else {
