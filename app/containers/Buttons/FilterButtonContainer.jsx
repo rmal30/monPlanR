@@ -65,6 +65,7 @@ class FilterButtonContainer extends Component {
     Handles click for showing/hiding filters.
     */
     showFilterClick(){
+        console.log(this.state.showFilter)
         this.setState({showFilter: !this.state.showFilter});
     }
 
@@ -78,10 +79,10 @@ class FilterButtonContainer extends Component {
     render(){
         return (
         <div>
-          <Accordion>
+          <Accordion onChange={() => {this.showFilterClick();}}>
                 {[1].map((item) => {
                     return (
-                        <AccordionItem title={<Button content={this.state.showFilter ? "Hide Filters" : "Show Filters"} icon={this.state.showFilter ? "minus" : "plus"} labelPosition="left" onClick={() => {this.showFilterClick();}} fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
+                        <AccordionItem title={<Button content={this.state.showFilter ? "Hide Filters" : "Show Filters"} icon={this.state.showFilter ? "minus" : "plus"} labelPosition="left" fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
                             <div>
                               <div className={"filter-margin"}>
                                 <div className="filter-div">
