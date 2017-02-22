@@ -98,6 +98,10 @@ const defaultState = {
         abrTitle: ""
     },
 
+    importantDates: [],
+    importantDatesLoading: false,
+    importantDatesError: false,
+
     // Course errors is used for displaying course error messages.
     courseErrors: [],
     invalidUnitSlotCoordinates: [],
@@ -106,6 +110,8 @@ const defaultState = {
     focusedCourse: null,
     startYear: new Date().getFullYear(), //Default to the current year
     endYear: new Date().getFullYear() + 4 //4 years is avg degree length
+
+
 };
 
 /**
@@ -149,7 +155,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 teachingPeriods: [
                     ...state.teachingPeriods,
-                    {   
+                    {
                         totalCreditpoints: 0,
                         year: action.year,
                         code: action.code,
@@ -457,6 +463,29 @@ const CourseStructure = (state = defaultState, action) => {
                 areasOfStudy: [],
                 aosSearchIsLoading: false,
                 aosSearchError: true
+            };
+
+        case "FETCH_IMPORTANT_DATES_PENDING":
+            return {
+                ...state,
+                importantDatesLoading: true,
+                importantDatesError: false
+            };
+
+        case "FETCH_IMPORTANT_DATES_REJECTED":
+            return {
+                ...state,
+                importantDates: [],
+                importantDatesLoading: false,
+                importantDatesError: true
+            };
+
+        case "FETCH_IMPORTANT_DATES_FULFILLED":
+            return {
+                ...state,
+                importantDates: action.payload,
+                importantDatesLoading: false,
+                importantDatesError: false
             };
 
         case "SUBMIT_COURSE_FORM":

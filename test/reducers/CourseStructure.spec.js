@@ -2464,7 +2464,7 @@ describe("REDUCER: CourseStructure", () => {
                     ],
                     courseErrors: [
                         {
-                            message: "You need 18 more credit points before doing TEST3031.",
+                            message: "You need 18 more credit points before you can do TEST3031.",
                             coordinates: [[2, 1]]
                         }
                     ]
@@ -2685,6 +2685,71 @@ describe("REDUCER: CourseStructure", () => {
 
                 test(CourseStructure, stateBefore, action, stateAfter);
             });
+
+            it("Should handle a complicated For expression", () => {
+                const stateBefore = {
+                    teachingPeriods: [
+                        {
+                            year: 2019,
+                            code: "S1-01",
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ",
+                                            ruleString: "For ((SCA_LOCATION IN {CLAYTON} AND COURSE_CODE IN {1039, 2393}) OR (SCA_LOCATION IN {CLAYTON} AND COURSE_CODE NOT IN {A4921})) Do true Otherwise Permission required"
+                                        }
+                                    ]
+                                },
+                                null,
+                                null
+                            ]
+                        }
+                    ],
+                    courseErrors: [],
+                    courseInfo: {
+                        courseCode: "A4921"
+                    }
+                };
+
+                const action = {
+                    type: "VALIDATE_COURSE"
+                };
+
+                const stateAfter = {
+                    teachingPeriods: [
+                        {
+                            year: 2019,
+                            code: "S1-01",
+                            units: [
+                                null,
+                                {
+                                    unitCode: "ABC1234",
+                                    rules: [
+                                        {
+                                            ruleSummary: "PREREQ",
+                                            ruleString: "For ((SCA_LOCATION IN {CLAYTON} AND COURSE_CODE IN {1039, 2393}) OR (SCA_LOCATION IN {CLAYTON} AND COURSE_CODE NOT IN {A4921})) Do true Otherwise Permission required"
+                                        }
+                                    ]
+                                },
+                                null,
+                                null
+                            ]
+                        }
+                    ],
+                    courseErrors: [{
+                        message: "You need permission to do ABC1234.",
+                        coordinates: [[0, 1]]
+                    }],
+                    courseInfo: {
+                        courseCode: "A4921"
+                    }
+                };
+
+                test(CourseStructure, stateBefore, action, stateAfter);
+            });
         });
     });
 
@@ -2833,6 +2898,89 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             test(CourseStructure, stateBefore, action, stateBefore);
+        });
+    });
+
+    describe("ACTION: FETCH_IMPORTANT_DATES_PENDING", () => {
+        it("should begin fetching important dates correctly ", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                importantDates: [],
+                importantDatesLoading: false,
+                importantDatesError: false
+            };
+
+            const action = {
+                type: "FETCH_IMPORTANT_DATES_PENDING"
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                importantDates: [],
+                importantDatesLoading: true,
+                importantDatesError: false
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_IMPORTANT_DATES_REJECTED", () => {
+        it("should handled failed fetch of important dates correctly ", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                importantDates: [],
+                importantDatesLoading: false,
+                importantDatesError: false
+            };
+
+            const action = {
+                type: "FETCH_IMPORTANT_DATES_REJECTED"
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                importantDates: [],
+                importantDatesLoading: false,
+                importantDatesError: true
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
+        });
+    });
+
+    describe("ACTION: FETCH_IMPORTANT_DATES_FULFILLED", () => {
+        it("should handled failed fetch of important dates correctly ", () => {
+            const stateBefore = {
+                testParam1: 1,
+                testParam2: "test",
+                importantDates: [],
+                importantDatesLoading: false,
+                importantDatesError: false
+            };
+
+            const action = {
+                type: "FETCH_IMPORTANT_DATES_FULFILLED",
+                payload: [
+                    {
+                        "value": "HE IS A SAURABH"
+                    }
+                ]
+            };
+
+            const stateAfter = {
+                testParam1: 1,
+                testParam2: "test",
+                importantDates: [{"value": "HE IS A SAURABH"}],
+                importantDatesLoading: false,
+                importantDatesError: false
+            };
+
+            test(CourseStructure, stateBefore, action, stateAfter);
         });
     });
 });

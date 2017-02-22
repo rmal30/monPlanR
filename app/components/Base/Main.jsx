@@ -65,6 +65,7 @@ class Main extends Component {
         super(props);
 
         this.props.fetchTeachingPeriods(); // grabs teaching period strings from API
+        this.props.fetchDates();
     }
 
     /**
@@ -112,7 +113,8 @@ Main.propTypes = {
     location: PropTypes.object,
     fetchTeachingPeriods: PropTypes.func,
     showingSidebar: PropTypes.bool,
-    hideSidebar: PropTypes.func
+    hideSidebar: PropTypes.func,
+    fetchDates: PropTypes.func
 };
 
 
