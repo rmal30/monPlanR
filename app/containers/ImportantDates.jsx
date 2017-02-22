@@ -1,64 +1,26 @@
-import React, { Component } from "react";
+import React, { PropTypes } from "react";
 import { Icon, Menu, Popup, Grid } from "semantic-ui-react";
 
 import MediaQuery from "react-responsive";
+
+import { connect } from "react-redux";
 
 /**
 * Creates a Popup for ImportantDates coming up
 * @author Eric Jiang
 */
-export default class ImportantDates extends Component {
+const ImportantDates = (props) => {
     /**
-    * Constructor
+    * Return function
     */
-    constructor(){
-        super();
-        this.state = {
-            importantDates: [
-                {
-                    "date": "2017-02-20",
-                    "name": "Orientation Week Begins"
-                },
-                {
-                    "date": "2017-02-24",
-                    "name": "Orientation Week Ends"
-                },
-                {
-                    "date": "2017-02-27",
-                    "name": "Semester 1 (S1-01) Begins"
-                },
-                {
-                    "date": "2017-03-10",
-                    "name": "Last day to add on-campus semester one (S1-01) or full-year (FY-01) units"
-                },
-                {
-                    "date": "2017-03-31",
-                    "name": "Census Date for Semester 1 (S1-01) - FINALISE your course"
-                },
-                {
-                    "date": "2017-03-31",
-                    "name": "Last day to discontinue semester one (S1-01) and full-year (FY-01) units without 'withdrawn' showing on academic record"
-                },
-                {
-                    "date": "2017-04-14",
-                    "name": "Mid-Semester (S1-01) Break Begins"
-                },
-            ]
-        };
-    }
-
-    /**
-    * Render method
-    */
-    render(){
-        return (
-            <Popup
-                on="hover"
-                hoverable
-                wide
-                trigger={(
-                    <Menu.Item>
-                        <Icon name="calendar" inverted/>&nbsp;
+    return (
+        <Popup
+            on="hover"
+            hoverable
+            wide
+            trigger={(
+                <Menu.Item>
+                    <Icon name="calendar" inverted/>&nbsp;
                         <MediaQuery minDeviceWidth={768}>
                             Important Dates
                         </MediaQuery>
@@ -69,10 +31,10 @@ export default class ImportantDates extends Component {
                 </Popup.Header>
                 <Popup.Content>
                     <br />
-                    <div>
+                    <div style={{overflowY: "scroll", maxHeight: "500px"}}>
                         <Grid>
-                        {
-                                (this.state.importantDates).map(current => {
+                            {
+                                (props.importantDates).map(current => {
                                     var currentDate = new Date();
                                     var date = new Date(current.date);
                                     var endRange = new Date();
@@ -93,20 +55,34 @@ export default class ImportantDates extends Component {
                                     if(Date.daysBetween(currentDate, date) < 7) {
                                         var classNameString = "dayWarn";
                                     }
-                                    endRange.setMonth(currentDate.getMonth()+2);
+                                    endRange.setDate(currentDate.getDate()+15);
                                     if(date > currentDate && date < endRange){
                                         var dateStr = (date.getDate().toString() + "/" + (date.getMonth()+1).toString() + "/" + date.getFullYear().toString());
                                         return (<Grid.Row className={classNameString} >
-                                                    <Grid.Column width={8}>{dateStr}</Grid.Column>
-                                                    <Grid.Column width={8}>{current.name}</Grid.Column>
-                                                </Grid.Row>);
+                                            <Grid.Column width={8}>{dateStr}</Grid.Column>
+                                            <Grid.Column width={8}>{current.description}</Grid.Column>
+                                        </Grid.Row>);
                                     }
                                 })
-                        };
-                    </Grid>
+                            }
+                        </Grid>
                     </div>
                 </Popup.Content>
             </Popup>
-        );
-    }
-}
+    );
+};
+
+/**
+* Map to State
+*/
+const mapStateToProps = (state) => {
+    return {
+        importantDates: state.CourseStructure.importantDates
+    };
+};
+
+ImportantDates.propTypes = {
+    importantDates: PropTypes.array
+};
+
+export default connect(mapStateToProps)(ImportantDates);

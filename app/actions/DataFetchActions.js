@@ -2,6 +2,7 @@ import axios from "axios";
 import CourseTemplate from "../utils/CourseTemplate";
 import CostCalc from "../utils/CostCalc";
 
+var parseString = require("xml2js").parseString;
 import * as CourseActions from "./CourseActions";
 import * as NotificationActions from "./Notifications";
 
@@ -423,7 +424,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
         };
 
         let instance = axios.create({
-            headers: {'Content-Type': "application/json"}
+            headers: {"Content-Type": "application/json"}
         });
 
         instance.post(snapURL, params)
@@ -439,4 +440,34 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
                 });
             });
     };
+};
+
+/**
+* Fetchin Dates function
+*/
+export const fetchDates = () => {
+    return function(dispatch){
+        dispatch({
+            type: "FETCH_IMPORTANT_DATES_PENDING",
+        });
+        axios.get("https://www.monash.edu/student-services-division/assets/scripts/asset-management/key-dates/feed.php?category=australia-students")
+            .then(resp => {
+                parseString(resp.data, function(err, result){
+                    const values = result.rss.channel[0].item.map(currentItem => {
+                        return {"date": currentItem.title[0], "description": currentItem.description[0]};
+                    });
+                    dispatch({
+                        type: "FETCH_IMPORTANT_DATES_FULFILLED",
+                        payload: values //The course id that was uploaded
+                    });
+                });
+            })
+            .catch(()=>{
+                dispatch({
+                    type: "FETCH_IMPORTANT_DATES_REJECTED"
+                });
+
+            });
+    };
+
 };
