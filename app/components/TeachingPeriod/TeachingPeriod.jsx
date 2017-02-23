@@ -75,7 +75,7 @@ export const TeachingPeriod = (props) => {
             startIndexes = [],
             shouldNotDisplays = [];
     
-        if(props.showingAddingUnitUI && props.showingAddingUnitUI.creditPoints) {
+        if(props.showingAddingUnitUI) {
             targetSpan = props.unitToAdd.creditPoints / 6;
         } else if (props.showingMovingUnitUI) {
             targetSpan = props.unitToBeMoved.creditPoints / 6;
@@ -110,6 +110,15 @@ export const TeachingPeriod = (props) => {
         }
     }
 
+    let cellSpan;
+
+    if(props.unitToAdd) {
+        cellSpan = props.unitToAdd.creditPoints / 6;
+    } else if (props.unitToBeMoved) {
+        cellSpan = props.unitToBeMoved.creditPoints / 6;
+    } else {
+        cellSpan = 1;
+    }
     const unitsEle = unitRep.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
 
@@ -133,7 +142,7 @@ export const TeachingPeriod = (props) => {
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
-                    cellSpan={props.unitToBeMoved ? (props.unitToBeMoved.creditPoints / 6) : 1}
+                    cellSpan={cellSpan}
                     isError={isError} />
             );
         }

@@ -124,13 +124,7 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging, unit) => {
             type: "UPDATE_UNIT_IS_BEING_DRAGGED",
             isDragging
         });
-
-        dispatch({
-            type: "ADDING_UNIT",
-            unit: unitCode
-        });
-
-
+        
         if(!customUnitToAdd) {
             dispatch({
                 type: "UPDATE_UNIT_TO_ADD",
@@ -159,6 +153,11 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging, unit) => {
                 unitCode
             });
         }
+
+        dispatch({
+            type: "ADDING_UNIT",
+            unit: unitCode
+        });
     };
 };
 
