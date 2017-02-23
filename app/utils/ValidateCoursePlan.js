@@ -2,7 +2,8 @@ import moment from "moment";
 import rulesParser from "./rules.pegjs";
 
 /**
- * Returns a list of units from the course structure
+ * Returns a list of units from the course plan given a list of teaching
+ * periods.
  *
  * @author Saurabh Joshi
  * @param {object} teachingPeriods - List of teaching periods containing the
@@ -13,7 +14,7 @@ function getListOfUnits(teachingPeriods) {
     return teachingPeriods.map((ele, teachingPeriodIndex) =>
         ele.units
             .map((unit, unitIndex) => {
-                if(unit && !unit.placeholder) {
+                if(unit && !unit.placeholder) { // Placeholder units should not be processed
                     return {
                         ...unit,
                         teachingPeriodIndex,
@@ -23,12 +24,14 @@ function getListOfUnits(teachingPeriods) {
                     };
                 }
             })
-            .filter(unit => unit) // Remove free and  placeholder units
-        ).reduce((units, list) => units.concat(list), []);
+            .filter(unit => unit) // Remove free and placeholder units
+        ).reduce((units, list) => units.concat(list), []); // Flatten matrix into a single dimensional array
 }
 
 /**
- * Reads in course structure and returns a list of errors.
+ * Reads in course plan and returns a list of errors. Each error is an object
+ * with properties message to show to the user, and the relevant coordinates
+ * the error message applies to.
  *
  * @author JXNS, Saurabh Joshi
  * @param {array} teachingPeriods - Students' course plan
@@ -59,11 +62,26 @@ export function validateCoursePlan(teachingPeriods, courseCode) {
 }
 
 /**
- * [teachingPeriodIndex, unitIndex]
- * If null is specified, then it highlights everything
+ * This function is used when users are adding or moving units. The input is
+ * the course plan as well as the unit the user is currently focused on, and the
+ * output is a list of coordinates of unit slots which the app will highglight
+ * it as invalid. It shows to the student immediate feedback which unit slots
+ * the student should place their unit in, but they don't have to follow the
+ * rules as software is not always reliable (and students can also gain
+ * exceptions).
+ *
+ * Each coordinate is formatted as [teachingPeriodIndex, unitIndex].
+ * If null is specified, then it highlights everything.
  * e.g. [0, null] highlights all units in first teaching period
  * e.g. [null, 4] highlights all units in fourth Column
  * e.g. [null, null] highlights all units in course plan.
+ *
+ * @author Saurabh Joshi, JXNS
+ * @param {array} teachingPeriods - List of teaching periods from the student's
+ * course plan.
+ * @param {object} tempUnit - Unit that the student is focused on.
+ * @param {array} ignoreCoordinate - If tempUnit is unit being moved, then
+ * ignore its coordinate whlist performing duplicate validation.
  */
 export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreCoordinate) {
     let duplicateFound = false;
@@ -163,10 +181,21 @@ export function getInvalidUnitSlotCoordinates(teachingPeriods, tempUnit, ignoreC
 }
 
 /**
- * Checks to see if there are any duplicate units in the course plan.
+ * Checks to see if there are any duplicate units in the course plan. It
+ * only raises errors if there are duplicate units within the same teaching
+ * period, or there is a duplicate unit that is placed two or more years into
+ * the future. The reason for the latter part is that course advisors tell
+ * students to plan their course as if they will pass all of their units. It
+ * would be better to tighten two years ahead down to the result date for each
+ * teaching period, but at this point it is not feasible. Two years is chosen
+ * instead of one as the minimium because some teaching periods go over two
+ * years due to the late start in the year.
  *
+ * @author Saurabh Joshi
  * @param {array} unitsByCode - Units sorted by code, so that it can check for
  * duplicates correctly.
+ * @return {array} - Array of coordinates, where each coordinate is formatted
+ * as [teachingpPeriodIndex, unitIndex].
  */
 function duplicates(unitsByCode) {
     const duplicateUnitsFutureTeachingPeriods = [];
@@ -217,7 +246,14 @@ function duplicates(unitsByCode) {
 }
 
 /**
- * Checks to see if unit in a teaching period is being offered
+ * Checks to see if unit in a teaching period is being offered. This is done by
+ * examining the offerings of each unit, and look if the teaching period the
+ * unit is in is being offered. If this is not the case, then it pushes
+ * an invalid offering errors list.
+ *
+ * @author JXNS, Saurabh Joshi
+ * @param {array} unitsByPosition - List of units
+ * @returns {array} - A list of errors.
  */
 function offerings(unitsByPosition) {
     let codeMap = {
@@ -296,7 +332,13 @@ function offerings(unitsByPosition) {
 }
 
 /**
- * Parses rules, such as prereqs, coreqs and prohib
+ * Parses rules, such as prerequisites, corequisites and prohibitions. These
+ * rules are then compared against the course plan, and errors are generated
+ * when it sees that a rule has not been satisified.
+ *
+ * @author Saurabh Joshi
+ * @param {array} unitsByPosition - List of units from the course plan
+ * @param {string} courseCode - Which course the student is currently doing
  */
 function rules(unitsByPosition, courseCode) {
     const errors = [];
@@ -305,15 +347,18 @@ function rules(unitsByPosition, courseCode) {
         if(unit.rules && unit.rules.length > 0) {
             unit.rules.forEach(rule => {
                 // Some rules are expired, and thus should not be considered when validating units
+                // TODO: Consider expired rules for units placed in past teaching periods
                 if(rule.endDate && !moment(rule.endDate, "DD/MM/YYYY").isAfter(new Date())) {
                     return;
                 }
 
                 try {
+                    // Parse the rule string using PEG.js's generated parser
                     const parseTree = rulesParser.parse(rule.ruleString);
                     let node = parseTree;
                     const nodeStack = [node];
 
+                    // Use Depth-First Traversal to check for validation
                     while(nodeStack.length > 0) {
                         node = nodeStack[nodeStack.length - 1];
 
@@ -371,7 +416,8 @@ function rules(unitsByPosition, courseCode) {
                             let currentNode = node.expression;
                             let for_stack = [currentNode];
 
-                            // Use depth first search from left to right to traverse through the FOR expression
+                            // Use Depth-First Traversal from left to right through the FOR expression
+                            // TODO: Handle commencement date expressions
                             while(for_stack.length > 0) {
                                 // Peek last element in stack
                                 currentNode = for_stack[for_stack.length - 1];
