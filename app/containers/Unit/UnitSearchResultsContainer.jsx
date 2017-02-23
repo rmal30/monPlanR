@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Button, Header, Menu } from "semantic-ui-react";
 
 import * as UIActions from "../../actions/UIActions";
+import * as DataFetchActions from "../../actions/DataFetchActions";
 import UnitSearchResult from "../../components/Unit/UnitSearchResult.jsx";
 
 /**
@@ -66,7 +67,6 @@ class UnitSearchResultsContainer extends Component {
                 </div>
             );
         }
-
         const eles = this.props.results.map((unitToAdd, index) => {
             const { unitCode, unitName, custom, faculty } = unitToAdd;
             return (
@@ -106,7 +106,8 @@ UnitSearchResultsContainer.propTypes = {
  * Injects show custom unit modal action into the props
  */
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators(UIActions, dispatch);
+    const actionBundle = {...UIActions, ...DataFetchActions};
+    return bindActionCreators(actionBundle, dispatch);
 };
 
 /**

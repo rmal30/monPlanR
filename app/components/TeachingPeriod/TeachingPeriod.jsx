@@ -34,7 +34,8 @@ export const TeachingPeriod = (props) => {
         showingMovingUnitUI: PropTypes.bool,
         unitToBeMoved: PropTypes.object,
         viewOnly: PropTypes.bool,
-        tpIndexOfUnitToBeMoved: PropTypes.number
+        tpIndexOfUnitToBeMoved: PropTypes.number,
+        showingAddingUnitUI: PropTypes.bool
     };
 
     // props.tpCreditPoints, props.numberOfUnits, maxCreditPointsForTP
@@ -68,11 +69,19 @@ export const TeachingPeriod = (props) => {
         }
     }
 
-    if (props.showingMovingUnitUI) {
-        let targetSpan = props.unitToBeMoved.creditPoints / 6,
+    if (props.showingMovingUnitUI || props.showingAddingUnitUI) {
+        let targetSpan,
             currentSpan = 0,
             startIndexes = [],
             shouldNotDisplays = [];
+    
+        if(props.showingAddingUnitUI && props.showingAddingUnitUI.creditPoints) {
+            targetSpan = props.unitToAdd.creditPoints / 6;
+        } else if (props.showingMovingUnitUI) {
+            targetSpan = props.unitToBeMoved.creditPoints / 6;
+        } else {
+            targetSpan = 1;
+        }
         
         for(let i=0; i < unitRep.length; i++ ) {
             let currentUnit = unitRep[i];
@@ -191,7 +200,9 @@ const mapStateToProps = (state) => {
         viewOnly: state.UI.readOnly,
         showingMovingUnitUI: state.UI.showingMovingUnitUI,
         unitToBeMoved: state.CourseStructure.unitToBeMoved,
-        tpIndexOfUnitToBeMoved: state.CourseStructure.tpIndexOfUnitToBeMoved
+        tpIndexOfUnitToBeMoved: state.CourseStructure.tpIndexOfUnitToBeMoved,
+        showingAddingUnitUI: state.UI.showingAddingUnitUI,
+        unitToAdd: state.CourseStructure.unitToAdd
     };
 };
 
