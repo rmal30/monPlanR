@@ -53,7 +53,7 @@ export function validateCoursePlan(teachingPeriods, courseCode) {
 
     return [
         ...duplicates(unitsByCode),
-        ...offerings(unitsByPosition, teachingPeriods),
+        ...offerings(unitsByPosition),
         ...rules(unitsByPosition, courseCode)
     ];
 }
@@ -219,7 +219,7 @@ function duplicates(unitsByCode) {
 /**
  * Checks to see if unit in a teaching period is being offered
  */
-function offerings(unitsByPosition, teachingPeriods) {
+function offerings(unitsByPosition) {
     let codeMap = {
         "FY-01": "Full year",
         "S1-01": "First semester",
@@ -244,7 +244,7 @@ function offerings(unitsByPosition, teachingPeriods) {
             offerings = JSON.parse(offerings);
         }
 
-        const teachingPeriodStr = codeMap[teachingPeriods[unitsByPosition[i].teachingPeriodIndex].code];
+        const teachingPeriodStr = codeMap[unitsByPosition[i].teachingPeriodCode];
 
         if (teachingPeriodStr !== undefined) {
             // semester we're checking against is covered by mapping'
@@ -253,7 +253,7 @@ function offerings(unitsByPosition, teachingPeriods) {
             let isValid = false;
             let year = 2017;
 
-            if(typeof offerings.length === "number") { // check if offerings is an array
+            if(Array.isArray(offerings)) {
                 for(let k = 0; k < offerings.length; k++) {
                     let location = offerings[k].location;
                     let times = offerings[k].time;
