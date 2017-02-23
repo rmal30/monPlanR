@@ -1,7 +1,8 @@
 import React, { PropTypes } from "react";
-import { Icon, Menu, Popup, Card, Feed, Breadcrumb } from "semantic-ui-react";
+import { Divider, Icon, Menu, Popup, Card, Feed, Breadcrumb } from "semantic-ui-react";
 import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
+import moment from "moment";
 
 /**
 * Creates a Popup for ImportantDates coming up
@@ -29,10 +30,10 @@ const ImportantDates = (props) => {
                         Important dates coming up
                 </Popup.Header>
                 <Popup.Content>
+                    Today is {moment().format("DD MMMM, YYYY")}.
                     <br />
-
                         <Card>
-                            <div style={{overflowY: "scroll", maxHeight: "500px"}}>
+                            <div style={{overflowY: "auto", maxHeight: "500px"}}>
                                 <Card.Content>
                                     <Feed>
                                     {
@@ -54,24 +55,25 @@ const ImportantDates = (props) => {
                                                 // Convert back to days and return
                                                 return Math.round(difference_ms/one_day);
                                             };
-                                            if(Date.daysBetween(currentDate, date) < 7) {
+                                            const dayDelta = Date.daysBetween(currentDate, date);
+                                            if(dayDelta < 7) {
                                                 var classNameString = "dayWarn";
                                             }
                                             endRange.setDate(currentDate.getDate()+15);
-                                            if(date > currentDate && date < endRange){
-                                                var dateStr = (date.getDate().toString() + "/" + (date.getMonth()+1).toString() + "/" + date.getFullYear().toString());
+                                            if(date > currentDate && date < endRange) {
                                                 return (
-                                                    <div>
-                                                        <Feed.Event key={index} className={classNameString} >
-                                                            <Feed.Content>
-                                                                <Feed.Date content={dateStr} />
-                                                                <Feed.Summary>
-                                                                    {current.description}
-                                                                </Feed.Summary>
-                                                            </Feed.Content>
-                                                        </Feed.Event>
-                                                        <hr/>
-                                                    </div>
+                                                    <Feed.Event key={index} className={classNameString} >
+                                                        <Feed.Content>
+                                                            <Feed.Summary>
+                                                                {current.date}
+                                                                <Feed.Date>{dayDelta} days from now</Feed.Date>
+                                                            </Feed.Summary>
+                                                            <Feed.Extra text>
+                                                                {current.description}
+                                                            </Feed.Extra>
+                                                            <Divider fitted />
+                                                        </Feed.Content>
+                                                    </Feed.Event>
                                                 );
                                             }
                                         })
@@ -81,13 +83,13 @@ const ImportantDates = (props) => {
                             </div>
                             <Card.Content extra>
                                 <Breadcrumb>
-                                    <Breadcrumb.Section link as="a" href="https://my.monash.edu.au/wes/">
+                                    <Breadcrumb.Section href="https://my.monash.edu.au/wes/">
                                        WES
                                    </Breadcrumb.Section>
                                     <Breadcrumb.Divider />
-                                    <Breadcrumb.Section link as="a" href="https://my.monash">my.monash</Breadcrumb.Section>
+                                    <Breadcrumb.Section href="https://my.monash">my.monash</Breadcrumb.Section>
                                     <Breadcrumb.Divider />
-                                    <Breadcrumb.Section link as="a" href="https://www.monash.edu/timetables">Timetabling</Breadcrumb.Section>
+                                    <Breadcrumb.Section href="https://www.monash.edu/timetables">Timetabling</Breadcrumb.Section>
                                  </Breadcrumb>
                             </Card.Content>
                         </Card>
