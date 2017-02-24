@@ -28,10 +28,6 @@ const defaultState = {
     unitToAddCode: "",
     unitIsBeingDragged: false,
 
-    unitSearchIsLoading: false,
-    basicUnits: [],
-    unitSearchError: false,
-
     basicCourses: [],
     courseSearchIsLoading: false,
     courseSearchError: false,
@@ -97,10 +93,6 @@ const defaultState = {
         awards: "",
         abrTitle: ""
     },
-
-    importantDates: [],
-    importantDatesLoading: false,
-    importantDatesError: false,
 
     // Course errors is used for displaying course error messages.
     courseErrors: [],
@@ -398,29 +390,7 @@ const CourseStructure = (state = defaultState, action) => {
                 teachingPeriodsDataError: true
             };
 
-        case "FETCH_UNITS_PENDING":
-            return {
-                ...state,
-                basicUnits: [],
-                unitSearchIsLoading: true,
-                unitSearchError: false
-            };
-
-        case "FETCH_UNITS_FULFILLED":
-            return {
-                ...state,
-                basicUnits: action.payload,
-                unitSearchIsLoading: false,
-            };
-
-        case "FETCH_UNITS_REJECTED":
-            return {
-                ...state,
-                basicUnits: [],
-                unitSearchIsLoading: false,
-                unitSearchError: true
-            };
-
+        
         case "FETCH_COURSES_PENDING":
             return {
                 ...state,
@@ -463,29 +433,6 @@ const CourseStructure = (state = defaultState, action) => {
                 areasOfStudy: [],
                 aosSearchIsLoading: false,
                 aosSearchError: true
-            };
-
-        case "FETCH_IMPORTANT_DATES_PENDING":
-            return {
-                ...state,
-                importantDatesLoading: true,
-                importantDatesError: false
-            };
-
-        case "FETCH_IMPORTANT_DATES_REJECTED":
-            return {
-                ...state,
-                importantDates: [],
-                importantDatesLoading: false,
-                importantDatesError: true
-            };
-
-        case "FETCH_IMPORTANT_DATES_FULFILLED":
-            return {
-                ...state,
-                importantDates: action.payload,
-                importantDatesLoading: false,
-                importantDatesError: false
             };
 
         case "SUBMIT_COURSE_FORM":
