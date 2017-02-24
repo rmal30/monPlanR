@@ -8,6 +8,7 @@ import Notifications from "./Notifications";
 import ImportantDates from "./ImportantDates";
 import UnitSearch from "./UnitSearch";
 import CourseSearch from "./CourseSearch";
+import CourseSnapshot from "./CourseSnapshot";
 
 const appReducer = combineReducers({
     CourseStructure,
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
     ImportantDates,
     UnitSearch,
     CourseSearch,
+    CourseSnapshot,
     routing: routerReducer
 });
 
