@@ -1,6 +1,6 @@
 # monPlan [![Build Status](https://travis-ci.org/MonashUnitPlanner/monPlanR.svg?branch=master)](https://travis-ci.org/MonashUnitPlanner/monPlanR) [![Coverage Status](https://coveralls.io/repos/github/MonashUnitPlanner/monPlanR/badge.svg?branch=master)](https://coveralls.io/github/MonashUnitPlanner/monPlanR?branch=master) [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/MonashUnitPlanner/monPlanR/blob/master/LICENSE)
 ### **[ ![Logo](https://raw.githubusercontent.com/MonashUnitPlanner/monPlanR/master/app/public/favicon.ico) Start planning your course today](http://www.monplan.tech)**
-_Built by Josh Nelsson-Smith, Saurabh Joshi and Eric Jiang_
+_Built by Josh Nelsson-Smith, Saurabh Joshi, Eric Jiang and Charles Campton._
 
 **monPlan** is a course planner for Monash students.
 
@@ -85,5 +85,11 @@ If you want to, you can also build documentation:
 ```
 npm run jsdoc
 ```
+
+## Other contributors
+These are the people who have helped make monPlan possible. Don't see your name here? Contact us and we'll add your name below.
+- Pavlos Zakopaylo
+- Rohan Malik
+
 ## License
 View `LICENSE` file to see our MIT license.
