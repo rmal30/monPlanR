@@ -524,13 +524,20 @@ function rules(unitsByPosition, courseCode) {
 
                                 unitsByPosition.forEach(otherUnit => {
                                     if(otherUnit.teachingPeriodIndex < unit.teachingPeriodIndex) {
+                                        // Assuming that the first integer in a unit code indicates the unit level
+                                        if(Array.isArray(node.levels) && node.levels.indexOf(otherUnit.unitCode.match(/\d/)[0]) === -1) {
+                                            // Ignore if level restriction has not been satisified
+                                            return;
+                                        }
+
                                         creditPoints += otherUnit.creditPoints || 0;
                                     }
                                 });
 
                                 if(creditPoints < minCreditPoints) {
+                                    const finalOr = Array.isArray(node.levels) && node.levels.length > 1 ? " or " + node.levels.pop() : "";
                                     node.error = {
-                                        message: `you need ${minCreditPoints - creditPoints} more credit points before you can do ${unit.unitCode}`,
+                                        message: `you need ${minCreditPoints - creditPoints} more credit points${Array.isArray(node.levels) ? ` for units with level${node.levels.length > 1 ? "s" : ""} ` + node.levels.toString() : ""}${finalOr} before you can do ${unit.unitCode}`,
                                         coordinates: [[unit.teachingPeriodIndex, unit.unitIndex]]
                                     };
                                 }
