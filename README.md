@@ -88,8 +88,8 @@ npm run jsdoc
 
 ## Other contributors
 These are the people who have helped make monPlan possible. Don't see your name here? Contact us and we'll add your name below.
-- Pavlos Zakopaylo
-- Rohan Malik
+- Pavel Zakopaylo [@Pavlos1](https://github.com/Pavlos1)
+- Rohan Malik [@rmal30](https://github.com/rmal30)
 
 ## License
 View `LICENSE` file to see our MIT license.
