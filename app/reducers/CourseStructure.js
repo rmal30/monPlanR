@@ -1,6 +1,6 @@
 import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
 import { validateCoursePlan, getInvalidUnitSlotCoordinates } from "../utils/ValidateCoursePlan";
-
+import TeachingPeriodData from "./TeachingPeriodData";
 /**
  * @author JXNS, Saurabh Joshi
  * The CourseStructure reducer is the most complex state to manage as it forms
@@ -19,34 +19,31 @@ const defaultState = {
 
     affectedUnits: [],
 
-    courseInfoLoading: false,
     courseLoading: false,
 
-    unitLoading: false,
-    unitLoadError: false,
+    
     unitToAdd: undefined,
     unitToAddCode: "",
     unitIsBeingDragged: false,
 
     // Holds a list of placeholders where a unit is on top of it.
     hidingPlaceholders: [],
-
-    courseInfoLoadError: false,
+    
     courseTemplateLoadError: false,
     courseTemplateData: null,
 
-    teachingPeriodData: null,
-    teachingPeriodsDataLoading: false,
-    teachingPeriodsDataError: false,
-
     teachingPeriodCodeToInsert: null,
+    
     nextSemesterString: null,
+    
     indexOfTPtoRemove: 0,
 
     unitToBeMoved: undefined,
     tpIndexOfUnitToBeMoved: 0,
     unitsIndexOfUnitToBeMoved: 0,
 
+    unitLoading: false,
+    unitLoadError: false,
     unitInfo: {
         preqs: "",
         creditPoints: 0,
@@ -65,6 +62,8 @@ const defaultState = {
         descriptions: ""
     },
 
+    courseInfoLoadError: false,
+    courseInfoLoading: false,
     courseInfo: {
         courseCode: "",
         courseName: "",
@@ -354,23 +353,19 @@ const CourseStructure = (state = defaultState, action) => {
         case "FETCH_TEACHING_PERIODS_PENDING":
             return {
                 ...state,
-                teachingPeriodsDataLoading: true,
-                teachingPeriodsDataError: false
+                ...TeachingPeriodData(state, action)
             };
 
         case "FETCH_TEACHING_PERIODS_FULFILLED":
             return {
                 ...state,
-                teachingPeriodData: action.payload,
-                teachingPeriodsDataLoading: false,
+                ...TeachingPeriodData(state, action)
             };
 
         case "FETCH_TEACHING_PERIODS_REJECTED":
             return {
                 ...state,
-                teachingPeriodData: null,
-                teachingPeriodsDataLoading: false,
-                teachingPeriodsDataError: true
+                ...TeachingPeriodData(state, action)
             };
 
         case "SUBMIT_COURSE_FORM":
