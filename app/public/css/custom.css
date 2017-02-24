@@ -187,3 +187,27 @@ html, body {
 .ui.icon.input input {
     width:100% !important;
 }
+
+.filter-margin {
+  margin-top: 1em !important;
+}
+
+.hide-filter {
+  display: none !important;
+}
+
+.filter-delete {
+  display: inline !important;
+  position: absolute;
+  top: -3px;
+  margin-left: 240px !important;
+  color: #006CAB;
+}
+
+.filter-delete:hover {
+  cursor: pointer;
+}
+
+.filter-div {
+  position: relative;
+}

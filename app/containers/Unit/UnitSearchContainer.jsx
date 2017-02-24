@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import CostCalc from "../../utils/CostCalc";
-
+import FilterButtonContainer from "../Buttons/FilterButtonContainer.jsx";
 
 /**
  * This component searches through the available units for selection
@@ -215,6 +215,7 @@ class UnitSearchContainer extends Component {
             {label: "Medicine, Nursing and Health Sciences", value: "Medicine, Nursing and Health Sciences"},
             {label: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"}
         ];
+
         return (
             <Menu.Item>
                 <Menu.Item>
@@ -227,6 +228,7 @@ class UnitSearchContainer extends Component {
                             placeholder={this.props.unitSearchIsLoading ? "Loading, Fetching Units...": "Search to add unit"} />
                         <i className="search icon" />
                     </div>
+                    <FilterButtonContainer />
                 </Menu.Item>
                 {this.state.showAddCustomUnitButton &&
                     <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue">Add custom unit</Button>
