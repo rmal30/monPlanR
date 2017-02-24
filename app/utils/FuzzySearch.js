@@ -5,6 +5,16 @@ import Fuse from "fuse.js";
  */
 export default class FuzzySearch {
 
+    static filterResults(arrayToFilter, filerSettings){
+        var returnArray = [];
+        for(var i=0; arrayToFilter.length; i++){
+            var currentItem = arrayToFilter[i]
+            console.log(currentItem)
+            returnArray.push(currentItem)
+        }
+    }
+
+
     /**
      * search takes in a number of params and returns an array of results from a fuzzy search backend.
      * Please note that these results return the score key so the actual results are accessed via results[index].item
@@ -31,6 +41,7 @@ export default class FuzzySearch {
             };
 
             const fuse = new Fuse(data, options);
+            //apply filter if filterArray is populated
             const results = fuse.search(searchTarget).slice(0, numberOfResults);
 
             return results;
