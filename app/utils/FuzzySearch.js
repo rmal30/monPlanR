@@ -4,14 +4,64 @@ import Fuse from "fuse.js";
  * @author JXNS
  */
 export default class FuzzySearch {
-
-    static filterResults(arrayToFilter, filerSettings){
-        var returnArray = [];
-        for(var i=0; arrayToFilter.length; i++){
-            var currentItem = arrayToFilter[i]
-            console.log(currentItem)
-            returnArray.push(currentItem)
+    /**
+     * creditPointsFilter
+     * @param (integer) value - the credit Points value
+     * @param {object} filterSettings - {"min": value, "max": value}
+     */
+    static creditPointsFilter(value, filterSettings){
+        if(filterSettings.min <= value && value <= filterSettings.max){
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * facultyFilter
+     * @param {string} - faculty string
+     * @param (array) facultyFilterSettings - an array of faculties
+     */
+    static facultyFilter(faculty, facultyFilterSettings){
+        if(faculty !== ""){
+            return (facultyFilterSettings.indexOf(faculty) > -1);
+        }
+        return true;
+    }
+
+    /**
+     * locationFilter
+     * @param {array} locationArray - an array of filter
+     * @param (array) locationFilterSettings - an array of locations
+     */
+    static locationFilter(locationArray, locationFilterSettings){
+        if(locationArray.length > 1){
+            for(var i=0; i < locationArray.length; i++){
+                if(locationFilterSettings.indexOf(locationArray[i].location) > -1){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * locationFilter
+     * @param {array} arrayToFilter - an array of filter
+     * @param {object} filterSettings - filter settings
+     * (e.g. {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": "Faculty of Medicine, Nursing and Health Sciences"});)
+     */
+    static filterResults(arrayToFilter, filterSettings){
+        var returnArray = [];
+        for(var i=0; i < arrayToFilter.length; i++){
+            var currentItem = arrayToFilter[i].item;
+            if(this.locationFilter(currentItem.locationAndTime,filterSettings.location)
+                && this.creditPointsFilter(currentItem.creditPoints, filterSettings.creditPointRange)
+                && this.facultyFilter(currentItem.faculty, filterSettings.faculty)){
+                returnArray.push(arrayToFilter[i]);
+            }
+        }
+        return returnArray;
     }
 
 
@@ -26,12 +76,12 @@ export default class FuzzySearch {
      * @param {integer} distance - the distance (allows more accurate search)
      * @filter {array} filter - the Filter Array
      */
-    static search(searchTarget, data, numberOfResults, searchKeys, distance) {
+    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter=true) {
         if(searchTarget !== null || searchTarget !== "") {
             var options = {
                 include: ["score"],
                 shouldSort: true,
-                threshold: 0.5,
+                threshold: 0.4,
                 location: 0,
                 distance: distance,
                 findAllMatches: true,
@@ -42,9 +92,13 @@ export default class FuzzySearch {
 
             const fuse = new Fuse(data, options);
             //apply filter if filterArray is populated
-            const results = fuse.search(searchTarget).slice(0, numberOfResults);
+            var results = fuse.search(searchTarget);
+            if(filter){
+                results = this.filterResults(results, {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": "Faculty of Medicine, Nursing and Health Sciences"});
+            }
+            const finalResults = results.slice(0, numberOfResults);
 
-            return results;
+            return finalResults;
         }
 
         return [];
