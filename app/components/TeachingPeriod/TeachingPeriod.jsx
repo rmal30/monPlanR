@@ -112,10 +112,14 @@ export const TeachingPeriod = (props) => {
 
     let cellSpan;
 
+
+    /**
+     * we really don't want units rendering over huge amounts of columns so limit to 4
+     */
     if(props.unitToAdd) {
-        cellSpan = props.unitToAdd.creditPoints / 6;
+        cellSpan = Math.min(4, props.unitToAdd.creditPoints / 6);
     } else if (props.unitToBeMoved) {
-        cellSpan = props.unitToBeMoved.creditPoints / 6;
+        cellSpan = Math.min(4, props.unitToBeMoved.creditPoints / 6);
     } else {
         cellSpan = 1;
     }
