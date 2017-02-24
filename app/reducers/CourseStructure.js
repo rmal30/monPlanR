@@ -617,7 +617,7 @@ const CourseStructure = (state = defaultState, action) => {
             } else {
                 return {
                     ...state,
-                    unitToAdd: state.unitInfo
+                    unitToAdd: action.unit
                 };
             }
 

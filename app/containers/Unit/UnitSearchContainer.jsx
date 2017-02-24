@@ -7,8 +7,8 @@ import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
+import CostCalc from "../../utils/CostCalc";
 import FilterButtonContainer from "../Buttons/FilterButtonContainer.jsx";
-
 
 /**
  * This component searches through the available units for selection
@@ -135,7 +135,7 @@ class UnitSearchContainer extends Component {
     }
 
     /**
-     * Handle search change updates the currently entered text in the prompt and searchs through the results based on the currently entered text.
+     * Handle search change updates the currently entered text in the prompt and searches through the results based on the currently entered text.
      * @author JXNS
      */
     handleSearchChange(e) {
@@ -169,12 +169,15 @@ class UnitSearchContainer extends Component {
             }
 
             reducedResults = reducedResults.map(({ item }) =>
-                // TODO: Find way to avoid workaround that fixes unknown key bug by setting childKey attribute.
                 ({
                     childKey: `${item.unitCode}`,
                     unitName: item.unitName,
                     unitCode: item.unitCode,
                     faculty: item.faculty,
+                    creditPoints: item.creditPoints,
+                    locationAndTime: item.locationAndTime,
+                    scaBand: item.scaBand,
+                    cost: CostCalc.calculateCost(item.scaBand, item.creditPoints),
                     custom: item.custom || false
                 })
             );
@@ -250,7 +253,6 @@ class UnitSearchContainer extends Component {
                 {this.state.unitSearchIsLoading && "Loading Unit Data"}
                 <Divider />
                 <UnitSearchResultsContainer
-                    willAddUnit={this.props.willAddUnit}
                     searchResultIndex={this.state.searchResultIndex}
                     empty={this.state.empty}
                     results={this.state.searchResults}  />

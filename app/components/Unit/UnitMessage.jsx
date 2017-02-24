@@ -17,7 +17,9 @@ const unitSource = {
                     unitCode: props.code,
                     customUnitDragging: true
                 },
-                true);
+                true,
+                props.unitToAdd
+            );
         } else {
             props.movingUnit(props.unit, props.index, props.teachingPeriodIndex);
         }
@@ -66,7 +68,7 @@ export function UnitMessage(props) {
         handleUnitMouseOut: PropTypes.func,
 
         fetchUnitInfo: PropTypes.func,
-
+        
         errors: PropTypes.array,
 
         index: PropTypes.number,

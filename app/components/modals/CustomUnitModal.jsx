@@ -262,7 +262,7 @@ class CustomUnitModal extends Component {
                         className="btnmainblue"
                         onClick={() => {
                             if(typeof this.props.customTpIndex === "number" && typeof this.props.customUnitIndex === "number") {
-                                this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, this.state);
+                                this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, {...this.state, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});
                             } else {
                                 this.props.willAddUnit(unitCode, {...this.state, readyToAddUnit: true, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});
                             }

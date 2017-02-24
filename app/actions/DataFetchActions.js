@@ -4,7 +4,6 @@ import CostCalc from "../utils/CostCalc";
 
 var parseString = require("xml2js").parseString;
 import * as CourseActions from "./CourseActions";
-import * as NotificationActions from "./Notifications";
 
 /**
  * FETCH_COURSE_INFO
@@ -119,83 +118,21 @@ export const fetchUnitInfo = (unitCode) => {
  * Called to populate the unit to add value, it indicates that a unit is being prepped
  * to be added to the course
  */
-export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
+export const willAddUnit = (unitCode, customUnitToAdd, isDragging, unit) => {
     return function (dispatch) {
         dispatch({
             type: "UPDATE_UNIT_IS_BEING_DRAGGED",
             isDragging
         });
-
-        dispatch({
-            type: "ADDING_UNIT",
-            unitCode: unitCode
-        });
-
+        
         if(!customUnitToAdd) {
             dispatch({
-                type: "FETCH_UNIT_INFO_PENDING"
+                type: "UPDATE_UNIT_TO_ADD",
+                unit
             });
 
-            axios.get(`${MONPLAN_REMOTE_URL2}/units/${unitCode}`)
-                .then(resp => {
-                    let cost =  CostCalc.calculateCost(resp.data.scaBand, resp.data.creditPoints);
-
-                    resp.data.cost = cost;
-
-                    dispatch({
-                        type: "FETCH_UNIT_INFO_FULFILLED",
-                        payload: resp,
-                        unitCode
-                    });
-
-                    dispatch({
-                        type: "UPDATE_UNIT_TO_ADD"
-                    });
-
-                    dispatch(CourseActions.highlightInvalidUnitSlots(resp.data, false));
-                })
-                .catch(err => {
-                    dispatch({
-                        type: "FETCH_UNIT_INFO_REJECTED",
-                        payload: err
-                    });
-
-                    dispatch({
-                        type: "CANCEL_ADDING_UNIT"
-                    });
-
-                    if(err.response) {
-                        if(400 <= err.response.status && err.response.status < 500) {
-                            dispatch(NotificationActions.addNotification({
-                                id: "UNIT_INFO_ERROR",
-                                title: "Server error",
-                                message: `Unable to fetch details about ${unitCode} as it does not exist in our database. Please try again later.`,
-                                level: "error"
-                            }));
-                        } else if(500 <= err.response.status && err.response.status < 600) {
-                            dispatch(NotificationActions.addNotification({
-                                id: "UNIT_INFO_ERROR",
-                                title: "Server error",
-                                message: `Unable to fetch details about ${unitCode} due to a server error. Please try again later.`,
-                                level: "error"
-                            }));
-                        } else {
-                            dispatch(NotificationActions.addNotification({
-                                id: "UNIT_INFO_ERROR",
-                                title: "Server error",
-                                message: `Unable to fetch details about ${unitCode}. Please try again later.`,
-                                level: "error"
-                            }));
-                        }
-                    } else {
-                        dispatch(NotificationActions.addNotification({
-                            id: "UNIT_INFO_ERROR",
-                            title: "Connection error",
-                            message: `Unable to fetch details about ${unitCode}. Please check your connection and try again.`,
-                            level: "error"
-                        }));
-                    }
-                });
+            dispatch(CourseActions.highlightInvalidUnitSlots(unit, false));
+        
         } else if(isDragging) {
             dispatch({
                 type: "UPDATE_UNIT_TO_ADD",
@@ -203,6 +140,7 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
             });
 
             dispatch(CourseActions.highlightInvalidUnitSlots(customUnitToAdd, false));
+        
         } else if(customUnitToAdd.readyToAddUnit) {
             dispatch({
                 type: "UPDATE_UNIT_TO_ADD",
@@ -215,6 +153,11 @@ export const willAddUnit = (unitCode, customUnitToAdd, isDragging) => {
                 unitCode
             });
         }
+
+        dispatch({
+            type: "ADDING_UNIT",
+            unit: unitCode
+        });
     };
 };
 
@@ -358,7 +301,7 @@ export const loadCourseSnap = (snapID) => {
 
         axios.get(`${MONPLAN_REMOTE_URL}/snaps/${snapID}`)
             .then(resp => {
-                const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear } = resp.data.snapshotData;
+                const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear, courseInfo} = resp.data.snapshotData;
 
                 dispatch({
                     type: "FETCH_COURSE_SNAPSHOT_FULFILLED",
@@ -393,6 +336,11 @@ export const loadCourseSnap = (snapID) => {
                 dispatch({
                     type: "GET_NEXT_SEMESTER_STRING"
                 });
+
+                dispatch({
+                    type: "UPDATE_COURSE_INFO",
+                    courseInfo
+                });
             })
             .catch(() => {
                 dispatch({
@@ -406,7 +354,7 @@ export const loadCourseSnap = (snapID) => {
  * Uploads the given course structure to the snapshot API and when sucessful, returns
  * the data with the unique ID linking to the snap
  */
-export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, cost, startYear) => {
+export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, cost, startYear, courseInfo) => {
     return function(dispatch) {
         dispatch({
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
@@ -420,6 +368,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
                 totalCreditPoints: creditPoints,
                 totalEstimatedCost: cost,
                 startYear: startYear || new Date().getFullYear(),
+                courseInfo
             }
         };
 

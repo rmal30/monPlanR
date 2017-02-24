@@ -34,7 +34,8 @@ export const TeachingPeriod = (props) => {
         showingMovingUnitUI: PropTypes.bool,
         unitToBeMoved: PropTypes.object,
         viewOnly: PropTypes.bool,
-        tpIndexOfUnitToBeMoved: PropTypes.number
+        tpIndexOfUnitToBeMoved: PropTypes.number,
+        showingAddingUnitUI: PropTypes.bool
     };
 
     // props.tpCreditPoints, props.numberOfUnits, maxCreditPointsForTP
@@ -68,11 +69,19 @@ export const TeachingPeriod = (props) => {
         }
     }
 
-    if (props.showingMovingUnitUI) {
-        let targetSpan = props.unitToBeMoved.creditPoints / 6,
+    if (props.showingMovingUnitUI || props.showingAddingUnitUI) {
+        let targetSpan,
             currentSpan = 0,
             startIndexes = [],
             shouldNotDisplays = [];
+    
+        if(props.showingAddingUnitUI) {
+            targetSpan = props.unitToAdd.creditPoints / 6;
+        } else if (props.showingMovingUnitUI) {
+            targetSpan = props.unitToBeMoved.creditPoints / 6;
+        } else {
+            targetSpan = 1;
+        }
         
         for(let i=0; i < unitRep.length; i++ ) {
             let currentUnit = unitRep[i];
@@ -101,6 +110,19 @@ export const TeachingPeriod = (props) => {
         }
     }
 
+    let cellSpan;
+
+
+    /**
+     * we really don't want units rendering over huge amounts of columns so limit to 4
+     */
+    if(props.unitToAdd) {
+        cellSpan = Math.min(4, props.unitToAdd.creditPoints / 6);
+    } else if (props.unitToBeMoved) {
+        cellSpan = Math.min(4, props.unitToBeMoved.creditPoints / 6);
+    } else {
+        cellSpan = 1;
+    }
     const unitsEle = unitRep.map((unit, index) => {
         const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
 
@@ -124,7 +146,7 @@ export const TeachingPeriod = (props) => {
                     index={index}
                     teachingPeriodIndex={props.index}
                     free
-                    cellSpan={props.unitToBeMoved ? (props.unitToBeMoved.creditPoints / 6) : 1}
+                    cellSpan={cellSpan}
                     isError={isError} />
             );
         }
@@ -191,7 +213,9 @@ const mapStateToProps = (state) => {
         viewOnly: state.UI.readOnly,
         showingMovingUnitUI: state.UI.showingMovingUnitUI,
         unitToBeMoved: state.CourseStructure.unitToBeMoved,
-        tpIndexOfUnitToBeMoved: state.CourseStructure.tpIndexOfUnitToBeMoved
+        tpIndexOfUnitToBeMoved: state.CourseStructure.tpIndexOfUnitToBeMoved,
+        showingAddingUnitUI: state.UI.showingAddingUnitUI,
+        unitToAdd: state.CourseStructure.unitToAdd
     };
 };
 

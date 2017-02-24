@@ -1425,7 +1425,8 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const action = {
-                type: "UPDATE_UNIT_TO_ADD"
+                type: "UPDATE_UNIT_TO_ADD",
+                unit: "TestUnit"
             };
 
             const stateAfter = {

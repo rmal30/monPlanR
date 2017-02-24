@@ -20,7 +20,8 @@ const SaveButtonContainer = (props) => {
         courseSnapshotUploading,
         courseSnapshotUploadError,
         courseSnapshotUploadData,
-        courseSnapshotUploadSucessful
+        courseSnapshotUploadSucessful,
+        courseInfo
         } = props;
 
 
@@ -28,7 +29,7 @@ const SaveButtonContainer = (props) => {
      * Save course to database uses the redux function to handle everything
      */
     const uploadCourseToDatabase = () => {
-        props.uploadCourseSnap(teachingPeriods, numberOfUnits, creditPoints, cost, startYear);
+        props.uploadCourseSnap(teachingPeriods, numberOfUnits, creditPoints, cost, startYear, courseInfo);
     };
 
     return (
@@ -54,7 +55,8 @@ const mapStateToProps = (state) => {
         courseSnapshotUploadError: state.CourseStructure.courseSnapshotUploadError,
         cost: state.Counter.cost,
         courseSnapshotUploadData: state.CourseStructure.courseSnapshotUploadData,
-        courseSnapshotUploadSucessful: state.CourseStructure.courseSnapshotUploadSucessful
+        courseSnapshotUploadSucessful: state.CourseStructure.courseSnapshotUploadSucessful,
+        courseInfo: state.CourseStructure.courseInfo
     };
 };
 
@@ -78,6 +80,7 @@ SaveButtonContainer.propTypes = {
     uploadCourseSnap: PropTypes.func,
     cost: PropTypes.number,
     courseSnapshotUploadData: PropTypes.string,
-    courseSnapshotUploadSucessful: PropTypes.bool
+    courseSnapshotUploadSucessful: PropTypes.bool,
+    courseInfo: PropTypes.object
     
 };
