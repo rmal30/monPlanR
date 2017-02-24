@@ -246,12 +246,12 @@ const mapDispatchToProps = (dispatch) => {
  */
 const mapStateToProps = (state) => {
     return {
-        basicCourses: state.CourseStructure.basicCourses,
-        courseSearchIsLoading: state.CourseStructure.courseSearchIsLoading,
-        courseSearchError: state.CourseStructure.courseSearchError,
-        areasOfStudy: state.CourseStructure.areasOfStudy,
-        aosSearchIsLoading: state.CourseStructure.aosSearchIsLoading,
-        aosSearchError: state.CourseStructure.aosSearchError
+        basicCourses: state.CourseSearch.basicCourses,
+        courseSearchIsLoading: state.CourseSearch.courseSearchIsLoading,
+        courseSearchError: state.CourseSearch.courseSearchError,
+        areasOfStudy: state.CourseSearch.areasOfStudy,
+        aosSearchIsLoading: state.CourseSearch.aosSearchIsLoading,
+        aosSearchError: state.CourseSearch.aosSearchError
     };
 };
 

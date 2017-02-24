@@ -28,14 +28,6 @@ const defaultState = {
     unitToAddCode: "",
     unitIsBeingDragged: false,
 
-    basicCourses: [],
-    courseSearchIsLoading: false,
-    courseSearchError: false,
-
-    areasOfStudy: [],
-    aosSearchIsLoading: false,
-    aosSearchError: false,
-
     // Holds a list of placeholders where a unit is on top of it.
     hidingPlaceholders: [],
 
@@ -388,51 +380,6 @@ const CourseStructure = (state = defaultState, action) => {
                 teachingPeriodData: null,
                 teachingPeriodsDataLoading: false,
                 teachingPeriodsDataError: true
-            };
-
-        
-        case "FETCH_COURSES_PENDING":
-            return {
-                ...state,
-                courseSearchIsLoading: true,
-                courseSearchError: false
-            };
-
-        case "FETCH_COURSES_FULFILLED":
-            return {
-                ...state,
-                basicCourses: action.payload,
-                courseSearchIsLoading: false,
-            };
-
-        case "FETCH_COURSES_REJECTED":
-            return {
-                ...state,
-                basicCourses: [],
-                courseSearchIsLoading: false,
-                courseSearchError: true
-            };
-
-        case "FETCH_AOS_PENDING":
-            return {
-                ...state,
-                aosSearchIsLoading: true,
-                aosSearchError: false
-            };
-
-        case "FETCH_AOS_FULFILLED":
-            return {
-                ...state,
-                areasOfStudy: action.payload,
-                aosSearchIsLoading: false,
-            };
-
-        case "FETCH_AOS_REJECTED":
-            return {
-                ...state,
-                areasOfStudy: [],
-                aosSearchIsLoading: false,
-                aosSearchError: true
             };
 
         case "SUBMIT_COURSE_FORM":
