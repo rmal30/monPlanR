@@ -1,6 +1,9 @@
 import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
 import { validateCoursePlan, getInvalidUnitSlotCoordinates } from "../utils/ValidateCoursePlan";
+
 import TeachingPeriodData from "./TeachingPeriodData";
+import CourseInfo from "./CourseInfo";
+
 /**
  * @author JXNS, Saurabh Joshi
  * The CourseStructure reducer is the most complex state to manage as it forms
@@ -44,6 +47,7 @@ const defaultState = {
 
     unitLoading: false,
     unitLoadError: false,
+    
     unitInfo: {
         preqs: "",
         creditPoints: 0,
@@ -60,20 +64,6 @@ const defaultState = {
         unitCode: "",
         eftsl: 0,
         descriptions: ""
-    },
-
-    courseInfoLoadError: false,
-    courseInfoLoading: false,
-    courseInfo: {
-        courseCode: "",
-        courseName: "",
-        faculty: "",
-        creditPoints: 0,
-        courseDescription: "",
-        durationStr: "",
-        modeAndLocation: "",
-        awards: "",
-        abrTitle: ""
     },
 
     // Course errors is used for displaying course error messages.
@@ -258,16 +248,7 @@ const CourseStructure = (state = defaultState, action) => {
         case "CLEAR_COURSE":
             return {
                 ...state,
-                courseInfo: {
-                    courseName: "",
-                    faculty: "",
-                    creditPoints: 0,
-                    courseDescription: "",
-                    durationStr: "",
-                    modeAndLocation: "",
-                    awards: "",
-                    abrTitle: ""
-                },
+                ...CourseInfo(state, action),
                 teachingPeriods: [],
                 numberOfUnits: 4
             };
@@ -275,33 +256,20 @@ const CourseStructure = (state = defaultState, action) => {
         case "FETCH_COURSE_INFO_PENDING":
             return {
                 ...state,
-                courseInfoLoading: true,
-                courseInfoLoadError: false
+                ...CourseInfo(state, action)
             };
 
         case "FETCH_COURSE_INFO_FULFILLED":
             return {
                 ...state,
-                courseInfoLoading: false,
-                focusedCourse: action.courseCode,
-                courseInfo: {
-                    courseCode: action.payload.data.propertyMap.courseCode,
-                    courseName: action.payload.data.propertyMap.courseName,
-                    faculty: action.payload.data.propertyMap.mangFac,
-                    creditPoints: action.payload.data.propertyMap.creditPoints,
-                    courseDescription: action.payload.data.propertyMap.courseDescrip.value,
-                    durationStr: action.payload.data.propertyMap.courseDuration,
-                    modeAndLocation: action.payload.data.propertyMap.modeLoc.value,
-                    awards: action.payload.data.propertyMap.courseAward,
-                    abrTitle: action.payload.data.propertyMap.abrevTitle
-                }
+                ...CourseInfo(state, action),
+                focusedCourse: action.courseCode
             };
 
         case "FETCH_COURSE_INFO_REJECTED":
             return {
                 ...state,
-                courseInfoLoading: false,
-                courseInfoLoadError: true
+                ...CourseInfo(state, action)
             };
 
         case "FETCH_COURSE_TEMPLATE_PENDING":

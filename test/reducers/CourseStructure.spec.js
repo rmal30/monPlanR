@@ -219,7 +219,9 @@ describe("REDUCER: CourseStructure", () => {
         it("Should remove all teaching periods and set the amount of units to 4", () => {
             const stateBefore = {
                 teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null] }],
-                numberOfUnits: 5
+                numberOfUnits: 5,
+                courseInfoLoadError: false,
+                courseInfoLoading: false,
             };
 
             const action = {
@@ -227,6 +229,8 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
+                courseInfoLoadError: false,
+                courseInfoLoading: false,
                 courseInfo: {
                     courseName: "",
                     faculty: "",
