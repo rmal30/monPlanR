@@ -22,8 +22,15 @@ export default class FuzzySearch {
      * @param (array) facultyFilterSettings - an array of faculties
      */
     static facultyFilter(faculty, facultyFilterSettings){
-        if(faculty !== ""){
-            return (facultyFilterSettings.indexOf(faculty) > -1);
+        if(faculty.length > 1){
+            for(var i=0; i < faculty.length; i++){
+                // this strategy is used, because there is only 1 faculty for 1 unit
+                var facultyName = "Faculty of" + faculty;
+                if(facultyFilterSettings.indexOf(facultyName) > -1){
+                    return true;
+                }
+            }
+            return false;
         }
         return true;
     }
@@ -94,7 +101,7 @@ export default class FuzzySearch {
             //apply filter if filterArray is populated
             var results = fuse.search(searchTarget);
             if(filter){
-                results = this.filterResults(results, {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": "Faculty of Medicine, Nursing and Health Sciences"});
+                results = this.filterResults(results, {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": ["Faculty of Medicine, Nursing and Health Sciences"]});
             }
             const finalResults = results.slice(0, numberOfResults);
 
