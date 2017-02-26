@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from "react";
-import  { Dropdown, Button } from "semantic-ui-react";
+import  { Dropdown, Button, Header } from "semantic-ui-react";
 import { Accordion, AccordionItem } from "react-sanfona";
 import { connect } from "react-redux";
+import { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
 
 /**
 This component is used in UnitSearchContainer. It filters the serach results based on location, faculty, credit points and/or teaching period.
@@ -80,7 +82,12 @@ class FilterButtonContainer extends Component {
           <Accordion onChange={() => {this.showFilterClick();}}>
                 {[1].map((item) => {
                     return (
-                        <AccordionItem title={<Button disabled={this.props.unitSearchIsLoading} content={this.state.showFilter ? "Hide Filters" : "Show Filters"} icon={this.state.showFilter ? "minus" : "plus"} labelPosition="left" fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
+                        <AccordionItem title={<Button
+                            disabled={this.props.unitSearchIsLoading}
+                            content={this.state.showFilter ? "Hide Filters" : "Show Filters"}
+                            icon={this.state.showFilter ? "minus" : "plus"}
+                            labelPosition="left"
+                            fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
                             <div>
                               <div className={"filter-margin"}>
                                 <div className="filter-div">
@@ -90,10 +97,15 @@ class FilterButtonContainer extends Component {
                                   <Dropdown className="filter-margin" placeholder='Faculty' fluid multiple search selection options={this.faculties} />
                                 </div>
                                 <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Credit Points' fluid search selection options={this.creditPoints} />
-                                </div>
-                                <div className="filter-div">
                                   <Dropdown className="filter-margin" placeholder='Teaching Period' fluid multiple search selection options={this.teachingPeriods} />
+                                </div>
+                                <div className={"slider-dressing"}>
+                                   <Header as='h4'>Credit Points</Header>
+                                    <Range min={0}
+                                           max={48}
+                                           step={null}
+                                           defaultValue={[0,48]}
+                                           marks={{0:"0", 3:"3", 6:"6", 12:"12", 18:"18", 24:"24", 36:"36", 48:"48"}}/>
                                 </div>
                               </div>
                             </div>

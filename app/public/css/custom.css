@@ -211,3 +211,16 @@ html, body {
 .filter-div {
   position: relative;
 }
+
+.slider-dressing {
+  margin-top: 1em;
+  margin-bottom: 0.6em;
+}
+
+.slider-dressing>h4{
+  font-size: 14px !important;
+  font-weight: 100 !important;
+  color: #767676 !important;
+  margin-bottom: 0.5em !important;
+  margin-left: 7px !important;
+}
