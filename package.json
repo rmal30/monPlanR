@@ -12,14 +12,14 @@
     "express-session": "^1.14.2",
     "helmet": "^3.4.0",
     "mochawesome": "^2.0.2",
+    "rc-slider": "^6.1.2",
     "react": "^15.4.2",
     "react-collapse": "^2.3.3",
+    "react-ga": "^2.1.2",
     "react-height": "^2.2.0",
     "react-motion": "^0.4.7",
     "react-sanfona": "^0.1.0",
-    "react-ga": "^2.1.2",
     "xml2js": "^0.4.17"
-
   },
   "devDependencies": {
     "axios": "^0.14.0",
