@@ -5,20 +5,20 @@ import Counter from "./Counter";
 import CourseStructure from "./CourseStructure";
 import UI from "./UI";
 import Notifications from "./Notifications";
-import ImportantDates from "./ImportantDates";
+import ImportantDatesReducer from "./ImportantDatesReducer";
 import UnitSearch from "./UnitSearch";
 import CourseSearchReducer from "./CourseSearchReducer";
-import CourseSnapshot from "./CourseSnapshot";
+import CourseSnapshotReducer from "./CourseSnapshotReducer";
 
 const appReducer = combineReducers({
     CourseStructure,
     Counter,
     UI,
     Notifications,
-    ImportantDates,
+    ImportantDates: ImportantDatesReducer,
     UnitSearch,
     CourseSearch: CourseSearchReducer,
-    CourseSnapshot,
+    CourseSnapshot: CourseSnapshotReducer,
     routing: routerReducer
 });
 

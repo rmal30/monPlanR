@@ -1,4 +1,4 @@
-import CourseSnapshot from "../../app/reducers/CourseSnapshot";
+import CourseSnapshotReducer from "../../app/reducers/CourseSnapshotReducer";
 import { describe, it } from "mocha";
 
 describe("REDUCER: CourseSnapshot", () => {
@@ -26,7 +26,7 @@ describe("REDUCER: CourseSnapshot", () => {
                 courseSnapshotUploadSucessful: false
             };
 
-            test(CourseSnapshot, stateBefore, action, stateAfter);
+            test(CourseSnapshotReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -55,7 +55,7 @@ describe("REDUCER: CourseSnapshot", () => {
                 courseSnapshotUploadSucessful: true
             };
 
-            test(CourseSnapshot, stateBefore, action, stateAfter);
+            test(CourseSnapshotReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -83,7 +83,7 @@ describe("REDUCER: CourseSnapshot", () => {
                 courseSnapshotUploadSucessful: false
             };
 
-            test(CourseSnapshot, stateBefore, action, stateAfter);
+            test(CourseSnapshotReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -110,7 +110,7 @@ describe("REDUCER: CourseSnapshot", () => {
                 courseSnapshotData: null,
             };
 
-            test(CourseSnapshot, stateBefore, action, stateAfter);
+            test(CourseSnapshotReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -137,7 +137,7 @@ describe("REDUCER: CourseSnapshot", () => {
                 courseSnapshotData: "Snap data",
             };
 
-            test(CourseSnapshot, stateBefore, action, stateAfter);
+            test(CourseSnapshotReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -163,7 +163,7 @@ describe("REDUCER: CourseSnapshot", () => {
                 courseSnapshotData: null,
             };
 
-            test(CourseSnapshot, stateBefore, action, stateAfter);
+            test(CourseSnapshotReducer, stateBefore, action, stateAfter);
         });
     });
 });

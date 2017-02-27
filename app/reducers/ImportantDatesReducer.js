@@ -1,10 +1,15 @@
 const defaultState = {
-    importantDates: [],
-    importantDatesLoading: false,
-    importantDatesError: false
+    importantDates: [],             // Eventually becomes the array of important dates from the API
+    importantDatesLoading: false,   // Indicates whether the dates are loading from the API
+    importantDatesError: false      // Indicates whether there was an error loading the dates from the API
 };
 
-const ImportantDates = (state = defaultState, action) => {
+/**
+ * @author JXNS
+ * The important dates reducer handles the data surrounding the array of important 
+ * dates we load from Monash.
+ */
+const ImportantDatesReducer = (state = defaultState, action) => {
     switch(action.type) {
         case "FETCH_IMPORTANT_DATES_PENDING":
             return {
@@ -35,4 +40,4 @@ const ImportantDates = (state = defaultState, action) => {
 };
 
 
-export default ImportantDates;
+export default ImportantDatesReducer;

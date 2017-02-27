@@ -1,15 +1,22 @@
 const defaultState = {
-    courseSnapshotLoading: false,
-    courseSnapshotLoadError: false,
-    courseSnapshotData: null,
+    courseSnapshotLoading: false,           // Indicates whether the course snapshot is loading from the API
+    courseSnapshotLoadError: false,         // Indicates whether there was an issue loading from the API
+    courseSnapshotData: null,               // Eventually becomes an object with the courseSnapshot returned from the API
 
-    courseSnapshotUploading: false,
-    courseSnapshotUploadError: false,
-    courseSnapshotUploadData: null,
-    courseSnapshotUploadSucessful: false,
+    courseSnapshotUploading: false,         // Indicates whether a course snapshot is uploading to the database
+    courseSnapshotUploadError: false,       // Indicates whether there was an issue uploading the data
+    courseSnapshotUploadSucessful: false,   // A boolean representing whether the upload was successful
+    courseSnapshotUploadData: null          // The data returned by the API on a successful post to database, e.g. the unique 
+                                            // URL id is returned so the user can visit again
 };
 
-const CourseSnapshot = (state = defaultState, action) => {
+/**
+ * @author JXNS
+ * The course snapshot reducer handles the slice of state around loading snaps from and uploading snaps to the database
+ * The actions involved are fairly straightforward and follow the ASYNC_ACTION_(PENDING/FULFILLED/REJECTED) pattern
+ * for both uploading and loading
+ */
+const CourseSnapshotReducer = (state = defaultState, action) => {
     switch(action.type) {
         case "UPLOAD_COURSE_SNAPSHOT_PENDING":
             return {
@@ -69,4 +76,4 @@ const CourseSnapshot = (state = defaultState, action) => {
     }
 };
 
-export default CourseSnapshot;
+export default CourseSnapshotReducer;

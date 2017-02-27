@@ -1,4 +1,4 @@
-import ImportantDates from "../../app/reducers/ImportantDates";
+import ImportantDatesReducer from "../../app/reducers/ImportantDatesReducer";
 import { describe, it } from "mocha";
 
 describe("REDUCER: ImportantDates", () => {
@@ -21,7 +21,7 @@ describe("REDUCER: ImportantDates", () => {
                 importantDatesLoading: true,
                 importantDatesError: false
             };
-            test(ImportantDates, stateBefore, action, stateAfter);
+            test(ImportantDatesReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -47,7 +47,7 @@ describe("REDUCER: ImportantDates", () => {
                 importantDatesError: true
             };
 
-            test(ImportantDates, stateBefore, action, stateAfter);
+            test(ImportantDatesReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -78,7 +78,7 @@ describe("REDUCER: ImportantDates", () => {
                 importantDatesError: false
             };
 
-            test(ImportantDates, stateBefore, action, stateAfter);
+            test(ImportantDatesReducer, stateBefore, action, stateAfter);
         });
     });
 });
