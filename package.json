@@ -34,6 +34,7 @@
     "chai-enzyme": "^0.6.1",
     "coveralls": "^2.11.16",
     "css-loader": "^0.25.0",
+    "d3": "^4.6.0",
     "deep-freeze": "0.0.1",
     "enzyme": "^2.6.0",
     "eslint": "^3.11.1",
@@ -80,6 +81,7 @@
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
+    "webcola": "^3.3.2",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
