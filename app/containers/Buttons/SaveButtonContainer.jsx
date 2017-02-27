@@ -51,11 +51,11 @@ const mapStateToProps = (state) => {
         teachingPeriods: state.CourseStructure.teachingPeriods,
         numberOfUnits: state.CourseStructure.numberOfUnits,
         creditPoints: state.Counter.creditPoints,
-        courseSnapshotUploading: state.CourseStructure.courseSnapshotUploading,
-        courseSnapshotUploadError: state.CourseStructure.courseSnapshotUploadError,
+        courseSnapshotUploading: state.CourseSnapshot.courseSnapshotUploading,
+        courseSnapshotUploadError: state.CourseSnapshot.courseSnapshotUploadError,
         cost: state.Counter.cost,
-        courseSnapshotUploadData: state.CourseStructure.courseSnapshotUploadData,
-        courseSnapshotUploadSucessful: state.CourseStructure.courseSnapshotUploadSucessful,
+        courseSnapshotUploadData: state.CourseSnapshot.courseSnapshotUploadData,
+        courseSnapshotUploadSucessful: state.CourseSnapshot.courseSnapshotUploadSucessful,
         courseInfo: state.CourseStructure.courseInfo
     };
 };
