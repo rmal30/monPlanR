@@ -212,6 +212,10 @@ html, body {
   position: relative;
 }
 
+.filter-button {
+    border-bottom: 10px solid #fff !important;
+}
+
 .slider-dressing {
   margin-top: 1em;
   margin-bottom: 1.5em;
@@ -230,6 +234,7 @@ html, body {
   padding: 5px 0 !important;
   max-width: 88% !important;
   margin-left: 14px !important;
+  margin-bottom: 2em;
 }
 
 .rc-slider-track {

@@ -149,7 +149,7 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100);
+            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, );
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
             if(results.filter(result => result.item.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
                 // Show custom draggable unit
@@ -229,27 +229,10 @@ class UnitSearchContainer extends Component {
                         <i className="search icon" />
                     </div>
                     <FilterButtonContainer />
+                        {this.state.showAddCustomUnitButton &&
+                            <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue add-unit-btn">Add custom unit</Button>
+                        }
                 </Menu.Item>
-                {this.state.showAddCustomUnitButton &&
-                    <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue">Add custom unit</Button>
-                }
-                {!this.state.unitSearchIsLoading && this.state.showAddCustomUnitButton &&
-                    <div hidden>
-                        <h3>Search Filter</h3>
-                        <Grid>
-                            <Grid.Row>
-                                <Grid.Column width={8}>
-                                <b>Faculty</b>
-                                {faculties.map((item) => {
-                                    return <Checkbox key={item.value} label={item.label} value={item.value} />;
-                                })}
-                                </Grid.Column>
-                                <Grid.Column width={8}>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </div>
-                }
                 {this.state.unitSearchIsLoading && "Loading Unit Data"}
                 <Divider />
                 <UnitSearchResultsContainer
