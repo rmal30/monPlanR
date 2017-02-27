@@ -1,7 +1,7 @@
 import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
 import { validateCoursePlan, getInvalidUnitSlotCoordinates } from "../utils/ValidateCoursePlan";
 
-import TeachingPeriodData from "./TeachingPeriodData";
+import TeachingPeriodDataReducer from "./TeachingPeriodDataReducer";
 
 /**
  * @author JXNS, Saurabh Joshi
@@ -352,19 +352,19 @@ const CourseStructure = (state = defaultState, action) => {
         case "FETCH_TEACHING_PERIODS_PENDING":
             return {
                 ...state,
-                ...TeachingPeriodData(state, action)
+                ...TeachingPeriodDataReducer(state, action)
             };
 
         case "FETCH_TEACHING_PERIODS_FULFILLED":
             return {
                 ...state,
-                ...TeachingPeriodData(state, action)
+                ...TeachingPeriodDataReducer(state, action)
             };
 
         case "FETCH_TEACHING_PERIODS_REJECTED":
             return {
                 ...state,
-                ...TeachingPeriodData(state, action)
+                ...TeachingPeriodDataReducer(state, action)
             };
 
         case "SUBMIT_COURSE_FORM":
