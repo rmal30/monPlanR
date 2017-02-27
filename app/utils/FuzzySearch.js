@@ -4,6 +4,30 @@ import Fuse from "fuse.js";
  * @author JXNS
  */
 export default class FuzzySearch {
+
+    /**
+    *
+    */
+    static teachingPeriodsFilter(locationModeArray, teachingPeriodsFilterSettings){
+        if(locationModeArray.length > 0){
+            // iterate over the location and mode array
+            for(var i = 0; i < locationModeArray.length; i++){
+                // this is really bad O(n^3 algorithm now)
+                var locationData = locationModeArray[i];
+                for(var j = 0; j < locationData.time.length; i++){
+                    if(teachingPeriodsFilterSettings.indexOf(locationData.time[i]) > -1){
+                        return true;
+                    }
+                }
+            }
+            //exit here because just if one location doesnt have any
+            //matching TP, means that other can have it in another TP
+            return false;
+        }
+        // tells it to ignore the filter if the location and mode array is empty
+        return true;
+    }
+
     /**
      * creditPointsFilter
      * @param (integer) value - the credit Points value
