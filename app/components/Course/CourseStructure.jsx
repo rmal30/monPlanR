@@ -38,7 +38,7 @@ const mapStateToProps = state => {
         courseLoading: state.CourseStructure.courseLoading,
         teachingPeriodCodeToInsert: state.CourseStructure.teachingPeriodCodeToInsert,
         showingInsertTeachingPeriodUI: state.UI.showingInsertTeachingPeriodUI,
-        courseSnapshotLoading: state.CourseStructure.courseSnapshotLoading,
+        courseSnapshotLoading: state.CourseSnapshot.courseSnapshotLoading,
         courseInfo: state.CourseStructure.courseInfo,
         courseErrors: state.CourseStructure.courseErrors,
         invalidUnitSlotCoordinates: state.CourseStructure.invalidUnitSlotCoordinates

@@ -1,6 +1,8 @@
 import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
 import { validateCoursePlan, getInvalidUnitSlotCoordinates } from "../utils/ValidateCoursePlan";
 
+import TeachingPeriodDataReducer from "./TeachingPeriodDataReducer";
+
 /**
  * @author JXNS, Saurabh Joshi
  * The CourseStructure reducer is the most complex state to manage as it forms
@@ -19,55 +21,32 @@ const defaultState = {
 
     affectedUnits: [],
 
-    courseInfoLoading: false,
     courseLoading: false,
 
-    unitLoading: false,
-    unitLoadError: false,
+    
     unitToAdd: undefined,
     unitToAddCode: "",
     unitIsBeingDragged: false,
 
-    unitSearchIsLoading: false,
-    basicUnits: [],
-    unitSearchError: false,
-
-    basicCourses: [],
-    courseSearchIsLoading: false,
-    courseSearchError: false,
-
-    areasOfStudy: [],
-    aosSearchIsLoading: false,
-    aosSearchError: false,
-
     // Holds a list of placeholders where a unit is on top of it.
     hidingPlaceholders: [],
-
-    courseInfoLoadError: false,
+    
     courseTemplateLoadError: false,
     courseTemplateData: null,
 
-    courseSnapshotLoading: false,
-    courseSnapshotLoadError: false,
-    courseSnapshotData: null,
-
-    courseSnapshotUploading: false,
-    courseSnapshotUploadError: false,
-    courseSnapshotUploadData: null,
-    courseSnapshotUploadSucessful: false,
-
-    teachingPeriodData: null,
-    teachingPeriodsDataLoading: false,
-    teachingPeriodsDataError: false,
-
     teachingPeriodCodeToInsert: null,
+    
     nextSemesterString: null,
+    
     indexOfTPtoRemove: 0,
 
     unitToBeMoved: undefined,
     tpIndexOfUnitToBeMoved: 0,
     unitsIndexOfUnitToBeMoved: 0,
 
+    unitLoading: false,
+    unitLoadError: false,
+    
     unitInfo: {
         preqs: "",
         creditPoints: 0,
@@ -86,6 +65,8 @@ const defaultState = {
         descriptions: ""
     },
 
+    courseInfoLoadError: false,
+    courseInfoLoading: false,
     courseInfo: {
         courseCode: "",
         courseName: "",
@@ -98,20 +79,13 @@ const defaultState = {
         abrTitle: ""
     },
 
-    importantDates: [],
-    importantDatesLoading: false,
-    importantDatesError: false,
-
     // Course errors is used for displaying course error messages.
     courseErrors: [],
     invalidUnitSlotCoordinates: [],
-
     focusedUnitCode: null,
     focusedCourse: null,
     startYear: new Date().getFullYear(), //Default to the current year
-    endYear: new Date().getFullYear() + 4 //4 years is avg degree length
-
-
+    endYear: new Date().getFullYear() + 4, //4 years is avg degree length
 };
 
 /**
@@ -120,7 +94,6 @@ const defaultState = {
 const CourseStructure = (state = defaultState, action) => {
 
     switch(action.type) {
-
         /*
             Inserts a teaching period with the given data at the given location, note that there is a seperate action for simply appending a
             unit to the end of the array called "ADD_TEACHING_PERIOD"
@@ -284,6 +257,8 @@ const CourseStructure = (state = defaultState, action) => {
         case "CLEAR_COURSE":
             return {
                 ...state,
+                teachingPeriods: [],
+                numberOfUnits: 4, 
                 courseInfo: {
                     courseName: "",
                     faculty: "",
@@ -293,9 +268,7 @@ const CourseStructure = (state = defaultState, action) => {
                     modeAndLocation: "",
                     awards: "",
                     abrTitle: ""
-                },
-                teachingPeriods: [],
-                numberOfUnits: 4
+                }
             };
 
         case "FETCH_COURSE_INFO_PENDING":
@@ -309,7 +282,6 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 courseInfoLoading: false,
-                focusedCourse: action.courseCode,
                 courseInfo: {
                     courseCode: action.payload.data.propertyMap.courseCode,
                     courseName: action.payload.data.propertyMap.courseName,
@@ -319,8 +291,9 @@ const CourseStructure = (state = defaultState, action) => {
                     durationStr: action.payload.data.propertyMap.courseDuration,
                     modeAndLocation: action.payload.data.propertyMap.modeLoc.value,
                     awards: action.payload.data.propertyMap.courseAward,
-                    abrTitle: action.payload.data.propertyMap.abrevTitle
-                }
+                    abrTitle: action.payload.data.propertyMap.abrevTitle,
+                },
+                focusedCourse: action.courseCode
             };
 
         case "FETCH_COURSE_INFO_REJECTED":
@@ -379,113 +352,19 @@ const CourseStructure = (state = defaultState, action) => {
         case "FETCH_TEACHING_PERIODS_PENDING":
             return {
                 ...state,
-                teachingPeriodsDataLoading: true,
-                teachingPeriodsDataError: false
+                ...TeachingPeriodDataReducer(state, action)
             };
 
         case "FETCH_TEACHING_PERIODS_FULFILLED":
             return {
                 ...state,
-                teachingPeriodData: action.payload,
-                teachingPeriodsDataLoading: false,
+                ...TeachingPeriodDataReducer(state, action)
             };
 
         case "FETCH_TEACHING_PERIODS_REJECTED":
             return {
                 ...state,
-                teachingPeriodData: null,
-                teachingPeriodsDataLoading: false,
-                teachingPeriodsDataError: true
-            };
-
-        case "FETCH_UNITS_PENDING":
-            return {
-                ...state,
-                basicUnits: [],
-                unitSearchIsLoading: true,
-                unitSearchError: false
-            };
-
-        case "FETCH_UNITS_FULFILLED":
-            return {
-                ...state,
-                basicUnits: action.payload,
-                unitSearchIsLoading: false,
-            };
-
-        case "FETCH_UNITS_REJECTED":
-            return {
-                ...state,
-                basicUnits: [],
-                unitSearchIsLoading: false,
-                unitSearchError: true
-            };
-
-        case "FETCH_COURSES_PENDING":
-            return {
-                ...state,
-                courseSearchIsLoading: true,
-                courseSearchError: false
-            };
-
-        case "FETCH_COURSES_FULFILLED":
-            return {
-                ...state,
-                basicCourses: action.payload,
-                courseSearchIsLoading: false,
-            };
-
-        case "FETCH_COURSES_REJECTED":
-            return {
-                ...state,
-                basicCourses: [],
-                courseSearchIsLoading: false,
-                courseSearchError: true
-            };
-
-        case "FETCH_AOS_PENDING":
-            return {
-                ...state,
-                aosSearchIsLoading: true,
-                aosSearchError: false
-            };
-
-        case "FETCH_AOS_FULFILLED":
-            return {
-                ...state,
-                areasOfStudy: action.payload,
-                aosSearchIsLoading: false,
-            };
-
-        case "FETCH_AOS_REJECTED":
-            return {
-                ...state,
-                areasOfStudy: [],
-                aosSearchIsLoading: false,
-                aosSearchError: true
-            };
-
-        case "FETCH_IMPORTANT_DATES_PENDING":
-            return {
-                ...state,
-                importantDatesLoading: true,
-                importantDatesError: false
-            };
-
-        case "FETCH_IMPORTANT_DATES_REJECTED":
-            return {
-                ...state,
-                importantDates: [],
-                importantDatesLoading: false,
-                importantDatesError: true
-            };
-
-        case "FETCH_IMPORTANT_DATES_FULFILLED":
-            return {
-                ...state,
-                importantDates: action.payload,
-                importantDatesLoading: false,
-                importantDatesError: false
+                ...TeachingPeriodDataReducer(state, action)
             };
 
         case "SUBMIT_COURSE_FORM":
@@ -532,38 +411,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 numberOfUnits: action.value
             };
-
-        case "UPLOAD_COURSE_SNAPSHOT_PENDING":
-            return {
-                ...state,
-                courseSnapshotUploading: true,
-                courseSnapshotUploadError: false,
-                courseSnapshotUploadSucessful: false
-            };
-
-        case "UPDATE_COURSE_INFO":
-            return {
-                ...state,
-                courseInfo: action.courseInfo
-            };
-
-        case "UPLOAD_COURSE_SNAPSHOT_FULFILLED":
-            return {
-                ...state,
-                courseSnapshotUploading: false,
-                courseSnapshotUploadData: action.payload.data,
-                courseSnapshotUploadSucessful: true
-
-            };
-
-        case "UPLOAD_COURSE_SNAPSHOT_REJECTED":
-            return {
-                ...state,
-                courseSnapshotUploading: false,
-                courseSnapshotUploadError: true,
-                courseSnapshotUploadData: null
-            };
-
+        
         case "MODIFIED_COURSE_PLAN":
             return {
                 ...state,
@@ -571,28 +419,6 @@ const CourseStructure = (state = defaultState, action) => {
                 courseSnapshotUploadError: false,
                 courseSnapshotUploadSucessful: false,
                 courseSnapshotUploadData: null
-            };
-
-        case "FETCH_COURSE_SNAPSHOT_PENDING":
-            return {
-                ...state,
-                courseSnapshotLoading: true,
-                courseSnapshotLoadError: false,
-            };
-
-        case "FETCH_COURSE_SNAPSHOT_FULFILLED":
-            return {
-                ...state,
-                courseSnapshotLoading: false,
-                courseSnapshotData: action.payload.data
-            };
-
-        case "FETCH_COURSE_SNAPSHOT_REJECTED":
-            return {
-                ...state,
-                courseSnapshotLoading: false,
-                courseSnapshotLoadError: true,
-                courseSnapshotData: null
             };
 
         case "UPDATE_AFFECTED_UNITS":
@@ -971,6 +797,12 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 invalidUnitSlotCoordinates: [],
                 highlightingInvalidUnitSlots: false
+            };
+
+        case "UPDATE_COURSE_INFO":
+            return {
+                ...state,
+                courseInfo: action.courseInfo
             };
 
         default:

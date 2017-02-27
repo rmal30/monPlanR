@@ -277,9 +277,9 @@ UnitSearchContainer.propTypes = {
 const mapStatetoProps = (state) => {
     return {
         searchVisible: state.UI.showingSidebar,
-        basicUnits: state.CourseStructure.basicUnits,
-        unitSearchIsLoading: state.CourseStructure.unitSearchIsLoading,
-        unitSearchError: state.CourseStructure.unitSearchError
+        basicUnits: state.UnitSearch.basicUnits,
+        unitSearchIsLoading: state.UnitSearch.unitSearchIsLoading,
+        unitSearchError: state.UnitSearch.unitSearchError
     };
 };
 

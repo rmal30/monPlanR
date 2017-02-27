@@ -103,7 +103,7 @@ const ImportantDates = (props) => {
 */
 const mapStateToProps = (state) => {
     return {
-        importantDates: state.CourseStructure.importantDates
+        importantDates: state.ImportantDates.importantDates
     };
 };
 
