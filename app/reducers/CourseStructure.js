@@ -2,7 +2,6 @@ import { getSemesterString, nextSemester } from "../utils/NextSemesterString";
 import { validateCoursePlan, getInvalidUnitSlotCoordinates } from "../utils/ValidateCoursePlan";
 
 import TeachingPeriodData from "./TeachingPeriodData";
-import CourseInfo from "./CourseInfo";
 
 /**
  * @author JXNS, Saurabh Joshi
@@ -66,16 +65,27 @@ const defaultState = {
         descriptions: ""
     },
 
+    courseInfoLoadError: false,
+    courseInfoLoading: false,
+    courseInfo: {
+        courseCode: "",
+        courseName: "",
+        faculty: "",
+        creditPoints: 0,
+        courseDescription: "",
+        durationStr: "",
+        modeAndLocation: "",
+        awards: "",
+        abrTitle: ""
+    },
+
     // Course errors is used for displaying course error messages.
     courseErrors: [],
     invalidUnitSlotCoordinates: [],
-
     focusedUnitCode: null,
     focusedCourse: null,
     startYear: new Date().getFullYear(), //Default to the current year
-    endYear: new Date().getFullYear() + 4 //4 years is avg degree length
-
-
+    endYear: new Date().getFullYear() + 4, //4 years is avg degree length
 };
 
 /**
@@ -84,7 +94,6 @@ const defaultState = {
 const CourseStructure = (state = defaultState, action) => {
 
     switch(action.type) {
-
         /*
             Inserts a teaching period with the given data at the given location, note that there is a seperate action for simply appending a
             unit to the end of the array called "ADD_TEACHING_PERIOD"
@@ -248,28 +257,50 @@ const CourseStructure = (state = defaultState, action) => {
         case "CLEAR_COURSE":
             return {
                 ...state,
-                ...CourseInfo(state, action),
                 teachingPeriods: [],
-                numberOfUnits: 4
+                numberOfUnits: 4, 
+                courseInfo: {
+                    courseName: "",
+                    faculty: "",
+                    creditPoints: 0,
+                    courseDescription: "",
+                    durationStr: "",
+                    modeAndLocation: "",
+                    awards: "",
+                    abrTitle: ""
+                }
             };
 
         case "FETCH_COURSE_INFO_PENDING":
             return {
                 ...state,
-                ...CourseInfo(state, action)
+                courseInfoLoading: true,
+                courseInfoLoadError: false
             };
 
         case "FETCH_COURSE_INFO_FULFILLED":
             return {
                 ...state,
-                ...CourseInfo(state, action),
+                courseInfoLoading: false,
+                courseInfo: {
+                    courseCode: action.payload.data.propertyMap.courseCode,
+                    courseName: action.payload.data.propertyMap.courseName,
+                    faculty: action.payload.data.propertyMap.mangFac,
+                    creditPoints: action.payload.data.propertyMap.creditPoints,
+                    courseDescription: action.payload.data.propertyMap.courseDescrip.value,
+                    durationStr: action.payload.data.propertyMap.courseDuration,
+                    modeAndLocation: action.payload.data.propertyMap.modeLoc.value,
+                    awards: action.payload.data.propertyMap.courseAward,
+                    abrTitle: action.payload.data.propertyMap.abrevTitle,
+                },
                 focusedCourse: action.courseCode
             };
 
         case "FETCH_COURSE_INFO_REJECTED":
             return {
                 ...state,
-                ...CourseInfo(state, action)
+                courseInfoLoading: false,
+                courseInfoLoadError: true
             };
 
         case "FETCH_COURSE_TEMPLATE_PENDING":
@@ -766,6 +797,12 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 invalidUnitSlotCoordinates: [],
                 highlightingInvalidUnitSlots: false
+            };
+
+        case "UPDATE_COURSE_INFO":
+            return {
+                ...state,
+                courseInfo: action.courseInfo
             };
 
         default:

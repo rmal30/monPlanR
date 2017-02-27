@@ -1,4 +1,4 @@
-import CourseSearch from "../../app/reducers/CourseSearch";
+import CourseSearchReducer from "../../app/reducers/CourseSearchReducer";
 import { describe, it } from "mocha";
 
 describe("REDUCER: CourseSearch", () => {
@@ -24,7 +24,7 @@ describe("REDUCER: CourseSearch", () => {
                 courseSearchError: false
             };
 
-            test(CourseSearch, stateBefore, action, stateAfter);
+            test(CourseSearchReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -51,7 +51,7 @@ describe("REDUCER: CourseSearch", () => {
                 courseSearchError: false
             };
 
-            test(CourseSearch, stateBefore, action, stateAfter);
+            test(CourseSearchReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -77,7 +77,7 @@ describe("REDUCER: CourseSearch", () => {
                 courseSearchError: true
             };
 
-            test(CourseSearch, stateBefore, action, stateAfter);
+            test(CourseSearchReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -103,7 +103,7 @@ describe("REDUCER: CourseSearch", () => {
                 aosSearchError: false
             };
 
-            test(CourseSearch, stateBefore, action, stateAfter);
+            test(CourseSearchReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -130,7 +130,7 @@ describe("REDUCER: CourseSearch", () => {
                 aosSearchError: false
             };
 
-            test(CourseSearch, stateBefore, action, stateAfter);
+            test(CourseSearchReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -156,7 +156,7 @@ describe("REDUCER: CourseSearch", () => {
                 aosSearchError: true
             };
 
-            test(CourseSearch, stateBefore, action, stateAfter);
+            test(CourseSearchReducer, stateBefore, action, stateAfter);
         });
     });
 });

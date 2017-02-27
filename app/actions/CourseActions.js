@@ -239,7 +239,6 @@ export const loadCourseFromLocalStorage = () => {
     return function(dispatch) {
         const stringifedJSON = localStorage.getItem("courseStructure");
         const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear, courseInfo } = JSON.parse(stringifedJSON);
-
         dispatch({
             type: "LOAD_NEW_TEACHING_PERIODS",
             value: teachingPeriods

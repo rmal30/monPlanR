@@ -1,13 +1,19 @@
 const defaultState = {
-    basicCourses: [],
-    courseSearchIsLoading: false,
-    courseSearchError: false,
-    areasOfStudy: [],
-    aosSearchIsLoading: false,
-    aosSearchError: false
+    basicCourses: [],               // Eventually is populated with an array of course objects, each with course name, course code etc
+    courseSearchIsLoading: false,   // Indicates whether the course search results (represented by basicCourses[] above) have loaded
+    courseSearchError: false,       // Indicates whether the course search results API call failed
+    areasOfStudy: [],               // Eventually is populated with an array of area of study objects, with area of study codes/names etc
+    aosSearchIsLoading: false,      // Indicates whether the area of study results (represented by areasOfStudy[] above) have loaded
+    aosSearchError: false           // Indicates whether the area of study API call failed
 };
 
-const CourseSearch = (state = defaultState, action) => {
+/**
+ * @author JXNS
+ * The Course search reducer handles the state needed by course forms (course lists and areas of study).
+ * In addition to this, because the loading of course lists and later, areas of study is async, we also need loading 
+ * booleans and error booleans to help manage the load outcomes. 
+ */
+const CourseSearchReducer = (state = defaultState, action) => {
     switch(action.type) {
         case "FETCH_COURSES_PENDING":
             return {
@@ -58,4 +64,4 @@ const CourseSearch = (state = defaultState, action) => {
     }
 };
 
-export default CourseSearch;
+export default CourseSearchReducer;
