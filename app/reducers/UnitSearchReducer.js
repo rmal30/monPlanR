@@ -1,10 +1,15 @@
 const defaultState = {
-    basicUnits: [],
-    unitSearchIsLoading: false,
-    unitSearchError: false
+    basicUnits: [],                 // The array of all units we have on record for searching purposes
+    unitSearchIsLoading: false,     // Indicates whether the units are loading from API
+    unitSearchError: false          // Indicates whether there was an error loading the units
 };
 
-const UnitSearch = (state = defaultState, action) => {
+/**
+ * @author JXNS
+ * The unit search reducer is in control of the slice of state representing the 
+ * array of units currently offered by Monash. 
+ */
+const UnitSearchReducer = (state = defaultState, action) => {
     switch(action.type) {
         case "FETCH_UNITS_PENDING":
             return {
@@ -35,4 +40,4 @@ const UnitSearch = (state = defaultState, action) => {
 };
 
 
-export default UnitSearch;
+export default UnitSearchReducer;

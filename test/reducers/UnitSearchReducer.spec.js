@@ -1,4 +1,4 @@
-import UnitSearch from "../../app/reducers/UnitSearch";
+import UnitSearchReducer from "../../app/reducers/UnitSearchReducer";
 import { describe, it } from "mocha";
 
 describe("REDUCER: UnitSearch", () => {
@@ -21,7 +21,7 @@ describe("REDUCER: UnitSearch", () => {
                 unitSearchIsLoading: true,
                 unitSearchError: false
             };
-            test(UnitSearch, stateBefore, action, stateAfter);
+            test(UnitSearchReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -47,7 +47,7 @@ describe("REDUCER: UnitSearch", () => {
                 unitSearchError: true
             };
 
-            test(UnitSearch, stateBefore, action, stateAfter);
+            test(UnitSearchReducer, stateBefore, action, stateAfter);
         });
     });
 
@@ -74,7 +74,7 @@ describe("REDUCER: UnitSearch", () => {
                 unitSearchError: false
             };
 
-            test(UnitSearch, stateBefore, action, stateAfter);
+            test(UnitSearchReducer, stateBefore, action, stateAfter);
         });
     });
 });
