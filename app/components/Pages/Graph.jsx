@@ -42,7 +42,7 @@ class Graph extends Component {
 
         this.simulation = d3.forceSimulation()
             .force("link", d3.forceLink().id(d => d.unitCode))
-            .force("charge", d3.forceManyBody())
+            .force("charge", d3.forceManyBody().strength(-10))
             .force("center", d3.forceCenter(width/2, height/2));
 
         this.state = {
@@ -92,13 +92,22 @@ class Graph extends Component {
                 .on("end", this.dragEnded.bind(this)));
 
         g.append("rect")
-            .attr("width", d => d.creditPoints * 20)
-            .attr("height", 60)
-            .style("fill", "steelblue");
+            .attr("width", d => d.creditPoints * 30)
+            .attr("height", 80)
+            .style("fill", "#DFF0FF")
+            .style("stroke", "#2185D0");
 
         g.append("text")
+            .classed("unitCode", true)
             .text(d => d.unitCode)
-            .style("fill", "white");
+            .style("fill", "#2185D0")
+            .style("font-weight", "bold");
+
+        g.append("text")
+            .classed("unitName", true)
+            .text(d => d.unitName)
+            .style("fill", "#2185D0")
+            .style("font-size", "0.8em");
     }
 
     /**
@@ -109,9 +118,13 @@ class Graph extends Component {
             .attr("x", d => d.x)
             .attr("y", d => d.y);
 
-        selection.select("text")
+        selection.select(".unitCode")
             .attr("x", d => d.x + 8)
             .attr("y", d => d.y + 24);
+
+        selection.select(".unitName")
+            .attr("x", d => d.x + 8)
+            .attr("y", d => d.y + 40);
     }
 
     /**
@@ -194,7 +207,7 @@ class Graph extends Component {
 
         /* Restarts simulation as data has been updated */
         this.simulation.nodes(nodes);
-        this.simulation.restart();
+        this.simulation.alpha(1).restart();
 
         return false;
     }
