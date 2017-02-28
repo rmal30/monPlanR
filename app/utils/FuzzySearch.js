@@ -82,8 +82,9 @@ export default class FuzzySearch {
      *                             to the searchTarget
      * @param {integer} distance - the distance (allows more accurate search)
      * @filter {array} filter - the Filter Array
+     * e.g. {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": ["Faculty of Medicine, Nursing and Health Sciences"]}
      */
-    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter=true) {
+    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter) {
         if(searchTarget !== null || searchTarget !== "") {
             var options = {
                 include: ["score"],
@@ -101,7 +102,7 @@ export default class FuzzySearch {
             //apply filter if filterArray is populated
             var results = fuse.search(searchTarget);
             if(filter){
-                results = this.filterResults(results, {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": ["Faculty of Medicine, Nursing and Health Sciences"]});
+                results = this.filterResults(results, filter);
             }
             const finalResults = results.slice(0, numberOfResults);
 

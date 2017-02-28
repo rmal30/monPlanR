@@ -5,6 +5,7 @@ import Counter from "./Counter";
 import CourseStructure from "./CourseStructure";
 import UI from "./UI";
 import Notifications from "./Notifications";
+import Filters from "./Filters"
 import ImportantDatesReducer from "./ImportantDatesReducer";
 import UnitSearchReducer from "./UnitSearchReducer";
 import CourseSearchReducer from "./CourseSearchReducer";
@@ -15,6 +16,9 @@ const appReducer = combineReducers({
     Counter,
     UI,
     Notifications,
+
+    Filters,
+
     ImportantDates: ImportantDatesReducer,
     UnitSearch: UnitSearchReducer,
     CourseSearch: CourseSearchReducer,
