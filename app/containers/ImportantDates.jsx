@@ -60,7 +60,7 @@ const ImportantDates = (props) => {
                                                 var classNameString = "dayWarn";
                                             }
                                             endRange.setDate(currentDate.getDate()+15);
-                                            if(date > currentDate && date < endRange) {
+                                            if(date >= currentDate && date <= endRange) {
                                                 return (
                                                     <Feed.Event key={index} className={classNameString} >
                                                         <Feed.Content>
