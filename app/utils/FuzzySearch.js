@@ -83,7 +83,7 @@ export default class FuzzySearch {
      * @param {integer} distance - the distance (allows more accurate search)
      * @filter {array} filter - the Filter Array
      */
-    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter=true) {
+    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter=false) {
         if(searchTarget !== null || searchTarget !== "") {
             var options = {
                 include: ["score"],

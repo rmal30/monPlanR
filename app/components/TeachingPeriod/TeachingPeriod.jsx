@@ -35,9 +35,9 @@ export const TeachingPeriod = (props) => {
         unitToBeMoved: PropTypes.object,
         viewOnly: PropTypes.bool,
         tpIndexOfUnitToBeMoved: PropTypes.number,
-        showingAddingUnitUI: PropTypes.bool
+        showingAddingUnitUI: PropTypes.bool,
+        increaseStudyLoad: PropTypes.func
     };
-
     // props.tpCreditPoints, props.numberOfUnits, maxCreditPointsForTP
     const maxPoints = props.numberOfUnits * 6;
     const totalPoints = props.units.reduce((prev, next) => {
@@ -53,7 +53,6 @@ export const TeachingPeriod = (props) => {
     let unitRep = props.units.slice();
     
     let difference = totalPoints - maxPoints;
-    
     if(difference > 0) {
         unitRep = [];
         for(let i=0; i < props.units.length; i++){
@@ -66,6 +65,17 @@ export const TeachingPeriod = (props) => {
             } else {
                 unitRep.push(currentUnit);
             }
+        }
+    }
+
+    /**
+     * In cases where the difference still could not be reduced, we can attempt to 
+     * mitigate by increasing the study load
+     */
+    if(difference >= 6) {
+        props.increaseStudyLoad();
+        if(difference >= 12) {
+            props.increaseStudyLoad();
         }
     }
 
@@ -109,7 +119,6 @@ export const TeachingPeriod = (props) => {
             unitRep[shouldNotDisplays[l]] = "shouldNotDisplay";
         }
     }
-
     let cellSpan;
 
 
