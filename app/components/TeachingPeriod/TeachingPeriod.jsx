@@ -17,7 +17,7 @@ import UnitTableCell from "../Unit/UnitTableCell.jsx";
  * @function
  * @arg props
  */
-export const TeachingPeriod = (props) => {
+const TeachingPeriod = (props) => {
 
     TeachingPeriod.propTypes = {
         code: PropTypes.string.isRequired,
@@ -70,7 +70,8 @@ export const TeachingPeriod = (props) => {
 
     /**
      * In cases where the difference still could not be reduced, we can attempt to 
-     * mitigate by increasing the study load
+     * mitigate by increasing the study load, however this is not a complete solution. 
+     *
      */
     if(difference >= 6) {
         props.increaseStudyLoad();
