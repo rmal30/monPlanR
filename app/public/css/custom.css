@@ -192,8 +192,16 @@ html, body {
   margin-top: 1em !important;
 }
 
+.filter-margin-small{
+    margin-top: 0.3em !important;
+}
+
 .hide-filter {
   display: none !important;
+}
+
+.divider-margin-delete {
+    margin-top: 0 !important;
 }
 
 .filter-delete {

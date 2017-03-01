@@ -6,15 +6,14 @@ const defaultState = {
 
 /**
  * @author JXNS
- * The unit search reducer is in control of the slice of state representing the 
- * array of units currently offered by Monash. 
+ * The unit search reducer is in control of the slice of state representing the
+ * array of units currently offered by Monash.
  */
 const UnitSearchReducer = (state = defaultState, action) => {
     switch(action.type) {
         case "FETCH_UNITS_PENDING":
             return {
                 ...state,
-                basicUnits: [],
                 unitSearchIsLoading: true,
                 unitSearchError: false
             };
@@ -33,8 +32,8 @@ const UnitSearchReducer = (state = defaultState, action) => {
                 unitSearchIsLoading: false,
                 unitSearchError: true
             };
-        
-        default: 
+
+        default:
             return state;
     }
 };

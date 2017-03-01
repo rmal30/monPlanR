@@ -50,7 +50,7 @@ export default class FuzzySearch {
     static facultyFilter(faculty, facultyFilterSettings){
         if(facultyFilterSettings.length > 0){
             // this strategy is used, because there is only 1 faculty for 1 unit
-            var facultyName = "Faculty of" + faculty;
+            var facultyName = "Faculty of " + faculty;
             if(facultyFilterSettings.indexOf(facultyName) > -1){
                 return true;
             } else {
@@ -128,9 +128,9 @@ export default class FuzzySearch {
             var results = fuse.search(searchTarget);
             if(filter){
                 results = this.filterResults(results, filter);
+                console.log(results);
             }
             const finalResults = results.slice(0, numberOfResults);
-
             return finalResults;
         }
 
