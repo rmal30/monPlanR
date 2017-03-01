@@ -341,27 +341,30 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
 export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
     return function(dispatch) {
         let units = [];
-        let affectedUnits = teachingPeriods.reduce((result, tp) => {
-            let unit = tp.units[index];
-            if (unit !== null && unit !== undefined) {
-                if(!unit.placeholder) {
-                    units.push(unit);
-                    return result.concat(unit.unitCode + " - " + unit.unitName);
-                } else {
-                    return result;
+        let affectedUnitStrings = [];
+        for(let i=0; i < teachingPeriods.length; i++) {
+            let currentUnits = teachingPeriods[i].units;
+            for(let j=0; j < currentUnits.length; j++) {
+                let unit = currentUnits[j];
+                if(unit !== null && unit !== undefined) {
+                    if(!unit.placeholder) {
+                        const unitLength = Math.min(6, unit.creditPoints / 6);
+                        if ((unitLength + j - 1) >= index){
+                            units.push(unit);
+                            affectedUnitStrings.push(unit.unitCode + " - " + unit.unitName);
+                        }
+                    }
                 }
-            } else {
-                return result;
-            }
-        }, []);
-
-        if (affectedUnits.length > 0){
+            } 
+        }
+       
+        if (affectedUnitStrings.length > 0){
             dispatch({
                 type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
             });
             dispatch({
                 type: "UPDATE_AFFECTED_UNITS",
-                affectedUnits
+                affectedUnits: affectedUnitStrings
             });
         } else {
             dispatch({

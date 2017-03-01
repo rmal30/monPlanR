@@ -310,9 +310,9 @@ describe("ACTION-CREATOR: CourseActions", () => {
     describe("AC: attemptToDecreaseStudyLoad", () => {
         it("Should correctly create the actions required for decrease of a study load with units affected", () => {
             const mockTeachingPeriods = [
-                {units: [null, null, {unitCode: "TEST10A", unitName: "unitA"}, null, {unitCode: "TEST101", unitName: "unit1"}]},
+                {units: [null, null, {unitCode: "TEST10A", unitName: "unitA"}, null, {unitCode: "TEST101", unitName: "unit1", creditPoints: 6}]},
                 {units: [null, null, {unitCode: "TEST10B", unitName: "unitB"}, null, null]},
-                {units: [null, null, {unitCode: "TEST10C", unitName: "unitC"}, null, {unitCode: "TEST102", unitName: "unit2"}]},
+                {units: [null, null, {unitCode: "TEST10C", unitName: "unitC"}, null, {unitCode: "TEST102", unitName: "unit2", creditPoints: 6}]},
                 {units: [null, null, {unitCode: "TEST10D", unitName: "unitD"}, null, null]},
 
             ];

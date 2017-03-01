@@ -120,9 +120,9 @@ const TeachingPeriod = (props) => {
             unitRep[shouldNotDisplays[l]] = "shouldNotDisplay";
         }
     }
+    
+    
     let cellSpan;
-
-
     /**
      * we really don't want units rendering over huge amounts of columns so limit to 4
      */
