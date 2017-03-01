@@ -6,7 +6,9 @@ import Fuse from "fuse.js";
 export default class FuzzySearch {
 
     /**
-    *
+    * teachingPeriodsFilter
+    * @param (array) locationModeArray - the array to be checked
+    * @param {object} filterSettings - the ojbect array to be compared against
     */
     static teachingPeriodsFilter(locationModeArray, teachingPeriodsFilterSettings){
         if(locationModeArray.length > 0){
