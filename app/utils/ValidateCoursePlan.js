@@ -10,7 +10,7 @@ import rulesParser from "./rules.pegjs";
  * units.
  * @returns {array}
  */
-function getListOfUnits(teachingPeriods) {
+export function getListOfUnits(teachingPeriods) {
     return teachingPeriods.map((ele, teachingPeriodIndex) =>
         ele.units
             .map((unit, unitIndex) => {

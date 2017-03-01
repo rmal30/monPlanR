@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Menu, Divider, Grid, Checkbox } from "semantic-ui-react";
+import { Button, Menu, Divider } from "semantic-ui-react";
 
 import * as UIActions from "../../actions/UIActions";
 import FuzzySearch from "../../utils/FuzzySearch";
@@ -83,7 +83,6 @@ class UnitSearchContainer extends Component {
         this.setState({
             searchResultIndex: (this.state.searchResultIndex - 1 + this.state.searchResults.length) % this.state.searchResults.length
         });
-    }
 
     /**
      * Moves search selection down by one. If the last result was selected,
@@ -149,8 +148,7 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, this.props.filters);
-            console.log(results);
+            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, this.props.filters)
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
             if(results.filter(result => result.item.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
                 // Show custom draggable unit
@@ -204,6 +202,7 @@ class UnitSearchContainer extends Component {
     render() {
         const { unitSearchIsLoading } = this.props;
 
+        /*
         const faculties = [
             {label: "Art, Design and Architecture", value: "Art, Design and Architecture"},
             {label: "Arts", value: "Arts"},
@@ -216,6 +215,7 @@ class UnitSearchContainer extends Component {
             {label: "Medicine, Nursing and Health Sciences", value: "Medicine, Nursing and Health Sciences"},
             {label: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"}
         ];
+        */
 
         return (
             <Menu.Item>

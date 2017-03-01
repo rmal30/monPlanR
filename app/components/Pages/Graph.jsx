@@ -1,5 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 const d3 = require("d3");
+
+import * as courseActions from "../../actions/CourseActions";
+import LocalStorage from "../../utils/LocalStorage";
+import { getListOfUnits } from "../../utils/ValidateCoursePlan";
+
 // import cola from "webcola";
 
 /**
@@ -9,7 +16,7 @@ const d3 = require("d3");
  * Some of the d3 code was read from bl.ocks.org site, which are licensed
  * under the GNU General Public License version 3 (https://opensource.org/licenses/GPL-3.0)
  */
-export default class Graph extends Component {
+class Graph extends Component {
     /**
      * Start setting up the force-directed graph, but wait until the SVG object
      * is mounted onto the DOM.
@@ -30,17 +37,12 @@ export default class Graph extends Component {
                     creditPoints: 6
                 }
             ],
-            links: [
-                {
-                    source: "ABC1234",
-                    target: "ABC2345"
-                }
-            ]
+            links: []
         };
 
         this.simulation = d3.forceSimulation()
             .force("link", d3.forceLink().id(d => d.unitCode))
-            .force("charge", d3.forceManyBody())
+            .force("charge", d3.forceManyBody().strength(-10))
             .force("center", d3.forceCenter(width/2, height/2));
 
         this.state = {
@@ -50,93 +52,139 @@ export default class Graph extends Component {
     }
 
     /**
+     * Set force coordinates to where the unit is at
+     */
+    dragStarted(d) {
+        if(!d3.event.active) {
+            this.simulation.alphaTarget(0.3).restart();
+        }
+
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    /**
+     * Set force coordinates to mouse
+     */
+    dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+
+    /**
+     * Turn off force coordinates
+     */
+    dragEnded(d) {
+        d.fx = null;
+        d.fy = null;
+    }
+
+    /**
+     * A node is a text on top of a rect. The text displays the unit code,
+     * and the rect with its color indicates that it is a unit.
+     */
+    enterNode(selection) {
+        const g = selection.append("g")
+            .classed("node", true)
+            .call(d3.drag()
+                .on("start", this.dragStarted.bind(this))
+                .on("drag", this.dragged.bind(this))
+                .on("end", this.dragEnded.bind(this)));
+
+        g.append("rect")
+            .attr("width", d => d.creditPoints * 30)
+            .attr("height", 80)
+            .style("fill", "#DFF0FF")
+            .style("stroke", "#2185D0");
+
+        g.append("text")
+            .classed("unitCode", true)
+            .text(d => d.unitCode)
+            .style("fill", "#2185D0")
+            .style("font-weight", "bold");
+
+        g.append("text")
+            .classed("unitName", true)
+            .text(d => d.unitName)
+            .style("fill", "#2185D0")
+            .style("font-size", "0.8em");
+    }
+
+    /**
+     * Updates the position of the nodes
+     */
+    updateNode(selection) {
+        selection.select("rect")
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+
+        selection.select(".unitCode")
+            .attr("x", d => d.x + 8)
+            .attr("y", d => d.y + 24);
+
+        selection.select(".unitName")
+            .attr("x", d => d.x + 8)
+            .attr("y", d => d.y + 40);
+    }
+
+    /**
+     * Updates the graph displated on the screen
+     */
+    updateGraph(selection) {
+        selection.select(".nodes")
+            .selectAll(".node")
+            .call(this.updateNode.bind(this));
+    }
+
+    /**
      * After we have the component mounted, we can use the ref to initialise
      * the force directed graph.
      */
     componentDidMount() {
-        this.graph = d3.select(this.graphSVG);
-
-        const self = this;
-
-        /**
-         * Set force coordinates to where the unit is at
-         */
-        function dragStarted(d) {
-            if(!d3.event.active) {
-                self.simulation.alphaTarget(0.3).restart();
-            }
-
-            d.fx = d.x;
-            d.fy = d.y;
+        if(LocalStorage.doesCourseStructureExist()) {
+            this.props.clearCourse();
+            this.props.loadCourseFromLocalStorage();
         }
 
-        /**
-         * Set force coordinates to mouse
-         */
-        function dragged(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-        }
+        this.d3Graph = d3.select(this.graphSVG);
 
-        /**
-         * Turn off force coordinates
-         */
-        function dragEnded(d) {
-            d.fx = null;
-            d.fy = null;
-        }
-
-        const links = this.graph.append("g")
+        /*
+        const links = this.d3Graph.append("g")
+                        .attr("class", "links")
                         .selectAll("line")
-                        .data(this.data.links)
-                        .enter()
-                        .append("line")
-                        .attr("stroke-width", 5)
-                        .attr("stroke", "black");
+                        .data(this.data.links);
 
-        const g = this.graph
-                    .append("g")
-                    .selectAll("g")
-                    .data(this.data.nodes)
-                    .enter()
-                    .append("g")
-                    .call(d3.drag()
-                        .on("start", dragStarted)
-                        .on("drag", dragged)
-                        .on("end", dragEnded));
+        links.enter()
+                .append("line")
+                .attr("stroke-width", 5)
+                .attr("stroke", "black");
+        */
 
-        const rects = g
-                        .append("rect")
-                        .attr("width", d => d.creditPoints * 20)
-                        .attr("height", 60)
-                        .style("fill", "steelblue");
-
-        const texts = g
-                        .append("text")
-                        .text(d => d.unitCode)
-                        .style("fill", "white");
+        this.d3Graph.append("g")
+            .classed("nodes", true)
+            .selectAll("g")
+            .data(this.data.nodes)
+            .enter()
+            .call(this.enterNode.bind(this));
 
         this.simulation
             .nodes(this.data.nodes)
             .on("tick", () => {
+                this.d3Graph.call(this.updateGraph.bind(this));
+                /*
                 links
                     .attr("x1", d => d.source.x + d.source.creditPoints * 20/2)
                     .attr("y1", d => d.source.y + 60/2)
                     .attr("x2", d => d.target.x + d.target.creditPoints * 20/2)
                     .attr("y2", d => d.target.y + 60/2);
-
-                rects
-                    .attr("x", d => d.x)
-                    .attr("y", d => d.y);
-
-                texts
-                    .attr("x", d => d.x + 8)
-                    .attr("y", d => d.y + 24);
+                    */
             });
 
+            /*
         this.simulation
             .force("link")
             .links(this.data.links);
+            */
     }
 
     /**
@@ -145,7 +193,22 @@ export default class Graph extends Component {
      * at once. Since performance seems to be reduced when using React, we
      * chose to use d3 instead of React.
      */
-    shouldComponentUpdate() {
+    shouldComponentUpdate(nextProps) {
+        let nodes = nextProps.nodes && [...nextProps.nodes] || [];
+
+        let d3Nodes = this.d3Graph.select(".nodes")
+            .selectAll(".node")
+            .data(nodes, node => node.unitCode);
+
+        d3Nodes.enter().call(this.enterNode.bind(this));
+        d3Nodes.exit().remove();
+        // This must come after nodes coorespond with the data one-to-one
+        d3Nodes.call(this.updateNode.bind(this));
+
+        /* Restarts simulation as data has been updated */
+        this.simulation.nodes(nodes);
+        this.simulation.alpha(1).restart();
+
         return false;
     }
 
@@ -161,3 +224,32 @@ export default class Graph extends Component {
         );
     }
 }
+
+Graph.propTypes = {
+    nodes: PropTypes.array,
+    links: PropTypes.array,
+    clearCourse: PropTypes.func.isRequired,
+    loadCourseFromLocalStorage: PropTypes.func.isRequired
+};
+
+/**
+ * Injects a list of units into the props
+ */
+const mapStateToProps = state => {
+    return {
+        nodes: state.CourseStructure.teachingPeriods && getListOfUnits(state.CourseStructure.teachingPeriods)
+    };
+};
+
+/**
+ * Injects course actions into the props.
+ */
+const mapDispatchToProps = dispatch => {
+    const actionBundle = {
+        ...courseActions
+    };
+
+    return bindActionCreators(actionBundle, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Graph);

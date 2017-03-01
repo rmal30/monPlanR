@@ -4,6 +4,32 @@ import Fuse from "fuse.js";
  * @author JXNS
  */
 export default class FuzzySearch {
+
+    /**
+    * teachingPeriodsFilter
+    * @param (array) locationModeArray - the array to be checked
+    * @param {object} filterSettings - the ojbect array to be compared against
+    */
+    static teachingPeriodsFilter(locationModeArray, teachingPeriodsFilterSettings){
+        if(locationModeArray.length > 0){
+            // iterate over the location and mode array
+            for(var i = 0; i < locationModeArray.length; i++){
+                // this is really bad O(n^3 algorithm now)
+                var locationData = locationModeArray[i];
+                for(var j = 0; j < locationData.time.length; i++){
+                    if(teachingPeriodsFilterSettings.indexOf(locationData.time[i]) > -1){
+                        return true;
+                    }
+                }
+            }
+            //exit here because just if one location doesnt have any
+            //matching TP, means that other can have it in another TP
+            return false;
+        }
+        // tells it to ignore the filter if the location and mode array is empty
+        return true;
+    }
+
     /**
      * creditPointsFilter
      * @param (integer) value - the credit Points value
@@ -22,15 +48,14 @@ export default class FuzzySearch {
      * @param (array) facultyFilterSettings - an array of faculties
      */
     static facultyFilter(faculty, facultyFilterSettings){
-        if(facultyFilterSettings.length > 1){
-            for(var i=0; i < facultyFilterSettings.length; i++){
-                // this strategy is used, because there is only 1 faculty for 1 unit
-                var facultyName = "Faculty of " + faculty;
-                if(facultyFilterSettings.indexOf(facultyName) > -1){
-                    return true;
-                }
+        if(facultyFilterSettings.length > 0){
+            // this strategy is used, because there is only 1 faculty for 1 unit
+            var facultyName = "Faculty of " + faculty;
+            if(facultyFilterSettings.indexOf(facultyName) > -1){
+                return true;
+            } else {
+                return false;
             }
-            return false;
         }
         return true;
     }
