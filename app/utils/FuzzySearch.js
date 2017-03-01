@@ -48,15 +48,14 @@ export default class FuzzySearch {
      * @param (array) facultyFilterSettings - an array of faculties
      */
     static facultyFilter(faculty, facultyFilterSettings){
-        if(faculty.length > 1){
-            for(var i=0; i < faculty.length; i++){
-                // this strategy is used, because there is only 1 faculty for 1 unit
-                var facultyName = "Faculty of" + faculty;
-                if(facultyFilterSettings.indexOf(facultyName) > -1){
-                    return true;
-                }
+        if(facultyFilterSettings.length > 0){
+            // this strategy is used, because there is only 1 faculty for 1 unit
+            var facultyName = "Faculty of" + faculty;
+            if(facultyFilterSettings.indexOf(facultyName) > -1){
+                return true;
+            } else {
+                return false;
             }
-            return false;
         }
         return true;
     }
