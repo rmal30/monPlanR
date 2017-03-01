@@ -16,9 +16,7 @@ const appReducer = combineReducers({
     Counter,
     UI,
     Notifications,
-
     Filters,
-
     ImportantDates: ImportantDatesReducer,
     UnitSearch: UnitSearchReducer,
     CourseSearch: CourseSearchReducer,

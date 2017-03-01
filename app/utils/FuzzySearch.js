@@ -22,10 +22,10 @@ export default class FuzzySearch {
      * @param (array) facultyFilterSettings - an array of faculties
      */
     static facultyFilter(faculty, facultyFilterSettings){
-        if(faculty.length > 1){
-            for(var i=0; i < faculty.length; i++){
+        if(facultyFilterSettings.length > 1){
+            for(var i=0; i < facultyFilterSettings.length; i++){
                 // this strategy is used, because there is only 1 faculty for 1 unit
-                var facultyName = "Faculty of" + faculty;
+                var facultyName = "Faculty of " + faculty;
                 if(facultyFilterSettings.indexOf(facultyName) > -1){
                     return true;
                 }
@@ -103,9 +103,9 @@ export default class FuzzySearch {
             var results = fuse.search(searchTarget);
             if(filter){
                 results = this.filterResults(results, filter);
+                console.log(results);
             }
             const finalResults = results.slice(0, numberOfResults);
-
             return finalResults;
         }
 

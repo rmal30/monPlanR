@@ -149,7 +149,8 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, );
+            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, this.props.filters);
+            console.log(results);
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
             if(results.filter(result => result.item.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
                 // Show custom draggable unit
@@ -234,7 +235,7 @@ class UnitSearchContainer extends Component {
                         }
                 </Menu.Item>
                 {this.state.unitSearchIsLoading && "Loading Unit Data"}
-                <Divider />
+                <Divider className="divider-margin-delete"/>
                 <UnitSearchResultsContainer
                     searchResultIndex={this.state.searchResultIndex}
                     empty={this.state.empty}
@@ -251,7 +252,8 @@ UnitSearchContainer.propTypes = {
     willAddUnit: PropTypes.func,
     fetchUnits: PropTypes.func,
     unitSearchIsLoading: PropTypes.bool,
-    basicUnits: PropTypes.array
+    basicUnits: PropTypes.array,
+    filters: PropTypes.object
 };
 
 /**
@@ -262,7 +264,8 @@ const mapStatetoProps = (state) => {
         searchVisible: state.UI.showingSidebar,
         basicUnits: state.UnitSearch.basicUnits,
         unitSearchIsLoading: state.UnitSearch.unitSearchIsLoading,
-        unitSearchError: state.UnitSearch.unitSearchError
+        unitSearchError: state.UnitSearch.unitSearchError,
+        filters: state.Filters
     };
 };
 

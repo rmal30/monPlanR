@@ -112,9 +112,9 @@ class FilterButtonContainer extends Component {
                             labelPosition="left"
                             fluid className='icon filter-margin btnmainblue filter-button'/>} slug={item} key={item}>
                             <div>
-                              <div className={"filter-margin"}>
-                                <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Campus' onChange={this.handleLocationChange} fluid multiple search selection options={this.locations} />
+                              <div>
+                                <div>
+                                  <Dropdown className="filter-margin-small" placeholder='Campus' onChange={this.handleLocationChange} fluid multiple search selection options={this.locations} />
                                 </div>
                                 <div className="filter-div">
                                   <Dropdown className="filter-margin" placeholder='Faculty' onChange={this.handleFacultyChange} fluid multiple search selection options={this.faculties} />
