@@ -83,7 +83,7 @@ class UnitSearchContainer extends Component {
         this.setState({
             searchResultIndex: (this.state.searchResultIndex - 1 + this.state.searchResults.length) % this.state.searchResults.length
         });
-
+    }
     /**
      * Moves search selection down by one. If the last result was selected,
      * then the first result will be selected.
