@@ -1,6 +1,6 @@
 {
   "name": "monPlanR",
-  "version": "0.4.5-dev",
+  "version": "0.4.6-dev",
   "description": "A course planning tool designed by Monash students for Monash students.",
   "main": "./app/index.jsx",
   "engines": {
@@ -12,6 +12,8 @@
     "express-session": "^1.14.2",
     "helmet": "^3.4.0",
     "mochawesome": "^2.0.2",
+    "passport": "^0.3.2",
+    "passport-saml": "^0.15.0",
     "rc-slider": "^6.1.2",
     "react": "^15.4.2",
     "react-collapse": "^2.3.3",
@@ -34,6 +36,7 @@
     "chai-enzyme": "^0.6.1",
     "coveralls": "^2.11.16",
     "css-loader": "^0.25.0",
+    "d3": "^4.6.0",
     "deep-freeze": "0.0.1",
     "enzyme": "^2.6.0",
     "eslint": "^3.11.1",
@@ -80,6 +83,7 @@
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
+    "webcola": "^3.3.2",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },

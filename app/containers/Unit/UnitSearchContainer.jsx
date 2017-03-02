@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Button, Menu, Divider, Grid, Checkbox } from "semantic-ui-react";
+import { Button, Menu, Divider } from "semantic-ui-react";
 
 import * as UIActions from "../../actions/UIActions";
 import FuzzySearch from "../../utils/FuzzySearch";
@@ -84,7 +84,6 @@ class UnitSearchContainer extends Component {
             searchResultIndex: (this.state.searchResultIndex - 1 + this.state.searchResults.length) % this.state.searchResults.length
         });
     }
-
     /**
      * Moves search selection down by one. If the last result was selected,
      * then the first result will be selected.
@@ -149,7 +148,7 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100);
+            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, this.props.filters)
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
             if(results.filter(result => result.item.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
                 // Show custom draggable unit
@@ -203,6 +202,7 @@ class UnitSearchContainer extends Component {
     render() {
         const { unitSearchIsLoading } = this.props;
 
+        /*
         const faculties = [
             {label: "Art, Design and Architecture", value: "Art, Design and Architecture"},
             {label: "Arts", value: "Arts"},
@@ -215,6 +215,7 @@ class UnitSearchContainer extends Component {
             {label: "Medicine, Nursing and Health Sciences", value: "Medicine, Nursing and Health Sciences"},
             {label: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"}
         ];
+        */
 
         return (
             <Menu.Item>
@@ -229,29 +230,12 @@ class UnitSearchContainer extends Component {
                         <i className="search icon" />
                     </div>
                     <FilterButtonContainer />
+                        {this.state.showAddCustomUnitButton &&
+                            <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue add-unit-btn">Add custom unit</Button>
+                        }
                 </Menu.Item>
-                {this.state.showAddCustomUnitButton &&
-                    <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue">Add custom unit</Button>
-                }
-                {!this.state.unitSearchIsLoading && this.state.showAddCustomUnitButton &&
-                    <div hidden>
-                        <h3>Search Filter</h3>
-                        <Grid>
-                            <Grid.Row>
-                                <Grid.Column width={8}>
-                                <b>Faculty</b>
-                                {faculties.map((item) => {
-                                    return <Checkbox key={item.value} label={item.label} value={item.value} />;
-                                })}
-                                </Grid.Column>
-                                <Grid.Column width={8}>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </div>
-                }
                 {this.state.unitSearchIsLoading && "Loading Unit Data"}
-                <Divider />
+                <Divider className="divider-margin-delete"/>
                 <UnitSearchResultsContainer
                     searchResultIndex={this.state.searchResultIndex}
                     empty={this.state.empty}
@@ -268,7 +252,8 @@ UnitSearchContainer.propTypes = {
     willAddUnit: PropTypes.func,
     fetchUnits: PropTypes.func,
     unitSearchIsLoading: PropTypes.bool,
-    basicUnits: PropTypes.array
+    basicUnits: PropTypes.array,
+    filters: PropTypes.object
 };
 
 /**
@@ -279,7 +264,8 @@ const mapStatetoProps = (state) => {
         searchVisible: state.UI.showingSidebar,
         basicUnits: state.UnitSearch.basicUnits,
         unitSearchIsLoading: state.UnitSearch.unitSearchIsLoading,
-        unitSearchError: state.UnitSearch.unitSearchError
+        unitSearchError: state.UnitSearch.unitSearchError,
+        filters: state.Filters
     };
 };
 

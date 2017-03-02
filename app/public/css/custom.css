@@ -192,8 +192,16 @@ html, body {
   margin-top: 1em !important;
 }
 
+.filter-margin-small{
+    margin-top: 0.3em !important;
+}
+
 .hide-filter {
   display: none !important;
+}
+
+.divider-margin-delete {
+    margin-top: 0 !important;
 }
 
 .filter-delete {
@@ -212,9 +220,13 @@ html, body {
   position: relative;
 }
 
+.filter-button {
+    border-bottom: 10px solid #fff !important;
+}
+
 .slider-dressing {
   margin-top: 1em;
-  margin-bottom: 0.6em;
+  margin-bottom: 1.5em;
 }
 
 .slider-dressing>h4{
@@ -223,4 +235,24 @@ html, body {
   color: #767676 !important;
   margin-bottom: 0.5em !important;
   margin-left: 7px !important;
+}
+
+.rc-slider {
+  height: 14px !important;
+  padding: 5px 0 !important;
+  max-width: 88% !important;
+  margin-left: 14px !important;
+  margin-bottom: 2em;
+}
+
+.rc-slider-track {
+    background-color: #006cab !important;
+}
+
+.rc-slider-handle {
+    border: solid 2px #006cab !important;
+}
+
+.rc-slider-dot-active {
+    border-color: #006cab !important;
 }

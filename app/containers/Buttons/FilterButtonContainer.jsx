@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from "react";
 import  { Dropdown, Button, Header } from "semantic-ui-react";
 import { Accordion, AccordionItem } from "react-sanfona";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as filterActions from "../../actions/FilterActions";
 import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 
@@ -23,6 +25,9 @@ class FilterButtonContainer extends Component {
         };
 
         this.showFilterClick = this.showFilterClick.bind(this);
+        this.handleFacultyChange = this.handleFacultyChange.bind(this);
+        this.handleLocationChange = this.handleLocationChange.bind(this);
+        this.handleCreditPointChange = this.handleCreditPointChange.bind(this);
 
         this.faculties = [
             {text: "Art, Design and Architecture", value: "Art, Design and Architecture"},
@@ -71,6 +76,24 @@ class FilterButtonContainer extends Component {
     showFilterClick(){
         this.setState({showFilter: !this.state.showFilter});
     }
+    /**
+    Handles location change and dispatches action to filter reducer.
+    */
+    handleLocationChange(e, data){
+        this.props.updateLocationFilter(data.value);
+    }
+    /**
+    Handles faculty change and dispatches action to filter reducer.
+    */
+    handleFacultyChange(e, data){
+        this.props.updateFacultyFilter(data.value);
+    }
+    /**
+    Handles credit point change and dispatches action to filter reducer.
+    */
+    handleCreditPointChange(e){
+        this.props.updateCreditPointRangeFilter(e);
+    }
 
     /**
      * The renderer simply returns a search component populated with the data necessary with Filters
@@ -87,21 +110,22 @@ class FilterButtonContainer extends Component {
                             content={this.state.showFilter ? "Hide Filters" : "Show Filters"}
                             icon={this.state.showFilter ? "minus" : "plus"}
                             labelPosition="left"
-                            fluid className='icon filter-margin btnmainblue' />} slug={item} key={item}>
+                            fluid className='icon filter-margin btnmainblue filter-button'/>} slug={item} key={item}>
                             <div>
-                              <div className={"filter-margin"}>
-                                <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Campus' fluid multiple search selection options={this.locations} />
+                              <div>
+                                <div>
+                                  <Dropdown className="filter-margin-small" placeholder='Campus' onChange={this.handleLocationChange} fluid multiple search selection options={this.locations} />
                                 </div>
                                 <div className="filter-div">
-                                  <Dropdown className="filter-margin" placeholder='Faculty' fluid multiple search selection options={this.faculties} />
+                                  <Dropdown className="filter-margin" placeholder='Faculty' onChange={this.handleFacultyChange} fluid multiple search selection options={this.faculties} />
                                 </div>
                                 <div className="filter-div">
                                   <Dropdown className="filter-margin" placeholder='Teaching Period' fluid multiple search selection options={this.teachingPeriods} />
                                 </div>
                                 <div className={"slider-dressing"}>
                                    <Header as='h4'>Credit Points</Header>
-                                    <Range min={0}
+                                    <Range onChange={this.handleCreditPointChange}
+                                           min={0}
                                            max={48}
                                            step={null}
                                            defaultValue={[0,48]}
@@ -128,8 +152,16 @@ const mapStateToProps = (state) => {
         unitSearchIsLoading: state.CourseStructure.unitSearchIsLoading
     };
 };
-export default connect(mapStateToProps)(FilterButtonContainer);
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(filterActions, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterButtonContainer);
 
 FilterButtonContainer.propTypes = {
-    unitSearchIsLoading: PropTypes.bool
+    unitSearchIsLoading: PropTypes.bool,
+    updateFacultyFilter: PropTypes.func,
+    updateLocationFilter: PropTypes.func,
+    updateCreditPointRangeFilter: PropTypes.func
 };
