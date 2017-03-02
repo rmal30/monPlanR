@@ -55,6 +55,7 @@ class Graph extends Component {
      * Set force coordinates to where the unit is at
      */
     dragStarted(d) {
+        d3.event.sourceEvent.stopPropagation(); // Prevent zoom from triggering
         if(!d3.event.active) {
             this.simulation.alphaTarget(0.3).restart();
         }
@@ -169,6 +170,13 @@ class Graph extends Component {
     }
 
     /**
+     * Using d3 to handle zoom and pan
+     */
+    handleZoom() {
+        this.d3Graph.select(".container").attr("transform", d3.event.transform);
+    }
+
+    /**
      * After we have the component mounted, we can use the ref to initialise
      * the force directed graph.
      */
@@ -178,7 +186,8 @@ class Graph extends Component {
             this.props.loadCourseFromLocalStorage();
         }
 
-        this.d3Graph = d3.select(this.graphSVG);
+        this.d3Graph = d3.select(this.graphSVG)
+            .call(d3.zoom().scaleExtent([0.5, 10]).on("zoom", this.handleZoom.bind(this)));
 
         this.handleWindowResize.call(this);
 
@@ -196,7 +205,10 @@ class Graph extends Component {
                 .attr("stroke", "black");
         */
 
-        this.d3Graph.append("g")
+        this.d3Graph
+            .append("g")
+            .classed("container", true)
+            .append("g")
             .classed("nodes", true)
             .selectAll("foreignObject")
             .data(this.data.nodes)
