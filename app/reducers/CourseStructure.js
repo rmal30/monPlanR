@@ -164,6 +164,8 @@ const CourseStructure = (state = defaultState, action) => {
         /*
             Decreases the number of units a student can take in all of the teaching periods. If the number of units is already at it's min
             it will stop the state from being broken, otherwise it will decrease the number by one and also remove the last unit from each teaching array
+
+            We have action.unitCoords = an array of arrays, each of which takes the form [tpIndex, unitsIndex] so we can address them
         */
         case "DECREASE_STUDY_LOAD":
             if(state.numberOfUnits <= 4) {
@@ -174,15 +176,28 @@ const CourseStructure = (state = defaultState, action) => {
             } else {
                 return {
                     ...state,
-                    numberOfUnits: state.numberOfUnits - 1,
-                    teachingPeriods: state.teachingPeriods.map(tp => {
-                        return {
-                            ...tp,
-                            units: tp.units.slice(0, state.numberOfUnits - 1)
-                        };
-                    })
+                    numberOfUnits: state.numberOfUnits - 1
                 };
             }
+        
+        case "PREP_FOR_DELETION":
+            return {
+                ...state,
+                teachingPeriods: state.teachingPeriods.map((tp, tpIndex) => {
+                    return {
+                        ...tp,
+                        units: tp.units.map((unit, unitIndex) => {
+                            for(let i=0; i < action.unitCoords.length; i++) {
+                                if(action.unitCoords[i][0] === tpIndex && action.unitCoords[i][1] === unitIndex) {
+                                    return null; //dont render this unit
+                                }
+                                return unit;
+                            }
+                            return unit;
+                        }).slice(0, (state.numberOfUnits - 1))
+                    };
+                })
+            };
 
         /*
             Adds a unit with the given details to course structure at the given location

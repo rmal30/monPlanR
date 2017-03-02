@@ -99,18 +99,20 @@ describe("ACTION-CREATOR: CourseActions", () => {
     describe("AC: decreaseStudyLoad", () => {
         it("Should create an action to increase the study load with units affected", () => {
             const mockTeachingPeriods = [
-                { year: 2018, code: "S1-01", units: [null, null, null, null, "unit1"] },
+                { year: 2018, code: "S1-01", units: [null, null, null, null, {unitName: "unit1", creditPoints: 6}] },
                 { year: 2018, code: "S2-01", units: [null, null, null, null, null] },
-                { year: 2019, code: "S1-01", units: [null, null, null, null, "unit2"] },
+                { year: 2019, code: "S1-01", units: [null, null, null, null, {unitName: "unit2", creditPoints: 6}] },
                 { year: 2019, code: "S2-01", units: [null, null, null, null, null] }
             ];
 
-            const expectedAction = {
-                type: "DECREASE_STUDY_LOAD",
-                units: ["unit1", "unit2"]
-            };
+            const expectedActions = [
+                {type: "PREP_FOR_DELETION", unitCoords: [[0,4], [2,4]]},
+                {type: "DECREASE_STUDY_LOAD", units: [{unitName: "unit1", creditPoints: 6}, {unitName: "unit2", creditPoints: 6}]}
+            ];
 
-            expect(actions.decreaseStudyLoad(mockTeachingPeriods, 4)).toEqual(expectedAction);
+            const store = mockStore({teachingPeriods: []});
+            store.dispatch(actions.decreaseStudyLoad(mockTeachingPeriods, 4));
+            expect(store.getActions()).toEqual(expectedActions);
         });
 
         it("Should create an action to increase the study load with no units affected", () => {
@@ -121,12 +123,14 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 { year: 2019, code: "S2-01", units: [null, null, null, null, null] }
             ];
 
-            const expectedAction = {
-                type: "DECREASE_STUDY_LOAD",
-                units: []
-            };
+            const expectedActions = [
+                {type: "PREP_FOR_DELETION", unitCoords: []},
+                {type: "DECREASE_STUDY_LOAD", units: []}
+            ];
 
-            expect(actions.decreaseStudyLoad(mockTeachingPeriods, 4)).toEqual(expectedAction);
+            const store = mockStore({teachingPeriods: []});
+            store.dispatch(actions.decreaseStudyLoad(mockTeachingPeriods, 4));
+            expect(store.getActions()).toEqual(expectedActions);
         });
     });
 
@@ -335,7 +339,9 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 {units: [null, null, {unitCode: "TEST10D", unitName: "unitD"}, null, null]},
 
             ];
+            
             const expectedActions = [
+                {type: "PREP_FOR_DELETION", unitCoords: []},
                 {type: "DECREASE_STUDY_LOAD", units: []},
             ];
 

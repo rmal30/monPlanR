@@ -83,17 +83,34 @@ export const increaseStudyLoad = () => {
  * DECREASE_STUDY_LOAD
  */
 export const decreaseStudyLoad = (teachingPeriods, index) => {
-    let units = teachingPeriods.reduce((result, tp) => {
-        let unit = tp.units[index];
-        if (unit !== null && unit !== undefined) {
-            return result.concat(unit);
-        } else {
-            return result;
+    return function(dispatch) {
+        let units = [];
+        let unitCoords = [];
+        let affectedUnitStrings = [];
+        for(let i=0; i < teachingPeriods.length; i++) {
+            let currentUnits = teachingPeriods[i].units;
+            for(let j=0; j < currentUnits.length; j++) {
+                let unit = currentUnits[j];
+                if(unit !== null && unit !== undefined) {
+                    if(!unit.placeholder) {
+                        const unitLength = Math.min(6, unit.creditPoints / 6);
+                        if ((unitLength + j - 1) >= index){
+                            unitCoords.push([i,j]);
+                            units.push(unit);
+                            affectedUnitStrings.push(unit.unitCode + " - " + unit.unitName);
+                        }
+                    }
+                }
+            }
         }
-    }, []);
-    return {
-        type: "DECREASE_STUDY_LOAD",
-        units
+        dispatch({
+            type: "PREP_FOR_DELETION",
+            unitCoords
+        });
+        dispatch({
+            type: "DECREASE_STUDY_LOAD",
+            units
+        });
     };
 };
 
@@ -341,6 +358,7 @@ export const attemptToDeleteTeachingPeriod = (index, units) => {
 export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
     return function(dispatch) {
         let units = [];
+        let unitCoords = [];
         let affectedUnitStrings = [];
         for(let i=0; i < teachingPeriods.length; i++) {
             let currentUnits = teachingPeriods[i].units;
@@ -350,14 +368,14 @@ export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
                     if(!unit.placeholder) {
                         const unitLength = Math.min(6, unit.creditPoints / 6);
                         if ((unitLength + j - 1) >= index){
+                            unitCoords.push([i,j]);
                             units.push(unit);
                             affectedUnitStrings.push(unit.unitCode + " - " + unit.unitName);
                         }
                     }
                 }
-            } 
+            }
         }
-       
         if (affectedUnitStrings.length > 0){
             dispatch({
                 type: "SHOW_CONFIRM_DECREASE_STUDY_LOAD_MODAL"
@@ -367,6 +385,10 @@ export const attemptToDecreaseStudyLoad = (teachingPeriods, index) => {
                 affectedUnits: affectedUnitStrings
             });
         } else {
+            dispatch({
+                type: "PREP_FOR_DELETION",
+                unitCoords
+            });
             dispatch({
                 type: "DECREASE_STUDY_LOAD",
                 units
