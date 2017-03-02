@@ -128,7 +128,7 @@ export default class FuzzySearch {
             var results = fuse.search(searchTarget);
             if(filter){
                 results = this.filterResults(results, filter);
-                console.log(results);
+                /* console.log(results); */
             }
             const finalResults = results.slice(0, numberOfResults);
             return finalResults;

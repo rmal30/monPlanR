@@ -6,6 +6,8 @@ const d3 = require("d3");
 import * as courseActions from "../../actions/CourseActions";
 import LocalStorage from "../../utils/LocalStorage";
 import { getListOfUnits } from "../../utils/ValidateCoursePlan";
+import { UnitMessage } from "../Unit/UnitMessage.jsx";
+import ReactDOMServer from "react-dom/server";
 
 // import cola from "webcola";
 
@@ -84,47 +86,29 @@ class Graph extends Component {
      * and the rect with its color indicates that it is a unit.
      */
     enterNode(selection) {
-        const g = selection.append("g")
+        const foreignObject = selection.append("foreignObject")
             .classed("node", true)
+            .attr("width", d => d.creditPoints/6 * 240)
+            .attr("height", 90)
             .call(d3.drag()
                 .on("start", this.dragStarted.bind(this))
                 .on("drag", this.dragged.bind(this))
                 .on("end", this.dragEnded.bind(this)));
 
-        g.append("rect")
-            .attr("width", d => d.creditPoints * 30)
-            .attr("height", 80)
-            .style("fill", "#DFF0FF")
-            .style("stroke", "#2185D0");
-
-        g.append("text")
-            .classed("unitCode", true)
-            .text(d => d.unitCode)
-            .style("fill", "#2185D0")
-            .style("font-weight", "bold");
-
-        g.append("text")
-            .classed("unitName", true)
-            .text(d => d.unitName)
-            .style("fill", "#2185D0")
-            .style("font-size", "0.8em");
+        foreignObject.append("xhtml:body")
+            .classed("unitContainer", true)
+            .style("border", "0.1em solid black")
+            .style("position", "relative")
+            .attr("xmlns", "http://www.w3.org/1999/xhtml")
+            .html(({ unitCode, unitName }) => ReactDOMServer.renderToStaticMarkup(<UnitMessage style={{position: "relative"}} code={unitCode} name={unitName} />)); // TODO: Consider XSS vulnerabilites
     }
 
     /**
      * Updates the position of the nodes
      */
     updateNode(selection) {
-        selection.select("rect")
-            .attr("x", d => d.x)
+        selection.attr("x", d => d.x)
             .attr("y", d => d.y);
-
-        selection.select(".unitCode")
-            .attr("x", d => d.x + 8)
-            .attr("y", d => d.y + 24);
-
-        selection.select(".unitName")
-            .attr("x", d => d.x + 8)
-            .attr("y", d => d.y + 40);
     }
 
     /**
@@ -162,7 +146,7 @@ class Graph extends Component {
 
         this.d3Graph.append("g")
             .classed("nodes", true)
-            .selectAll("g")
+            .selectAll("foreignObject")
             .data(this.data.nodes)
             .enter()
             .call(this.enterNode.bind(this));
@@ -196,9 +180,26 @@ class Graph extends Component {
     shouldComponentUpdate(nextProps) {
         let nodes = nextProps.nodes && [...nextProps.nodes] || [];
 
+        // TODO: Find a better way of merging an immutable array into a mutate array used by d3
+        // First we remove any nodes removed from the units array
+        this.data.nodes = this.data.nodes.filter(node => nodes.find(originalNode => `${originalNode.unitCode}-${originalNode.teachingPeriodIndex}-${originalNode.unitIndex}` === `${node.unitCode}-${node.teachingPeriodIndex}-${node.unitIndex}`));
+
+        // Then we check if an element exists already in the array, and update that element if it does exist. Otherwise we create a new element.
+        nodes.forEach(node => {
+            const i = this.data.nodes.findIndex(originalNode => `${originalNode.unitCode}-${originalNode.teachingPeriodIndex}-${originalNode.unitIndex}` === `${node.unitCode}-${node.teachingPeriodIndex}-${node.unitIndex}`);
+            if(i > -1) {
+                this.data.nodes[i] = {
+                    ...this.data.nodes[i],
+                    ...node
+                };
+            } else {
+                this.data.nodes.push(node);
+            }
+        });
+
         let d3Nodes = this.d3Graph.select(".nodes")
             .selectAll(".node")
-            .data(nodes, node => node.unitCode);
+            .data(this.data.nodes, node => `${node.unitCode}-${node.teachingPeriodIndex}-${node.unitIndex}`);
 
         d3Nodes.enter().call(this.enterNode.bind(this));
         d3Nodes.exit().remove();
@@ -206,8 +207,8 @@ class Graph extends Component {
         d3Nodes.call(this.updateNode.bind(this));
 
         /* Restarts simulation as data has been updated */
-        this.simulation.nodes(nodes);
-        this.simulation.alpha(1).restart();
+        this.simulation.nodes(this.data.nodes);
+        this.simulation.restart();
 
         return false;
     }
