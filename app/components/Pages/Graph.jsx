@@ -6,8 +6,6 @@ const d3 = require("d3");
 import * as courseActions from "../../actions/CourseActions";
 import LocalStorage from "../../utils/LocalStorage";
 import { getListOfUnits } from "../../utils/ValidateCoursePlan";
-import { UnitMessage } from "../Unit/UnitMessage.jsx";
-import ReactDOMServer from "react-dom/server";
 
 // import cola from "webcola";
 
@@ -86,29 +84,68 @@ class Graph extends Component {
      * and the rect with its color indicates that it is a unit.
      */
     enterNode(selection) {
-        const foreignObject = selection.append("foreignObject")
+        const g = selection.append("g")
             .classed("node", true)
-            .attr("width", d => d.creditPoints/6 * 240)
-            .attr("height", 90)
             .call(d3.drag()
                 .on("start", this.dragStarted.bind(this))
                 .on("drag", this.dragged.bind(this))
                 .on("end", this.dragEnded.bind(this)));
 
-        foreignObject.append("xhtml:body")
-            .classed("unitContainer", true)
-            .style("border", "0.1em solid black")
-            .style("position", "relative")
-            .attr("xmlns", "http://www.w3.org/1999/xhtml")
-            .html(({ unitCode, unitName }) => ReactDOMServer.renderToStaticMarkup(<UnitMessage style={{position: "relative"}} code={unitCode} name={unitName} />)); // TODO: Consider XSS vulnerabilites
+        const rect = {
+            width(d) {
+                return d.creditPoints * 30;
+            },
+            height() {
+                return 90;
+            }
+        };
+
+        const margin = {
+            x: 10,
+            y: 10
+        };
+
+        g.append("rect")
+           .attr("width", rect.width)
+           .attr("height", rect.height)
+           .style("fill", "#DFF0FF")
+           .style("stroke", "#2185D0");
+
+        g.append("foreignObject")
+            .classed("unitCode", true)
+            .attr("width", d => rect.width(d) - margin.x * 2)
+            .attr("height", d => rect.height(d) - margin.y * 2)
+            .attr("x", margin.x)
+            .attr("y", margin.y)
+            .append("xhtml:body")
+            .style("min-width", "0")
+            .text(d => d.unitCode)
+            .style("color", "#2185D0")
+            .style("background", "transparent")
+            .style("overflow", "visible")
+            .style("font-weight", "bold");
+
+        g.append("foreignObject")
+            .classed("unitName", true)
+            .attr("width", d => rect.width(d) - margin.x * 2)
+            .attr("height", d => rect.height(d) - margin.y * 2 - 20)
+            .attr("x", margin.x)
+            .attr("y", margin.y + 20)
+            .append("xhtml:body")
+            .style("min-width", "0")
+            .text(d => d.unitName)
+            .style("color", "#2185D0")
+            .style("background", "transparent")
+            .style("font-size", "0.9em")
+            .style("overflow", "visible")
+            .style("font-weight", "bold");
     }
 
     /**
      * Updates the position of the nodes
      */
     updateNode(selection) {
-        selection.attr("x", d => d.x)
-            .attr("y", d => d.y);
+        selection.attr("transform", d => `translate(${d.x}, ${d.y})`);
     }
 
     /**
@@ -118,6 +155,17 @@ class Graph extends Component {
         selection.select(".nodes")
             .selectAll(".node")
             .call(this.updateNode.bind(this));
+    }
+
+    /**
+     * Resizes SVG to 100% width and height.
+     */
+    handleWindowResize() {
+        const rectObject = this.graphSVG.parentNode.getBoundingClientRect();
+
+        this.d3Graph
+            .attr("width", rectObject.width)
+            .attr("height", rectObject.height - 10);
     }
 
     /**
@@ -131,6 +179,10 @@ class Graph extends Component {
         }
 
         this.d3Graph = d3.select(this.graphSVG);
+
+        this.handleWindowResize.call(this);
+
+        window.addEventListener("resize", this.handleWindowResize.bind(this));
 
         /*
         const links = this.d3Graph.append("g")
@@ -218,10 +270,7 @@ class Graph extends Component {
      */
     render() {
         return (
-            <svg
-                width={this.state.width}
-                height={this.state.height}
-                ref={graphSVG => this.graphSVG = graphSVG} />
+            <svg ref={graphSVG => this.graphSVG = graphSVG} />
         );
     }
 }
