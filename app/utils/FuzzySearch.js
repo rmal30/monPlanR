@@ -1,7 +1,7 @@
 import Fuse from "fuse.js";
 
 /**
- * @author JXNS
+ * @author Eric Jiang + Charles Campton
  */
 export default class FuzzySearch {
 
@@ -109,7 +109,7 @@ export default class FuzzySearch {
      * @filter {array} filter - the Filter Array
      * e.g. {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": ["Faculty of Medicine, Nursing and Health Sciences"]}
      */
-    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter) {
+    static search(searchTarget, data, numberOfResults, searchKeys, distance, filter=false) {
         if(searchTarget !== null || searchTarget !== "") {
             var options = {
                 include: ["score"],
@@ -128,7 +128,6 @@ export default class FuzzySearch {
             var results = fuse.search(searchTarget);
             if(filter){
                 results = this.filterResults(results, filter);
-                console.log(results);
             }
             const finalResults = results.slice(0, numberOfResults);
             return finalResults;
