@@ -55,6 +55,7 @@ class Graph extends Component {
      * Set force coordinates to where the unit is at
      */
     dragStarted(d) {
+        d3.event.sourceEvent.stopPropagation(); // Prevent zoom from triggering
         if(!d3.event.active) {
             this.simulation.alphaTarget(0.3).restart();
         }
@@ -91,40 +92,61 @@ class Graph extends Component {
                 .on("drag", this.dragged.bind(this))
                 .on("end", this.dragEnded.bind(this)));
 
-        g.append("rect")
-            .attr("width", d => d.creditPoints * 30)
-            .attr("height", 80)
-            .style("fill", "#DFF0FF")
-            .style("stroke", "#2185D0");
+        const rect = {
+            width(d) {
+                return d.creditPoints * 30;
+            },
+            height() {
+                return 90;
+            }
+        };
 
-        g.append("text")
+        const margin = {
+            x: 10,
+            y: 10
+        };
+
+        g.append("rect")
+           .attr("width", rect.width)
+           .attr("height", rect.height)
+           .style("fill", "#DFF0FF")
+           .style("stroke", "#2185D0");
+
+        g.append("foreignObject")
             .classed("unitCode", true)
+            .attr("width", d => rect.width(d) - margin.x * 2)
+            .attr("height", d => rect.height(d) - margin.y * 2)
+            .attr("x", margin.x)
+            .attr("y", margin.y)
+            .append("xhtml:body")
+            .style("min-width", "0")
             .text(d => d.unitCode)
-            .style("fill", "#2185D0")
+            .style("color", "#2185D0")
+            .style("background", "transparent")
+            .style("overflow", "visible")
             .style("font-weight", "bold");
 
-        g.append("text")
+        g.append("foreignObject")
             .classed("unitName", true)
+            .attr("width", d => rect.width(d) - margin.x * 2)
+            .attr("height", d => rect.height(d) - margin.y * 2 - 20)
+            .attr("x", margin.x)
+            .attr("y", margin.y + 20)
+            .append("xhtml:body")
+            .style("min-width", "0")
             .text(d => d.unitName)
-            .style("fill", "#2185D0")
-            .style("font-size", "0.8em");
+            .style("color", "#2185D0")
+            .style("background", "transparent")
+            .style("font-size", "0.9em")
+            .style("overflow", "visible")
+            .style("font-weight", "bold");
     }
 
     /**
      * Updates the position of the nodes
      */
     updateNode(selection) {
-        selection.select("rect")
-            .attr("x", d => d.x)
-            .attr("y", d => d.y);
-
-        selection.select(".unitCode")
-            .attr("x", d => d.x + 8)
-            .attr("y", d => d.y + 24);
-
-        selection.select(".unitName")
-            .attr("x", d => d.x + 8)
-            .attr("y", d => d.y + 40);
+        selection.attr("transform", d => `translate(${d.x}, ${d.y})`);
     }
 
     /**
@@ -137,6 +159,24 @@ class Graph extends Component {
     }
 
     /**
+     * Resizes SVG to 100% width and height.
+     */
+    handleWindowResize() {
+        const rectObject = this.graphSVG.parentNode.getBoundingClientRect();
+
+        this.d3Graph
+            .attr("width", rectObject.width)
+            .attr("height", rectObject.height - 10);
+    }
+
+    /**
+     * Using d3 to handle zoom and pan
+     */
+    handleZoom() {
+        this.d3Graph.select(".container").attr("transform", d3.event.transform);
+    }
+
+    /**
      * After we have the component mounted, we can use the ref to initialise
      * the force directed graph.
      */
@@ -146,7 +186,12 @@ class Graph extends Component {
             this.props.loadCourseFromLocalStorage();
         }
 
-        this.d3Graph = d3.select(this.graphSVG);
+        this.d3Graph = d3.select(this.graphSVG)
+            .call(d3.zoom().scaleExtent([0.5, 10]).on("zoom", this.handleZoom.bind(this)));
+
+        this.handleWindowResize.call(this);
+
+        window.addEventListener("resize", this.handleWindowResize.bind(this));
 
         /*
         const links = this.d3Graph.append("g")
@@ -160,9 +205,12 @@ class Graph extends Component {
                 .attr("stroke", "black");
         */
 
-        this.d3Graph.append("g")
+        this.d3Graph
+            .append("g")
+            .classed("container", true)
+            .append("g")
             .classed("nodes", true)
-            .selectAll("g")
+            .selectAll("foreignObject")
             .data(this.data.nodes)
             .enter()
             .call(this.enterNode.bind(this));
@@ -196,9 +244,26 @@ class Graph extends Component {
     shouldComponentUpdate(nextProps) {
         let nodes = nextProps.nodes && [...nextProps.nodes] || [];
 
+        // TODO: Find a better way of merging an immutable array into a mutate array used by d3
+        // First we remove any nodes removed from the units array
+        this.data.nodes = this.data.nodes.filter(node => nodes.find(originalNode => `${originalNode.unitCode}-${originalNode.teachingPeriodIndex}-${originalNode.unitIndex}` === `${node.unitCode}-${node.teachingPeriodIndex}-${node.unitIndex}`));
+
+        // Then we check if an element exists already in the array, and update that element if it does exist. Otherwise we create a new element.
+        nodes.forEach(node => {
+            const i = this.data.nodes.findIndex(originalNode => `${originalNode.unitCode}-${originalNode.teachingPeriodIndex}-${originalNode.unitIndex}` === `${node.unitCode}-${node.teachingPeriodIndex}-${node.unitIndex}`);
+            if(i > -1) {
+                this.data.nodes[i] = {
+                    ...this.data.nodes[i],
+                    ...node
+                };
+            } else {
+                this.data.nodes.push(node);
+            }
+        });
+
         let d3Nodes = this.d3Graph.select(".nodes")
             .selectAll(".node")
-            .data(nodes, node => node.unitCode);
+            .data(this.data.nodes, node => `${node.unitCode}-${node.teachingPeriodIndex}-${node.unitIndex}`);
 
         d3Nodes.enter().call(this.enterNode.bind(this));
         d3Nodes.exit().remove();
@@ -206,8 +271,8 @@ class Graph extends Component {
         d3Nodes.call(this.updateNode.bind(this));
 
         /* Restarts simulation as data has been updated */
-        this.simulation.nodes(nodes);
-        this.simulation.alpha(1).restart();
+        this.simulation.nodes(this.data.nodes);
+        this.simulation.restart();
 
         return false;
     }
@@ -217,10 +282,7 @@ class Graph extends Component {
      */
     render() {
         return (
-            <svg
-                width={this.state.width}
-                height={this.state.height}
-                ref={graphSVG => this.graphSVG = graphSVG} />
+            <svg ref={graphSVG => this.graphSVG = graphSVG} />
         );
     }
 }
