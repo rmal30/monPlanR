@@ -161,7 +161,7 @@ class CourseStructure extends Component {
                 ).filter(err => err.coordinates.length > 0);
 
                 const tpInvalidUnitSlotCoordinates = invalidUnitSlotCoordinates.filter(xs => xs[0] === i - 1 || xs[0] === null);
-
+                
                 tableRows.push(
                     <TeachingPeriod
                         key={`${teachingPeriod.year}-${teachingPeriod.code}`}

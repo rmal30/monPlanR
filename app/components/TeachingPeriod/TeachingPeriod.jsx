@@ -17,7 +17,7 @@ import UnitTableCell from "../Unit/UnitTableCell.jsx";
  * @function
  * @arg props
  */
-export const TeachingPeriod = (props) => {
+const TeachingPeriod = (props) => {
 
     TeachingPeriod.propTypes = {
         code: PropTypes.string.isRequired,
@@ -35,91 +35,50 @@ export const TeachingPeriod = (props) => {
         unitToBeMoved: PropTypes.object,
         viewOnly: PropTypes.bool,
         tpIndexOfUnitToBeMoved: PropTypes.number,
-        showingAddingUnitUI: PropTypes.bool
+        showingAddingUnitUI: PropTypes.bool,
+        increaseStudyLoad: PropTypes.func
     };
 
-    // props.tpCreditPoints, props.numberOfUnits, maxCreditPointsForTP
-    const maxPoints = props.numberOfUnits * 6;
-    const totalPoints = props.units.reduce((prev, next) => {
-        if (next === null) {
-            return prev + 6;
-        } else if (next.creditPoints === 0) {
-            return prev + 6; //the unit may not actual have credit points, but it does take up a slot
-        } else {
-            return prev + next.creditPoints;
-        }
-    }, 0);
-
-    let unitRep = props.units.slice();
+    var unitRep = [],
+        tmp = props.units.slice(),
+        chain = 0;
     
-    let difference = totalPoints - maxPoints;
-    
-    if(difference > 0) {
-        unitRep = [];
-        for(let i=0; i < props.units.length; i++){
-            let currentUnit = props.units[i];
-            if (currentUnit !== null) {
-                unitRep.push(currentUnit);  //we are forced to display a unit if it is not empty
-            } else if (difference > 0) {
-                difference -= 6;
-                unitRep.push("shouldNotDisplay"); //a message that can be intercepted so that we do not display
+    for (let i = 0; i < tmp.length; i++) {
+        let currentUnit = tmp[i];
+        if(currentUnit !== null && currentUnit !== undefined) {
+            if (!currentUnit.placeholder && ((currentUnit.creditPoints / 6) > 1)) {
+                chain += Math.min(6, (currentUnit.creditPoints / 6) - 1);
+            }
+            unitRep.push(currentUnit);
+        } else if (currentUnit === null) {
+            if (chain > 0) {
+                unitRep.push("shouldNotDisplay");
+                chain -= 1;
             } else {
                 unitRep.push(currentUnit);
             }
+        } else {
+            unitRep.push(currentUnit);
         }
     }
 
-    if (props.showingMovingUnitUI || props.showingAddingUnitUI) {
-        let targetSpan,
-            currentSpan = 0,
-            startIndexes = [],
-            shouldNotDisplays = [];
-    
-        if(props.showingAddingUnitUI) {
-            targetSpan = props.unitToAdd.creditPoints / 6;
-        } else if (props.showingMovingUnitUI) {
-            targetSpan = props.unitToBeMoved.creditPoints / 6;
-        } else {
-            targetSpan = 1;
-        }
-        
-        for(let i=0; i < unitRep.length; i++ ) {
-            let currentUnit = unitRep[i];
-            if (currentUnit === null) {
-                currentSpan += 1; //empty unit means chain can continue
-                if(currentSpan === targetSpan){
-                    let startIndex = i-currentSpan + 1;
-                    startIndexes.push(startIndex); // the index of the first item in the grouping
-                    for(let j=i; j > startIndex; j--) {
-                        shouldNotDisplays.push(j);
-                    }
-                    currentSpan = 0; // reset current span
-                }
-                
-            } else {
-                currentSpan = 0; // if not an empty slot then the chain breaks and has to reset
-            }
-        }
 
-        for(let k=0; k < startIndexes.length; k++) {
-            unitRep[startIndexes[k]] = "display";
-        }
-
-        for(let l=0; l < shouldNotDisplays.length; l++){
-            unitRep[shouldNotDisplays[l]] = "shouldNotDisplay";
+    if(chain > (6 - props.numberOfUnits)) {
+        console.error("Could not allocate enough space in teaching period");
+    } else {
+        for (let j=0; j < chain; j++) {
+            props.increaseStudyLoad();
         }
     }
 
     let cellSpan;
-
-
     /**
      * we really don't want units rendering over huge amounts of columns so limit to 4
      */
     if(props.unitToAdd) {
-        cellSpan = Math.min(4, props.unitToAdd.creditPoints / 6);
+        cellSpan = Math.min(6, props.unitToAdd.creditPoints / 6);
     } else if (props.unitToBeMoved) {
-        cellSpan = Math.min(4, props.unitToBeMoved.creditPoints / 6);
+        cellSpan = Math.min(6, props.unitToBeMoved.creditPoints / 6);
     } else {
         cellSpan = 1;
     }

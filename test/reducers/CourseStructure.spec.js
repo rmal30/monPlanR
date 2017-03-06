@@ -189,7 +189,7 @@ describe("REDUCER: CourseStructure", () => {
             };
 
             const stateAfter = {
-                teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null] }],
+                teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null] }],
                 numberOfUnits: 4
             };
 

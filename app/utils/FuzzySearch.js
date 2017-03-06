@@ -1,7 +1,7 @@
 import Fuse from "fuse.js";
 
 /**
- * @author JXNS
+ * @author Eric Jiang + Charles Campton
  */
 export default class FuzzySearch {
 
@@ -128,8 +128,8 @@ export default class FuzzySearch {
             var results = fuse.search(searchTarget);
             if(filter){
                 results = this.filterResults(results, filter);
-                /* console.log(results); */
             }
+
             const finalResults = results.slice(0, numberOfResults);
             return finalResults;
         }

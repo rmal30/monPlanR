@@ -181,7 +181,7 @@ export class Unit extends React.Component {
         const { connectDropTarget, isOver }  = this.props;
         let cellSpan;
         if (this.props.unit) {
-            cellSpan = this.props.creditPoints / 6;
+            cellSpan = Math.min(6, this.props.creditPoints / 6);
         } else if (this.props.cellSpan) {
             cellSpan = this.props.cellSpan;
         } else {
