@@ -63,12 +63,8 @@ const TeachingPeriod = (props) => {
     }
 
 
-    if(chain > (6 - props.numberOfUnits)) {
-        console.error("Could not allocate enough space in teaching period");
-    } else {
-        for (let j=0; j < chain; j++) {
-            props.increaseStudyLoad();
-        }
+    for (let j=0; j < chain; j++) {
+        props.increaseStudyLoad();
     }
 
     let cellSpan;

@@ -157,24 +157,6 @@ describe("REDUCER: CourseStructure", () => {
 
             test(CourseStructure, stateBefore, action, stateAfter);
         });
-
-        it("Should not increase the study load if the study load is 6 or greater", () => {
-            const stateBefore = {
-                teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null, null] }],
-                numberOfUnits: 6
-            };
-
-            const action = {
-                type: "INCREASE_STUDY_LOAD"
-            };
-
-            const stateAfter = {
-                teachingPeriods: [{ year: 2018, code: "S2-01", units: [null, null, null, null, null, null] }],
-                numberOfUnits: 6
-            };
-
-            test(CourseStructure, stateBefore, action, stateAfter);
-        });
     });
 
     describe("ACTION: DECREASE_STUDY_LOAD", () => {
