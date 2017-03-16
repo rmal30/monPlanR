@@ -104,6 +104,13 @@ export const fetchUnitInfo = (unitCode) => {
                     payload: resp,
                     unitCode
                 });
+
+                dispatch({
+                    type: "ADD_ITEM_TO_CACHE", 
+                    timeOfLastAccess: new Date(),
+                    unitCode: unitCode,
+                    unitInfo: resp.data
+                });
             })
             .catch(err => {
                 dispatch({

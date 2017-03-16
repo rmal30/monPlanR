@@ -10,6 +10,7 @@ import ImportantDatesReducer from "./ImportantDatesReducer";
 import UnitSearchReducer from "./UnitSearchReducer";
 import CourseSearchReducer from "./CourseSearchReducer";
 import CourseSnapshotReducer from "./CourseSnapshotReducer";
+import UnitCacheReducer from "./UnitCacheReducer";
 
 const appReducer = combineReducers({
     CourseStructure,
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
     UnitSearch: UnitSearchReducer,
     CourseSearch: CourseSearchReducer,
     CourseSnapshot: CourseSnapshotReducer,
+    UnitCache: UnitCacheReducer,
     routing: routerReducer
 });
 

@@ -48,42 +48,6 @@ function collectSource(connect, monitor) {
  * The message component.
  */
 export function UnitMessage(props) {
-    UnitMessage.propTypes = {
-        code: PropTypes.string,
-        name: PropTypes.string,
-        faculty: PropTypes.string,
-
-        newUnit: PropTypes.bool,
-        viewOnly: PropTypes.bool,
-        showMoveUnitUI: PropTypes.bool,
-        hovering: PropTypes.bool,
-
-        handleDelete: PropTypes.func,
-
-        handleButtonMouseEnter: PropTypes.func,
-        handleButtonMouseLeave: PropTypes.func,
-
-        handleUnitMouseOver: PropTypes.func,
-        handleUnitMouseMove: PropTypes.func,
-        handleUnitMouseOut: PropTypes.func,
-
-        fetchUnitInfo: PropTypes.func,
-        
-        errors: PropTypes.array,
-
-        index: PropTypes.number,
-        teachingPeriodIndex: PropTypes.number,
-
-        /* Used for drag functionality */
-        draggable: PropTypes.bool,
-        connectDragSource: PropTypes.func.isRequired,
-        isDragging: PropTypes.bool.isRequired,
-        willAddUnit: PropTypes.func,
-        movingUnit: PropTypes.func,
-        cancelMovingUnit: PropTypes.func,
-
-        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    };
 
     const { isDragging } = props;
 
@@ -104,7 +68,9 @@ export function UnitMessage(props) {
                 {mobile =>
                     <UnitDetailModal
                         neverShow={props.newUnit}
-                        onClick={() => !props.newUnit && props.fetchUnitInfo(props.code)}
+                        onClick={() => {
+                            !props.newUnit && props.onUnitInfoRequest(props.code);
+                        }}
                         unitCode={props.code}
                         trigger={
                             <Message
@@ -165,3 +131,32 @@ export function UnitMessage(props) {
 
 
 export default DragSource("unit", unitSource, collectSource)(UnitMessage);
+
+UnitMessage.propTypes = {
+    code: PropTypes.string,
+    name: PropTypes.string,
+    faculty: PropTypes.string,
+    newUnit: PropTypes.bool,
+    viewOnly: PropTypes.bool,
+    showMoveUnitUI: PropTypes.bool,
+    hovering: PropTypes.bool,
+    handleDelete: PropTypes.func,
+    handleButtonMouseEnter: PropTypes.func,
+    handleButtonMouseLeave: PropTypes.func,
+    handleUnitMouseOver: PropTypes.func,
+    handleUnitMouseMove: PropTypes.func,
+    handleUnitMouseOut: PropTypes.func,
+    fetchUnitInfo: PropTypes.func,
+    
+    errors: PropTypes.array,
+    index: PropTypes.number,
+    teachingPeriodIndex: PropTypes.number,
+    /* Used for drag functionality */
+    draggable: PropTypes.bool,
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    willAddUnit: PropTypes.func,
+    movingUnit: PropTypes.func,
+    cancelMovingUnit: PropTypes.func,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};

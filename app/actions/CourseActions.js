@@ -539,3 +539,14 @@ export const clearHighlightingInvalidUnitSlots = () => {
         type: "CLEAR_HIGHLIGHTING_INVALID_UNIT_SLOTS"
     };
 };
+
+
+/**
+ * When we know the cache contains a requested unit's data, we can use that instead
+ */
+export const useDataFromCache = (cacheEntry) => {
+    return {
+        type: "USE_DATA_FROM_CACHE",
+        cacheData: cacheEntry 
+    };
+};

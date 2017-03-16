@@ -358,6 +358,12 @@ const CourseStructure = (state = defaultState, action) => {
                 focusedUnitCode: action.unitCode
             };
 
+        case "USE_DATA_FROM_CACHE":
+            return {
+                ...state,
+                unitInfo: action.cacheData.unitInfo
+            };
+
         case "FETCH_UNIT_INFO_REJECTED":
             return {
                 ...state,
