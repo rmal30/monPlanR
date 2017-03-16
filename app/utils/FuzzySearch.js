@@ -6,76 +6,99 @@ import Fuse from "fuse.js";
 export default class FuzzySearch {
 
     /**
-    * teachingPeriodsFilter
-    * @param (array) locationModeArray - the array to be checked
-    * @param {object} filterSettings - the ojbect array to be compared against
-    */
-    static teachingPeriodsFilter(locationModeArray, teachingPeriodsFilterSettings){
-        if(locationModeArray.length > 0){
-            // iterate over the location and mode array
-            for(var i = 0; i < locationModeArray.length; i++){
-                // this is really bad O(n^3 algorithm now)
-                var locationData = locationModeArray[i];
-                for(var j = 0; j < locationData.time.length; i++){
-                    if(teachingPeriodsFilterSettings.indexOf(locationData.time[i]) > -1){
-                        return true;
+     * locationFilter
+     * @param {array} arrayToFilter - an array of units
+     * @param (array) locationFilterSettings - an array of locations
+     */
+    static locationFilter(arrayToFilter, locationFilterSettings){
+        if (locationFilterSettings.length === 0){
+            return arrayToFilter;
+        }
+        return arrayToFilter.reduce((filteredByLocationArray, unit) => {
+            let unitLocations = unit.locationAndTime;
+            for (var i = 0; i < unitLocations.length; i++){
+                let currentLocation = unitLocations[i].location;
+                for(var j = 0; j < locationFilterSettings.length; j++){
+                    if (locationFilterSettings[j].toString().toUpperCase().includes(currentLocation.toUpperCase())){
+                        return filteredByLocationArray.concat(unit);
                     }
                 }
             }
-            //exit here because just if one location doesnt have any
-            //matching TP, means that other can have it in another TP
-            return false;
-        }
-        // tells it to ignore the filter if the location and mode array is empty
-        return true;
+            return filteredByLocationArray;
+        },[]);
     }
-
     /**
-     * creditPointsFilter
-     * @param (integer) value - the credit Points value
-     * @param {object} filterSettings - {"min": value, "max": value}
+     * creditPointFilter
+     * @param {array} arrayToFilter - an array of units
+     * @param (array) creditPointFilter - an array of min and max values
      */
-    static creditPointsFilter(value, filterSettings){
-        if(filterSettings.min <= value && value <= filterSettings.max){
-            return true;
+    static creditPointFilter(arrayToFilter, creditPointFilterSettings){
+        if (creditPointFilterSettings.min === 0 && creditPointFilterSettings.max === 48){
+            return arrayToFilter;
         }
-        return false;
+        return arrayToFilter.reduce((filteredByCreditPointArray, unit) => {
+            let unitCreditPoints = unit.creditPoints;
+            if(unitCreditPoints >= creditPointFilterSettings.min && unitCreditPoints <= creditPointFilterSettings.max){
+                return filteredByCreditPointArray.concat(unit);
+            }
+            return filteredByCreditPointArray;
+        },[]);
     }
-
     /**
      * facultyFilter
-     * @param {string} - faculty string
+     * @param {array} arrayToFilter - an array of units
      * @param (array) facultyFilterSettings - an array of faculties
      */
-    static facultyFilter(faculty, facultyFilterSettings){
-        if(facultyFilterSettings.length > 0){
-            // this strategy is used, because there is only 1 faculty for 1 unit
-            var facultyName = "Faculty of " + faculty;
-            if(facultyFilterSettings.indexOf(facultyName) > -1){
-                return true;
-            } else {
-                return false;
-            }
+    static facultyFilter(arrayToFilter, facultyFilterSettings){
+        if (facultyFilterSettings.length === 0){
+            return arrayToFilter;
         }
-        return true;
-    }
-
-    /**
-     * locationFilter
-     * @param {array} locationArray - an array of filter
-     * @param (array) locationFilterSettings - an array of locations
-     */
-    static locationFilter(locationArray, locationFilterSettings){
-        if(locationArray.length > 1){
-            for(var i=0; i < locationArray.length; i++){
-                if(locationFilterSettings.indexOf(locationArray[i].location) > -1){
-                    return true;
+        return arrayToFilter.reduce((filteredByFacultyArray, unit) => {
+            let unitFaculty = unit.faculty;
+            for (var i=0; i < arrayToFilter.length; i++){
+                for(var j=0; j < facultyFilterSettings.length; j++){
+                    let currentFaculty = facultyFilterSettings[j];
+                    if (unitFaculty === currentFaculty){
+                        return filteredByFacultyArray.concat(unit);
+                    }
                 }
             }
-            return false;
-        }
-        return true;
+            return filteredByFacultyArray;
+        },[]);
     }
+    /**
+     * teachingPeriodFilter
+     * @param {array} arrayToFilter - an array of units
+     * @param (array) teachingPeriodFilterSettings - an array of teaching periods
+     */
+    static teachingPeriodFilter(arrayToFilter, teachingPeriodFilterSettings){
+        if (teachingPeriodFilterSettings.length === 0){
+            return  arrayToFilter;
+        }
+        for(let g = 0; g<arrayToFilter.length; g++){
+            console.log(arrayToFilter[g].locationAndTime[0].location);
+        }
+
+        return arrayToFilter.reduce((filteredByTeachingPeriodArray, unit) => {
+            //if unit is not offered in this year, it has to be removed otherwise locationAndTime is undefined.
+            if(!unit.locationAndTime[0].location.toLowerCase().includes("not offered")){
+                for (var h = 0; h<unit.locationAndTime.length; h++){
+                    let currentLocationAndTime = unit.locationAndTime[h];
+                    for(var i = 0; i<currentLocationAndTime.time.length; i++){
+                        let currentUnitTeachingPeriod = currentLocationAndTime.time[i].toLowerCase();
+                        for(var j = 0; j<teachingPeriodFilterSettings.length; j++){
+                            let currentTeachingPeriodSetting = teachingPeriodFilterSettings[j].toLowerCase();
+                            if(currentUnitTeachingPeriod.includes(currentTeachingPeriodSetting)){
+                                return filteredByTeachingPeriodArray.concat(unit);
+                            }
+                        }
+                    }
+                }
+            }
+            return filteredByTeachingPeriodArray;
+        }, []);
+    }
+
 
     /**
      * locationFilter
@@ -84,18 +107,15 @@ export default class FuzzySearch {
      * (e.g. {"location": ["Clayton"],"creditPointRange": {"min": 12, "max":24}, "faculty": "Faculty of Medicine, Nursing and Health Sciences"});)
      */
     static filterResults(arrayToFilter, filterSettings){
-        var returnArray = [];
-        for(var i=0; i < arrayToFilter.length; i++){
-            var currentItem = arrayToFilter[i].item;
-            if(this.locationFilter(currentItem.locationAndTime,filterSettings.location)
-                && this.creditPointsFilter(currentItem.creditPoints, filterSettings.creditPointRange)
-                && this.facultyFilter(currentItem.faculty, filterSettings.faculty)){
-                returnArray.push(arrayToFilter[i]);
-            }
-        }
-        return returnArray;
+        arrayToFilter = arrayToFilter.map((curVal) => {
+            return curVal.item;
+        });
+        var locationFilteredArray = this.locationFilter(arrayToFilter, filterSettings.location);
+        var creditPointFilteredArray = this.creditPointFilter(locationFilteredArray, filterSettings.creditPointRange);
+        var facultyFilteredArray = this.facultyFilter(creditPointFilteredArray, filterSettings.faculty);
+        var teachingPeriodFilteredArray = this.teachingPeriodFilter(facultyFilteredArray, filterSettings.teachingPeriod);
+        return teachingPeriodFilteredArray;
     }
-
 
     /**
      * search takes in a number of params and returns an array of results from a fuzzy search backend.
@@ -133,7 +153,6 @@ export default class FuzzySearch {
             const finalResults = results.slice(0, numberOfResults);
             return finalResults;
         }
-
         return [];
     }
 
