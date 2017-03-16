@@ -143,23 +143,25 @@ const CourseStructure = (state = defaultState, action) => {
             each teaching period array
         */
         case "INCREASE_STUDY_LOAD":
+            /**
             if(state.numberOfUnits >= 6) {
                 return {
                     ...state,
                     numberOfUnits: 6
                 };
             } else {
-                return {
-                    ...state,
-                    numberOfUnits: state.numberOfUnits + 1,
-                    teachingPeriods: state.teachingPeriods.map(tp => {
-                        return {
-                            ...tp,
-                            units: [...tp.units, null]
-                        };
-                    })
-                };
-            }
+                */
+            return {
+                ...state,
+                numberOfUnits: state.numberOfUnits + 1,
+                teachingPeriods: state.teachingPeriods.map(tp => {
+                    return {
+                        ...tp,
+                        units: [...tp.units, null]
+                    };
+                })
+            };
+            //}
 
         /*
             Decreases the number of units a student can take in all of the teaching periods. If the number of units is already at it's min
@@ -354,6 +356,12 @@ const CourseStructure = (state = defaultState, action) => {
                 unitLoading: false,
                 unitInfo: action.payload.data,
                 focusedUnitCode: action.unitCode
+            };
+
+        case "USE_DATA_FROM_CACHE":
+            return {
+                ...state,
+                unitInfo: action.cacheData.unitInfo
             };
 
         case "FETCH_UNIT_INFO_REJECTED":

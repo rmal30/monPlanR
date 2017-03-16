@@ -28,7 +28,8 @@ const mapStateToProps = state => {
         highlightingInvalidUnitSlots: state.CourseStructure.highlightingInvalidUnitSlots,
         viewOnly: state.UI.readOnly,
         showingAddingUnitUI: state.UI.showingAddingUnitUI,
-        showingMovingUnitUI: state.UI.showingMovingUnitUI
+        showingMovingUnitUI: state.UI.showingMovingUnitUI,
+        unitCache: state.UnitCache.unitCache
     };
 };
 
@@ -82,7 +83,11 @@ export class Unit extends React.Component {
             tableCellHover: false,
             overInput: false
         };
+
+        this.handleUnitInfoRequest = this.handleUnitInfoRequest.bind(this);
     }
+
+    
 
     /**
      * Used when the user hovers on a table cell whilst adding a unit.
@@ -173,6 +178,20 @@ export class Unit extends React.Component {
     }
 
     /**
+     * When a unit is clicked the unit info modal should open, and we need to fetch data for it, however,
+     * we have a caching mechanism in place, so before wasitng resources on an API call, we check if the 
+     * unit is in the cache already.
+     */
+    handleUnitInfoRequest(unitCode) {
+        const { unitCache } = this.props;
+        if(unitCache[unitCode] !== undefined) {
+            this.props.useDataFromCache(unitCache[unitCode]);
+        } else {
+            this.props.fetchUnitInfo(unitCode);
+        }
+    }
+
+    /**
      * Renders a table cell with a Message inside of it, which displays the
      * unit code and name, as well as showing the color to represent the
      * faculty of the unit.
@@ -253,7 +272,7 @@ export class Unit extends React.Component {
                                             handleButtonMouseLeave={() => this.setState({ overInput: false })}
 
                                             handleDelete={this.handleDelete.bind(this)}
-                                            fetchUnitInfo={this.props.fetchUnitInfo}
+                                            onUnitInfoRequest={this.handleUnitInfoRequest}
                                             errors={this.props.errors}
                                         />
                                     }
@@ -266,6 +285,12 @@ export class Unit extends React.Component {
         );
     }
 }
+
+
+// https://github.com/gaearon/react-dnd/issues/157
+
+const drop = DropTarget("unit", unitTarget, collectTarget)(Unit);
+export default connect(mapStateToProps, mapDispatchToProps)(drop);
 
 Unit.propTypes = {
     /* Used for indicating whether unit is free or not */
@@ -321,15 +346,12 @@ Unit.propTypes = {
     /* Redux action creators */
     fetchUnitInfo: PropTypes.func,
     removeUnit: PropTypes.func,
+    useDataFromCache: PropTypes.func,
 
     teachingPeriodIndex: PropTypes.number,
     creditPoints: PropTypes.number,
     cost: PropTypes.number,
+    unitCache: PropTypes.object,
 
     cellSpan: PropTypes.number
 };
-
-// https://github.com/gaearon/react-dnd/issues/157
-
-const drop = DropTarget("unit", unitTarget, collectTarget)(Unit);
-export default connect(mapStateToProps, mapDispatchToProps)(drop);
