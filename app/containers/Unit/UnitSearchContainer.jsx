@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Menu, Divider } from "semantic-ui-react";
-
 import * as UIActions from "../../actions/UIActions";
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
@@ -29,7 +28,8 @@ class UnitSearchContainer extends Component {
             searchResultIndex: 0,
             timeoutValue: null,
             empty: true,
-            searchFilter: []
+            searchFilter: [],
+            currentValue: ""
         };
 
         this.searchVisible = false;
@@ -37,6 +37,7 @@ class UnitSearchContainer extends Component {
         this.resetComponent = this.resetComponent.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
+        this.handleFilterChange = this.handleFilterChange.bind(this);
     }
 
     /**
@@ -139,6 +140,7 @@ class UnitSearchContainer extends Component {
      */
     handleSearchChange(e) {
         const { value } = e.target;
+        this.setState({ currentValue: value });
         let draggableCustomUnitExists = false;
 
         if(this.state.timeoutValue) {
@@ -148,9 +150,9 @@ class UnitSearchContainer extends Component {
         const timeoutValue = setTimeout(() => {
             let reducedResults = [];
 
-            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, this.props.filters)
+            const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, this.props.filters);
             const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
-            if(results.filter(result => result.item.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
+            if(results.filter(result => result.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
                 // Show custom draggable unit
                 draggableCustomUnitExists = true;
 
@@ -166,8 +168,7 @@ class UnitSearchContainer extends Component {
             } else {
                 reducedResults = results;
             }
-
-            reducedResults = reducedResults.map(({ item }) =>
+            reducedResults = reducedResults.map((item) =>
                 ({
                     childKey: `${item.unitCode}`,
                     unitName: item.unitName,
@@ -196,6 +197,18 @@ class UnitSearchContainer extends Component {
     }
 
     /**
+    Updates search results when a filter is changed.
+    */
+    handleFilterChange(){
+        let e = {
+            target: {
+                value: this.state.currentValue
+            }
+        };
+        this.handleSearchChange(e);
+    }
+
+    /**
      * The renderer simply returns a search component populated with the data necessary
      * @author JXNS
      */
@@ -216,7 +229,6 @@ class UnitSearchContainer extends Component {
             {label: "Pharmacy and Pharmaceutical Sciences", value: "Pharmacy and Pharmaceutical Sciences"}
         ];
         */
-
         return (
             <Menu.Item>
                 <Menu.Item>
@@ -229,7 +241,7 @@ class UnitSearchContainer extends Component {
                             placeholder={this.props.unitSearchIsLoading ? "Loading, Fetching Units...": "Search to add unit"} />
                         <i className="search icon" />
                     </div>
-                    <FilterButtonContainer />
+                    <FilterButtonContainer onFilterChange={this.handleFilterChange}/>
                         {this.state.showAddCustomUnitButton &&
                             <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue add-unit-btn">Add custom unit</Button>
                         }
