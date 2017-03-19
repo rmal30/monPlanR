@@ -7,7 +7,7 @@ import axios from "axios";
 */
 const LoginButton = () => {
     return(
-            <Button className="btnwhite" onClick={() => {axios.post('/auth/login');}}>
+            <Button className="btnwhite" onClick={() => {axios.post("/auth/login");}}>
                 <Grid>
                     <Grid.Row verticalAlign="middle">
                         <Grid.Column width={3}>
