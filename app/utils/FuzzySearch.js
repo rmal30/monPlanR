@@ -76,7 +76,7 @@ export default class FuzzySearch {
             return  arrayToFilter;
         }
         for(let g = 0; g<arrayToFilter.length; g++){
-            console.log(arrayToFilter[g].locationAndTime[0].location);
+            // console.log(arrayToFilter[g].locationAndTime[0].location);
         }
 
         return arrayToFilter.reduce((filteredByTeachingPeriodArray, unit) => {
