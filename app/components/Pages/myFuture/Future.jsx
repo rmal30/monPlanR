@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import {Container, Button} from "semantic-ui-react";
 
-import TypeOut from 'react-typeout';
+import TypeOut from "react-typeout";
 
 
 const words = [" a lawyer.", " a games developer.", " a researcher.",  " a scientist.", " an accountant.", " a doctor.", " a  pharmacist.", " a  journalist.",
- " a physicist.", " an engineer.", " a teacher.", " a  Monash student."
+    " a physicist.", " an engineer.", " a teacher.", " a  Monash student."
 ];
 
 /**
