@@ -45,7 +45,7 @@ class Future extends Component {
         return (
             <div style={{color: "white", padding: "1em 0"}}>
                 <Container className="ui main text">
-                    <div id="welcome" className="ui container" cursor={{blink: true}}>
+                    <div id="welcome" className="ui container">
 
                         <img style={{width: "40%"}} src="/img/monash.png" alt="logo" />
                         <h1 style={{fontSize: "4rem", marginTop: "16rem"}}> 
