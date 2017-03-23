@@ -256,3 +256,26 @@ html, body {
 .rc-slider-dot-active {
     border-color: #006cab !important;
 }
+
+* { box-sizing:border-box; }
+.container 		{ 
+  font-family: 'Lato', "Open Sans";
+}
+
+.study {
+    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../public/img/Monash.jpg") !important;
+    background-size: contain, cover !important;
+	background-position: left, center !important;
+}
+
+.study-header{
+    font-family: "Lato"!important;
+    font-size: 4rem;
+    margin-left: 5px;
+    margin-top: 0px;
+
+}
+
+.react-typeout{
+    color: #fdb515
+}

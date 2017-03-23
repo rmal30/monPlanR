@@ -75,9 +75,6 @@ export default class FuzzySearch {
         if (teachingPeriodFilterSettings.length === 0){
             return  arrayToFilter;
         }
-        for(let g = 0; g<arrayToFilter.length; g++){
-            console.log(arrayToFilter[g].locationAndTime[0].location);
-        }
 
         return arrayToFilter.reduce((filteredByTeachingPeriodArray, unit) => {
             //if unit is not offered in this year, it has to be removed otherwise locationAndTime is undefined.

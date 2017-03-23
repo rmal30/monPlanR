@@ -7,6 +7,7 @@ import Main from "../components/Base/Main.jsx";
 import Home from "../components/Pages/Home.jsx";
 import Plan from "../components/Pages/Plan.jsx";
 import Graph from "../components/Pages/Graph.jsx";
+import Future from "../components/Pages/myFuture/Future.jsx";
 import View from "../components/Pages/View.jsx";
 import YearFormContainer from "../containers/Forms/YearFormContainer.jsx";
 import MissingPage from "../components/Pages/404.jsx";
@@ -15,6 +16,7 @@ import MissingPage from "../components/Pages/404.jsx";
 export default (
     <Route path="/" component={Main}>
         <IndexRoute darkBackground component={Home} />
+        <Route path="future" myFuture noFooter noNav component={Future} />
         <Route path="yearForm" darkBackground component={YearFormContainer} />
         <Route path="plan(/?courseDetails)" noFooter component={Plan} handler={Home} showAddUnit showStatus />
         <Route path="graph" noFooter component={Graph} handler={Home} showAddUnit />
