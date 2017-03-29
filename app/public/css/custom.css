@@ -279,3 +279,12 @@ html, body {
 .react-typeout{
     color: #fdb515
 }
+
+.modalLogo{
+    padding-top: 1rem
+}
+
+.viewCourse {
+    bottom: 0;
+    position: absolute
+}
