@@ -7,13 +7,13 @@ import { Button } from "semantic-ui-react";
 const OverloadButton = (props) => {
     const { isDisabled, increaseStudyLoad, mobile } = props;
     return (
-        <Button 
+        <Button
+            secondary
             icon="plus"
             fluid={mobile}
-            className="no-print btnlightblue" 
+            className="no-print"
             disabled={isDisabled}
-            onClick={increaseStudyLoad} 
-            color="green" 
+            onClick={increaseStudyLoad}
             labelPosition={mobile ? "left" : undefined}
             floated={mobile ? undefined : "right"}
             content={mobile ? "Add overload column" : "Overload"}
@@ -28,4 +28,3 @@ OverloadButton.propTypes = {
     increaseStudyLoad: PropTypes.func,
     mobile: PropTypes.bool
 };
-

@@ -52,7 +52,7 @@ export default function CourseInfo(props){
                     </Statistic>
                     <Divider />
                     <Icon name="time" />
-                    <b>Duration of Course: </b>
+                    <b>Duration of Course:</b>
                     <p><i>{props.durationStr}</i></p>
                     <Divider />
                     <Icon name="pin" />
@@ -60,10 +60,10 @@ export default function CourseInfo(props){
                     <p><i>{props.modeAndLocation}</i></p>
                     <Divider />
                     <Icon name="university" />
-                    <b>Abbreviated Title </b>
+                    <b>Abbreviated Title:</b>
                     <p><i>{props.abrTitle}</i></p>
                     <Divider />
-                    
+
                     <Divider />
                     <a target="blank" href={`https://www.monash.edu.au/pubs/handbooks/courses/${props.courseCode}.html`}>{"View " + props.courseCode + " handbook entry"}</a>
                     <Divider />

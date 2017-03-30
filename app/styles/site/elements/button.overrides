@@ -1,0 +1,4 @@
+
+.ui.primary.buttons {
+    color: @primaryTextColor; // For some reason this is necessary to set text to primaryTextColor
+}

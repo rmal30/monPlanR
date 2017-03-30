@@ -10,8 +10,8 @@ const ExportButtonGroup = (props) => {
     const { onExportAsCSV, onExportAsJSON, onExportAsPDF } = props;
 
     return (
-        <Button.Group secondary>
-            <Button className="btnmainblue" onClick={onExportAsPDF}><Icon name="download" /> Export as PDF</Button>
+        <Button.Group color="orange">
+            <Button onClick={onExportAsPDF}><Icon name="download" /> Export as PDF</Button>
             <Dropdown className="icon btnmainblue marginLeft" floating button>
                 <Dropdown.Menu>
                     <Dropdown.Item onClick={onExportAsCSV}>Export as CSV</Dropdown.Item>
