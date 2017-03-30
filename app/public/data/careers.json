@@ -1,0 +1,122 @@
+{"careers": [
+    {
+        "title": "Journalist",
+        "description": "If you're good at delving deeper and asking the hard-hitting questions then why not consider a career as a journalist? Reporting on current news trends and issues, journalists may write articles for newspapers, magazines, online publications, TV news reports and radio. With long and often unpredictable working hours, you'll need to work to a deadline, attend news conferences, pitch your ideas to editors and keep yourself in the know with certain laws. Writing the headlines of tomorrow, this role may see you travelling a vast deal and capturing the news as it happens first hand.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["A2000-0-0"]
+    },
+    {
+        "title": "Historian",
+        "description": "If you find the past more interesting than the present, you might be suited to being a historian. Responsible for keeping tabs on what's already happened, historians will scour archives, history books, court records, diary entries and other records for data collection. This is then analysed for authenticity and relevance. A vast area that will usually see you specialising in a particular topic, you can exercise your expertise by teaching at schools and universities, or by providing references for film and TV productions.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["A2000-0-1"]
+    },
+    {
+        "title": "Criminologist",
+        "description": "Why did they do it? Crimes can be puzzling to most people and it's a criminologist who sets out to understand the mystery. Studying the nature of crimes, criminals, human behaviour and the criminal justice system, criminologists may also be required to attend autopsies, develop crime prevention strategies and analyse crime policies. A role that requires strong problem-solving ability, a natural interest in the human psyche and, at times, a bit of a strong stomach, you'll typically find yourself in the office with a few crime scene or lab visits in your diary.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["A2000-0-2"]
+    },
+    {
+        "title": "Mental Health Nurse",
+        "description": "If you're a naturally caring person, this could be a career that you care about. A mental health nurse is a registered nurse who provides medical support to mentally and emotionally unwell patients, either through home visits, clinics, community centres or in a hospital. To excel as a mental health nurse, you should have good communications skills and the ability to work independently or part of a team.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["M2006-0-0"]
+    },
+    {
+        "title": "Midwife",
+        "description": "Every day is a birthday for midwives. They provide clinical care, advice, education and support to pregnant women and their families before, during and after birth. This includes detecting any complications or medical emergencies for both mother and baby. A midwife must be able to work independently or as part of a team in a hospital, supporting medical professionals. This is a rewarding career for calm, caring people who don't mind working unusual hours.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["M2006-0-0"]
+    },
+    {
+        "title": "Aged Care Nurse",
+        "description": "Australia's population is getting older and needs caring people to look after them. Aged care workers may need to provide personal care such as washing and dressing, aid in household tasks like cooking and cleaning or lifting in and out of vehicles, as well as coordinating medications and social activities. Carers will either provide care to the patients at home or within a residential establishment. A truly humanitarian occupation, this role will allow you to care for and provide companionship to someone who really needs it.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["M2006-0-0"]
+    },
+    {
+        "title": "Food engineer",
+        "description": "Ever tried the latest flavour and couldn't believe your taste buds? Chances are you're enjoying the efforts of a food engineer. A role where gastronomy goes beyond the kitchen, food engineers make use of the latest technology to process, preserve, package and improve food products. In a typical role, a food engineer could be working on anything from creating new packaging techniques, develop solutions for global supply and food preservation, or creating new foods. Work towards this role and you might eventually see your efforts on the shelves next time you're standing in the supermarket.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["E3001-1-0"]
+    },
+    {
+        "title": "Mechanical engineer",
+        "description": "If you're interested in what makes machines work, this could be the job for you. Mechanical engineers plan, design and manage the installation and operation of machinery for a wide range of fields such as manufacturing, waste management, building and mining. This may include designing new machinery and systems to meet market demands, taking into account cost, time, availability of materials and resources. Automotive engineers work specifically to design vehicles, so next time you lust over the latest sports car, you know who to blame.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["E3001-6-0"]
+    },
+    {
+        "title": "Mechatronic engineer",
+        "description": "For a mechatronics engineer, working with robots is not science fiction. It's just your average day at the office. If you like the idea of working with computers to operate aircraft, vehicles, robots, cameras, power generators and large-scale machinery, this will interest you. Mechatronics engineers design and maintain hi-tech computer control systems to further improve the safety and productivity of farming, manufacturing, mining, aerospace and defence. If you're interested in space exploration, this is a career that could literally take your work to the moon.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["E3001-7-0"]
+    },
+    {
+        "title": "Psychologist",
+        "description": "Psychologists are trained in human behaviour and the processes involved with how we think and feel. While some psychologists concentrate on research, others apply their skills to either clinical or organisational psychology. The clinical field focuses more on the individual's state of mind, while organisational psychology addresses how human behaviour affects groups and workplaces as a whole. If you're interested in how the mind works and are keen on science, this could be the career for you.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["S2000-0-0", "A2000-0-3"]
+    },
+    {
+        "title": "Mathematician",
+        "description": "Are you a human calculator? Well, your brainiac skills are in demand in the fields of architecture, building, science, technology, business, industry and commerce. You could use your love of geometry and calculus to construct the most amazing architecture around the world, or you could develop financial models for top investment companies. If analysis is more your thing, there are lots of roles for statisticians, who collect and interpret data. Needless to say, problem-solving and a love of numbers is a must.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["S2000-0-1"]
+    },
+    {
+        "title": "Microbiologist",
+        "description": "Microbiologists spy on the private lives of microbes, such as bacteria, viruses, protozoa, algae and fungi. Their scientific discoveries may be applied to medicine, veterinary science and product innovation, such as creating new antibiotics to fight superbugs. Often the work of a microbiologist focuses on understanding how disease is spread and developing new ways of controlling it. This is especially important in the management of hospitals or in the case of an outbreak such as bird flu. This job seriously could change the world.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["S2000-0-2"]
+    },
+    {
+        "title": "Science Teacher",
+        "description": "If you're passionate about biology, chemistry or physics, you should consider going on to become a science teacher. You will enjoy making discoveries using science and will be passionate about teaching the next generation of eager scientists. You'll ideally possess a strong ability and interest in science, good technical thinking and have excellent communication skills to carry your message across to students in an understandable way. Keeping your electron microscope handy every day you go to work, you could be inspiring students to explore new depths of the science world.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["D3005-1-0"]
+    },
+    {
+        "title": "Primary School Teacher",
+        "description": "If you want to become a teacher and prefer working with children aged 5 12 years of age, primary school may be perfect for you. Responsible for planning the educational curriculum of a particular year level, primary school teachers teach a full range of subjects including maths, science, art, personal development, health and technology. It's also important for them to monitor the child's progress and maintain a good working relationship with the parents. Providing a vital leadership role, this job may also see you organising school concerts, excursions or sporting events.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["D3001-0-0"]
+    },
+    {
+        "title": "PE Teacher",
+        "description": "If you love sport and the idea of teaching its merits to students, then you'll make a great physical education teacher. Charged with instructing students in sports and other physical activities, you may also be required to prepare learning programs that involve aquatics, field sports, athletics and gym activities. They also incorporate life skills lessons such as handling stress and healthy study practices. Spending most of your time in athletic gear, you'll most likely be employed by a school.",
+        "videoCode": "",
+        "videoThumbnail": "",
+        "promoPhoto": "",
+        "relatedDegrees": ["D3001-4-0"]
+    }
+]}
