@@ -23,9 +23,8 @@ export default function CourseViewActions(props) {
      */
     const editCoursePlanButton = mobile => (
         <Button
+            primary
             fluid={mobile}
-            color="teal"
-            className="btnorange"
             floated="right"
             loading={props.switchToEditCourse}
             disabled={props.switchToEditCourse}
@@ -43,7 +42,7 @@ export default function CourseViewActions(props) {
                             openTrigger={editCoursePlanButton(mobile)}
                             positiveButton={(
                                 <Button
-                                    className="btncancel"
+                                    color="red"
                                     disabled={props.switchToEditCourse}
                                     loading={props.switchToEditCourse}
                                     onClick={() => props.handleEditCoursePlanClick(true)}>
@@ -68,9 +67,8 @@ export default function CourseViewActions(props) {
                     || editCoursePlanButton(mobile)}
                     {mobile && <div><br /><br /></div>}
                     <Button
-                        primary
-                        onClick={() => print()}
-                        className="btnmainblue">
+                        color="orange"
+                        onClick={() => print()}>
                         <Icon name="print" />Print course plan
                     </Button>
                     <ExportButtonGroupContainer />

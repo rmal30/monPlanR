@@ -65,7 +65,7 @@ class Home extends Component {
                                     <Container textAlign="center">
                                         <Segment basic>
                                             <Link to="/plan">
-                                                <Button size="big" className="btnorange">
+                                                <Button primary size="big">
                                                     Continue planning <Icon name="right arrow" />
                                                 </Button>
                                             </Link>

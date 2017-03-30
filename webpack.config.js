@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require("html-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require("webpack");
 var packageJSON = require("./package.json");
 
@@ -7,6 +8,8 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     filename: "index.html",
     inject: "body"
 });
+
+var outputCssFile = new ExtractTextPlugin("[name].css");
 
 var metaDataPlugin = new webpack.DefinePlugin({
     MONPLAN_DESCRIPITON: packageJSON.description,
@@ -32,7 +35,11 @@ const config = {
         loaders: [
             {
                 test: /\.less$/,
-                loader: "style-loader!css-loader!less-loader"
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+            },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract("style-loader", "!css-loader")
             },
             {
                 test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,
@@ -40,13 +47,13 @@ const config = {
             },
             {test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader"},
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
-            {test: /\.css$/, loader: "style-loader!css-loader"},
             {test: /\.pegjs$/, loader: "pegjs-loader"}
         ]
     },
 
     plugins: [
         metaDataPlugin,
+        outputCssFile,
         HtmlWebpackPluginConfig
     ],
 

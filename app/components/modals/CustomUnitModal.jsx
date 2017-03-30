@@ -253,13 +253,11 @@ class CustomUnitModal extends Component {
                     <Button
                         tabIndex={7}
                         content="Cancel"
-                        className="btncancel"
                         onClick={() => this.props.hideCustomUnitUI()} />
                     <Button
                         tabIndex={6}
                         disabled={!this.formIsValid.call(this)}
-                        color="yellow"
-                        className="btnmainblue"
+                        color="orange"
                         onClick={() => {
                             if(typeof this.props.customTpIndex === "number" && typeof this.props.customUnitIndex === "number") {
                                 this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, {...this.state, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});

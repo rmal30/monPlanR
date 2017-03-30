@@ -238,7 +238,7 @@ class UnitSearchContainer extends Component {
                             onChange={this.handleSearchChange}
                             onKeyDown={this.onKeyDown}
                             disabled={this.props.unitSearchIsLoading}
-                            placeholder={this.props.unitSearchIsLoading ? "Loading, Fetching Units...": "Search to add unit"} />
+                            placeholder={this.props.unitSearchIsLoading ? "Loading units...": "Search to add unit"} />
                         <i className="search icon" />
                     </div>
                     <FilterButtonContainer onFilterChange={this.handleFilterChange}/>

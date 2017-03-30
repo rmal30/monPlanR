@@ -15,7 +15,7 @@ export default function CompletedCourseModal({ trigger }) {
         trigger: PropTypes.element.isRequired,
     };
 
-    const closeTrigger = <Button content="Close" className="btnlightcancel" />;
+    const closeTrigger = <Button content="Close" />;
     return (
         <ControlledModal
                openTrigger={trigger}
@@ -37,7 +37,7 @@ export default function CompletedCourseModal({ trigger }) {
                                     to your course advisor.
                                 </p>
                                 <Button
-                                    primary
+                                    color="orange"
                                     onClick={() => print()}
                                     className="btnmainblue">
                                     <Icon name="print" />Print course plan

@@ -121,7 +121,8 @@ class FilterButtonContainer extends Component {
                             content={this.state.showFilter ? "Hide Filters" : "Show Filters"}
                             icon={this.state.showFilter ? "minus" : "plus"}
                             labelPosition="left"
-                            fluid className='icon filter-margin btnmainblue filter-button'/>} slug={item} key={item}>
+                            color="orange"
+                            fluid className='icon filter-margin filter-button'/>} slug={item} key={item}>
                             <div>
                               <div>
                                 <div>
