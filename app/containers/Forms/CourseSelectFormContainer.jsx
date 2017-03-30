@@ -42,7 +42,7 @@ class CourseSelectFormContainer extends Component {
         this.handleYearSelect = this.handleYearSelect.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    // data and isLoading 
+    // data and isLoading
 
     /**
      * On mount we query the api once to get the data we are searching against
@@ -81,8 +81,8 @@ class CourseSelectFormContainer extends Component {
      */
     handleResultSelect(e, value) {
         this.props.fetchAreaOfStudy(value.data.courseCode);
-        
-    
+
+
         this.setState({
             CourseCode: value.title,
             specIsDisabled: false,
@@ -207,9 +207,9 @@ class CourseSelectFormContainer extends Component {
                             </Form.Group>
                             <Container textAlign="right">
                                 <Button
+                                    primary
                                     fluid={mobile}
                                     size={mobile ? undefined : "big"}
-                                    className="btnorange"
                                     disabled={!this.state.readyToSubmit}
                                     onClick={this.handleSubmit}>
                                         Start Planning <Icon name="right arrow" />

@@ -13,8 +13,7 @@ const CourseInfoButtonContainer = ({ courseCode, mobile }) => {
             <Button
                 fluid={mobile}
                 disabled={courseCode === "" || courseCode === null}
-                className="btndarkblue"
-                primary>
+                color="orange">
                 View {courseCode !== "" ? courseCode : "course"} details
             </Button>
         );

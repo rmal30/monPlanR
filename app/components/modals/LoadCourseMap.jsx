@@ -158,9 +158,9 @@ class LoadCourseMap extends Component {
         return (
             <Modal trigger={(
                     <Button
+                        color="orange"
                         fluid={this.props.mobile}
-                        onClick={this.handleOpen.bind(this)}
-                        className="btnlightblue">
+                        onClick={this.handleOpen.bind(this)}>
                         Load course map
                     </Button>
                 )}
