@@ -52,7 +52,8 @@ class Future extends Component {
                             I want to be   
                             <TypeOut words={words} className={"react-typeout"} typeSpeed={100} />|
                         </h1>
-                         <Button inverted size="huge">Explore my future path </Button>                                
+                         <Button inverted size="huge" style={{borderRadius:"0"}}>Explore my future </Button> 
+                         <Button inverted size="huge" style={{borderRadius:"0"}}>Plan my course </Button>                               
                     </div>
                 </Container>
             </div>
