@@ -37,7 +37,7 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["M2006-0-1"]
+        "relatedDegrees": ["M2006-0-0"]
     },
     {
         "title": "Aged Care Nurse",
@@ -45,7 +45,7 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["M2006-0-2"]
+        "relatedDegrees": ["M2006-0-0"]
     },
     {
         "title": "Food engineer",
@@ -77,7 +77,7 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["S2000-0-1"]
+        "relatedDegrees": ["S2000-0-0", "A2000-0-3"]
     },
     {
         "title": "Mathematician",
@@ -85,7 +85,7 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["S2000-0-2"]
+        "relatedDegrees": ["S2000-0-1"]
     },
     {
         "title": "Microbiologist",
@@ -93,7 +93,7 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["S2000-0-3"]
+        "relatedDegrees": ["S2000-0-2"]
     },
     {
         "title": "Science Teacher",
