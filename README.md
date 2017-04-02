@@ -22,6 +22,14 @@ Optionally if you wish to build a production distribution to test on a server or
 NODE_ENV=production PORT=8080 npm start
 ```
 
+If you are getting issues relating with `image-webpack-loader` when running `npm install`, then you need to install these dependencies before reinstalling `image-webpack-loader`.
+
+```
+sudo apt install libtool libpng-dev dh-autoreconf nasm # for Ubuntu-flavoured distros
+npm uninstall image-webpack-loader # without --save-dev flag, as we want to reinstall it
+npm install
+```
+
 ## When code builds
 In the development version, `app/public` acts as a static directory for
 `webpack-dev-server`.
