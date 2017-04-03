@@ -1,13 +1,11 @@
 import React, {Component} from "react";
 import { Container, Dropdown, Button, Icon } from "semantic-ui-react";
 
-var options = [ 
-    { key: "doctor", value: "doctor", text: "doctor" },
-    { key: "lawyer", value: "lawyer", text: "lawyer" },
-    { key: "dentist", value: "dentist", text: "dentist" },
-    { key: "nurse", value: "nurse", text: "nurse" },
-    { key: "garbage man", value: "garbage man", text: "garbage man" },
-    ];
+
+const options = [" a lawyer.", " a games developer.", " a researcher.",  " a scientist.", " an accountant.", " a doctor.", " a  pharmacist.", " a  journalist.",
+    " a physicist.", " an engineer.", " a teacher.", " a  Monash student."
+];
+
 /**
  * Home page that is shown to the user when they load the domain.
  *
@@ -48,7 +46,7 @@ class Future extends Component {
                     <div id="welcome" className="ui container" style={{textAlign:"left"}}>
                         <img style={{width: "40%", marginBottom: "16rem"}} src="/img/monash.png" alt="logo" />
                         <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>      
-                        <Dropdown placeholder="Select Career Choice" fluid search selection options={options} style={{display: "inline", color: "white",backgroundColor: "transparent"}}/>
+                        <Dropdown placeholder="Select Career Choice" fluid search selection options={options} />
                         <br />
                         <Button className="btnmainblue" style={{right: "0"}}>View how this career looks like <Icon name="right arrow" /> </Button>
                     </div>

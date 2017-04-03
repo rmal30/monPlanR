@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Container, Button} from "semantic-ui-react";
-
+import {Link} from "react-router";
 import TypeOut from "react-typeout";
 
 
@@ -52,8 +52,7 @@ class Future extends Component {
                             I want to be   
                             <TypeOut words={words} className={"react-typeout"} typeSpeed={100} />|
                         </h1>
-                         <Button inverted size="huge" style={{borderRadius:"0"}}>Explore my future </Button> 
-                         <Button inverted size="huge" style={{borderRadius:"0"}}>Plan my course </Button>                               
+                        <Link to="/future/select"><Button inverted size="huge" style={{borderRadius:"0"}}>Explore my future </Button>              </Link>           
                     </div>
                 </Container>
             </div>
