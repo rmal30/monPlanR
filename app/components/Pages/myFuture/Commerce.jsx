@@ -38,15 +38,12 @@ class FutureCourseModal extends Component {
 
         return (
             <Modal trigger={<Button className="btndarkblue">Read More About Commerce</Button>}>
-                <Modal.Header className="header buseco">
-                    <Grid>
+                <Modal.Header style={{backgroundImage: "url('/img/buseco.jpg')", backgroundSize: "cover"}}>
+                    <Grid style={{backgroundColor: "rgba(0, 0, 0, 0.5)"}}>
                         <Grid.Row>
-                                <Grid.Column width={10}>
+                                <Grid.Column width={16} style={{color: "white"}}>
                                     <h1>Bachelor of Commerce</h1>
                                     <i>Faculty of Business and Commerce</i>
-                                </Grid.Column>
-                                <Grid.Column width={6}>   
-                                    <Image src="/img/MonashBlackLogo.svg" alt="logo" fluid className="modalLogo" />
                                 </Grid.Column>
                             </Grid.Row>
                     </Grid>
