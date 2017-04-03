@@ -306,7 +306,7 @@ export const loadCourseSnap = (snapID) => {
             type: "FETCH_COURSE_SNAPSHOT_PENDING"
         });
 
-        axios.get(`${MONPLAN_REMOTE_URL}/snaps/${snapID}`)
+        axios.get(`${MONPLAN_REMOTE_URL2}/snaps/${snapID}`)
             .then(resp => {
                 const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear, courseInfo} = resp.data.snapshotData;
 
@@ -367,17 +367,36 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
         });
 
-        const snapURL = `${MONPLAN_REMOTE_URL}/snaps/`;
+        const snapURL = `${MONPLAN_REMOTE_URL2}/snaps`;
         const params = {
-            "course": {
+            "Course": /* {
                 teachingPeriods,
                 numberOfUnits,
                 totalCreditPoints: creditPoints,
                 totalEstimatedCost: cost,
                 startYear: startYear || new Date().getFullYear(),
-                courseInfo
-            }
+                courseInfo,
+                version: MONPLAN_VERSION
+            } */
+            {
+                teachingPeriods: [],
+                numberOfUnits: 4,
+                totalCreditPoints: 0,
+                totalEstimatedCost: 0,
+                startYear: 2017,
+                courseInfo:{
+                    courseName: "",
+                    faculty: "",
+                    creditPoints: 0,
+                    courseDescription: "",
+                    durationStr: "",
+                    modeAndLocation: "",
+                    awards: "",
+                    abrTitle: ""},
+                version: "0.4.0-prerelease2"}
         };
+
+        console.log(params);
 
         axios.post(snapURL, params)
             .then(response => {
