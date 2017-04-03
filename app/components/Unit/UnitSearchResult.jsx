@@ -76,7 +76,7 @@ class UnitSearchResult extends Component {
                 draggable
                 hovering={this.state.hovering}
 
-                willAddUnit={this.props.willAddUnit}
+                willAddUnit={willAddUnit}
 
                 handleUnitMouseOver={this.handleMouseOver.bind(this)}
                 handleUnitMouseMove={this.handleMouseMove.bind(this)}
@@ -89,7 +89,6 @@ class UnitSearchResult extends Component {
                 code={unitCode}
                 name={unitName}
                 faculty={faculty}
-                onUnitClick={willAddUnit}
                 custom={custom}
                 unitToAdd={unitToAdd}
                 index={id} />
