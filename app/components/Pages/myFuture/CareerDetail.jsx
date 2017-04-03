@@ -28,7 +28,7 @@ class CareerDetail extends Component {
 const mapStateToProps = (state) => {
     return {
         career: state.Career.career,
-        isLoading: state.Career.careerIsLoading,
+        isLoading: state.Career.careerIsLoading,     
         loadError: state.Career.careerLoadError
     };
 };
