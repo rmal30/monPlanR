@@ -1,13 +1,11 @@
-import React, {Component} from "react";
+import React, { Component, PropTypes } from "react";
 import { Container, Dropdown, Button, Icon } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Link } from "react-router";
 
-var options = [ 
-    { key: "doctor", value: "doctor", text: "doctor" },
-    { key: "lawyer", value: "lawyer", text: "lawyer" },
-    { key: "dentist", value: "dentist", text: "dentist" },
-    { key: "nurse", value: "nurse", text: "nurse" },
-    { key: "garbage man", value: "garbage man", text: "garbage man" },
-    ];
+import * as DataFetchActions from "../../../actions/DataFetchActions";
+
 /**
  * Home page that is shown to the user when they load the domain.
  *
@@ -23,10 +21,17 @@ class Future extends Component {
 
         this.state = {
             showMessage: true,
-            selectedCourse: null
+            selectedCourseID: "0"
         };
 
         this.handleDismiss = this.handleDismiss.bind(this);
+        this.handleCareerSelect = this.handleCareerSelect.bind(this);
+    }
+
+
+    componentWillMount() {
+        this.props.fetchCareers();
+
     }
 
     /**
@@ -37,10 +42,25 @@ class Future extends Component {
     handleDismiss() {
         this.setState({ showMessage: false });
     }
+
+    handleCareerSelect(e, { value }) {
+        this.setState({
+            selectedCourseID: value
+        });
+    }
     /**
      * Renders the welcome page, with a form and a disclaimer.
      */
     render() {
+        const careerOptions = this.props.careers.map((career) => {
+            return {
+                key: career.id,
+                value: career.id,
+                text: career.title
+            };
+        });
+        
+
 
         return (
             <div style={{color: "white", padding: "1em 0"}}>
@@ -48,9 +68,16 @@ class Future extends Component {
                     <div id="welcome" className="ui container" style={{textAlign:"left"}}>
                         <img style={{width: "40%", marginBottom: "16rem"}} src="/img/monash.png" alt="logo" />
                         <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>      
-                        <Dropdown placeholder="Select Career Choice" fluid search selection options={options} style={{display: "inline", color: "white",backgroundColor: "transparent"}}/>
+                        <Dropdown 
+                            placeholder="Select Career Choice" 
+                            fluid 
+                            search 
+                            selection 
+                            options={careerOptions} 
+                            onChange={this.handleCareerSelect}
+                        />
                         <br />
-                        <Button className="btnmainblue" style={{right: "0"}}>View how this career looks like <Icon name="right arrow" /> </Button>
+                        <Link to={`future/career/${this.state.selectedCourseID}`}><Button className="btnmainblue" style={{right: "0"}}>View how this career looks like <Icon name="right arrow" /></Button></Link>
                     </div>
                 </Container>
             </div>
@@ -58,4 +85,23 @@ class Future extends Component {
     }
 }
 
-export default Future;
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(DataFetchActions, dispatch);
+};
+
+const mapStateToProps = (state) => {
+    return {
+        careers: state.Careers.careers,
+        isLoading: state.Careers.careersAreLoading,
+        careersLoadError: state.Careers.careersLoadError
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Future);
+
+
+Future.propTypes = {
+    careers: PropTypes.array,
+    fetchCareers: PropTypes.func
+
+};

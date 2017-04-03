@@ -75,9 +75,11 @@ Economists often study historical trends and use them to make forecasts. They re
                                 <Grid.Column width={16}>
                                     <Card.Group itemsPerRow={4}>
                                         <Card>
-                                            <Card.Content header='Bachelor of Commerce - Majoring in Economics'/>
+                                            <Card.Content header='Bachelor of Commerce'/>
                                             <Card.Content description="Just a degree decription. Just a degree decription. Just a degree decription. Just a degree decription. " />
                                             <Card.Content extra>
+                                                <Icon name='book' />
+                                                <b>Majoring</b> in Economics <br />
                                                 <Icon name='pin' />
                                                 Clayton Campus <br />
                                                 <Icon name='clock' />
