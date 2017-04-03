@@ -11,6 +11,8 @@ import UnitSearchReducer from "./UnitSearchReducer";
 import CourseSearchReducer from "./CourseSearchReducer";
 import CourseSnapshotReducer from "./CourseSnapshotReducer";
 import UnitCacheReducer from "./UnitCacheReducer";
+import CareersReducer from "./CareersReducer";
+import CareerReducer from "./CareerReducer";
 
 const appReducer = combineReducers({
     CourseStructure,
@@ -23,6 +25,8 @@ const appReducer = combineReducers({
     CourseSearch: CourseSearchReducer,
     CourseSnapshot: CourseSnapshotReducer,
     UnitCache: UnitCacheReducer,
+    Careers: CareersReducer,
+    Career: CareerReducer,
     routing: routerReducer
 });
 

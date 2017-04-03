@@ -396,8 +396,6 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
                 version: "0.4.0-prerelease2"}
         };
 
-        console.log(params);
-
         axios.post(snapURL, params)
             .then(response => {
                 dispatch({
@@ -442,3 +440,61 @@ export const fetchDates = () => {
     };
 
 };
+
+/**
+ * Fetch jobs for students
+ */
+export const fetchCareers = () => {
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_CAREERS_PENDING"
+        });
+
+        axios.get("/data/careers.json")
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_CAREERS_FULFILLED",
+                    payload: resp.data.careers //The course id that was uploaded
+                });
+            })
+            .catch(()=>{
+                dispatch({
+                    type: "FETCH_CAREERS_REJECTED"
+                });
+            });
+    };
+};
+
+export const fetchCareer = (id) => {
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_CAREER_PENDING"
+        });
+
+        axios.get("/data/careers.json")
+            .then(resp => {
+                for(var i=0; i < resp.data.careers.length; i++) {
+                    let currentCareer = resp.data.careers[i];
+                    if(currentCareer.id === id){
+                        dispatch({
+                            type: "FETCH_CAREER_FULFILLED",
+                            payload: currentCareer //The course id that was uploaded
+                        });
+                        return true;
+                    }
+                }
+                dispatch({
+                    type: "FETCH_CAREER_REJECTED"
+                });
+               
+            })
+            .catch(()=>{
+                dispatch({
+                    type: "FETCH_CAREER_REJECTED"
+                });
+            });
+    };
+};
+
+
+
