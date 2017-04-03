@@ -1,22 +1,41 @@
-import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as dataFetchActions from "../../../actions/DataFetchActions";
+import React, {Component} from "react";
 import {Container, Grid, Card, Icon, Embed} from "semantic-ui-react";
 import Commerce from "./Commerce.jsx";
 
-class CareerDetail extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    
+/**
+ * Home page that is shown to the user when they load the domain.
+ *
+ * @class
+ */
+class Future extends Component {
+    /**
+    * State holds a boolean value to display an error message telling users
+    * to clear their course as some features will not work otherwise.
+    */
+    constructor() {
+        super();
 
-    componentWillMount() {
-        this.props.fetchCareer(this.props.params.careerID);
+        this.state = {
+            showMessage: true
+        };
+
+        this.handleDismiss = this.handleDismiss.bind(this);
     }
 
+    /**
+    * Handles warning message dismissal
+    *
+    * @author Eric Jiang
+    */
+    handleDismiss() {
+        this.setState({ showMessage: false });
+    }
+
+    /**
+     * Renders the welcome page, with a form and a disclaimer.
+     */
     render() {
+
         return (
             <div style={{color: "white", padding: "1em 0"}}>
                 <Container className="ui main text">
@@ -24,22 +43,23 @@ class CareerDetail extends Component {
                         <Grid>
                             <Grid.Row>
                                 <Grid.Column width={16}>
-                                    <h1>{this.props.career.title}</h1>
+                                    <h1>Economist</h1>
                                 </Grid.Column>
                             </Grid.Row>
 
                             <Grid.Row>
                             <Grid.Column width={10}>
                                 <p>
-                                    {this.props.career.description}
-                                </p>
+                                    Economists apply economic analysis to issues within a variety of fields, such as education, health, development, and the environment. Some economists study the cost of products, healthcare, or energy. Others examine employment levels, business cycles, or exchange rates. Still, others analyze the effect of taxes, inflation, or interest rates. 
+Economists often study historical trends and use them to make forecasts. They research and analyze data using a variety of software programs, including spreadsheets, statistical analysis, and database management programs.
+                               </p>
                             </Grid.Column>
                             <Grid.Column width={6}>
                                 <Grid.Row>
                                     <Grid.Column width={16}>
                                         <Embed
-                                            id={this.props.career.videoCode}
-                                            placeholder={'https://img.youtube.com/vi/'+this.props.career.videoCode+'/0.jpg'}
+                                            id='S1UqwMPgl9U'
+                                            placeholder='https://img.youtube.com/vi/S1UqwMPgl9U/0.jpg'
                                             source='youtube'
                                         /> 
                                     </Grid.Column>
@@ -78,25 +98,6 @@ class CareerDetail extends Component {
             </div>
         );
     }
-    
 }
 
-const mapStateToProps = (state) => {
-    return {
-        career: state.Career.career,
-        isLoading: state.Career.careerIsLoading,     
-        loadError: state.Career.careerLoadError
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(dataFetchActions, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CareerDetail);
-
-CareerDetail.propTypes = {
-    fetchCareer: PropTypes.func,
-    params: PropTypes.object,
-    career: PropTypes.object
-};
+export default Future;
