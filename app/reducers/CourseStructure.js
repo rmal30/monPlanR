@@ -23,21 +23,19 @@ const defaultState = {
 
     courseLoading: false,
 
-    
+    // The unit to be added
     unitToAdd: undefined,
-    unitToAddCode: "",
-    unitIsBeingDragged: false,
 
     // Holds a list of placeholders where a unit is on top of it.
     hidingPlaceholders: [],
-    
+
     courseTemplateLoadError: false,
     courseTemplateData: null,
 
     teachingPeriodCodeToInsert: null,
-    
+
     nextSemesterString: null,
-    
+
     indexOfTPtoRemove: 0,
 
     unitToBeMoved: undefined,
@@ -46,7 +44,7 @@ const defaultState = {
 
     unitLoading: false,
     unitLoadError: false,
-    
+
     unitInfo: {
         preqs: "",
         creditPoints: 0,
@@ -181,7 +179,7 @@ const CourseStructure = (state = defaultState, action) => {
                     numberOfUnits: state.numberOfUnits - 1
                 };
             }
-        
+
         case "PREP_FOR_DELETION":
             return {
                 ...state,
@@ -275,7 +273,7 @@ const CourseStructure = (state = defaultState, action) => {
             return {
                 ...state,
                 teachingPeriods: [],
-                numberOfUnits: 4, 
+                numberOfUnits: 4,
                 courseInfo: {
                     courseName: "",
                     faculty: "",
@@ -434,7 +432,7 @@ const CourseStructure = (state = defaultState, action) => {
                 ...state,
                 numberOfUnits: action.value
             };
-        
+
         case "MODIFIED_COURSE_PLAN":
             return {
                 ...state,
@@ -457,23 +455,10 @@ const CourseStructure = (state = defaultState, action) => {
             };
 
 
-        case "UPDATE_UNIT_TO_ADD":
-            if(action.customUnitToAdd) {
-                return {
-                    ...state,
-                    unitToAdd: action.customUnitToAdd
-                };
-            } else {
-                return {
-                    ...state,
-                    unitToAdd: action.unit
-                };
-            }
-
-        case "UPDATE_UNIT_IS_BEING_DRAGGED":
+        case "ADDING_UNIT":
             return {
                 ...state,
-                unitIsBeingDragged: action.isDragging
+                unitToAdd: action.unit
             };
 
         case "MOVING_UNIT":

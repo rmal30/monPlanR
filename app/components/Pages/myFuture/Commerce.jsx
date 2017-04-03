@@ -50,28 +50,30 @@ class FutureCourseModal extends Component {
                 </Modal.Header>
                 <Modal.Content>
                 <Modal.Description>
-                    <Container className="ui main text">
+                    <Container>
                         <Grid>
                             <Grid.Row>
                             <Grid.Column width={10}>
                                 <p>Join the brilliant minds of the commercial world.</p><p>If you're a clever thinker who likes to unpack problems and consider ideas in abstract ways, and are intrigued by finding solutions to problems, Commerce will teach you to apply your thinking in a commercial capacity to influence change.</p><p>Commerce is integral to all facets of the economy. It encompasses the diverse and rapidly changing activities of the world, including decision-making, leadership, innovation and policy development.</p><p>In this course you will develop broad commercial knowledge and acquire expertise in a particular discipline, while also developing the capacity to drive change in the future. With ten majors to choose from and 10 double-degree options on offer, you will have genuine depth and diversity of choice at Monash.</p>
                             </Grid.Column>
                             <Grid.Column width={6}>
-
-                                <Grid.Row>
-                                    <Grid.Column width={16}>
-                                        <Embed
-                                            id='Ax5DsxlcPKM'
-                                            placeholder='https://img.youtube.com/vi/Ax5DsxlcPKM/0.jpg'
-                                            source='youtube'
-                                        />   
-                                    </Grid.Column>
-                                </Grid.Row> 
-                                <Grid.Row className="viewCourse">
-                                    <Grid.Column width={16} style={{textAlign: "right"}}>
-                                        <Button className="btnmainblue" style={{textAlign: "right"}}>View how this degree looks like <Icon name="right arrow" /> </Button>
-                                    </Grid.Column>
-                                </Grid.Row> 
+                                <Grid>
+                                    <Grid.Row>
+                                        <Grid.Column width={16}>
+                                            <Embed
+                                                id='Ax5DsxlcPKM'
+                                                placeholder='https://img.youtube.com/vi/Ax5DsxlcPKM/0.jpg'
+                                                source='youtube'
+                                                fluid
+                                            />   
+                                        </Grid.Column>
+                                    </Grid.Row> 
+                                    <Grid.Row className="viewCourse">
+                                        <Grid.Column width={16} style={{textAlign: "right"}}>
+                                            <Button className="btnmainblue" style={{textAlign: "right"}}>View how this degree looks like <Icon name="right arrow" /> </Button>
+                                        </Grid.Column>
+                                    </Grid.Row> 
+                                </Grid>
                             </Grid.Column>
                             </Grid.Row>
 

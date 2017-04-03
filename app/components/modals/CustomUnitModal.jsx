@@ -50,7 +50,7 @@ class CustomUnitModal extends Component {
             scaBand: 0,
             creditPoints: this.defaultCreditPoints,
             custom: true,
-            unitCodeOK: false,
+            unitCodeOK: this.props.unitCode && this.props.unitCode.trim().length > 0,
             unitNameOK: false,
             creditPointsOK: true,
             scaBandOK: false,
@@ -67,7 +67,7 @@ class CustomUnitModal extends Component {
             this.setState({
                 unitCode: nextProps.unitCode && nextProps.unitCode.toUpperCase(),
                 unitName: "",
-                unitCodeOK: false,
+                unitCodeOK: nextProps.unitCode && nextProps.unitCode.trim().length > 0,
                 unitNameOK: false,
                 creditPointsOK: true,
                 scaBandOK: false,
@@ -91,18 +91,12 @@ class CustomUnitModal extends Component {
      * @author Saurabh Joshi
      */
     onUnitCodeChange(e) {
+        const unitCode = (e.target.value.trim().length > 0 && e.target.value.toUpperCase()) || (this.props.unitCode && this.props.unitCode.toUpperCase());
+
         this.setState({
-            unitCode: e.target.value.toUpperCase() || this.props.unitCode
+            unitCode,
+            unitCodeOK: unitCode && unitCode.length > 0
         });
-        if(e.target.value.length >= 1){
-            this.setState({
-                unitCodeOK: true
-            });
-        } else {
-            this.setState({
-                unitCodeOK: false
-            });
-        }
     }
 
     /**
@@ -112,17 +106,9 @@ class CustomUnitModal extends Component {
      */
     onUnitNameChange(e) {
         this.setState({
-            unitName: e.target.value
+            unitName: e.target.value,
+            unitNameOK: e.target.value.length > 0
         });
-        if(e.target.value.length >= 1){
-            this.setState({
-                unitNameOK: true
-            });
-        } else {
-            this.setState({
-                unitNameOK: false
-            });
-        }
     }
 
     /**
@@ -131,7 +117,7 @@ class CustomUnitModal extends Component {
      * @author Saurabh Joshi
      */
     onCreditPointsChange(e) {
-        if(!isNaN(e.target.value,10) ){
+        if(!isNaN(e.target.value, 10)) {
             this.setState({
                 creditPoints: parseInt(e.target.value) || 6,
                 creditPointsOK: true
@@ -173,8 +159,8 @@ class CustomUnitModal extends Component {
      * @return {bool} valid
      */
     formIsValid() {
-        const { unitCode, unitName, creditPoints, scaBand, faculty } = this.state;
-        return unitCode && unitName && !isNaN(creditPoints) && !isNaN(scaBand) && scaBand && faculty;
+        const { unitCodeOK, unitNameOK, creditPointsOK, scaBandOK, facultyOK } = this.state;
+        return unitCodeOK && unitNameOK && creditPointsOK && scaBandOK && facultyOK;
     }
 
     /**
@@ -259,12 +245,7 @@ class CustomUnitModal extends Component {
                         disabled={!this.formIsValid.call(this)}
                         color="orange"
                         onClick={() => {
-                            if(typeof this.props.customTpIndex === "number" && typeof this.props.customUnitIndex === "number") {
-                                this.props.addUnit(this.props.customTpIndex, this.props.customUnitIndex, {...this.state, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});
-                            } else {
-                                this.props.willAddUnit(unitCode, {...this.state, readyToAddUnit: true, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});
-                            }
-
+                            this.props.willAddUnit({...this.state, cost: CostCalc.calculateCost(this.state.scaBand, this.state.creditPoints)});
                             this.props.hideCustomUnitUI();
                         }}
                         floated="right">

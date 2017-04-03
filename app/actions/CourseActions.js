@@ -119,33 +119,20 @@ export const decreaseStudyLoad = (teachingPeriods, index) => {
  */
 export const addUnit = (tpIndex, unitIndex, unit) => {
     return function(dispatch) {
-        // Don't add unit if unit details has not been populated.
-        if(!unit) {
-            return;
-        }
-        if(!unit.customUnitDragging) {
-            dispatch({
-                type: "ADD_UNIT",
-                tpIndex,
-                unitIndex,
-                unit,
-                cost: unit.cost,
-                creditPoints: unit.creditPoints
-            });
+        dispatch({
+            type: "ADD_UNIT",
+            tpIndex,
+            unitIndex,
+            unit,
+            cost: unit.cost,
+            creditPoints: unit.creditPoints
+        });
 
-            dispatch(clearHighlightingInvalidUnitSlots());
-            dispatch(validateCourse());
-            dispatch({
-                type: "MODIFIED_COURSE_PLAN"
-            });
-        } else {
-            dispatch({
-                type: "SHOW_CUSTOM_UNIT_MODAL",
-                unitCode: unit.unitCode,
-                tpIndex,
-                unitIndex
-            });
-        }
+        dispatch(clearHighlightingInvalidUnitSlots());
+        dispatch(validateCourse());
+        dispatch({
+            type: "MODIFIED_COURSE_PLAN"
+        });
     };
 };
 
@@ -547,6 +534,6 @@ export const clearHighlightingInvalidUnitSlots = () => {
 export const useDataFromCache = (cacheEntry) => {
     return {
         type: "USE_DATA_FROM_CACHE",
-        cacheData: cacheEntry 
+        cacheData: cacheEntry
     };
 };

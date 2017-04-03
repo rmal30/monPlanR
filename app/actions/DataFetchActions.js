@@ -106,7 +106,7 @@ export const fetchUnitInfo = (unitCode) => {
                 });
 
                 dispatch({
-                    type: "ADD_ITEM_TO_CACHE", 
+                    type: "ADD_ITEM_TO_CACHE",
                     timeOfLastAccess: new Date(),
                     unitCode: unitCode,
                     unitInfo: resp.data
@@ -125,46 +125,14 @@ export const fetchUnitInfo = (unitCode) => {
  * Called to populate the unit to add value, it indicates that a unit is being prepped
  * to be added to the course
  */
-export const willAddUnit = (unitCode, customUnitToAdd, isDragging, unit) => {
+export const willAddUnit = unit => {
     return function (dispatch) {
         dispatch({
-            type: "UPDATE_UNIT_IS_BEING_DRAGGED",
-            isDragging
-        });
-        
-        if(!customUnitToAdd) {
-            dispatch({
-                type: "UPDATE_UNIT_TO_ADD",
-                unit
-            });
-
-            dispatch(CourseActions.highlightInvalidUnitSlots(unit, false));
-        
-        } else if(isDragging) {
-            dispatch({
-                type: "UPDATE_UNIT_TO_ADD",
-                customUnitToAdd
-            });
-
-            dispatch(CourseActions.highlightInvalidUnitSlots(customUnitToAdd, false));
-        
-        } else if(customUnitToAdd.readyToAddUnit) {
-            dispatch({
-                type: "UPDATE_UNIT_TO_ADD",
-                customUnitToAdd
-            });
-        }
-        else {
-            dispatch({
-                type: "SHOW_CUSTOM_UNIT_MODAL",
-                unitCode
-            });
-        }
-
-        dispatch({
             type: "ADDING_UNIT",
-            unit: unitCode
+            unit
         });
+
+        dispatch(CourseActions.highlightInvalidUnitSlots(unit, false));
     };
 };
 
