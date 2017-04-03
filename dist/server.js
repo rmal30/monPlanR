@@ -47,7 +47,7 @@ app.use(hpkp({
 app.use(csp({
     directives: {
         scriptSrc: ["'self'","'unsafe-inline'", "www.google-analytics.com", "ssl.google-analytics.com"],
-        imgSrc: ["'self'", "www.google-analytics.com", "ssl.google-analytics.com", "stats.g.doubleclick.net", "youtube.com"]
+        imgSrc: ["'self'", "www.google-analytics.com", "ssl.google-analytics.com", "stats.g.doubleclick.net", "img.youtube.com"]
     },
     reportOnly: false,
     setAllHeaders: false,
