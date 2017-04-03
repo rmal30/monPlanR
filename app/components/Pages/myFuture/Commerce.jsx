@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Container, Grid, Embed, Image,Modal,Icon,Button} from "semantic-ui-react";
+import {Container, Grid, Embed, Modal, Icon, Button} from "semantic-ui-react";
 
 
 /**
@@ -65,14 +65,14 @@ class FutureCourseModal extends Component {
                                                 placeholder='https://img.youtube.com/vi/Ax5DsxlcPKM/0.jpg'
                                                 source='youtube'
                                                 fluid
-                                            />   
+                                            />
                                         </Grid.Column>
-                                    </Grid.Row> 
+                                    </Grid.Row>
                                     <Grid.Row className="viewCourse">
                                         <Grid.Column width={16} style={{textAlign: "right"}}>
                                             <Button className="btnmainblue" style={{textAlign: "right"}}>View how this degree looks like <Icon name="right arrow" /> </Button>
                                         </Grid.Column>
-                                    </Grid.Row> 
+                                    </Grid.Row>
                                 </Grid>
                             </Grid.Column>
                             </Grid.Row>
@@ -80,12 +80,12 @@ class FutureCourseModal extends Component {
                             <Grid.Row>
 
                             </Grid.Row>
-                        </Grid>    
+                        </Grid>
                 </Container>
                 </Modal.Description>
                 </Modal.Content>
             </Modal>
-            
+
         );
     }
 }

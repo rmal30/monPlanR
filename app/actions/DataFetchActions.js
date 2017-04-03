@@ -329,7 +329,7 @@ export const loadCourseSnap = (snapID) => {
  * Uploads the given course structure to the snapshot API and when sucessful, returns
  * the data with the unique ID linking to the snap
  */
-export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, cost, startYear, courseInfo) => {
+export const uploadCourseSnap = (/*teachingPeriods, numberOfUnits, creditPoints, cost, startYear, courseInfo*/) => {
     return function(dispatch) {
         dispatch({
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
@@ -454,7 +454,7 @@ export const fetchCareer = (id) => {
                 dispatch({
                     type: "FETCH_CAREER_REJECTED"
                 });
-               
+
             })
             .catch(()=>{
                 dispatch({
@@ -463,6 +463,3 @@ export const fetchCareer = (id) => {
             });
     };
 };
-
-
-
