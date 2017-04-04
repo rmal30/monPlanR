@@ -118,7 +118,7 @@ class FilterButtonContainer extends Component {
                     return (
                         <AccordionItem title={<Button
                             disabled={this.props.unitSearchIsLoading}
-                            content={this.state.showFilter ? "Hide Filters" : "Show Filters"}
+                            content={this.state.showFilter ? "Hide filters" : "Show filters"}
                             icon={this.state.showFilter ? "minus" : "plus"}
                             labelPosition="left"
                             color="orange"
@@ -149,8 +149,6 @@ class FilterButtonContainer extends Component {
                     );
                 })}
             </Accordion>
-
-
       </div>
         );
     }

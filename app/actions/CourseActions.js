@@ -534,6 +534,7 @@ export const clearHighlightingInvalidUnitSlots = () => {
 export const useDataFromCache = (cacheEntry) => {
     return {
         type: "USE_DATA_FROM_CACHE",
-        cacheData: cacheEntry
+        cacheData: cacheEntry 
     };
 };
+

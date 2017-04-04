@@ -179,6 +179,25 @@ const CourseStructure = (state = defaultState, action) => {
                     numberOfUnits: state.numberOfUnits - 1
                 };
             }
+        
+        case "PREP_FOR_DELETION":
+            return {
+                ...state,
+                teachingPeriods: state.teachingPeriods.map((tp, tpIndex) => {
+                    return {
+                        ...tp,
+                        units: tp.units.map((unit, unitIndex) => {
+                            for(let i=0; i < action.unitCoords.length; i++) {
+                                if(action.unitCoords[i][0] === tpIndex && action.unitCoords[i][1] === unitIndex) {
+                                    return null; //dont render this unit
+                                }
+                                return unit;
+                            }
+                            return unit;
+                        }).slice(0, (state.numberOfUnits - 1))
+                    };
+                })
+            };
 
         case "PREP_FOR_DELETION":
             return {

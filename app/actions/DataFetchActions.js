@@ -106,7 +106,7 @@ export const fetchUnitInfo = (unitCode) => {
                 });
 
                 dispatch({
-                    type: "ADD_ITEM_TO_CACHE",
+                    type: "ADD_ITEM_TO_CACHE", 
                     timeOfLastAccess: new Date(),
                     unitCode: unitCode,
                     unitInfo: resp.data
