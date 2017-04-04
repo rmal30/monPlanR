@@ -256,3 +256,30 @@ html, body {
 .rc-slider-dot-active {
     border-color: #006cab !important;
 }
+
+.palette-tab{
+    position: fixed !important;
+    top: 265px;
+    width: 0px !important;
+    right: 0;
+    height: 50px;
+    margin-right: 0px !important;
+    z-index: 10;
+    transition: all 0.5s !important;
+}
+
+
+.palette-tab-open{
+    right: 300px;
+    transition: all 0.5s !important;
+}
+
+.button.palette-tab:hover{
+    width: 150px !important;
+}
+
+
+.palette-tab.ui.fluid[class*="left labeled"].icon.button, .ui.fluid[class*="right labeled"].icon.button {
+    padding-left: 3.5em !important;
+    padding-right: 1.5em !important;
+}

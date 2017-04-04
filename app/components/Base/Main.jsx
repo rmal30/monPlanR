@@ -16,6 +16,8 @@ import Footer from "./Footer.jsx";
 
 //Local container imports
 import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
+import UnitPaletteContainer from "../../containers/Unit/UnitPaletteContainer.jsx";
+import PaletteButtonContainer from "../../containers/Buttons/PaletteButtonContainer.jsx";
 
 // Redux actions import
 import * as courseActions from "../../actions/CourseActions";
@@ -31,7 +33,8 @@ const mapStateToProps = (state) => {
     return {
         courseStructure: state.CourseStructure,
         counter: state.Counter,
-        showingSidebar: state.UI.showingSidebar
+        showingSidebar: state.UI.showingSidebar,
+        showingPalette: state.UI.showingPalette
     };
 };
 

@@ -127,7 +127,17 @@ export const hideSidebar = () => {
 };
 
 /**
- * Sets the course to read only, for snapshot viewing purposes this means the user can safely 
+ * Toggles the palette sidebar
+ */
+export const togglePalette = () => {
+    return {
+        type: "TOGGLE_PALETTE"
+    };
+};
+
+
+/**
+ * Sets the course to read only, for snapshot viewing purposes this means the user can safely
  * view but not edit a course map
  */
 export const setCourseReadOnly = () => {

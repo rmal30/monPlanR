@@ -7,7 +7,8 @@ const defaultState = {
     showingConfirmDeleteTeachingPeriodModal: false,
     showingCustomUnitModal: false,
     showingConfirmDecreaseStudyLoadModal: false,
-    showingSidebar: false
+    showingSidebar: false,
+    showingPalette: false
 };
 
 /**
@@ -120,6 +121,12 @@ const UI = (state = defaultState, action) => {
             return {
                 ...state,
                 showingSidebar: false
+            };
+
+        case "TOGGLE_PALETTE":
+            return {
+                ...state,
+                showingPalette: !state.showingPalette
             };
 
         default:

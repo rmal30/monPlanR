@@ -118,10 +118,10 @@ class FilterButtonContainer extends Component {
                     return (
                         <AccordionItem title={<Button
                             disabled={this.props.unitSearchIsLoading}
-                            content={this.state.showFilter ? "Hide Filters" : "Show Filters"}
+                            content={this.state.showFilter ? "Hide filters" : "Show filters"}
                             icon={this.state.showFilter ? "minus" : "plus"}
                             labelPosition="left"
-                            fluid className='icon filter-margin btnmainblue filter-button'/>} slug={item} key={item}>
+                            fluid className='no-print icon filter-margin btnmainblue filter-button'/>} slug={item} key={item}>
                             <div>
                               <div>
                                 <div>
@@ -148,8 +148,6 @@ class FilterButtonContainer extends Component {
                     );
                 })}
             </Accordion>
-
-
       </div>
         );
     }
