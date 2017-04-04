@@ -448,6 +448,8 @@ export const fetchCareer = (id) => {
                             type: "FETCH_CAREER_FULFILLED",
                             payload: currentCareer //The course id that was uploaded
                         });
+
+                        fetchRelatedDegrees(currentCareer.relatedDegrees);
                         return true;
                     }
                 }
@@ -461,6 +463,42 @@ export const fetchCareer = (id) => {
                     type: "FETCH_CAREER_REJECTED"
                 });
             });
+    };
+};
+
+export const fetchRelatedDegrees = (degreeCodeArr) => {
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_RELATED_DEGREES_PENDING"
+        });
+
+        axios.get("/data/degrees.json")
+            .then(resp => {
+                let relatedDegrees = resp.data.courses.filter((currentCourse) => {
+                    for(var i=0; i < degreeCodeArr.length; i++){
+                        let degreeCode = degreeCodeArr[i].split("-")[0];
+                        if(degreeCode === currentCourse.code) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
+
+                dispatch({
+                    type: "FETCH_RELATED_DEGREES_FULFILLED",
+                    payload: relatedDegrees
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: "FETCH_RELATED_DEGREES_REJECTED"
+                });
+            });
+
+        
+
+
     };
 };
 
