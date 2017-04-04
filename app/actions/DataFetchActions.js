@@ -448,8 +448,9 @@ export const fetchCareer = (id) => {
                             type: "FETCH_CAREER_FULFILLED",
                             payload: currentCareer //The course id that was uploaded
                         });
-
-                        fetchRelatedDegrees(currentCareer.relatedDegrees);
+                        
+                        dispatch(fetchRelatedDegrees(currentCareer.relatedDegrees));
+                        
                         return true;
                     }
                 }
