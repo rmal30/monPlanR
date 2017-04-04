@@ -11,15 +11,7 @@ import UnitDetailModal from "./UnitDetailModal.jsx";
 const unitSource = {
     beginDrag(props) {
         if(props.newUnit) {
-            props.willAddUnit(
-                props.code,
-                props.custom && {
-                    unitCode: props.code,
-                    customUnitDragging: true
-                },
-                true,
-                props.unitToAdd
-            );
+            props.willAddUnit(props.unitToAdd);
         } else {
             props.movingUnit(props.unit, props.index, props.teachingPeriodIndex);
         }
@@ -78,13 +70,7 @@ export function UnitMessage(props) {
                                 className={"unit "  + (props.draggable ? "draggable" : "")}
                                 color="blue"
 
-                                onClick={() => props.newUnit && props.willAddUnit &&
-                                    props.willAddUnit(props.code,
-                                        props.custom && {
-                                            UnitCode: props.code,
-                                            customUnitDragging: false
-                                        }
-                                )}
+                                onClick={() => props.newUnit && props.willAddUnit(props.unitToAdd)}
                                 onMouseOver={e => props.handleUnitMouseOver && props.handleUnitMouseOver(e)}
                                 onMouseMove={e => props.handleUnitMouseMove && props.handleUnitMouseMove(e)}
                                 onMouseOut={e => props.handleUnitMouseOut && props.handleUnitMouseOut(e)}
@@ -147,7 +133,6 @@ UnitMessage.propTypes = {
     handleUnitMouseMove: PropTypes.func,
     handleUnitMouseOut: PropTypes.func,
     fetchUnitInfo: PropTypes.func,
-    
     errors: PropTypes.array,
     index: PropTypes.number,
     teachingPeriodIndex: PropTypes.number,

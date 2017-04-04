@@ -81,9 +81,9 @@ class Main extends Component {
     render() {
         return (
             <div className="main-container">
-                <Header
+                {!this.props.children.props.route.noNav && <Header
                     showAddUnit={this.props.children.props.route.showAddUnit}
-                    showStatus={this.props.children.props.route.showStatus} />
+                    showStatus={this.props.children.props.route.showStatus} />}
                 <Sidebar.Pushable>
                     {this.props.children.props.route.showAddUnit &&
                     <Sidebar as={Menu} animation="overlay" style={{width: 300}} direction="left" visible={this.props.showingSidebar} vertical>
@@ -92,7 +92,12 @@ class Main extends Component {
                     }
                     <Sidebar.Pusher
                         id="main-body"
-                        style={{backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"}}
+                        style={{
+                            backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"
+                        }}
+                        className={
+                            this.props.children.props.route.myFuture ? "study" : null
+                        }
                         onClick={this.props.hideSidebar}>
                         <ReactCSSTransitionGroup
                               transitionName="appear"

@@ -156,27 +156,6 @@ describe("ACTION-CREATOR: CourseActions", () => {
             store.dispatch(actions.addUnit(1, 1, mockUnit));
             expect(store.getActions()).toEqual(expectedActions);
         });
-
-        it("Should correctly create the actions required for the addition of a unit that is a custom unit being dragged", () => {
-
-            const mockUnit = {
-                customUnitDragging: true,
-                cost: 200,
-                creditPoints: 6,
-                unitCode: "TEST1001"
-            };
-
-            const expectedActions = [{
-                type: "SHOW_CUSTOM_UNIT_MODAL",
-                unitCode: "TEST1001",
-                tpIndex: 1,
-                unitIndex: 1
-            }];
-
-            const store = mockStore({});
-            store.dispatch(actions.addUnit(1, 1, mockUnit));
-            expect(store.getActions()).toEqual(expectedActions);
-        });
     });
 
     describe("AC: removeUnit", () => {
@@ -339,7 +318,6 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 {units: [null, null, {unitCode: "TEST10D", unitName: "unitD"}, null, null]},
 
             ];
-            
             const expectedActions = [
                 {type: "PREP_FOR_DELETION", unitCoords: []},
                 {type: "DECREASE_STUDY_LOAD", units: []},

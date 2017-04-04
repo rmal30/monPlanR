@@ -100,9 +100,7 @@ const UI = (state = defaultState, action) => {
             return {
                 ...state,
                 showingCustomUnitModal: true,
-                customUnitCode: action.unitCode,
-                customTpIndex: action.tpIndex,
-                customUnitIndex: action.unitIndex
+                customUnitCode: action.unitCode
             };
 
         case "HIDE_CUSTOM_UNIT_MODAL":

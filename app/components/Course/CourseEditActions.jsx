@@ -19,7 +19,7 @@ const CourseEditActions = (props) => {
     /**
      * Generates a the button for triggering the completed course modal
      */
-    const CompletedCourseModalTrigger = (mobile) => {return (<Button primary className="btnlightblue" fluid={mobile}>Finished planning for now?</Button>);};
+    const CompletedCourseModalTrigger = (mobile) => {return (<Button secondary fluid={mobile}>Finished planning for now?</Button>);};
 
     return (
         <MediaQuery maxDeviceWidth={767}>
@@ -36,7 +36,6 @@ const CourseEditActions = (props) => {
                             <Button
                                 disabled={props.teachingPeriods.length === 0}
                                 fluid={mobile}
-                                className="btncancel"
                                 color="red">
                                 Clear plan
                             </Button>

@@ -1,0 +1,3 @@
+.ui.text.container {
+    max-width: none !important;
+}

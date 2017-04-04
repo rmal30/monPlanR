@@ -105,7 +105,7 @@ class UnitSearchContainer extends Component {
         }
 
         const searchResult = this.state.searchResults[this.state.searchResultIndex];
-        this.props.willAddUnit(searchResult.unitCode, searchResult.custom, false);
+        this.props.willAddUnit(searchResult);
     }
 
     /**
@@ -151,24 +151,8 @@ class UnitSearchContainer extends Component {
             let reducedResults = [];
 
             const results = FuzzySearch.search(value, this.props.basicUnits, 8, ["unitCode", "unitName"], 100, this.props.filters);
-            const reUnitCode = /^[a-zA-Z]{3}[0-9]{4}$/;
-            if(results.filter(result => result.unitCode === value.trim().toUpperCase()).length === 0 && reUnitCode.test(value.trim())) {
-                // Show custom draggable unit
-                draggableCustomUnitExists = true;
 
-                const customUnit = {
-                    item: {
-                        unitCode: value.trim().toUpperCase(),
-                        unitName: "Create custom unit",
-                        custom: true
-                    }
-                };
-
-                reducedResults = [customUnit, ...results];
-            } else {
-                reducedResults = results;
-            }
-            reducedResults = reducedResults.map((item) =>
+            reducedResults = results.map((item) =>
                 ({
                     childKey: `${item.unitCode}`,
                     unitName: item.unitName,
@@ -238,7 +222,7 @@ class UnitSearchContainer extends Component {
                             onChange={this.handleSearchChange}
                             onKeyDown={this.onKeyDown}
                             disabled={this.props.unitSearchIsLoading}
-                            placeholder={this.props.unitSearchIsLoading ? "Loading, Fetching Units...": "Search to add unit"} />
+                            placeholder={this.props.unitSearchIsLoading ? "Loading units...": "Search to add unit"} />
                         <i className="search icon" />
                     </div>
 

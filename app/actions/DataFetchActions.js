@@ -125,46 +125,14 @@ export const fetchUnitInfo = (unitCode) => {
  * Called to populate the unit to add value, it indicates that a unit is being prepped
  * to be added to the course
  */
-export const willAddUnit = (unitCode, customUnitToAdd, isDragging, unit) => {
+export const willAddUnit = unit => {
     return function (dispatch) {
         dispatch({
-            type: "UPDATE_UNIT_IS_BEING_DRAGGED",
-            isDragging
-        });
-        
-        if(!customUnitToAdd) {
-            dispatch({
-                type: "UPDATE_UNIT_TO_ADD",
-                unit
-            });
-
-            dispatch(CourseActions.highlightInvalidUnitSlots(unit, false));
-        
-        } else if(isDragging) {
-            dispatch({
-                type: "UPDATE_UNIT_TO_ADD",
-                customUnitToAdd
-            });
-
-            dispatch(CourseActions.highlightInvalidUnitSlots(customUnitToAdd, false));
-        
-        } else if(customUnitToAdd.readyToAddUnit) {
-            dispatch({
-                type: "UPDATE_UNIT_TO_ADD",
-                customUnitToAdd
-            });
-        }
-        else {
-            dispatch({
-                type: "SHOW_CUSTOM_UNIT_MODAL",
-                unitCode
-            });
-        }
-
-        dispatch({
             type: "ADDING_UNIT",
-            unit: unitCode
+            unit
         });
+
+        dispatch(CourseActions.highlightInvalidUnitSlots(unit, false));
     };
 };
 
@@ -306,7 +274,7 @@ export const loadCourseSnap = (snapID) => {
             type: "FETCH_COURSE_SNAPSHOT_PENDING"
         });
 
-        axios.get(`${MONPLAN_REMOTE_URL}/snaps/${snapID}`)
+        axios.get(`${MONPLAN_REMOTE_URL2}/snaps/${snapID}`)
             .then(resp => {
                 const { teachingPeriods, numberOfUnits, totalCreditPoints, totalEstimatedCost, startYear, courseInfo} = resp.data.snapshotData;
 
@@ -367,16 +335,33 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
         });
 
-        const snapURL = `${MONPLAN_REMOTE_URL}/snaps/`;
+        const snapURL = `${MONPLAN_REMOTE_URL2}/snaps`;
         const params = {
-            "course": {
+            "Course": /* {
                 teachingPeriods,
                 numberOfUnits,
                 totalCreditPoints: creditPoints,
                 totalEstimatedCost: cost,
                 startYear: startYear || new Date().getFullYear(),
-                courseInfo
-            }
+                courseInfo,
+                version: MONPLAN_VERSION
+            } */
+            {
+                teachingPeriods: [],
+                numberOfUnits: 4,
+                totalCreditPoints: 0,
+                totalEstimatedCost: 0,
+                startYear: 2017,
+                courseInfo:{
+                    courseName: "",
+                    faculty: "",
+                    creditPoints: 0,
+                    courseDescription: "",
+                    durationStr: "",
+                    modeAndLocation: "",
+                    awards: "",
+                    abrTitle: ""},
+                version: "0.4.0-prerelease2"}
         };
 
         axios.post(snapURL, params)
@@ -423,3 +408,61 @@ export const fetchDates = () => {
     };
 
 };
+
+/**
+ * Fetch jobs for students
+ */
+export const fetchCareers = () => {
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_CAREERS_PENDING"
+        });
+
+        axios.get("/data/careers.json")
+            .then(resp => {
+                dispatch({
+                    type: "FETCH_CAREERS_FULFILLED",
+                    payload: resp.data.careers //The course id that was uploaded
+                });
+            })
+            .catch(()=>{
+                dispatch({
+                    type: "FETCH_CAREERS_REJECTED"
+                });
+            });
+    };
+};
+
+export const fetchCareer = (id) => {
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_CAREER_PENDING"
+        });
+
+        axios.get("/data/careers.json")
+            .then(resp => {
+                for(var i=0; i < resp.data.careers.length; i++) {
+                    let currentCareer = resp.data.careers[i];
+                    if(currentCareer.id === id){
+                        dispatch({
+                            type: "FETCH_CAREER_FULFILLED",
+                            payload: currentCareer //The course id that was uploaded
+                        });
+                        return true;
+                    }
+                }
+                dispatch({
+                    type: "FETCH_CAREER_REJECTED"
+                });
+               
+            })
+            .catch(()=>{
+                dispatch({
+                    type: "FETCH_CAREER_REJECTED"
+                });
+            });
+    };
+};
+
+
+

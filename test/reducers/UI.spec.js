@@ -395,31 +395,6 @@ describe("REDUCER: UI", () => {
 
             test(UI, stateBefore, action, stateAfter);
         });
-
-        it("Should set unit code and position if it exists on top of setting show flag for custom unit modal to be true", () => {
-            const stateBefore = {
-                showingCustomUnitModal: false,
-                customUnitCode: undefined,
-                customTpIndex: undefined,
-                customUnitIndex: undefined
-            };
-
-            const action = {
-                type: "SHOW_CUSTOM_UNIT_MODAL",
-                unitCode: "ABC1234",
-                tpIndex: 0,
-                unitIndex: 2
-            };
-
-            const stateAfter = {
-                showingCustomUnitModal: true,
-                customUnitCode: "ABC1234",
-                customTpIndex: 0,
-                customUnitIndex: 2
-            };
-
-            test(UI, stateBefore, action, stateAfter);
-        });
     });
 
     describe("ACTION: HIDE_CUSTOM_UNIT_MODAL", () => {

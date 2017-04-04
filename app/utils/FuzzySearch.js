@@ -69,9 +69,9 @@ export default class FuzzySearch {
      * @param {array} arrayToFilter - an array of units
      * @param (array) teachingPeriodFilterSettings - an array of teaching periods
      */
-    static teachingPeriodFilter(arrayToFilter, teachingPeriodFilterSettings){
+    static teachingPeriodFilter(arrayToFilter, teachingPeriodFilterSettings) {
         if (teachingPeriodFilterSettings.length === 0){
-            return  arrayToFilter;
+            return arrayToFilter;
         }
         return arrayToFilter.reduce((filteredByTeachingPeriodArray, unit) => {
             //if unit is not offered in this year, it has to be removed otherwise locationAndTime is undefined.

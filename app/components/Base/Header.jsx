@@ -9,7 +9,7 @@ import ImportantDates from "../../containers/ImportantDates.jsx";
 import Disclaimer from "../modals/disclaimer.jsx";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
-import LoginButton from "../Buttons/LoginButton.jsx";
+
 /**
  * The header for the web app, which displays the logo, name, status and information menu.
  */
@@ -46,7 +46,7 @@ class Header extends Component {
                     <Menu.Item>
                         <Button
                             icon
-                            className={this.props.showingSidebar ? "btnlightcancel": "btnlightblue"}
+                            color={this.props.showingSidebar ? "grey" : "blue"}
                             onClick={e => {
                                 e.stopPropagation() /* otherwise add unit button will never work*/;
                                 this.props.showingSidebar ? this.props.hideSidebar() : this.props.showSidebar();

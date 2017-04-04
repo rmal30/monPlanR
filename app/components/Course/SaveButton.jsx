@@ -25,7 +25,7 @@ export default function SaveButton({ isUploading, uploadingError, uploadCourseTo
                 (
                     <Button
                         fluid={mobile}
-                        color={uploadingError ? "red" : "teal"}
+                        color={uploadingError ? "red" : "orange"}
                         disabled={isUploading}
                         onClick={!uploaded && uploadCourseToDatabase || undefined}
                         loading={isUploading}

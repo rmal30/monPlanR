@@ -17,7 +17,7 @@ const missingPage = () => (
             <p>This page is missing or does not exist</p>
             <p><i>Error Code: 404</i></p>
             <Link to="/">
-                <Button className="btnmainblue">
+                <Button color="orange">
                     <Icon name="home" />
                     Click Here to Go to the Home Page
                 </Button>

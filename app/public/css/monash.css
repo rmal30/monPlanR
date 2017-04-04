@@ -324,6 +324,7 @@
 }
 
 /* Buttons */
+/*
 .btnmainblue {
     background-color: #006cab !important;
     color: white !important;
@@ -453,7 +454,7 @@
     background-color: #54798b !important;
     color: #ffffff !important;
     border-radius: 0px !important
-}
+}*/
 
 .ui.buttons .or:before {
     background-color: rgb(0, 60, 91)!important;

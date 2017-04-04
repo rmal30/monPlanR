@@ -158,10 +158,6 @@ html, body {
     display: block;
 }
 
-.ui.yellow.button, .ui.yellow.button:hover {
-    color: black;
-}
-
 .sidebar .active.item {
     background: #E0E0E0 !important;
 }
@@ -282,4 +278,35 @@ html, body {
 .palette-tab.ui.fluid[class*="left labeled"].icon.button, .ui.fluid[class*="right labeled"].icon.button {
     padding-left: 3.5em !important;
     padding-right: 1.5em !important;
+}
+* { box-sizing:border-box; }
+.container 		{ 
+  font-family: 'Lato', "Open Sans";
+}
+
+.study {
+    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../public/img/Monash.jpg") !important;
+    background-size: contain, cover !important;
+	background-position: left, center !important;
+}
+
+.study-header{
+    font-family: "Lato"!important;
+    font-size: 4rem;
+    margin-left: 5px;
+    margin-top: 0px;
+
+}
+
+.react-typeout{
+    color: #fdb515
+}
+
+.modalLogo{
+    padding-top: 1rem
+}
+
+.viewCourse {
+    bottom: 0;
+    position: absolute
 }
