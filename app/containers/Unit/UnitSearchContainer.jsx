@@ -8,7 +8,6 @@ import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../actions/DataFetchActions";
 import CostCalc from "../../utils/CostCalc";
 import FilterButtonContainer from "../Buttons/FilterButtonContainer.jsx";
-import PaletteButtonContainer from "../Buttons/PaletteButtonContainer.jsx";
 
 /**
  * This component searches through the available units for selection
@@ -242,7 +241,7 @@ class UnitSearchContainer extends Component {
                             placeholder={this.props.unitSearchIsLoading ? "Loading, Fetching Units...": "Search to add unit"} />
                         <i className="search icon" />
                     </div>
-                    
+
                     <FilterButtonContainer onFilterChange={this.handleFilterChange}/>
                         {this.state.showAddCustomUnitButton &&
                             <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue add-unit-btn">Add custom unit</Button>
