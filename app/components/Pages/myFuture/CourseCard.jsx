@@ -49,5 +49,5 @@ CourseCard.propTypes = {
     duration: PropTypes.string,
     faculty: PropTypes.string,
     campus: PropTypes.string,
-    major: PropTypes.major
+    major: PropTypes.string
 };

@@ -20,7 +20,7 @@ class CareerSelect extends Component {
         super(props);
 
         this.state = {
-            selectedCourseID: "0"
+            selectedCourseID: "1"
         };
 
         this.handleCareerSelect = this.handleCareerSelect.bind(this);
