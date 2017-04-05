@@ -32,12 +32,12 @@ class CareerDetailContainer extends Component {
                                 }
                             </Grid.Row>
 
-                            <Grid.Row>
-                                <h2>Degrees you can look at are:</h2>
+                            <Grid.Row className="recommendedCoursesRow">
+                                <h2>Recommended Courses</h2>
                             </Grid.Row>
 
                             <Grid.Row>
-                                <Grid.Column width={16}>
+                                <Grid.Column className="recommendedCoursesCardRow" width={16}>
                                     <Card.Group itemsPerRow={4}>
                                         <Card>
                                             <Card.Content header='Bachelor of Commerce'/>
