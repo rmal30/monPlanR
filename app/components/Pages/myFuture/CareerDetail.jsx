@@ -2,8 +2,7 @@ import React, { PropTypes } from "react";
 import { Grid, Embed} from "semantic-ui-react";
 
 const CareerDetail = (props) => {
-    const { title, description, videoLink } = props;
-
+    const { title, description, videoCode, videoThumbnail } = props;
     return (
         <Grid>
             <Grid.Row>
@@ -22,8 +21,8 @@ const CareerDetail = (props) => {
                     <Grid.Row>
                         <Grid.Column width={16}>
                             <Embed
-                                id={videoLink}
-                                placeholder={videoLink}
+                                id={videoCode}
+                                placeholder={videoThumbnail}
                                 source='youtube'
                             />
                         </Grid.Column>
@@ -40,5 +39,6 @@ export default CareerDetail;
 CareerDetail.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
-    videoLink: PropTypes.string
+    videoCode: PropTypes.string,
+    videoThumbnail: PropTypes.string
 };

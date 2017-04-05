@@ -26,7 +26,8 @@ class CareerDetailContainer extends Component {
                                     <CareerDetail 
                                         title={this.props.career.title}
                                         description={this.props.career.description}
-                                        videoLink={`https://img.youtube.com/vi/${this.props.career.videoCode}/0.jpg`}
+                                        videoCode={this.props.career.videoCode}
+                                        videoThumbnail={`https://img.youtube.com/vi/${this.props.career.videoCode}/0.jpg`}
                                     />
                                 }
                             </Grid.Row>
