@@ -280,7 +280,7 @@ html, body {
     padding-right: 1.5em !important;
 }
 * { box-sizing:border-box; }
-.container 		{ 
+.container 		{
   font-family: 'Lato', "Open Sans";
 }
 
@@ -309,4 +309,24 @@ html, body {
 .viewCourse {
     bottom: 0;
     position: absolute
+}
+
+.myFutureHeader {
+    padding: 0 5px !important;
+}
+
+.myFutureHeader h1 {
+    font-size: 64px;
+}
+
+.myFutureDescRow {
+    background-color: rgba(1,1,1,0.3)!important;
+    border-radius: 5px !important;
+    padding: 20px 0 !important;
+    margin-top: 40px !important;
+}
+
+.myFutureDescCol {
+    padding: 0 20px;
+    font-size: 18px;
 }
