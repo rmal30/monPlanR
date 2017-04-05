@@ -85,7 +85,10 @@ const mapStateToProps = (state) => {
     return {
         career: state.Career.career,
         isLoading: state.Career.careerIsLoading,     
-        loadError: state.Career.careerLoadError
+        loadError: state.Career.careerLoadError,
+        relatedDegrees: state.Career.relatedDegrees,
+        relatedDegreesAreLoading: state.Career.relatedDegreesAreLoading,
+        relatedDegreesError: state.Career.relatedDegreesError
     };
 };
 
