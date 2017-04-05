@@ -103,6 +103,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Future);
 
 Future.propTypes = {
     careers: PropTypes.array,
-    fetchCareers: PropTypes.func
-
+    fetchCareers: PropTypes.func,
+    isLoading: PropTypes.bool
 };

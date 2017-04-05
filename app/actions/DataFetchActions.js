@@ -337,7 +337,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
 
         const snapURL = `${MONPLAN_REMOTE_URL2}/snaps`;
         const params = {
-            "Course": /* {
+            "Course": {
                 teachingPeriods,
                 numberOfUnits,
                 totalCreditPoints: creditPoints,
@@ -345,23 +345,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
                 startYear: startYear || new Date().getFullYear(),
                 courseInfo,
                 version: MONPLAN_VERSION
-            } */
-            {
-                teachingPeriods: [],
-                numberOfUnits: 4,
-                totalCreditPoints: 0,
-                totalEstimatedCost: 0,
-                startYear: 2017,
-                courseInfo:{
-                    courseName: "",
-                    faculty: "",
-                    creditPoints: 0,
-                    courseDescription: "",
-                    durationStr: "",
-                    modeAndLocation: "",
-                    awards: "",
-                    abrTitle: ""},
-                version: "0.4.0-prerelease2"}
+            }
         };
 
         axios.post(snapURL, params)

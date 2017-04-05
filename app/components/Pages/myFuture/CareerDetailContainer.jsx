@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../../actions/DataFetchActions";
 import {Container, Grid, Card, Icon } from "semantic-ui-react";
-import Commerce from "./Commerce.jsx";
 import CareerDetail from "./CareerDetail.jsx";
 
 class CareerDetailContainer extends Component {
@@ -86,5 +85,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(CareerDetailContaine
 CareerDetailContainer.propTypes = {
     fetchCareer: PropTypes.func,
     params: PropTypes.object,
-    career: PropTypes.object
+    career: PropTypes.object,
+    isLoading: PropTypes.bool
 };

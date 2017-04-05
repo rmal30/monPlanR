@@ -35,3 +35,10 @@ const CareerDetail = (props) => {
 };
 
 export default CareerDetail;
+
+
+CareerDetail.propTypes = {
+    title: PropTypes.string,
+    description: PropTypes.string,
+    videoLink: PropTypes.string
+};
