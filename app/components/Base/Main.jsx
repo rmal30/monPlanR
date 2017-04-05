@@ -16,8 +16,6 @@ import Footer from "./Footer.jsx";
 
 //Local container imports
 import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
-import UnitPaletteContainer from "../../containers/Unit/UnitPaletteContainer.jsx";
-import PaletteButtonContainer from "../../containers/Buttons/PaletteButtonContainer.jsx";
 
 // Redux actions import
 import * as courseActions from "../../actions/CourseActions";
@@ -96,7 +94,8 @@ class Main extends Component {
                             backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"
                         }}
                         className={
-                            this.props.children.props.route.myFuture ? "study" : null
+                            this.props.children.props.route.myFuture ? "study" : null,
+                            this.props.children.props.route.careerView ? "viewCareer" : null
                         }
                         onClick={this.props.hideSidebar}>
                         <ReactCSSTransitionGroup
