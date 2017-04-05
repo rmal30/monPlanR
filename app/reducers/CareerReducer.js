@@ -32,7 +32,7 @@ const Career = (state = defaultState, action) => {
         case "FETCH_CAREER_REJECTED":
             return {
                 ...state,
-                career: [],
+                career: {},
                 careerIsLoading: false,
                 careerLoadError: true
             };
