@@ -335,3 +335,11 @@ html, body {
     background: #397469 !important;
 }
 
+.recommendedCoursesRow{
+    margin-top: 20px !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.recommendedCoursesCardRow{
+    padding: 0px !important;
+}
