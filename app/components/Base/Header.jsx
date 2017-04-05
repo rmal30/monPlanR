@@ -81,9 +81,6 @@ class Header extends Component {
                             </Popup.Content>
                         </Popup>
                     }
-                    <Menu.Item>
-                        <LoginButton />
-                    </Menu.Item>
                     <ImportantDates />
                     <Menu.Item as="a" href="https://docs.google.com/a/monash.edu/forms/d/e/1FAIpQLSf5Y65r7_9bAZbRysI2JYYcRAKNFgVck9XIIt67TfNwx26FqQ/viewform" target="_blank">
                         <Icon name="comment outline" />
