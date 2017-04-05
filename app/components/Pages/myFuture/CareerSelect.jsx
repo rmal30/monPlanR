@@ -43,27 +43,21 @@ class CareerSelect extends Component {
         
 
         return (
-            <div style={{color: "white", padding: "1em 0"}}>
+            <div style={{color: "white", padding: "1em 0", backgroundImage: "url('http://www.weareathlon.com/public/uploads/news/16/1420x440-hero_trends.jpg')", backgroundRepeat: "cover"}}>
                 <Container className="ui main text">
                     <div id="welcome" className="ui container" style={{textAlign:"left"}}>
                         <img style={{width: "40%", marginBottom: "16rem"}} src="/img/monash.png" alt="logo" />
                         <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>      
                         {this.props.isLoading ? <p>Loading...</p> :
                             <Dropdown 
-                                placeholder="Select Career Choice" 
-                                fluid 
+                                placeholder="Select Career Choice"  
                                 search 
                                 selection 
                                 onChange={this.handleCareerSelect}
-                                options={this.props.careers.map((career) => {
-                                    return {
-                                        key: career.id,
-                                        value: career.id,
-                                        text: career.title
-                                    };
-                                })}
+                                compact
+                                style={{display: "inline", minWidth: "500px",maxWidth: "500px", width: "500px"}}
                             />
-                        }   
+                        }
                         <br />
                         <Button onClick={() => {browserHistory.push(`/future/career/${this.state.selectedCourseID ? this.state.selectedCourseID : "0"}`);}} className="btnmainblue" style={{right: "0"}}>View how this career looks like <Icon name="right arrow" /></Button>
                     </div>
