@@ -337,7 +337,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
 
         const snapURL = `${MONPLAN_REMOTE_URL2}/snaps`;
         const params = {
-            "Course": /* {
+            "Course": {
                 teachingPeriods,
                 numberOfUnits,
                 totalCreditPoints: creditPoints,
@@ -345,23 +345,7 @@ export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, c
                 startYear: startYear || new Date().getFullYear(),
                 courseInfo,
                 version: MONPLAN_VERSION
-            } */
-            {
-                teachingPeriods: [],
-                numberOfUnits: 4,
-                totalCreditPoints: 0,
-                totalEstimatedCost: 0,
-                startYear: 2017,
-                courseInfo:{
-                    courseName: "",
-                    faculty: "",
-                    creditPoints: 0,
-                    courseDescription: "",
-                    durationStr: "",
-                    modeAndLocation: "",
-                    awards: "",
-                    abrTitle: ""},
-                version: "0.4.0-prerelease2"}
+            }
         };
 
         axios.post(snapURL, params)
@@ -448,6 +432,9 @@ export const fetchCareer = (id) => {
                             type: "FETCH_CAREER_FULFILLED",
                             payload: currentCareer //The course id that was uploaded
                         });
+                        
+                        dispatch(fetchRelatedDegrees(currentCareer.relatedDegrees));
+                        
                         return true;
                     }
                 }
@@ -461,6 +448,42 @@ export const fetchCareer = (id) => {
                     type: "FETCH_CAREER_REJECTED"
                 });
             });
+    };
+};
+
+export const fetchRelatedDegrees = (degreeCodeArr) => {
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_RELATED_DEGREES_PENDING"
+        });
+
+        axios.get("/data/degrees.json")
+            .then(resp => {
+                let relatedDegrees = resp.data.courses.filter((currentCourse) => {
+                    for(var i=0; i < degreeCodeArr.length; i++){
+                        let degreeCode = degreeCodeArr[i].split("-")[0];
+                        if(degreeCode === currentCourse.code) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
+
+                dispatch({
+                    type: "FETCH_RELATED_DEGREES_FULFILLED",
+                    payload: relatedDegrees
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: "FETCH_RELATED_DEGREES_REJECTED"
+                });
+            });
+
+        
+
+
     };
 };
 

@@ -1,7 +1,10 @@
 const defaultState = {
     career: {},
     careerIsLoading: false,
-    careerLoadError: false
+    careerLoadError: false,
+    relatedDegrees: [],
+    relatedDegreesAreLoading: false,
+    relatedDegreesError: false
 };
 
 const Career = (state = defaultState, action) => {
@@ -28,6 +31,28 @@ const Career = (state = defaultState, action) => {
                 careerLoadError: true
             };
         
+        case "FETCH_RELATED_DEGREES_PENDING":
+            return {
+                ...state,
+                relatedDegreesAreLoading: true,
+                relatedDegreesError: false
+            };
+        
+        case "FETCH_RELATED_DEGREES_FULFILLED":
+            return {
+                ...state,
+                relatedDegrees: action.payload,
+                relatedDegreesAreLoading: false,
+            };
+
+        case "FETCH_RELATED_DEGREES_REJECTED":
+            return {
+                ...state,
+                relatedDegrees: [],
+                relatedDegreesAreLoading: false,
+                relatedDegreesError: true
+            };
+
         default:
             return state;
     }
