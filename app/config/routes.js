@@ -24,7 +24,7 @@ export default (
         <Route path="future/select" myFuture noFooter noNav component={CareerSelect} />
         <Route path="future/commerce" myFuture noFooter noNav component={Commerce} />
         <Route path="future/career/economist" myFuture noFooter noNav component={CEconomist} />
-        <Route path="future/career/:careerID" myFuture noFooter noNav handler={CareerDetailContainer} component={CareerDetailContainer} />
+        <Route path="future/career/:careerID" noFooter myFuture noNav handler={CareerDetailContainer} component={CareerDetailContainer} />
         <Route path="yearForm" darkBackground component={YearFormContainer} />
         <Route path="plan(/?courseDetails)" noFooter component={Plan} handler={Home} showAddUnit showStatus />
         <Route path="graph" noFooter component={Graph} handler={Home} showAddUnit />
