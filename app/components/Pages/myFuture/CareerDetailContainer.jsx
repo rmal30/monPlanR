@@ -32,20 +32,22 @@ class CareerDetailContainer extends Component {
                                     />
                                 }
                             </Grid.Row>
-
                             <Grid.Row>
                                 <h2>Recommended Courses</h2>
                             </Grid.Row>
 
                             <Grid.Row>
-                                <Grid.Column width={16}>
-                                    <CourseCard 
-                                        title={"bachelor of infotech"} 
-                                        description={"simple descrip"}
-                                        duration={"duration"}
-                                        major={"random major"}
-                                        faculty={"Faculty of Engineering"}
-                                        campus={"random campus"} />
+                                <Grid.Column className="recommendedCoursesCardRow" width={16}>
+                                    <Card.Group itemsPerRow={4}>
+                                        
+                                      <CourseCard 
+                                          title={"bachelor of infotech"} 
+                                          description={"simple descrip"}
+                                          duration={"duration"}
+                                          major={"random major"}
+                                          faculty={"Faculty of Engineering"}
+                                          campus={"random campus"} />
+                                    </Card.Group>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
