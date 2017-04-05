@@ -6,7 +6,7 @@ import { Card, Icon } from "semantic-ui-react";
  * @author Eric Jiang
  */
 const CourseCard = (props) => {
-    const { title, description, duration,major,campus,faculty } = props;
+    const { title, description, duration,major,campus, faculty } = props;
     const facultyMap = {
         "Faculty of Art, Design and Architecture": "ada",
         "Faculty of Arts": "arts",
