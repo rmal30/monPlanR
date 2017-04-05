@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../../actions/DataFetchActions";
-import {Container, Grid, Card, Icon } from "semantic-ui-react";
+import {Container, Grid } from "semantic-ui-react";
 import CareerDetail from "./CareerDetail.jsx";
 import CourseCard from "./CourseCard.jsx";
 
@@ -32,19 +32,21 @@ class CareerDetailContainer extends Component {
                                     />
                                 }
                             </Grid.Row>
-
-                            <Grid.Row className="recommendedCoursesRow">
+                            <Grid.Row>
                                 <h2>Recommended Courses</h2>
                             </Grid.Row>
 
                             <Grid.Row>
                                 <Grid.Column className="recommendedCoursesCardRow" width={16}>
                                     <Card.Group itemsPerRow={4}>
-                                        <CourseCard
-                                            title={"Bachelor of Commerce"}
-                                            description={"Some Awesome Degree"} 
-                                            duration={3}
-                                            campus={"Clayton"} />
+                                        
+                                      <CourseCard 
+                                          title={"bachelor of infotech"} 
+                                          description={"simple descrip"}
+                                          duration={"duration"}
+                                          major={"random major"}
+                                          faculty={"Faculty of Engineering"}
+                                          campus={"random campus"} />
                                     </Card.Group>
                                 </Grid.Column>
                             </Grid.Row>
