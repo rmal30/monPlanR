@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../../actions/DataFetchActions";
 import {Container, Grid, Card, Icon } from "semantic-ui-react";
 import CareerDetail from "./CareerDetail.jsx";
+import CourseCard from "./CourseCard.jsx";
 
 class CareerDetailContainer extends Component {
     constructor(props) {
@@ -18,8 +19,8 @@ class CareerDetailContainer extends Component {
     render() {
         return (
             <div style={{color: "white", padding: "1em 0"}}>
-                <Container className="ui main text">
-                    <div id="welcome" className="ui container" cursor={{blink: true}}>
+                <Container className="ui main text" >
+                    <div id="welcome" className="ui container" cursor={{blink: true, width:"100%" }}>
                         <Grid>
                             <Grid.Row>
                                 {this.props.isLoading ? <p>Loading...</p> :
@@ -39,20 +40,11 @@ class CareerDetailContainer extends Component {
                             <Grid.Row>
                                 <Grid.Column className="recommendedCoursesCardRow" width={16}>
                                     <Card.Group itemsPerRow={4}>
-                                        <Card>
-                                            <Card.Content header='Bachelor of Commerce'/>
-                                            <Card.Content description="Just a degree decription. Just a degree decription. Just a degree decription. Just a degree decription. " />
-                                            <Card.Content extra>
-                                                <Icon name='book' />
-                                                <b>Majoring</b> in Economics <br />
-                                                <Icon name='pin' />
-                                                Clayton Campus <br />
-                                                <Icon name='clock' />
-                                                3 years
-                                                <br/>
-                                                {/*<Commerce /> */}
-                                            </Card.Content>
-                                        </Card>
+                                        <CourseCard
+                                            title={"Bachelor of Commerce"}
+                                            description={"Some Awesome Degree"} 
+                                            duration={3}
+                                            campus={"Clayton"} />
                                     </Card.Group>
                                 </Grid.Column>
                             </Grid.Row>

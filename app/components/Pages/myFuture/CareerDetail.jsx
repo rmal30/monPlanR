@@ -8,8 +8,8 @@ const CareerDetail = (props) => {
     const { title, description /*, videoCode, videoThumbnail*/ } = props;
     return (
         <Grid>
-            <Grid.Row>
-                <Grid.Column className="myFutureHeader" width={16}>
+            <Grid.Row >
+                <Grid.Column className="myFutureHeader" width={16} >
                     <h1>{title}</h1>
                 </Grid.Column>
             </Grid.Row>
