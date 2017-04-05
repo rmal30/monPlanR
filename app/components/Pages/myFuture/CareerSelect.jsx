@@ -55,6 +55,13 @@ class CareerSelect extends Component {
                                 selection 
                                 onChange={this.handleCareerSelect}
                                 compact
+                                 options={this.props.careers.map((career) => {
+                                       return {
+                                         key: career.id,		
+                                          value: career.id,		
+                                          text: career.title		
+                                      };		
+                                  })}
                                 style={{display: "inline", minWidth: "500px",maxWidth: "500px", width: "500px"}}
                             />
                         }
