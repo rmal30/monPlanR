@@ -31,7 +31,6 @@ class Future extends Component {
 
     componentWillMount() {
         this.props.fetchCareers();
-
     }
 
     /**
@@ -68,14 +67,16 @@ class Future extends Component {
                     <div id="welcome" className="ui container" style={{textAlign:"left"}}>
                         <img style={{width: "40%", marginBottom: "16rem"}} src="/img/monash.png" alt="logo" />
                         <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>      
-                        <Dropdown 
-                            placeholder="Select Career Choice" 
-                            fluid 
-                            search 
-                            selection 
-                            options={careerOptions} 
-                            onChange={this.handleCareerSelect}
-                        />
+                        {this.props.isLoading ? <p>Loading...</p> :
+                            <Dropdown 
+                                placeholder="Select Career Choice" 
+                                fluid 
+                                search 
+                                selection 
+                                options={careerOptions} 
+                                onChange={this.handleCareerSelect}
+                            />
+                        }   
                         <br />
                         <Link to={`future/career/${this.state.selectedCourseID}`}><Button className="btnmainblue" style={{right: "0"}}>View how this career looks like <Icon name="right arrow" /></Button></Link>
                     </div>
