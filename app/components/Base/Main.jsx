@@ -94,7 +94,7 @@ class Main extends Component {
                             backgroundColor: this.props.children.props.route.darkBackground ? "#003c5b" : "white"
                         }}
                         className={
-                            this.props.children.props.route.myFuture ? "study" : null,
+                            this.props.children.props.route.myFuture ? "study" : null +
                             this.props.children.props.route.careerView ? "viewCareer" : null
                         }
                         onClick={this.props.hideSidebar}>
