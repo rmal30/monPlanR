@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { DropTarget } from "react-dnd";
 
 
 /**
@@ -14,6 +13,9 @@ import { DropTarget } from "react-dnd";
  * @author Charlie Campton
  */
 class UnitPaletteContainer extends Component {
+    /**
+    *
+    */
     drop(){
         return(
             <div>

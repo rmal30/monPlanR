@@ -9,7 +9,7 @@ class CareerDetailContainer extends Component {
     constructor(props) {
         super(props);
     }
-    
+
 
     componentWillMount() {
         this.props.fetchCareer(this.props.params.careerID);
@@ -23,7 +23,7 @@ class CareerDetailContainer extends Component {
                         <Grid>
                             <Grid.Row>
                                 {this.props.isLoading ? <p>Loading...</p> :
-                                    <CareerDetail 
+                                    <CareerDetail
                                         title={this.props.career.title}
                                         description={this.props.career.description}
                                         videoCode={this.props.career.videoCode}
@@ -56,20 +56,20 @@ class CareerDetailContainer extends Component {
                                     </Card.Group>
                                 </Grid.Column>
                             </Grid.Row>
-                        </Grid>    
-              
+                        </Grid>
+
                     </div>
                 </Container>
             </div>
         );
     }
-    
+
 }
 
 const mapStateToProps = (state) => {
     return {
         career: state.Career.career,
-        isLoading: state.Career.careerIsLoading,     
+        isLoading: state.Career.careerIsLoading,
         loadError: state.Career.careerLoadError,
         relatedDegrees: state.Career.relatedDegrees,
         relatedDegreesAreLoading: state.Career.relatedDegreesAreLoading,

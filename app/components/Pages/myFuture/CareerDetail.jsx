@@ -1,8 +1,11 @@
 import React, { PropTypes } from "react";
-import { Grid, Embed} from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 
+/**
+*
+*/
 const CareerDetail = (props) => {
-    const { title, description, videoCode, videoThumbnail } = props;
+    const { title, description /*, videoCode, videoThumbnail*/ } = props;
     return (
         <Grid>
             <Grid.Row>
