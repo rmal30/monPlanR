@@ -6,7 +6,18 @@
         "videoCode": "_75lY208HIU",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["A2000-0-0"]
+        "relatedDegrees": [
+            {   
+                "code": "A2000",
+                "title": "Bachelor of Arts",
+                "description": "Arts at Monash is your comprehensive gateway to a wide range of fascinating and rewarding areas of study across the arts, humanities, and social sciences. Taking an innovative approach in tackling world issues and fostering a global perspective, you will develop the research skills, advanced discipline knowledge and self reliance to acquire information, assess evidence and convey complex ideas in speech and writing in order to answer complicated questions. And with the scope to choose from almost 40 different major and minor areas of study, including languages, social studies, communications, politics, human rights, and international relations, you will develop an informed, critical awareness of the fields you're most passionate about, laying the groundwork for a wealth of exciting careers.",
+                "videoCode": "",
+                "videoThumbnail": "",
+                "promoPhoto": "",
+                "specialisations": [],
+                "majors": "Journalism"  
+            }
+        ]        
     },
     {
         "id": "2",
@@ -15,7 +26,18 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "http://www.luc.edu/media/sitebackgrounds/cas-history.jpg",
-        "relatedDegrees": ["A2000-0-1"]
+        "relatedDegrees": [
+            {   
+                "code": "A2000",
+                "title": "Bachelor of Arts",
+                "description": "Arts at Monash is your comprehensive gateway to a wide range of fascinating and rewarding areas of study across the arts, humanities, and social sciences. Taking an innovative approach in tackling world issues and fostering a global perspective, you will develop the research skills, advanced discipline knowledge and self reliance to acquire information, assess evidence and convey complex ideas in speech and writing in order to answer complicated questions. And with the scope to choose from almost 40 different major and minor areas of study, including languages, social studies, communications, politics, human rights, and international relations, you will develop an informed, critical awareness of the fields you're most passionate about, laying the groundwork for a wealth of exciting careers.",
+                "videoCode": "",
+                "videoThumbnail": "",
+                "promoPhoto": "",
+                "specialisations": [],
+                "majors": "History"  
+            }
+        ]
     },
     {
         "id": "3",
