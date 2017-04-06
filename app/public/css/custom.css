@@ -312,18 +312,18 @@ html, body {
 }
 
 .myFutureHeader {
-    padding: 0 5px !important;
+    padding: 27px 12px !important;
 }
 
 .myFutureHeader h1 {
-    font-size: 64px;
+    font-size: 90px;
 }
 
 .myFutureDescRow {
     background-color: rgba(1,1,1,0.3)!important;
     border-radius: 5px !important;
     padding: 20px 0 !important;
-    margin-top: 40px !important;
+    margin: 0px 6px 0px 12px !important;
 }
 
 .myFutureDescCol {
@@ -337,9 +337,98 @@ html, body {
 
 .recommendedCoursesRow{
     margin-top: 20px !important;
-    padding-bottom: 0.5rem !important;
+    margin-bottom: 5px !important;
+    border-bottom: 1px solid;
+    padding-bottom: 2px !important;
 }
 
 .recommendedCoursesCardRow{
     padding: 0px !important;
+}
+
+.courseCard{
+    border-radius: 2px !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12) !important;
+    border-top: 5px solid #006cab !important;
+}
+
+.courseCardHeader{
+    padding-top: 14px !important;
+    padding-bottom: 12px !important;
+}
+
+.courseCardHeader .header{
+    color: #5f5f5f !important;
+}
+
+.courseCardContent{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border: none !important;
+}
+
+.courseCardContent div{
+    border-top: 2px solid rgba(155, 155, 155, 0.2) !important;
+    border-bottom: 2px solid rgba(155, 155, 155, 0.2) !important;
+    padding: 12px 0 !important;
+}
+
+.ui.cards > .card > .extra, .ui.card > .extra{
+    border-top: 0 !important;
+    color: rgba(0, 0, 0, 0.68);
+}
+
+.extra i{
+    color: #006cab;
+}
+
+.careerDetailHeader{
+    background: url(/img/hero_trends.png) no-repeat center;
+    background-size: 1000px;
+    background-position-y: 0;
+}
+
+button{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.videoBtn {
+  width: 100px;
+  height: 28px;
+  border-radius: 100px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: solid 1px #ffffff;
+  font-size: 14px;
+  color: #fff;
+  line-height: 12px;
+}
+
+.videoBtn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.videoBtn:focus {
+    outline: none;
+}
+
+.readMoreBtn{
+    width: 180px;
+    height: 30px;
+    border-radius: 2px;
+    border: none !important;
+    background-color: #006cab;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    margin: 0 auto 16px;
+}
+
+.readMoreBtn:hover{
+  background-color: #005486;
+}
+
+.readMoreBtn:focus{
+    outline: none;
 }

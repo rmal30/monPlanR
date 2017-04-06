@@ -36,7 +36,7 @@ class CareerDetailContainer extends Component {
                 <Container className="ui main text" >
                     <div id="welcome" className="ui container" cursor={{blink: true, width:"100%" }}>
                         <Grid>
-                            <Grid.Row>
+                            <Grid.Row className="careerDetailHeader">
                                 {this.props.isLoading ? <p>Loading...</p> :
                                     <CareerDetail
                                         title={this.props.career.title}
@@ -46,22 +46,28 @@ class CareerDetailContainer extends Component {
                                     />
                                 }
                             </Grid.Row>
-                            <Grid.Row>
+                            <Grid.Row className="recommendedCoursesRow">
                                 <h2>Recommended Courses</h2>
                             </Grid.Row>
 
                             <Grid.Row>
                                 <Grid.Column className="recommendedCoursesCardRow" width={16}>
                                     <Card.Group itemsPerRow={4}>
-                                        
-                                      <CourseCard 
-                                          title={"Bachelor of Arts"} 
-                                          description={"Study print, digital, audio and video journalism – preparing you for a creative and rewarding media career – with the Monash Journalism major."} 
+                                      <CourseCard
+                                          title={"Bachelor of Arts"}
+                                          description={"Study print, digital, audio and video journalism – preparing you for a creative and rewarding media career – with the Monash Journalism major."}
                                           duration={"3 Years"}
                                           major={"Journalism"}
                                           faculty={"Faculty of Arts"}
                                           campus={"Clayton Campus"} />
-                                    </Card.Group>
+                                    <CourseCard
+                                        title={"Bachelor of Commerce"}
+                                        description={"Study print, digital, audio and video journalism – preparing you for a creative and rewarding media career – with the Monash Journalism major."}
+                                        duration={"5 Years"}
+                                        major={"Banking"}
+                                        faculty={"Faculty of Business"}
+                                        campus={"Caulfield Campus"} />
+                                  </Card.Group>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

@@ -49,19 +49,19 @@ class CareerSelect extends Component {
      * Renders the welcome page, with a form and a disclaimer.
      */
     render() {
-        
+
 
         return (
-            <div style={{color: "white", padding: "1em 0", backgroundImage: "url('http://www.weareathlon.com/public/uploads/news/16/1420x440-hero_trends.jpg')", backgroundRepeat: "cover"}}>
+            <div style={{color: "white", padding: "1em 0"}}>
                 <Container className="ui main text">
                     <div id="welcome" className="ui container" style={{textAlign:"left"}}>
                         <img style={{width: "40%", marginBottom: "16rem"}} src="/img/monash.png" alt="logo" />
-                        <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>      
+                        <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>
                         {this.props.isLoading ? <p>Loading...</p> :
-                            <Dropdown 
-                                placeholder="Select Career Choice"  
-                                search 
-                                selection 
+                            <Dropdown
+                                placeholder="Select Career Choice"
+                                search
+                                selection
                                 onChange={this.handleCareerSelect}
                                 compact
                                 options={this.props.careers.map((career) => {
