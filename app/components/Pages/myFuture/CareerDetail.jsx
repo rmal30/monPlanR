@@ -19,7 +19,7 @@ const CareerDetail = (props) => {
                     <p>
                         {description}
                     </p>
-                    <VideoModal videoCode={videoCode} />
+                    {videoCode ? <VideoModal videoCode={videoCode} /> : null}
                 </Grid.Column>
                 {/*<Grid.Column width={6}>
                     <Grid.Row>
