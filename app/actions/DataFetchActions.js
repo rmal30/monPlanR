@@ -445,7 +445,7 @@ export const fetchCareer = (id) => {
                 dispatch({
                     type: "FETCH_CAREER_REJECTED"
                 });
-               
+
             })
             .catch(()=>{
                 dispatch({
@@ -494,6 +494,3 @@ export const fetchRelatedDegrees = (degreeCodeArr) => {
 
     };
 };
-
-
-
