@@ -1,7 +1,12 @@
-import React from "react";
-import {Button, Dropdown, Table} from "semantic-ui-react";
+import React, { PropTypes } from "react";
+import { Table } from "semantic-ui-react";
 
-import Unit from "../Unit/Unit.jsx";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as courseActions from "../../actionCreators/CourseActions";
+
+import ConfirmDeleteTeachingPeriod from "../modals/ConfirmDeleteTeachingPeriod.jsx";
+import UnitTableCell from "../Unit/UnitTableCell.jsx";
 
 /**
  * TeachingPeriod component
@@ -12,63 +17,118 @@ import Unit from "../Unit/Unit.jsx";
  * @function
  * @arg props
  */
-function TeachingPeriod(props) {
-    const handleDelete = () => {
-        props.deleteTeachingPeriod(props.index);
+const TeachingPeriod = (props) => {
+
+    TeachingPeriod.propTypes = {
+        code: PropTypes.string.isRequired,
+        index: PropTypes.number.isRequired,
+        year: PropTypes.number.isRequired,
+        data: PropTypes.array,
+        units: PropTypes.array.isRequired,
+        unitToAdd: PropTypes.object,
+        viewUnitDetails: PropTypes.func,
+        removeTeachingPeriod: PropTypes.func,
+        getAffectedUnitsInRow: PropTypes.func,
+        numberOfUnits: PropTypes.number,
+        tpCreditPoints: PropTypes.number,
+        showingMovingUnitUI: PropTypes.bool,
+        unitToBeMoved: PropTypes.object,
+        viewOnly: PropTypes.bool,
+        tpIndexOfUnitToBeMoved: PropTypes.number,
+        showingAddingUnitUI: PropTypes.bool,
+        increaseStudyLoad: PropTypes.func
     };
 
-    const addUnit = (unitIndex, unitToAdd) => {
-        props.addUnit(props.index, unitIndex, unitToAdd);
-    };
-
-    const willMoveUnit = unitIndex => {
-        props.willMoveUnit(props.index, unitIndex);
-    };
-
-    const moveUnit = unitIndex => {
-        props.moveUnit(props.index, unitIndex);
-    };
-
-    const swapUnit = unitIndex => {
-        props.swapUnit(props.index, unitIndex);
-    };
-
-    const deleteUnit = unitIndex => {
-        props.deleteUnit(props.index, unitIndex);
-    };
-
-    let firstFreeUnit = true;
-    const unitsEle = props.units.map((unit, index) => {
-        if(!unit) {
-            const temp = firstFreeUnit;
-            firstFreeUnit = false;
-            return <Unit
-                key={`${props.year}-${props.code}-${index}`}
-                index={index}
-                free={true}
-                unitToBeMoved={props.unitToBeMoved}
-                firstFreeUnit={temp}
-                addUnit={addUnit}
-                moveUnit={moveUnit}
-                unitToAdd={props.unitToAdd}
-                showMoveUnitUI={props.showMoveUnitUI} />;
+    var unitRep = [],
+        tmp = props.units.slice(),
+        chain = 0;
+    
+    for (let i = 0; i < tmp.length; i++) {
+        let currentUnit = tmp[i];
+        if(currentUnit !== null && currentUnit !== undefined) {
+            if (!currentUnit.placeholder && ((currentUnit.creditPoints / 6) > 1)) {
+                chain += Math.min(6, (currentUnit.creditPoints / 6) - 1);
+            }
+            unitRep.push(currentUnit);
+        } else if (currentUnit === null) {
+            if (chain > 0) {
+                unitRep.push("shouldNotDisplay");
+                chain -= 1;
+            } else {
+                unitRep.push(currentUnit);
+            }
+        } else {
+            unitRep.push(currentUnit);
         }
-        return <Unit key={`${props.year}-${props.code}-${unit}-${index}`}
-                     index={index}
-                     willMoveUnit={willMoveUnit}
-                     deleteUnit={deleteUnit}
-                     showMoveUnitUI={props.showMoveUnitUI}
-                     swapUnit={swapUnit}
-                     free={false}
-                     code={unit.code}
-                     name={unit.name}
-                     faculty={unit.faculty} />;
+    }
+
+
+    for (let j=0; j < chain; j++) {
+        props.increaseStudyLoad();
+    }
+
+    let cellSpan;
+    /**
+     * we really don't want units rendering over huge amounts of columns so limit to 4
+     */
+    if(props.unitToAdd) {
+        cellSpan = Math.min(6, props.unitToAdd.creditPoints / 6);
+    } else if (props.unitToBeMoved) {
+        cellSpan = Math.min(6, props.unitToBeMoved.creditPoints / 6);
+    } else {
+        cellSpan = 1;
+    }
+    const unitsEle = unitRep.map((unit, index) => {
+        const isError = props.tempInvalidCoordinates.filter(xs => xs[1] === index || xs[1] === null).length > 0;
+
+        if(!unit) {
+            return (
+                <UnitTableCell
+                    key={index}
+                    index={index}
+                    teachingPeriodIndex={props.index}
+                    free
+                    isError={isError} />
+            );
+        } else if (unit === "shouldNotDisplay") {
+            return (
+                null
+            );
+        } else if (unit === "display") {
+            return (
+                <UnitTableCell
+                    key={index}
+                    index={index}
+                    teachingPeriodIndex={props.index}
+                    free
+                    cellSpan={cellSpan}
+                    isError={isError} />
+            );
+        }
+        return (
+            <UnitTableCell
+                tpCreditPoints={props.tpCreditPoints}
+                viewOnly={props.viewOnly}
+                key={index}
+                index={index}
+                teachingPeriodIndex={props.index}
+                swapUnit={props.swapUnit.bind(null, props.index)}
+                code={unit.unitCode}
+                name={unit.unitName}
+                creditPoints={unit.creditPoints}
+                cost={unit.cost}
+                faculty={unit.faculty}
+                placeholder={unit.placeholder}
+                unit={unit}
+                errors={(props.showMoveUnitUI || props.unitToAdd) ? [] : props.errors.filter(err => err.coordinates.map(e => e[1]).indexOf(index) >= 0)}
+                isError={isError}
+                />
+        );
     });
 
-    const teachingPeriodData = props.data;
     let teachingPeriodName = props.code;
-    if(props.data !== null) {
-        const teachingPeriod = props.data.find((element) =>
+    if(props.data) {
+        const teachingPeriod = props.data.find(element =>
             element.code === props.code
         );
 
@@ -78,16 +138,40 @@ function TeachingPeriod(props) {
     }
 
     return (
-        <Table.Row>
-            <Table.Cell className="teachingPeriod cell">
-                {teachingPeriodName}, {props.year}
-                {!props.showMoveUnitUI &&
-                <Button basic floated="right" onClick={handleDelete} size="tiny" color="red" icon="close" />
+        <Table.Row style={{color: "black"}}>
+            <Table.Cell>
+                {!props.viewOnly &&
+                    <ConfirmDeleteTeachingPeriod index={props.index} units={props.units} />
                 }
+                {teachingPeriodName}, {props.year}
             </Table.Cell>
             {unitsEle}
         </Table.Row>
     );
-}
+};
 
-export default TeachingPeriod;
+
+/**
+ * All teaching period currently needs are course actions such as remove teaching period
+ */
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(courseActions, dispatch);
+};
+
+/**
+ * Injects the required state as props from redux
+ */
+const mapStateToProps = (state) => {
+    return {
+        data: state.CourseStructure.teachingPeriodData,
+        numberOfUnits: state.CourseStructure.numberOfUnits,
+        viewOnly: state.UI.readOnly,
+        showingMovingUnitUI: state.UI.showingMovingUnitUI,
+        unitToBeMoved: state.CourseStructure.unitToBeMoved,
+        tpIndexOfUnitToBeMoved: state.CourseStructure.tpIndexOfUnitToBeMoved,
+        showingAddingUnitUI: state.UI.showingAddingUnitUI,
+        unitToAdd: state.CourseStructure.unitToAdd
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TeachingPeriod);

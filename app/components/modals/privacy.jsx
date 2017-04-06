@@ -1,15 +1,24 @@
-import React, {Component} from "react";
+import React, { PropTypes } from "react";
 import {Button, Icon, Modal} from "semantic-ui-react";
 
 import ControlledModal from "./ControlledModal.jsx";
 
-export default ({trigger}) => {
-    const closeTrigger = <Button content="OK, I've got it" positive icon="checkmark" labelPosition="right" />;
+/**
+ * The privacy policy modal.
+ *
+ * @author Eric Jiang, Saurabh Joshi
+ */
+export default function privacy({ trigger }) {
+    privacy.propTypes = {
+        trigger: PropTypes.element.isRequired
+    };
+
+    const closeTrigger = <Button content="OK, I've got it" className="btnlightblue" icon="checkmark" labelPosition="right" />;
     return (
         <ControlledModal
                openTrigger={trigger}
                closeTrigger={closeTrigger}>
-            <Modal.Header>
+            <Modal.Header className="header-primary">
                 <Icon name="privacy" />
                 Privacy Policy
             </Modal.Header>
@@ -17,7 +26,6 @@ export default ({trigger}) => {
                 <Modal.Description>
                   <p>Your data will be recorded and saved into your browser's cache for future performance, and to improve user experience and usability within our site, we use localstorage for storing current user plan as well as
                   user settings. Our site is currently hosted by DigitalOcean, we being eSolutions track performance of the server through server monitoring (bandwidth, memory) as well as user performance through Google Analytics.</p>
-
 
                   <p>The data collected within our services is stored on many systems including Google Drive, Google Analytics, etc., with the only people whom have access to the data are the developers of monPlan.
                   Personal identifiable data will not be given to any third party (including the university), unless permission is expressively given from the user.
@@ -32,4 +40,4 @@ export default ({trigger}) => {
             </Modal.Content>
         </ControlledModal>
     );
-};
+}

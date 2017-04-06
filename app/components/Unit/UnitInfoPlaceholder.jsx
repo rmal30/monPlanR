@@ -1,40 +1,71 @@
-import React from "react";
-import { Grid, Icon, Button, Image, Loader, Rating } from "semantic-ui-react";
-import SetuRating from "./SetuRating.jsx";
-import CollapseButton from "../CollapseButton.jsx";
+import React, { PropTypes } from "react";
+import { Grid, Image, Loader, Rating, Divider, Dimmer, Header, Icon } from "semantic-ui-react";
 
 /**
  * This is the placeholder component that is shown when unit information is loading (being fetched). It shows the same structure
  * as a populated UnitInfo component, but replaces the data with grey bars.
  * @author JXNS
  */
-function UnitInfoPlaceholder(props) {
+const UnitInfoPlaceholder = ({ errorString }) => {
     return (
-        <Grid celled stackable columns={2}>
-            <Grid.Column width={12}>
-                <Grid.Row>
-                    <Image src='../resources/img/loaders/header.png' />
+        <Dimmer.Dimmable dimmed blurring as={Grid} celled="internally" stackable columns={2}>
+            <Dimmer active inverted>
+                {!errorString && <Loader active size="huge" />}
+                {errorString &&
+                    <Header as="h2" icon>
+                        <Icon name="remove circle" />
+                        Failed to fetch unit details
+                        <Header.Subheader>{errorString}</Header.Subheader>
+                    </Header>
+                }
+            </Dimmer>
+            <Grid.Row className={"header law"}>
+                <Grid.Column width={16}>
+                    <Image src='../img/loaders/header.png' />
                     <br />
-                    <Image src='../resources/img/loaders/smallText.png' />
-                    <Loader active size="huge"></Loader>
-                    <hr />
-                    <Image src='../resources/img/loaders/short-paragraph.png' />
-                </Grid.Row>
-            </Grid.Column>
+                    <Image src='../img/loaders/smallText.png' />
+                </Grid.Column>
 
-            <Grid.Column width={4}>
-                <Grid.Row>
-                    <Image src='../resources/img/loaders/smallText.png' />
+            </Grid.Row>
+
+
+            <Grid.Row>
+                 <Grid.Column width={12}>
+                    <Image src='../img/loaders/medium-paragraph.png' />
+                    <Divider />
+                    <Image src='../img/loaders/short-paragraph.png' />
+                    <Divider />
+                    <Image src='../img/loaders/smallText.png' />
+                    <br />
+                    <Image src='../img/loaders/smallText.png' />
+                 </Grid.Column>
+
+                <Grid.Column width={4}>
+
+                    <Image src='../img/loaders/square.png' />
+                    <Divider />
+                    <Image src='../img/loaders/square.png' />
+                    <Divider />
+                    <Image src='../img/loaders/smallText.png' />
                     <br />
                     <Rating icon='star' defaultRating={0} maxRating={5} disabled/>
                     <hr />
-                    <Image src='../resources/img/loaders/smallText.png' />
+                    <Image src='../img/loaders/smallText.png' />
                     <br />
                     <Rating icon='heart' defaultRating={0} maxRating={5} disabled/>
-                </Grid.Row>
-            </Grid.Column>
-        </Grid>
+                    <Divider />
+                    <Image src='../img/loaders/smallText.png' />
+                    <Divider />
+                    <Image src='../img/loaders/smallText.png' />
+                </Grid.Column>
+            </Grid.Row>
+        </Dimmer.Dimmable>
     );
-}
+};
 
 export default UnitInfoPlaceholder;
+
+//PropTypes declaration
+UnitInfoPlaceholder.propTypes = {
+    errorString: PropTypes.string
+};

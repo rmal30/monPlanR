@@ -1,0 +1,37 @@
+/**
+ * We are using Monash's web colour palette as specified in
+ * www.webtoolkit.monash
+ */
+
+// Standard Semantic UI colours
+@red: #DD341E;
+@yellow: #FDB515;
+@green: #96CA4F;
+@teal: #6AA324;
+@blue: #009FD8;
+@purple: #44477A;
+@pink: #B6006A;
+@grey: #423F40;
+@black: #231F20;
+
+// Custom colours (To support these colours, you will need to add overrides for the components)
+@MonashBlue: #006CAB;
+@cyan: #43C5E4;
+@lightCyan: #9DDAE5;
+@lightGrey: #939598;
+@lighterGrey: #D1D3D4;
+
+// Standard Semantic UI colours, but the names do not represent what they are (this is a workaround)
+@orange: @MonashBlue;
+@olive: @cyan;
+@violet: @lightCyan;
+
+@primaryColor: @yellow;
+@secondaryColor: @blue;
+// Semantic UI doesn't have tertiary colours
+@tertiaryColor: @black;
+
+@yellowTextColor: @black;
+@primaryTextColor: @black;
+
+@defaultBorderRadius: 0;

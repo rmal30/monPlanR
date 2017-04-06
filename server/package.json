@@ -1,0 +1,28 @@
+{
+  "name": "monPlanR-gcloud",
+  "version": "0.3.0-gcloud",
+  "description": "For deploying applications to Google Cloud. Please check README.md for more information.",
+  "main": "./server.js",
+  "engines": {
+    "node": ">=4.2.6"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "compression": "^1.6.2",
+    "helmet": "^3.4.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MonashUnitPlanner/monPlanR.git"
+  },
+  "author": "eSolutions (Monash University)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MonashUnitPlanner/monPlanR/issues"
+  },
+  "homepage": "https://github.com/MonashUnitPlanner/monPlanR#readme"
+}

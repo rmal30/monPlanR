@@ -1,54 +1,35 @@
-import React from "react";
-import {Button, Icon, Input, Form, Grid, Popup, Table} from "semantic-ui-react";
+import React, { PropTypes } from "react";
+import { Button, Icon, Popup, Table } from "semantic-ui-react";
 
+/**
+ * InsertTeachingPeriod allows students to insert teaching periods into their
+ * course structure.
+ *
+ * @returns {ReactElement} tableRow - A table row to be placed inside
+ * the course structure table's body.
+ * @author Saurabh Joshi
+ */
 const InsertTeachingPeriod = (props) => {
-    let year = props.year,
-        code = props.code;
 
-    const handleYearChange = (e) => {
-        year = parseInt(e.target.value || props.year);
-    };
-
-    const handleCodeChange = (e) => {
-        code = e.target.value || props.code;
-    };
-
-    const handleClick = (e) => {
-        props.insertTeachingPeriod(props.index, year, code);
-    };
-
-    let name = code;
-    let teachingPeriod = undefined;
-
-    if(props.teachingPeriods) {
-        teachingPeriod = props.teachingPeriods.find(ele => ele.code === code);
-        if(teachingPeriod) {
-            name = teachingPeriod.name || code;
-        }
-    }
+    let { onInsertTeachingPeriod, numberOfUnits, tpString, year } = props;
 
     const triggerButton = (
-        <Button onClick={handleClick} fluid>
-            <Icon name="plus" /> Insert {name}, {props.year}
+        <Button inverted color="green" onClick={onInsertTeachingPeriod} fluid>
+            <Icon name="plus" /> Insert {tpString}, {year}
         </Button>
     );
 
     return (
-        <Table.Row>
-            <Table.Cell textAlign="center" colSpan={props.numberOfUnits + 1}>
+        <Table.Row className="no-print">
+            <Table.Cell textAlign="center" colSpan={numberOfUnits + 1}>
                 {triggerButton}
-                {false && 
-                <Popup hoverable flowing trigger={triggerButton}>
-                    <Form onSubmit={e => e.preventDefault()}>
-                        <Form.Field>
-                            <label>Year: </label>
-                            <input onChange={handleYearChange} placeholder={props.year} />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Code: </label>
-                            <input onChange={handleCodeChange} placeholder={props.code} />
-                        </Form.Field>
-                    </Form>
+                {false &&
+                <Popup
+                    hoverable
+                    flowing
+                    trigger={<Button inverted color="green" onClick={onInsertTeachingPeriod} fluid>
+                                <Icon name="plus" /> Insert {tpString}
+                             </Button>}>
                 </Popup>
                 }
             </Table.Cell>
@@ -57,3 +38,10 @@ const InsertTeachingPeriod = (props) => {
 };
 
 export default InsertTeachingPeriod;
+
+InsertTeachingPeriod.propTypes = {
+    tpString: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    numberOfUnits: PropTypes.number,
+    onInsertTeachingPeriod: PropTypes.func
+};

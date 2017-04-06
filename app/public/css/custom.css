@@ -1,0 +1,490 @@
+body {
+    background-color: #FFFFFF;
+    -moz-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    -webkit-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    -moz-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    -o-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    transition: width 1s ease-in-out, left 1.5s ease-in-out;
+}
+
+.dayWarn{
+    background-color: #FFCBCE !important;
+}
+
+.ui.grid {
+  margin-right: -0.5rem !important;
+}
+
+.main.container {
+    margin-top: 2em;
+}
+
+.wireframe {
+    margin-top: 2em;
+}
+
+.ui.footer.segment {
+    padding: 3em 0em;
+    background-color: #005d95;
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 0;
+}
+
+.display-none {
+    display: none;
+}
+
+.load-course-steps {
+    opacity: 0 !important;
+    height: 1 !important;
+    display: none !important;
+}
+
+.load-course-steps.active {
+    display: block !important;
+    opacity: 1 !important;
+    height: auto !important;
+    transition: opacity 0.5s ease-in;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.logo {
+    width: 60%;
+}
+
+.print-only .logo {
+    width: 1cm;
+}
+
+.ui.inverted.menu {
+    background-color: #005d95;
+}
+
+.nav {
+    flex-shrink: 0;
+}
+
+.disclaimer {
+    font-size: 12px;
+}
+
+html, body {
+    height: 100%;
+}
+
+.ui.button .icon.normal {
+    transition: all 250ms;
+}
+
+.ui.button .icon.active {
+    transform: rotate(135deg);
+    transition: all 250ms;
+}
+
+@page {
+    size: landscape;
+}
+
+@media print {
+    .no-print, .ui.modals, .ui.dimmer, .ui.modal, .ui.button {
+        display: none !important;
+    }
+
+    body, .main-container {
+        width: auto;
+        height: auto;
+    }
+}
+
+@media screen {
+    .main-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+
+    .print-only {
+        display: none !important;
+    }
+
+    #main-body {
+        overflow-y: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #main-body > span {
+        flex: 1;
+    }
+
+    #main-body .main.container {
+        padding-bottom: 5em;
+    }
+}
+
+.popup ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 1.5em;
+}
+
+.sidebar .item > .header {
+    text-align: left;
+    margin-top: 1em !important;
+    margin-left: 0.5em !important;
+    font-size: 1.25em !important;
+}
+
+.sidebar .message {
+    font-size: 1em !important;
+}
+
+
+.sidebar {
+    overflow-x: hidden;
+}
+
+.sidebar td {
+    display: block;
+}
+
+.sidebar .active.item {
+    background: #E0E0E0 !important;
+}
+
+.unit {
+    min-height: 90px !important;
+}
+
+.unit.draggable:hover {
+    box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15) !important;
+}
+
+.placeholder.unit {
+    cursor: pointer;
+}
+
+/* Adds margin in between a button and another element with class name marginLeft */
+.buttons > .marginLeft {
+    margin-left: 0.1em !important;
+    text-align: center;
+}
+
+.ui.icon.input input {
+    width:100% !important;
+}
+
+.filter-margin {
+  margin-top: 1em !important;
+}
+
+.filter-margin-small{
+    margin-top: 0.3em !important;
+}
+
+.hide-filter {
+  display: none !important;
+}
+
+.divider-margin-delete {
+    margin-top: 0 !important;
+}
+
+.filter-delete {
+  display: inline !important;
+  position: absolute;
+  top: -3px;
+  margin-left: 240px !important;
+  color: #006CAB;
+}
+
+.filter-delete:hover {
+  cursor: pointer;
+}
+
+.filter-div {
+  position: relative;
+}
+
+.filter-button {
+    border-bottom: 10px solid #fff !important;
+}
+
+.slider-dressing {
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+}
+
+.slider-dressing>h4{
+  font-size: 14px !important;
+  font-weight: 100 !important;
+  color: #767676 !important;
+  margin-bottom: 0.5em !important;
+  margin-left: 7px !important;
+}
+
+.rc-slider {
+  height: 14px !important;
+  padding: 5px 0 !important;
+  max-width: 88% !important;
+  margin-left: 14px !important;
+  margin-bottom: 2em;
+}
+
+.rc-slider-track {
+    background-color: #006cab !important;
+}
+
+.rc-slider-handle {
+    border: solid 2px #006cab !important;
+}
+
+.rc-slider-dot-active {
+    border-color: #006cab !important;
+}
+
+.palette-tab{
+    position: fixed !important;
+    top: 265px;
+    width: 0px !important;
+    right: 0;
+    height: 50px;
+    margin-right: 0px !important;
+    z-index: 10;
+    transition: all 0.5s !important;
+}
+
+
+.palette-tab-open{
+    right: 300px;
+    transition: all 0.5s !important;
+}
+
+.button.palette-tab:hover{
+    width: 150px !important;
+}
+
+
+.palette-tab.ui.fluid[class*="left labeled"].icon.button, .ui.fluid[class*="right labeled"].icon.button {
+    padding-left: 3.5em !important;
+    padding-right: 1.5em !important;
+}
+* { box-sizing:border-box; }
+.container 		{
+  font-family: 'Lato', "Open Sans";
+}
+
+.study {
+    background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url("../../public/img/Monash.jpg") !important;
+    background-size: contain, cover !important;
+	background-position: left, center !important;
+}
+
+.study-header{
+    font-family: "Lato"!important;
+    font-size: 4rem;
+    margin-left: 5px;
+    margin-top: 0px;
+
+}
+
+.react-typeout{
+    color: #fdb515
+}
+
+.modalLogo{
+    padding-top: 1rem
+}
+
+.viewCourse {
+    bottom: 0;
+    position: absolute
+}
+
+.myFutureHeader {
+    padding: 27px 12px !important;
+}
+
+.myFutureHeader h1 {
+    font-size: 90px;
+}
+
+.myFutureDescRow {
+    background-color: rgba(1,1,1,0.3)!important;
+    border-radius: 5px !important;
+    padding: 20px 0 !important;
+    margin: 0px 6px 0px 12px !important;
+}
+
+.myFutureDescCol {
+    padding: 0 20px;
+    font-size: 18px;
+}
+
+.viewCareer{
+    background: #397469 !important;
+}
+
+.recommendedCoursesRow{
+    margin-top: 20px !important;
+    margin-bottom: 5px !important;
+    border-bottom: 1px solid;
+    padding-bottom: 2px !important;
+}
+
+.recommendedCoursesCardRow{
+    padding: 0px !important;
+}
+
+.courseCard{
+    border-radius: 2px !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12) !important;
+    border-top: 5px solid #006cab !important;
+}
+
+.courseCardHeader{
+    padding-top: 14px !important;
+    padding-bottom: 12px !important;
+}
+
+.courseCardHeader .header{
+    color: #5f5f5f !important;
+}
+
+.courseCardContent{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border: none !important;
+}
+
+.courseCardContent div{
+    border-top: 2px solid rgba(155, 155, 155, 0.2) !important;
+    border-bottom: 2px solid rgba(155, 155, 155, 0.2) !important;
+    padding: 12px 0 !important;
+}
+
+.ui.cards > .card > .extra, .ui.card > .extra{
+    border-top: 0 !important;
+    color: rgba(0, 0, 0, 0.68);
+}
+
+.extra i{
+    color: #006cab;
+}
+
+.careerDetailHeader{
+    background: url(/img/hero_trends.png) no-repeat center;
+    background-size: 1000px;
+    background-position-y: 0;
+}
+
+button{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.videoBtn {
+  width: 100px;
+  height: 28px;
+  border-radius: 100px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: solid 1px #ffffff;
+  font-size: 14px;
+  color: #fff;
+  line-height: 12px;
+}
+
+.videoBtn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.videoBtn:focus {
+    outline: none;
+}
+
+.readMoreBtn{
+    width: 180px;
+    height: 30px;
+    border-radius: 2px;
+    border: none !important;
+    background-color: #006cab;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    margin: 0 auto 16px;
+}
+
+.readMoreBtn:hover{
+  background-color: #005486;
+}
+
+.readMoreBtn:focus{
+    outline: none;
+}
+
+.searchCareer {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important; 
+    border-bottom: white 1px solid !important;
+}
+
+.searchCareer > div {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important; 
+}
+
+.searchCareer > div * {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important; 
+}
+
+.searchCareer > .results {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+}
+
+.searchCareer > .input > .prompt::-webkit-input-placeholder{
+    color: white !important;
+}
+
+.searchCareer > .input > .prompt::-moz-placeholder {
+    color: white !important;
+}
+
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Aligner-item {
+  max-width: 50%;
+  margin-top: -35%;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
