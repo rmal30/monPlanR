@@ -3,8 +3,8 @@ import { Button, Icon, Popup, Modal } from "semantic-ui-react";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as courseActions from "../../actions/CourseActions";
-import * as uiActions from "../../actions/UIActions";
+import * as courseActions from "../../actionCreators/CourseActions";
+import * as uiActions from "../../actionCreators/UIActions";
 
 
 

@@ -3,7 +3,7 @@ import SaveButton from "../../components/Course/SaveButton.jsx";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as dataFetchActions from "../../actions/DataFetchActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
 
 /**
  * Handles the data for the SaveButton component, this allows the component to be 'self-contained'

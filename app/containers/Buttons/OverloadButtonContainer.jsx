@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as CourseActions from "../../actions/CourseActions";
+import * as CourseActions from "../../actionCreators/CourseActions";
 import OverloadButton from "../../components/Buttons/OverloadButton.jsx";
 
 

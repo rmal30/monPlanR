@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import InsertTeachingPeriodButtonContainer from "../../containers/Buttons/InsertTeachingPeriodButtonContainer.jsx";
 import ClearCourseModal from "../modals/ClearCourseModal.jsx";
 import CompletedCourseModal from "../modals/CompletedCourseModal.jsx";
-import * as courseActions from "../../actions/CourseActions";
+import * as courseActions from "../../actionCreators/CourseActions";
 
 /**
  * Course edit actions gives students the ability to clear their course,

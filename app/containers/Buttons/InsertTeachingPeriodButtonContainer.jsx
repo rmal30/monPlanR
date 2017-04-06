@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Button } from "semantic-ui-react";
 
-import * as courseActions from "../../actions/CourseActions";
-import * as uiActions from "../../actions/UIActions";
+import * as courseActions from "../../actionCreators/CourseActions";
+import * as uiActions from "../../actionCreators/UIActions";
 import InsertTeachingPeriodButton from "../../components/TeachingPeriod/InsertTeachingPeriodButton.jsx";
 
 /**

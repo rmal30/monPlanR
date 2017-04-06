@@ -4,7 +4,7 @@ import { Container, Divider, Grid } from "semantic-ui-react";
 import CourseStructure from "../Course/CourseStructure.jsx";
 import CourseStatisticGroupContainer from "../../containers/Course/CourseStatisticGroupContainer";
 import LocalStorage from "../../utils/LocalStorage.js";
-import * as uiActions from "../../actions/UIActions";
+import * as uiActions from "../../actionCreators/UIActions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 

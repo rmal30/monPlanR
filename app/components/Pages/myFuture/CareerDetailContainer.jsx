@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as dataFetchActions from "../../../actions/DataFetchActions";
+import * as dataFetchActions from "../../../actionCreators/DataFetchActions";
 import {Container, Grid, Card } from "semantic-ui-react";
 import CareerDetail from "./CareerDetail.jsx";
 import CourseCard from "./CourseCard.jsx";

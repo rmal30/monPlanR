@@ -3,7 +3,7 @@ import { Container, Dropdown, Header, Icon, Table } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as courseActions from "../../actions/CourseActions";
+import * as courseActions from "../../actionCreators/CourseActions";
 import InsertTeachingPeriodButton from "../../components/TeachingPeriod/InsertTeachingPeriodButton.jsx";
 
 import YearCalc from "../../utils/YearCalc.js";
