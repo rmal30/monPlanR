@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 import { Card, Icon } from "semantic-ui-react";
 
 /**
- * Renders the CourseCard for myFuture 
+ * Renders the CourseCard for myFuture
  * @author Eric Jiang
  */
 const CourseCard = (props) => {
@@ -22,10 +22,10 @@ const CourseCard = (props) => {
     };
     const facultyClass = facultyMap[props.faculty];
     return (
-        <Card className={"ui segment " + facultyClass}>
-            <Card.Content header={title}/>
-            <Card.Content description={description} />
-            
+        <Card className={"courseCard ui segment" + facultyClass}>
+            <Card.Content className="courseCardHeader" header={title}/>
+            <Card.Content className="courseCardContent" description={description} />
+
             <Card.Content extra>
                 <Icon name='book' />
                 <b>Majoring</b> in {major} <br />
@@ -36,6 +36,11 @@ const CourseCard = (props) => {
                 <br/>
                 {/*<Commerce /> */}
             </Card.Content>
+
+            <button className="readMoreBtn">
+                Read More
+            </button>
+            <div></div>
         </Card>
     );
 };

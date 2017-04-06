@@ -19,6 +19,9 @@ const CareerDetail = (props) => {
                     <p>
                         {description}
                     </p>
+                    <button className="videoBtn">
+                        Play video
+                    </button>
                 </Grid.Column>
                 {/*<Grid.Column width={6}>
                     <Grid.Row>
