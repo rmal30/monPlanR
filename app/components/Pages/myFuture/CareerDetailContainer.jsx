@@ -6,16 +6,30 @@ import {Container, Grid, Card } from "semantic-ui-react";
 import CareerDetail from "./CareerDetail.jsx";
 import CourseCard from "./CourseCard.jsx";
 
+/**
+ * @author JXNS
+ * The career detail container sets up the data and layout for 
+ * the career detail view that a user sees as part of the my future component
+ */
 class CareerDetailContainer extends Component {
+    /**
+     * Constructor for the container
+     */
     constructor(props) {
         super(props);
     }
 
 
+    /**
+     * we fetch all the career detail and related degrees 
+     */
     componentWillMount() {
         this.props.fetchCareer(this.props.params.careerID);
     }
 
+    /**
+     * we render the career details and cards 
+     */
     render() {
         return (
             <div style={{color: "white", padding: "1em 0"}}>
@@ -66,6 +80,10 @@ class CareerDetailContainer extends Component {
 
 }
 
+/**
+ * We grab the careers and all relatant loading variables to deal with the 
+ * async call for career and related degrees
+ */
 const mapStateToProps = (state) => {
     return {
         career: state.Career.career,
@@ -77,6 +95,9 @@ const mapStateToProps = (state) => {
     };
 };
 
+/**
+ * We need to use this to use the fetchCareer function
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(dataFetchActions, dispatch);
 };

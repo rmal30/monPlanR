@@ -417,6 +417,10 @@ export const fetchCareers = () => {
     };
 };
 
+
+/**
+ * Fetches a career based on a given id
+ */
 export const fetchCareer = (id) => {
     return function(dispatch) {
         dispatch({
@@ -451,6 +455,10 @@ export const fetchCareer = (id) => {
     };
 };
 
+/**
+ * fetches all the related degree objects corresponding to 
+ * the degree codes in the given degree code array
+ */
 export const fetchRelatedDegrees = (degreeCodeArr) => {
     return function(dispatch) {
         dispatch({

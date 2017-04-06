@@ -1,8 +1,7 @@
-import React, {Component} from "react";
+import React from "react";
 import {Container, Button} from "semantic-ui-react";
-import {Link} from "react-router";
 import TypeOut from "react-typeout";
-import { browserHistory } from 'react-router';
+import { browserHistory } from "react-router";
 
 
 
@@ -26,7 +25,7 @@ const Future = () => {
                         I want to be   
                         <TypeOut words={words} className={"react-typeout"} typeSpeed={100} />
                     </h1>
-                    <Button onClick={() => {browserHistory.push('/future/select');}} inverted size="huge" style={{borderRadius:"0"}}>Explore my future </Button>       
+                    <Button onClick={() => {browserHistory.push("/future/select");}} inverted size="huge" style={{borderRadius:"0"}}>Explore my future </Button>       
                 </div>
             </Container>
         </div>

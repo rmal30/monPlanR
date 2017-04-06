@@ -12,7 +12,7 @@ const CourseCardGroup = (props) => {
         <Card.Group itemsPerRow={4}>
              {
                  courses.relatedDegrees.map((object)=>{
-                    return <CourseCard 
+                     return <CourseCard 
                                 title={object.title} 
                                 description={object.description}
                                 duration={object.duration}
