@@ -6,7 +6,7 @@ import { Card, Icon } from "semantic-ui-react";
  * @author Eric Jiang
  */
 const CourseCard = (props) => {
-    const { title, description, duration,major,campus,faculty } = props;
+    const { title, description, duration,major,campus, faculty } = props;
     const facultyMap = {
         "Faculty of Art, Design and Architecture": "ada",
         "Faculty of Arts": "arts",
@@ -20,7 +20,7 @@ const CourseCard = (props) => {
         "Faculty of Science": "sci",
         "Faculty of All": "all"
     };
-    const facultyClass = facultyMap[props.faculty];
+    const facultyClass = facultyMap[faculty];
     return (
         <Card className={"ui segment " + facultyClass}>
             <Card.Content header={title}/>
