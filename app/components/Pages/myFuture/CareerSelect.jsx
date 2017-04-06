@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Container, Dropdown, Button, Icon } from "semantic-ui-react";
+import { Container, Dropdown, Button, Icon,Search } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { browserHistory } from "react-router";
@@ -20,10 +20,14 @@ class CareerSelect extends Component {
         super(props);
 
         this.state = {
-            selectedCourseID: "0"
+            selectedCourseID: "0",
+            isLoading: false,
+            value: ""
         };
 
         this.handleCareerSelect = this.handleCareerSelect.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleResultSelect = this.handleResultSelect.bind(this);
     }
 
 
@@ -45,6 +49,25 @@ class CareerSelect extends Component {
         });
     }
 
+    handleResultSelect(e, result){
+        this.setState({ selectedCourseID: result.value });
+    }
+
+    handleSearchChange (e, value) {
+        this.setState({ isLoading: true, value });
+
+        setTimeout(() => {
+            if (this.state.value.length < 1) return this.resetComponent();
+
+            const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
+            const isMatch = (result) => re.test(result.title);
+
+            this.setState({
+                isLoading: false,
+                results: _.filter(source, isMatch),
+            });
+        }, 500)
+    }
     /**
      * Renders the welcome page, with a form and a disclaimer.
      */
@@ -52,38 +75,35 @@ class CareerSelect extends Component {
 
 
         return (
-            <div style={{color: "white", padding: "1em 0"}}>
-                <Container className="ui main text">
-                    <div id="welcome" className="ui container" style={{textAlign:"left"}}>
-                        <img style={{width: "40%", marginBottom: "16rem"}} src="/img/monash.png" alt="logo" />
-                        <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>
-                        {this.props.isLoading ? <p>Loading...</p> :
-                            <Dropdown
-                                placeholder="Select Career Choice"
-                                search
-                                selection
-                                onChange={this.handleCareerSelect}
-                                compact
-                                options={this.props.careers.map((career) => {
+            <div style={{color: "white", padding: "1em 0", minHeight: "100%", height: "100%" }}>
+                <Container className="ui main text" style={{color: "white", padding: "1em 0", minHeight: "100%", height: "100%"}}>
+                    
+                    <div id="welcome" className="ui container" style={{textAlign:"center", minHeight: "100%", height: "100%"}}>
+                        <div className="Aligner" style={{textAlign:"center", minHeight: "100%", height: "100%"}}>
+                        <div className="Aligner-item Aligner-item--top"></div>
+                        <div className="Aligner-item">
+                            {this.props.isLoading ? <p>Loading...</p> :
+                            <Search
+                                onResultSelect={(e, {value}) => {
+                                    browserHistory.push(`/future/career/${value}`);
+                                }} 
+                                onSearchChange={this.handleSearchChange}
+                                results={this.props.careers.map((career) => {
                                     return {
                                         key: career.id,		
                                         value: career.id,		
-                                        text: career.title		
+                                        title: career.title		
                                     };		
                                 })}
-                                style={{display: "inline", minWidth: "500px",maxWidth: "500px", width: "500px"}}
+                                className={"searchCareer"}
+                                placeholder="I want to be a ..."
+                                size="massive"
                             />
                         }
-                        <br />
-                        <Button 
-                            disabled={this.props.isLoading || this.state.selectedCourseID === "0"}
-                            onClick={() => {
-                                browserHistory.push(`/future/career/${this.state.selectedCourseID}`);
-                            }} 
-                            className="btnmainblue" 
-                            style={{right: "0"}}>
-                                View how this career looks like <Icon name="right arrow" />
-                        </Button>
+                        </div>
+                        <div className="Aligner-item Aligner-item--bottom"></div>
+                        </div>
+                        
                     </div>
                 </Container>
             </div>

@@ -432,3 +432,59 @@ button{
 .readMoreBtn:focus{
     outline: none;
 }
+
+.searchCareer {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important; 
+    border-bottom: white 1px solid !important;
+}
+
+.searchCareer > div {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important; 
+}
+
+.searchCareer > div * {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important; 
+}
+
+.searchCareer > .results {
+    background: transparent !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+}
+
+.searchCareer > .input > .prompt::-webkit-input-placeholder{
+    color: white !important;
+}
+
+.searchCareer > .input > .prompt::-moz-placeholder {
+    color: white !important;
+}
+
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Aligner-item {
+  max-width: 50%;
+  margin-top: -35%;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
