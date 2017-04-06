@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 const d3 = require("d3");
 
-import * as courseActions from "../../actions/CourseActions";
+import * as courseActions from "../../actionCreators/CourseActions";
 import LocalStorage from "../../utils/LocalStorage";
 import { getListOfUnits } from "../../utils/ValidateCoursePlan";
 

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Button, Icon, Modal, Search, Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as dataFetchActions from "../../actions/DataFetchActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
 import FuzzySearch from "../../utils/FuzzySearch";
 import YearCalc from "../../utils/YearCalc";
 import ShowYear from "../../utils/ShowYear";

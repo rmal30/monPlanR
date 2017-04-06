@@ -4,7 +4,7 @@ import MediaQuery from "react-responsive";
 import { Link } from "react-router";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as uiActions from "../../actions/UIActions";
+import * as uiActions from "../../actionCreators/UIActions";
 import ImportantDates from "../../containers/ImportantDates.jsx";
 import Disclaimer from "../modals/disclaimer.jsx";
 import ToSModal from "../modals/tos.jsx";

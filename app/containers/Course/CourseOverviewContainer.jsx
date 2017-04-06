@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as courseActions from "../../actions/CourseActions";
+import * as courseActions from "../../actionCreators/CourseActions";
 
 import CourseOverview from "../../components/Course/CourseOverview.jsx";
 import DefaultCourseOverview from "../../components/Course/DefaultCourseOverview.jsx";

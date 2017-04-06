@@ -1,6 +1,6 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import *  as NotificationActions from "../actions/Notifications.js";
+import *  as NotificationActions from "../actionCreators/Notifications.js";
 
 import NotificationsComponent from "../components/Notifications/Notifications.jsx";
 

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { browserHistory } from "react-router";
 
-import * as DataFetchActions from "../../../actions/DataFetchActions";
+import * as DataFetchActions from "../../../actionCreators/DataFetchActions";
 
 /**
  * Home page that is shown to the user when they load the domain.

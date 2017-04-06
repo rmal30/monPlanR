@@ -6,9 +6,9 @@ import { DropTarget } from "react-dnd";
 import UnitMessage from "./UnitMessage.jsx";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as dataFetchActions from "../../actions/DataFetchActions";
-import * as courseActions from "../../actions/CourseActions";
-import * as UIActions from "../../actions/UIActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
+import * as courseActions from "../../actionCreators/CourseActions";
+import * as UIActions from "../../actionCreators/UIActions";
 
 
 /**

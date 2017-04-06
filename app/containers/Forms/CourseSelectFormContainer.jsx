@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as dataFetchActions from "../../actions/DataFetchActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
 
 import FuzzySearch from "../../utils/FuzzySearch";
 import YearCalc from "../../utils/YearCalc.js";

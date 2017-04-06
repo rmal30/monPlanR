@@ -1,6 +1,6 @@
 import expect from "expect";
 import { describe, it } from "mocha";
-import * as actions from "../../app/actions/UIActions";
+import * as actions from "../../app/actionCreators/UIActions";
 
 describe("ACTION-CREATOR: UIActions", () => {
     describe("AC: showInsertTeachingPeriodUI", () => {

@@ -1,8 +1,8 @@
 import React, { PropTypes } from "react";
 import { Modal, Button, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
-import * as courseActions from "../../actions/CourseActions";
-import * as uiActions from "../../actions/UIActions";
+import * as courseActions from "../../actionCreators/CourseActions";
+import * as uiActions from "../../actionCreators/UIActions";
 import { bindActionCreators } from "redux";
 
 /**

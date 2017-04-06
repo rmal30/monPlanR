@@ -3,7 +3,7 @@ import  { Dropdown, Button, Header } from "semantic-ui-react";
 import { Accordion, AccordionItem } from "react-sanfona";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as filterActions from "../../actions/FilterActions";
+import * as filterActions from "../../actionCreators/FilterActions";
 import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 

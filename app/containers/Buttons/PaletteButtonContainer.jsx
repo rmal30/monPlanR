@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import PaletteButton from "../../components/Buttons/PaletteButton.jsx";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as UIActions from "../../actions/UIActions";
+import * as UIActions from "../../actionCreators/UIActions";
 
 /**
 * @author Charlie Campton
