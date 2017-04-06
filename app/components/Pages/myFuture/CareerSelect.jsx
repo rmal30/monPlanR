@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Container, Dropdown, Button, Icon,Search } from "semantic-ui-react";
+import { Container, Search } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { browserHistory } from "react-router";
@@ -32,7 +32,7 @@ class CareerSelect extends Component {
 
 
     /**
-     * before the component mounts we need to fetch all 
+     * before the component mounts we need to fetch all
      * careers to populate dropdown
      */
     componentDidMount() {
@@ -40,7 +40,7 @@ class CareerSelect extends Component {
     }
 
     /**
-     * once a course is selected from the dropdown we set the state to 
+     * once a course is selected from the dropdown we set the state to
      * reflect this
      */
     handleCareerSelect(e, { value }) {
@@ -53,7 +53,7 @@ class CareerSelect extends Component {
         this.setState({ selectedCourseID: result.value });
     }
 
-    handleSearchChange (e, value) {
+    handleSearchChange (/*e, value*/) {/*
         this.setState({ isLoading: true, value });
 
         setTimeout(() => {
@@ -66,7 +66,7 @@ class CareerSelect extends Component {
                 isLoading: false,
                 results: _.filter(source, isMatch),
             });
-        }, 500)
+        }, 500)*/
     }
     /**
      * Renders the welcome page, with a form and a disclaimer.
@@ -77,7 +77,7 @@ class CareerSelect extends Component {
         return (
             <div style={{color: "white", padding: "1em 0", minHeight: "100%", height: "100%" }}>
                 <Container className="ui main text" style={{color: "white", padding: "1em 0", minHeight: "100%", height: "100%"}}>
-                    
+
                     <div id="welcome" className="ui container" style={{textAlign:"center", minHeight: "100%", height: "100%"}}>
                         <div className="Aligner" style={{textAlign:"center", minHeight: "100%", height: "100%"}}>
                         <div className="Aligner-item Aligner-item--top"></div>
@@ -86,14 +86,14 @@ class CareerSelect extends Component {
                             <Search
                                 onResultSelect={(e, {value}) => {
                                     browserHistory.push(`/future/career/${value}`);
-                                }} 
+                                }}
                                 onSearchChange={this.handleSearchChange}
                                 results={this.props.careers.map((career) => {
                                     return {
-                                        key: career.id,		
-                                        value: career.id,		
-                                        title: career.title		
-                                    };		
+                                        key: career.id,
+                                        value: career.id,
+                                        title: career.title
+                                    };
                                 })}
                                 className={"searchCareer"}
                                 placeholder="I want to be a ..."
@@ -103,7 +103,6 @@ class CareerSelect extends Component {
                         </div>
                         <div className="Aligner-item Aligner-item--bottom"></div>
                         </div>
-                        
                     </div>
                 </Container>
             </div>

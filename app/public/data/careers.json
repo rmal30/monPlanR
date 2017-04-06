@@ -1,4 +1,4 @@
-{"careers": [
+[
     {
         "id": "1",
         "title": "Journalist",
@@ -6,18 +6,12 @@
         "videoCode": "_75lY208HIU",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": [
-            {   
+        "relatedCourses": [
+            {
                 "code": "A2000",
-                "title": "Bachelor of Arts",
-                "description": "Arts at Monash is your comprehensive gateway to a wide range of fascinating and rewarding areas of study across the arts, humanities, and social sciences. Taking an innovative approach in tackling world issues and fostering a global perspective, you will develop the research skills, advanced discipline knowledge and self reliance to acquire information, assess evidence and convey complex ideas in speech and writing in order to answer complicated questions. And with the scope to choose from almost 40 different major and minor areas of study, including languages, social studies, communications, politics, human rights, and international relations, you will develop an informed, critical awareness of the fields you're most passionate about, laying the groundwork for a wealth of exciting careers.",
-                "videoCode": "",
-                "videoThumbnail": "",
-                "promoPhoto": "",
-                "specialisations": [],
-                "majors": "Journalism"  
+                "areaOfStudyCode": "JOURNLSM01"
             }
-        ]        
+        ]
     },
     {
         "id": "2",
@@ -26,16 +20,10 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "http://www.luc.edu/media/sitebackgrounds/cas-history.jpg",
-        "relatedDegrees": [
-            {   
+        "relatedCourses": [
+            {
                 "code": "A2000",
-                "title": "Bachelor of Arts",
-                "description": "Arts at Monash is your comprehensive gateway to a wide range of fascinating and rewarding areas of study across the arts, humanities, and social sciences. Taking an innovative approach in tackling world issues and fostering a global perspective, you will develop the research skills, advanced discipline knowledge and self reliance to acquire information, assess evidence and convey complex ideas in speech and writing in order to answer complicated questions. And with the scope to choose from almost 40 different major and minor areas of study, including languages, social studies, communications, politics, human rights, and international relations, you will develop an informed, critical awareness of the fields you're most passionate about, laying the groundwork for a wealth of exciting careers.",
-                "videoCode": "",
-                "videoThumbnail": "",
-                "promoPhoto": "",
-                "specialisations": [],
-                "majors": "History"  
+                "areaOfStudyCode": "HISTORY01"
             }
         ]
     },
@@ -46,7 +34,12 @@
         "videoCode": "XGer682MdJE",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["A2000-0-2"]
+        "relatedCourses": [
+            {
+                "code": "A2000",
+                "areaOfStudyCode": "CRIMINOL01"
+            }
+        ]
     },
     {
         "id": "4",
@@ -55,7 +48,12 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["M2006-0-0"]
+        "relatedCourses": [
+            {
+                "code": "A2000",
+                "areaOfStudyCode": "JOURNLSM01"
+            }
+        ]
     },
     {
         "id": "5",
@@ -64,7 +62,12 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["M2006-0-0"]
+        "relatedCourses": [
+            {
+                "code": "M2006",
+                "areaOfStudyCode": ""
+            }
+        ]
     },
     {
         "id": "6",
@@ -73,7 +76,12 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["M2006-0-0"]
+        "relatedCourses": [
+            {
+                "code": "M2006",
+                "areaOfStudyCode": ""
+            }
+        ]
     },
     {
         "id": "7",
@@ -82,7 +90,12 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["E3001-1-0"]
+        "relatedCourses": [
+            {
+                "code": "E3001",
+                "areaOfStudyCode": "FOODEN01"
+            }
+        ]
     },
     {
         "id": "8",
@@ -91,7 +104,12 @@
         "videoCode": "hm9v7W0wCQk",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["E3001-6-0"]
+        "relatedCourses": [
+            {
+                "code": "E3001",
+                "areaOfStudyCode": "MECHEN01"
+            }
+        ]
     },
     {
         "id": "9",
@@ -100,7 +118,12 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["E3001-7-0"]
+        "relatedCourses": [
+            {
+                "code": "E3001",
+                "areaOfStudyCode": "MECAEN01"
+            }
+        ]
     },
     {
         "id": "10",
@@ -109,7 +132,16 @@
         "videoCode": "ZL0YHNk0oFg",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["S2000-0-0", "A2000-0-3"]
+        "relatedCourses": [
+            {
+                "code": "S2000",
+                "areaOfStudyCode": "PSYCHOL01"
+            },
+            {
+                "code": "A2000",
+                "areaOfStudyCode": "PSYCHOL01"
+            }
+        ]
     },
     {
         "id": "11",
@@ -118,7 +150,12 @@
         "videoCode": "J6C3rGu6y8Y",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["S2000-0-1"]
+        "relatedCourses": [
+            {
+                "code": "S2000",
+                "areaOfStudyCode": "MATHS01"
+            }
+        ]
     },
     {
         "id": "12",
@@ -127,7 +164,12 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["S2000-0-2"]
+        "relatedCourses": [
+            {
+                "code": "S2000",
+                "areaOfStudyCode": "MICROBIO01"
+            }
+        ]
     },
     {
         "id": "13",
@@ -136,7 +178,16 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["D3005-1-0"]
+        "relatedCourses": [
+            {
+                "code": "S2000",
+                "areaOfStudyCode": ""
+            },
+            {
+                "code": "D3005",
+                "areaOfStudyCode": ""
+            }
+        ]
     },
     {
         "id": "14",
@@ -145,7 +196,12 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["D3001-0-0"]
+        "relatedCourses": [
+            {
+                "code": "D3001",
+                "areaOfStudyCode": ""
+            }
+        ]
     },
     {
         "id": "15",
@@ -154,6 +210,11 @@
         "videoCode": "",
         "videoThumbnail": "",
         "promoPhoto": "",
-        "relatedDegrees": ["D3001-4-0"]
+        "relatedCourses": [
+            {
+                "code": "D3001",
+                "areaOfStudyCode": ""
+            }
+        ]
     }
-]}
+]

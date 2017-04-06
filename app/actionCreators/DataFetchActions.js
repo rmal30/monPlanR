@@ -106,7 +106,7 @@ export const fetchUnitInfo = (unitCode) => {
                 });
 
                 dispatch({
-                    type: "ADD_ITEM_TO_CACHE", 
+                    type: "ADD_ITEM_TO_CACHE",
                     timeOfLastAccess: new Date(),
                     unitCode: unitCode,
                     unitInfo: resp.data
@@ -406,10 +406,10 @@ export const fetchCareers = () => {
             .then(resp => {
                 dispatch({
                     type: "FETCH_CAREERS_FULFILLED",
-                    payload: resp.data.careers //The course id that was uploaded
+                    payload: resp.data //The course id that was uploaded
                 });
             })
-            .catch(()=>{
+            .catch(() => {
                 dispatch({
                     type: "FETCH_CAREERS_REJECTED"
                 });
@@ -429,16 +429,17 @@ export const fetchCareer = (id) => {
 
         axios.get("/data/careers.json")
             .then(resp => {
-                for(var i=0; i < resp.data.careers.length; i++) {
-                    let currentCareer = resp.data.careers[i];
-                    if(currentCareer.id === id){
+                for(var i = 0; i < resp.data.length; i++) {
+                    let currentCareer = resp.data[i];
+
+                    if(currentCareer.id === id) {
                         dispatch({
                             type: "FETCH_CAREER_FULFILLED",
                             payload: currentCareer //The course id that was uploaded
                         });
-                        
-                        dispatch(fetchRelatedDegrees(currentCareer.relatedDegrees));
-                        
+
+                        dispatch(fetchRelatedCourses(currentCareer.relatedCourses));
+
                         return true;
                     }
                 }
@@ -456,41 +457,29 @@ export const fetchCareer = (id) => {
 };
 
 /**
- * fetches all the related degree objects corresponding to 
- * the degree codes in the given degree code array
+ * Fetches all the related courses corresponding to
+ * the course codes in the given course code array
  */
-export const fetchRelatedDegrees = (degreeCodeArr) => {
+export const fetchRelatedCourses = relatedCourseKeys => {
     return function(dispatch) {
         dispatch({
-            type: "FETCH_RELATED_DEGREES_PENDING"
+            type: "FETCH_RELATED_COURSES_PENDING",
+            relatedCourseKeys
         });
 
-        axios.get("/data/degrees.json")
+        axios.get("/data/courses.json") // Fetch all courses (marketing version) from Monash
             .then(resp => {
-                let relatedDegrees = resp.data.courses.filter((currentCourse) => {
-                    for(var i=0; i < degreeCodeArr.length; i++){
-                        let degreeCode = degreeCodeArr[i].split("-")[0];
-                        if(degreeCode === currentCourse.code) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                });
-
                 dispatch({
-                    type: "FETCH_RELATED_DEGREES_FULFILLED",
-                    payload: relatedDegrees
+                    type: "FETCH_RELATED_COURSES_FULFILLED",
+                    payload: resp.data
                 });
             })
-            .catch(() => {
+            .catch(err => {
+                console.error(err);
+
                 dispatch({
-                    type: "FETCH_RELATED_DEGREES_REJECTED"
+                    type: "FETCH_RELATED_COURSES_REJECTED"
                 });
             });
-
-        
-
-
     };
 };
