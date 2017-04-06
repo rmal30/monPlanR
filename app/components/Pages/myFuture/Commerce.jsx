@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Container, Grid, Embed, Modal, Icon, Button} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Container, Grid, Embed, Modal, Icon, Button } from "semantic-ui-react";
 
 
 /**

@@ -318,7 +318,6 @@ describe("ACTION-CREATOR: CourseActions", () => {
                 {units: [null, null, {unitCode: "TEST10D", unitName: "unitD"}, null, null]},
 
             ];
-
             const expectedActions = [
                 {type: "PREP_FOR_DELETION", unitCoords: []},
                 {type: "DECREASE_STUDY_LOAD", units: []},

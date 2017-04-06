@@ -106,7 +106,7 @@ export const fetchUnitInfo = (unitCode) => {
                 });
 
                 dispatch({
-                    type: "ADD_ITEM_TO_CACHE",
+                    type: "ADD_ITEM_TO_CACHE", 
                     timeOfLastAccess: new Date(),
                     unitCode: unitCode,
                     unitInfo: resp.data
@@ -329,7 +329,7 @@ export const loadCourseSnap = (snapID) => {
  * Uploads the given course structure to the snapshot API and when sucessful, returns
  * the data with the unique ID linking to the snap
  */
-export const uploadCourseSnap = (/*teachingPeriods, numberOfUnits, creditPoints, cost, startYear, courseInfo*/) => {
+export const uploadCourseSnap = (teachingPeriods, numberOfUnits, creditPoints, cost, startYear, courseInfo) => {
     return function(dispatch) {
         dispatch({
             type: "UPLOAD_COURSE_SNAPSHOT_PENDING"
@@ -337,7 +337,7 @@ export const uploadCourseSnap = (/*teachingPeriods, numberOfUnits, creditPoints,
 
         const snapURL = `${MONPLAN_REMOTE_URL2}/snaps`;
         const params = {
-            "Course": /* {
+            "Course": {
                 teachingPeriods,
                 numberOfUnits,
                 totalCreditPoints: creditPoints,
@@ -345,23 +345,7 @@ export const uploadCourseSnap = (/*teachingPeriods, numberOfUnits, creditPoints,
                 startYear: startYear || new Date().getFullYear(),
                 courseInfo,
                 version: MONPLAN_VERSION
-            } */
-            {
-                teachingPeriods: [],
-                numberOfUnits: 4,
-                totalCreditPoints: 0,
-                totalEstimatedCost: 0,
-                startYear: 2017,
-                courseInfo:{
-                    courseName: "",
-                    faculty: "",
-                    creditPoints: 0,
-                    courseDescription: "",
-                    durationStr: "",
-                    modeAndLocation: "",
-                    awards: "",
-                    abrTitle: ""},
-                version: "0.4.0-prerelease2"}
+            }
         };
 
         axios.post(snapURL, params)
@@ -433,6 +417,10 @@ export const fetchCareers = () => {
     };
 };
 
+
+/**
+ * Fetches a career based on a given id
+ */
 export const fetchCareer = (id) => {
     return function(dispatch) {
         dispatch({
@@ -448,6 +436,9 @@ export const fetchCareer = (id) => {
                             type: "FETCH_CAREER_FULFILLED",
                             payload: currentCareer //The course id that was uploaded
                         });
+                        
+                        dispatch(fetchRelatedDegrees(currentCareer.relatedDegrees));
+                        
                         return true;
                     }
                 }
@@ -461,5 +452,45 @@ export const fetchCareer = (id) => {
                     type: "FETCH_CAREER_REJECTED"
                 });
             });
+    };
+};
+
+/**
+ * fetches all the related degree objects corresponding to 
+ * the degree codes in the given degree code array
+ */
+export const fetchRelatedDegrees = (degreeCodeArr) => {
+    return function(dispatch) {
+        dispatch({
+            type: "FETCH_RELATED_DEGREES_PENDING"
+        });
+
+        axios.get("/data/degrees.json")
+            .then(resp => {
+                let relatedDegrees = resp.data.courses.filter((currentCourse) => {
+                    for(var i=0; i < degreeCodeArr.length; i++){
+                        let degreeCode = degreeCodeArr[i].split("-")[0];
+                        if(degreeCode === currentCourse.code) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
+
+                dispatch({
+                    type: "FETCH_RELATED_DEGREES_FULFILLED",
+                    payload: relatedDegrees
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: "FETCH_RELATED_DEGREES_REJECTED"
+                });
+            });
+
+        
+
+
     };
 };

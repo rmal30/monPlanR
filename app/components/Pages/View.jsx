@@ -95,6 +95,3 @@ View.propTypes = {
     setCourseReadOnly: PropTypes.func,
     setCourseReadAndWrite: PropTypes.func
 };
-
-
-

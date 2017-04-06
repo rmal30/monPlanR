@@ -9,6 +9,7 @@ import ImportantDates from "../../containers/ImportantDates.jsx";
 import Disclaimer from "../modals/disclaimer.jsx";
 import ToSModal from "../modals/tos.jsx";
 import PrivacyModal from "../modals/privacy.jsx";
+
 /**
  * The header for the web app, which displays the logo, name, status and information menu.
  */

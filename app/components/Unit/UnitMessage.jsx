@@ -133,7 +133,6 @@ UnitMessage.propTypes = {
     handleUnitMouseMove: PropTypes.func,
     handleUnitMouseOut: PropTypes.func,
     fetchUnitInfo: PropTypes.func,
-
     errors: PropTypes.array,
     index: PropTypes.number,
     teachingPeriodIndex: PropTypes.number,

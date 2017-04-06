@@ -55,12 +55,10 @@ export default class FuzzySearch {
         }
         return arrayToFilter.reduce((filteredByFacultyArray, unit) => {
             let unitFaculty = unit.faculty;
-            for (var i=0; i < arrayToFilter.length; i++){
-                for(var j=0; j < facultyFilterSettings.length; j++){
-                    let currentFaculty = facultyFilterSettings[j];
-                    if (unitFaculty === currentFaculty){
-                        return filteredByFacultyArray.concat(unit);
-                    }
+            for(var j=0; j < facultyFilterSettings.length; j++){
+                let currentFaculty = facultyFilterSettings[j];
+                if (unitFaculty === currentFaculty){
+                    return filteredByFacultyArray.concat(unit);
                 }
             }
             return filteredByFacultyArray;
@@ -75,13 +73,6 @@ export default class FuzzySearch {
         if (teachingPeriodFilterSettings.length === 0){
             return arrayToFilter;
         }
-
-        /*
-        for(let g = 0; g < arrayToFilter.length; g++){
-            // console.log(arrayToFilter[g].locationAndTime[0].location);
-        }
-        */
-
         return arrayToFilter.reduce((filteredByTeachingPeriodArray, unit) => {
             //if unit is not offered in this year, it has to be removed otherwise locationAndTime is undefined.
             if(!unit.locationAndTime[0].location.toLowerCase().includes("not offered")){

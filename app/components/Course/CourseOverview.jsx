@@ -5,12 +5,12 @@ import CourseStatisticGroupContainer from "../../containers/Course/CourseStatist
 import CourseInfoButtonContainer from "../../containers/Buttons/CourseInfoButtonContainer.jsx";
 
 /**
- * Component that shows a small selection of course info at the top of the page so that users 
+ * Component that shows a small selection of course info at the top of the page so that users
  * are aware of what course thet are looking at
  */
 const CourseOverview = (props) => {
     const { courseName, courseCode, courseFaculty } = props;
-    
+
     const facultyMap = {
         "Faculty of Art, Design and Architecture": "ada",
         "Faculty of Arts": "arts",

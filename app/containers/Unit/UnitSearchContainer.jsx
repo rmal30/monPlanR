@@ -225,6 +225,7 @@ class UnitSearchContainer extends Component {
                             placeholder={this.props.unitSearchIsLoading ? "Loading units...": "Search to add unit"} />
                         <i className="search icon" />
                     </div>
+
                     <FilterButtonContainer onFilterChange={this.handleFilterChange}/>
                         {this.state.showAddCustomUnitButton &&
                             <Button onClick={() => this.props.showCustomUnitUI(this.state.value)} fluid className="btnmainblue add-unit-btn">Add custom unit</Button>

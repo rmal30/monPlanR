@@ -1,46 +1,50 @@
-import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as dataFetchActions from "../../../actions/DataFetchActions";
+import React, { PropTypes } from "react";
+import { Grid } from "semantic-ui-react";
 
-class CareerDetail extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    
+/**
+*
+*/
+const CareerDetail = (props) => {
+    const { title, description /*, videoCode, videoThumbnail*/ } = props;
+    return (
+        <Grid>
+            <Grid.Row >
+                <Grid.Column className="myFutureHeader" width={16} >
+                    <h1>{title}</h1>
+                </Grid.Column>
+            </Grid.Row>
 
-    componentWillMount() {
-        this.props.fetchCareer(this.props.params.careerID);
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>{this.props.career.title}</h1>
-                <p>{this.props.career.description}</p>
-            </div>
-        );
-    }
-    
-}
-
-const mapStateToProps = (state) => {
-    return {
-        career: state.Career.career,
-        isLoading: state.Career.careerIsLoading,     
-        loadError: state.Career.careerLoadError
-    };
+            <Grid.Row className="myFutureDescRow">
+                <Grid.Column className="myFutureDescCol" width={16}>
+                    <p>
+                        {description}
+                    </p>
+                    <button className="videoBtn">
+                        Play video
+                    </button>
+                </Grid.Column>
+                {/*<Grid.Column width={6}>
+                    <Grid.Row>
+                        <Grid.Column width={16}>
+                            <Embed
+                                id={videoCode}
+                                placeholder={videoThumbnail}
+                                source='youtube'
+                            />
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid.Column>*/}
+            </Grid.Row>
+        </Grid>
+    );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(dataFetchActions, dispatch);
-};
+export default CareerDetail;
 
-export default connect(mapStateToProps, mapDispatchToProps)(CareerDetail);
 
 CareerDetail.propTypes = {
-    fetchCareer: PropTypes.func,
-    params: PropTypes.object,
-    career: PropTypes.object
+    title: PropTypes.string,
+    description: PropTypes.string,
+    videoCode: PropTypes.string,
+    videoThumbnail: PropTypes.string
 };
