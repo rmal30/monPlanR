@@ -20,7 +20,7 @@ class CareerSelect extends Component {
         super(props);
 
         this.state = {
-            selectedCourseID: "1"
+            selectedCourseID: "0"
         };
 
         this.handleCareerSelect = this.handleCareerSelect.bind(this);
@@ -75,7 +75,15 @@ class CareerSelect extends Component {
                             />
                         }
                         <br />
-                        <Button onClick={() => {browserHistory.push(`/future/career/${this.state.selectedCourseID ? this.state.selectedCourseID : "0"}`);}} className="btnmainblue" style={{right: "0"}}>View how this career looks like <Icon name="right arrow" /></Button>
+                        <Button 
+                            disabled={this.props.isLoading || this.state.selectedCourseID === "0"}
+                            onClick={() => {
+                                browserHistory.push(`/future/career/${this.state.selectedCourseID}`);
+                            }} 
+                            className="btnmainblue" 
+                            style={{right: "0"}}>
+                                View how this career looks like <Icon name="right arrow" />
+                        </Button>
                     </div>
                 </Container>
             </div>
