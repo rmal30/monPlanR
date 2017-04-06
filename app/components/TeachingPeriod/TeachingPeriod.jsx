@@ -3,7 +3,7 @@ import { Table } from "semantic-ui-react";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as courseActions from "../../actions/CourseActions";
+import * as courseActions from "../../actionCreators/CourseActions";
 
 import ConfirmDeleteTeachingPeriod from "../modals/ConfirmDeleteTeachingPeriod.jsx";
 import UnitTableCell from "../Unit/UnitTableCell.jsx";

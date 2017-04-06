@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from "react";
 import { Button, Menu, Divider } from "semantic-ui-react";
-import * as UIActions from "../../actions/UIActions";
+import * as UIActions from "../../actionCreators/UIActions";
 import FuzzySearch from "../../utils/FuzzySearch";
 import UnitSearchResultsContainer from "./UnitSearchResultsContainer.jsx";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as dataFetchActions from "../../actions/DataFetchActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
 import CostCalc from "../../utils/CostCalc";
 import FilterButtonContainer from "../Buttons/FilterButtonContainer.jsx";
 

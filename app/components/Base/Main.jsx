@@ -18,10 +18,10 @@ import Footer from "./Footer.jsx";
 import UnitSearchContainer from "../../containers/Unit/UnitSearchContainer.jsx";
 
 // Redux actions import
-import * as courseActions from "../../actions/CourseActions";
-import * as counterActions from "../../actions/CounterActions";
-import * as dataFetchActions from "../../actions/DataFetchActions";
-import * as uiActions from "../../actions/UIActions";
+import * as courseActions from "../../actionCreators/CourseActions";
+import * as counterActions from "../../actionCreators/CounterActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
+import * as uiActions from "../../actionCreators/UIActions";
 
 
 /**

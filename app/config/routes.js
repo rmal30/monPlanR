@@ -20,7 +20,7 @@ export default (
     <Route path="/" component={Main}>
         <IndexRoute darkBackground component={Home} />
         <Route path="future" myFuture noFooter noNav component={Future} />
-        <Route path="future/select" myFuture noFooter noNav component={CareerSelect} />
+        <Route path="future/select" noFooter careerView noNav component={CareerSelect} />
         <Route path="future/commerce" myFuture noFooter noNav component={Commerce} />
         <Route path="future/career/:careerID" noFooter careerView noNav handler={CareerDetailContainer} component={CareerDetailContainer} />
         <Route path="yearForm" darkBackground component={YearFormContainer} />

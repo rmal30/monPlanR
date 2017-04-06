@@ -6,7 +6,7 @@ import MediaQuery from "react-responsive";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import LocalStorage from "../../utils/LocalStorage";
-import * as courseActions from "../../actions/CourseActions";
+import * as courseActions from "../../actionCreators/CourseActions";
 
 import YearCalc from "../../utils/YearCalc.js";
 import ShowYear from "../../utils/ShowYear";

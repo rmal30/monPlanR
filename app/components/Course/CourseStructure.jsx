@@ -18,10 +18,10 @@ import ConfirmDeleteTeachingPeriodModal from "../modals/ConfirmDeleteTeachingPer
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as counterActions from "../../actions/CounterActions";
-import * as courseActions from "../../actions/CourseActions";
-import * as dataFetchActions from "../../actions/DataFetchActions";
-import * as uiActions from "../../actions/UIActions";
+import * as counterActions from "../../actionCreators/CounterActions";
+import * as courseActions from "../../actionCreators/CourseActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
+import * as uiActions from "../../actionCreators/UIActions";
 
 /**
  * Set up any props you want course structure to be passed here

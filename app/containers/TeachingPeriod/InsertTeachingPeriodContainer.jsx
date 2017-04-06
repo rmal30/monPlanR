@@ -2,8 +2,8 @@ import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as courseActions from "../../actions/CourseActions";
-import * as uiActions from "../../actions/UIActions";
+import * as courseActions from "../../actionCreators/CourseActions";
+import * as uiActions from "../../actionCreators/UIActions";
 
 import InsertTeachingPeriod from "../../components/TeachingPeriod/InsertTeachingPeriod.jsx";
 

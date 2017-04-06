@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import UnitMessage from "./UnitMessage.jsx";
-import * as DataFetchActions from "../../actions/DataFetchActions.js";
+import * as DataFetchActions from "../../actionCreators/DataFetchActions.js";
 
 /**
  * Returns the way in which we want a search result to be rendered

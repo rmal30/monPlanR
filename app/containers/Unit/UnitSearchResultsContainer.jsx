@@ -3,8 +3,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Button, Header, Menu } from "semantic-ui-react";
 
-import * as UIActions from "../../actions/UIActions";
-import * as DataFetchActions from "../../actions/DataFetchActions";
+import * as UIActions from "../../actionCreators/UIActions";
+import * as DataFetchActions from "../../actionCreators/DataFetchActions";
 import UnitSearchResult from "../../components/Unit/UnitSearchResult.jsx";
 
 /**

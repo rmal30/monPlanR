@@ -1,6 +1,6 @@
 import expect from "expect";
 import { describe, it } from "mocha";
-import * as actions from "../../app/actions/CounterActions";
+import * as actions from "../../app/actionCreators/CounterActions";
 
 describe("ACTION-CREATOR: CounterActions", () => {
     describe("AC: incrementCreditPoints", () => {

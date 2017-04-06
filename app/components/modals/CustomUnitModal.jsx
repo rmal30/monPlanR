@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { Button, Container, Form, Select, Modal, Icon } from "semantic-ui-react";
 
 import UnitMessage from "../Unit/UnitMessage.jsx";
-import * as dataFetchActions from "../../actions/DataFetchActions";
-import * as UIActions from "../../actions/UIActions";
-import * as CourseActions from "../../actions/CourseActions";
+import * as dataFetchActions from "../../actionCreators/DataFetchActions";
+import * as UIActions from "../../actionCreators/UIActions";
+import * as CourseActions from "../../actionCreators/CourseActions";
 import CostCalc from "../../utils/CostCalc";
 
 /**
