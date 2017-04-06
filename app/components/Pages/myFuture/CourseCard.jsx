@@ -20,7 +20,7 @@ const CourseCard = (props) => {
         "Faculty of Science": "sci",
         "Faculty of All": "all"
     };
-    const facultyClass = facultyMap[props.faculty];
+    const facultyClass = facultyMap[faculty];
     return (
         <Card className={"ui segment " + facultyClass}>
             <Card.Content header={title}/>

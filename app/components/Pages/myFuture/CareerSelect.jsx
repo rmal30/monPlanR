@@ -27,15 +27,24 @@ class CareerSelect extends Component {
     }
 
 
+    /**
+     * before the component mounts we need to fetch all 
+     * careers to populate dropdown
+     */
     componentDidMount() {
         this.props.fetchCareers();
     }
 
+    /**
+     * once a course is selected from the dropdown we set the state to 
+     * reflect this
+     */
     handleCareerSelect(e, { value }) {
         this.setState({
             selectedCourseID: value
         });
     }
+
     /**
      * Renders the welcome page, with a form and a disclaimer.
      */
@@ -55,13 +64,13 @@ class CareerSelect extends Component {
                                 selection 
                                 onChange={this.handleCareerSelect}
                                 compact
-                                 options={this.props.careers.map((career) => {
-                                       return {
-                                         key: career.id,		
-                                          value: career.id,		
-                                          text: career.title		
-                                      };		
-                                  })}
+                                options={this.props.careers.map((career) => {
+                                    return {
+                                        key: career.id,		
+                                        value: career.id,		
+                                        text: career.title		
+                                    };		
+                                })}
                                 style={{display: "inline", minWidth: "500px",maxWidth: "500px", width: "500px"}}
                             />
                         }
@@ -74,10 +83,16 @@ class CareerSelect extends Component {
     }
 }
 
+/**
+ * map dispatch to props to access fetchCareers function
+ */
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(DataFetchActions, dispatch);
 };
 
+/**
+ * map the state to deal with the async loading of careers array
+ */
 const mapStateToProps = (state) => {
     return {
         careers: state.Careers.careers,
