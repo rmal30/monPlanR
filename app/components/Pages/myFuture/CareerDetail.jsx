@@ -1,11 +1,11 @@
 import React, { PropTypes } from "react";
 import { Grid } from "semantic-ui-react";
-
+import VideoModal from "./VideoModal.jsx";
 /**
 *
 */
 const CareerDetail = (props) => {
-    const { title, description /*, videoCode, videoThumbnail*/ } = props;
+    const { title, description , videoCode, /*videoThumbnail*/ } = props;
     return (
         <Grid>
             <Grid.Row >
@@ -19,9 +19,7 @@ const CareerDetail = (props) => {
                     <p>
                         {description}
                     </p>
-                    <button className="videoBtn">
-                        Play video
-                    </button>
+                    <VideoModal videoCode={videoCode} />
                 </Grid.Column>
                 {/*<Grid.Column width={6}>
                     <Grid.Row>
