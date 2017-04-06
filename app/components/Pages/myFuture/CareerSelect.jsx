@@ -28,7 +28,7 @@ class CareerSelect extends Component {
 
 
     /**
-     * before the component mounts we need to fetch all 
+     * before the component mounts we need to fetch all
      * careers to populate dropdown
      */
     componentDidMount() {
@@ -36,7 +36,7 @@ class CareerSelect extends Component {
     }
 
     /**
-     * once a course is selected from the dropdown we set the state to 
+     * once a course is selected from the dropdown we set the state to
      * reflect this
      */
     handleCareerSelect(e, { value }) {
@@ -59,28 +59,28 @@ class CareerSelect extends Component {
                         <h1 style={{display: "inline"}}>I want to be a &nbsp;&nbsp;</h1>
                         {this.props.isLoading ? <p>Loading...</p> :
                             <Dropdown
-                                placeholder="Select Career Choice"
+                                placeholder="Select a career"
                                 search
                                 selection
                                 onChange={this.handleCareerSelect}
                                 compact
                                 options={this.props.careers.map((career) => {
                                     return {
-                                        key: career.id,		
-                                        value: career.id,		
-                                        text: career.title		
-                                    };		
+                                        key: career.id,
+                                        value: career.id,
+                                        text: career.title
+                                    };
                                 })}
                                 style={{display: "inline", minWidth: "500px",maxWidth: "500px", width: "500px"}}
                             />
                         }
                         <br />
-                        <Button 
+                        <Button
                             disabled={this.props.isLoading || this.state.selectedCourseID === "0"}
                             onClick={() => {
                                 browserHistory.push(`/future/career/${this.state.selectedCourseID}`);
-                            }} 
-                            className="btnmainblue" 
+                            }}
+                            className="btnmainblue"
                             style={{right: "0"}}>
                                 View how this career looks like <Icon name="right arrow" />
                         </Button>

@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as dataFetchActions from "../../../actions/DataFetchActions";
-import {Container, Grid, Card } from "semantic-ui-react";
+import { Container, Grid } from "semantic-ui-react";
 import CareerDetail from "./CareerDetail.jsx";
-import CourseCard from "./CourseCard.jsx";
+import CourseCardGroup from "./CourseCardGroup.jsx";
 
 /**
  * @author JXNS
- * The career detail container sets up the data and layout for 
+ * The career detail container sets up the data and layout for
  * the career detail view that a user sees as part of the my future component
  */
 class CareerDetailContainer extends Component {
@@ -21,14 +21,14 @@ class CareerDetailContainer extends Component {
 
 
     /**
-     * we fetch all the career detail and related degrees 
+     * we fetch all the career detail and related degrees
      */
     componentWillMount() {
         this.props.fetchCareer(this.props.params.careerID);
     }
 
     /**
-     * we render the career details and cards 
+     * we render the career details and cards
      */
     render() {
         return (
@@ -47,27 +47,13 @@ class CareerDetailContainer extends Component {
                                 }
                             </Grid.Row>
                             <Grid.Row className="recommendedCoursesRow">
-                                <h2>Recommended Courses</h2>
+                                <h2>Recommended courses:</h2>
                             </Grid.Row>
 
                             <Grid.Row>
                                 <Grid.Column className="recommendedCoursesCardRow" width={16}>
-                                    <Card.Group itemsPerRow={4}>
-                                      <CourseCard
-                                          title={"Bachelor of Arts"}
-                                          description={"Study print, digital, audio and video journalism – preparing you for a creative and rewarding media career – with the Monash Journalism major."}
-                                          duration={"3 Years"}
-                                          major={"Journalism"}
-                                          faculty={"Faculty of Arts"}
-                                          campus={"Clayton Campus"} />
-                                    <CourseCard
-                                        title={"Bachelor of Commerce"}
-                                        description={"Study print, digital, audio and video journalism – preparing you for a creative and rewarding media career – with the Monash Journalism major."}
-                                        duration={"5 Years"}
-                                        major={"Banking"}
-                                        faculty={"Faculty of Business"}
-                                        campus={"Caulfield Campus"} />
-                                  </Card.Group>
+                                    <CourseCardGroup
+                                        relatedCourses={this.props.career.relatedCourses} />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
@@ -81,7 +67,7 @@ class CareerDetailContainer extends Component {
 }
 
 /**
- * We grab the careers and all relatant loading variables to deal with the 
+ * We grab the careers and all relatant loading variables to deal with the
  * async call for career and related degrees
  */
 const mapStateToProps = (state) => {
